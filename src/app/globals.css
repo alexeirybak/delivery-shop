@@ -19,5 +19,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  // В уроке перепутал, нужно вот так:
+  font-family: var(--font-rubik), sans-serif;
+  // font-family: var(--font-sans); // Это удалите
 }
