@@ -18,7 +18,7 @@
       "description": "Молоко пастеризованное цельное",
       "basePrice": 89.0,
       "discountPercent": 15,
-      "rating": 4.5,
+      "rating": 3.7,
       "categories": ["actions", "dairy"],
       "volume": "1 л"
     },
@@ -29,7 +29,7 @@
       "description": "Колбаса сырокопченая премиум класса",
       "basePrice": 350.0,
       "discountPercent": 25,
-      "rating": 4.8,
+      "rating": 1.5,
       "categories": ["actions", "meat"],
       "weight": "500 г"
     },
