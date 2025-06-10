@@ -2,6 +2,7 @@ import Image from "next/image";
 import iconHeart from "/public/icons-header/icon-heart.svg";
 import { ProductCardProps } from "@/types/product";
 import { formatPrice } from "../../utils/formatPrice";
+import StarRating from "./StarRating";
 
 const cardDiscountPercent = 6;
 
@@ -26,13 +27,14 @@ const ProductCard = ({
 
   return (
     <div className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
-      <div className="relative w-40 h-40 md:w-[224px] xl:w-[272px]">
+      <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
         <Image
           src={img}
           alt="Акция"
           fill
-          className="object-cover"
-          sizes="(max-width: 768px) 160px, (max-width: 1200px) 224px, 272px"
+          // Добавил изменения, чтобы картинка на планшетах и десктопах влезала
+          className="object-cover md:object-contain"
+          sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
         />
         <button className="w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2 right-2 opacity-50 rounded cursor-pointer duration-300">
           <Image
@@ -74,7 +76,7 @@ const ProductCard = ({
         <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-[1.5]">
           {description}
         </div>
-        {rating > 0 && <p>Рейтинг {rating}</p>}
+        {rating > 0 && <StarRating rating={rating}/>}
         <button className="border border-(--color-primary) hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) w-full h-10 rounded p-2 justify-center items-center text-(--color-primary) transition-all duration-300 cursor-pointer select-none">
           В корзину
         </button>
