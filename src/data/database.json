@@ -18,7 +18,7 @@
       "description": "Молоко пастеризованное цельное",
       "basePrice": 89.0,
       "discountPercent": 15,
-      "rating": 3.7,
+      "rating": 4.5,
       "categories": ["actions", "dairy"],
       "volume": "1 л"
     },
@@ -29,7 +29,7 @@
       "description": "Колбаса сырокопченая премиум класса",
       "basePrice": 350.0,
       "discountPercent": 25,
-      "rating": 1.5,
+      "rating": 4.8,
       "categories": ["actions", "meat"],
       "weight": "500 г"
     },
@@ -52,8 +52,52 @@
       "basePrice": 599.99,
       "discountPercent": 0,
       "rating": 3.5,
-      "categories": ["new", "meat"],
+      "categories": ["meat"],
       "weight": "600 г"
+    },
+    {
+      "id": 6,
+      "img": "/images/products/img-6.jpeg",
+      "title": "Сыр Ламбер",
+      "description": "Сыр Ламбер Маасдам полутвердый 45%, 180г",
+      "basePrice": 134.99,
+      "discountPercent": 0,
+      "rating": 5,
+      "categories": ["dairy", "new"],
+      "weight": "180 г"
+    },
+    {
+      "id": 7,
+      "img": "/images/products/img-7.jpeg",
+      "title": "Пельмени Сибирская коллекция",
+      "description": "Пельмени Сибирская коллекция, категория В, 700г",
+      "basePrice": 359.99,
+      "discountPercent": 0,
+      "rating": 5,
+      "categories": ["meat", "new"],
+      "weight": "700 г"
+    },
+    {
+      "id": 8,
+      "img": "/images/products/img-8.jpeg",
+      "title": "Сырок творожный",
+      "description": "Сырок творожный Родимая Сторонка 8% с изюмом 100г, категория В, 700г",
+      "basePrice": 64.99,
+      "discountPercent": 0,
+      "rating": 5,
+      "categories": ["dairy", "new"],
+      "weight": "100 г"
+    },
+    {
+      "id": 9,
+      "img": "/images/products/img-9.jpeg",
+      "title": "Печенье Юбилейное",
+      "description": "Печенье витаминизированное Юбилейное традиционное 134 г - отзывы покупателей на маркетплейсе Мегамаркет",
+      "basePrice": 55,
+      "discountPercent": 0,
+      "rating": 5,
+      "categories": ["bread", "new"],
+      "weight": "134 г"
     }
   ]
 }
