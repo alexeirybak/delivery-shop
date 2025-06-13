@@ -10,6 +10,7 @@
   --color-primary: #70c05b;
   --shadow-default: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
   --shadow-button-default: 4px 8px 16px 0px rgba(112, 192, 91, 0.2);
+  --shadow-button-secondary: 4px 8px 16px 0px rgba(0, 0, 0, 0.1);
   --shadow-button-active: inset 0px 2px 0px 0px rgba(0, 0, 0, 0.2);
   --shadow-article: 4px 8px 16px 0px rgba(255, 102, 51, 0.2);
 }
@@ -26,3 +27,9 @@ body {
   color: var(--foreground);
   font-family: var(--font-rubik), sans-serif;
 }
+
+.no-ymaps-copyright [class*="copyrights-pane"] {
+  visibility: hidden
+};
+
+/* className="no-ymaps-copyright w-full h-[354px]" */

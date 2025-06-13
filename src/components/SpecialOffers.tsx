@@ -27,7 +27,7 @@ const SpecialOffers = () => {
                 alt="Оформите карту"
                 width={220}
                 height={110}
-                className="absolute -top-3 -right-18.5 xl:-right-4 xl:-top-8 xl:w-[330px] xl:h-auto"
+                className="absolute w-auto h-auto -top-3 -right-18.5 xl:-right-4 xl:-top-8 xl:w-[330px] xl:h-auto"
               />
             </button>
             <button className="relative w-full md:w-[353px] xl:w-[584px] h-[170px] xl:h-[200px] rounded overflow-hidden cursor-pointer hover:shadow-(--shadow-button-default) duration-300">
