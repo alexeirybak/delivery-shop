@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@pbe/react-yandex-maps": "^1.2.7",
+    "@iminside/react-yandex-maps": "^1.2.7",
     "motion": "^12.16.0",
     "next": "15.3.3",
     "react": "^19.0.0",
