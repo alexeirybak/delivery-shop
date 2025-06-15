@@ -5,3 +5,6 @@ const nextConfig: NextConfig = {
 };
 
 export default nextConfig;
+
+// PqNS0tgvCUIOMIph
+// mongodb+srv://rybak2108:PqNS0tgvCUIOMIph@cluster0.3pwf06p.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0

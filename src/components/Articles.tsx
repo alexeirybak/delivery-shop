@@ -8,7 +8,7 @@ const Articles = () => {
 
   return (
     <section>
-      <div className="flex flex-col justify-center xl:max-w-[1208px]">
+      <div className="flex flex-col justify-center xl:max-w-[1208px] text-[#414141]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">Статьи</h2>
           <Link href="#" className="flex flex-row items-center gap-x-2 cursor-pointer">

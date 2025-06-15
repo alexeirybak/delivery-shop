@@ -10,10 +10,11 @@ const ProductCard = ({
   img,
   description,
   basePrice,
-  discountPercent,
+  discountPercent = 0,
   rating,
   categories,
 }: ProductCardProps) => {
+  
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount > 0 ? price * (1 - discount / 100) : price;
   };
