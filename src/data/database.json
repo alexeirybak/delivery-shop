@@ -3,6 +3,7 @@
       "id": 1,
       "name": "Иван Иванов",
       "email": "ivan@example.com",
+        "phone": "+79114567890",
       "purchases": [
         { "id": 1, "date": "2025-05-15" },
         { "id": 2, "date": "2025-05-15" },
