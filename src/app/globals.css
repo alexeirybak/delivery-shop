@@ -13,6 +13,7 @@
   --shadow-button-secondary: 4px 8px 16px 0px rgba(0, 0, 0, 0.1);
   --shadow-button-active: inset 0px 2px 0px 0px rgba(0, 0, 0, 0.2);
   --shadow-article: 4px 8px 16px 0px rgba(255, 102, 51, 0.2);
+  --shadow-card-shop: 4px 8px 16px 0px rgba(255, 102, 51, 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
