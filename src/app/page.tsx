@@ -12,6 +12,7 @@ export default function Home() {
         <Actions />
         <NewProducts />
         <SpecialOffers />
+        <Purchases />
         <Maps />
       </div>
     </main>
