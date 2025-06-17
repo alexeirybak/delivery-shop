@@ -1,12 +1,45 @@
+'use client'; // Обязательно для клиентских компонентов в Next.js 13+
+
+import { useEffect, useState } from 'react';
 import Image from "next/image";
 import iconRight from "/public/icons-products/icon-arrow-right.svg";
 import ProductCard from "./ProductCard";
-import database from "@/data/database.json";
+import { ProductCardProps } from '@/types/product';
 
 const NewProducts = () => {
-  const newProducts = database.products.filter((p) =>
-    p.categories?.includes("new")
-  );
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        
+        const response = await fetch('/api/products/new');
+        
+        if (!response.ok) {
+          throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
+        }
+        
+        const data = await response.json();
+        setProducts(data);
+      } catch {
+        setError('Неизвестная ошибка');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return <div className="text-center py-8">Загрузка...</div>;
+  }
+
+  if (error) {
+    return <div className="text-red-500 py-8">Ошибка: {error}</div>;
+  }
 
   return (
     <section>
@@ -29,9 +62,9 @@ const NewProducts = () => {
           </button>
         </div>
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-10 justify-items-center">
-          {newProducts.slice(0, 4).map((item, index) => (
+          {products.slice(0, 4).map((item, index) => (
             <li
-              key={item.id}
+              key={item._id}
               className={`${index >= 4 ? "hidden" : ""}
             ${index >= 3 ? "md:hidden xl:block" : ""}
             ${index >= 4 ? "xl:hidden" : ""}
