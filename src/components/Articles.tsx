@@ -1,17 +1,40 @@
 import Image from "next/image";
 import iconRight from "../../public/icons-header/icon-arrow-right.svg";
-import articlesDatabase from "@/data/articlesDatabase.json";
 import Link from "next/link";
+import { getArticles } from "@/app/api/articles/route";
 
-const Articles = () => {
-  const articles = articlesDatabase;
+const Articles = async () => {
+  interface Article {
+    _id: string;
+    img: string;
+    title: string;
+    text: string;
+    createdAt: string;
+  }
+
+  let articles: Article[] = [];
+  let error = null;
+
+  try {
+    articles = (await getArticles()) as unknown as Article[];
+  } catch (err) {
+    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+    console.error("Ошибка в компоненте Articles:", err);
+  }
+
+  if (error) {
+    return <div className="text-red-500 py-8">Ошибка: {error}</div>;
+  }
 
   return (
     <section>
       <div className="flex flex-col justify-center xl:max-w-[1208px] text-[#414141]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">Статьи</h2>
-          <Link href="#" className="flex flex-row items-center gap-x-2 cursor-pointer">
+          <Link
+            href="#"
+            className="flex flex-row items-center gap-x-2 cursor-pointer"
+          >
             <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf] duration-300">
               К статьям
             </p>
@@ -27,8 +50,8 @@ const Articles = () => {
 
         {/* Список статей */}
         <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
-          {articles.map((article) => (
-            <li key={article.id} className="h-75 md:h-105">
+          {articles.slice(0, 3).map((article) => (
+            <li key={article._id} className="h-75 md:h-105">
               <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-(--shadow-card) hover:shadow-(--shadow-article) duration-300">
                 <div className="relative h-48 w-full">
                   <Image
@@ -36,7 +59,7 @@ const Articles = () => {
                     alt={article.title}
                     fill
                     className="object-cover"
-                    quality={100} 
+                    quality={100}
                     sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   />
                 </div>
