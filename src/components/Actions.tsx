@@ -15,7 +15,7 @@ export default async function Actions() {
 
     products = shuffleArray(products);
   } catch (err) {
-    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+   error = "Не удается получить данные об акциях, попробуйте позже";
     console.error("Ошибка в компоненте Actions:", err);
   }
 
@@ -30,12 +30,12 @@ export default async function Actions() {
           <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
             Акции
           </h2>
-          <ViewAllButton btnText="Все акции" />
+          <ViewAllButton btnText="Все акции" href="/actions"/>
         </div>
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-10 justify-items-center">
           {products.slice(0, 4).map((item, index) => (
             <li
-              key={item.id}
+              key={item._id}
               className={`${index >= 4 ? "hidden" : ""}
             ${index >= 3 ? "md:hidden xl:block" : ""}
             ${index >= 4 ? "xl:hidden" : ""}

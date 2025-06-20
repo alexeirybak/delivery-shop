@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-require-imports
-const articles = require("./articlesDatabase.json");
+const products = require("./productsDatabase.json");
 
 module.exports = {
   async up(db) {
-    await db.collection("articles").insertMany(articles);
+    await db.collection("products").insertMany(products);
   },
 
   // async down(db) {},

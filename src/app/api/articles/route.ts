@@ -11,6 +11,8 @@ export async function getArticles() {
   return await db.collection("articles").find().toArray();
 }
 
+export const revalidate = 3600;
+
 export async function GET() {
   try {
     const articles = await getArticles();

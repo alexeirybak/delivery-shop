@@ -1,16 +1,10 @@
 import Image from "next/image";
-import iconRight from "../../public/icons-header/icon-arrow-right.svg";
-import Link from "next/link";
 import { getArticles } from "@/app/api/articles/route";
+import { Article } from "@/types/articles";
+import ViewAllButton from "./ViewAllButton";
 
 const Articles = async () => {
-  interface Article {
-    _id: string;
-    img: string;
-    title: string;
-    text: string;
-    createdAt: string;
-  }
+ 
 
   let articles: Article[] = [];
   let error = null;
@@ -18,7 +12,7 @@ const Articles = async () => {
   try {
     articles = (await getArticles()) as unknown as Article[];
   } catch (err) {
-    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+    error = "Не удается получить данные о статьях, попробуйте позже";
     console.error("Ошибка в компоненте Articles:", err);
   }
 
@@ -31,21 +25,7 @@ const Articles = async () => {
       <div className="flex flex-col justify-center xl:max-w-[1208px] text-[#414141]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold">Статьи</h2>
-          <Link
-            href="#"
-            className="flex flex-row items-center gap-x-2 cursor-pointer"
-          >
-            <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf] duration-300">
-              К статьям
-            </p>
-            <Image
-              src={iconRight}
-              alt="К статьям"
-              width={24}
-              height={24}
-              sizes="24px"
-            />
-          </Link>
+          <ViewAllButton btnText="Все статьи" href="/articles"/>
         </div>
 
         {/* Список статей */}

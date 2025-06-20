@@ -14,6 +14,8 @@ export async function getProductsByCategory(category: string) {
     .toArray();
 }
 
+export const revalidate = 3600;
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

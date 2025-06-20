@@ -27,6 +27,8 @@ export async function getPurchases() {
   });
 }
 
+export const revalidate = 3600;
+
 export async function GET() {
   try {
     const purchases = await getPurchases();
