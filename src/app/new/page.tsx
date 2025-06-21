@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { ProductCardProps } from "@/types/product";
-import { getProductsByCategory } from "@/app/api/products/route";
+import { getProductsByCategory } from "../../../utils/api-routes";
 import ViewAllButton from "@/components/ViewAllButton";
 import { Metadata } from "next";
 

@@ -1,4 +1,6 @@
 import { MongoClient } from "mongodb";
+const clientPromise = new MongoClient(process.env.MongoURL!);
+const db = clientPromise.db("delivery-shop");
 
 export const getDBAndRequestBody = async (
   clientPromise: Promise<MongoClient>,
@@ -19,3 +21,34 @@ export const getDBAndRequestBody = async (
     throw error;
   }
 };
+
+export async function getArticles() {
+  return await db.collection("articles").find().toArray();
+}
+
+export async function getProductsByCategory(category: string) {
+  return await db
+    .collection("products")
+    .find({ categories: category })
+    .toArray();
+}
+
+export async function getPurchases() {
+  const user = await db.collection("users").findOne({});
+
+  if (!user?.purchases?.length) return [];
+
+  const productIds = user.purchases.map((p: { id: number }) => p.id);
+  const products = await db
+    .collection("products")
+    .find({ id: { $in: productIds } })
+    .toArray();
+
+  return products.map((product) => {
+    const { discountPercent, ...rest } = product;
+    void discountPercent;
+    return {
+      ...rest,
+    };
+  });
+}

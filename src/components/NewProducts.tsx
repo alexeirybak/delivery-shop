@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard";
 import { ProductCardProps } from "@/types/product";
-import { getProductsByCategory } from "@/app/api/products/route";
+import { getProductsByCategory } from "../../utils/api-routes";
 import { shuffleArray } from "../../utils/shuffleArray";
 import ViewAllButton from "./ViewAllButton";
 

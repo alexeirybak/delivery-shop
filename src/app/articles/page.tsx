@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getArticles } from "@/app/api/articles/route";
+import { getArticles } from "../../../utils/api-routes";
 import { Article } from "@/types/articles";
 import ViewAllButton from "@/components/ViewAllButton";
 

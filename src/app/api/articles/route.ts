@@ -1,22 +1,10 @@
-import { getDBAndRequestBody } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
-
-const clientPromise = new MongoClient(
-  process.env.DELIVERY_SHOP_DB_URL!
-).connect();
-
-export async function getArticles() {
-  const { db } = await getDBAndRequestBody(clientPromise, null);
-  return await db.collection("articles").find().toArray();
-}
-
+import { getArticles } from "../../../../utils/api-routes";
 export const revalidate = 3600;
 
 export async function GET() {
   try {
     const articles = await getArticles();
-
     return NextResponse.json(articles);
   } catch (error) {
     console.error("Ошибка сервера:", error);

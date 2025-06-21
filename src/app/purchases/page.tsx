@@ -1,6 +1,6 @@
 import ProductCard from "@/components/ProductCard";
 import { ProductCardProps } from "@/types/product";
-import { getPurchases } from "@/app/api/users/purchases/route";
+import { getPurchases } from "../../../utils/api-routes";
 import ViewAllButton from "@/components/ViewAllButton";
 
 const AllPurchases = async () => {
