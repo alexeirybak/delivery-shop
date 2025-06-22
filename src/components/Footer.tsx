@@ -10,7 +10,7 @@ const Footer = () => {
         {/* Логотип со ссылкой на главную */}
         <div className="logo">
           <Link href="/" className="relative w-23 h-16 md:w-16 md:h-11 block">
-            <Image src="/icons-footer/logo-footer.png" alt="Логотип" fill />
+            <Image src="/icons-footer/logo-footer.png" alt="Логотип" fill sizes="(max-width: 768px) 100vw, 50vw"/>
           </Link>
         </div>
 
