@@ -1,39 +1,30 @@
-import { getDBAndRequestBody } from "../../../../../utils/api-routes";
 import { NextResponse } from "next/server";
-import { MongoClient } from "mongodb";
-
-const clientPromise = new MongoClient(
-  process.env.DELIVERY_SHOP_DB_URL!
-).connect();
-
-export async function getPurchases() {
-  const { db } = await getDBAndRequestBody(clientPromise, null);
-  const user = await db.collection("users").findOne({});
-
-  if (!user?.purchases?.length) return [];
-
-  const productIds = user.purchases.map((p: { id: number }) => p.id);
-  const products = await db
-    .collection("products")
-    .find({ id: { $in: productIds } })
-    .toArray();
-
-  return products.map((product) => {
-    const { discountPercent, ...rest } = product;
-    void discountPercent;
-    return {
-      ...rest,
-    };
-  });
-}
+import { getDB } from "../../../../../utils/api-routes";
 
 export async function GET() {
   try {
-    const purchases = await getPurchases();
+    const db = await getDB();
+    const user = await db.collection("users").findOne({});
 
-    return NextResponse.json(purchases);
+    if (!user?.purchases?.length) {
+      return NextResponse.json([]);
+    }
+
+    const productIds = user.purchases.map((p: { id: number }) => p.id);
+    const products = await db
+      .collection("products")
+      .find({ id: { $in: productIds } })
+      .toArray();
+
+    return NextResponse.json(
+      products.map((product) => {
+        const { discountPercent, ...rest } = product;
+        void discountPercent;
+        return rest;
+      })
+    );
   } catch (error) {
-    console.error("ошибка сервера:", error);
+    console.error("Ошибка сервера:", error);
     return NextResponse.json({ message: "Ошибка сервера" }, { status: 500 });
   }
 }

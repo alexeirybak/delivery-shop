@@ -1,21 +1,8 @@
 import { MongoClient } from "mongodb";
 
-export const getDBAndRequestBody = async (
-  clientPromise: Promise<MongoClient>,
-  request: Request | null
-) => {
-  try {
-    const client = await clientPromise;
-    const db = client.db(process.env.DELIVERY_SHOP_DB_NAME);
+const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
+const clientPromise = client.connect();
 
-    if (request) {
-      const requestBody = await request.json();
-      return { db, requestBody };
-    }
-
-    return { db };
-  } catch (error) {
-    console.error("Ошибка соединения с базой данных", error);
-    throw error;
-  }
+export const getDB = async () => {
+  return (await clientPromise).db(process.env.DELIVERY_SHOP_DB_NAME);
 };

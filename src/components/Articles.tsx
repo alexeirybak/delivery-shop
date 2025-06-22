@@ -1,24 +1,20 @@
 import Image from "next/image";
 import iconRight from "../../public/icons-header/icon-arrow-right.svg";
 import Link from "next/link";
-import { getArticles } from "@/app/api/articles/route";
+import { Article } from "@/types/articles";
 
 const Articles = async () => {
-  interface Article {
-    _id: string;
-    img: string;
-    title: string;
-    text: string;
-    createdAt: string;
-  }
 
   let articles: Article[] = [];
   let error = null;
 
   try {
-    articles = (await getArticles()) as unknown as Article[];
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/articles`
+    );
+    articles = await res.json();
   } catch (err) {
-    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+    error = "Ошибка получения статей";
     console.error("Ошибка в компоненте Articles:", err);
   }
 

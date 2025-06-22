@@ -1,6 +1,5 @@
 import ProductCard from "./ProductCard";
 import { ProductCardProps } from "@/types/product";
-import { getProductsByCategory } from "@/app/api/products/route";
 import { shuffleArray } from "../../utils/shuffleArray";
 import ViewAllButton from "./ViewAllButton";
 
@@ -9,14 +8,14 @@ const NewProducts = async () => {
   let error = null;
 
   try {
-    products = (await getProductsByCategory(
-      "new"
-    )) as unknown as ProductCardProps[];
-
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?category=new`
+    );
+    products = await res.json();
     products = shuffleArray(products);
 
   } catch (err) {
-    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+    error = "Ошибка получения новых продуктов";
     console.error("Ошибка в компоненте NewProducts:", err);
   }
 

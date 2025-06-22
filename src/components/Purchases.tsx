@@ -1,6 +1,5 @@
 import ProductCard from "./ProductCard";
 import { ProductCardProps } from "@/types/product";
-import { getPurchases } from "@/app/api/users/purchases/route";
 import ViewAllButton from "./ViewAllButton";
 
 const Purchases = async () => {
@@ -8,9 +7,12 @@ const Purchases = async () => {
   let error = null;
 
   try {
-    purchases = (await getPurchases()) as unknown as ProductCardProps[];
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/purchases`
+    );
+    purchases = await res.json();
   } catch (err) {
-    error = err instanceof Error ? err.message : "Неизвестная ошибка";
+    error = "Ошибка получения данных о покупках";
     console.error("Ошибка в компоненте Actions:", err);
   }
 
