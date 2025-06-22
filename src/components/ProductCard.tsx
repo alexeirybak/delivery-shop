@@ -14,7 +14,6 @@ const ProductCard = ({
   rating,
   categories,
 }: ProductCardProps) => {
-  
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount > 0 ? price * (1 - discount / 100) : price;
   };
@@ -32,6 +31,8 @@ const ProductCard = ({
   const priceByCard = isNewProduct
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
+
+  const ratingValue = rating?.rate || 5;
 
   return (
     <div className="flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
@@ -76,14 +77,16 @@ const ProductCard = ({
                 <span>{formatPrice(finalPrice)}</span>
                 <span>₽</span>
               </div>
-              <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">Обычная</p>
+              <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">
+                Обычная
+              </p>
             </div>
           )}
         </div>
         <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-[1.5]">
           {description}
         </div>
-        {rating > 0 && <StarRating rating={rating} />}
+        {ratingValue > 0 && <StarRating rating={ratingValue} />}
         <button className="border border-(--color-primary) hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) w-full h-10 rounded p-2 justify-center items-center text-(--color-primary) transition-all duration-300 cursor-pointer select-none">
           В корзину
         </button>
