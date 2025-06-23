@@ -1,4 +1,4 @@
-import { getDB } from "../../../../api-routes";
+import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
 export const dynamic = "force-dynamic";
 export const revalidate = 3600;

@@ -12,5 +12,5 @@ export interface ProductCardProps {
   };
   categories: string[];
   weight?: string;
-  quantity?: number;
+  quantity: number;
 }
