@@ -13,7 +13,7 @@ const SpecialOffers = () => {
           </h2>
           <div className="flex flex-col md:flex-row gap-4 items-center xl:w-auto ">
              {/* Баннер с картой - всегда видим */}
-            <button className="text-left flex flex-row pt-5 pl-5 rounded bg-[#FCD5BA] w-[336px]  md:w-[352px] xl:w-[584px] h-[170px] xl:h-50 hover:shadow-(--shadow-card-shop) duration-300 relative overflow-hidden cursor-pointer">
+            <button className="text-left flex flex-row pt-5 pl-5 rounded bg-[#FCD5BA] max-w-[336px] w-full md:max-w-[352px] xl:max-w-[584px] h-[170px] xl:h-50 hover:shadow-(--shadow-card-shop) duration-300 relative overflow-hidden cursor-pointer">
               <div className="flex flex-col gap-1.5 w-[174px] xl:w-[258px] ">
                 <p className="text-xl xl:text-2xl font-bold">
                   Оформите карту «Северяночка»
@@ -32,7 +32,7 @@ const SpecialOffers = () => {
             </button>
             <button className="relative w-full md:w-[353px] xl:w-[584px] h-[170px] xl:h-[200px] rounded overflow-hidden cursor-pointer hover:shadow-(--shadow-button-default) duration-300">
               {/* Баннер акций - мобильная/планшетная версия */}
-              <div className="xl:hidden w-full h-full">
+              <div className="xl:hidden">
                 <Image
                   src={bannerActionMobTab}
                   alt="Акционные товары"

@@ -1,4 +1,4 @@
-import { getDB } from "../../../../../api-routes";
+import { getDB } from "../../../../../utils/api-routes";
 import { NextResponse } from "next/server";
 
 export async function GET() {
