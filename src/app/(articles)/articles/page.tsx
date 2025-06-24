@@ -1,27 +1,50 @@
-import fetchArticles from "../fetchArticles";
-import ArticleSection from "../ArticlesSection";
+'use client'
 
-export const metadata = {
-  title: 'Статьи на сайте магазина "Северяночка"',
-  description: 'Читайте статьи на сайте магазина "Северяночка"',
-};
+import { useState, useEffect } from 'react'
+import useItemsPerPage from '@/hooks/useItemsPerPage'
+import fetchArticles from "../fetchArticles"
+import ArticleSection from "../ArticlesSection"
+import PaginationControls from "@/components/PaginationControls"
+import { Article } from '@/types/articles'
 
-const AllArticles = async () => {
-  try {
-    const articles = await fetchArticles();
+export default function AllArticles({ 
+  searchParams 
+}: { 
+  searchParams: { page?: string } 
+}) {
+  const itemsPerPage = useItemsPerPage(4) // Значение по умолчанию
+  const [articles, setArticles] = useState<Article[]>([])
+  const [loading, setLoading] = useState(true)
+  
+  const currentPage = Number(searchParams?.page) || 1
 
-    return (
+  useEffect(() => {
+    fetchArticles()
+      .then(setArticles)
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) return <div>Загрузка...</div>
+
+  const paginatedArticles = articles.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
+  return (
+    <div>
       <ArticleSection
         title="Все статьи"
-        viewAllButton={{ text: "На главную", href: "/" }}
-        articles={articles}
+        articles={paginatedArticles}
       />
-    );
-  } catch {
-    return (
-      <div className="text-red-500">Ошибка: не удалось загрузить статьи</div>
-    );
-  }
-};
-
-export default AllArticles;
+      
+      {articles.length > itemsPerPage && (
+        <PaginationControls
+          totalItems={articles.length}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+        />
+      )}
+    </div>
+  )
+}
