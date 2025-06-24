@@ -24,21 +24,20 @@ const AllActions = async ({
   const startIdx = (currentPage - 1) * perPage;
 
   try {
-    const allProducts = await fetchProductsByCategory("actions");
-    const freshProductArray = allProducts;
+    const products = await fetchProductsByCategory("actions");
 
-    const products = freshProductArray.slice(startIdx, startIdx + perPage);
+    const pagProducts = products.slice(startIdx, startIdx + perPage);
 
     return (
       <>
         <ProductsSection
           title="Все акции"
           viewAllButton={{ text: "На главную", href: "/" }}
-          products={products}
+          products={pagProducts}
         />
-        {allProducts.length > perPage && (
+        {products.length > perPage && (
           <ClientPaginationWrapper
-            totalItems={allProducts.length}
+            totalItems={products.length}
             currentPage={currentPage}
             basePath="/actions"
             initialItemsPerPage={perPage}

@@ -2,14 +2,10 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
-import iconRight from "/public/icons-products/icon-arrow-right.svg";
-import IconDoubleLeft from "./svg/IconDoubleLeft";
-import IconDoubleRight from "./svg/IconDoubleRight";
 
 interface PaginationProps {
   totalItems: number;
-  itemsPerPage: number; 
+  itemsPerPage: number;
   currentPage: number;
   basePath: string;
 }
@@ -23,13 +19,16 @@ export default function Pagination({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-  
-  const baseButtonClass = "p-2 w-6 h-6 md:w-14 md:h-14 rounded flex items-center justify-center duration-300";
-  const activeButtonClass = "bg-[#ff6633] text-white hover:bg-(--color-primary) active:bg-[#d80000] cursor-pointer";
-  const disabledButtonClass = "bg-[#fcd5ba] cursor-not-allowed";
-  const pageButtonClass = "text-xs md:text-base p-2 w-6 h-6 md:p-4 md:w-14 md:h-14 rounded flex items-center justify-center duration-300 cursor-pointer";
-  const iconClass = "w-4 h-4 md:w-6 md:h-6";
-  const ellipsisClass = "text-xs md:text-base p-2 w-6 h-6 md:p-4 md:w-14 md:h-14 flex items-center justify-center text-[#ff6633]";
+
+  const baseButtonClass =
+    "p-2 w-5 h-5 md:w-10 md:h-10 rounded flex items-center justify-center duration-300";
+  const activeButtonClass =
+    "bg-[#ff6633] text-white hover:bg-(--color-primary) active:bg-[#d80000] cursor-pointer";
+  const disabledButtonClass = "bg-[#fcd5ba] text-white cursor-not-allowed";
+  const pageButtonClass =
+    "text-xs md:text-base p-2 w-5 h-5 md:p-4 md:w-10 md:h-10 rounded flex items-center justify-center duration-300 cursor-pointer";
+  const ellipsisClass =
+    "text-xs md:text-base p-2 w-5 h-5 md:p-4 md:w-10 md:h-10 flex items-center justify-center text-[#ff6633]";
 
   const buttonClass = (disabled: boolean) =>
     `${baseButtonClass} ${disabled ? disabledButtonClass : activeButtonClass}`;
@@ -81,10 +80,9 @@ export default function Pagination({
             return params.toString();
           })()}`}
           className={buttonClass(currentPage === 1)}
-          aria-disabled={currentPage === 1}
           tabIndex={currentPage === 1 ? -1 : undefined}
         >
-          <IconDoubleLeft className={iconClass} />
+          &laquo;
         </Link>
 
         {/* Кнопка "Назад" */}
@@ -94,26 +92,16 @@ export default function Pagination({
             return params.toString();
           })()}`}
           className={buttonClass(currentPage === 1)}
-          aria-disabled={currentPage === 1}
           tabIndex={currentPage === 1 ? -1 : undefined}
         >
-          <Image
-            src={iconRight}
-            alt="Предыдущая страница"
-            width={24}
-            height={24}
-            className={`${iconClass} rotate-180`}
-          />
+          &lsaquo;
         </Link>
 
         {/* Номера страниц с многоточиями */}
         {getVisiblePages().map((page, index) => {
           if (page === "...") {
             return (
-              <span
-                key={`ellipsis-${index}`}
-                className={ellipsisClass}
-              >
+              <span key={`ellipsis-${index}`} className={ellipsisClass}>
                 ...
               </span>
             );
@@ -145,16 +133,9 @@ export default function Pagination({
             return params.toString();
           })()}`}
           className={buttonClass(currentPage === totalPages)}
-          aria-disabled={currentPage === totalPages}
           tabIndex={currentPage === totalPages ? -1 : undefined}
         >
-          <Image
-            src={iconRight}
-            alt="Следующая страница"
-            width={24}
-            height={24}
-            className={iconClass}
-          />
+          &rsaquo;
         </Link>
 
         {/* Кнопка "В конец" */}
@@ -164,10 +145,9 @@ export default function Pagination({
             return params.toString();
           })()}`}
           className={buttonClass(currentPage === totalPages)}
-          aria-disabled={currentPage === totalPages}
           tabIndex={currentPage === totalPages ? -1 : undefined}
         >
-          <IconDoubleRight/>
+          &raquo;
         </Link>
       </nav>
     </div>

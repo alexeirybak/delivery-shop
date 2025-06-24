@@ -3,7 +3,7 @@ import Articles from "./(articles)/Articles";
 import Maps from "@/components/Maps";
 import NewProducts from "./(products)/NewProducts";
 import Purchases from "./(user)/Purchases";
-import Slider from "@/components/slider/Slider";
+import Slider from "@/components/Slider/Slider";
 import SpecialOffers from "@/components/SpecialOffers";
 
 export default function Home() {
