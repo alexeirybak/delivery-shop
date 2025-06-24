@@ -3,7 +3,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Pagination from "@/components/Pagination";
-import { debounce } from "../../utils/debounce";
 
 export function ClientPaginationWrapper({
   totalItems,
@@ -38,11 +37,10 @@ export function ClientPaginationWrapper({
     }
   }, [itemsPerPage, searchParams, router, basePath]);
 
-  // Эффект для подписки на resize с дебаунсом
+  // Эффект для подписки на resize
   useEffect(() => {
-    const debouncedResize = debounce(handleResize, 200);
-    window.addEventListener("resize", debouncedResize);
-    return () => window.removeEventListener("resize", debouncedResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, [handleResize]);
 
   // Синхронизируем состояние с URL параметрами
