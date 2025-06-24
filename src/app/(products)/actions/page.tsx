@@ -13,18 +13,21 @@ const AllActions = async ({
 }: {
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
 }) => {
-  const { page, itemsPerPage = CONFIG.ITEMS_PER_PAGE } = await searchParams;
+  // Декструктурируем после await
+  const params = await searchParams;
+  const page = params?.page;
+  const itemsPerPage = params?.itemsPerPage || CONFIG.ITEMS_PER_PAGE;
+
   const currentPage = Number(page) || 1;
-  const perPage = Number(itemsPerPage); // Получаем из клиента
+  const perPage = Number(itemsPerPage);
 
   const startIdx = (currentPage - 1) * perPage;
 
   try {
     const allProducts = await fetchProductsByCategory("actions");
-    const products = allProducts.slice(
-      startIdx,
-      startIdx + CONFIG.ITEMS_PER_PAGE
-    );
+    const freshProductArray = allProducts;
+
+    const products = freshProductArray.slice(startIdx, startIdx + perPage);
 
     return (
       <>
@@ -38,6 +41,7 @@ const AllActions = async ({
             totalItems={allProducts.length}
             currentPage={currentPage}
             basePath="/actions"
+            initialItemsPerPage={perPage}
           />
         )}
       </>
