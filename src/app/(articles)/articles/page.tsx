@@ -12,13 +12,13 @@ const AllArticles = async ({
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
 }) => {
   return (
-    <ArticleListPage
+    <GenericProductsListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchArticles(),
-        pageTitle: " Все статьи",
-        basePath: "/articles",
-        errorMessage: "Ошибка: не удалось загрузить статьи",
+        fetchData: () => fetchPurchases(),
+        pageTitle: " Все покупки",
+        basePath: "/purchases",
+        errorMessage: "Ошибка: не удалось загрузить покупки",
       }}
     />
   );
