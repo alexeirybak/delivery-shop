@@ -2,14 +2,10 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import Image from "next/image";
-import iconRight from "/public/icons-products/icon-arrow-right.svg";
-import IconDoubleLeft from "./svg/IconDoubleLeft";
-import IconDoubleRight from "./svg/IconDoubleRight";
 
 interface PaginationProps {
   totalItems: number;
-  itemsPerPage: number; 
+  itemsPerPage: number;
   currentPage: number;
   basePath: string;
 }
@@ -23,111 +19,74 @@ export default function Pagination({
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const searchParams = useSearchParams();
   const params = new URLSearchParams(searchParams.toString());
-  
-  const baseButtonClass = "p-2 w-6 h-6 md:w-14 md:h-14 rounded flex items-center justify-center duration-300";
-  const activeButtonClass = "bg-[#ff6633] text-white hover:bg-(--color-primary) active:bg-[#d80000] cursor-pointer";
-  const disabledButtonClass = "bg-[#fcd5ba] cursor-not-allowed";
-  const pageButtonClass = "text-xs md:text-base p-2 w-6 h-6 md:p-4 md:w-14 md:h-14 rounded flex items-center justify-center duration-300 cursor-pointer";
-  const iconClass = "w-4 h-4 md:w-6 md:h-6";
-  const ellipsisClass = "text-xs md:text-base p-2 w-6 h-6 md:p-4 md:w-14 md:h-14 flex items-center justify-center text-[#ff6633]";
 
-  const buttonClass = (disabled: boolean) =>
-    `${baseButtonClass} ${disabled ? disabledButtonClass : activeButtonClass}`;
+  const buttonSize = "w-5 h-5 md:w-10 md:h-10 flex items-center justify-center rounded duration-300";
+  const activeClass = "bg-[#ff6633] text-white hover:bg-[#ff6633]";
+  const disabledClass = "bg-[#fcd5ba] cursor-not-allowed";
+  const pageButtonClass = `border border-[#ff6633] ${buttonSize}`;
 
-  // Генерация массива страниц с многоточиями
+  const createPageUrl = (page: number) => {
+    const newParams = new URLSearchParams(params);
+    newParams.set("page", page.toString());
+    return `${basePath}?${newParams.toString()}`;
+  };
+
   const getVisiblePages = () => {
-    const visiblePages = [];
-    const maxVisible = 5;
-
-    if (totalPages <= maxVisible) {
+    if (totalPages <= 5) {
       return Array.from({ length: totalPages }, (_, i) => i + 1);
     }
 
-    let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
-    const end = Math.min(totalPages, start + maxVisible - 1);
+    let start = Math.max(1, currentPage - 2);
+    let end = Math.min(totalPages, currentPage + 2);
 
-    if (end - start + 1 < maxVisible) {
-      start = Math.max(1, end - maxVisible + 1);
+    if (currentPage <= 3) {
+      end = 5;
+    } else if (currentPage >= totalPages - 2) {
+      start = totalPages - 4;
     }
 
-    if (start > 1) {
-      visiblePages.push(1);
-      if (start > 2) {
-        visiblePages.push("...");
-      }
-    }
+    const pages: (number | string)[] = [];
+    if (start > 1) pages.push(1);
+    if (start > 2) pages.push("...");
+    
+    for (let i = start; i <= end; i++) pages.push(i);
+    
+    if (end < totalPages - 1) pages.push("...");
+    if (end < totalPages) pages.push(totalPages);
 
-    for (let i = start; i <= end; i++) {
-      visiblePages.push(i);
-    }
-
-    if (end < totalPages) {
-      if (end < totalPages - 1) {
-        visiblePages.push("...");
-      }
-      visiblePages.push(totalPages);
-    }
-
-    return visiblePages;
+    return pages;
   };
 
+  const renderButton = (content: React.ReactNode, page: number, disabled: boolean) => (
+    <Link
+      href={createPageUrl(page)}
+      className={`${buttonSize} ${disabled ? disabledClass : activeClass}`}
+      aria-disabled={disabled}
+      tabIndex={disabled ? -1 : undefined}
+    >
+      {content}
+    </Link>
+  );
+
   return (
-    <div className="flex justify-center mt-10 mb-20">
-      <nav className="flex gap-2 items-center">
-        {/* Кнопка "В начало" */}
-        <Link
-          href={`${basePath}?${(() => {
-            params.set("page", "1");
-            return params.toString();
-          })()}`}
-          className={buttonClass(currentPage === 1)}
-          aria-disabled={currentPage === 1}
-          tabIndex={currentPage === 1 ? -1 : undefined}
-        >
-          <IconDoubleLeft className={iconClass} />
-        </Link>
+    <div className="flex justify-center mt-10 mb-20 text-white text-sm md:text-base">
+      <nav className="flex gap-1 md:gap-2 items-center">
+        {renderButton("«", 1, currentPage === 1)}
+        {renderButton("‹", currentPage - 1, currentPage === 1)}
 
-        {/* Кнопка "Назад" */}
-        <Link
-          href={`${basePath}?${(() => {
-            params.set("page", Math.max(1, currentPage - 1).toString());
-            return params.toString();
-          })()}`}
-          className={buttonClass(currentPage === 1)}
-          aria-disabled={currentPage === 1}
-          tabIndex={currentPage === 1 ? -1 : undefined}
-        >
-          <Image
-            src={iconRight}
-            alt="Предыдущая страница"
-            width={24}
-            height={24}
-            className={`${iconClass} rotate-180`}
-          />
-        </Link>
-
-        {/* Номера страниц с многоточиями */}
         {getVisiblePages().map((page, index) => {
           if (page === "...") {
-            return (
-              <span
-                key={`ellipsis-${index}`}
-                className={ellipsisClass}
-              >
-                ...
-              </span>
-            );
+            return <span key={`ellipsis-${index}`} className={`${buttonSize} text-[#ff6633]`}>...</span>;
           }
 
-          params.set("page", page.toString());
           return (
             <Link
               key={page}
-              href={`${basePath}?${params.toString()}`}
+              href={createPageUrl(page as number)}
               className={`${pageButtonClass} ${
                 currentPage === page
-                  ? "bg-[#ff6633] hover:shadow-(--shadow-button-secondary) text-white"
-                  : "text-[#ff6633] bg-white border-1 border-[#ff6633] hover:bg-(--color-primary) hover:border-none hover:text-white active:bg-[#d80000]"
+                  ? "bg-[#ff6633] text-white border-transparent"
+                  : "text-[#ff6633] bg-white hover:bg-[#ff6633] hover:text-white hover:border-transparent"
               }`}
             >
               {page}
@@ -135,40 +94,8 @@ export default function Pagination({
           );
         })}
 
-        {/* Кнопка "Вперед" */}
-        <Link
-          href={`${basePath}?${(() => {
-            params.set(
-              "page",
-              Math.min(totalPages, currentPage + 1).toString()
-            );
-            return params.toString();
-          })()}`}
-          className={buttonClass(currentPage === totalPages)}
-          aria-disabled={currentPage === totalPages}
-          tabIndex={currentPage === totalPages ? -1 : undefined}
-        >
-          <Image
-            src={iconRight}
-            alt="Следующая страница"
-            width={24}
-            height={24}
-            className={iconClass}
-          />
-        </Link>
-
-        {/* Кнопка "В конец" */}
-        <Link
-          href={`${basePath}?${(() => {
-            params.set("page", totalPages.toString());
-            return params.toString();
-          })()}`}
-          className={buttonClass(currentPage === totalPages)}
-          aria-disabled={currentPage === totalPages}
-          tabIndex={currentPage === totalPages ? -1 : undefined}
-        >
-          <IconDoubleRight/>
-        </Link>
+        {renderButton("›", currentPage + 1, currentPage === totalPages)}
+        {renderButton("»", totalPages, currentPage === totalPages)}
       </nav>
     </div>
   );

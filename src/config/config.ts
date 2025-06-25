@@ -1,3 +1,3 @@
 export const CONFIG = {
-  ITEMS_PER_PAGE: 4,
+  ITEMS_PER_PAGE: 3,
 };

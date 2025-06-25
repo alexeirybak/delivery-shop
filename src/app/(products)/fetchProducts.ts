@@ -1,5 +1,4 @@
 import { ProductCardProps } from "@/types/product";
-import { shuffleArray } from "../../../utils/shuffleArray";
 
 const fetchProductsByCategory = async (category: string) => {
   try {
@@ -15,7 +14,7 @@ const fetchProductsByCategory = async (category: string) => {
       (product) => product.quantity > 0
     );
 
-    return shuffleArray(availableProducts);
+    return availableProducts;
   } catch (err) {
     console.error(`Ошибка в компоненте: ${category}`, err);
     throw err;

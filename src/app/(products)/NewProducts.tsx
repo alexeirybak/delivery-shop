@@ -1,9 +1,11 @@
 import fetchProductsByCategory from "./fetchProducts";
 import ProductsSection from "../../components/ProductsSection";
+import { shuffleArray } from "../../../utils/shuffleArray";
 
 const NewProducts = async () => {
   try {
-    const products = await fetchProductsByCategory("new");
+    let products = await fetchProductsByCategory("new");
+    products = shuffleArray(products);
 
     return (
       <ProductsSection
