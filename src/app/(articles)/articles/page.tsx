@@ -6,22 +6,22 @@ export const metadata = {
   description: 'Читайте статьи на сайте магазина "Северяночка"',
 };
 
-const AllArticles = async () => {
-  try {
-    const articles = await fetchArticles();
-
-    return (
-      <ArticleSection
-        title="Все статьи"
-        viewAllButton={{ text: "На главную", href: "/" }}
-        articles={articles}
-      />
-    );
-  } catch {
-    return (
-      <div className="text-red-500">Ошибка: не удалось загрузить статьи</div>
-    );
-  }
+const AllArticles = async ({
+  searchParams,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+}) => {
+  return (
+    <ArticleListPage
+      searchParams={searchParams}
+      props={{
+        fetchData: () => fetchArticles(),
+        pageTitle: " Все статьи",
+        basePath: "/articles",
+        errorMessage: "Ошибка: не удалось загрузить статьи",
+      }}
+    />
+  );
 };
 
 export default AllArticles;
