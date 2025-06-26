@@ -6,7 +6,6 @@ const NewProducts = async () => {
   try {
     let products = await fetchProductsByCategory("new");
     products = shuffleArray(products);
-
     return (
       <ProductsSection
         title="Новинки"

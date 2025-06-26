@@ -1,5 +1,5 @@
 import fetchArticles from "../fetchArticles";
-import { ArticleListPage } from "@/app/(products)/ArticleListPage";
+import GenericListPage from "@/app/(products)/GenericListPage";
 
 export const metadata = {
   title: 'Статьи на сайте магазина "Северяночка"',
@@ -12,13 +12,14 @@ const AllArticles = async ({
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
 }) => {
   return (
-    <ArticleListPage
+    <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchArticles(), // Передаем другую функцию получения данных
-        pageTitle: "Все статьи",
+        fetchData: () => fetchArticles(),
+        pageTitle: " Все статьи",
         basePath: "/articles",
         errorMessage: "Ошибка: не удалось загрузить статьи",
+        contentType: "articles",
       }}
     />
   );

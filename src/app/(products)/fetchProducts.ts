@@ -6,7 +6,8 @@ const fetchProductsByCategory = async (category: string) => {
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?category=${category}`,
       { next: { revalidate: 3600 } }
     );
-    if (!res.ok) throw new Error(`Серверная ошибка получения продуктов ${category}`);
+    if (!res.ok)
+      throw new Error(`Серверная ошибка получения продуктов ${category}`);
 
     const products: ProductCardProps[] = await res.json();
 

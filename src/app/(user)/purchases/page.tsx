@@ -1,4 +1,4 @@
-import { GenericProductListPage } from "@/app/(products)/GenericProductListPage";
+import GenericListPage from "@/app/(products)/GenericListPage";
 import fetchPurchases from "../fetchPurchases";
 
 const AllPurchases = async ({
@@ -7,11 +7,11 @@ const AllPurchases = async ({
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
 }) => {
   return (
-    <GenericProductListPage
+    <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchPurchases(), // Передаем другую функцию получения данных
-        pageTitle: "Все покупки",
+        fetchData: () => fetchPurchases(),
+        pageTitle: " Все покупки",
         basePath: "/purchases",
         errorMessage: "Ошибка: не удалось загрузить покупки",
       }}
