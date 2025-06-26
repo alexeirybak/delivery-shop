@@ -1,7 +1,7 @@
-import { Article } from "@/types/articles";
+import { ArticleCardProps } from "@/types/articlesListPageProps";
 import Image from "next/image";
 
-const ArticleCard = ({ img, title, createdAt, text }: Article) => {
+const ArticleCard = ({ img, title, createdAt, text }: ArticleCardProps) => {
   return (
     <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-(--shadow-card) hover:shadow-(--shadow-article) duration-300">
       <div className="relative h-48 w-full">

@@ -22,7 +22,7 @@ const ArticleSection = ({
             href={viewAllButton.href}
           />
         </div>
-        <ul className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-6">
+        <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {articles.map((article, index) => (
             <li
               key={article._id}
