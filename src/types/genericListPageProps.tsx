@@ -1,4 +1,4 @@
-import { ArticleCardProps } from "./articlesListPageProps";
+import { ArticleCardProps } from "./articles";
 import { ProductCardProps } from "./product";
 
 type ContentItem = ProductCardProps | ArticleCardProps;

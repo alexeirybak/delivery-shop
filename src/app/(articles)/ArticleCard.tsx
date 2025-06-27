@@ -1,4 +1,4 @@
-import { ArticleCardProps } from "@/types/articlesListPageProps";
+import { ArticleCardProps } from "@/types/articles";
 import Image from "next/image";
 
 const ArticleCard = ({ img, title, createdAt, text }: ArticleCardProps) => {
