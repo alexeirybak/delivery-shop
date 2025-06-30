@@ -10,7 +10,8 @@ const createPageUrl = (
 ) => {
   const newParams = new URLSearchParams(params);
   newParams.set("page", page.toString());
-  return `${basePath}?${newParams.toString()}`;
+  const fullUrl = `${basePath}?${newParams.toString()}`
+  return fullUrl;
 };
 
 const getVisiblePages = (totalPages: number, currentPage: number) => {

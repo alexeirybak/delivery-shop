@@ -1,11 +1,11 @@
 import fetchProductsByCategory from "./fetchProducts";
 import ProductsSection from "../../components/ProductsSection";
-import { shuffleArray } from "../../../utils/shuffleArray";
+import { CONFIG } from "../../../config/config";
 
 const NewProducts = async () => {
   try {
-    let products = await fetchProductsByCategory("new");
-    products = shuffleArray(products);
+    const products = await fetchProductsByCategory("new", { randomLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS });
+
     return (
       <ProductsSection
         title="Новинки"

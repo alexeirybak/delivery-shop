@@ -1,21 +1,19 @@
-import { ProductCardProps } from "@/types/product";
-
-const fetchProductsByCategory = async (category: string) => {
+const fetchProductsByCategory = async (
+  category: string,
+  params?: { randomLimit?: number }
+) => {
   try {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?category=${category}`,
-      { next: { revalidate: 3600 } }
-    );
-    if (!res.ok)
-      throw new Error(`Серверная ошибка получения продуктов ${category}`);
+    let url = `${process.env.NEXT_PUBLIC_BASE_URL}/api/products?category=${category}`;
+    
+    // Добавляем параметр randomLimit если он передан
+    if (params?.randomLimit) {
+      url += `&randomLimit=${params.randomLimit}`;
+    }
 
-    const products: ProductCardProps[] = await res.json();
-
-    const availableProducts = products.filter(
-      (product) => product.quantity > 0
-    );
-
-    return availableProducts;
+    const res = await fetch(url, { next: { revalidate: 3600 } });
+    if (!res.ok) throw new Error(`Ошибка при загрузке продуктов ${category}`);
+    
+    return await res.json();
   } catch (err) {
     console.error(`Ошибка в компоненте: ${category}`, err);
     throw err;

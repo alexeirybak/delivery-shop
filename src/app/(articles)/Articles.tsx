@@ -1,9 +1,10 @@
 import fetchArticles from "./fetchArticles";
 import ArticleSection from "./ArticlesSection";
+import { CONFIG } from "../../../config/config";
 
 const Articles = async () => {
   try {
-    const articles = await fetchArticles();
+    const articles = await fetchArticles({ articlesLimit: CONFIG.ITEMS_PER_PAGE_MAIN_ARTICLES });
 
     return (
       <ArticleSection

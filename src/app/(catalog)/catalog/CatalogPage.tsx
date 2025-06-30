@@ -69,7 +69,7 @@ const CatalogPage = () => {
       const result = await response.json();
 
       if (result.success) {
-        console.log("Порядок спешно обновлен в БД");
+        console.log("Порядок успешно обновлен в БД");
       }
     } catch (error) {
       console.error("Ошибка при сохранении порядка:", error);

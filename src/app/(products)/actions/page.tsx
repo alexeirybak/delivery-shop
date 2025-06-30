@@ -11,6 +11,7 @@ const AllActions = async ({
 }: {
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
 }) => {
+
   return (
     <GenericListPage
       searchParams={searchParams}
