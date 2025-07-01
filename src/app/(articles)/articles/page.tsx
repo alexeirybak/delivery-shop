@@ -14,8 +14,7 @@ const AllArticles = async ({
   return (
     <GenericListPage
       searchParams={searchParams}
-      props={{
-        fetchData: () => fetchArticles(),
+      props={{fetchData: ({ pagination: { startIdx, perPage } }) => fetchArticles({ pagination: { startIdx, perPage } }),
         pageTitle: " Все статьи",
         basePath: "/articles",
         errorMessage: "Ошибка: не удалось загрузить статьи",
