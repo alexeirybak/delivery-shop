@@ -10,7 +10,7 @@ const AllPurchases = async ({
     <GenericListPage
       searchParams={searchParams}
       props={{
-        fetchData: () => fetchPurchases(),
+        fetchData: ({ pagination: { startIdx, perPage } }) => fetchPurchases({ pagination: { startIdx, perPage } }),
         pageTitle: " Все покупки",
         basePath: "/purchases",
         errorMessage: "Ошибка: не удалось загрузить покупки",

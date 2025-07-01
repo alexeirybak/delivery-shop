@@ -7,5 +7,4 @@ export interface ProductsSectionProps {
     href: string;
   };
   products: ProductCardProps[];
-  compact?: boolean;
 }

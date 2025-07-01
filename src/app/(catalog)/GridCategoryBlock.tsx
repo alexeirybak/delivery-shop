@@ -14,7 +14,7 @@ const GridCategoryBlock = ({ id, title, img }: GridCategoryBlockProps) => {
         fill
         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         className="object-cover transition-transform group-hover:scale-105"
-        priority
+        priority={false}
       />
       <div
         className="absolute inset-0 bg-[linear-gradient(180deg,rgba(112,192,91,0)_0%,rgba(112,192,91,0.82)_82.813%)] h-[117px] top-auto

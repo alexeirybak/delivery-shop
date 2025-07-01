@@ -1,22 +1,22 @@
 import fetchProductsByCategory from "./fetchProducts";
 import ProductsSection from "../../components/ProductsSection";
-import { shuffleArray } from "../../../utils/shuffleArray";
+import { CONFIG } from "../../../config/config";
 
 const NewProducts = async () => {
   try {
-    let products = await fetchProductsByCategory("new");
-    products = shuffleArray(products);
+    const {items} = await fetchProductsByCategory("new", {
+      randomLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
+    });
     return (
       <ProductsSection
         title="Новинки"
         viewAllButton={{ text: "Все новинки", href: "new" }}
-        products={products}
-        compact
+        products={items}
       />
     );
   } catch {
     return (
-      <div className="text-red-500">Ошибка: не удалось загрузить акции</div>
+      <div className="text-red-500">Ошибка: не удалось загрузить новинки</div>
     );
   }
 };

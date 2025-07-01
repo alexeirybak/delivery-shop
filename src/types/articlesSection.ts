@@ -7,5 +7,4 @@ export interface ArticlesSectionProps {
     href: string;
   };
   articles: ArticleCardProps[];
-  compact?: boolean;
 }

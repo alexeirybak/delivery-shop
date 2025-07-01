@@ -6,15 +6,10 @@ const ProductsSection = ({
   title,
   viewAllButton,
   products,
-  compact = false,
 }: ProductsSectionProps) => {
   return (
     <section>
-      <div
-        className={`flex flex-col ${
-          !compact ? "px-[max(12px,calc((100%-1208px)/2))]" : "mt-20"
-        }`}
-      >
+      <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
           <h2 className="text-2xl xl:text-4xl text-left font-bold text-[#414141]">
             {title}
@@ -30,13 +25,9 @@ const ProductsSection = ({
           {products.map((item, index) => (
             <li
               key={item._id}
-              className={
-                compact
-                  ? `${index >= 4 ? "hidden" : ""}
-                ${index >= 3 ? "md:hidden xl:block" : ""}
-                ${index >= 4 ? "xl:hidden" : ""}`
-                  : ""
-              }
+              className={`                ${
+                index >= 3 ? "md:hidden xl:block" : ""
+              }               `}
             >
               <ProductCard {...item} />
             </li>
