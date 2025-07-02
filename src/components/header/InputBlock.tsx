@@ -1,6 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import burger from "/public/icons-products/icon-burger-menu.svg";
 import iconSearch from "/public/icons-header/icon-search.svg";
 import { REVERSE_CATEGORY_TRANSLATIONS } from "../../../utils/categoryTranslations";
@@ -26,7 +27,7 @@ function HighlightText({
   const parts = text.split(new RegExp(`(${highlight})`, "gi"));
 
   return (
-    <span className="whitespace-nowrap">
+    <span>
       {parts.map((part, i) =>
         part.toLowerCase() === highlight.toLowerCase() ? (
           <span key={i} className="font-bold">
@@ -50,7 +51,6 @@ export default function InputBlock() {
   const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
-  // Группировка товаров по категориям
   const groupedProducts =
     results?.categories
       .map((category) => ({
@@ -95,12 +95,8 @@ export default function InputBlock() {
 
   return (
     <div className="relative min-w-[261px] flex-grow" ref={searchRef}>
-      {/* Обертка только для позиционирования - без стилей */}
       <div className="relative">
-        {/* Основной блок с инпутом и будущей тенью */}
-        <div
-          className={`rounded border border-(--color-primary)`}
-        >
+        <div className={`rounded border border-(--color-primary)`}>
           <div className="relative">
             <input
               type="text"
@@ -120,7 +116,6 @@ export default function InputBlock() {
           </div>
         </div>
 
-        {/* Выпадающее меню - теперь с условием isOpen */}
         {isOpen && (
           <div
             className="absolute top-[calc(100%-2px)] left-0 right-0 z-10 max-h-[300px] overflow-y-auto bg-white rounded-b border border-(--color-primary) border-t-0"
@@ -135,42 +130,55 @@ export default function InputBlock() {
                 {groupedProducts.length > 0 ? (
                   groupedProducts.map((group) => (
                     <div key={group.category} className="flex flex-col gap-2.5">
-                      <div className="flex items-center gap-x-4 hover:bg-gray-100">
-                        <HighlightText
-                          text={translateCategory(group.category)}
-                          highlight={query}
-                        />
+                      <Link 
+                        href={`/catalog/${encodeURIComponent(group.category)}`} 
+                        className="flex items-start gap-x-4 hover:bg-gray-100 py-1"
+                        onClick={() => setIsOpen(false)}
+                      >
+                        <div className="flex-1 min-w-0 break-words">
+                          <HighlightText
+                            text={translateCategory(group.category)}
+                            highlight={query}
+                          />
+                        </div>
                         <Image
                           src={burger}
                           alt={translateCategory(group.category)}
                           width={24}
                           height={24}
+                          className="flex-shrink-0"
                         />
-                      </div>
+                      </Link>
 
                       <ul className="flex flex-col gap-2.5">
                         {group.products.map((product) => (
                           <li
                             key={product.id}
-                            className=" hover:bg-gray-100"
+                            className="hover:bg-gray-100 py-1"
                           >
-                            <HighlightText
-                              text={product.title}
-                              highlight={query}
-                            />
+                            <Link 
+                              href={`/product/${product.id}`}
+                              className="block break-words"
+                              onClick={() => setIsOpen(false)}
+                            >
+                              <HighlightText
+                                text={product.title}
+                                highlight={query}
+                              />
+                            </Link>
                           </li>
                         ))}
                       </ul>
                     </div>
                   ))
                 ) : (
-                  <div className="text-gray-500 py-2 px-4">
+                  <div className="text-gray-500 py-2 px-4 break-words">
                     Ничего не найдено
                   </div>
                 )}
               </div>
             ) : (
-              <div className="p-4 text-gray-500">
+              <div className="p-4 text-gray-500 break-words">
                 Введите 2 и более символов для поиска
               </div>
             )}
