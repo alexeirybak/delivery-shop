@@ -1,10 +1,10 @@
-import fetchProductsByCategory from "./fetchProducts";
+import fetchProductsByTag from "./fetchProducts";
 import ProductsSection from "../../components/ProductsSection";
 import { CONFIG } from "../../../config/config";
 
 const NewProducts = async () => {
   try {
-    const {items} = await fetchProductsByCategory("new", {
+    const {items} = await fetchProductsByTag("new", {
       randomLimit: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
     });
     return (

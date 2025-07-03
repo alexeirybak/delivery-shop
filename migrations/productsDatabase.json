@@ -4,60 +4,64 @@
     "img": "/images/products/img-1.jpeg",
     "title": "Блинчики с мясом",
     "description": "Г/Ц Блинчики с мясом вес, Россия",
-    "basePrice": 89.0,
+    "basePrice": 89,
     "discountPercent": 20,
     "rating": {
       "rate": 4.2,
       "count": 120
     },
-    "categories": ["food", "actions", "bread", "meat", "frozen"],
+    "categories": ["bread", "meat", "frozen"],
     "weight": 0.4,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["actions"]
   },
   {
     "id": 2,
     "img": "/images/products/img-2.jpeg",
     "title": "Молоко Простоквашино",
     "description": "Молоко пастеризованное цельное",
-    "basePrice": 89.0,
+    "basePrice": 89,
     "discountPercent": 15,
     "rating": {
       "rate": 4.5,
       "count": 27
     },
-    "categories": ["food", "actions", "dairy"],
+    "categories": ["dairy"],
     "weight": 1,
-    "quantity": 10
+    "quantity": 10,
+    "tags": ["actions"]
   },
   {
     "id": 3,
     "img": "/images/products/img-3.jpeg",
     "title": "Колбаса Сальчичон",
     "description": "Колбаса сырокопченая премиум класса",
-    "basePrice": 350.0,
+    "basePrice": 350,
     "discountPercent": 25,
     "rating": {
       "rate": 4.8,
       "count": 35
     },
-    "categories": ["food", "actions", "meat"],
+    "categories": ["meat"],
     "weight": 0.5,
-    "quantity": 0
+    "quantity": 0,
+    "tags": ["actions"]
   },
   {
     "id": 4,
     "img": "/images/products/img-4.jpeg",
     "title": "Сосиски Молочные",
     "description": "Сосиски вареные высшего сорта",
-    "basePrice": 250.0,
+    "basePrice": 250,
     "discountPercent": 10,
     "rating": {
       "rate": 2.4,
       "count": 75
     },
-    "categories": ["food", "actions", "meat"],
+    "categories": ["meat"],
     "weight": 0.4,
-    "quantity": 34
+    "quantity": 34,
+    "tags": ["actions"]
   },
   {
     "id": 5,
@@ -70,9 +74,10 @@
       "rate": 3.5,
       "count": 6
     },
-    "categories": ["food", "meat"],
+    "categories": ["meat"],
     "weight": 0.6,
-    "quantity": 0
+    "quantity": 0,
+    "tags": []
   },
   {
     "id": 6,
@@ -85,9 +90,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "dairy", "new"],
+    "categories": ["dairy"],
     "weight": 0.18,
-    "quantity": 18
+    "quantity": 18,
+    "tags": ["new"]
   },
   {
     "id": 7,
@@ -100,9 +106,10 @@
       "rate": 5,
       "count": 4
     },
-    "categories": ["food", "meat", "new", "frozen"],
+    "categories": ["meat", "frozen"],
     "weight": 0.7,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["new"]
   },
   {
     "id": 8,
@@ -115,9 +122,10 @@
       "rate": 5,
       "count": 3
     },
-    "categories": ["food", "dairy", "new"],
+    "categories": ["dairy"],
     "weight": 0.1,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["new"]
   },
   {
     "id": 9,
@@ -130,9 +138,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "confectionery", "new"],
+    "categories": ["confectionery"],
     "weight": 0.134,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["new"]
   },
   {
     "id": 10,
@@ -145,9 +154,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "meat", "new"],
+    "categories": ["meat"],
     "weight": 0.35,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["new"]
   },
   {
     "id": 11,
@@ -160,9 +170,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "actions"],
+    "categories": [],
     "weight": 0.35,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["actions"]
   },
   {
     "id": 12,
@@ -175,9 +186,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "kids", "dairy", "healthy", "actions"],
+    "categories": ["kids", "dairy", "healthy"],
     "weight": 0.1,
-    "quantity": 17
+    "quantity": 17,
+    "tags": ["actions"]
   },
   {
     "id": 13,
@@ -190,9 +202,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "dairy", "healthy", "new"],
+    "categories": ["dairy", "healthy"],
     "weight": 0.95,
-    "quantity": 13
+    "quantity": 13,
+    "tags": ["new"]
   },
   {
     "id": 14,
@@ -205,9 +218,10 @@
       "rate": 4.8,
       "count": 67
     },
-    "categories": ["food", "dairy", "healthy", "actions"],
+    "categories": ["dairy", "healthy"],
     "weight": 0.4,
-    "quantity": 19
+    "quantity": 19,
+    "tags": ["actions"]
   },
   {
     "id": 15,
@@ -220,9 +234,10 @@
       "rate": 4.8,
       "count": 399
     },
-    "categories": ["food", "fruit", "healthy", "actions"],
+    "categories": ["fruit", "healthy"],
     "weight": 0.1,
-    "quantity": 132
+    "quantity": 132,
+    "tags": ["actions"]
   },
   {
     "id": 16,
@@ -235,9 +250,10 @@
       "rate": 4.8,
       "count": 325
     },
-    "categories": ["food", "fruit", "healthy", "new"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["new"]
   },
   {
     "id": 17,
@@ -250,9 +266,10 @@
       "rate": 4.4,
       "count": 325
     },
-    "categories": ["food", "meat", "actions"],
+    "categories": ["meat"],
     "weight": 1,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["actions"]
   },
   {
     "id": 18,
@@ -265,9 +282,10 @@
       "rate": 4.6,
       "count": 37
     },
-    "categories": ["food", "actions"],
+    "categories": [],
     "weight": 0.12,
-    "quantity": 100
+    "quantity": 100,
+    "tags": ["actions"]
   },
   {
     "id": 19,
@@ -280,9 +298,10 @@
       "rate": 4.8,
       "count": 45
     },
-    "categories": ["food", "meat"],
+    "categories": ["meat"],
     "weight": 0.5,
-    "quantity": 100
+    "quantity": 100,
+    "tags": []
   },
   {
     "id": 20,
@@ -295,9 +314,10 @@
       "rate": 4.9,
       "count": 29
     },
-    "categories": ["food", "meat"],
+    "categories": ["meat"],
     "weight": 1,
-    "quantity": 22
+    "quantity": 22,
+    "tags": []
   },
   {
     "id": 21,
@@ -310,9 +330,10 @@
       "rate": 4.7,
       "count": 24
     },
-    "categories": ["food", "meat", "frozen"],
+    "categories": ["meat", "frozen"],
     "weight": 1,
-    "quantity": 20
+    "quantity": 20,
+    "tags": []
   },
   {
     "id": 22,
@@ -325,9 +346,10 @@
       "rate": 4.4,
       "count": 67
     },
-    "categories": ["food", "meat"],
+    "categories": ["meat"],
     "weight": 1,
-    "quantity": 15
+    "quantity": 15,
+    "tags": []
   },
   {
     "id": 23,
@@ -340,9 +362,10 @@
       "rate": 4.9,
       "count": 65
     },
-    "categories": ["food", "meat"],
+    "categories": ["meat"],
     "weight": 0.4,
-    "quantity": 23
+    "quantity": 23,
+    "tags": []
   },
   {
     "id": 24,
@@ -352,12 +375,13 @@
     "basePrice": 165,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 45
     },
-    "categories": ["food", "dairy"],
+    "categories": ["dairy"],
     "weight": 0.2,
-    "quantity": 28
+    "quantity": 28,
+    "tags": []
   },
   {
     "id": 25,
@@ -367,12 +391,13 @@
     "basePrice": 116,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 35
     },
-    "categories": ["food", "dairy"],
+    "categories": ["dairy"],
     "weight": 0.3,
-    "quantity": 44
+    "quantity": 44,
+    "tags": []
   },
   {
     "id": 26,
@@ -382,12 +407,13 @@
     "basePrice": 71.5,
     "discountPercent": 0,
     "rating": {
-      "rate": 4.0,
+      "rate": 4,
       "count": 19
     },
-    "categories": ["food", "dairy"],
+    "categories": ["dairy"],
     "weight": 0.18,
-    "quantity": 43
+    "quantity": 43,
+    "tags": []
   },
   {
     "id": 27,
@@ -397,12 +423,13 @@
     "basePrice": 110,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 65
     },
-    "categories": ["food", "dairy"],
+    "categories": ["dairy"],
     "weight": 0.27,
-    "quantity": 94
+    "quantity": 94,
+    "tags": []
   },
   {
     "id": 28,
@@ -415,9 +442,10 @@
       "rate": 4.9,
       "count": 25
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.3,
-    "quantity": 34
+    "quantity": 34,
+    "tags": []
   },
   {
     "id": 29,
@@ -430,9 +458,10 @@
       "rate": 4.9,
       "count": 2
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.18,
-    "quantity": 43
+    "quantity": 43,
+    "tags": []
   },
   {
     "id": 30,
@@ -445,9 +474,10 @@
       "rate": 4.9,
       "count": 7
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.4,
-    "quantity": 24
+    "quantity": 24,
+    "tags": []
   },
   {
     "id": 31,
@@ -460,9 +490,10 @@
       "rate": 4.5,
       "count": 9
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.16,
-    "quantity": 31
+    "quantity": 31,
+    "tags": []
   },
   {
     "id": 32,
@@ -475,9 +506,10 @@
       "rate": 4.6,
       "count": 49
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.4,
-    "quantity": 56
+    "quantity": 56,
+    "tags": []
   },
   {
     "id": 33,
@@ -490,9 +522,10 @@
       "rate": 4.2,
       "count": 27
     },
-    "categories": ["food", "bread"],
+    "categories": ["bread"],
     "weight": 0.3,
-    "quantity": 45
+    "quantity": 45,
+    "tags": []
   },
   {
     "id": 34,
@@ -505,9 +538,10 @@
       "rate": 4.9,
       "count": 2
     },
-    "categories": ["food", "bread", "healthy"],
+    "categories": ["bread", "healthy"],
     "weight": 0.1,
-    "quantity": 28
+    "quantity": 28,
+    "tags": []
   },
   {
     "id": 35,
@@ -520,9 +554,10 @@
       "rate": 4.6,
       "count": 4
     },
-    "categories": ["food", "bread", "healthy"],
+    "categories": ["bread", "healthy"],
     "weight": 0.1,
-    "quantity": 36
+    "quantity": 36,
+    "tags": []
   },
   {
     "id": 36,
@@ -535,9 +570,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "bread", "healthy"],
+    "categories": ["bread", "healthy"],
     "weight": 0.33,
-    "quantity": 28
+    "quantity": 28,
+    "tags": []
   },
   {
     "id": 37,
@@ -550,9 +586,10 @@
       "rate": 4.2,
       "count": 4
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 39
+    "quantity": 39,
+    "tags": []
   },
   {
     "id": 38,
@@ -565,9 +602,10 @@
       "rate": 4.4,
       "count": 2
     },
-    "categories": ["food", "fruit", "actions", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 0.21,
-    "quantity": 56
+    "quantity": 56,
+    "tags": ["actions"]
   },
   {
     "id": 39,
@@ -580,9 +618,10 @@
       "rate": 4.3,
       "count": 5
     },
-    "categories": ["food", "fruit", "actions", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 17
+    "quantity": 17,
+    "tags": ["actions"]
   },
   {
     "id": 40,
@@ -595,9 +634,10 @@
       "rate": 4.4,
       "count": 6
     },
-    "categories": ["food", "fruit", "frozen", "actions", "healthy"],
+    "categories": ["fruit", "frozen", "healthy"],
     "weight": 0.3,
-    "quantity": 24
+    "quantity": 24,
+    "tags": ["actions"]
   },
   {
     "id": 41,
@@ -610,9 +650,10 @@
       "rate": 4.1,
       "count": 1
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 0.4,
-    "quantity": 19
+    "quantity": 19,
+    "tags": []
   },
   {
     "id": 42,
@@ -625,9 +666,10 @@
       "rate": 4.7,
       "count": 5
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 0.1,
-    "quantity": 37
+    "quantity": 37,
+    "tags": []
   },
   {
     "id": 43,
@@ -640,9 +682,10 @@
       "rate": 4.4,
       "count": 7
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 90
+    "quantity": 90,
+    "tags": []
   },
   {
     "id": 44,
@@ -655,9 +698,10 @@
       "rate": 4.9,
       "count": 1
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 101
+    "quantity": 101,
+    "tags": []
   },
   {
     "id": 45,
@@ -670,9 +714,10 @@
       "rate": 4.9,
       "count": 1
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 1,
-    "quantity": 49
+    "quantity": 49,
+    "tags": []
   },
   {
     "id": 46,
@@ -685,9 +730,10 @@
       "rate": 4.9,
       "count": 7
     },
-    "categories": ["food", "fruit", "healthy"],
+    "categories": ["fruit", "healthy"],
     "weight": 0.1,
-    "quantity": 34
+    "quantity": 34,
+    "tags": []
   },
   {
     "id": 47,
@@ -700,9 +746,10 @@
       "rate": 4.9,
       "count": 9
     },
-    "categories": ["food", "frozen"],
+    "categories": ["frozen"],
     "weight": 0.5,
-    "quantity": 28
+    "quantity": 28,
+    "tags": []
   },
   {
     "id": 48,
@@ -715,9 +762,10 @@
       "rate": 4.9,
       "count": 56
     },
-    "categories": ["food", "frozen", "dairy"],
+    "categories": ["frozen", "dairy"],
     "weight": 0.1,
-    "quantity": 58
+    "quantity": 58,
+    "tags": []
   },
   {
     "id": 49,
@@ -730,9 +778,10 @@
       "rate": 4.6,
       "count": 34
     },
-    "categories": ["food", "frozen"],
+    "categories": ["frozen"],
     "weight": 1,
-    "quantity": 77
+    "quantity": 77,
+    "tags": []
   },
   {
     "id": 50,
@@ -745,9 +794,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "frozen"],
+    "categories": ["frozen"],
     "weight": 0.3,
-    "quantity": 25
+    "quantity": 25,
+    "tags": []
   },
   {
     "id": 51,
@@ -760,9 +810,10 @@
       "rate": 4.8,
       "count": 56
     },
-    "categories": ["food", "frozen", "meat"],
+    "categories": ["frozen", "meat"],
     "weight": 0.4,
-    "quantity": 24
+    "quantity": 24,
+    "tags": []
   },
   {
     "id": 52,
@@ -775,9 +826,10 @@
       "rate": 4.7,
       "count": 2
     },
-    "categories": ["food", "frozen", "fruit", "healthy"],
+    "categories": ["frozen", "fruit", "healthy"],
     "weight": 0.3,
-    "quantity": 10
+    "quantity": 10,
+    "tags": []
   },
   {
     "id": 53,
@@ -790,9 +842,10 @@
       "rate": 4.9,
       "count": 3
     },
-    "categories": ["food", "frozen", "meat", "healthy"],
+    "categories": ["frozen", "meat", "healthy"],
     "weight": 1,
-    "quantity": 4
+    "quantity": 4,
+    "tags": []
   },
   {
     "id": 54,
@@ -805,9 +858,10 @@
       "rate": 4.9,
       "count": 7
     },
-    "categories": ["food", "frozen", "healthy"],
+    "categories": ["frozen", "healthy"],
     "weight": 0.45,
-    "quantity": 7
+    "quantity": 7,
+    "tags": []
   },
   {
     "id": 55,
@@ -820,9 +874,10 @@
       "rate": 5,
       "count": 5
     },
-    "categories": ["food", "drinks", "new"],
+    "categories": ["drinks"],
     "weight": 0.5,
-    "quantity": 113
+    "quantity": 113,
+    "tags": ["new"]
   },
   {
     "id": 56,
@@ -835,9 +890,10 @@
       "rate": 3.6,
       "count": 65
     },
-    "categories": ["food", "drinks", "healthy"],
+    "categories": ["drinks", "healthy"],
     "weight": 1,
-    "quantity": 76
+    "quantity": 76,
+    "tags": []
   },
   {
     "id": 57,
@@ -850,9 +906,10 @@
       "rate": 4.6,
       "count": 6
     },
-    "categories": ["food", "drinks", "healthy"],
+    "categories": ["drinks", "healthy"],
     "weight": 1.5,
-    "quantity": 56
+    "quantity": 56,
+    "tags": []
   },
   {
     "id": 58,
@@ -865,9 +922,10 @@
       "rate": 4.9,
       "count": 8
     },
-    "categories": ["food", "drinks"],
+    "categories": ["drinks"],
     "weight": 1.5,
-    "quantity": 33
+    "quantity": 33,
+    "tags": []
   },
   {
     "id": 59,
@@ -880,9 +938,10 @@
       "rate": 5,
       "count": 8
     },
-    "categories": ["food", "drinks", "actions"],
+    "categories": ["drinks"],
     "weight": 1,
-    "quantity": 18
+    "quantity": 18,
+    "tags": ["actions"]
   },
   {
     "id": 60,
@@ -895,9 +954,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "drinks", "healthy"],
+    "categories": ["drinks", "healthy"],
     "weight": 0.6,
-    "quantity": 24
+    "quantity": 24,
+    "tags": []
   },
   {
     "id": 61,
@@ -910,9 +970,10 @@
       "rate": 5,
       "count": 4
     },
-    "categories": ["food", "drinks", "healthy"],
+    "categories": ["drinks", "healthy"],
     "weight": 0.5,
-    "quantity": 6
+    "quantity": 6,
+    "tags": []
   },
   {
     "id": 62,
@@ -925,9 +986,10 @@
       "rate": 5,
       "count": 3
     },
-    "categories": ["food", "drinks", "healthy"],
+    "categories": ["drinks", "healthy"],
     "weight": 1,
-    "quantity": 34
+    "quantity": 34,
+    "tags": []
   },
   {
     "id": 63,
@@ -940,9 +1002,10 @@
       "rate": 5,
       "count": 4
     },
-    "categories": ["food", "drinks"],
+    "categories": ["drinks"],
     "weight": 1,
-    "quantity": 26
+    "quantity": 26,
+    "tags": []
   },
   {
     "id": 64,
@@ -955,9 +1018,10 @@
       "rate": 4.8,
       "count": 2
     },
-    "categories": ["food", "drinks"],
+    "categories": ["drinks"],
     "weight": 1,
-    "quantity": 45
+    "quantity": 45,
+    "tags": []
   },
   {
     "id": 65,
@@ -970,9 +1034,10 @@
       "rate": 4.9,
       "count": 4
     },
-    "categories": ["food", "drinks", "healthy", "new"],
+    "categories": ["drinks", "healthy"],
     "weight": 1.2,
-    "quantity": 34
+    "quantity": 34,
+    "tags": ["new"]
   },
   {
     "id": 66,
@@ -985,9 +1050,10 @@
       "rate": 5,
       "count": 8
     },
-    "categories": ["food", "drinks", "healthy", "new"],
+    "categories": ["drinks", "healthy"],
     "weight": 1.1,
-    "quantity": 41
+    "quantity": 41,
+    "tags": ["new"]
   },
   {
     "id": 67,
@@ -1000,9 +1066,10 @@
       "rate": 5,
       "count": 7
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.1,
-    "quantity": 42
+    "quantity": 42,
+    "tags": []
   },
   {
     "id": 68,
@@ -1015,9 +1082,10 @@
       "rate": 4.5,
       "count": 1
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.1,
-    "quantity": 12
+    "quantity": 12,
+    "tags": []
   },
   {
     "id": 69,
@@ -1030,9 +1098,10 @@
       "rate": 4.8,
       "count": 6
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.082,
-    "quantity": 54
+    "quantity": 54,
+    "tags": []
   },
   {
     "id": 70,
@@ -1045,9 +1114,10 @@
       "rate": 5,
       "count": 6
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.3,
-    "quantity": 51
+    "quantity": 51,
+    "tags": []
   },
   {
     "id": 71,
@@ -1060,9 +1130,10 @@
       "rate": 5,
       "count": 5
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.014,
-    "quantity": 345
+    "quantity": 345,
+    "tags": []
   },
   {
     "id": 72,
@@ -1075,9 +1146,10 @@
       "rate": 5,
       "count": 5
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.012,
-    "quantity": 445
+    "quantity": 445,
+    "tags": []
   },
   {
     "id": 73,
@@ -1090,9 +1162,10 @@
       "rate": 5,
       "count": 3
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.1,
-    "quantity": 156
+    "quantity": 156,
+    "tags": []
   },
   {
     "id": 74,
@@ -1105,9 +1178,10 @@
       "rate": 5,
       "count": 8
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.3,
-    "quantity": 43
+    "quantity": 43,
+    "tags": []
   },
   {
     "id": 75,
@@ -1120,9 +1194,10 @@
       "rate": 5,
       "count": 1
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.2,
-    "quantity": 40
+    "quantity": 40,
+    "tags": []
   },
   {
     "id": 76,
@@ -1135,9 +1210,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "confectionery"],
+    "categories": ["confectionery"],
     "weight": 0.336,
-    "quantity": 18
+    "quantity": 18,
+    "tags": []
   },
   {
     "id": 77,
@@ -1150,9 +1226,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee", "actions"],
+    "categories": ["tea-coffee"],
     "weight": 0.14,
-    "quantity": 57
+    "quantity": 57,
+    "tags": ["actions"]
   },
   {
     "id": 78,
@@ -1165,9 +1242,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee"],
+    "categories": ["tea-coffee"],
     "weight": 0.2,
-    "quantity": 56
+    "quantity": 56,
+    "tags": []
   },
   {
     "id": 79,
@@ -1180,9 +1258,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee", "actions"],
+    "categories": ["tea-coffee"],
     "weight": 0.05,
-    "quantity": 177
+    "quantity": 177,
+    "tags": ["actions"]
   },
   {
     "id": 80,
@@ -1195,9 +1274,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee", "actions", "healthy"],
+    "categories": ["tea-coffee", "healthy"],
     "weight": 0.12,
-    "quantity": 78
+    "quantity": 78,
+    "tags": ["actions"]
   },
   {
     "id": 81,
@@ -1210,9 +1290,10 @@
       "rate": 5,
       "count": 2
     },
-    "categories": ["food", "tea-coffee", "healthy"],
+    "categories": ["tea-coffee", "healthy"],
     "weight": 0.05,
-    "quantity": 20
+    "quantity": 20,
+    "tags": []
   },
   {
     "id": 82,
@@ -1225,9 +1306,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee"],
+    "categories": ["tea-coffee"],
     "weight": 0.05,
-    "quantity": 32
+    "quantity": 32,
+    "tags": []
   },
   {
     "id": 83,
@@ -1240,9 +1322,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee"],
+    "categories": ["tea-coffee"],
     "weight": 0.05,
-    "quantity": 11
+    "quantity": 11,
+    "tags": []
   },
   {
     "id": 84,
@@ -1255,9 +1338,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee", "actions"],
+    "categories": ["tea-coffee"],
     "weight": 0.18,
-    "quantity": 56
+    "quantity": 56,
+    "tags": ["actions"]
   },
   {
     "id": 85,
@@ -1270,9 +1354,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee", "new"],
+    "categories": ["tea-coffee"],
     "weight": 1,
-    "quantity": 22
+    "quantity": 22,
+    "tags": ["new"]
   },
   {
     "id": 86,
@@ -1285,9 +1370,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["food", "tea-coffee"],
+    "categories": ["tea-coffee"],
     "weight": 0.036,
-    "quantity": 44
+    "quantity": 44,
+    "tags": []
   },
   {
     "id": 87,
@@ -1297,12 +1383,13 @@
     "basePrice": 73,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 7
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.5,
-    "quantity": 344
+    "quantity": 344,
+    "tags": []
   },
   {
     "id": 88,
@@ -1312,12 +1399,13 @@
     "basePrice": 18,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 7
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 1,
-    "quantity": 278
+    "quantity": 278,
+    "tags": []
   },
   {
     "id": 89,
@@ -1327,12 +1415,13 @@
     "basePrice": 60,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 7
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.8,
-    "quantity": 184
+    "quantity": 184,
+    "tags": []
   },
   {
     "id": 90,
@@ -1345,9 +1434,10 @@
       "rate": 4.2,
       "count": 7
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.4,
-    "quantity": 126
+    "quantity": 126,
+    "tags": []
   },
   {
     "id": 91,
@@ -1360,9 +1450,10 @@
       "rate": 4.4,
       "count": 6
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.4,
-    "quantity": 93
+    "quantity": 93,
+    "tags": []
   },
   {
     "id": 92,
@@ -1375,9 +1466,10 @@
       "rate": 4.9,
       "count": 87
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.5,
-    "quantity": 166
+    "quantity": 166,
+    "tags": []
   },
   {
     "id": 93,
@@ -1390,9 +1482,10 @@
       "rate": 4.1,
       "count": 11
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.4,
-    "quantity": 34
+    "quantity": 34,
+    "tags": []
   },
   {
     "id": 94,
@@ -1405,9 +1498,10 @@
       "rate": 4.7,
       "count": 17
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.4,
-    "quantity": 27
+    "quantity": 27,
+    "tags": []
   },
   {
     "id": 95,
@@ -1420,9 +1514,10 @@
       "rate": 4.5,
       "count": 13
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.8,
-    "quantity": 19
+    "quantity": 19,
+    "tags": []
   },
   {
     "id": 96,
@@ -1435,9 +1530,10 @@
       "rate": 4.6,
       "count": 16
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 2,
-    "quantity": 68
+    "quantity": 68,
+    "tags": []
   },
   {
     "id": 97,
@@ -1450,9 +1546,10 @@
       "rate": 4.2,
       "count": 16
     },
-    "categories": ["food", "grocery"],
+    "categories": ["grocery"],
     "weight": 0.8,
-    "quantity": 62
+    "quantity": 62,
+    "tags": []
   },
   {
     "id": 98,
@@ -1465,9 +1562,10 @@
       "rate": 4.6,
       "count": 18
     },
-    "categories": ["zoo", "actions"],
+    "categories": ["zoo"],
     "weight": 0.085,
-    "quantity": 654
+    "quantity": 654,
+    "tags": ["actions"]
   },
   {
     "id": 99,
@@ -1482,7 +1580,8 @@
     },
     "categories": ["zoo"],
     "weight": 0.075,
-    "quantity": 324
+    "quantity": 324,
+    "tags": []
   },
   {
     "id": 100,
@@ -1497,7 +1596,8 @@
     },
     "categories": ["zoo"],
     "weight": 0.15,
-    "quantity": 64
+    "quantity": 64,
+    "tags": []
   },
   {
     "id": 101,
@@ -1512,7 +1612,8 @@
     },
     "categories": ["zoo"],
     "weight": 0.075,
-    "quantity": 74
+    "quantity": 74,
+    "tags": []
   },
   {
     "id": 102,
@@ -1527,7 +1628,8 @@
     },
     "categories": ["zoo"],
     "weight": 7.5,
-    "quantity": 26
+    "quantity": 26,
+    "tags": []
   },
   {
     "id": 103,
@@ -1542,7 +1644,8 @@
     },
     "categories": ["zoo"],
     "weight": 0.085,
-    "quantity": 65
+    "quantity": 65,
+    "tags": []
   },
   {
     "id": 104,
@@ -1557,7 +1660,8 @@
     },
     "categories": ["zoo"],
     "weight": 0.2,
-    "quantity": 88
+    "quantity": 88,
+    "tags": []
   },
   {
     "id": 105,
@@ -1572,7 +1676,8 @@
     },
     "categories": ["zoo"],
     "weight": 13,
-    "quantity": 76
+    "quantity": 76,
+    "tags": []
   },
   {
     "id": 106,
@@ -1587,7 +1692,8 @@
     },
     "categories": ["zoo"],
     "weight": 15,
-    "quantity": 52
+    "quantity": 52,
+    "tags": []
   },
   {
     "id": 107,
@@ -1602,7 +1708,8 @@
     },
     "categories": ["zoo"],
     "weight": 1.2,
-    "quantity": 23
+    "quantity": 23,
+    "tags": []
   },
   {
     "id": 108,
@@ -1617,7 +1724,8 @@
     },
     "categories": ["kids"],
     "weight": 0.1,
-    "quantity": 65
+    "quantity": 65,
+    "tags": []
   },
   {
     "id": 109,
@@ -1632,7 +1740,8 @@
     },
     "categories": ["kids"],
     "weight": 0.2,
-    "quantity": 166
+    "quantity": 166,
+    "tags": []
   },
   {
     "id": 110,
@@ -1647,7 +1756,8 @@
     },
     "categories": ["kids"],
     "weight": 1245,
-    "quantity": 63
+    "quantity": 63,
+    "tags": []
   },
   {
     "id": 111,
@@ -1662,7 +1772,8 @@
     },
     "categories": ["kids"],
     "weight": 0.33,
-    "quantity": 81
+    "quantity": 81,
+    "tags": []
   },
   {
     "id": 112,
@@ -1677,7 +1788,8 @@
     },
     "categories": ["kids"],
     "weight": 0.4,
-    "quantity": 84
+    "quantity": 84,
+    "tags": []
   },
   {
     "id": 113,
@@ -1692,7 +1804,8 @@
     },
     "categories": ["kids"],
     "weight": 0.15,
-    "quantity": 76
+    "quantity": 76,
+    "tags": []
   },
   {
     "id": 114,
@@ -1707,7 +1820,8 @@
     },
     "categories": ["kids"],
     "weight": 0.125,
-    "quantity": 632
+    "quantity": 632,
+    "tags": []
   },
   {
     "id": 115,
@@ -1722,7 +1836,8 @@
     },
     "categories": ["kids"],
     "weight": 0.2,
-    "quantity": 201
+    "quantity": 201,
+    "tags": []
   },
   {
     "id": 116,
@@ -1737,7 +1852,8 @@
     },
     "categories": ["kids"],
     "weight": 0.1,
-    "quantity": 39
+    "quantity": 39,
+    "tags": []
   },
   {
     "id": 117,
@@ -1752,7 +1868,8 @@
     },
     "categories": ["kids"],
     "weight": 0.05,
-    "quantity": 676
+    "quantity": 676,
+    "tags": []
   },
   {
     "id": 118,
@@ -1765,9 +1882,10 @@
       "rate": 0,
       "count": 0
     },
-    "categories": ["non-food", "actions"],
+    "categories": ["non-food"],
     "weight": 0.1,
-    "quantity": 3467
+    "quantity": 3467,
+    "tags": ["actions"]
   },
   {
     "id": 119,
@@ -1780,9 +1898,10 @@
       "rate": 4.5,
       "count": 4
     },
-    "categories": ["non-food", "actions"],
+    "categories": ["non-food"],
     "weight": 0.2,
-    "quantity": 332
+    "quantity": 332,
+    "tags": ["actions"]
   },
   {
     "id": 120,
@@ -1797,7 +1916,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.1,
-    "quantity": 332
+    "quantity": 332,
+    "tags": []
   },
   {
     "id": 121,
@@ -1812,7 +1932,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.1,
-    "quantity": 155
+    "quantity": 155,
+    "tags": []
   },
   {
     "id": 122,
@@ -1827,7 +1948,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.2,
-    "quantity": 85
+    "quantity": 85,
+    "tags": []
   },
   {
     "id": 123,
@@ -1842,7 +1964,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.1,
-    "quantity": 25
+    "quantity": 25,
+    "tags": []
   },
   {
     "id": 124,
@@ -1857,7 +1980,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.1,
-    "quantity": 10
+    "quantity": 10,
+    "tags": []
   },
   {
     "id": 125,
@@ -1872,7 +1996,8 @@
     },
     "categories": ["non-food"],
     "weight": 0.2,
-    "quantity": 11
+    "quantity": 11,
+    "tags": []
   },
   {
     "id": 126,
@@ -1882,12 +2007,13 @@
     "basePrice": 43.5,
     "discountPercent": 0,
     "rating": {
-      "rate": 5.0,
+      "rate": 5,
       "count": 1
     },
     "categories": ["non-food"],
     "weight": 0.2,
-    "quantity": 44
+    "quantity": 44,
+    "tags": []
   },
   {
     "id": 127,
@@ -1897,11 +2023,12 @@
     "basePrice": 90,
     "discountPercent": 0,
     "rating": {
-      "rate": 4.0,
+      "rate": 4,
       "count": 13
     },
     "categories": ["non-food"],
     "weight": 0.2,
-    "quantity": 27
+    "quantity": 27,
+    "tags": []
   }
 ]
