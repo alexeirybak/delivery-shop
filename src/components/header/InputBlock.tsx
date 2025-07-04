@@ -6,32 +6,8 @@ import Link from "next/link";
 import iconBurger from "/public/icons-header/icon-burger-menu.svg";
 import { useEffect, useRef, useState } from "react";
 import { SearchProduct } from "@/types/searchProduct";
-import { PATH_TRANSLATIONS } from "../../../utils/pathTranslations";
-
-function HighlightText({
-  text,
-  highlight,
-}: {
-  text: string;
-  highlight: string;
-}) {
-  if (!highlight.trim()) return <>{text}</>;
-  const parts = text.split(new RegExp(`(${highlight})`, "gi"));
-
-  return (
-    <span>
-      {parts.map((part, i) =>
-        part.toLowerCase() === highlight.toLowerCase() ? (
-          <span key={i} className="font-bold">
-            {part}
-          </span>
-        ) : (
-          part
-        )
-      )}
-    </span>
-  );
-}
+import { TRANSLATIONS } from "../../../utils/translations";
+import HighlightText from "./HighlightText";
 
 const InputBlock = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -105,13 +81,13 @@ const InputBlock = () => {
       </div>
 
       {isOpen && (
-        <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-[300px]overflow-y-auto bg-white rounded-b border-1 border-(--color-primary) border-t-0 shadow-inherit break-words">
+        <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-[300px] overflow-y-auto bg-white rounded-b border-1 border-(--color-primary) border-t-0 shadow-inherit break-words">
           {isLoading ? (
             <div className="p-4 text-center">Поиск...</div>
           ) : groupedProducts.length > 0 ? (
-            <div className="p-2 flex flex-col gap-2.5">
+            <div className="p-2 flex flex-col gap-2">
               {groupedProducts.map((group) => (
-                <div key={group.category} className="flex flex-col gap-2.5">
+                <div key={group.category} className="flex flex-col gap-2">
                   <Link
                     href={`/category/${encodeURIComponent(group.category)}`}
                     className="flex items-start gap-x-4 hover:bg-gray-100 p-1 rounded cursor-pointer"
@@ -119,21 +95,19 @@ const InputBlock = () => {
                   >
                     <div>
                       <HighlightText
-                        text={
-                          PATH_TRANSLATIONS[group.category] || group.category
-                        }
+                        text={TRANSLATIONS[group.category] || group.category}
                         highlight={query}
                       />
                     </div>
                     <Image
                       src={iconBurger}
-                      alt={PATH_TRANSLATIONS[group.category] || group.category}
+                      alt={TRANSLATIONS[group.category] || group.category}
                       width={24}
                       height={24}
                       className="flex-shrink-0"
                     />
                   </Link>
-                  <ul className="flex flex-col gap-2.5">
+                  <ul className="flex flex-col gap-2">
                     {group.products.map((product) => (
                       <li key={product.id} className="p-1 hover:bg-gray-100">
                         <Link

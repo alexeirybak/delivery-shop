@@ -1,4 +1,4 @@
-export const PATH_TRANSLATIONS: Record<string, string> = {
+export const TRANSLATIONS: Record<string, string> = {
   "actions": "Акции",
   "new": "Новинки",
   "purchases": "Покупки",
