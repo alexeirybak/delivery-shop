@@ -9,7 +9,7 @@ import { TRANSLATIONS } from "../../utils/translations";
 const Breadcrumbs = () => {
   const pathname = usePathname();
 
-  if (pathname === "/") return null;
+  if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDB } from "../../../../utils/api-routes";
-import { SearchProduct } from "@/types/searchProduct";
+import { ProductCardProps } from "@/types/product";
 
 export async function GET(request: Request) {
   try {
@@ -23,38 +23,20 @@ export async function GET(request: Request) {
         ],
       })
       .project({
-        title: 1,
-        categories: 1,
+        _id: 1,
         id: 1,
+        img: 1,
+        title: 1,
+        description: 1,
+        basePrice: 1,
+        discountPercent: 1,
+        rating: 1,
+        tags: 1,
+        quantity: 1
       })
-      .toArray()) as SearchProduct[];
+      .toArray()) as ProductCardProps[];
 
-    if (!products.length) {
-      return NextResponse.json([]);
-    }
-
-    const groupedByCategory: Record<string, SearchProduct[]> = {};
-
-    for (const product of products) {
-      for (const category of product.categories) {
-        const normalizedCategory = category.toLowerCase();
-
-        if (!groupedByCategory[normalizedCategory]) {
-          groupedByCategory[normalizedCategory] = [];
-        }
-
-        groupedByCategory[normalizedCategory].push(product);
-      }
-    }
-
-    const result = Object.entries(groupedByCategory).map(
-      ([category, products]) => ({
-        category,
-        products,
-      })
-    );
-
-    return NextResponse.json(result);
+    return NextResponse.json(products);
   } catch (error) {
     console.error("Ошибка поиска:", error);
     return NextResponse.json({ error: "Ошибка поиска" }, { status: 500 });

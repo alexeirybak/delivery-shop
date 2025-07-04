@@ -5,11 +5,13 @@ import iconSearch from "/public/icons-header/icon-search.svg";
 import Link from "next/link";
 import iconBurger from "/public/icons-header/icon-burger-menu.svg";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { SearchProduct } from "@/types/searchProduct";
 import { TRANSLATIONS } from "../../../utils/translations";
 import HighlightText from "./HighlightText";
 
 const InputBlock = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -36,7 +38,6 @@ const InputBlock = () => {
           setIsLoading(true);
           const response = await fetch(`api/search?query=${query}`);
           const data = await response.json();
-          console.log(data);
           setGroupedProducts(data);
         } catch (error) {
           console.error("Не найден продукт или категория", error);
@@ -60,24 +61,36 @@ const InputBlock = () => {
     setQuery("");
   };
 
+  const handleSearch = () => {
+    if (query.trim()) {
+      router.push(`/search?q=${encodeURIComponent(query)}`);
+      setIsOpen(false);
+    }
+  };
+
   return (
     <div className="relative min-w-[261px] flex-grow" ref={searchRef}>
       <div className="relative rounded border-1 border-(--color-primary) shadow-(--shadow-button-default) leading-[150%]">
-        <input
-          type="text"
-          placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
-          onFocus={handleInputFocus}
-          onChange={(e) => setQuery(e.target.value)}
-        />
-
-        <Image
-          src={iconSearch}
-          alt="Поиск"
-          width={24}
-          height={24}
-          className="absolute top-2 right-2"
-        />
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSearch();
+          }}
+        >
+          <input
+            type="text"
+            placeholder="Найти товар"
+            className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
+            onFocus={handleInputFocus}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          <button
+            className="absolute top-2 right-2 w-6 h-6 cursor-pointer"
+            type="submit"
+          >
+            <Image src={iconSearch} alt="Поиск" width={24} height={24} />
+          </button>
+        </form>
       </div>
 
       {isOpen && (
