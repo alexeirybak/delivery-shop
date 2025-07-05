@@ -65,6 +65,7 @@ const InputBlock = () => {
       <div className="relative rounded border-1 border-(--color-primary) shadow-(--shadow-button-default) leading-[150%]">
         <input
           type="text"
+          value={query} // В уроке забыл добавить
           placeholder="Найти товар"
           className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
           onFocus={handleInputFocus}
