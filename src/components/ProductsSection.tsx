@@ -6,7 +6,9 @@ const ProductsSection = ({
   title,
   viewAllButton,
   products,
-}: ProductsSectionProps) => {
+  applyIndexStyles = true,
+}: ProductsSectionProps & { applyIndexStyles?: boolean }) => {
+  console.log(products);
   return (
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
@@ -25,9 +27,7 @@ const ProductsSection = ({
           {products.map((item, index) => (
             <li
               key={item._id}
-              className={`                ${
-                index >= 3 ? "md:hidden xl:block" : ""
-              }               `}
+              className={applyIndexStyles ? (index >= 3 ? "md:hidden xl:block" : "") : ""}
             >
               <ProductCard {...item} />
             </li>

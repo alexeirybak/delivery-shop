@@ -47,15 +47,6 @@ const processedProducts = products.map(product => {
     updatedProduct.categories = updatedProduct.categories.filter(cat => cat !== 'new');
   }
   
-  // Обработка isFood и удаление food/non-food из categories
-  if (updatedProduct.categories.includes('food')) {
-    updatedProduct.isFood = true;
-    updatedProduct.categories = updatedProduct.categories.filter(cat => cat !== 'food');
-  } else if (updatedProduct.categories.includes('non-food')) {
-    updatedProduct.isFood = false;
-    updatedProduct.categories = updatedProduct.categories.filter(cat => cat !== 'non-food');
-  }
-  
   return updatedProduct;
 });
 

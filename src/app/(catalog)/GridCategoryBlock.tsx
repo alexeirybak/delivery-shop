@@ -5,7 +5,7 @@ import { GridCategoryBlockProps } from "@/types/categoryBlockProps";
 const GridCategoryBlock = ({ id, title, img }: GridCategoryBlockProps) => {
   return (
     <Link
-      href={`category-${id}`}
+      href={`/category/${id}`}
       className="block relative h-full overflow-hidden group min-w-40 md:min-w-[224px] xl:min-w-[274px]"
     >
       <Image

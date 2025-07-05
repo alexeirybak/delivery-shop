@@ -30,6 +30,7 @@ const CatalogPage = () => {
         throw new Error(`Ошибка ответа сервера: ${response.status}`);
 
       const data: CatalogProps[] = await response.json();
+      console.log(data); // Теперь data доступна здесь
       setCategories(data.sort((a, b) => a.order - b.order));
     } catch (error) {
       console.error("Не удалось получить категории:", error);

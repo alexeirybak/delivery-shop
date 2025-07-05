@@ -1,41 +1,63 @@
-import { NextResponse } from 'next/server';
-import { getDB } from '../../../../utils/api-routes';
+import { NextResponse } from "next/server";
+import { getDB } from "../../../../utils/api-routes";
+import { SearchProduct } from "@/components/header/InputBlock";
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const query = searchParams.get('query') || '';
-
-    if (!query) {
-      return NextResponse.json({ products: [], categories: [] });
-    }
+    const query = searchParams.get("query")?.trim() || "";
 
     const db = await getDB();
-    
-    // Ищем товары (регистронезависимо)
-    const products = await db.collection('products')
+
+    const products = await db
+      .collection("products")
       .find({
-        $or: [
-          { title: { $regex: query, $options: 'i' } },
-          { categories: { $regex: query, $options: 'i' } },
-          { tags: { $regex: query, $options: 'i' } } // Добавляем поиск по tags
-        ]
+        $and: [
+          {
+            $or: [
+              { title: { $regex: query, $options: "i" } },
+              { description: { $regex: query, $options: "i" } },
+            ],
+          },
+          { quantity: { $gt: 0 } }, // Только товары с количеством больше 0
+        ],
       })
-      .limit(5)
-      .toArray();
+      .project({
+        title: 1,
+        categories: 1,
+        id: 1,
+      })
+      .toArray() as SearchProduct[];
 
-    // Собираем только уникальные категории (исключая tags)
-    const allCategories = products.flatMap(p => p.categories);
-    const uniqueCategories = [...new Set(allCategories)];
+    if (!products.length) {
+      return NextResponse.json([]);
+    }
 
-    return NextResponse.json({
-      products,
-      categories: uniqueCategories
-    });
+    const groupedByCategory: Record<string, SearchProduct[]> = {};
+
+    for (const product of products) {
+      for (const category of product.categories) {
+        const normalizedCategory = category.toLowerCase();
+
+        if (!groupedByCategory[normalizedCategory]) {
+          groupedByCategory[normalizedCategory] = [];
+        }
+
+        groupedByCategory[normalizedCategory].push(product);
+      }
+    }
+
+    const result = Object.entries(groupedByCategory)
+      .map(([category, products]) => ({
+        category,
+        products,
+      }));
+
+    return NextResponse.json(result);
   } catch (error) {
-    console.error('Ошибка поиска:', error);
+    console.error("Ошибка поиска:", error);
     return NextResponse.json(
-      { error: 'Ошибка поиска' },
+      { error: "Internal Server Error" },
       { status: 500 }
     );
   }
