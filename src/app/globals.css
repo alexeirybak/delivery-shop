@@ -15,6 +15,7 @@
   --shadow-article: 4px 8px 16px 0px rgba(255, 102, 51, 0.2);
   --shadow-card-shop: 0px 8px 16px 0px rgba(202, 147, 96, 0.5);
   --shadow-category-block: 1px 2px 4px 0px rgba(112, 192, 91, 0.2);
+  --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -41,19 +42,27 @@ body {
 /* className="no-ymaps-copyright w-full h-[354px]" */
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
- 
+
 @keyframes progress {
-  0% { width: 0%; }
-  50% { width: 100%; }
-  100% { width: 0%; }
+  0% {
+    width: 0%;
+  }
+  50% {
+    width: 100%;
+  }
+  100% {
+    width: 0%;
+  }
 }
- 
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }
- 
+
 .animate-progress {
   animation: progress 2s ease-in-out infinite;
 }

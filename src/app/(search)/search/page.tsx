@@ -47,7 +47,7 @@ const SearchResult = () => {
       {products.length === 0 ? (
         <p className="text-lg">По Вашему запросу ничего не найдено</p>
       ) : (
-        <ProductsSection title={""} products={products} />
+        <ProductsSection title={""} products={products} applyIndexStyles={false}/>
       )}
     </div>
   );

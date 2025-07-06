@@ -1,11 +1,15 @@
 import ButtonSearch from "./ButtonSearch";
 import InputBlock from "./InputBlock";
 
-const SearchBlock = () => {
+const SearchBlock = ({
+  onFocusChangeAction,
+}: {
+  onFocusChangeAction: (focused: boolean) => void;
+}) => {
   return (
     <div className="flex flex-row gap-4 flex-grow">
       <ButtonSearch />
-      <InputBlock />
+      <InputBlock onFocusChangeAction={onFocusChangeAction} />
     </div>
   );
 };
