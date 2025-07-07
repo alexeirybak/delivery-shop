@@ -1,4 +1,4 @@
-import CatalogPage from "./CatalogPage";
+import CatalogPage from "../CatalogPage";
 
 export const metadata = {
   title: 'Каталог товаров магазина "Северяночка"',

@@ -1,29 +1,53 @@
 "use client";
 
+import ErrorComponent from "@/components/ErrorComponent";
 import { Loader } from "@/components/Loader";
 import ProductsSection from "@/components/ProductsSection";
 import { ProductCardProps } from "@/types/product";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 
+// Основной компонент с Suspense boundary
+const SearchPage = () => {
+  return (
+    <Suspense fallback={<Loader />}>
+      <SearchResult />
+    </Suspense>
+  );
+};
+
+// Компонент с логикой поиска
 const SearchResult = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
   const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<{
+    error: Error;
+    userMessage: string;
+  } | null>(null);
 
   useEffect(() => {
     const fetchSearchResults = async () => {
       try {
         setIsLoading(true);
+        setError(null);
         const response = await fetch(
           `/api/search-full?query=${encodeURIComponent(query)}`
         );
 
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
         const data = await response.json();
         setProducts(data);
       } catch (error) {
-        console.error("Не удалось получить результаты", error);
+        setError({
+          error:
+            error instanceof Error ? error : new Error("Неизвестная ошибка"),
+          userMessage: "Не удалось загрузить каталог категорий.",
+        });
       } finally {
         setIsLoading(false);
       }
@@ -33,6 +57,12 @@ const SearchResult = () => {
       fetchSearchResults();
     }
   }, [query]);
+
+  if (error) {
+    return (
+      <ErrorComponent error={error.error} userMessage={error.userMessage} />
+    );
+  }
 
   if (isLoading) return <Loader />;
 
@@ -47,10 +77,14 @@ const SearchResult = () => {
       {products.length === 0 ? (
         <p className="text-lg">По Вашему запросу ничего не найдено</p>
       ) : (
-        <ProductsSection title={""} products={products} applyIndexStyles={false}/>
+        <ProductsSection
+          title={""}
+          products={products}
+          applyIndexStyles={false}
+        />
       )}
     </div>
   );
 };
 
-export default SearchResult;
+export default SearchPage;

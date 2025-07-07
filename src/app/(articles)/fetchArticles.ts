@@ -22,7 +22,7 @@ const fetchArticles = async (options?: {
 
     const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
 
-    if (!res.ok) throw new Error("Серверная ошибка получения статей");
+    if (!res.ok) throw new Error("Ошибка получения статей");
 
     const data = await res.json();
 
@@ -31,7 +31,6 @@ const fetchArticles = async (options?: {
       totalCount: data.totalCount || data.length,
     };
   } catch (err) {
-    console.error(`Ошибка в компоненте статей`, err);
     throw err;
   }
 };

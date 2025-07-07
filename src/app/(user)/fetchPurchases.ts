@@ -20,7 +20,7 @@ const fetchPurchases = async (
     const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
 
     if (!res.ok)
-      throw new Error('Серверная ошибка получения Ваших покупок');
+      throw new Error('Ошибка получения Ваших покупок');
 
     const data = await res.json();
 

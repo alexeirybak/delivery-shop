@@ -1,5 +1,6 @@
 export type SearchProduct = {
-    id: number;
-    title: string;
-    categories: string[]
-}
+  id: number;
+  title: string;
+  slug: string;
+  categories: string[];
+};

@@ -5,6 +5,7 @@ import PaginationWrapper from "@/components/PaginationWrapper";
 import ArticleSection from "../(articles)/ArticlesSection";
 import { ProductCardProps } from "@/types/product";
 import { ArticleCardProps } from "@/types/articles";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const GenericListPage = async ({
   searchParams,
@@ -13,18 +14,19 @@ const GenericListPage = async ({
   searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
   props: GenericListPageProps;
 }) => {
-  const params = await searchParams;
-  const page = params?.page;
-  const itemsPerPage = params?.itemsPerPage || CONFIG.ITEMS_PER_PAGE;
-
-  const currentPage = Number(page) || 1;
-  const perPage = Number(itemsPerPage);
-  const startIdx = (currentPage - 1) * perPage;
-
   try {
-    const {items, totalCount} = await props.fetchData({ pagination: { startIdx, perPage } });
+    const params = await searchParams;
+    const page = params?.page;
+    const itemsPerPage = params?.itemsPerPage || CONFIG.ITEMS_PER_PAGE;
 
-    const totalPages = Math.ceil(totalCount / perPage)
+    const currentPage = Number(page) || 1;
+    const perPage = Number(itemsPerPage);
+    const startIdx = (currentPage - 1) * perPage;
+    const { items, totalCount } = await props.fetchData({
+      pagination: { startIdx, perPage },
+    });
+
+    const totalPages = Math.ceil(totalCount / perPage);
 
     return (
       <>
@@ -50,8 +52,13 @@ const GenericListPage = async ({
         )}
       </>
     );
-  } catch {
-    return <div className="text-red-500">{props.errorMessage}</div>;
+  } catch (error) {
+    return (
+      <ErrorComponent
+        error={error instanceof Error ? error : new Error(String(error))}
+        userMessage="Не удалось получить элементы пагинации"
+      />
+    );
   }
 };
 

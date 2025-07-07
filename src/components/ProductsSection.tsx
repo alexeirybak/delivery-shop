@@ -1,5 +1,9 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import ProductCard from "@/components/ProductCard";
 import ViewAllButton from "@/components/ViewAllButton";
+import ProductSkeletons from "./ProductSkeletons";
 import { ProductsSectionProps } from "@/types/productsSection";
 
 const ProductsSection = ({
@@ -8,6 +12,19 @@ const ProductsSection = ({
   products,
   applyIndexStyles = true,
 }: ProductsSectionProps & { applyIndexStyles?: boolean }) => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    setIsLoading(true);
+    if (products.length > 0) {
+      setIsLoading(false);
+    }
+  }, [products]);
+
+  if (isLoading) {
+    return <ProductSkeletons applyIndexStyles={applyIndexStyles} />;
+  }
+
   return (
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
@@ -22,12 +39,17 @@ const ProductsSection = ({
             />
           )}
         </div>
+
         <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-10 justify-items-center">
           {products.map((item, index) => (
             <li
               key={item._id}
               className={
-                applyIndexStyles ? (index >= 3 ? "md:hidden xl:block" : "") : ""
+                applyIndexStyles
+                  ? index >= 3
+                    ? "md:hidden xl:block"
+                    : ""
+                  : ""
               }
             >
               <ProductCard {...item} />

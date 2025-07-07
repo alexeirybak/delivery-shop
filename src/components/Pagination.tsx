@@ -1,5 +1,3 @@
-"use client";
-
 import { PaginationProps } from "@/types/paginationProps";
 import Link from "next/link";
 

@@ -1,3 +1,5 @@
+import { TRANSLATIONS } from "../../../utils/translations";
+
 const fetchProductsByTag = async (
   tag: string,
   options?: {
@@ -6,7 +8,7 @@ const fetchProductsByTag = async (
   }
 ) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products1`);
     url.searchParams.append("tag", tag);
 
     if (options?.randomLimit) {
@@ -22,7 +24,7 @@ const fetchProductsByTag = async (
     const res = await fetch(url.toString(), { next: { revalidate: 3600 } });
 
     if (!res.ok)
-      throw new Error(`Серверная ошибка получения продуктов ${tag}`);
+      throw new Error(`Ошибка получения продуктов "${TRANSLATIONS[tag]}"`);
 
     const data = await res.json();
 
@@ -31,7 +33,6 @@ const fetchProductsByTag = async (
       totalCount: data.totalCount || data.length,
     };
   } catch (err) {
-    console.error(`Ошибка в компоненте: ${tag}`, err);
     throw err;
   }
 };
