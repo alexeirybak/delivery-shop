@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { SearchProduct } from "@/types/searchProduct";
 import SearchInput from "./SearchInput";
 import SearchResults from "./SearchResults";
-import { ErrorState } from "@/types/errorState";
+
 
 const InputBlock = ({
   onFocusChangeAction,
@@ -19,7 +19,7 @@ const InputBlock = ({
   const [groupedProducts, setGroupedProducts] = useState<
     { category: string; products: SearchProduct[] }[]
   >([]);
-  const [error, setError] = useState<ErrorState>(null);
+  const [error, setError] = useState<string | null>(null);
   const searchRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -43,11 +43,8 @@ const InputBlock = ({
           const data = await response.json();
           setGroupedProducts(data);
         } catch (error) {
-          setError({
-            error:
-              error instanceof Error ? error : new Error("Неизвестная ошибка"),
-            userMessage: "Не найден продукт или категория.",
-          });
+          console.error(error);
+          setError("Не найден продукт или категория.");
         } finally {
           setIsLoading(false);
         }
@@ -94,7 +91,7 @@ const InputBlock = ({
         <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-[300px] overflow-y-auto bg-white rounded-b border-1 border-(--color-primary) border-t-0 shadow-inherit break-words">
           {error ? (
             <div className="p-2 text-red-600 text-sm">
-              {error.userMessage}
+              {error}
               <button
                 onClick={() => setError(null)}
                 className="ml-2 text-blue-500 hover:text-blue-700 cursor-pointer"

@@ -8,7 +8,7 @@ const fetchProductsByTag = async (
   }
 ) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products1`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
     url.searchParams.append("tag", tag);
 
     if (options?.randomLimit) {

@@ -4,6 +4,7 @@ import iconBurger from "/public/icons-header/icon-burger-menu.svg";
 import { TRANSLATIONS } from "../../../utils/translations";
 import HighlightText from "./HighlightText";
 import { SearchResultsProps } from "@/types/searchResultsProps";
+import MiniLoader from "../MiniLoader";
 
 const SearchResults = ({
   isLoading,
@@ -12,7 +13,7 @@ const SearchResults = ({
   resetSearch,
 }: SearchResultsProps) => {
   if (isLoading) {
-    return <div className="p-4 text-center">Поиск...</div>;
+    return <MiniLoader />; // Заменяем текст на лоадер
   }
 
   if (groupedProducts.length > 0) {

@@ -46,7 +46,7 @@ const SearchResult = () => {
         setError({
           error:
             error instanceof Error ? error : new Error("Неизвестная ошибка"),
-          userMessage: "Не удалось загрузить каталог категорий.",
+          userMessage: "Не удалось загрузить результаты поиска",
         });
       } finally {
         setIsLoading(false);

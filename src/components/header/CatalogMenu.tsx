@@ -1,10 +1,13 @@
 import Link from "next/link";
 import SearchBlock from "./SearchBlock";
 import { CatalogMenuProps } from "@/types/catalogMenuProps";
+import ErrorComponent from "../ErrorComponent";
+import MiniLoader from "../MiniLoader";
 
 export const CatalogMenu = ({
   isCatalogOpen,
   isLoading,
+  error,
   categories,
   searchBlockRef,
   menuRef,
@@ -27,8 +30,14 @@ export const CatalogMenu = ({
         className="hidden md:block absolute top-full left-0 w-full bg-white shadow-(--shadow-catalog-menu) z-50"
       >
         <div className="mx-auto px-4 py-3">
+          {error && (
+            <ErrorComponent
+              error={error.error}
+              userMessage={error.userMessage}
+            />
+          )}
           {isLoading ? (
-            <div className="py-2 text-center">Загрузка...</div>
+            <MiniLoader />
           ) : categories.length > 0 ? (
             <div className="grid grid-cols-2 xl:grid-cols-4 gap-6">
               {categories.map((category) => (

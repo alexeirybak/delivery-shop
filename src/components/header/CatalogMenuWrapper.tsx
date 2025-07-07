@@ -72,29 +72,18 @@ export const CatalogMenuWrapper = () => {
 
   return (
     <div>
-      {error ? (
-        <div className="p-2 text-red-600 text-sm">
-          {error.userMessage}
-          <button
-            onClick={() => setError(null)}
-            className="ml-2 text-blue-500 hover:text-blue-700 cursor-pointer"
-          >
-            Повторить
-          </button>
-        </div>
-      ) : (
-        <CatalogMenu
-          isCatalogOpen={isCatalogOpen}
-          isLoading={isLoading}
-          categories={categories}
-          isSearchFocused={isSearchFocused}
-          searchBlockRef={searchBlockRef}
-          menuRef={menuRef}
-          onFocusChangeAction={handleSearchFocusAction}
-          setIsCatalogOpen={setIsCatalogOpen}
-          onMouseEnter={openMenu}
-        />
-      )}
+      <CatalogMenu
+        isCatalogOpen={isCatalogOpen}
+        isLoading={isLoading}
+        error={error}
+        categories={categories}
+        isSearchFocused={isSearchFocused}
+        searchBlockRef={searchBlockRef}
+        menuRef={menuRef}
+        onFocusChangeAction={handleSearchFocusAction}
+        setIsCatalogOpen={setIsCatalogOpen}
+        onMouseEnter={openMenu}
+      />
     </div>
   );
 };
