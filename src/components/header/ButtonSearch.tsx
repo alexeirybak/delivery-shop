@@ -4,7 +4,7 @@ import Link from "next/link";
 const ButtonSearch = () => {
   return (
     <Link
-      href="../catalog"
+      href="/catalog"
       className="bg-(--color-primary) hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) hidden md:flex w-10 p-2 gap-4 lg:w-35 cursor-pointer duration-300 rounded"
     >
       <div className="relative w-6 h-6 hidden md:block">

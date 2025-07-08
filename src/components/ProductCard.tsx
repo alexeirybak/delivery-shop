@@ -4,8 +4,9 @@ import { ProductCardProps } from "@/types/product";
 import { formatPrice } from "../../utils/formatPrice";
 import StarRating from "./StarRating";
 import Link from "next/link";
+import { CONFIG } from "../../config/config";
 
-const cardDiscountPercent = 6;
+const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
 const ProductCard = ({
   _id,

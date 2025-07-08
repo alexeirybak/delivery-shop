@@ -1,5 +1,5 @@
 import ButtonSearch from "./ButtonSearch";
-import InputBlock from "./InputBlock";
+import InputBlock from "./inputSearch/InputBlock";
 
 const SearchBlock = ({
   onFocusChangeAction,

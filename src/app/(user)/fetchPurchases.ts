@@ -29,7 +29,6 @@ const fetchPurchases = async (
       totalCount: data.totalCount || data.length,
     };
   } catch (err) {
-    console.error(`Ошибка в компоненте покупок`, err);
     throw err;
   }
 };

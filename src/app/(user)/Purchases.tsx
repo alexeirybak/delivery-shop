@@ -1,6 +1,7 @@
 import fetchPurchases from "./fetchPurchases";
 import ProductsSection from "../../components/ProductsSection";
 import { CONFIG } from "../../../config/config";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const Purchases = async () => {
   try {
@@ -15,11 +16,12 @@ const Purchases = async () => {
         products={items}
       />
     );
-  } catch {
+  } catch (error) {
     return (
-      <div className="text-red-500">
-        Ошибка: не удалось загрузить Ваши покупки
-      </div>
+      <ErrorComponent
+        error={error instanceof Error ? error : new Error(String(error))}
+        userMessage="Не удалось загрузить Ваши покупки"
+      />
     );
   }
 };

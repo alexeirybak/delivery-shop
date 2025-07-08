@@ -3,9 +3,7 @@ const fetchArticles = async (options?: {
   pagination?: { startIdx: number; perPage: number };
 }) => {
   try {
-    const url = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/articles`
-    );
+    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articles`);
 
     if (options?.articlesLimit) {
       url.searchParams.append(
@@ -31,7 +29,6 @@ const fetchArticles = async (options?: {
       totalCount: data.totalCount || data.length,
     };
   } catch (err) {
-    console.error(`Ошибка в компоненте статей`, err);
     throw err;
   }
 };
