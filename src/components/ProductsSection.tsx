@@ -7,7 +7,17 @@ const ProductsSection = ({
   viewAllButton,
   products,
   applyIndexStyles = true,
-}: ProductsSectionProps & { applyIndexStyles?: boolean }) => {
+  contentType,
+}: ProductsSectionProps & {
+  applyIndexStyles?: boolean;
+  contentType?: string;
+}) => {
+
+  const gridClasses =
+    contentType === "category"
+      ? "grid-cols-2 md:grid-cols-3"
+      : "grid-cols-2 md:grid-cols-3 xl:grid-cols-4";
+
   return (
     <section>
       <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
@@ -22,7 +32,9 @@ const ProductsSection = ({
             />
           )}
         </div>
-        <ul className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 xl:gap-10 justify-items-center">
+        <ul
+          className={`grid ${gridClasses} gap-4 md:gap-6 xl:gap-10 justify-items-center`}
+        >
           {products.map((item, index) => (
             <li
               key={item._id}

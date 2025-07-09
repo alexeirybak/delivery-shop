@@ -9,14 +9,19 @@ import Pagination from "./Pagination";
 function getItemsPerPageByWidth(contentType?: string) {
   const width = window.innerWidth;
 
-  if (contentType) {
+  if (contentType === "article") {
     return width < 640 ? 1 : 3;
+  }
+
+  if (contentType === "category") {
+    return width < 768 ? 8 : 6; 
   }
 
   if (width < 768) return 2;
   if (width < 1280) return 3;
   return 4;
 }
+
 const PaginationWrapper = ({
   totalItems,
   currentPage,
@@ -28,9 +33,17 @@ const PaginationWrapper = ({
   basePath: string;
   contentType?: string;
 }) => {
-  const [itemsPerPage, setItemsPerPage] = useState(
-    contentType === "article" ? 1 : CONFIG.ITEMS_PER_PAGE
-  );
+
+  let initialItemsPerPage;
+  if (contentType === "article") {
+    initialItemsPerPage = 1;
+  } else if (contentType === "category") {
+    initialItemsPerPage = CONFIG.ITEMS_PER_PAGE_CATEGORY;
+  } else {
+    initialItemsPerPage = CONFIG.ITEMS_PER_PAGE;
+  }
+
+  const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
   const searchParams = useSearchParams();
   const router = useRouter();
 
