@@ -1,23 +1,48 @@
-import ErrorComponent from "@/components/ErrorComponent";
+import GenericListPage from "@/app/(products)/GenericListPage";
+import { Loader } from "@/components/Loader";
+import { Suspense } from "react";
+import { TRANSLATIONS } from "../../../../../utils/translations";
+import fetchProductsByCategory from "../fetchCategory";
 
-const CategoryPage = async ({
+export async function generateMetadata({
   params,
 }: {
   params: Promise<{ category: string }>;
-}) => {
-  let category: string = "";
+}) {
+  const { category } = await params;
+  return {
+    title: TRANSLATIONS[category] || category,
+    description: `Описание категории товаров "${
+      TRANSLATIONS[category] || category
+    }" магазина "Северяночка"`,
+  };
+}
 
-  try {
-    category = (await params).category;
-  } catch (error) {
-    return (
-      <ErrorComponent
-        error={error instanceof Error ? error : new Error(String(error))}
-        userMessage="Ошибка получения категории"
+const CategoryPage = async ({
+  searchParams,
+  params,
+}: {
+  searchParams: Promise<{ page?: string; itemsPerPage?: string }>;
+  params: Promise<{ category: string }>;
+}) => {
+  const { category } = await params;
+
+  return (
+    <Suspense fallback={<Loader />}>
+      <GenericListPage
+        searchParams={searchParams}
+        props={{
+          fetchData: ({ pagination: { startIdx, perPage } }) =>
+            fetchProductsByCategory(category, {
+              pagination: { startIdx, perPage },
+            }),
+          pageTitle: TRANSLATIONS[category] || category,
+          basePath: `/category/${category}`,
+          contentType: "category",
+        }}
       />
-    );
-  }
-  return <div>Страница категории: {category}</div>;
+    </Suspense>
+  );
 };
 
 export default CategoryPage;

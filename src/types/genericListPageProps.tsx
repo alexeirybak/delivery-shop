@@ -14,5 +14,5 @@ export interface GenericListPageProps {
   }) => Promise<PaginatedResponse>;
   pageTitle: string;
   basePath: string;
-  contentType?: "articles";
+  contentType?: string;
 }
