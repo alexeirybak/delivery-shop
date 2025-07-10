@@ -51,16 +51,22 @@ export async function GET(request: Request) {
         .toArray()
     ]);
 
+    // Всегда возвращаем объект с products (массив) и totalCount
     return NextResponse.json({ 
-      products, 
-      totalCount,
+      products: products || [], // Гарантируем возврат массива
+      totalCount: totalCount || 0, // Гарантируем возврат числа
       debug: { appliedFilters: filters } // Для отладки
     });
     
   } catch (error) {
     console.error("Server error:", error);
+    // В случае ошибки тоже возвращаем структуру с пустым массивом
     return NextResponse.json(
-      { error: "Internal server error" },
+      { 
+        products: [],
+        totalCount: 0,
+        error: "Internal server error" 
+      },
       { status: 500 }
     );
   }

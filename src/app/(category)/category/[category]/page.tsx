@@ -24,7 +24,7 @@ const CategoryPage = async ({
   searchParams: Promise<{
     page?: string;
     itemsPerPage?: string;
-    filter?: string;
+    filter?: string | string[];
   }>;
   params: Promise<{ category: string }>;
 }) => {
@@ -47,7 +47,7 @@ const CategoryPage = async ({
             fetchData: ({ pagination: { startIdx, perPage } }) =>
               fetchProductsByCategory(category, {
                 pagination: { startIdx, perPage },
-                filter: activeFilter, // Передаем фильтр в запрос
+                filter: activeFilter,
               }),
             pageTitle: TRANSLATIONS[category] || category,
             basePath: `/category/${category}`,

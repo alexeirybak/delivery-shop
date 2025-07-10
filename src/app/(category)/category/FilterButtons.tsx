@@ -16,24 +16,42 @@ export default function FilterButtons({
 }) {
   const searchParams = useSearchParams();
   const currentFilters = searchParams.getAll('filter');
+  const currentPage = searchParams.get('page');
 
   // Функция для переключения фильтров
-  const toggleFilter = (filterKey: string) => {
+const toggleFilter = (filterKey: string) => {
+  const params = new URLSearchParams(searchParams.toString());
+  
+  // Очищаем все фильтры перед обработкой
+  params.delete('filter');
+  
+  // Создаем новый массив фильтров
+  let newFilters = [...currentFilters];
+  
+  if (newFilters.includes(filterKey)) {
+    // Удаляем фильтр если уже активен
+    newFilters = newFilters.filter(f => f !== filterKey);
+  } else {
+    // Добавляем фильтр если не активен
+    newFilters.push(filterKey);
+  }
+  
+  // Добавляем все активные фильтры
+  newFilters.forEach(f => params.append('filter', f));
+  
+  // Сбрасываем пагинацию при изменении фильтров
+  params.delete('page');
+  
+  return `${basePath}?${params.toString()}`;
+};
+  // Функция для кнопки "Все товары"
+   const getAllProductsLink = () => {
     const params = new URLSearchParams(searchParams.toString());
-    
-    if (currentFilters.includes(filterKey)) {
-      // Удаляем фильтр если уже активен
-      const newFilters = currentFilters.filter(f => f !== filterKey);
-      params.delete('filter');
-      newFilters.forEach(f => params.append('filter', f));
-    } else {
-      // Добавляем фильтр если не активен
-      params.append('filter', filterKey);
+    params.delete('filter');
+    // Сохраняем параметр page, если он есть
+    if (currentPage) {
+      params.set('page', currentPage);
     }
-
-    // Сбрасываем пагинацию при изменении фильтров
-    params.delete('page');
-    
     return `${basePath}?${params.toString()}`;
   };
 
@@ -46,7 +64,7 @@ export default function FilterButtons({
     <div className="flex flex-wrap gap-2">
       {/* Кнопка "Все товары" */}
       <Link
-        href={`${basePath}?${new URLSearchParams().toString()}`}
+        href={getAllProductsLink()}
         className={`px-4 py-2 rounded-full text-sm ${
           currentFilters.length === 0
             ? "bg-blue-500 text-white"
