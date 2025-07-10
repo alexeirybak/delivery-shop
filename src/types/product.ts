@@ -13,4 +13,8 @@ export interface ProductCardProps {
   tags: string[];
   weight?: string;
   quantity: number;
+  categories: string[];
+  isOurProduction?: boolean;
+  isHealthyFood?: boolean;
+  isNonGMO?: boolean;
 }
