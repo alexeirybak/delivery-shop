@@ -16,7 +16,6 @@ export async function generateMetadata({
   };
 }
 
-
 const CategoryPage = async ({
   searchParams,
   params,
@@ -25,12 +24,16 @@ const CategoryPage = async ({
     page?: string;
     itemsPerPage?: string;
     filter?: string | string[];
+    priceFrom?: string;
+    priceTo?: string;
   }>;
   params: Promise<{ category: string }>;
 }) => {
   const { category } = await params;
   const resolvedSearchParams = await searchParams;
   const activeFilter = resolvedSearchParams.filter;
+  const priceFrom = resolvedSearchParams.priceFrom;
+  const priceTo = resolvedSearchParams.priceTo;
 
   return (
     <>
@@ -48,6 +51,8 @@ const CategoryPage = async ({
               fetchProductsByCategory(category, {
                 pagination: { startIdx, perPage },
                 filter: activeFilter,
+                priceFrom,
+                priceTo,
               }),
             pageTitle: TRANSLATIONS[category] || category,
             basePath: `/category/${category}`,
@@ -58,5 +63,4 @@ const CategoryPage = async ({
     </>
   );
 };
-
 export default CategoryPage;

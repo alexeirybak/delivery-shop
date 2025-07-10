@@ -1,72 +1,92 @@
-import { CONFIG } from "../../../../config/config";
-import { getDB } from "../../../../utils/api-routes";
-import { NextResponse } from "next/server";
-import { Filter } from "mongodb";
-import { ProductCardProps } from "@/types/product";
+import { NextResponse } from 'next/server';
+import { getDB } from '../../../../utils/api-routes';
+import { Filter } from 'mongodb';
+import { ProductCardProps } from '@/types/product';
 
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
+export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
   try {
     const db = await getDB();
     const { searchParams } = new URL(request.url);
-
-    // Получаем параметры
-    const category = searchParams.get("category");
-    const startIdx = Number(searchParams.get("startIdx")) || 0;
-    const perPage = Number(searchParams.get("perPage")) || CONFIG.ITEMS_PER_PAGE_CATEGORY;
-    const filters = searchParams.getAll("filter");
+    
+    const category = searchParams.get('category');
+    const filters = searchParams.getAll('filter');
+    const priceFrom = searchParams.get('priceFrom');
+    const priceTo = searchParams.get('priceTo');
+    const startIdx = Number(searchParams.get('startIdx')) || 0;
+    const perPage = Number(searchParams.get('perPage')) || 10;
+    const getPriceRangeOnly = searchParams.get('getPriceRangeOnly') === 'true';
 
     // Базовый запрос
     const query: Filter<ProductCardProps> = {};
-
-    // Фильтр по категории (обязательный)
+    
     if (category) {
-      query.categories = { $in: [category] };
+      query.categories = category;
     }
 
-    // Добавляем условия для каждого фильтра
+    // Добавляем фильтры
     if (filters.length > 0) {
-      query.$and = query.$and || [];
-      
-      if (filters.includes("our-production")) {
-        query.$and.push({ isOurProduction: true });
-      }
-      if (filters.includes("healthy-food")) {
-        query.$and.push({ isHealthyFood: true });
-      }
-      if (filters.includes("non-gmo")) {
-        query.$and.push({ isNonGMO: true });
-      }
+      query.$and = filters.map(filter => {
+        switch(filter) {
+          case 'our-production': return { isOurProduction: true };
+          case 'healthy-food': return { isHealthyFood: true };
+          case 'non-gmo': return { isNonGMO: true };
+          default: return {};
+        }
+      }).filter(Boolean);
     }
 
-    const [totalCount, products] = await Promise.all([
-      db.collection<ProductCardProps>("products").countDocuments(query),
-      db.collection<ProductCardProps>("products")
+    // Фильтр по цене
+    if (priceFrom || priceTo) {
+      query.basePrice = {};
+      if (priceFrom) query.basePrice.$gte = Number(priceFrom);
+      if (priceTo) query.basePrice.$lte = Number(priceTo);
+    }
+
+    // Запрос диапазона цен
+    if (getPriceRangeOnly) {
+      const result = await db.collection<ProductCardProps>('products')
+        .aggregate([
+          { $match: query },
+          {
+            $group: {
+              _id: null,
+              min: { $min: '$basePrice' },
+              max: { $max: '$basePrice' }
+            }
+          }
+        ])
+        .toArray();
+
+      return NextResponse.json({
+        priceRange: result[0] ? {
+          min: result[0].min,
+          max: result[0].max
+        } : { min: 0, max: 0 }
+      });
+    }
+
+    // Полный запрос с пагинацией
+    const [products, totalCount] = await Promise.all([
+      db.collection<ProductCardProps>('products')
         .find(query)
         .sort({ _id: 1 })
         .skip(startIdx)
         .limit(perPage)
-        .toArray()
+        .toArray(),
+      db.collection<ProductCardProps>('products').countDocuments(query)
     ]);
 
-    // Всегда возвращаем объект с products (массив) и totalCount
-    return NextResponse.json({ 
-      products: products || [], // Гарантируем возврат массива
-      totalCount: totalCount || 0, // Гарантируем возврат числа
-      debug: { appliedFilters: filters } // Для отладки
+    return NextResponse.json({
+      products,
+      totalCount,
+      priceRange: { min: 0, max: 0 } 
     });
-    
   } catch (error) {
-    console.error("Server error:", error);
-    // В случае ошибки тоже возвращаем структуру с пустым массивом
+    console.error('API Error:', error);
     return NextResponse.json(
-      { 
-        products: [],
-        totalCount: 0,
-        error: "Internal server error" 
-      },
+      { error: 'Internal Server Error' },
       { status: 500 }
     );
   }
