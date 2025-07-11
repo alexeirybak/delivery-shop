@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@iminside/react-yandex-maps": "^1.2.7",
-    "dotenv": "^16.5.0",
     "mongodb": "^6.17.0",
-    "mongoose": "^8.15.2",
+    "mongoose": "^8.16.3",
     "motion": "^12.16.0",
     "next": "15.3.3",
     "react": "^19.0.0",
@@ -21,12 +21,14 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
+    "@types/node": "^20.19.7",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.2.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
