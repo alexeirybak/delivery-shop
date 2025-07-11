@@ -1,17 +1,10 @@
-import { ProductCardProps } from "@/types/product";
-
-interface FetchProductsResponse {
-  items: ProductCardProps[];
-  totalCount: number;
-}
-
 const fetchProductsByCategory = async (
   category: string,
   options: {
     pagination: { startIdx: number; perPage: number };
-    filter?: string;
+    filter?: string | string[];
   }
-): Promise<FetchProductsResponse> => {
+) => {
   const { pagination, filter } = options;
 
   try {
@@ -22,9 +15,9 @@ const fetchProductsByCategory = async (
     url.searchParams.append("startIdx", String(pagination.startIdx));
     url.searchParams.append("perPage", String(pagination.perPage));
 
-   if (filter) {
+    if (filter) {
       if (Array.isArray(filter)) {
-        filter.forEach(f => url.searchParams.append("filter", f));
+        filter.forEach((f) => url.searchParams.append("filter", f));
       } else {
         url.searchParams.append("filter", filter);
       }
@@ -39,7 +32,6 @@ const fetchProductsByCategory = async (
     }
 
     const data = await res.json();
-
     console.log(data);
 
     return {
@@ -47,8 +39,7 @@ const fetchProductsByCategory = async (
       totalCount: data.totalCount,
     };
   } catch (err) {
-    console.error("Error fetching products:", err);
-    throw new Error("Failed to load category products");
+    throw err;
   }
 };
 
