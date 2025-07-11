@@ -1,11 +1,10 @@
-// seed-db.ts
 import { faker } from '@faker-js/faker';
 import { MongoClient } from 'mongodb';
 import 'dotenv/config';
 
 async function seedDatabase() {
   try {
-    // Подключение к вашей базе данных
+    // Подключение к базе данных
     const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
     await client.connect();
     console.log('Соединение с MongoDB');

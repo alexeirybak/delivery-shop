@@ -29,6 +29,7 @@ const CategoryPage = async ({
     filter?: string | string[];
     priceFrom?: string;
     priceTo?: string;
+    inStock?: string; // Добавляем новый параметр
   }>;
   params: Promise<{ category: string }>;
 }) => {
@@ -37,13 +38,14 @@ const CategoryPage = async ({
   const activeFilter = resolvedSearchParams.filter;
   const priceFrom = resolvedSearchParams.priceFrom;
   const priceTo = resolvedSearchParams.priceTo;
+  const inStock = resolvedSearchParams.inStock === "true";
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))]">
-      <div className="flex gap-4 mb-6 ">
+      <div className="flex gap-4 mb-6">
         <FilterButtons basePath={`/category/${category}`} />
       </div>
-      <div className="flex flex-row">
+      <div className="flex flex-row gap-x-10 justify-between">
         <div className="flex flex-col w-[272px] gap-y-10">
           <div className="h-11 bg-[#f3f2f1] rounded text-base font-bold text-[#414141] flex justify-start items-center p-2.5">
             Фильтр
@@ -144,6 +146,7 @@ const CategoryPage = async ({
                     filter: activeFilter,
                     priceFrom,
                     priceTo,
+                    inStock,
                   }),
                 pageTitle: TRANSLATIONS[category] || category,
                 basePath: `/category/${category}`,
@@ -164,6 +167,7 @@ function buildClearFiltersLink(
     filter?: string | string[];
     priceFrom?: string;
     priceTo?: string;
+    inStock?: string;
   },
   basePath: string
 ) {
@@ -178,6 +182,7 @@ function buildClearFiltersLink(
   params.delete("filter");
   params.delete("priceFrom");
   params.delete("priceTo");
+  params.delete("inStock"); // Добавляем удаление параметра inStock
 
   return `${basePath}?${params.toString()}`;
 }

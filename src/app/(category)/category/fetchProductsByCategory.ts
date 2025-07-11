@@ -5,6 +5,11 @@ interface FetchProductsResponse {
   totalCount: number;
 }
 
+interface FetchProductsResponse {
+  items: ProductCardProps[];
+  totalCount: number;
+}
+
 const fetchProductsByCategory = async (
   category: string,
   options: {
@@ -12,9 +17,10 @@ const fetchProductsByCategory = async (
     filter?: string | string[];
     priceFrom?: string;
     priceTo?: string;
+    inStock?: boolean; // Добавляем новый параметр
   }
 ): Promise<FetchProductsResponse> => {
-  const { pagination, filter, priceFrom, priceTo } = options;
+  const { pagination, filter, priceFrom, priceTo, inStock } = options;
 
   try {
     const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/category`);
@@ -25,7 +31,7 @@ const fetchProductsByCategory = async (
 
     if (filter) {
       if (Array.isArray(filter)) {
-        filter.forEach(f => url.searchParams.append("filter", f));
+        filter.forEach((f) => url.searchParams.append("filter", f));
       } else {
         url.searchParams.append("filter", filter);
       }
@@ -37,6 +43,10 @@ const fetchProductsByCategory = async (
 
     if (priceTo) {
       url.searchParams.append("priceTo", priceTo);
+    }
+
+    if (inStock !== undefined) {
+      url.searchParams.append("inStock", String(inStock));
     }
 
     const res = await fetch(url.toString(), {

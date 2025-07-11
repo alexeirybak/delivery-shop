@@ -17,6 +17,7 @@ export async function GET(request: Request) {
     const startIdx = Number(searchParams.get("startIdx")) || 0;
     const perPage = Number(searchParams.get("perPage")) || 10;
     const getPriceRangeOnly = searchParams.get("getPriceRangeOnly") === "true";
+    const inStock = searchParams.get("inStock") === "true";
 
     // Базовый запрос
     const query: Filter<ProductCardProps> = {};
@@ -24,6 +25,10 @@ export async function GET(request: Request) {
     // Фильтр по категории должен быть строгим
     if (category) {
       query.categories = category; // Это ищет точное совпадение категории
+    }
+
+    if (inStock) {
+      query.quantity = { $gt: 0 }; // Товары с quantity > 0 считаем "в наличии"
     }
 
     // Для запроса диапазона цен мы не должны учитывать текущие фильтры по цене
