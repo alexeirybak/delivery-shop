@@ -17,6 +17,9 @@ export async function GET(request: Request) {
       searchParams.get("perPage") || CONFIG.ITEMS_PER_PAGE_CATEGORY.toString()
     );
     const filters = searchParams.getAll("filter");
+    const priceFrom = searchParams.get("priceFrom");
+    const priceTo = searchParams.get("priceTo");
+    const inStock = searchParams.get("inStock") === "true";
 
     const query: Filter<ProductCardProps> = {};
 
@@ -29,6 +32,16 @@ export async function GET(request: Request) {
 
     if (category) {
       query.categories = { $in: [category] };
+    }
+
+    if (priceFrom || priceTo) {
+      query.basePrice = {};
+      if (priceFrom) query.basePrice.$gte = parseInt(priceFrom);
+      if (priceTo) query.basePrice.$lte = parseInt(priceTo); 
+    }
+
+    if (inStock) {
+      query.quantity = { $gt: 0 };
     }
 
     if (filters.length > 0) {

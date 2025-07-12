@@ -39,14 +39,14 @@ const GenericListPage = async ({
       <>
         {!props.contentType || props.contentType === "category" ? (
           <ProductsSection
-            title={props.pageTitle}
+            title={props.pageTitle || ""}
             products={items as ProductCardProps[]}
             applyIndexStyles={props.contentType === "category" ? false : true}
             contentType={props.contentType}
           />
         ) : (
           <ArticleSection
-            title={props.pageTitle}
+            title={props.pageTitle || ""}
             articles={items as ArticleCardProps[]}
           />
         )}
