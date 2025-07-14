@@ -4,5 +4,7 @@ export interface FilterControlsProps {
   searchParams?: {
     page?: string;
     itemsPerPage?: string;
+    priceFrom?: number | string | null;
+    priceTo?: number | string | null;
   };
 }
