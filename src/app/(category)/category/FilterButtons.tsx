@@ -34,7 +34,7 @@ const FilterButtons = ({ basePath }: { basePath: string }) => {
     currentFilters.includes(filterKey);
 
   return (
-    <div className="hidden xl:flex flex-wrap gap-4 mb-10 items-center">
+    <div className="flex flex-row flex-wrap gap-4 items-center mb-10 ">
       {FILTERS.map((filter) => (
         <Link
           key={filter.key}
