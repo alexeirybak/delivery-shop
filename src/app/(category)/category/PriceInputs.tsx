@@ -19,7 +19,7 @@ const PriceInputs = ({
         placeholder={`${min}`}
         min={min}
         max={max}
-        className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4"
+        className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4 caret-(--color-primary)"
       />
       <Image
         src="/icons-products/icon-line.svg"
@@ -35,7 +35,7 @@ const PriceInputs = ({
         placeholder={`${max}`}
         min={min}
         max={max}
-        className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4"
+        className="w-[124px] h-10 border border-[#bfbfbf] rounded bg-white py-2 px-4 caret-(--color-primary)"
       />
     </div>
   );

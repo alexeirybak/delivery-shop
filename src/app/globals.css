@@ -16,6 +16,7 @@
   --shadow-card-shop: 0px 8px 16px 0px rgba(202, 147, 96, 0.5);
   --shadow-category-block: 1px 2px 4px 0px rgba(112, 192, 91, 0.2);
   --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
+  --shadow-auth-form: 8px 16px 32px 0px rgba(255, 102, 51, 0.2);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -65,5 +66,13 @@ body {
 
 .animate-progress {
   animation: progress 2s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease-out forwards;
 }
 

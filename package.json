@@ -9,15 +9,25 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@clerk/localizations": "^3.19.1",
+    "@clerk/nextjs": "^6.25.2",
     "@faker-js/faker": "^9.9.0",
     "@iminside/react-yandex-maps": "^1.2.7",
+    "@react-input/mask": "^2.0.4",
+    "bcryptjs": "^3.0.2",
+    "better-auth": "^1.2.12",
+    "imask": "^7.6.1",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.17.0",
-    "mongoose": "^8.16.3",
+    "mongoose": "^8.16.4",
     "motion": "^12.16.0",
     "next": "15.3.3",
+    "next-auth": "^4.24.11",
     "rc-slider": "^11.1.8",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.60.0",
+    "react-input-mask": "^2.0.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
