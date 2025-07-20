@@ -60,7 +60,6 @@ export default function PasswordInput({
           onChange={onChangeAction}
           className={formStyles.input}
           autoComplete="off"
-          readOnly
           onFocus={(e) => e.target.removeAttribute("readOnly")}
         />
         <button

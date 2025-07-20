@@ -75,7 +75,7 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const onSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
@@ -158,7 +158,7 @@ export default function RegisterPage() {
         </h2>
 
         <form
-          onSubmit={onSubmit}
+          onSubmit={handleSubmit}
           autoComplete="off"
           className="w-full max-w-[552px] mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
         >
