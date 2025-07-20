@@ -21,7 +21,7 @@ const SearchInput = ({
           type="text"
           value={query}
           placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base"
+          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base caret-(--color-primary)"
           onFocus={handleInputFocus}
           onChange={(e) => setQuery(e.target.value)}
           onBlur={handleInputBlur}
