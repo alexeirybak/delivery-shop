@@ -1,17 +1,14 @@
 import { NextResponse } from "next/server";
-import User from "@/models/User";
-import dbConnect from "@/lib/dbConnect";
+import { getDB } from "../../../../utils/api-routes";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
-  await dbConnect();
-
   try {
     const {
       phone,
       surname,
       firstName,
       password,
-      confirmPassword,
       birthdayDate,
       region,
       location,
@@ -21,23 +18,14 @@ export async function POST(request: Request) {
       hasCard,
     } = await request.json();
 
-    // Валидация данных
-    if (password !== confirmPassword) {
-      return NextResponse.json(
-        { error: "Пароли не совпадают" },
-        { status: 400 }
-      );
-    }
+    const db = await getDB();
+    const normalizedPhone = phone.replace(/\D/g, '');
 
-    if (password.length < 6) {
-      return NextResponse.json(
-        { error: "Пароль должен содержать минимум 6 символов" },
-        { status: 400 }
-      );
-    }
+    // Проверка существующего пользователя (критически важно)
+    const existingUser = await db.collection("users").findOne({ 
+      phone: normalizedPhone 
+    });
 
-    // Проверяем, существует ли пользователь
-    const existingUser = await User.findOne({ phone });
     if (existingUser) {
       return NextResponse.json(
         { error: "Пользователь с таким телефоном уже существует" },
@@ -45,19 +33,19 @@ export async function POST(request: Request) {
       );
     }
 
-    // Преобразуем дату рождения в формат Date
-    let formattedBirthdayDate = null;
-    if (birthdayDate) {
-      const [day, month, year] = birthdayDate.split(".");
-      formattedBirthdayDate = new Date(`${year}-${month}-${day}`);
-    }
+    // Хеширование пароля (обязательно)
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Создаем нового пользователя
-    const user = new User({
-      phone,
+    // Преобразование даты рождения (формат уже проверен на фронте)
+    const [day, month, year] = birthdayDate.split(".");
+    const formattedBirthdayDate = new Date(`${year}-${month}-${day}`);
+
+    // Создание пользователя
+    const result = await db.collection("users").insertOne({
+      phone: normalizedPhone,
       surname,
       firstName,
-      password,
+      password: hashedPassword,
       birthdayDate: formattedBirthdayDate,
       region,
       location,
@@ -65,27 +53,25 @@ export async function POST(request: Request) {
       card: hasCard ? null : card,
       email,
       hasCard,
+      createdAt: new Date(),
+      updatedAt: new Date()
     });
 
-    await user.save();
+    return NextResponse.json({
+      success: true,
+      userId: result.insertedId,
+      user: {
+        phone: normalizedPhone,
+        surname,
+        firstName,
+        email
+      }
+    }, { status: 201 });
 
-    return NextResponse.json(
-      {
-        success: true,
-        userId: user._id,
-        user: {
-          phone: user.phone,
-          surname: user.surname,
-          firstName: user.firstName,
-          email: user.email,
-        },
-      },
-      { status: 201 }
-    );
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { error: "Ошибка при регистрации" },
+      { error: "Internal server error" },
       { status: 500 }
     );
   }

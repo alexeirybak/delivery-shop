@@ -3,15 +3,17 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { InputMask } from "@react-input/mask";
 import { Loader } from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import Link from "next/link";
-import IconVision from "@/components/svg/IconVision";
+import { buttonStyles } from "../(reg)/styles";
+import PhoneInput from "../(reg)/PhoneInput";
+import PasswordInput from "../(reg)/PasswordInput";
 
-const labelStyles = "text-base text-[#8f8f8f] block";
-const inputStyles =
-  "w-65 h-10 py-2 px-4 text-[#414141] text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none caret-(--color-primary)";
+const initialFormData = {
+  phone: "+7",
+  password: "",
+};
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,22 +21,14 @@ export default function LoginPage() {
     error: Error;
     userMessage: string;
   } | null>(null);
-  const [formData, setFormData] = useState({
-    phone: "",
-    password: "",
-  });
-
+  const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
-  const handleClearForm = () => {
-    setFormData({
-      phone: "+7",
-      password: "",
-    });
+  const handleClose = () => {
+    setFormData(initialFormData);
     router.back();
   };
-
-  const router = useRouter();
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -48,20 +42,29 @@ export default function LoginPage() {
     setIsLoading(true);
     setError(null);
 
+    const normalizedPhone = formData.phone.replace(/\D/g, "");
+
     try {
       const res = await fetch("/api/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          phone: normalizedPhone,
+          password: formData.password,
+        }),
       });
 
-      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
 
-      router.push("/dashboard");
+      if (!res.ok) {
+        throw new Error(data.message || "Ошибка авторизации");
+      }
+
+      router.back();
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
-        userMessage: "Ошибка регистрации. Попробуйте снова",
+        userMessage: "Ошибка входа. Проверьте свои данные",
       });
     } finally {
       setIsLoading(false);
@@ -79,7 +82,7 @@ export default function LoginPage() {
       <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-105 max-h-[100vh] overflow-y-auto">
         <div className="flex justify-end">
           <button
-            onClick={handleClearForm} // Используем функцию очистки
+            onClick={handleClose}
             className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8"
             aria-label="Закрыть"
           >
@@ -100,61 +103,31 @@ export default function LoginPage() {
         >
           <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
             <div className="flex flex-col gap-y-4 items-start">
-              <div>
-                <label htmlFor="phone" className={labelStyles}>
-                  Телефон
-                </label>
-                <InputMask
-                  mask="+7 (___) ___-__-__"
-                  replacement={{ _: /\d/ }}
-                  id="phone"
-                  type="text"
-                  value={formData.phone}
-                  placeholder="+7 (___) ___-__-__"
-                  onChange={handleChange}
-                  className={inputStyles}
-                  showMask={false}
-                  onFocus={(e) => {
-                    if (e.target.value === "+7") {
-                      e.target.setSelectionRange(2, 2);
-                    }
-                  }}
-                />
-              </div>
-              <div>
-                <label htmlFor="password" className={labelStyles}>
-                  Пароль
-                </label>
-                <div className="relative">
-                  <input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={inputStyles}
-                    autoComplete="off"
-                    readOnly
-                    onFocus={(e) => e.target.removeAttribute("readOnly")}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 transform -translate-y-1/2"
-                  >
-                    <IconVision showPassword={showPassword} />
-                  </button>
-                </div>
-              </div>
+              <PhoneInput
+                value={formData.phone}
+                onChangeAction={handleChange}
+              />
+              <PasswordInput
+                id="password"
+                label="Пароль"
+                value={formData.password}
+                onChangeAction={handleChange}
+                showPassword={showPassword}
+                togglePasswordVisibilityAction={() =>
+                  setShowPassword(!showPassword)
+                }
+                showRequirements={true}
+              />
             </div>
           </div>
 
           <button
             type="submit"
             disabled={!(formData.phone && formData.password)}
-            className={`w-65 h-17 my-10 mx-auto text-2xl rounded cursor-pointer transition-all duration-200 ${
+            className={`${buttonStyles.base} ${
               formData.phone && formData.password
-                ? "bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) duration-300"
-                : "bg-[#fcd5ba] text-[#ff6633]"
+                ? buttonStyles.active
+                : buttonStyles.inactive
             }`}
           >
             Вход
