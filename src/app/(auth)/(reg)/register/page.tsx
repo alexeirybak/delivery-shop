@@ -6,6 +6,7 @@ import Image from "next/image";
 import PhoneInput from "../PhoneInput";
 import PersonInput from "../PersonInput";
 import PasswordInput from "../PasswordInput";
+import DateInput from "../DateInput";
 
 const initialFormData = {
   phone: "+7",
@@ -37,10 +38,14 @@ const RegisterPage = () => {
     router.back();
   };
 
+  console.log(formData);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const { id, value } = e.target;
+    const { id, type } = e.target;
+    const value = e.target.value;
+
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -114,10 +119,15 @@ const RegisterPage = () => {
                 }
                 compareWith={formData.password}
               />
-              
             </div>
             <div className="flex flex-col gap-y-4 items-start">
-              Дата рождения Регион Населенный пункт Пол
+              <DateInput
+                value={formData.birthdayDate}
+                onChangeAction={(value) =>
+                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
+                }
+              />
+              Регион Населенный пункт Пол
             </div>
           </div>
         </form>
