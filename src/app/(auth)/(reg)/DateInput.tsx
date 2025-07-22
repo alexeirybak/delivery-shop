@@ -60,7 +60,7 @@ const DateInput = ({ value, onChangeAction }: DateInputProps) => {
   };
 
   return (
-    <div>
+    <div className="relative">
       <label htmlFor="birthdayDate" className={formStyles.label}>
         Дата рождения
       </label>

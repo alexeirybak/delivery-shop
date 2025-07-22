@@ -7,6 +7,16 @@ import PhoneInput from "../PhoneInput";
 import PersonInput from "../PersonInput";
 import PasswordInput from "../PasswordInput";
 import DateInput from "../DateInput";
+import SelectRegion from "../SelectRegion";
+import SelectCity from "../SelectCity";
+import GenderSelect from "../GenderSelect";
+import CardInput from "../CardInput";
+import CheckboxCard from "../CheckboxCard";
+import EmailInput from "../EmailInput";
+import RegFormFooter from "../RegFormFooter";
+import { validateRegisterForm } from "../../../../../utils/validation/form";
+import { Loader } from "@/components/Loader";
+import ErrorComponent from "@/components/ErrorComponent";
 
 const initialFormData = {
   phone: "+7",
@@ -31,6 +41,7 @@ const RegisterPage = () => {
   } | null>(null);
   const [formData, setFormData] = useState(initialFormData);
   const [showPassword, setShowPassword] = useState(false);
+  const [invalidFormMessage, setInvalidFormMessage] = useState("");
   const router = useRouter();
 
   const handleClose = () => {
@@ -44,14 +55,47 @@ const RegisterPage = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { id, type } = e.target;
-    const value = e.target.value;
+    const value = type === "checkbox" ? e.target.checked : e.target.value;
 
+    if (invalidFormMessage) {
+      setInvalidFormMessage("");
+    }
+
+    if (id === "hasCard" && value === true) {
+      setFormData((prev) => ({
+        ...prev,
+        hasCard: true,
+        card: "",
+      }));
+
+      return;
+    }
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
-  const handleSubmit = () => {
-    //
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    setInvalidFormMessage("");
+
+    const validation = validateRegisterForm(formData);
+    if (!validation.isValid) {
+      setInvalidFormMessage(
+        validation.errorMessage || "Заполните поля корректно"
+      );
+      setIsLoading(false);
+      return;
+    }
   };
+
+  const isFormValid = () => validateRegisterForm(formData).isValid;
+
+  if (isLoading) return <Loader />;
+  if (error)
+    return (
+      <ErrorComponent error={error.error} userMessage={error.userMessage} />
+    );
 
   return (
     <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
@@ -127,9 +171,45 @@ const RegisterPage = () => {
                   setFormData((prev) => ({ ...prev, birthdayDate: value }))
                 }
               />
-              Регион Населенный пункт Пол
+              <SelectRegion
+                value={formData.region}
+                onChangeAction={handleChange}
+              />
+              <SelectCity
+                value={formData.location}
+                onChangeAction={handleChange}
+              />
+              <GenderSelect
+                value={formData.gender}
+                onChangeAction={(gender) =>
+                  setFormData((prev) => ({ ...prev, gender }))
+                }
+              />
             </div>
           </div>
+          <h2 className="text-lg font-bold text-center mb-6 mt-10">
+            Необязательные поля
+          </h2>
+          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
+            <div className="flex flex-col w-65 gap-y-4">
+              <CardInput
+                value={formData.card}
+                onChangeAction={handleChange}
+                disabled={formData.hasCard}
+              />
+              <CheckboxCard
+                checked={formData.hasCard}
+                onChangeAction={handleChange}
+              />
+            </div>
+            <EmailInput value={formData.email} onChangeAction={handleChange} />
+          </div>
+          {invalidFormMessage && (
+            <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
+              {invalidFormMessage}
+            </div>
+          )}
+          <RegFormFooter isFormValid={isFormValid()} />
         </form>
       </div>
     </div>
