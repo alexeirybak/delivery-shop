@@ -3,9 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import PhoneInput from "../PhoneInput";
+import PhoneInput from "../../PhoneInput";
 import PersonInput from "../PersonInput";
-import PasswordInput from "../PasswordInput";
+import PasswordInput from "../../PasswordInput";
 import DateInput from "../DateInput";
 import SelectRegion from "../SelectRegion";
 import SelectCity from "../SelectCity";
@@ -98,7 +98,7 @@ const RegisterPage = () => {
         birthdayDate: formattedBirthdayDate,
       };
 
-      const res = await fetch("api/register", {
+      const res = await fetch("/api/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(userData),
@@ -106,7 +106,7 @@ const RegisterPage = () => {
 
       if (!res.ok) {
         const data = await res.json();
-        throw new Error(data.error || "Ошибка регистрации");
+        throw new Error(data.message || "Ошибка регистрации");
       }
 
       setIsSuccess(true);

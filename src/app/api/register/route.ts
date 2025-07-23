@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       phone,
       surname,
       firstName,
-      passWord: hashedPassword,
+      password: hashedPassword,
       birthdayDate,
       region,
       location,
