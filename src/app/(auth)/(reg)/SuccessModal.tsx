@@ -6,7 +6,7 @@ const SuccessModal = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      router.push("login");
+      router.replace("login");
     }, 3000);
 
     return () => clearTimeout(timer);
