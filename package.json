@@ -12,6 +12,7 @@
     "@faker-js/faker": "^9.9.0",
     "@iminside/react-yandex-maps": "^1.2.7",
     "@react-input/mask": "^2.0.4",
+    "bcrypt": "^6.0.0",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.3",
     "motion": "^12.16.0",
@@ -23,6 +24,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
+    "@types/bcrypt": "^6.0.0",
     "@types/node": "^20.19.7",
     "@types/react": "^19",
     "@types/react-dom": "^19",
