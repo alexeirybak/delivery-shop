@@ -64,7 +64,9 @@ export default function LoginPage() {
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
-        userMessage: "Ошибка входа. Проверьте свои данные",
+        userMessage:
+          (error instanceof Error && error.message) ||
+          "Ошибка входа. Проверьте свои данные",
       });
     } finally {
       setIsLoading(false);

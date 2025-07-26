@@ -35,3 +35,24 @@ export default function PhoneInput({ value, onChangeAction }: PhoneInputProps) {
     </div>
   );
 }
+
+
+// import React from "react";
+
+// interface PhoneInputProps {
+//   value: string;
+//   onChange: (value: string) => void;
+//   disabled?: boolean;
+// }
+
+// export default function PhoneInput({ value, onChange, disabled }: PhoneInputProps) {
+//   return (
+//     <input
+//       type="tel"
+//       value={value}
+//       onChange={(e) => onChange(e.target.value)}
+//       disabled={disabled}
+//       placeholder="+7 (___) ___-__-__"
+//     />
+//   );
+// }

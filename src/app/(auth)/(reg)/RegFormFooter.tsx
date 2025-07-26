@@ -1,12 +1,18 @@
 import Link from "next/link";
 import { buttonStyles, formStyles } from "./styles";
 
-export default function RegFormFooter({ isFormValid }: { isFormValid: boolean }) {
+export default function RegFormFooter({
+  isFormValid,
+  isLoading,
+}: {
+  isFormValid: boolean;
+  isLoading: boolean;
+}) {
   return (
     <>
       <button
+        disabled={isLoading}
         type="submit"
-        disabled={!isFormValid}
         className={`${buttonStyles.base} ${
           isFormValid ? buttonStyles.active : buttonStyles.inactive
         }`}

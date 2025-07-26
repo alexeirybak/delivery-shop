@@ -1,82 +1,56 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, ChangeEvent } from "react";
 import Image from "next/image";
 import { formStyles } from "./styles";
 import Tooltip from "./Tooltip";
+import { validateBirthDate } from "../../../../utils/validation/date";
 
 interface DateInputProps {
+  id: string;
   value: string;
   onChangeAction: (value: string) => void;
 }
 
-export default function DateInput({ value, onChangeAction }: DateInputProps) {
+export default function DateInput({
+  id,
+  value,
+  onChangeAction,
+}: DateInputProps) {
   const [showTooltip, setShowTooltip] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isValid, setIsValid] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const formatDate = (input: string): string => {
     const cleaned = input.replace(/\D/g, "");
-    
     let formatted = "";
     if (cleaned.length > 0) formatted = cleaned.slice(0, 2);
     if (cleaned.length > 2) formatted += "." + cleaned.slice(2, 4);
     if (cleaned.length > 4) formatted += "." + cleaned.slice(4, 8);
-    
     return formatted;
   };
 
-  const validateDate = (dateStr: string): boolean => {
-    if (!dateStr || dateStr.length < 10) {
-      setError("Введите полную дату в формате дд.мм.гггг");
-      setIsValid(false);
-      return false;
-    }
-
-    const [day, month, year] = dateStr.split(".").map(Number);
-    const date = new Date(year, month - 1, day);
-    
-    if (
-      date.getDate() !== day ||
-      date.getMonth() !== month - 1 ||
-      date.getFullYear() !== year
-    ) {
-      setError("Некорректная дата");
-      setIsValid(false);
-      return false;
-    }
-
-    setError(null);
-    setIsValid(true);
-    return true;
+  const handleDateChange = (formattedDate: string) => {
+    const validation = validateBirthDate(formattedDate);
+    setError(validation.error || null);
+    setShowTooltip(!!validation.error);
+    onChangeAction(formattedDate);
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const formatted = formatDate(e.target.value);
-    onChangeAction(formatted);
-    validateDate(formatted);
-    setShowTooltip(!!formatted && !isValid); // Показываем только если есть текст и дата невалидна
+    handleDateChange(formatted);
   };
-
-  useEffect(() => {
-    if (isValid) {
-      setShowTooltip(false); // Автоматически скрываем тултип при валидности
-    }
-  }, [isValid]);
 
   const handleCalendarClick = () => {
     const tempInput = document.createElement("input");
     tempInput.type = "date";
-    tempInput.style.position = "fixed";
-    tempInput.style.opacity = "0";
+    tempInput.max = new Date().toISOString().split("T")[0]; // Запрещаем выбор будущих дат
 
     tempInput.onchange = (e) => {
       const target = e.target as HTMLInputElement;
       if (target.value) {
         const [year, month, day] = target.value.split("-");
         const formatted = `${day}.${month}.${year}`;
-        onChangeAction(formatted);
-        validateDate(formatted);
+        handleDateChange(formatted);
       }
       document.body.removeChild(tempInput);
     };
@@ -87,10 +61,12 @@ export default function DateInput({ value, onChangeAction }: DateInputProps) {
 
   return (
     <div className="relative">
-      <label className={formStyles.label}>Дата рождения</label>
+      <label htmlFor={id} className={formStyles.label}>
+        Дата рождения
+      </label>
       <div className="relative">
         <input
-          ref={inputRef}
+          id={id}
           type="text"
           value={value}
           onChange={handleInputChange}
@@ -98,13 +74,13 @@ export default function DateInput({ value, onChangeAction }: DateInputProps) {
           className={`${formStyles.input} pr-8`}
           maxLength={10}
           onFocus={() => setShowTooltip(true)}
-          onBlur={() => !error && setShowTooltip(false)}
+          onBlur={() => setShowTooltip(false)}
         />
-        
         <button
           type="button"
           className="absolute right-2 top-1/2 transform -translate-y-1/2"
           onClick={handleCalendarClick}
+          aria-label="Выбрать дату"
         >
           <Image
             src="/icons-auth/icon-date.svg"
@@ -114,10 +90,7 @@ export default function DateInput({ value, onChangeAction }: DateInputProps) {
           />
         </button>
       </div>
-      
-      {showTooltip && (
-        <Tooltip text={error || "Введите дату в формате дд.мм.гггг"} />
-      )}
+      {showTooltip && error && <Tooltip text={error} />}
     </div>
   );
 }

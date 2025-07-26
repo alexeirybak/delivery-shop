@@ -8,29 +8,22 @@ interface CardInputProps {
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
   disabled: boolean;
-  id?: string;
-  label?: string;
-  mask?: string;
-  className?: string;
-  placeholder?: string;
 }
 
 export default function CardInput({
   value,
   onChangeAction,
   disabled,
-  id = "card",
-  mask = "____ ____ ____ ____",
 }: CardInputProps) {
   return (
     <div className={`flex flex-col mb-4`}>
-      <label htmlFor={id} className={formStyles.label}>
+      <label htmlFor="card" className={formStyles.label}>
         {"Номер карты лояльности"}
       </label>
       <InputMask
-        mask={mask}
+        mask = "____ ____ ____ ____"
         replacement={{ _: /\d/ }}
-        id={id}
+        id="card"
         value={value}
         onChange={onChangeAction}
         disabled={disabled}

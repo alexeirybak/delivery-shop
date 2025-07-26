@@ -13,7 +13,7 @@ interface SelectRegionProps {
 
 export default function SelectRegion({ value, onChangeAction }: SelectRegionProps) {
   return (
-    <div className="relative">
+    <div>
       <label htmlFor="region" className={formStyles.label}>
         Регион
       </label>

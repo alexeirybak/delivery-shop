@@ -1,36 +1,38 @@
-export const validateDate = (
-  date: string
-): { isValid: boolean; error?: string } => {
-  // Проверка формата даты (дд.мм.гггг)
-  const dateRegex = /^\d{2}\.\d{2}\.\d{4}$/;
-  if (!dateRegex.test(date)) {
-    return {
-      isValid: false,
-      error: "Неверный формат даты рождения. Используйте формат дд.мм.гггг",
-    };
+export function validateBirthDate(dateStr: string): { isValid: boolean; error?: string } {
+  if (!dateStr || dateStr.length < 10) {
+    return { isValid: false, error: "Введите полную дату в формате дд.мм.гггг" };
   }
 
-  // Проверка валидности даты
-  const [day, month, year] = date.split(".");
-  const testDate = new Date(`${year}-${month}-${day}`);
-  if (isNaN(testDate.getTime())) {
-    return { isValid: false, error: "Некорректная дата рождения" };
-  }
-
-  // Проверка возраста (минимум 14 лет)
+  const [day, month, year] = dateStr.split(".").map(Number);
+  const date = new Date(year, month - 1, day);
   const today = new Date();
-  const birthDate = new Date(`${year}-${month}-${day}`);
-  let age = today.getFullYear() - birthDate.getFullYear();
-  const monthDiff = today.getMonth() - birthDate.getMonth();
+  const minDate = new Date(1900, 0, 1);
+  const maxDate = new Date();
+  maxDate.setFullYear(maxDate.getFullYear() - 14);
+
+  // Проверка корректности даты
   if (
-    monthDiff < 0 ||
-    (monthDiff === 0 && today.getDate() < birthDate.getDate())
+    date.getDate() !== day ||
+    date.getMonth() !== month - 1 ||
+    date.getFullYear() !== year
   ) {
-    age--;
+    return { isValid: false, error: "Некорректная дата" };
   }
-  if (age < 14) {
-    return { isValid: false, error: "Вы должны быть старше 14 лет" };
+  
+  // Проверка что дата не раньше 1900 года
+  if (date < minDate) {
+    return { isValid: false, error: "Дата не может быть раньше 1900 года" };
+  }
+  
+  // Проверка что дата не в будущем
+  if (date > today) {
+    return { isValid: false, error: "Дата не может быть в будущем" };
+  }
+  
+  // Проверка что пользователю больше 14 лет
+  if (date > maxDate) {
+    return { isValid: false, error: "Вам должно быть не меньше 14 лет" };
   }
 
   return { isValid: true };
-};
+}
