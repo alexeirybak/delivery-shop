@@ -30,7 +30,7 @@ const handleCompleteRegistration = useCallback(async () => {
         name: formData.firstName,
         password: formData.password,
         email: formData.email,
-        callbackURL: "/login",
+        //callbackURL: "/login",
       },
       {
         onSuccess: async () => {
