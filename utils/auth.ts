@@ -83,6 +83,47 @@ const db = client.db("delivery-shop");
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
+  user: {
+    additionalFields: {
+      // Обязательные поля
+      surname: {
+        type: "string",
+        input: true
+      },
+      firstName: {
+        type: "string",
+        input: true
+      },
+      birthdayDate: {
+        type: "string",
+        input: true
+      },
+      region: {
+        type: "string",
+        input: true
+      },
+      location: {
+        type: "string",
+        input: true
+      },
+      gender: {
+        type: "string",
+        input: true
+      },
+      // Опциональные поля
+      card: {
+        type: "string",
+        input: true,
+        required: false
+      },
+      hasCard: {
+        type: "boolean",
+        input: true,
+        required: false
+      },
+      // Поле phone уже обрабатывается плагином phoneNumber
+    }
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -94,7 +135,7 @@ export const auth = betterAuth({
     },
   },
   session: {
-    expiresIn: 60 * 60 * 24 * 7, 
+    expiresIn: 60 * 60 * 24 * 7,
     updateAge: 60 * 60 * 24 * 7,
     cookieCache: {
       enabled: true,
@@ -102,7 +143,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
-    sendOnSignUp: false,
+    sendOnSignUp: true,
     autoSignInAfterVerification: false,
     callbackURL: "/login",
     sendVerificationEmail: async ({ user, url }) => {
