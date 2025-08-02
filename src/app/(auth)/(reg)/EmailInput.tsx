@@ -6,9 +6,11 @@ import { formStyles } from "../styles";
 interface EmailInputProps {
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
+  inputClass?: string; 
 }
 
-const EmailInput = ({ value, onChangeAction }: EmailInputProps) => {
+const EmailInput = ({ value, onChangeAction, inputClass = "" }: EmailInputProps) => {
+  
   return (
     <div>
       <label htmlFor="email" className={formStyles.label}>
@@ -19,7 +21,7 @@ const EmailInput = ({ value, onChangeAction }: EmailInputProps) => {
         type="email"
         value={value}
         onChange={onChangeAction}
-        className={formStyles.input}
+        className={`${formStyles.input} ${inputClass}`}
       />
     </div>
   );

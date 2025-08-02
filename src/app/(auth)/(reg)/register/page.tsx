@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import PhoneInput from "../../PhoneInput";
@@ -17,22 +17,9 @@ import RegFormFooter from "../RegFormFooter";
 import { validateRegisterForm } from "../../../../../utils/validation/form";
 import { Loader } from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
-import SuccessModal from "../SuccessModal";
-
-const initialFormData = {
-  phone: "+7",
-  surname: "",
-  firstName: "",
-  password: "",
-  confirmPassword: "",
-  birthdayDate: "",
-  region: "",
-  location: "",
-  gender: "",
-  card: "",
-  email: "",
-  hasCard: false,
-};
+import { useFormContext } from "@/app/contexts/FormContext";
+import VerificationMethodModal from "../VerificationMethodModal";
+import { formatToISO } from "../../../../../utils/date/formatDate";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -40,37 +27,62 @@ const RegisterPage = () => {
     error: Error;
     userMessage: string;
   } | null>(null);
-  const [formData, setFormData] = useState(initialFormData);
+  const { formData, setFormData, resetForm } = useFormContext();
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
+  // Очищаем форму только при первом рендере
+  useEffect(() => {
+    if (!initialized) {
+      resetForm();
+      setInitialized(true);
+    }
+  }, [initialized, resetForm]);
+
   const handleClose = () => {
-    setFormData(initialFormData);
-    router.back();
+    resetForm();
+    router.replace("/");
   };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { id, type } = e.target;
-    const value = type === "checkbox" ? e.target.checked : e.target.value;
 
-    if (invalidFormMessage) {
-      setInvalidFormMessage("");
+    if (type === "checkbox") {
+      // Обработка чекбоксов
+      setFormData({
+        ...formData,
+        [id]: (e.target as HTMLInputElement).checked,
+      });
+    } else {
+      // Обработка всех остальных полей
+      let value = e.target.value;
+
+      // Специальная обработка для телефона
+      if (id === "phone") {
+        value = value.replace(/\D/g, "");
+        if (value.startsWith("8")) {
+          value = "7" + value.substring(1);
+        }
+        value = value.substring(0, 11);
+      }
+
+      setFormData({
+        ...formData,
+        [id]: value,
+      });
     }
+  };
+  const handleDateChange = (value: string) => {
+    setFormData({ ...formData, birthdayDate: value });
+  };
 
-    if (id === "hasCard" && value === true) {
-      setFormData((prev) => ({
-        ...prev,
-        hasCard: true,
-        card: "",
-      }));
-
-      return;
-    }
-    setFormData((prev) => ({ ...prev, [id]: value }));
+  const handleGenderChange = (gender: string) => {
+    setFormData({ ...formData, gender });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -89,26 +101,15 @@ const RegisterPage = () => {
     }
 
     try {
-      const [day, month, year] = formData.birthdayDate.split(".");
-      const formattedBirthdayDate = new Date(`${year}-${month}-${day}`);
-
-      const userData = {
+      const apiData = {
         ...formData,
         phone: formData.phone.replace(/\D/g, ""),
-        birthdayDate: formattedBirthdayDate,
+        birthdayDate: formatToISO(formData.birthdayDate),
       };
 
-      const res = await fetch("/api/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userData),
-      });
+      console.log(apiData);
 
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Ошибка регистрации");
-      }
-
+      setFormData(apiData);
       setIsSuccess(true);
     } catch (error) {
       setError({
@@ -120,18 +121,20 @@ const RegisterPage = () => {
     }
   };
 
-  const isFormValid = () => validateRegisterForm(formData).isValid;
-
   if (isLoading) return <Loader />;
   if (error)
     return (
       <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
-
-  if (isSuccess) return <SuccessModal />;
+  if (isSuccess)
+    return formData.email ? (
+      <VerificationMethodModal />
+    ) : (
+      router.replace("/verify/phone")
+    );
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
+    <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
       <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-[687px] max-h-[100vh] overflow-y-auto">
         <div className="flex justify-end">
           <button
@@ -147,10 +150,12 @@ const RegisterPage = () => {
             />
           </button>
         </div>
+
         <h1 className="text-2xl font-bold text-center mb-10">Регистрация</h1>
         <h2 className="text-lg font-bold text-center mb-6">
           Обязательные поля
         </h2>
+
         <form
           onSubmit={handleSubmit}
           autoComplete="off"
@@ -169,9 +174,9 @@ const RegisterPage = () => {
                 onChange={handleChange}
               />
               <PersonInput
-                id="firstName"
+                id="name"
                 label="Имя"
-                value={formData.firstName}
+                value={formData.name}
                 onChange={handleChange}
               />
               <PasswordInput
@@ -197,12 +202,11 @@ const RegisterPage = () => {
                 compareWith={formData.password}
               />
             </div>
+
             <div className="flex flex-col gap-y-4 items-start">
               <DateInput
                 value={formData.birthdayDate}
-                onChangeAction={(value) =>
-                  setFormData((prev) => ({ ...prev, birthdayDate: value }))
-                }
+                onChangeAction={handleDateChange}
               />
               <SelectRegion
                 value={formData.region}
@@ -214,12 +218,11 @@ const RegisterPage = () => {
               />
               <GenderSelect
                 value={formData.gender}
-                onChangeAction={(gender) =>
-                  setFormData((prev) => ({ ...prev, gender }))
-                }
+                onChangeAction={handleGenderChange}
               />
             </div>
           </div>
+
           <h2 className="text-lg font-bold text-center mb-6 mt-10">
             Необязательные поля
           </h2>
@@ -237,12 +240,17 @@ const RegisterPage = () => {
             </div>
             <EmailInput value={formData.email} onChangeAction={handleChange} />
           </div>
+
           {invalidFormMessage && (
             <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
               {invalidFormMessage}
             </div>
           )}
-          <RegFormFooter isFormValid={isFormValid()} isLoading={isLoading} />
+
+          <RegFormFooter
+            isFormValid={validateRegisterForm(formData).isValid}
+            isLoading={isLoading}
+          />
         </form>
       </div>
     </div>

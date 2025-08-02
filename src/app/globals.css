@@ -89,3 +89,7 @@ body {
     width: 100%;
   }
 }
+
+input {
+  caret-color: #70c05b;
+}

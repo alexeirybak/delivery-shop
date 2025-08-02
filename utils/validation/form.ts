@@ -3,7 +3,7 @@ import { validateBirthDate } from "./validateBirthDate";
 export function validateRegisterForm(formData: {
   phone: string;
   surname: string;
-  firstName: string;
+  name: string;
   password: string;
   confirmPassword: string;
   birthdayDate: string;
@@ -36,8 +36,8 @@ export function validateRegisterForm(formData: {
 
   // Проверка имени
   if (
-    !formData.firstName ||
-    !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.firstName.trim())
+    !formData.name ||
+    !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.name.trim())
   ) {
     return {
       isValid: false,
@@ -48,7 +48,7 @@ export function validateRegisterForm(formData: {
   // Проверка пароля
   if (
     !formData.password ||
-    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(formData.password)
+    !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/.test(formData.password)
   ) {
     return {
       isValid: false,

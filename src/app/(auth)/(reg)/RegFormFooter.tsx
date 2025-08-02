@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { buttonStyles, formStyles } from "../styles";
 
 const RegFormFooter = ({
@@ -10,6 +11,13 @@ const RegFormFooter = ({
   isFormValid: boolean;
   isLoading: boolean;
 }) => {
+  const router = useRouter();
+
+  const handleLoginClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.replace("/login");
+  };
+
   return (
     <>
       <button
@@ -21,7 +29,11 @@ const RegFormFooter = ({
       >
         Продолжить
       </button>
-      <Link href="/login" className={formStyles.loginLink}>
+      <Link 
+        href="/login" 
+        className={formStyles.loginLink}
+        onClick={handleLoginClick}
+      >
         Вход
       </Link>
     </>

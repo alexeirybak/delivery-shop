@@ -39,6 +39,6 @@ export function validateBirthDate(dateStr: string): {
   if (date > maxDate) {
     return { isValid: false, error: "Вам должно быть не меньше 14 лет" };
   }
-  
+
   return { isValid: true };
 }

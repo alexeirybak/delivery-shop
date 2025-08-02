@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
     const db = await getDB();
 
-    const user = await db.collection("users").findOne({ phone });
+    const user = await db.collection("user").findOne({ phone });
 
     if (!user) {
       return NextResponse.json(
@@ -29,7 +29,7 @@ export async function POST(request: Request) {
         _id: user._id,
         phone: user.phone,
         surname: user.surname,
-        firstName: user.firstName,
+        name: user.name,
         email: user.email,
       },
     };
