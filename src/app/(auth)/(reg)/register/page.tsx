@@ -34,6 +34,12 @@ const RegisterPage = () => {
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
+  useEffect(() => {
+    if (isSuccess && !formData.email) {
+      router.replace("/verify/phone");
+    }
+  }, [isSuccess, formData.email, router]);
+
   // Очищаем форму только при первом рендере
   useEffect(() => {
     if (!initialized) {
@@ -107,10 +113,8 @@ const RegisterPage = () => {
         birthdayDate: formatToISO(formData.birthdayDate),
       };
 
-      console.log(apiData);
-
       setFormData(apiData);
-      setIsSuccess(true);
+      setIsSuccess(true); // Только устанавливаем флаг, навигация в useEffect
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
@@ -126,12 +130,10 @@ const RegisterPage = () => {
     return (
       <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
-  if (isSuccess)
-    return formData.email ? (
-      <VerificationMethodModal />
-    ) : (
-      router.replace("/verify/phone")
-    );
+
+  if (isSuccess && formData.email) {
+    return <VerificationMethodModal />;
+  }
 
   return (
     <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">

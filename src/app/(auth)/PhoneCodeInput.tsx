@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -7,9 +9,11 @@ import useTimer from "@/hooks/useTimer";
 const PhoneCodeInput = ({
   onSubmit,
   onResend,
+  error,
 }: {
   onSubmit: (code: string) => void;
   onResend: () => void;
+  error?: string | null;
 }) => {
   const [code, setCode] = useState("");
   const router = useRouter();
@@ -17,7 +21,6 @@ const PhoneCodeInput = ({
 
   const handleResend = () => {
     if (!canResend) return;
-    
     startTimer();
     onResend();
   };
@@ -65,13 +68,22 @@ const PhoneCodeInput = ({
                 value={code}
                 onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
                 className="w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+                autoComplete="one-time-code"
                 required
               />
             </div>
 
+            {error && (
+              <div className="text-red-500 text-center mt-2 text-sm">
+                {error}
+              </div>
+            )}
+
             <button
               type="submit"
-              className={`${buttonStyles.base} ${code.length !== 4 ? buttonStyles.inactive : buttonStyles.active} [&&]:mt-8 mb-0`}
+              className={`${buttonStyles.base} ${
+                code.length !== 4 ? buttonStyles.inactive : buttonStyles.active
+              } [&&]:mt-8 mb-0`}
             >
               Подтвердить
             </button>
