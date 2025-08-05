@@ -1,38 +1,61 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "../../../../../lib/auth-clients";
-import { Loader } from "@/components/Loader";
 import { useFormContext } from "@/app/contexts/FormContext";
+import ErrorComponent from "@/components/ErrorComponent";
+import MiniLoader from "@/components/MiniLoader";
 
 export default function VerifyPhonePage() {
   const router = useRouter();
   const { formData } = useFormContext();
+  const [error, setError] = useState<{
+    error: Error;
+    userMessage: string;
+  } | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const isSent = useRef(false);
+  const phone = formData.phone;
 
   useEffect(() => {
     const sendSms = async () => {
+      if (isSent.current) return;
+      isSent.current = true;
+
       try {
-        let phoneWithPlus = formData.phone;
-        if (!phoneWithPlus.startsWith("+")) {
-          phoneWithPlus = "+" + phoneWithPlus;
-        }
-        // Отправляем SMS только один раз
+        setIsLoading(true);
+
         const { error } = await authClient.phoneNumber.sendOtp({
-          phoneNumber: phoneWithPlus,
+          phoneNumber: phone,
         });
 
         if (error) throw error;
 
-        // Перенаправляем на страницу ввода кода
-        router.push(`/enter-code?phone=${encodeURIComponent(phoneWithPlus)}`);
+        setIsSuccess(true);
       } catch (error) {
-        console.error("Ошибка отправки SMS:", error);
+        setError({
+          error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
+          userMessage: "Ошибка отправки SMS. Попробуйте снова",
+        });
+        isSent.current = false;
+      } finally {
+        setIsLoading(false);
       }
     };
 
     sendSms();
-  }, [formData.phone, router]);
+  }, [phone]);
 
-  return <Loader />;
+  useEffect(() => {
+    if (isSuccess) {
+      router.push("/enter-code");
+    }
+  }, [isSuccess, router]);
+
+  if (isLoading) return <MiniLoader />;
+  if (error) return <ErrorComponent error={error.error} userMessage={error.userMessage} />;
+
+  return null;
 }

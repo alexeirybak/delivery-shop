@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { useFormContext } from "@/app/contexts/FormContext";
-import { Loader } from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import { authClient } from "../../../../../lib/auth-clients";
+import MiniLoader from "@/components/MiniLoader";
 
 type Status = "idle" | "verifying" | "success" | "error";
 
@@ -36,9 +36,10 @@ const VerifyEmailPage = () => {
             region: formData.region,
             location: formData.location,
             gender: formData.gender,
-            ...(formData.card && { card: formData.card }),
-            hasCard: formData.hasCard,
+            card: formData.card,
+            hasCard: formData.card ? true : undefined,
           };
+
           await authClient.signUp.email(registrationData, {
             onSuccess: () => setStatus("success"),
             onError: (ctx) => {
@@ -66,7 +67,7 @@ const VerifyEmailPage = () => {
   }, [status, formData]);
 
   if (status === "verifying") {
-    return <Loader />;
+    return <MiniLoader />;
   }
 
   if (status === "error" && error) {
@@ -117,7 +118,7 @@ const VerifyEmailPage = () => {
             <h2 className="text-2xl font-bold text-(--color-primary) mb-6">
               Подтверждение email
             </h2>
-            <p className="text-lg mb-6">Идет процесс регистрации...</p>
+            <p className="text-lg mb-6">Идет процесс верификации...</p>
           </>
         )}
       </div>

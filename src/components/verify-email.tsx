@@ -71,10 +71,7 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               </Text>
 
               <Text className="text-xs text-gray-400 m-0 text-center mt-2 leading-4">
-                <a href="#" className="text-gray-400 underline">
-                  Отписаться
-                </a>{" "}
-                | © {new Date().getFullYear()} Северяночка. Все права защищены.
+                © {new Date().getFullYear()} Северяночка. Все права защищены.
               </Text>
             </Section>
           </Container>
