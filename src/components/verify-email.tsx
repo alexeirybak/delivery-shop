@@ -57,7 +57,7 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               <Text className="text-xs text-gray-500 m-0 leading-4">
                 С уважением,
                 <br />
-                Команда Северяночки
+                Команда &quot;Северяночки&quot;
               </Text>
             </Section>
 

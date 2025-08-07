@@ -22,7 +22,7 @@ const LoginPasswordPage = () => {
 const LoginPasswordContent = () => {
   const { login } = useAuthStore();
   const searchParams = useSearchParams();
-  const email = searchParams.get("email") || "";
+  const loginParam = searchParams.get("login") || "";
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -30,12 +30,24 @@ const LoginPasswordContent = () => {
   const router = useRouter();
 
   const handleClose = () => {
-    router.push("/");
+    router.replace("/");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setError(null);
+  };
+
+  const isPhone = (value: string) => {
+    // Улучшенная проверка номера телефона
+    return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
+      value
+    );
+  };
+
+  const normalizePhone = (phone: string) => {
+    // Удаляем все нецифровые символы
+    return phone.replace(/\D/g, "");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -44,20 +56,75 @@ const LoginPasswordContent = () => {
     setError(null);
 
     try {
-      const { error: authError, data } = await authClient.signIn.email({
-        email,
-        password,
-      });
+      if (isPhone(loginParam)) {
+        // Логин по номеру телефона
+        const normalizedPhone = normalizePhone(loginParam);
 
-      if (authError) {
-        setError("Неверный пароль");
-        return;
+        const response = await fetch("/api/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone: normalizedPhone,
+            password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Ошибка при входе");
+        }
+
+        if (!data.success) {
+          throw new Error(data.message || "Неверные учетные данные");
+        }
+
+        const userName = data.user?.name || data.user?.phone || "Пользователь";
+        router.replace("/");
+        login(userName);
+      } else {
+        // Логин по email
+        await authClient.signIn.email(
+          { email: loginParam, password },
+          {
+            onSuccess: (ctx) => {
+              const userName = ctx.data?.user.name || "Пользователь";
+              router.replace("/");
+              login(userName);
+            },
+            onError: (ctx) => {
+              let errorMessage = "Ошибка при входе";
+              if (ctx.error) {
+                if (ctx.error.message.includes("Invalid email or password")) {
+                  errorMessage = "Неверный email или пароль";
+                } else {
+                  errorMessage = ctx.error.message || errorMessage;
+                }
+              }
+              setError(errorMessage);
+            },
+          }
+        );
       }
-      const userName = data?.user.name || "Пользователь";
-      router.replace("/");
-      login(userName); // Сохраняем в Zustand
-    } catch {
-      setError("Ошибка при входе. Пожалуйста, попробуйте позже");
+    } catch (err) {
+      let errorMessage = "Произошла непредвиденная ошибка";
+      if (err instanceof Error) {
+        if (
+          err.message.includes("Неверный пароль") ||
+          err.message.includes("Invalid email or password")
+        ) {
+          errorMessage = "Неверный пароль";
+        } else if (err.message.includes("Пользователь не найден")) {
+          errorMessage = "Пользователь с такими данными не найден";
+        } else {
+          errorMessage = err.message;
+        }
+      }
+
+      setError(errorMessage);
+      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }

@@ -20,6 +20,7 @@ import ErrorComponent from "@/components/ErrorComponent";
 import { useFormContext } from "@/app/contexts/FormContext";
 import VerificationMethodModal from "../VerificationMethodModal";
 import { formatToISO } from "../../../../../utils/date/formatDate";
+import { UserExistsError } from "../UserExistsError";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,22 +32,25 @@ const RegisterPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const [userExists, setUserExists] = useState<{
+    phone?: boolean;
+    email?: boolean;
+  }>({});
   const [initialized, setInitialized] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (isSuccess && !formData.email) {
-      router.replace("/verify/phone");
-    }
-  }, [isSuccess, formData.email, router]);
-
-  // Очищаем форму только при первом рендере
   useEffect(() => {
     if (!initialized) {
       resetForm();
       setInitialized(true);
     }
   }, [initialized, resetForm]);
+
+  useEffect(() => {
+    if (isSuccess && !formData.email) {
+      router.replace("/verify/phone");
+    }
+  }, [isSuccess, formData.email, router, resetForm]);
 
   const handleClose = () => {
     resetForm();
@@ -83,12 +87,54 @@ const RegisterPage = () => {
       });
     }
   };
+
   const handleDateChange = (value: string) => {
     setFormData({ ...formData, birthdayDate: value });
   };
 
   const handleGenderChange = (gender: string) => {
     setFormData({ ...formData, gender });
+  };
+
+  const checkUserExists = async () => {
+    try {
+      const checks = [];
+
+      checks.push(
+        fetch("/api/auth/check-phone", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ phoneNumber: formData.phone }),
+        })
+      );
+
+      if (formData.email) {
+        checks.push(
+          fetch("/api/auth/check-email", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: formData.email }),
+          })
+        );
+      }
+
+      const responses = await Promise.all(checks);
+      const results = await Promise.all(responses.map((r) => r.json()));
+
+      const exists = {
+        phone: results[0].exists,
+        email: formData.email ? results[1]?.exists : false,
+      };
+
+      if (exists.phone || exists.email) {
+        setUserExists(exists);
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      throw error;
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -107,6 +153,12 @@ const RegisterPage = () => {
     }
 
     try {
+      const isUserAvailable = await checkUserExists();
+      if (!isUserAvailable) {
+        setIsLoading(false);
+        return;
+      }
+
       const apiData = {
         ...formData,
         phone: formData.phone.replace(/\D/g, ""),
@@ -114,7 +166,7 @@ const RegisterPage = () => {
       };
 
       setFormData(apiData);
-      setIsSuccess(true); // Только устанавливаем флаг, навигация в useEffect
+      setIsSuccess(true); 
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
@@ -130,6 +182,16 @@ const RegisterPage = () => {
     return (
       <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
+
+  if (userExists.phone || userExists.email) {
+    return (
+      <UserExistsError
+        phone={userExists.phone ? formData.phone : undefined}
+        email={userExists.email ? formData.email : undefined}
+        onClose={handleClose}
+      />
+    );
+  }
 
   if (isSuccess && formData.email) {
     return <VerificationMethodModal />;

@@ -77,7 +77,8 @@ const ProductCard = ({
               )}
             </div>
             {finalPrice !== basePrice && cardDiscountPercent > 0 && (
-              <div className="flex flex-col gap-x-1">
+              // Сделал отступ mt-0.5
+              <div className="flex flex-col gap-x-1 mt-0.5">
                 <div className="flex flex-row gap-x-1 text-xs md:text-base text-[#606060]">
                   <span>{formatPrice(finalPrice)}</span>
                   <span>₽</span>

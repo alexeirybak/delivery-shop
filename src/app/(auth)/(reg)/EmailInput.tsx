@@ -9,7 +9,7 @@ interface EmailInputProps {
   inputClass?: string; 
 }
 
-const EmailInput = ({ value, onChangeAction, inputClass = "" }: EmailInputProps) => {
+const EmailInput = ({ value, onChangeAction }: EmailInputProps) => {
   
   return (
     <div>
@@ -21,7 +21,7 @@ const EmailInput = ({ value, onChangeAction, inputClass = "" }: EmailInputProps)
         type="email"
         value={value}
         onChange={onChangeAction}
-        className={`${formStyles.input} ${inputClass}`}
+        className={`${formStyles.input}`}
       />
     </div>
   );

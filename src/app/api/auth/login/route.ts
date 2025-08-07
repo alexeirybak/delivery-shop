@@ -1,13 +1,20 @@
 import { NextResponse } from "next/server";
-import { getDB } from "../../../../utils/api-routes";
+import { getDB } from "../../../../../utils/api-routes";
+import bcrypt from "bcrypt";
 
 export async function POST(request: Request) {
   try {
     const { phone, password } = await request.json();
 
-    const db = await getDB();
+    if (!phone || !password) {
+      return NextResponse.json(
+        { message: "Требуется телефон и пароль" },
+        { status: 400 }
+      );
+    }
 
-    const user = await db.collection("user").findOne({ phone });
+    const db = await getDB();
+    const user = await db.collection("user").findOne({ phoneNumber: phone });
 
     if (!user) {
       return NextResponse.json(
@@ -16,18 +23,19 @@ export async function POST(request: Request) {
       );
     }
 
-    const bcrypt = await import("bcrypt");
+    // Проверяем пароль
     const isPasswordValid = await bcrypt.compare(password, user.password);
 
     if (!isPasswordValid) {
       return NextResponse.json({ message: "Неверный пароль" }, { status: 401 });
     }
 
+    // Успешная аутентификация
     const responseData = {
       success: true,
       user: {
         _id: user._id,
-        phone: user.phone,
+        phone: user.phoneNumber,
         surname: user.surname,
         name: user.name,
         email: user.email,
@@ -37,6 +45,9 @@ export async function POST(request: Request) {
     return NextResponse.json(responseData);
   } catch (error) {
     console.error("Ошибка авторизации:", error);
-    return NextResponse.json({ error: "Ошибка сервера" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Внутренняя ошибка сервера" },
+      { status: 500 }
+    );
   }
 }

@@ -1,59 +1,67 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "../../../../lib/auth-clients";
 import { buttonStyles } from "../styles";
 import useTimer from "@/hooks/useTimer";
 import { useFormContext } from "@/app/contexts/FormContext";
 
-interface UserUpdateData {
-  phoneNumber: string;
-  surname: string;
-  name: string;
-  password: string;
-  birthdayDate: string;
-  region: string;
-  location: string;
-  gender: string;
-  card?: string;
-  hasCard?: boolean;
+interface EnterCodeProps {
+  phone: string;
+  onClose: () => void;
+  onSuccess: () => void;
 }
 
-type ApiError = {
-  code: string;
-  message: string;
-  status?: number;
-  statusText?: string;
-};
+const MAX_ATTEMPTS = 3; // Максимальное количество попыток
 
-export default function EnterCodePage() {
+export const EnterCode = ({ phone, onClose }: EnterCodeProps) => {
   const router = useRouter();
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
   const { timeLeft, canResend, startTimer } = useTimer(60);
   const { formData } = useFormContext();
-  const phone = formData.phone;
 
-  const handleClose = () => {
-    router.push("/");
-  };
+  useEffect(() => {
+    if (attemptsLeft <= 0) {
+      router.push("/register");
+    }
+  }, [attemptsLeft, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length !== 4) return;
 
     try {
-      const { error: verifyError } = await authClient.phoneNumber.verify({
-        phoneNumber: phone,
-        code,
-        disableSession: false,
-      });
+      const { data: verifyData, error: verifyError } =
+        await authClient.phoneNumber.verify({
+          phoneNumber: phone,
+          code,
+          disableSession: false,
+        });
 
       if (verifyError) throw verifyError;
 
-      const updateData: UserUpdateData = {
+      setAttemptsLeft(MAX_ATTEMPTS);
+
+      const passwordResponse = await fetch("/api/auth/set-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: verifyData.user.id,
+          password: formData.password,
+        }),
+      });
+
+      if (!passwordResponse.ok) {
+        const errorData = await passwordResponse.json();
+        console.error("Детали ошибки:", errorData);
+        throw new Error(errorData.error || "Ошибка установки пароля");
+      }
+
+      const updateData = {
         phoneNumber: phone,
         surname: formData.surname,
         name: formData.name,
@@ -67,17 +75,20 @@ export default function EnterCodePage() {
       };
 
       const { error: updateError } = await authClient.updateUser(updateData);
-
       if (updateError) throw updateError;
 
-      router.push("/");
+      // Перенаправляем на страницу login вместо вызова onSuccess
+      router.replace("/login");
     } catch (err) {
       console.error("Ошибка:", err);
-      const apiError = err as ApiError;
-      if (apiError.code === "INVALID_OTP") {
-        setError("Неверный код подтверждения. Попробуйте снова");
+      setCode(""); // Очищаем поле ввода
+      setAttemptsLeft((prev) => prev - 1); // Уменьшаем количество попыток
+
+      if (attemptsLeft <= 1) {
+        setError("Попытки исчерпаны. Пожалуйста, зарегистрируйтесь снова");
+        setTimeout(() => router.push("/register"), 2000);
       } else {
-        setError("Ошибка при обновлении профиля");
+        setError(`Неверный код. Осталось попыток: ${attemptsLeft - 1}`);
       }
     }
   };
@@ -90,6 +101,8 @@ export default function EnterCodePage() {
 
       if (sendError) throw sendError;
       startTimer();
+      setError(""); // Сбрасываем ошибку при повторной отправке
+      setAttemptsLeft(MAX_ATTEMPTS); // Восстанавливаем попытки
     } catch {
       setError("Ошибка при отправке кода");
     }
@@ -100,7 +113,7 @@ export default function EnterCodePage() {
       <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-105 max-h-[100vh] overflow-y-auto flex flex-col gap-y-8 pb-8">
         <div className="flex justify-end">
           <button
-            onClick={handleClose}
+            onClick={onClose}
             className="bg-[#f3f2f1] rounded duration-300 cursor-pointer"
             aria-label="Закрыть"
           >
@@ -129,7 +142,10 @@ export default function EnterCodePage() {
               pattern="[0-9]{4}"
               maxLength={4}
               value={code}
-              onChange={(e) => setCode(e.target.value.replace(/\D/g, ""))}
+              onChange={(e) => {
+                setCode(e.target.value.replace(/\D/g, ""));
+                setError(""); // Сбрасываем ошибку при изменении кода
+              }}
               className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
               autoComplete="one-time-code"
               required
@@ -146,6 +162,7 @@ export default function EnterCodePage() {
               className={`${buttonStyles.base} ${
                 code.length !== 4 ? buttonStyles.inactive : buttonStyles.active
               } [&&]:mt-8 mb-0`}
+              disabled={attemptsLeft <= 0} // Блокируем кнопку при исчерпании попыток
             >
               Подтвердить
             </button>
@@ -179,4 +196,4 @@ export default function EnterCodePage() {
       </div>
     </div>
   );
-}
+};
