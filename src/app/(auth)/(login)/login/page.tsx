@@ -17,7 +17,7 @@ const LoginPage = () => {
   const router = useRouter();
 
   const handleClose = () => {
-    router.push("/");
+    router.replace("/");
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,7 +124,9 @@ const LoginPage = () => {
             />
           </button>
         </div>
-
+        <h1 className="text-2xl font-bold text-[#414141] text-center mb-8">
+          Вход
+        </h1>
         <form
           onSubmit={handleSubmit}
           className="w-65 mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
@@ -144,6 +146,7 @@ const LoginPage = () => {
                   onChange={handlePhoneChange}
                   placeholder="+7 (___) ___-__-__"
                   className={formStyles.input}
+                  required
                 />
               ) : (
                 <input
@@ -153,6 +156,7 @@ const LoginPage = () => {
                   onChange={handleChange}
                   className={formStyles.input}
                   placeholder="example@mail.com"
+                  required
                 />
               )}
 

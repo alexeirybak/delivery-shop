@@ -2,7 +2,8 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
 import { Resend } from "resend";
-import VerifyEmail from "@/components/verify-email";
+import VerifyEmail from "@/components/VerifyEmail";
+import PasswordResetEmail from "@/components/ResetPasswordEmail"; // Новый компонент для письма
 import { phoneNumber } from "better-auth/plugins";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
@@ -14,6 +15,21 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    minPasswordLength: 8,
+    maxPasswordLength: 128,
+    resetPasswordTokenExpiresIn: 3600, // 1 час
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Северяночка <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Сброс пароля для Северяночки",
+        react: PasswordResetEmail({ username: user.name, resetUrl: url }),
+      });
+    },
+    onPasswordReset: async ({ user }) => {
+      console.log(`Пароль для пользователя ${user.email} был сброшен`);
+      // Здесь можно добавить дополнительную логику, например, отправку уведомления
+    },
   },
   emailVerification: {
     sendOnSignUp: false,
@@ -32,24 +48,7 @@ export const auth = betterAuth({
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
         console.log(`[DEBUG] Отправка OTP: ${code} для ${phoneNumber}`);
-        // ...
       },
-      // sendOTP: async ({ phoneNumber, code }) => {
-      //   try {
-      //     const cleanPhone = phoneNumber.replace(/\D/g, "");
-      //     const response = await fetch(
-      //       `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${cleanPhone}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
-      //     );
-      //     const result = await response.json();
-
-      //     if (result.status !== "OK") {
-      //       throw new Error(result.status_text || "Ошибка отправки SMS");
-      //     }
-      //   } catch (error) {
-      //     console.error("SMS sending error:", error);
-      //     throw error;
-      //   }
-      // },
       signUpOnVerification: {
         getTempEmail: (phone) => `${phone}@delivery-shop.com`,
         getTempName: (phone) => `user_${phone}`,
@@ -60,12 +59,10 @@ export const auth = betterAuth({
       allowedAttempts: 3,
     }),
   ],
-
   user: {
     additionalFields: {
       phoneNumber: { type: "string", input: true, required: true },
       surname: { type: "string", input: true, required: true },
-      //password: { type: "string", input: true, required: true },
       birthdayDate: { type: "string", input: true, required: true },
       region: { type: "string", input: true, required: true },
       location: { type: "string", input: true, required: true },
