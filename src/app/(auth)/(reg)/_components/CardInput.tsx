@@ -2,7 +2,7 @@
 
 import { InputMask } from "@react-input/mask";
 import { ChangeEvent } from "react";
-import { formStyles } from "../styles";
+import { formStyles } from "../../styles";
 
 interface CardInputProps {
   value: string | undefined;

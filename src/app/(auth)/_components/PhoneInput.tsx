@@ -1,6 +1,6 @@
 "use client";
 import { ChangeEvent } from "react";
-import { formStyles } from "./styles";
+import { formStyles } from "../styles";
 import { InputMask } from "@react-input/mask";
 
 interface PhoneInputProps {
@@ -23,11 +23,10 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
   };
 
   const formatDisplayValue = (rawValue: string) => {
-    if (!rawValue) return "";
-    const digits = rawValue.replace(/\D/g, "");
+    if (!rawValue || rawValue === "7") return ""; 
     
-    // Начинаем форматирование только если есть хотя бы 1 цифра после 7
-    if (digits.length <= 1) return digits === "7" ? "+7" : digits;
+    // Убедимся, что значение начинается с 7
+    const digits = rawValue.startsWith("7") ? rawValue : "7" + rawValue;
     
     const match = digits.match(/^(\d{1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
     if (!match) return "";
@@ -48,7 +47,7 @@ const PhoneInput = ({ value, onChangeAction }: PhoneInputProps) => {
         placeholder="+7 (___) ___-__-__"
         onChange={handlePhoneChange}
         className={formStyles.input}
-        showMask={false} // Убираем отображение маски при пустом значении
+        showMask={false}
       />
     </div>
   );

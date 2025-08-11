@@ -1,4 +1,4 @@
-import { FormProvider } from "./contexts/FormContext";
+import { RegFormProvider } from "./contexts/RegFormContext";
 import type { Metadata } from "next";
 import { Rubik } from "next/font/google";
 import "./globals.css";
@@ -24,12 +24,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${rubik.variable} font-sans`}>
-        <FormProvider>
+        <RegFormProvider>
           <Header />
           <Breadcrumbs />
           {children}
           <Footer />
-        </FormProvider>
+        </RegFormProvider>
       </body>
     </html>
   );

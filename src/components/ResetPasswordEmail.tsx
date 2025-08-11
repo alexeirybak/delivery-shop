@@ -17,7 +17,7 @@ export default function PasswordResetEmail({ username, resetUrl }: PasswordReset
           style={{
             display: 'inline-block',
             padding: '10px 20px',
-            backgroundColor: '#0070f3',
+            backgroundColor: '#70c05b',
             color: 'white',
             textDecoration: 'none',
             borderRadius: '5px',

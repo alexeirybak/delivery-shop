@@ -15,9 +15,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
-    minPasswordLength: 8,
-    maxPasswordLength: 128,
-    resetPasswordTokenExpiresIn: 3600, // 1 час
+    resetPasswordTokenExpiresIn: 86400, 
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
         from: "Северяночка <onboarding@resend.dev>",

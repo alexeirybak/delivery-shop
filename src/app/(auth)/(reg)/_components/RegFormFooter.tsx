@@ -1,8 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { buttonStyles, formStyles } from "../styles";
+import { buttonStyles, formStyles } from "../../styles";
 
 const RegFormFooter = ({
   isFormValid,
@@ -29,13 +28,12 @@ const RegFormFooter = ({
       >
         Продолжить
       </button>
-      <Link 
-        href="/login" 
+      <button 
         className={formStyles.loginLink}
         onClick={handleLoginClick}
       >
         Вход
-      </Link>
+      </button>
     </>
   );
 };

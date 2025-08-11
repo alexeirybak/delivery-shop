@@ -26,11 +26,11 @@ const VerifyEmail = (props: VerifyEmailProps) => {
           <Container className="bg-white rounded-md p-6 max-w-145 mx-auto">
             <Section>
               <Text className="text-xl font-bold text-gray-900 mb-4 mt-0">
-                Подтвердите ваш email
+                Подтвердите Ваш email
               </Text>
 
               <Text className="text-base text-gray-700 mb-4 mt-0 leading-5">
-                Спасибо, {username}, за регистрацию! Чтобы завершить процесс и активировать ваш аккаунт, пожалуйста, подтвердите ваш email, нажав на кнопку ниже.
+                Спасибо, {username}, за регистрацию! Чтобы завершить процесс и активировать Ваш аккаунт, пожалуйста, подтвердите Ваш email, нажав на кнопку ниже.
               </Text>
 
               <Section className="text-center mb-6">
@@ -49,7 +49,7 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               </Text>
 
               <Text className="text-sm text-gray-600 mb-6 mt-0 leading-5">
-                Ссылка для подтверждения будет активна в течение 24 часов. Если вы не регистрировали аккаунт, просто проигнорируйте это письмо.
+                Ссылка для подтверждения будет активна в течение 24 часов. Если Вы не регистрировали аккаунт, просто проигнорируйте это письмо.
               </Text>
 
               <Hr className="border-gray-200 my-4" />

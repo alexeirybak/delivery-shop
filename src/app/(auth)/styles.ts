@@ -10,7 +10,14 @@ export const formStyles = {
   input:
     "w-65 h-10 py-2 px-4 text-[#414141] text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none",
   loginLink:
-    "mb-10 mx-auto h-8 text-(--color-primary) hover:text-white active:text-white border-1 border-(--color-primary) bg-white hover:bg-(--color-primary) active:shadow-(--shadow-button-default) w-30 rounded flex items-center justify-center duration-300 cursor-pointer",
+    "mx-auto h-8 text-(--color-primary) hover:text-white active:text-white border-1 border-(--color-primary) bg-white hover:bg-(--color-primary) active:shadow-(--shadow-button-default) w-30 rounded flex items-center justify-center duration-300 cursor-pointer",
   radioLabel: "px-4 py-2 border rounded-lg cursor-pointer transition-colors",
   radioLabelActive: "bg-blue-500 text-white border-blue-500",
 };
+
+export const verificationButtonStyles = `
+    w-60 md:w-80 group relative flex flex-col items-center justify-center p-3 
+    border-2 border-gray-200 rounded-xl hover:border-[#ff6633] 
+    hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) 
+    cursor-pointer duration-300
+  `;

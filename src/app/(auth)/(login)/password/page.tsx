@@ -3,13 +3,14 @@
 import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "../../../../../lib/auth-clients";
-import PasswordInput from "../../PasswordInput";
+import PasswordInput from "../../_components/PasswordInput";
 import Link from "next/link";
 import Image from "next/image";
-import Tooltip from "../../(reg)/Tooltip";
+import Tooltip from "../../(reg)/_components/Tooltip";
 import { buttonStyles } from "../../styles";
 import MiniLoader from "@/components/MiniLoader";
 import { useAuthStore } from "@/store/authStore";
+import { AuthFormLayout } from "../../_components/AuthFormLayout";
 
 const LoginPasswordPage = () => {
   return (
@@ -29,24 +30,18 @@ const LoginPasswordContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleClose = () => {
-    router.replace("/");
-  };
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setError(null);
   };
 
   const isPhone = (value: string) => {
-    // Улучшенная проверка номера телефона
     return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(
       value
     );
   };
 
   const normalizePhone = (phone: string) => {
-    // Удаляем все нецифровые символы
     return phone.replace(/\D/g, "");
   };
 
@@ -133,80 +128,63 @@ const LoginPasswordContent = () => {
   if (isLoading) return <MiniLoader />;
 
   return (
-    <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
-      <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-105 max-h-[100vh] overflow-y-auto flex flex-col items-center justify-center">
-        <div className="flex justify-end w-full">
-          <button
-            onClick={handleClose}
-            className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8"
-            aria-label="Закрыть"
-          >
-            <Image
-              src="/icons-products/icon-closer.svg"
-              width={24}
-              height={24}
-              alt="Закрыть"
+    <AuthFormLayout>
+      <h1 className="text-2xl font-bold text-center mb-8">Вход</h1>
+      <form
+        onSubmit={handleSubmit}
+        className="w-65 mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
+        autoComplete="off"
+      >
+        <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
+          <div className="flex flex-col gap-y-4 items-start">
+            <PasswordInput
+              id="password"
+              label="Пароль"
+              value={password}
+              onChangeAction={handleChange}
+              showPassword={showPassword}
+              togglePasswordVisibilityAction={() =>
+                setShowPassword(!showPassword)
+              }
+              inputClass="h-15"
             />
-          </button>
+            {error && <Tooltip text={error} />}
+          </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-center mb-8">Вход</h1>
-        <form
-          onSubmit={handleSubmit}
-          className="w-65 mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
-          autoComplete="off"
-        >
-          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
-            <div className="flex flex-col gap-y-4 items-start">
-              <PasswordInput
-                id="password"
-                label="Пароль"
-                value={password}
-                onChangeAction={handleChange}
-                showPassword={showPassword}
-                togglePasswordVisibilityAction={() =>
-                  setShowPassword(!showPassword)
-                }
-                inputClass="h-15"
-              />
-              {error && <Tooltip text={error} />}
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={!password || isLoading}
-            className={`
+        <button
+          type="submit"
+          disabled={!password || isLoading}
+          className={`
             ${buttonStyles.base} 
             ${!password || isLoading ? buttonStyles.inactive : buttonStyles.active}
             my-8`}
-          >
-            Подтвердить
-          </button>
+        >
+          Подтвердить
+        </button>
 
-          <div className="flex flex-row flex-wrap mb-10 mx-auto text-xs mt-4">
-            <button
-              onClick={() => router.back()}
-              className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 duration-300 cursor-pointer"
-            >
-              <Image
-                src="/icons-auth/icon-arrow-left.svg"
-                width={24}
-                height={24}
-                alt="Вернуться"
-              />
-              Вернуться
-            </button>
-            <Link
-              href="/forgot-password"
-              className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
-            >
-              Забыли пароль?
-            </Link>
-          </div>
-        </form>
-      </div>
-    </div>
+        <div className="flex flex-row flex-wrap mb-10 mx-auto text-xs mt-4">
+          <button
+            onClick={() => router.back()}
+            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 duration-300 cursor-pointer"
+          >
+            <Image
+              src="/icons-auth/icon-arrow-left.svg"
+              width={24}
+              height={24}
+              alt="Вернуться"
+            />
+            Вернуться
+          </button>
+          <Link
+            href="/forgot-password"
+            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
+          >
+            Забыли пароль?
+          </Link>
+        </div>
+      </form>
+    </AuthFormLayout>
   );
 };
 

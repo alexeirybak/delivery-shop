@@ -2,25 +2,27 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import PhoneInput from "../../PhoneInput";
-import PersonInput from "../PersonInput";
-import PasswordInput from "../../PasswordInput";
-import DateInput from "../DateInput";
-import SelectRegion from "../SelectRegion";
-import SelectCity from "../SelectCity";
-import GenderSelect from "../GenderSelect";
-import CardInput from "../CardInput";
-import CheckboxCard from "../CheckboxCard";
-import EmailInput from "../EmailInput";
-import RegFormFooter from "../RegFormFooter";
+import PhoneInput from "../../_components/PhoneInput";
+import PersonInput from "../_components/PersonInput";
+import PasswordInput from "../../_components/PasswordInput";
+import DateInput from "../_components/DateInput";
+import SelectRegion from "../_components/SelectRegion";
+import SelectCity from "../_components/SelectCity";
+import GenderSelect from "../_components/GenderSelect";
+import CardInput from "../_components/CardInput";
+import CheckboxCard from "../_components/CheckboxCard";
+import EmailInput from "../_components/EmailInput";
+import RegFormFooter from "../_components/RegFormFooter";
 import { validateRegisterForm } from "../../../../../utils/validation/form";
 import { Loader } from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
-import { useFormContext } from "@/app/contexts/FormContext";
-import VerificationMethodModal from "../VerificationMethodModal";
+import { useRegFormContext } from "@/app/contexts/RegFormContext";
+import VerificationMethodModal from "../../_components/VerificationMethodModal";
 import { formatToISO } from "../../../../../utils/date/formatDate";
-import { UserExistsError } from "../UserExistsError";
+import { UserExistsError } from "../_components/UserExistsError";
+import { AuthFormLayout } from "../../_components/AuthFormLayout";
+import { RegFormData } from "@/types/regFormData";
+import { initialRegFormData } from "@/constants/formData";
 
 const RegisterPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +30,7 @@ const RegisterPage = () => {
     error: Error;
     userMessage: string;
   } | null>(null);
-  const { formData, setFormData, resetForm } = useFormContext();
+  const [registerForm, setRegisterForm] = useState<RegFormData>(initialRegFormData);
   const [showPassword, setShowPassword] = useState(false);
   const [invalidFormMessage, setInvalidFormMessage] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
@@ -36,26 +38,18 @@ const RegisterPage = () => {
     phone?: boolean;
     email?: boolean;
   }>({});
-  const [initialized, setInitialized] = useState(false);
   const router = useRouter();
+  const { setRegFormData } = useRegFormContext();
 
   useEffect(() => {
-    if (!initialized) {
-      resetForm();
-      setInitialized(true);
-    }
-  }, [initialized, resetForm]);
+    setRegisterForm(initialRegFormData);
+  }, []);
 
   useEffect(() => {
-    if (isSuccess && !formData.email) {
-      router.replace("/verify/phone");
+    if (isSuccess && !registerForm.email) {
+      router.replace("/verify/verify-phone");
     }
-  }, [isSuccess, formData.email, router, resetForm]);
-
-  const handleClose = () => {
-    resetForm();
-    router.replace("/");
-  };
+  }, [isSuccess, registerForm.email, router]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -63,16 +57,13 @@ const RegisterPage = () => {
     const { id, type } = e.target;
 
     if (type === "checkbox") {
-      // Обработка чекбоксов
-      setFormData({
-        ...formData,
+      setRegisterForm({
+        ...registerForm,
         [id]: (e.target as HTMLInputElement).checked,
       });
     } else {
-      // Обработка всех остальных полей
       let value = e.target.value;
 
-      // Специальная обработка для телефона
       if (id === "phone") {
         value = value.replace(/\D/g, "");
         if (value.startsWith("8")) {
@@ -81,21 +72,12 @@ const RegisterPage = () => {
         value = value.substring(0, 11);
       }
 
-      setFormData({
-        ...formData,
+      setRegisterForm({
+        ...registerForm,
         [id]: value,
       });
     }
   };
-
-  const handleDateChange = (value: string) => {
-    setFormData({ ...formData, birthdayDate: value });
-  };
-
-  const handleGenderChange = (gender: string) => {
-    setFormData({ ...formData, gender });
-  };
-
   const checkUserExists = async () => {
     try {
       const checks = [];
@@ -104,16 +86,16 @@ const RegisterPage = () => {
         fetch("/api/auth/check-phone", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ phoneNumber: formData.phone }),
+          body: JSON.stringify({ phoneNumber: registerForm.phone }),
         })
       );
 
-      if (formData.email) {
+      if (registerForm.email) {
         checks.push(
           fetch("/api/auth/check-email", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ email: formData.email }),
+            body: JSON.stringify({ email: registerForm.email }),
           })
         );
       }
@@ -123,7 +105,7 @@ const RegisterPage = () => {
 
       const exists = {
         phone: results[0].exists,
-        email: formData.email ? results[1]?.exists : false,
+        email: registerForm.email ? results[1]?.exists : false,
       };
 
       if (exists.phone || exists.email) {
@@ -143,7 +125,7 @@ const RegisterPage = () => {
     setError(null);
     setInvalidFormMessage("");
 
-    const validation = validateRegisterForm(formData);
+    const validation = validateRegisterForm(registerForm);
     if (!validation.isValid) {
       setInvalidFormMessage(
         validation.errorMessage || "Заполните поля корректно"
@@ -160,13 +142,18 @@ const RegisterPage = () => {
       }
 
       const apiData = {
-        ...formData,
-        phone: formData.phone.replace(/\D/g, ""),
-        birthdayDate: formatToISO(formData.birthdayDate),
+        ...registerForm,
+        phone: registerForm.phone.replace(/\D/g, ""),
+        birthdayDate: formatToISO(registerForm.birthdayDate),
       };
 
-      setFormData(apiData);
-      setIsSuccess(true); 
+      setRegFormData((prev) => {
+        return {
+          ...prev,
+          ...apiData,
+        } as RegFormData;
+      });
+      setIsSuccess(true);
     } catch (error) {
       setError({
         error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
@@ -186,138 +173,125 @@ const RegisterPage = () => {
   if (userExists.phone || userExists.email) {
     return (
       <UserExistsError
-        phone={userExists.phone ? formData.phone : undefined}
-        email={userExists.email ? formData.email : undefined}
-        onClose={handleClose}
+        phone={userExists.phone ? registerForm.phone : undefined}
+        email={userExists.email ? registerForm.email : undefined}
       />
     );
   }
 
-  if (isSuccess && formData.email) {
+  if (isSuccess && registerForm.email) {
     return <VerificationMethodModal />;
   }
 
   return (
-    <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
-      <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-[687px] max-h-[100vh] overflow-y-auto">
-        <div className="flex justify-end">
-          <button
-            onClick={handleClose}
-            className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8"
-            aria-label="Закрыть"
-          >
-            <Image
-              src="/icons-products/icon-closer.svg"
-              width={24}
-              height={24}
-              alt="Закрыть"
+    <AuthFormLayout variant="register">
+      <h1 className="text-2xl font-bold text-center mb-10">Регистрация</h1>
+      <h2 className="text-lg font-bold text-center mb-6">Обязательные поля</h2>
+
+      <form
+        onSubmit={handleSubmit}
+        autoComplete="off"
+        className="w-full max-w-[552px] mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
+      >
+        <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 text-left">
+          <div className="flex flex-col gap-y-4 items-start">
+            <PhoneInput
+              value={registerForm.phone}
+              onChangeAction={handleChange}
             />
-          </button>
+            <PersonInput
+              id="surname"
+              label="Фамилия"
+              value={registerForm.surname}
+              onChange={handleChange}
+            />
+            <PersonInput
+              id="name"
+              label="Имя"
+              value={registerForm.name}
+              onChange={handleChange}
+            />
+            <PasswordInput
+              id="password"
+              label="Пароль"
+              value={registerForm.password}
+              onChangeAction={handleChange}
+              showPassword={showPassword}
+              togglePasswordVisibilityAction={() =>
+                setShowPassword(!showPassword)
+              }
+              showRequirements={true}
+            />
+            <PasswordInput
+              id="confirmPassword"
+              label="Подтвердите пароль"
+              value={registerForm.confirmPassword}
+              onChangeAction={handleChange}
+              showPassword={showPassword}
+              togglePasswordVisibilityAction={() =>
+                setShowPassword(!showPassword)
+              }
+              compareWith={registerForm.password}
+            />
+          </div>
+
+          <div className="flex flex-col gap-y-4 items-start">
+            <DateInput
+              value={registerForm.birthdayDate}
+              onChangeAction={(value) =>
+                setRegisterForm((prev) => ({ ...prev, birthdayDate: value }))
+              }
+            />
+            <SelectRegion
+              value={registerForm.region}
+              onChangeAction={handleChange}
+            />
+            <SelectCity
+              value={registerForm.location}
+              onChangeAction={handleChange}
+            />
+            <GenderSelect
+              value={registerForm.gender}
+              onChangeAction={(gender) =>
+                setRegisterForm((prev) => ({ ...prev, gender }))
+              }
+            />
+          </div>
         </div>
 
-        <h1 className="text-2xl font-bold text-center mb-10">Регистрация</h1>
-        <h2 className="text-lg font-bold text-center mb-6">
-          Обязательные поля
+        <h2 className="text-lg font-bold text-center mb-6 mt-10">
+          Необязательные поля
         </h2>
-
-        <form
-          onSubmit={handleSubmit}
-          autoComplete="off"
-          className="w-full max-w-[552px] mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
-        >
-          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
-            <div className="flex flex-col gap-y-4 items-start">
-              <PhoneInput
-                value={formData.phone}
-                onChangeAction={handleChange}
-              />
-              <PersonInput
-                id="surname"
-                label="Фамилия"
-                value={formData.surname}
-                onChange={handleChange}
-              />
-              <PersonInput
-                id="name"
-                label="Имя"
-                value={formData.name}
-                onChange={handleChange}
-              />
-              <PasswordInput
-                id="password"
-                label="Пароль"
-                value={formData.password}
-                onChangeAction={handleChange}
-                showPassword={showPassword}
-                togglePasswordVisibilityAction={() =>
-                  setShowPassword(!showPassword)
-                }
-                showRequirements={true}
-              />
-              <PasswordInput
-                id="confirmPassword"
-                label="Подтвердите пароль"
-                value={formData.confirmPassword}
-                onChangeAction={handleChange}
-                showPassword={showPassword}
-                togglePasswordVisibilityAction={() =>
-                  setShowPassword(!showPassword)
-                }
-                compareWith={formData.password}
-              />
-            </div>
-
-            <div className="flex flex-col gap-y-4 items-start">
-              <DateInput
-                value={formData.birthdayDate}
-                onChangeAction={handleDateChange}
-              />
-              <SelectRegion
-                value={formData.region}
-                onChangeAction={handleChange}
-              />
-              <SelectCity
-                value={formData.location}
-                onChangeAction={handleChange}
-              />
-              <GenderSelect
-                value={formData.gender}
-                onChangeAction={handleGenderChange}
-              />
-            </div>
+        <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 text-left">
+          <div className="flex flex-col w-65 gap-y-4">
+            <CardInput
+              value={registerForm.card}
+              onChangeAction={handleChange}
+              disabled={registerForm.hasCard}
+            />
+            <CheckboxCard
+              checked={registerForm.hasCard}
+              onChangeAction={handleChange}
+            />
           </div>
-
-          <h2 className="text-lg font-bold text-center mb-6 mt-10">
-            Необязательные поля
-          </h2>
-          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4">
-            <div className="flex flex-col w-65 gap-y-4">
-              <CardInput
-                value={formData.card}
-                onChangeAction={handleChange}
-                disabled={formData.hasCard}
-              />
-              <CheckboxCard
-                checked={formData.hasCard}
-                onChangeAction={handleChange}
-              />
-            </div>
-            <EmailInput value={formData.email} onChangeAction={handleChange} />
-          </div>
-
-          {invalidFormMessage && (
-            <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
-              {invalidFormMessage}
-            </div>
-          )}
-
-          <RegFormFooter
-            isFormValid={validateRegisterForm(formData).isValid}
-            isLoading={isLoading}
+          <EmailInput
+            value={registerForm.email}
+            onChangeAction={handleChange}
           />
-        </form>
-      </div>
-    </div>
+        </div>
+
+        {invalidFormMessage && (
+          <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
+            {invalidFormMessage}
+          </div>
+        )}
+
+        <RegFormFooter
+          isFormValid={validateRegisterForm(registerForm).isValid}
+          isLoading={isLoading}
+        />
+      </form>
+    </AuthFormLayout>
   );
 };
 

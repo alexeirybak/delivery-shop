@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "seed-db.ts",
-    "src/app/api/auth/check-email"
+    "src/app/api/auth/check-email",
+    "src/app/(auth)/(reg)/verify/verify-phone"
   ],
   "exclude": ["node_modules"]
 }

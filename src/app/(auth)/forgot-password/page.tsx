@@ -1,128 +1,219 @@
 "use client";
 
 import { useState } from "react";
-import { authClient } from "../../../../lib/auth-clients"; // Ваш клиент для работы с аутентификацией
+import { InputMask } from "@react-input/mask";
+import Tooltip from "../(reg)/_components/Tooltip";
+import MiniLoader from "@/components/MiniLoader";
+import { buttonStyles, formStyles } from "../styles";
+import { authClient } from "../../../../lib/auth-clients";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
+import { AuthFormLayout } from "../_components/AuthFormLayout";
 
 const ForgotPassword = () => {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [login, setLogin] = useState("");
+  const [loginType, setLoginType] = useState<"email" | "phone">("email");
   const [success, setSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleClose = () => {
-    router.replace("/");
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(e.target.value);
+    setError(null);
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLogin(e.target.value);
+    setError(null);
+  };
+
+  const switchToEmail = () => {
+    setLogin("");
+    setLoginType("email");
+    setError(null);
+  };
+
+  const switchToPhone = () => {
+    setLogin("");
+    setLoginType("phone");
+    setError(null);
+  };
+
+  const handleToAuth = (path: string) => (e: React.MouseEvent) => {
+    e.preventDefault();
+    router.replace(path);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError(null);
+    setIsLoading(true);
 
     try {
+      const response = await fetch("/api/auth/check-login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ login, loginType }),
+      });
+
+      const { exists, verified } = await response.json();
+
+      if (!exists) {
+        setError(
+          loginType === "email"
+            ? "Аккаунт с таким email не зарегистрирован"
+            : "Аккаунт с таким телефоном не зарегистрирован"
+        );
+        return;
+      }
+
+      if (!verified) {
+        setError(
+          loginType === "email"
+            ? "Email не подтвержден. Проверьте Вашу почту или зайдите по телефону"
+            : "Телефон не подтвержден. Зайдите по email"
+        );
+        return;
+      }
+
       const { error } = await authClient.requestPasswordReset({
-        email,
+        email: login,
         redirectTo: `${window.location.origin}/reset-password`,
       });
 
-      if (error) {
-        throw new Error(error.message);
-      }
+      if (error) throw new Error(error.message);
 
       setSuccess(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Произошла ошибка");
+    } catch {
+      setError("Ошибка при проверке данных");
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
+  if (isLoading) return <MiniLoader />;
+
   if (success) {
     return (
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-md">
-        <h1 className="text-2xl font-bold mb-4">Проверьте вашу почту</h1>
-        <p>
-          Мы отправили письмо на адрес <strong>{email}</strong> с инструкциями
+      <AuthFormLayout>
+        <h1 className="text-2xl font-bold text-[#414141] text-center mb-8">
+          Проверьте вашу почту
+        </h1>
+        <p className="px-5 mb-8">
+          Мы отправили письмо на адрес <strong>{login}</strong> с инструкциями
           по сбросу пароля.
         </p>
-        <p className="mt-4">
-          Если вы не получили письмо, проверьте папку &quot;Спам&quot; или
+        <p className="px-5 mb-8">
+          Если Вы не получили письмо, проверьте папку &quot;Спам&quot; или
           <button
             onClick={handleSubmit}
-            className="text-blue-600 hover:text-blue-800 ml-1"
+            className="text-(--color-primary) hover:text-[#ff6633] ml-1 cursor-pointer"
           >
             попробуйте отправить снова
           </button>
-          .
         </p>
-      </div>
+      </AuthFormLayout>
     );
   }
 
   return (
-    <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-[#414141]">
-      <div className="bg-white rounded shadow-(--shadow-auth-form) w-full max-w-105 max-h-[100vh] overflow-y-auto">
-        <div className="flex justify-end">
+    <AuthFormLayout>
+      <h1 className="text-2xl font-bold text-[#414141] text-center mb-8">
+        Восстановление пароля
+      </h1>
+      <p className="px-5 mb-8">
+        Введите email или номер телефона, связанный с Вашей учетной записью, и
+        мы вышлем Вам на email инструкции по сбросу пароля либо код
+        подтверждения в виде SMS.
+      </p>
+      <form
+        onSubmit={handleSubmit}
+        className="w-65 mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
+        autoComplete="off"
+      >
+        <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
+          <div className="flex flex-col gap-y-4 items-start w-full">
+            <label htmlFor="login" className={formStyles.label}>
+              {loginType === "email" ? "E-mail" : "Телефон"}
+            </label>
+
+            {loginType === "phone" ? (
+              <InputMask
+                mask="+7 (___) ___-__-__"
+                replacement={{ _: /\d/ }}
+                value={login}
+                onChange={handlePhoneChange}
+                placeholder="+7 (___) ___-__-__"
+                className={formStyles.input}
+                required
+              />
+            ) : (
+              <input
+                id="email"
+                type="email"
+                value={login}
+                onChange={handleEmailChange}
+                className={formStyles.input}
+                placeholder="example@mail.com"
+                required
+              />
+            )}
+
+            <div className="flex gap-2 text-sm mx-auto">
+              <button
+                type="button"
+                onClick={switchToEmail}
+                className={`px-2 py-1 rounded cursor-pointer ${loginType === "email" ? "bg-[#ff6633] text-white" : "bg-gray-100"}`}
+              >
+                По email
+              </button>
+              <button
+                type="button"
+                onClick={switchToPhone}
+                className={`px-2 py-1 rounded cursor-pointer ${loginType === "phone" ? "bg-[#ff6633] text-white" : "bg-gray-100"}`}
+              >
+                По телефону
+              </button>
+            </div>
+            {error && <Tooltip text={error} />}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={!login.trim() || isLoading}
+          className={`
+              ${buttonStyles.base}
+              ${
+                !login.trim() || isLoading
+                  ? "cursor-not-allowed hover:bg-[#fcd5ba] hover:text-[#ff6633]"
+                  : "hover:bg-[#ff6633] hover:text-white hover:shadow-(--shadow-article)"
+              }
+              active:shadow-(--shadow-button-active)
+             duration-300
+              mt-4
+            `}
+        >
+          {isLoading ? "Отправка..." : "Отправить"}
+        </button>
+
+        <div className="flex flex-row flex-wrap mb-10 mx-auto text-xs mt-6 gap-4 justify-center">
           <button
-            onClick={handleClose}
-            className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8"
-            aria-label="Закрыть"
+            className={formStyles.loginLink}
+            onClick={handleToAuth("/login")}
           >
-            <Image
-              src="/icons-products/icon-closer.svg"
-              width={24}
-              height={24}
-              alt="Закрыть"
-            />
+            Вход
+          </button>
+
+          <button
+            className={formStyles.loginLink}
+            onClick={handleToAuth("/register")}
+          >
+            Регистрация
           </button>
         </div>
-        <h1 className="text-2xl font-bold text-center mb-8">
-          Восстановление пароля
-        </h1>
-        <p className="px-5">
-          Введите email, связанный с вашей учетной записью, и мы вышлем вам
-          инструкции по сбросу пароля.
-        </p>
-
-        {error && (
-          <div className="mb-8 p-5 bg-red-100 text-red-700 rounded">
-            {error}
-          </div>
-        )}
-
-        <form
-          onSubmit={handleSubmit}
-          className="w-65 mx-auto max-h-100vh flex flex-col justify-center overflow-y-auto"
-          autoComplete="off"
-        >
-          <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
-            <label htmlFor="email" className="block text-sm font-medium mb-1">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 border rounded"
-              required
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className={`w-full py-2 px-4 rounded text-white ${
-              loading ? "bg-gray-400" : "bg-blue-600 hover:bg-blue-700"
-            }`}
-          >
-            {loading ? "Отправка..." : "Отправить инструкции"}
-          </button>
-        </form>
-      </div>
-    </div>
+      </form>
+    </AuthFormLayout>
   );
 };
 

@@ -1,9 +1,9 @@
 "use client";
 
 import IconVision from "@/components/svg/IconVision";
-import { formStyles } from "./styles";
+import { formStyles } from "../styles";
 import { ChangeEvent } from "react";
-import Tooltip from "./(reg)/Tooltip";
+import Tooltip from "../(reg)/_components/Tooltip";
 
 interface PasswordInputProps {
   id: string;
@@ -28,6 +28,7 @@ const PasswordInput = ({
   compareWith,
   inputClass = "",
 }: PasswordInputProps) => {
+
   const isPasswordValid = () => {
     return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(value);
   };
@@ -49,7 +50,6 @@ const PasswordInput = ({
     if (showRequirements) {
       return "Пароль должен содержать: 8+ символов на латинице в разных регистрах и цифры";
     }
-
     return "Пароли пока не совпадают";
   };
 

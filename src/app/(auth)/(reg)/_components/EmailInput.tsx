@@ -1,16 +1,15 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import { formStyles } from "../styles";
+import { formStyles } from "../../styles";
 
 interface EmailInputProps {
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
-  inputClass?: string; 
+  inputClass?: string;
 }
 
 const EmailInput = ({ value, onChangeAction }: EmailInputProps) => {
-  
   return (
     <div>
       <label htmlFor="email" className={formStyles.label}>

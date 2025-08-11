@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { authClient } from "../../../lib/auth-clients";
+import { authClient } from "../../../../lib/auth-clients";
 import useTimer from "@/hooks/useTimer";
 
 export default function PhoneVerification({ phoneNumber }: { phoneNumber: string }) {
@@ -25,7 +25,7 @@ export default function PhoneVerification({ phoneNumber }: { phoneNumber: string
 
       if (verifyError) throw new Error(verifyError.message);
       
-      router.push("/profile");
+      router.replace("/");
     } catch (err) {
       setStatus("error");
       setError(err instanceof Error ? err.message : "Ошибка верификации");
@@ -52,8 +52,7 @@ export default function PhoneVerification({ phoneNumber }: { phoneNumber: string
   };
 
   return (
-    <div className="auth-container">
-      {/* Форма ввода кода */}
+    <div>
       <form onSubmit={handleSubmit}>
         <input
           type="text"
