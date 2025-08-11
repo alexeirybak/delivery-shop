@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { buttonStyles, formStyles } from "../styles";
+import { buttonStyles, formStyles } from "../../styles";
 
 const RegFormFooter = ({
   isFormValid,

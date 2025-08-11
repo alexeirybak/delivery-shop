@@ -4,7 +4,7 @@ import { ChangeEvent } from "react";
 import Image from "next/image";
 
 interface CheckboxNoCardProps {
-  checked: boolean;
+  checked: boolean | undefined;
   onChangeAction: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
