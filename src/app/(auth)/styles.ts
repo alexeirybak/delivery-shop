@@ -14,3 +14,10 @@ export const formStyles = {
   radioLabel: "px-4 py-2 border rounded-lg cursor-pointer transition-colors",
   radioLabelActive: "bg-blue-500 text-white border-blue-500",
 };
+
+export const verificationButtonStyles = `
+    w-60 md:w-80 group relative flex flex-col items-center justify-center p-3 
+    border-2 border-gray-200 rounded-xl hover:border-[#ff6633] 
+    hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) 
+    cursor-pointer duration-300
+  `;

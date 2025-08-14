@@ -1,9 +1,9 @@
 import { validateBirthDate } from "./validateBirthDate";
 
 export function validateRegisterForm(formData: {
-  phone: string;
+  phoneNumber: string;
   surname: string;
-  firstName: string;
+  name: string;
   password: string;
   confirmPassword: string;
   birthdayDate: string;
@@ -16,7 +16,7 @@ export function validateRegisterForm(formData: {
 }): { isValid: boolean; errorMessage?: string } {
     
   // Проверка телефона
-  if (!formData.phone || formData.phone.replace(/\D/g, "").length !== 11) {
+  if (!formData.phoneNumber || formData.phoneNumber.replace(/\D/g, "").length !== 11) {
     return {
       isValid: false,
       errorMessage: "Введите корректный номер телефона (11 цифр)",
@@ -36,8 +36,8 @@ export function validateRegisterForm(formData: {
 
   // Проверка имени
   if (
-    !formData.firstName ||
-    !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.firstName.trim())
+    !formData.name ||
+    !/^[а-яА-ЯёЁa-zA-Z-]{2,}$/.test(formData.name.trim())
   ) {
     return {
       isValid: false,
