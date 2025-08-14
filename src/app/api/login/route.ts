@@ -3,11 +3,11 @@ import { getDB } from "../../../../utils/api-routes";
 
 export async function POST(request: Request) {
   try {
-    const { phone, password } = await request.json();
+    const { phoneNumber, password } = await request.json();
 
     const db = await getDB();
 
-    const user = await db.collection("users").findOne({ phone });
+    const user = await db.collection("users").findOne({ phoneNumber });
 
     if (!user) {
       return NextResponse.json(
@@ -27,9 +27,9 @@ export async function POST(request: Request) {
       success: true,
       user: {
         _id: user._id,
-        phone: user.phone,
+        phoneNumber: user.phoneNumber,
         surname: user.surname,
-        firstName: user.firstName,
+        name: user.name,
         email: user.email,
       },
     };
