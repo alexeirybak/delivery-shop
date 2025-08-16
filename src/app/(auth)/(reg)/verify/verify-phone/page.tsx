@@ -19,38 +19,38 @@ export default function VerifyPhonePage() {
   const router = useRouter();
   const phoneNumber = regFormData.phoneNumber;
 
-//   const checkPhoneNumberExists = async (
-//     phoneNumber: string
-//   ): Promise<boolean> => {
-//     try {
-//       const response = await fetch("/api/auth/check-phone", {
-//         method: "POST",
-//         headers: { "Content=Type": "application/json" },
-//         body: JSON.stringify({ phoneNumber }),
-//       });
+  const checkPhoneNumberExists = async (
+    phoneNumber: string
+  ): Promise<boolean> => {
+    try {
+      const response = await fetch("/api/auth/check-phone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ phoneNumber }),
+      });
 
-//       if (!response.ok) throw new Error("Ошибка проверки номера");
+      if (!response.ok) throw new Error("Ошибка проверки номера");
 
-//       const data = await response.json();
+      const data = await response.json();
 
-//       return data.exists;
-//     } catch (error) {
-//       console.error("Ошибка при проверке номера:", error);
-//       return false;
-//     }
-//   };
+      return data.exists;
+    } catch (error) {
+      console.error("Ошибка при проверке номера:", error);
+      return false;
+    }
+  };
 
   const verifyAccount = useCallback(async () => {
     try {
       setIsLoading(true);
       setError(null);
 
-      //const exists = await checkPhoneNumberExists(phoneNumber);
+      const exists = await checkPhoneNumberExists(phoneNumber);
 
-    //   if (exists)
-    //     throw new Error(
-    //       "Этот номер телефона уже зарегистрирован. Попробуйте войти"
-    //     );
+      if (exists)
+        throw new Error(
+          "Этот номер телефона уже зарегистрирован. Попробуйте войти"
+        );
 
       await authClient.phoneNumber.sendOtp(
         { phoneNumber },

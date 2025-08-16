@@ -1,33 +1,29 @@
 "use client";
 
-//import Image from "next/image";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
-import { buttonStyles } from "../styles";
-import useTimer from "@/hooks/useTimer";
-import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import Link from "next/link";
-
-interface EnterCodeProps {
-  phoneNumber: string;
-}
+import Image from "next/image";
+import { useRegFormContext } from "@/app/contexts/RegFormContext";
+import { useEffect, useState } from "react";
+import { buttonStyles } from "../styles";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import useTimer from "@/hooks/useTimer";
 
 const MAX_ATTEMPTS = 3;
+const TIMEOUT_PERIOD = 180;
 
-export const EnterCode = ({ phoneNumber }: EnterCodeProps) => {
-  const router = useRouter();
+export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
-  const { timeLeft, canResend, startTimer } = useTimer(60);
   const { regFormData } = useRegFormContext();
+  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const router = useRouter();
 
   useEffect(() => {
-    if (attemptsLeft <= 0) {
-      router.push("/register");
-    }
-  }, [attemptsLeft, router]);
+    startTimer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,35 +52,23 @@ export const EnterCode = ({ phoneNumber }: EnterCodeProps) => {
 
       if (!passwordResponse.ok) {
         const errorData = await passwordResponse.json();
-        console.error("Детали ошибки:", errorData);
+        console.error("Детали ошибки", errorData);
         throw new Error(errorData.error || "Ошибка установки пароля");
       }
 
-      const updateData = {
-        phoneNumber,
-        surname: regFormData.surname,
-        name: regFormData.name,
-        password: regFormData.password,
-        birthdayDate: regFormData.birthdayDate,
-        region: regFormData.region,
-        location: regFormData.location,
-        gender: regFormData.gender,
-        card: regFormData.card,
-        hasCard: regFormData.card ? true : undefined,
-      };
+      const { error: updateError } = await authClient.updateUser(regFormData);
 
-      const { error: updateError } = await authClient.updateUser(updateData);
       if (updateError) throw updateError;
 
       router.replace("/login");
-    } catch (err) {
-      console.error("Ошибка:", err);
-      setCode(""); // Очищаем поле ввода
-      setAttemptsLeft((prev) => prev - 1); // Уменьшаем количество попыток
+    } catch (error) {
+      console.error("Ошибка верификации телефона:", error);
+      setCode("");
+      setAttemptsLeft((prev) => prev - 1);
 
       if (attemptsLeft <= 1) {
         setError("Попытки исчерпаны. Пожалуйста, зарегистрируйтесь снова");
-        setTimeout(() => router.push("/register"), 2000);
+        setTimeout(() => router.replace("/register"), 2000);
       } else {
         setError(`Неверный код. Осталось попыток: ${attemptsLeft - 1}`);
       }
@@ -92,70 +76,80 @@ export const EnterCode = ({ phoneNumber }: EnterCodeProps) => {
   };
 
   const handleResend = async () => {
+    if (!canResend) return;
     try {
-      const { error: sendError } = await authClient.phoneNumber.sendOtp({
-        phoneNumber,
-      });
-
-      if (sendError) throw sendError;
-      startTimer();
-      setError(""); // Сбрасываем ошибку при повторной отправке
-      setAttemptsLeft(MAX_ATTEMPTS); // Восстанавливаем попытки
-    } catch {
+      await authClient.phoneNumber.sendOtp(
+        { phoneNumber },
+        {
+          onSuccess: () => {
+            startTimer();
+            setError("");
+            setAttemptsLeft(MAX_ATTEMPTS);
+          },
+          onError: (ctx) => {
+            setError(ctx.error?.message || "Ошибка при отправке SMS");
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Ошибка отправки кода:", error);
       setError("Ошибка при отправке кода");
     }
   };
-
   return (
     <>
-      <h1 className="text-2xl font-bold text-[#414141] text-center">
-        Регистрация
-      </h1>
-
       <div className="flex flex-col gap-y-8">
-        <p className="text-center text-[#8f8f8f] mb-3">Код из SMS:</p>
-        <form
-          onSubmit={handleSubmit}
-          className="w-65 mx-auto max-h-100vh flex flex-col justify-center items-center"
-          autoComplete="off"
-        >
-          <input
-            type="password"
-            inputMode="numeric"
-            pattern="[0-9]{4}"
-            maxLength={4}
-            value={code}
-            onChange={(e) => {
-              setCode(e.target.value.replace(/\D/g, ""));
-              setError(""); // Сбрасываем ошибку при изменении кода
-            }}
-            className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
-            autoComplete="one-time-code"
-            required
-          />
-
-          {error && (
-            <div className="text-red-500 text-center mt-2 text-sm">{error}</div>
-          )}
-
-          <button
-            type="submit"
-            className={`${buttonStyles.base} ${
-              code.length !== 4 ? buttonStyles.inactive : buttonStyles.active
-            } [&&]:mt-8 mb-0`}
-            disabled={attemptsLeft <= 0} // Блокируем кнопку при исчерпании попыток
+        <h1 className="text-2xl font-bold text-[#414141] text-center">
+          Регистрация
+        </h1>
+        <div>
+          <p className="text-center text-[#8f8f8f]">Код из SMS</p>
+          <form
+            onSubmit={handleSubmit}
+            className="w-65 mx-auto max-h-screen flex flex-col justify-center items-center"
+            autoComplete="off"
           >
-            Подтвердить
-          </button>
-        </form>
+            <input
+              type="password"
+              inputMode="numeric"
+              pattern="[0-9]{4}"
+              maxLength={4}
+              value={code}
+              onChange={(e) => {
+                setCode(e.target.value);
+                setError("");
+              }}
+              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+              autoComplete="one-time-code"
+              required
+            />
+            {error && (
+              <div className="text-red-500 text-center mt-2 text-sm">
+                {error}
+              </div>
+            )}
+            <button
+              type="submit"
+              className={`${buttonStyles.base} ${code.length !== 4 ? buttonStyles.inactive : buttonStyles.active} [&&]:mt-8 mb-0`}
+              disabled={code.length !== 4 || attemptsLeft <= 0}
+            >
+              Подтвердить
+            </button>
+          </form>
+        </div>
+
         {!canResend ? (
           <p className="text-[#414141] text-xs text-center">
-            Запросить код повторно можно через <span>{timeLeft} секунд</span>
+            Запросить код повторно можно через{" "}
+            <span className="font-bold">{timeLeft} секунд</span>
           </p>
         ) : (
           <button
             onClick={handleResend}
-            className="text-xs underline text-[#ff6633] cursor-pointer text-center"
+            disabled={!canResend}
+            className={`text-xs underline cursor-pointer text-center ${
+              canResend ? "text-[#ff6633]" : "text-gray-400 cursor-not-allowed"
+            }`}
           >
             Отправить еще раз
           </button>
@@ -164,12 +158,12 @@ export const EnterCode = ({ phoneNumber }: EnterCodeProps) => {
           href="/register"
           className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
         >
-          {/* <Image
+          <Image
             src="/icons-auth/icon-arrow-left.svg"
             width={24}
             height={24}
             alt="Вернуться"
-          /> */}
+          />
           Вернуться
         </Link>
       </div>

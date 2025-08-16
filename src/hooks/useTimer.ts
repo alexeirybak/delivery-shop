@@ -1,4 +1,3 @@
-// hooks/useTimer.ts
 import { useEffect, useState } from "react";
 
 const useTimer = (initialTime: number) => {
@@ -15,6 +14,7 @@ const useTimer = (initialTime: number) => {
           setIsTimerActive(false);
           return 0;
         }
+
         return prev - 1;
       });
     }, 1000);
@@ -27,11 +27,7 @@ const useTimer = (initialTime: number) => {
     setIsTimerActive(true);
   };
 
-  return {
-    timeLeft,
-    canResend: !isTimerActive,
-    startTimer,
-  };
+  return { timeLeft, canResend: !isTimerActive, startTimer };
 };
 
 export default useTimer;
