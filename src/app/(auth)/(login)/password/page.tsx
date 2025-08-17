@@ -14,9 +14,13 @@ import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 
 const LoginPasswordPage = () => {
   return (
-    <Suspense fallback={<AuthFormLayout>
-        <LoadingContent title={"Сейчас запросим пароль"} />
-      </AuthFormLayout>}>
+    <Suspense
+      fallback={
+        <AuthFormLayout>
+          <LoadingContent title={"Сейчас запросим пароль"} />
+        </AuthFormLayout>
+      }
+    >
       <LoginPasswordContent />
     </Suspense>
   );
@@ -37,6 +41,16 @@ const LoginPasswordContent = () => {
     setError(null);
   };
 
+  const getErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) {
+      return error.message.includes("Неверный пароль") ||
+        error.message.includes("Invalid email or password")
+        ? "Неверный пароль"
+        : error.message;
+    }
+    return "Произошла непредвиденная ошибка";
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -44,13 +58,16 @@ const LoginPasswordContent = () => {
 
     try {
       if (loginType === "phone") {
+        // Очищаем номер от форматирования перед отправкой
+        const cleanPhone = loginParam.replace(/\D/g, "");
+
         const response = await fetch("/api/auth/login", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            phone: loginParam,
+            phoneNumber: cleanPhone, // Используем правильное имя поля
             password,
           }),
         });
@@ -61,13 +78,9 @@ const LoginPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        if (!data.success) {
-          throw new Error(data.message || "Неверные учетные данные");
-        }
-
-        const userName = data.user?.name || data.user?.phone || "Пользователь";
-        router.replace("/");
+        const userName = data.user?.name || cleanPhone;
         login(userName);
+        router.replace("/");
       } else {
         // Логин по email
         await authClient.signIn.email(
@@ -75,8 +88,8 @@ const LoginPasswordContent = () => {
           {
             onSuccess: (ctx) => {
               const userName = ctx.data?.user.name || "Пользователь";
-              router.replace("/");
               login(userName);
+              router.replace("/");
             },
             onError: (ctx) => {
               throw new Error(
@@ -89,17 +102,8 @@ const LoginPasswordContent = () => {
         );
       }
     } catch (err) {
-      const errorMessage =
-        err instanceof Error &&
-        (err.message.includes("Неверный пароль") ||
-          err.message.includes("Invalid email or password"))
-          ? "Неверный пароль"
-          : err instanceof Error
-            ? err.message
-            : "Произошла непредвиденная ошибка";
-
+      const errorMessage = getErrorMessage(err);
       setError(errorMessage);
-      console.error("Login error:", err);
     } finally {
       setIsLoading(false);
     }

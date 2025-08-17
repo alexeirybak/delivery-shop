@@ -10,6 +10,7 @@ import { ErrorContent } from "../../(reg)/_components/ErrorContent";
 import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 import { MailWarning, PhoneOff } from "lucide-react";
 import { UnverifiedEmail } from "./_components/UnverifiedEmail";
+import { AuthMethodSelector } from "./_components/AuthMethodSelector";
 
 const LoginPage = () => {
   const [login, setLogin] = useState("");
@@ -17,6 +18,7 @@ const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showUnverifiedEmail, setShowUnverifiedEmail] = useState(false);
+  const [showAuthMethodChoice, setShowAuthMethodChoice] = useState(false);
 
   const router = useRouter();
 
@@ -75,14 +77,36 @@ const LoginPage = () => {
         return;
       }
 
-      router.push(
-        `/password?login=${encodeURIComponent(login)}&loginType=${loginType}`
-      );
+      // Для телефона показываем выбор метода входа
+      if (loginType === "phone") {
+        setShowAuthMethodChoice(true);
+      } else {
+        // Для email сразу переходим к вводу пароля
+        router.push(
+          `/password?login=${encodeURIComponent(login)}&loginType=${loginType}`
+        );
+      }
     } catch {
       setError("Ошибка при проверке данных");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleAuthMethodSelect = (method: "password" | "otp") => {
+    const cleanLogin = loginType === "phone" ? login.replace(/\D/g, "") : login;
+
+    router.push(
+      method === "password"
+        ? `/password?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+        : `/otp-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+    );
+  };
+
+  const handleBackFromMethodChoice = () => {
+    setShowAuthMethodChoice(false);
+    setLogin(""); // Очищаем поле ввода
+    setLoginType("phone"); // Возвращаем к выбору телефона
   };
 
   const handleToRegister = () => router.replace("/register");
@@ -97,11 +121,25 @@ const LoginPage = () => {
     );
   }
 
+  if (showAuthMethodChoice) {
+    return (
+      <AuthMethodSelector
+        phoneNumber={login}
+        onMethodSelectAction={handleAuthMethodSelect}
+        onBackAction={handleBackFromMethodChoice}
+      />
+    );
+  }
+
   if (isLoading)
     return (
       <AuthFormLayout>
         <LoadingContent
-          title={`Проверка ${loginType === "email" ? "email" : "телефона"} ${login}...`}
+          title={
+            <span style={{ whiteSpace: "pre-line" }}>
+              {`Проверка ${loginType === "email" ? "email" : "телефона"}\n${login}`}
+            </span>
+          }
         />
       </AuthFormLayout>
     );
@@ -141,31 +179,33 @@ const LoginPage = () => {
       >
         <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
           <div className="flex flex-col gap-y-4 items-start w-full">
-            <label htmlFor="login" className={formStyles.label}>
-              {loginType === "email" ? "E-mail" : "Телефон"}
-            </label>
+            <div>
+              <label htmlFor="login" className={formStyles.label}>
+                {loginType === "email" ? "E-mail" : "Телефон"}
+              </label>
 
-            {loginType === "phone" ? (
-              <InputMask
-                mask="+7 (___) ___-__-__"
-                replacement={{ _: /\d/ }}
-                value={login}
-                onChange={handlePhoneChange}
-                placeholder="+7 (___) ___-__-__"
-                className={formStyles.input}
-                required
-              />
-            ) : (
-              <input
-                id="email"
-                type="email"
-                value={login}
-                onChange={handleEmailChange}
-                className={formStyles.input}
-                placeholder="example@mail.com"
-                required
-              />
-            )}
+              {loginType === "phone" ? (
+                <InputMask
+                  mask="+7 (___) ___-__-__"
+                  replacement={{ _: /\d/ }}
+                  value={login}
+                  onChange={handlePhoneChange}
+                  placeholder="+7 (___) ___-__-__"
+                  className={formStyles.input}
+                  required
+                />
+              ) : (
+                <input
+                  id="email"
+                  type="email"
+                  value={login}
+                  onChange={handleEmailChange}
+                  className={formStyles.input}
+                  placeholder="example@mail.com"
+                  required
+                />
+              )}
+            </div>
 
             <div className="flex gap-2 text-sm mx-auto">
               <button
@@ -189,7 +229,8 @@ const LoginPage = () => {
         <button
           type="submit"
           disabled={
-            (loginType === "email" && !login.includes("@")) ||
+            (loginType === "email" &&
+              (!login.includes("@") || !login.includes("."))) ||
             (loginType === "phone" && login.replace(/\D/g, "").length < 11) ||
             isLoading
           }

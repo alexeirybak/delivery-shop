@@ -1,6 +1,6 @@
 import { RotateCw } from "lucide-react";
 
-export const LoadingContent = ({ title }: { title: string }) => {
+export const LoadingContent = ({ title }: { title: string | React.ReactNode }) => {
   return (
     <div className="flex flex-col items-center justify-center space-y-4">
       <div className="relative">

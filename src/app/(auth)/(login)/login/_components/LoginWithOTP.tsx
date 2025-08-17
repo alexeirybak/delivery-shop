@@ -1,25 +1,26 @@
 "use client";
-
-import Link from "next/link";
-import Image from "next/image";
-import { useRegFormContext } from "@/app/contexts/RegFormContext";
-import { useEffect, useState } from "react";
-import { buttonStyles } from "../styles";
-import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
+import { buttonStyles } from "@/app/(auth)/styles";
+import { authClient } from "@/lib/auth-client";
 import useTimer from "@/hooks/useTimer";
+import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
+import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
+import { useEffect, useState } from "react";
+import { useAuthStore } from "@/store/authStore";
 import { useResendOtp } from "@/hooks/useResendOtp";
-import { OtpResendButton } from "./OTPResendButton";
+import { OtpResendButton } from "@/app/(auth)/_components/OTPResendButton";
+
 const MAX_ATTEMPTS = 3;
 const TIMEOUT_PERIOD = 180;
 
-export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
+export const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
-  const { regFormData } = useRegFormContext();
   const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
   const router = useRouter();
+  const { login } = useAuthStore();
   const { handleResend: resendOtp, isLoading: isResending } =
     useResendOtp(phoneNumber);
 
@@ -32,49 +33,48 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
     e.preventDefault();
     if (code.length !== 4) return;
 
+    setIsLoading(true);
     try {
-      const { data: verifyData, error: verifyError } =
-        await authClient.phoneNumber.verify({
-          phoneNumber,
-          code,
-          disableSession: false,
-        });
+      // 1. Сначала верифицируем код
+      const { error: verifyError } = await authClient.phoneNumber.verify({
+        phoneNumber,
+        code,
+        disableSession: false,
+      });
 
       if (verifyError) throw verifyError;
 
-      setAttemptsLeft(MAX_ATTEMPTS);
-
-      const passwordResponse = await fetch("/api/auth/set-password", {
+      // 2. Получаем данные пользователя
+      const response = await fetch("/api/auth/check-phone", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          userId: verifyData.user.id,
-          password: regFormData.password,
-        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ phoneNumber }),
       });
 
-      if (!passwordResponse.ok) {
-        const errorData = await passwordResponse.json();
-        console.error("Детали ошибки", errorData);
-        throw new Error(errorData.error || "Ошибка установки пароля");
+      const userData = await response.json();
+
+      if (!userData.exists) {
+        throw new Error("Пользователь не найден");
       }
 
-      const { error: updateError } = await authClient.updateUser(regFormData);
+      // 3. Сохраняем данные в хранилище
+      login(userData.userName || phoneNumber); // Используем имя пользователя или телефон, если имя отсутствует
 
-      if (updateError) throw updateError;
-
-      router.replace("/login");
+      // 4. Перенаправляем на главную
+      router.replace("/");
     } catch (error) {
-      console.error("Ошибка верификации телефона:", error);
+      console.error("Ошибка входа:", error);
       setCode("");
       setAttemptsLeft((prev) => prev - 1);
-
-      if (attemptsLeft <= 1) {
-        setError("Попытки исчерпаны. Пожалуйста, зарегистрируйтесь снова");
-        setTimeout(() => router.replace("/register"), 2000);
-      } else {
-        setError(`Неверный код. Осталось попыток: ${attemptsLeft - 1}`);
-      }
+      setError(
+        attemptsLeft <= 1
+          ? "Попытки исчерпаны. Попробуйте позже"
+          : `Неверный код. Осталось попыток: ${attemptsLeft - 1}`
+      );
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -86,16 +86,22 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
         setAttemptsLeft(MAX_ATTEMPTS);
         setError("");
       },
-      onError: (message: string) => setError(message),
+      onError: (message) => setError(message),
     });
   };
 
+  if (isLoading) {
+    return (
+      <AuthFormLayout>
+        <LoadingContent title="Проверка кода..." />
+      </AuthFormLayout>
+    );
+  }
+
   return (
-    <>
+    <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
-        <h1 className="text-2xl font-bold text-[#414141] text-center">
-          Регистрация
-        </h1>
+        <h1 className="text-2xl font-bold text-[#414141] text-center">Вход</h1>
         <div>
           <p className="text-center text-[#8f8f8f]">Код из SMS</p>
           <form
@@ -124,10 +130,12 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
             )}
             <button
               type="submit"
-              className={`${buttonStyles.base} ${code.length !== 4 ? buttonStyles.inactive : buttonStyles.active} [&&]:mt-8 mb-0`}
+              className={`${buttonStyles.base} ${
+                code.length !== 4 ? buttonStyles.inactive : buttonStyles.active
+              } [&&]:mt-8 mb-0`}
               disabled={code.length !== 4 || attemptsLeft <= 0}
             >
-              Подтвердить
+              Войти
             </button>
           </form>
         </div>
@@ -138,19 +146,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
           onResendAction={handleResend}
           isLoading={isResending}
         />
-        <Link
-          href="/register"
-          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
-        >
-          <Image
-            src="/icons-auth/icon-arrow-left.svg"
-            width={24}
-            height={24}
-            alt="Вернуться"
-          />
-          Вернуться
-        </Link>
       </div>
-    </>
+    </AuthFormLayout>
   );
 };
