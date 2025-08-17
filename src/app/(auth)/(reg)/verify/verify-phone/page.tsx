@@ -88,7 +88,7 @@ export default function VerifyPhonePage() {
   return (
     <AuthFormLayout>
       {isLoading ? (
-        <LoadingContent title="SMS..." />
+        <LoadingContent title="Отправка SMS..." />
       ) : error ? (
         <ErrorContent
           error={error}

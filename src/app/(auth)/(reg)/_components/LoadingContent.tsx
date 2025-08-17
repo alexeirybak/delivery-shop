@@ -8,9 +8,7 @@ export const LoadingContent = ({ title }: { title: string }) => {
         <div className="absolute inset-0 rounded-full border-2 border-[#ff6633] border-opacity-20 animate-ping"></div>
       </div>
       <div className="text-center text-[#414141] space-y-2">
-        <h3 className="text-xl font-semibold text-[#414141]">
-          Отправка {title}
-        </h3>
+        <h3 className="text-xl font-semibold text-[#414141]">{title}</h3>
         <p>Пожалуйста, подождите...</p>
       </div>
     </div>
