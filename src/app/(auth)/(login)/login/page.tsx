@@ -136,7 +136,7 @@ const LoginPage = () => {
       <AuthFormLayout>
         <LoadingContent
           title={
-            <span style={{ whiteSpace: "pre-line" }}>
+            <span>
               {`Проверка ${loginType === "email" ? "email" : "телефона"}\n${login}`}
             </span>
           }
