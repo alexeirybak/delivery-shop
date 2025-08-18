@@ -40,12 +40,17 @@ export const UnverifiedEmail = ({
         </div>
         <div className="flex flex-col gap-y-3">
           <button
-            onClick={() => router.push("/register")}
+            onClick={() => {
+              router.push("/login");
+              setShowUnverifiedEmailAction(false);
+            }}
             className={`${buttonStyles.active} rounded [&&]:w-full cursor-pointer`}
           >
             <span className="flex items-center justify-center gap-2 text-white font-medium py-3.5 px-6 text-sm">
               <PlusCircle className="h-5 w-5" />
-              <span className="translate-y-px">Войти заново (после подтверждения email)</span>
+              <span className="translate-y-px">
+                Подтвердить и войти заново
+              </span>
             </span>
           </button>
 

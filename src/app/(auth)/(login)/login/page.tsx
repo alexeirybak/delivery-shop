@@ -22,13 +22,7 @@ const LoginPage = () => {
 
   const router = useRouter();
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setLogin(value);
-    setError(null);
-  };
-
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setLogin(value);
     setError(null);
@@ -83,7 +77,7 @@ const LoginPage = () => {
       } else {
         // Для email сразу переходим к вводу пароля
         router.push(
-          `/password?login=${encodeURIComponent(login)}&loginType=${loginType}`
+          `/password-enter?login=${encodeURIComponent(login)}&loginType=${loginType}`
         );
       }
     } catch {
@@ -98,7 +92,7 @@ const LoginPage = () => {
 
     router.push(
       method === "password"
-        ? `/password?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+        ? `/password-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
         : `/otp-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
     );
   };
@@ -147,23 +141,21 @@ const LoginPage = () => {
   if (error)
     return (
       <AuthFormLayout>
-        <div className="flex flex-col gap-4">
-          <ErrorContent
-            title="Упс!"
-            error={error}
-            icon={
-              loginType === "email" ? (
-                <MailWarning className="h-8 w-8 text-red-600" />
-              ) : (
-                <PhoneOff className="h-8 w-8 text-red-600" />
-              )
-            }
-            secondaryAction={{
-              label: "Регистрация",
-              onClick: handleToRegister,
-            }}
-          />
-        </div>
+        <ErrorContent
+          title="Упс!"
+          error={error}
+          icon={
+            loginType === "email" ? (
+              <MailWarning className="h-8 w-8 text-red-600" />
+            ) : (
+              <PhoneOff className="h-8 w-8 text-red-600" />
+            )
+          }
+          secondaryAction={{
+            label: "Регистрация",
+            onClick: handleToRegister,
+          }}
+        />
       </AuthFormLayout>
     );
 
@@ -189,17 +181,16 @@ const LoginPage = () => {
                   mask="+7 (___) ___-__-__"
                   replacement={{ _: /\d/ }}
                   value={login}
-                  onChange={handlePhoneChange}
+                  onChange={handleLoginChange}
                   placeholder="+7 (___) ___-__-__"
                   className={formStyles.input}
                   required
                 />
               ) : (
                 <input
-                  id="email"
                   type="email"
                   value={login}
-                  onChange={handleEmailChange}
+                  onChange={handleLoginChange}
                   className={formStyles.input}
                   placeholder="example@mail.com"
                   required
@@ -249,7 +240,7 @@ const LoginPage = () => {
             
           `}
         >
-          Подтвердить
+          Вход
         </button>
         <div className="flex flex-row flex-wrap mx-auto text-xs gap-4 justify-center">
           <Link

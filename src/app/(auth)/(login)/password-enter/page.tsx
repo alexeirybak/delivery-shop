@@ -17,7 +17,8 @@ const LoginPasswordPage = () => {
     <Suspense
       fallback={
         <AuthFormLayout>
-          <LoadingContent title={"Сейчас запросим пароль"} />
+          <LoadingContent title={"Сейчас запросим пароль"} /> 
+          {/* потому что параметры поиска (search params доступны только после гидратации на клиенте. Это механизм для предотвращения проблем с гидратацией и обеспечения корректной работы SSR (Server-Side Rendering). */}
         </AuthFormLayout>
       }
     >
@@ -36,6 +37,7 @@ const LoginPasswordContent = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
   const { login } = useAuthStore();
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setError(null);
@@ -58,8 +60,6 @@ const LoginPasswordContent = () => {
 
     try {
       if (loginType === "phone") {
-        // Очищаем номер от форматирования перед отправкой
-        const cleanPhone = loginParam.replace(/\D/g, "");
 
         const response = await fetch("/api/auth/login", {
           method: "POST",
@@ -67,7 +67,7 @@ const LoginPasswordContent = () => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            phoneNumber: cleanPhone, // Используем правильное имя поля
+            phoneNumber: loginParam, // Используем правильное имя поля
             password,
           }),
         });
@@ -78,7 +78,7 @@ const LoginPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        const userName = data.user?.name || cleanPhone;
+        const userName = data.user?.name;
         login(userName);
         router.replace("/");
       } else {
@@ -121,11 +121,11 @@ const LoginPasswordContent = () => {
       <h1 className="text-2xl font-bold text-center mb-8">Вход</h1>
       <form
         onSubmit={handleSubmit}
-        className="w-full mx-auto flex flex-col gap-y-8 justify-center overflow-y-auto"
+        className="w-full mx-auto flex flex-col gap-y-8 justify-center"
         autoComplete="off"
       >
         <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
-          <div className="flex flex-col gap-y-4 items-start">
+          <div className="flex flex-col items-start relative">
             <PasswordInput
               id="password"
               label="Пароль"
@@ -137,7 +137,7 @@ const LoginPasswordContent = () => {
               }
               inputClass="h-15"
             />
-            {error && <Tooltip text={error} />}
+           {error && <Tooltip text={error} position="top" />}
           </div>
         </div>
 
