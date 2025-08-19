@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getDB } from "../../../../utils/api-routes";
+import { getDB } from "../../../../../utils/api-routes";
 
 export async function POST(request: Request) {
   try {
@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
     const db = await getDB();
 
-    const user = await db.collection("users").findOne({ phoneNumber });
+    const user = await db.collection("user").findOne({ phoneNumber });
 
     if (!user) {
       return NextResponse.json(

@@ -21,3 +21,8 @@ export const verificationButtonStyles = `
     hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) 
     cursor-pointer duration-300
   `;
+
+export const iconContainerStyles = `
+    p-3 mb-4 rounded-full bg-[#FFF2ED] 
+    group-hover:bg-[#ff6633] duration-300
+  `;
