@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import PasswordInput from "../../../_components/PasswordInput";
 import { InputMask } from "@react-input/mask";
 import { isPasswordValid } from "../../../../../../utils/validation/passValid";
+import Tooltip from "@/app/(auth)/_components/Tooltip";
 
 const PhonePasswordReset = () => {
   const router = useRouter();
@@ -33,7 +34,7 @@ const PhonePasswordReset = () => {
     try {
       const { error: resetError } =
         await authClient.phoneNumber.requestPasswordReset({
-          phoneNumber: phone,
+          phoneNumber: phone.replace(/\D/g, ""),
         });
 
       if (resetError) {
@@ -56,7 +57,7 @@ const PhonePasswordReset = () => {
     try {
       // 1. Сначала проверяем OTP через BetterAuth
       const { error: resetError } = await authClient.phoneNumber.resetPassword({
-        phoneNumber: phone,
+        phoneNumber: phone.replace(/\D/g, ""),
         otp,
         newPassword,
       });
@@ -72,7 +73,7 @@ const PhonePasswordReset = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          phoneNumber: phone,
+          phoneNumber: phone.replace(/\D/g, ""),
           newPassword,
         }),
       });
@@ -104,7 +105,7 @@ const PhonePasswordReset = () => {
           </div>
 
           <p className="text-center">
-            Мы отправили код на номер: <strong>{phone}</strong>
+            Мы отправили код на номер: <br /> <span className="text-(--color-primary) font-medium">{phone}</span>
           </p>
 
           {error && (
@@ -115,45 +116,48 @@ const PhonePasswordReset = () => {
 
           <form
             onSubmit={handleResetPassword}
-            className="flex flex-col gap-y-4"
+            className="flex flex-col gap-y-4 justify-center"
           >
             <div>
-              <label htmlFor="otp" className={formStyles.label}>
-                Код подтверждения
-              </label>
+              <p className="text-center text-[#8f8f8f]">Код из SMS</p>
               <input
-                type="text"
+                type="password"
                 id="otp"
+                pattern="[0-9]{4}"
+                maxLength={4}
+                inputMode="numeric"
+                autoComplete="one-time-code"
                 value={otp}
                 onChange={(e) => setOtp(e.target.value)}
-                className={formStyles.input}
+                className="flex justify-center w-27.5 h-15 mx-auto text-center px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
                 required
-                placeholder="Введите 4-значный код"
-                maxLength={4}
               />
             </div>
-            <div>
-              <PasswordInput
-                id="password"
-                label="Новый пароль"
-                value={newPassword}
-                onChangeAction={handlePasswordChange}
-                showPassword={showNewPassword}
-                togglePasswordVisibilityAction={() =>
-                  setShowNewPassword(!showNewPassword)
-                }
-                showRequirements={true}
-                inputClass={
-                  newPassword.length > 0 && !isPasswordValid(newPassword)
-                    ? "border-red-500"
-                    : ""
-                }
-              />
+            <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
+              <div className="flex flex-col items-start relative">
+                <PasswordInput
+                  id="password"
+                  label="Новый пароль"
+                  value={newPassword}
+                  onChangeAction={handlePasswordChange}
+                  showPassword={showNewPassword}
+                  togglePasswordVisibilityAction={() =>
+                    setShowNewPassword(!showNewPassword)
+                  }
+                  showRequirements={true}
+                  inputClass={`h-15 ${
+                    newPassword.length > 0 && !isPasswordValid(newPassword)
+                      ? "border-red-500"
+                      : ""
+                  }`}
+                />
+                {error && <Tooltip text={error} position="top" />}
+              </div>
             </div>
             <button
               type="submit"
               disabled={loading}
-              className={`${buttonStyles.active} rounded [&&]:w-full [&&]:h-10 cursor-pointer flex items-center justify-center gap-2`}
+              className={`${buttonStyles.active} rounded w-full max-w-65 px-4 [&&]:h-10 cursor-pointer flex items-center justify-center gap-2 mx-auto`}
             >
               {loading ? (
                 <>

@@ -54,7 +54,7 @@ const LoginPasswordContent = () => {
   const handleForgotPassword = () => {
     if (loginType === "phone") {
       router.replace(
-        `/phone-pass-reset?phone=${encodeURIComponent(loginParam)}`
+        `/phone-pass-reset`
       );
     } else {
       router.replace("/forgot-password");

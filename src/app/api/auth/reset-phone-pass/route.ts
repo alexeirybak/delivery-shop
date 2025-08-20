@@ -22,11 +22,11 @@ export async function POST(request: NextRequest) {
     // Обновляем пароль в базе
     const result = await db.collection("user").updateOne(
       { phoneNumber },
-      { 
-        $set: { 
+      {
+        $set: {
           password: hashedPassword,
-          updatedAt: new Date()
-        } 
+          updatedAt: new Date(),
+        },
       }
     );
 
@@ -38,7 +38,6 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true }, { status: 200 });
-    
   } catch (error) {
     console.error("Ошибка обновления пароля:", error);
     return NextResponse.json(

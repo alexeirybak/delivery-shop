@@ -24,10 +24,6 @@ export const auth = betterAuth({
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
       });
     },
-    onPasswordReset: async ({ user }) => {
-      console.log(`Пароль для пользователя ${user.email} был сброшен`);
-      // Здесь можно добавить дополнительную логику, например, отправку уведомления
-    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
