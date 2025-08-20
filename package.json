@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3000",
+    "dev:mail": "maildev",
+    "dev:with-mail": "concurrently \"npm run dev:mail\" \"npm run dev\"",
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint"
@@ -20,6 +22,7 @@
     "mongoose": "^8.16.3",
     "motion": "^12.16.0",
     "next": "15.3.3",
+    "nodemailer": "^7.0.5",
     "rc-slider": "^11.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -31,6 +34,7 @@
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^6.0.0",
     "@types/node": "^20.19.7",
+    "@types/nodemailer": "^7.0.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "dotenv": "^17.2.0",

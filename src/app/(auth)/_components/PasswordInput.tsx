@@ -4,6 +4,7 @@ import IconVision from "@/components/svg/IconVision";
 import { formStyles } from "../styles";
 import { ChangeEvent } from "react";
 import Tooltip from "./Tooltip";
+import { isPasswordValid } from "../../../../utils/validation/passValid";
 
 interface PasswordInputProps {
   id: string;
@@ -28,13 +29,10 @@ const PasswordInput = ({
   compareWith,
    inputClass = "",
 }: PasswordInputProps) => {
-  const isPasswordValid = () => {
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,}$/.test(value);
-  };
 
   const shouldShowTooltip = () => {
     if (showRequirements) {
-      return value.length > 0 && !isPasswordValid();
+      return value.length > 0 && !isPasswordValid(value);
     }
 
     if (compareWith) {

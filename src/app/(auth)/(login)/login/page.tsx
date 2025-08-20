@@ -28,6 +28,16 @@ const LoginPage = () => {
     setError(null);
   };
 
+  const handleForgotPassword = () => {
+    if (loginType === "phone") {
+      router.replace(
+        `/phone-pass-reset?phone=${encodeURIComponent(login)}`
+      );
+    } else {
+      router.replace("/forgot-password");
+    }
+  };
+
   const switchToEmail = () => {
     setLogin("");
     setLoginType("email");
@@ -130,7 +140,7 @@ const LoginPage = () => {
       <AuthFormLayout>
         <LoadingContent
           title={
-            <span>
+            <span style={{ whiteSpace: "pre-line" }}>
               {`Проверка ${loginType === "email" ? "email" : "телефона"}\n${login}`}
             </span>
           }
@@ -249,12 +259,12 @@ const LoginPage = () => {
           >
             Регистрация
           </Link>
-          <Link
-            href="/forgot-password"
-            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300"
+          <button
+            onClick={handleForgotPassword}
+            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?
-          </Link>
+          </button>
         </div>
       </form>
     </AuthFormLayout>

@@ -5,8 +5,6 @@ export async function POST(request: Request) {
   try {
     const { phoneNumber, password } = await request.json();
 
-    console.log(phoneNumber, password);
-
     const db = await getDB();
 
     const user = await db.collection("user").findOne({ phoneNumber });

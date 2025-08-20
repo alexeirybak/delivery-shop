@@ -9,6 +9,8 @@ import { useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useResendOtp } from "@/hooks/useResendOtp";
 import { OtpResendButton } from "@/app/(auth)/_components/OTPResendButton";
+import Link from "next/link";
+import Image from "next/image";
 
 const MAX_ATTEMPTS = 3;
 const TIMEOUT_PERIOD = 180;
@@ -146,6 +148,18 @@ export const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
           onResendAction={handleResend}
           isLoading={isResending}
         />
+        <Link
+          href="/login"
+          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+        >
+          <Image
+            src="/icons-auth/icon-arrow-left.svg"
+            width={24}
+            height={24}
+            alt="Вернуться"
+          />
+          Вернуться
+        </Link>
       </div>
     </AuthFormLayout>
   );

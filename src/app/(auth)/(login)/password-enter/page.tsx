@@ -4,7 +4,6 @@ import { Suspense, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import PasswordInput from "../../_components/PasswordInput";
-import Link from "next/link";
 import Image from "next/image";
 import Tooltip from "../../_components/Tooltip";
 import { buttonStyles } from "../../styles";
@@ -12,13 +11,12 @@ import { useAuthStore } from "@/store/authStore";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 
-const LoginPasswordPage = () => {
+const EnterPasswordPage = () => {
   return (
     <Suspense
       fallback={
         <AuthFormLayout>
-          <LoadingContent title={"Сейчас запросим пароль"} /> 
-          {/* потому что параметры поиска (search params доступны только после гидратации на клиенте. Это механизм для предотвращения проблем с гидратацией и обеспечения корректной работы SSR (Server-Side Rendering). */}
+          <LoadingContent title={"Сейчас запросим пароль"} />
         </AuthFormLayout>
       }
     >
@@ -53,6 +51,16 @@ const LoginPasswordContent = () => {
     return "Произошла непредвиденная ошибка";
   };
 
+  const handleForgotPassword = () => {
+    if (loginType === "phone") {
+      router.replace(
+        `/phone-pass-reset?phone=${encodeURIComponent(loginParam)}`
+      );
+    } else {
+      router.replace("/forgot-password");
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -60,7 +68,6 @@ const LoginPasswordContent = () => {
 
     try {
       if (loginType === "phone") {
-
         const response = await fetch("/api/auth/login", {
           method: "POST",
           headers: {
@@ -92,11 +99,7 @@ const LoginPasswordContent = () => {
               router.replace("/");
             },
             onError: (ctx) => {
-              throw new Error(
-                ctx.error?.message.includes("Invalid email or password")
-                  ? "Неверный пароль"
-                  : ctx.error?.message || "Ошибка при входе"
-              );
+              setError(ctx.error?.message || "Ошибка при входе");
             },
           }
         );
@@ -137,7 +140,7 @@ const LoginPasswordContent = () => {
               }
               inputClass="h-15"
             />
-           {error && <Tooltip text={error} position="top" />}
+            {error && <Tooltip text={error} position="top" />}
           </div>
         </div>
 
@@ -154,7 +157,7 @@ const LoginPasswordContent = () => {
 
         <div className="flex flex-row flex-wrap mx-auto text-xs">
           <button
-            onClick={() => router.back()}
+            onClick={() => router.replace("/login")}
             className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 duration-300 cursor-pointer"
           >
             <Image
@@ -165,16 +168,16 @@ const LoginPasswordContent = () => {
             />
             Вернуться
           </button>
-          <Link
-            href="/forgot-password"
+          <button
+            onClick={handleForgotPassword}
             className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?
-          </Link>
+          </button>
         </div>
       </form>
     </AuthFormLayout>
   );
 };
 
-export default LoginPasswordPage;
+export default EnterPasswordPage;
