@@ -1,4 +1,5 @@
 import VerifyEmail from "@/app/(auth)/(reg)/_components/VerifyEmail";
+import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordResetEmail";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { phoneNumber } from "better-auth/plugins";
@@ -14,6 +15,15 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
+    resetPasswordTokenExpiresIn: 86400,
+    sendResetPassword: async ({ user, url }) => {
+      await resend.emails.send({
+        from: "Северяночка <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Сброс пароля для Северяночки",
+        react: PasswordResetEmail({ username: user.name, resetUrl: url }),
+      });
+    },
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {

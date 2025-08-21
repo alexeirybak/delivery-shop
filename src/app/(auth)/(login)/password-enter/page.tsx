@@ -7,7 +7,6 @@ import { useAuthStore } from "@/store/authStore";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 import PasswordInput from "../../_components/PasswordInput";
-import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import Tooltip from "../../_components/Tooltip";
 import { buttonStyles } from "../../styles";
@@ -51,6 +50,16 @@ const EnterPasswordContent = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
     setError(null);
+  };
+
+  const handleForgotPassword = () => {
+    if (loginType === "phone") {
+      router.replace(
+        `/phone-pass-reset`
+      );
+    } else {
+      router.replace("/forgot-password");
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -166,12 +175,12 @@ const EnterPasswordContent = () => {
             />
             Вернуться
           </button>
-          <Link
-            href="/forgot-password"
+          <button
+            onClick={handleForgotPassword}
             className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?
-          </Link>
+          </button>
         </div>
       </form>
     </AuthFormLayout>
