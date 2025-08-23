@@ -92,23 +92,21 @@ const ResetPassword = () => {
 
   if (error && !token) {
     return (
-      <AuthFormLayout>
-        <ErrorContent
-          title="Что-то пошло не так!"
-          error={error}
-          icon={<MailWarning className="h-8 w-8 text-red-600" />}
-          secondaryAction={{
-            label: (
-              <>
-                Запросить новую ссылку
-                <br />
-                для сброса пароля
-              </>
-            ),
-            onClick: handleToStart,
-          }}
-        />
-      </AuthFormLayout>
+      <ErrorContent
+        title="Что-то пошло не так!"
+        error={error}
+        icon={<MailWarning className="h-8 w-8 text-red-600" />}
+        secondaryAction={{
+          label: (
+            <>
+              Запросить новую ссылку
+              <br />
+              для сброса пароля
+            </>
+          ),
+          onClick: handleToStart,
+        }}
+      />
     );
   }
 
@@ -166,7 +164,7 @@ const ResetPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`text-white bg-(--color-primary) hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full max-w-65 mx-auto p-2 gap-4 cursor-pointer duration-300 rounded ${loading ? "bg-[#e5ffde]" : "bg-(--color-primary)"}`}
+          className={`bg-(--color-primary) hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) py-3 px-6 text-white cursor-pointer duration-300 rounded flex-1 disabled:bg-[#e5ffde]`}
         >
           {loading ? "Сохранение..." : "Сохранить новый пароль"}
         </button>

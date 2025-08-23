@@ -13,13 +13,7 @@ import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 
 const EnterPasswordPage = () => {
   return (
-    <Suspense
-      fallback={
-        <AuthFormLayout>
-          <LoadingContent title={"Сейчас запросим пароль"} />
-        </AuthFormLayout>
-      }
-    >
+    <Suspense fallback={<LoadingContent title={"Сейчас запросим пароль"} />}>
       <LoginPasswordContent />
     </Suspense>
   );
@@ -53,9 +47,7 @@ const LoginPasswordContent = () => {
 
   const handleForgotPassword = () => {
     if (loginType === "phone") {
-      router.replace(
-        `/phone-pass-reset`
-      );
+      router.replace(`/phone-pass-reset`);
     } else {
       router.replace("/forgot-password");
     }
@@ -85,8 +77,7 @@ const LoginPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        const userName = data.user?.name;
-        login(userName);
+        login(data.user);
         router.replace("/");
       } else {
         // Логин по email
@@ -94,8 +85,8 @@ const LoginPasswordContent = () => {
           { email: loginParam, password },
           {
             onSuccess: (ctx) => {
-              const userName = ctx.data?.user.name || "Пользователь";
-              login(userName);
+              const userData = ctx.data?.user || "Пользователь";
+              login(userData);
               router.replace("/");
             },
             onError: (ctx) => {
@@ -112,12 +103,7 @@ const LoginPasswordContent = () => {
     }
   };
 
-  if (isLoading)
-    return (
-      <AuthFormLayout>
-        <LoadingContent title={"Происходит авторизация"} />
-      </AuthFormLayout>
-    );
+  if (isLoading) return <LoadingContent title={"Происходит авторизация"} />;
 
   return (
     <AuthFormLayout>

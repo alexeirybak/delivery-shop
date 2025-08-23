@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     "seed-db.ts",
     "src/app/api/auth/set-password"
-  ],
+, "src/app/api/auth/update-profile"  ],
   "exclude": ["node_modules"]
 }

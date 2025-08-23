@@ -8,9 +8,16 @@ import { regions } from "@/data/regions";
 interface SelectRegionProps {
   value: string;
   onChangeAction: (e: ChangeEvent<HTMLSelectElement>) => void;
+  disabled?: boolean;
+  className?: string;
 }
 
-const SelectRegion = ({ value, onChangeAction }: SelectRegionProps) => {
+const SelectRegion = ({
+  value,
+  onChangeAction,
+  disabled = false,
+  className = "",
+}: SelectRegionProps) => {
   return (
     <div>
       <label htmlFor="region" className={formStyles.label}>
@@ -19,23 +26,29 @@ const SelectRegion = ({ value, onChangeAction }: SelectRegionProps) => {
       <div className="relative">
         <select
           id="region"
+          name="region"
           value={value}
           onChange={onChangeAction}
-          className={`${formStyles.input} appearance-none pr-8 cursor-pointer`}
+          disabled={disabled}
+          className={`${formStyles.input} ${className} appearance-none pr-8 cursor-pointer disabled:cursor-not-allowed disabled:bg-[#f3f2f1]`}
         >
           {regions.map((region) => (
-            <option key={region.value}>{region.label}</option>
+            <option key={region.value} value={region.value}>
+              {region.label}
+            </option>
           ))}
         </select>
-        <div className="absolute right-2 top-2 transform -transform-y-1/2 pointer-events-none">
-          <Image
-            src="/icons-products/icon-arrow-right.svg"
-            alt="Выберите регион"
-            width={24}
-            height={24}
-            className="rotate-90"
-          />
-        </div>
+        {!disabled && ( // Стрелка показывается только когда не disabled
+          <div className="absolute right-2 top-2 transform -transform-y-1/2 pointer-events-none">
+            <Image
+              src="/icons-products/icon-arrow-right.svg"
+              alt="Выберите регион"
+              width={24}
+              height={24}
+              className="rotate-90"
+            />
+          </div>
+        )}
       </div>
     </div>
   );

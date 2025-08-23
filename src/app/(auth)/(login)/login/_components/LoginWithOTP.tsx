@@ -62,7 +62,7 @@ export const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
       }
 
       // 3. Сохраняем данные в хранилище
-      login(userData.userName || phoneNumber); // Используем имя пользователя или телефон, если имя отсутствует
+      login(userData.user);
 
       // 4. Перенаправляем на главную
       router.replace("/");
@@ -93,11 +93,7 @@ export const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   };
 
   if (isLoading) {
-    return (
-      <AuthFormLayout>
-        <LoadingContent title="Проверка кода..." />
-      </AuthFormLayout>
-    );
+    return <LoadingContent title="Проверка кода..." />;
   }
 
   return (

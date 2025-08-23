@@ -30,9 +30,7 @@ const LoginPage = () => {
 
   const handleForgotPassword = () => {
     if (loginType === "phone") {
-      router.replace(
-        `/phone-pass-reset`
-      );
+      router.replace(`/phone-pass-reset`);
     } else {
       router.replace("/forgot-password");
     }
@@ -137,36 +135,32 @@ const LoginPage = () => {
 
   if (isLoading)
     return (
-      <AuthFormLayout>
-        <LoadingContent
-          title={
-            <span style={{ whiteSpace: "pre-line" }}>
-              {`Проверка ${loginType === "email" ? "email" : "телефона"}\n${login}`}
-            </span>
-          }
-        />
-      </AuthFormLayout>
+      <LoadingContent
+        title={
+          <span style={{ whiteSpace: "pre-line" }}>
+            {`Проверка ${loginType === "email" ? "email" : "телефона"}\n${login}`}
+          </span>
+        }
+      />
     );
 
   if (error)
     return (
-      <AuthFormLayout>
-        <ErrorContent
-          title="Упс!"
-          error={error}
-          icon={
-            loginType === "email" ? (
-              <MailWarning className="h-8 w-8 text-red-600" />
-            ) : (
-              <PhoneOff className="h-8 w-8 text-red-600" />
-            )
-          }
-          secondaryAction={{
-            label: "Регистрация",
-            onClick: handleToRegister,
-          }}
-        />
-      </AuthFormLayout>
+      <ErrorContent
+        title="Упс!"
+        error={error}
+        icon={
+          loginType === "email" ? (
+            <MailWarning className="h-8 w-8 text-red-600" />
+          ) : (
+            <PhoneOff className="h-8 w-8 text-red-600" />
+          )
+        }
+        secondaryAction={{
+          label: "Регистрация",
+          onClick: handleToRegister,
+        }}
+      />
     );
 
   return (

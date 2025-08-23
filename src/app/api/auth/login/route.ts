@@ -23,14 +23,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Неверный пароль" }, { status: 401 });
     }
 
+    const isPhoneRegistration =
+      !user.emailVerified || user.emailVerified === false;
+
     const responseData = {
       success: true,
       user: {
-        _id: user._id,
+        _id: user._id.toString(), 
         phoneNumber: user.phoneNumber,
         surname: user.surname,
         name: user.name,
+        region: user.region,
+        location: user.location,
         email: user.email,
+        gender: user.gender, 
+        card: user.card,
+        hasCard: user.hasCard,
+        avatar: user.avatar,
+        emailVerified: user.emailVerified || false,
+        isPhoneRegistration: isPhoneRegistration,
       },
     };
 

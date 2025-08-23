@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { authClient } from "@/lib/auth-client";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -86,7 +85,7 @@ export default function VerifyPhonePage() {
   };
 
   return (
-    <AuthFormLayout>
+    <>
       {isLoading ? (
         <LoadingContent title="Отправка SMS..." />
       ) : error ? (
@@ -102,6 +101,6 @@ export default function VerifyPhonePage() {
       ) : verificationSent ? (
         <EnterCode phoneNumber={phoneNumber} />
       ) : null}
-    </AuthFormLayout>
+    </>
   );
 }

@@ -1,7 +1,6 @@
 "use client";
 import { LoginWithOTP } from "../login/_components/LoginWithOTP";
 import { useSearchParams } from "next/navigation";
-import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 import { authClient } from "@/lib/auth-client";
 import { useState, useEffect, useRef } from "react";
@@ -19,7 +18,7 @@ export default function OTPLoginPage() {
   useEffect(() => {
     const sendOtp = async () => {
       if (isSentRef.current || !phoneNumber) return;
-      
+
       isSentRef.current = true;
       try {
         await authClient.phoneNumber.sendOtp(
@@ -52,25 +51,19 @@ export default function OTPLoginPage() {
   };
 
   if (status === "sending") {
-    return (
-      <AuthFormLayout>
-        <LoadingContent title={`Отправка SMS на номер +${phoneNumber}`} />
-      </AuthFormLayout>
-    );
+    return <LoadingContent title={`Отправка SMS на номер +${phoneNumber}`} />;
   }
 
   if (status === "error") {
     return (
-      <AuthFormLayout>
-        <ErrorContent
-          error={error}
-          icon={<PhoneOff className="h-8 w-8 text-red-600" />}
-          primaryAction={{
-            label: "Попробовать снова",
-            onClick: handleRetry,
-          }}
-        />
-      </AuthFormLayout>
+      <ErrorContent
+        error={error}
+        icon={<PhoneOff className="h-8 w-8 text-red-600" />}
+        primaryAction={{
+          label: "Попробовать снова",
+          onClick: handleRetry,
+        }}
+      />
     );
   }
 

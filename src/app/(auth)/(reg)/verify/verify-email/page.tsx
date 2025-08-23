@@ -1,6 +1,5 @@
 "use client";
 
-import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { authClient } from "@/lib/auth-client";
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -71,7 +70,7 @@ export default function VerifyEmailPage() {
   };
 
   return (
-    <AuthFormLayout>
+    <>
       {isLoading ? (
         <LoadingContent title="Отправка письма" />
       ) : error ? (
@@ -87,6 +86,6 @@ export default function VerifyEmailPage() {
       ) : verificationSent ? (
         <SuccessSent />
       ) : null}
-    </AuthFormLayout>
+    </>
   );
 }
