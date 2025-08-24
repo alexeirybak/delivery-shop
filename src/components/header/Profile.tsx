@@ -8,49 +8,26 @@ import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { getAvatarByGender } from "../../../utils/getAvatarByGender";
 
-type UserData = {
-  name: string;
-  gender: string;
-} | null;
-
 const Profile = () => {
-  const { isAuth, logout } = useAuthStore();
-  const [user, setUser] = useState<UserData>(null);
+  const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Получаем данные пользователя при монтировании
+  // Добавляем проверку аутентификации при монтировании
   useEffect(() => {
-    if (isAuth) {
-      fetchUserData();
-    }
-  }, [isAuth]);
+    checkAuth();
+  }, [checkAuth]);
 
-  const fetchUserData = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch("/api/auth/user");
-      if (response.ok) {
-        const userData = await response.json();
-        setUser(userData);
-      }
-    } catch (error) {
-      console.error("Ошибка получения данных пользователя:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  console.log(user);
+
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
-
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -60,25 +37,40 @@ const Profile = () => {
         setIsMenuOpen(false);
       }
     };
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-  const handleLogout = async () => {
-    setIsLoggingOut(true);
-    try {
-      await logout();
-      router.replace("/");
-    } catch (error) {
-      console.error("Не удалось выйти:", error);
-    } finally {
-      setIsLoggingOut(false);
-      setIsMenuOpen(false);
-    }
-  };
+const handleLogout = async () => {
+  setIsLoggingOut(true);
+  try {
+    await logout();
+    
+    // Дополнительная очистка на клиенте на всякий случай
+    document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
+    
+    router.replace("/");
+  } catch (error) {
+    console.error("Не удалось выйти:", error);
+    // Вызываем метод logout для очистки состояния
+    useAuthStore.getState().logout().catch(() => {
+      // Если и это падает, принудительно очищаем
+      useAuthStore.setState({ isAuth: false, user: null });
+    });
+  } finally {
+    setIsLoggingOut(false);
+    setIsMenuOpen(false);
+  }
+};
+
+  // Показываем заглушку во время загрузки
+  if (isLoading) {
+    return (
+      <div className="ml-6 w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
+    );
+  }
 
   if (!isAuth) {
     return (

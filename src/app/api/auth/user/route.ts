@@ -1,52 +1,68 @@
-// app/api/auth/user/route.ts
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
 import { getDB } from "../../../../../utils/api-routes";
 import { ObjectId } from "mongodb";
+import { auth } from "@/lib/auth";
 
 export async function GET(request: Request) {
   try {
-    let userId: string | null = null;
-
-    // 1. Пытаемся получить сессию через Better-Auth
-    const session = await auth.api.getSession({
-      headers: request.headers,
-    });
-
-    if (session) {
-      userId = session.user.id;
-    } else {
-      // 2. Если нет Better-Auth сессии, проверяем кастомную
-      const sessionCookie = request.headers
-        .get("cookie")
-        ?.split(";")
-        .find((c) => c.trim().startsWith("session="))
-        ?.split("=")[1];
-
-      if (!sessionCookie) {
-        return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
-      }
-
-      const db = await getDB();
-      const customSession = await db.collection("sessions").findOne({
-        id: sessionCookie,
+    // 1. Сначала пробуем через Better-Auth
+    try {
+      const session = await auth.api.getSession({
+        headers: request.headers,
       });
 
-      if (!customSession || new Date(customSession.expiresAt) < new Date()) {
-        return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
-      }
+      if (session) {
+        const db = await getDB();
+        const user = await db.collection("user").findOne({
+          _id: new ObjectId(session.user.id),
+        });
 
-      userId = customSession.userId;
+        if (user) {
+          return NextResponse.json({
+            id: user._id.toString(),
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            emailVerified: user.emailVerified,
+            phoneNumberVerified: user.phoneNumberVerified,
+            gender: user.gender,
+            birthdayDate: user.birthdayDate,
+            location: user.location,
+            region: user.region,
+          });
+        }
+      }
+    } catch {
+      console.log('Better-Auth session not found, trying custom session');
     }
 
-    // 3. Находим пользователя по ID
-    if (!userId) {
+    // 2. Если Better-Auth не сработал, пробуем кастомную сессию
+    const sessionCookie = request.headers
+      .get("cookie")
+      ?.split(";")
+      .find((c) => c.trim().startsWith("session="))
+      ?.split("=")[1];
+
+    if (!sessionCookie) {
       return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
     }
 
     const db = await getDB();
+    const session = await db.collection("session").findOne({ 
+      token: sessionCookie
+    });
+
+    if (!session) {
+      return NextResponse.json({ error: "Не авторизован" }, { status: 401 });
+    }
+
+    if (new Date(session.expiresAt) < new Date()) {
+      return NextResponse.json({ error: "Сессия истекла" }, { status: 401 });
+    }
+
     const user = await db.collection("user").findOne({
-      _id: new ObjectId(userId),
+      _id: new ObjectId(session.userId),
     });
 
     if (!user) {
@@ -56,7 +72,6 @@ export async function GET(request: Request) {
       );
     }
 
-    // 4. Возвращаем данные пользователя
     return NextResponse.json({
       id: user._id.toString(),
       name: user.name,

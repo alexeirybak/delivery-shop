@@ -1,13 +1,14 @@
+// app/api/auth/login/route.ts
 import { NextResponse } from "next/server";
 import { getDB } from "../../../../../utils/api-routes";
 import { randomBytes } from "crypto";
 
+// app/api/auth/login/route.ts
 export async function POST(request: Request) {
   try {
     const { phoneNumber, password } = await request.json();
 
     const db = await getDB();
-
     const user = await db.collection("user").findOne({ phoneNumber });
 
     if (!user) {
@@ -24,51 +25,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Неверный пароль" }, { status: 401 });
     }
 
-    // СОЗДАЕМ СЕССИЮ вручную (так как Better-Auth не предоставляет createSession)
-    const sessionToken = randomBytes(32).toString('hex');
-    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 дней
+    // СОЗДАЕМ СЕССИЮ ТОЧНО КАК Better-Auth
+    const sessionId = randomBytes(32).toString('hex');
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
 
-    // Сохраняем сессию в коллекцию sessions (как требует Better-Auth)
-    await db.collection("sessions").insertOne({
-      id: sessionToken, // session token как id
-      userId: user._id.toString(), // ID пользователя как строка
+    await db.collection("session").insertOne({
+      token: sessionId, // Better-Auth использует "token", а не "id"
+      userId: user._id.toString(),
       expiresAt: expiresAt,
-      ipAddress: request.headers.get("x-forwarded-for") || request.headers.get("remote-address") || "unknown",
-      userAgent: request.headers.get("user-agent") || "unknown",
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
+      ipAddress: request.headers.get("x-forwarded-for") || "",
+      userAgent: request.headers.get("user-agent") || ""
     });
 
-    // Формируем ответ с данными пользователя
     const responseData = {
       success: true,
-      user: {
-        _id: user._id.toString(),
-        name: user.name,
-        surname: user.surname,
-        email: user.email,
-        phoneNumber: user.phoneNumber,
-        emailVerified: user.emailVerified,
-        phoneNumberVerified: user.phoneNumberVerified,
-        gender: user.gender,
-        birthdayDate: user.birthdayDate,
-        location: user.location,
-        region: user.region
-      },
+      message: "Авторизация успешна"
     };
 
-    // Создаем ответ и устанавливаем session cookie
     const response = NextResponse.json(responseData);
-    
-    // Устанавливаем cookie для сессии (как это делает Better-Auth)
-    response.cookies.set({
-      name: "session", // Стандартное имя cookie в Better-Auth
-      value: sessionToken,
+    response.cookies.set('session', sessionId, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "lax",
+      sameSite: 'lax',
       expires: expiresAt,
-      path: "/",
+      path: '/'
     });
 
     return response;

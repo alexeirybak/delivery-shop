@@ -74,6 +74,7 @@ const EnterPasswordContent = () => {
             phoneNumber: loginParam,
             password,
           }),
+          credentials: "include",
         });
 
         const data = await response.json();
@@ -82,26 +83,21 @@ const EnterPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        const userId = data.user._id;
-        console.log(`Данные по телефону и паролю:`, userId);
-
+        // Вызываем login() который установит isAuth: true
+        // и автоматически вызовет fetchUserData() для получения данных
         login();
-
         router.replace("/");
       } else {
+        // Для email
         await authClient.signIn.email(
           {
             email: loginParam,
             password,
           },
           {
-            onSuccess: async (ctx) => {
-              const userId = ctx.data?.user.id;
-              if (userId) {
-                console.log(`Данные по почте и паролю:`, userId);
-                login();
-                router.replace("/");
-              }
+            onSuccess: async () => {
+              login();
+              router.replace("/");
             },
             onError: (ctx) => {
               setError(ctx.error?.message || "Ошибка при входе");

@@ -1,13 +1,28 @@
-// app/api/auth/check-session/route.ts
 import { NextResponse } from "next/server";
-import { auth } from "@/lib/auth";
+import { getDB } from "../../../../../utils/api-routes";
 
+// app/api/auth/check-session/route.ts
 export async function GET(request: Request) {
   try {
-    const session = await auth.api.getSession({
-      headers: request.headers
+    const sessionCookie = request.headers
+      .get("cookie")
+      ?.split(";")
+      .find((c) => c.trim().startsWith("session="))
+      ?.split("=")[1];
+
+    if (!sessionCookie) {
+      return NextResponse.json({ isAuth: false });
+    }
+
+    const db = await getDB();
+    const session = await db.collection("session").findOne({ 
+      token: sessionCookie 
     });
-    return NextResponse.json({ isAuth: !!session });
+
+    const isAuth = !!session && new Date(session.expiresAt) > new Date();
+    
+    return NextResponse.json({ isAuth });
+
   } catch {
     return NextResponse.json({ isAuth: false });
   }
