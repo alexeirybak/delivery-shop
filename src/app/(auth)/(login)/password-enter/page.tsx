@@ -85,7 +85,6 @@ const EnterPasswordContent = () => {
         const userId = data.user._id;
         console.log(`Данные по телефону и паролю:`, userId);
 
-        // Вызываем login с ID пользователя
         login();
 
         router.replace("/");
