@@ -1,44 +1,39 @@
 import { create } from "zustand";
+import { authClient } from "@/lib/auth-client";
 
 type AuthState = {
   isAuth: boolean;
-  userName: string;
-  login: (name: string) => void;
+  isLoading: boolean;
+  login: () => void;
+  logout: () => Promise<void>;
+  checkAuth: () => Promise<boolean>;
 };
 
-export const useAuthStore = create<AuthState>()((set) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   isAuth: false,
-  userName: "",
-  login: (name) => set({ isAuth: true, userName: name }),
+  isLoading: false,
+
+  login: () => set({ isAuth: true }),
+  
+  checkAuth: async () => {
+    try {
+      set({ isLoading: true });
+      const response = await fetch('/api/auth/check-session');
+      const isAuthenticated = response.ok;
+      set({ isAuth: isAuthenticated, isLoading: false });
+      return isAuthenticated;
+    } catch (error) {
+      console.error("Error checking authentication:", error);
+      set({ isAuth: false, isLoading: false });
+      return false;
+    }
+  },
+
+  logout: async () => {
+    try {
+      await authClient.signOut();
+    } finally {
+      set({ isAuth: false });
+    }
+  }
 }));
-
-// import { create } from 'zustand';
-
-// import { persist } from 'zustand/middleware';
-
-// type AuthState = {
-//   isAuth: boolean;
-//   userName: string;
-//   login: (name: string) => void;
-//   logout: () => void;
-//   hydrate: () => void;
-// };
-
-// export const useAuthStore = create<AuthState>()(
-//   persist(
-//     (set) => ({
-//       isAuth: false,
-//       userName: '',
-//       login: (name) => set({ isAuth: true, userName: name }),
-//       logout: () => set({ isAuth: false, userName: '' }),
-//       hydrate: () => {} // Для гидратации на клиенте
-//     }),
-//     {
-//       name: 'auth-storage', // Ключ для localStorage
-//       onRehydrateStorage: () => (state) => {
-//         state?.hydrate();
-//       }
-//     }
-//   )
-// );
-

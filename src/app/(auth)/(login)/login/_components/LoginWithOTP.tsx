@@ -58,8 +58,12 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
       }
 
       const userData = await response.json();
+      const userId = userData._id;
 
-      login(userData.userName);
+      console.log(`Данные по телефону и OTP:`, userId);
+
+      // Вызываем login с ID пользователя
+      login();
 
       router.replace("/");
     } catch (error) {

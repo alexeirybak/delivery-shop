@@ -18,8 +18,8 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({
+      _id: user._id, 
       exists: true,
-      userName: user.name,
     });
   } catch (error) {
     console.error("Ошибка проверки телефона:", error);

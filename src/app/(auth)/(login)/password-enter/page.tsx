@@ -54,9 +54,7 @@ const EnterPasswordContent = () => {
 
   const handleForgotPassword = () => {
     if (loginType === "phone") {
-      router.replace(
-        `/phone-pass-reset`
-      );
+      router.replace(`/phone-pass-reset`);
     } else {
       router.replace("/forgot-password");
     }
@@ -84,9 +82,11 @@ const EnterPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        const userName = data.user?.name;
+        const userId = data.user._id;
+        console.log(`Данные по телефону и паролю:`, userId);
 
-        login(userName);
+        // Вызываем login с ID пользователя
+        login();
 
         router.replace("/");
       } else {
@@ -96,18 +96,19 @@ const EnterPasswordContent = () => {
             password,
           },
           {
-            onSuccess: (ctx) => {
-              const userName = ctx.data?.user.name || "Пользователь";
-              login(userName);
-              router.replace("/");
+            onSuccess: async (ctx) => {
+              const userId = ctx.data?.user.id;
+              if (userId) {
+                console.log(`Данные по почте и паролю:`, userId);
+                login();
+                router.replace("/");
+              }
             },
             onError: (ctx) => {
               setError(ctx.error?.message || "Ошибка при входе");
             },
           }
         );
-
-        router.replace("/");
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);

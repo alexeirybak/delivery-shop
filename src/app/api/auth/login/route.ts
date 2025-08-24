@@ -26,11 +26,16 @@ export async function POST(request: Request) {
     const responseData = {
       success: true,
       user: {
-        _id: user._id,
+        _id: user._id, 
         phoneNumber: user.phoneNumber,
         surname: user.surname,
         name: user.name,
+        region: user.region,
+        location: user.location,
         email: user.email,
+        gender: user.gender, 
+        card: user.card,
+        hasCard: user.hasCard,
       },
     };
 
