@@ -3,6 +3,7 @@ import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordR
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { phoneNumber } from "better-auth/plugins";
+import { nextCookies } from "better-auth/next-js"; // Импортируем nextCookies плагин
 import { MongoClient } from "mongodb";
 import { Resend } from "resend";
 
@@ -12,6 +13,10 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
+  session: {
+    expiresIn: 30 * 24 * 60 * 60, // 30 дней в секундах (30 * 24 часа * 60 минут * 60 секунд)
+    updateAge: 24 * 60 * 60, // Обновлять сессию каждые 24 часа
+  },
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
@@ -42,22 +47,6 @@ export const auth = betterAuth({
       sendOTP: async ({ phoneNumber, code }) => {
         console.log(`[DEBUG] Отправка OTP: ${code} для ${phoneNumber}`);
       },
-      // sendOTP: async ({ phoneNumber, code }) => {
-      //   try {
-      //     const response = await fetch(
-      //       `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
-      //     );
-
-      //     const result = await response.json();
-
-      //     if (result.status !== "OK") {
-      //       throw new Error(result.status || "Ошибка отправки SMS");
-      //     }
-      //   } catch (error) {
-      //     console.error("Ошибка отправки SMS:", error);
-      //     throw error;
-      //   }
-      // },
       signUpOnVerification: {
         getTempEmail: (phoneNumber) => {
           return `${phoneNumber}@delivery-shop.ru`;
@@ -71,6 +60,7 @@ export const auth = betterAuth({
       expiresIn: 300,
       requireVerification: true,
     }),
+    nextCookies() // ДОБАВЛЯЕМ nextCookies плагин ПОСЛЕДНИМ в массиве
   ],
   user: {
     additionalFields: {
