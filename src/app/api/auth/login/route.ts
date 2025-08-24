@@ -38,41 +38,50 @@ export async function POST(request: Request) {
     }
 
     // СОЗДАЕМ СЕССИЮ ТОЧНО КАК Better-Auth
-    // Генерируем случайный ID сессии длиной 32 байта в hex формате
-    const sessionId = randomBytes(32).toString('hex');
-    // Устанавливаем время expiration сессии (30 дней от текущего момента)
-    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    // Генерируем криптографически безопасный случайный ID для сессии
+    // 32 байта = 256 бит, преобразованные в hex-строку
+    const sessionId = randomBytes(32).toString("hex");
 
-    // Вставляем новую сессию в коллекцию 'session'
+    // Устанавливаем время жизни сессии в секундах (7 дней)
+    // 7 дней * 24 часа * 60 минут * 60 секунд
+    const expiresIn = 7 * 24 * 60 * 60;
+
+    // Конвертируем время жизни в абсолютную дату истечения
+    // Date.now() возвращает текущее время в миллисекундах
+    // expiresIn * 1000 преобразует секунды в миллисекунды
+    const expiresAt = new Date(Date.now() + expiresIn * 1000);
+
+    // Вставляем новую запись сессии в коллекцию "session" MongoDB
     await db.collection("session").insertOne({
-      token: sessionId, // Better-Auth использует "token", а не "id"
+      token: sessionId, // Уникальный идентификатор сессии (как в Better-Auth)
       userId: user._id.toString(), // ID пользователя в виде строки
-      expiresAt: expiresAt, // Время истечения сессии
-      createdAt: new Date(), // Текущая дата создания
-      updatedAt: new Date(), // Текущая дата обновления
+      expiresAt: expiresAt, // Дата истечения сессии (для удобства запросов)
+      expiresIn: expiresIn, // Время жизни в секундах (для совместимости с Better-Auth)
+      createdAt: new Date(), // Дата создания записи (текущее время)
+      updatedAt: new Date(), // Дата последнего обновления (текущее время)
       ipAddress: request.headers.get("x-forwarded-for") || "", // IP адрес клиента или пустая строка
-      userAgent: request.headers.get("user-agent") || "" // User-Agent браузера или пустая строка
+      userAgent: request.headers.get("user-agent") || "", // Информация о браузере клиента или пустая строка
     });
 
-    // Формируем данные для успешного ответа
+    // Создаем объект с данными для успешного ответа
     const responseData = {
-      success: true, // Флаг успешной операции
-      message: "Авторизация успешна" // Сообщение об успехе
+      success: true, // Флаг успешного выполнения операции
+      message: "Авторизация успешна", // Сообщение для пользователя
     };
 
-    // Создаем NextResponse с JSON данными
+    // Создаем HTTP response с JSON данными
     const response = NextResponse.json(responseData);
-    // Устанавливаем куку сессии в ответ
-    response.cookies.set('session', sessionId, {
-      httpOnly: true, // Кука доступна только на сервере (защита от XSS)
-      sameSite: 'lax', // Защита от CSRF атак
-      expires: expiresAt, // Время жизни куки совпадает с сессией
-      path: '/' // Кука доступна для всех путей на домене
+
+    // Устанавливаем сессионную куку в ответ
+    response.cookies.set("session", sessionId, {
+      httpOnly: true, // Защита от XSS - кука недоступна через JavaScript
+      sameSite: "lax", // Защита от CSRF - кука отправляется с cross-site запросами
+      expires: expiresAt, // Дата истечения куки (совпадает с сессией)
+      path: "/", // Кука действительна для всех путей на домене
     });
 
-    // Возвращаем ответ с кукой и данными
+    // Возвращаем подготовленный response клиенту
     return response;
-
   } catch (error) {
     // Логируем ошибку в консоль для debugging
     console.error("Ошибка авторизации:", error);
