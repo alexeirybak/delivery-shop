@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { getAvatarByGender } from "../../../../../utils/getAvatarByGender";
 import IconAvatarChange from "@/components/svg/IconAvatarChange";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 interface AvatarUploadProps {
   avatar?: string;
@@ -17,6 +17,7 @@ const ProfileAvatar = ({
   const [currentAvatar, setCurrentAvatar] = useState<string>(avatar || "");
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,7 +33,6 @@ const ProfileAvatar = ({
   const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     processImageFile(file);
   };
 
@@ -51,29 +51,40 @@ const ProfileAvatar = ({
     reader.onload = (e) => {
       const imageDataUrl = e.target?.result as string;
       setCurrentAvatar(imageDataUrl);
+      alert('Аватар успешно обновлен!');
     };
     reader.readAsDataURL(file);
   };
 
-  // Функции для работы с камерой
+  // Эффект для обработки видео потока
+  useEffect(() => {
+    if (videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  }, [cameraStream]);
+
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ 
         video: { 
-          facingMode: "user" // Фронтальная камера
+          width: { ideal: 640 },
+          height: { ideal: 480 },
+          facingMode: "user"
         } 
       });
       
       setCameraStream(stream);
       setShowCameraModal(true);
+      setIsCameraReady(false); // Сбрасываем флаг готовности
       
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-      }
     } catch (error) {
       console.error('Ошибка доступа к камере:', error);
-      alert('Не удалось получить доступ к камере. Проверьте разрешения.');
+      alert('Не удалось получить доступ к камере');
     }
+  };
+
+  const handleVideoLoaded = () => {
+    setIsCameraReady(true);
   };
 
   const stopCamera = () => {
@@ -82,26 +93,50 @@ const ProfileAvatar = ({
       setCameraStream(null);
     }
     setShowCameraModal(false);
+    setIsCameraReady(false);
   };
 
   const takePhoto = () => {
-    if (videoRef.current && canvasRef.current) {
+    if (videoRef.current && canvasRef.current && isCameraReady) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
       const context = canvas.getContext('2d');
       
-      if (!context) return;
-      
+      if (!context) {
+        alert('Ошибка создания контекста canvas');
+        return;
+      }
+
+      // Устанавливаем размеры
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
       
+      // Делаем снимок
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
       
-      const photoDataUrl = canvas.toDataURL('image/png');
-      setCurrentAvatar(photoDataUrl);
-      stopCamera();
+      // Конвертируем в DataURL
+      try {
+        const photoDataUrl = canvas.toDataURL('image/png');
+        setCurrentAvatar(photoDataUrl);
+        alert('Фото успешно сделано!');
+        stopCamera();
+      } catch (error) {
+        console.error('Ошибка создания фото:', error);
+        alert('Не удалось сделать фото');
+      }
+    } else {
+      alert('Камера еще не готова. Подождите немного.');
     }
   };
+
+  // Останавливаем камеру при размонтировании компонента
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [cameraStream]);
 
   return (
     <div className="flex flex-col items-center mb-8">
@@ -116,7 +151,7 @@ const ProfileAvatar = ({
           priority
         />
 
-        {/* Простая кнопка без выпадающего меню */}
+        {/* Кнопка загрузки файла */}
         <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 transition-colors">
           <input
             type="file"
@@ -127,7 +162,7 @@ const ProfileAvatar = ({
           <IconAvatarChange />
         </label>
 
-        {/* Кнопка для камеры - можно добавить рядом */}
+        {/* Кнопка для камеры */}
         <button
           onClick={startCamera}
           className="absolute bottom-0 right-8 bg-blue-500 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-600 transition-colors"
@@ -143,21 +178,31 @@ const ProfileAvatar = ({
           <div className="bg-white rounded-lg p-4 max-w-sm w-full">
             <h3 className="text-lg font-semibold mb-4 text-center">Сделайте фото</h3>
             
-            <video
-              ref={videoRef}
-              autoPlay
-              playsInline
-              className="w-full h-48 bg-gray-200 rounded mb-4 mx-auto"
-            />
+            <div className="relative">
+              <video
+                ref={videoRef}
+                autoPlay
+                playsInline
+                muted
+                onLoadedData={handleVideoLoaded}
+                className="w-full h-48 bg-gray-200 rounded mb-4 mx-auto"
+              />
+              {!isCameraReady && (
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
+                </div>
+              )}
+            </div>
             
             <canvas ref={canvasRef} className="hidden" />
             
             <div className="flex gap-3 justify-center">
               <button
                 onClick={takePhoto}
-                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+                disabled={!isCameraReady}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Снять фото
+                {isCameraReady ? "📸 Снять фото" : "Загрузка..."}
               </button>
               <button
                 onClick={stopCamera}
@@ -166,6 +211,12 @@ const ProfileAvatar = ({
                 Отмена
               </button>
             </div>
+
+            {!isCameraReady && (
+              <p className="text-xs text-gray-500 text-center mt-2">
+                Камера запускается...
+              </p>
+            )}
           </div>
         </div>
       )}
