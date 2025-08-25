@@ -1,44 +1,102 @@
+import { authClient } from "@/lib/auth-client";
 import { create } from "zustand";
+
+type UserData = {
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  phoneNumber: string;
+  emailVerified: boolean;
+  phoneNumberVerified: boolean;
+  gender: string;
+  birthdayDate?: string;
+  location?: string;
+  region?: string;
+} | null;
 
 type AuthState = {
   isAuth: boolean;
-  userName: string;
-  login: (name: string) => void;
+  user: UserData;
+  isLoading: boolean;
+  login: () => void;
+  logout: () => Promise<void>;
+  checkAuth: () => Promise<boolean>;
+  fetchUserData: () => Promise<void>;
 };
 
-export const useAuthStore = create<AuthState>()((set) => ({
+export const useAuthStore = create<AuthState>((set, get) => ({
   isAuth: false,
-  userName: "",
-  login: (name) => set({ isAuth: true, userName: name }),
+  user: null,
+  isLoading: false,
+
+  login: () => {
+    set({ isAuth: true });
+    get().fetchUserData();
+  },
+
+  checkAuth: async () => {
+    try {
+      set({ isLoading: true });
+      const response = await fetch("/api/auth/check-session");
+
+      if (!response.ok) {
+        set({ isAuth: false, user: null, isLoading: false });
+        return false;
+      }
+
+      const data = await response.json();
+
+      if (data.isAuth) {
+        set({ isAuth: true });
+        await get().fetchUserData();
+      } else {
+        set({ isAuth: false, user: null, isLoading: false });
+      }
+
+      return data.isAuth;
+    } catch {
+      set({ isAuth: false, user: null, isLoading: false });
+      return false;
+    }
+  },
+
+  fetchUserData: async () => {
+    try {
+      set({ isLoading: true });
+      const response = await fetch("/api/auth/user");
+
+      if (response.status === 401 || response.status === 403) {
+        throw new Error("Unauthorized");
+      }
+
+      if (!response.ok) {
+        throw new Error("Ошибка получения данных");
+      }
+
+      const userData = await response.json();
+      
+      set({ user: userData, isLoading: false });
+    } catch (error) {
+      console.error("Ошибка загрузки данных пользователя:", error);
+      set({ user: null, isLoading: false });
+
+      if (error === "Unauthorized") {
+        set({ isAuth: false });
+      }
+    }
+  },
+
+  logout: async () => {
+    try {
+      await authClient.signOut();
+
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include",
+      });
+    } finally {
+      set({ isAuth: false, user: null });
+    }
+  },
 }));
-
-// import { create } from 'zustand';
-
-// import { persist } from 'zustand/middleware';
-
-// type AuthState = {
-//   isAuth: boolean;
-//   userName: string;
-//   login: (name: string) => void;
-//   logout: () => void;
-//   hydrate: () => void;
-// };
-
-// export const useAuthStore = create<AuthState>()(
-//   persist(
-//     (set) => ({
-//       isAuth: false,
-//       userName: '',
-//       login: (name) => set({ isAuth: true, userName: name }),
-//       logout: () => set({ isAuth: false, userName: '' }),
-//       hydrate: () => {} // Для гидратации на клиенте
-//     }),
-//     {
-//       name: 'auth-storage', // Ключ для localStorage
-//       onRehydrateStorage: () => (state) => {
-//         state?.hydrate();
-//       }
-//     }
-//   )
-// );
-
