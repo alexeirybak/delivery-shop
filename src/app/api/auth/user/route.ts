@@ -1,20 +1,15 @@
-// Импорт NextResponse для создания HTTP ответов
 import { NextResponse } from "next/server";
-// Импорт функции getDB для подключения к MongoDB
 import { getDB } from "../../../../../utils/api-routes";
-// Импорт ObjectId для работы с MongoDB ObjectID
 import { ObjectId } from "mongodb";
-// Импорт auth клиента Better-Auth
 import { auth } from "@/lib/auth";
 
-// Экспорт асинхронной функции GET для обработки запросов
 export async function GET(request: Request) {
   try {
     // 1. Сначала пробуем через Better-Auth (для email пользователей)
     try {
       // Получаем сессию через Better-Auth API
       const session = await auth.api.getSession({
-        headers: request.headers, // Передаем заголовки запроса
+        headers: request.headers, // Передаем заголовки запроса в документации Better-Auth используется authClient, а в вашем коде — auth.api. Это происходит из-за разных контекстов выполнения: клиентский (браузер) vs серверный (Next.js API Route).
       });
 
       // Если сессия найдена
@@ -23,7 +18,7 @@ export async function GET(request: Request) {
         const db = await getDB();
         // Ищем пользователя по ID из сессии Better-Auth
         const user = await db.collection("user").findOne({
-          _id: new ObjectId(session.user.id), // Конвертируем string ID в ObjectId
+          _id: new ObjectId(session.user.id),
         });
 
         // Если пользователь найден, возвращаем его данные

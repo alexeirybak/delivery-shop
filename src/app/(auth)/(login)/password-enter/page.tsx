@@ -83,8 +83,6 @@ const EnterPasswordContent = () => {
           throw new Error(data.message || "Ошибка при входе");
         }
 
-        // Вызываем login() который установит isAuth: true
-        // и автоматически вызовет fetchUserData() для получения данных
         login();
         router.replace("/");
       } else {

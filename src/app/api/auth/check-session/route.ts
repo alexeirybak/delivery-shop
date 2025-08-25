@@ -6,35 +6,50 @@ import { getDB } from "../../../../../utils/api-routes";
 // Экспорт асинхронной функции GET для обработки GET запросов
 export async function GET(request: Request) {
   try {
-    // Извлекаем куку сессии из заголовков запроса
-    const sessionCookie = request.headers
-      .get("cookie") // Получаем все куки из заголовка Cookie
-      ?.split(";") // Разделяем строку кук по точке с запятой
-      .find((c) => c.trim().startsWith("session=")) // Ищем куку с именем "session"
-      ?.split("=")[1]; // Разделяем по знаку равно и берем значение куки
+    // Получаем все куки из заголовка запроса
+    const cookieHeader = request.headers.get("cookie") || "";
+    const cookies = cookieHeader.split(";").map(c => c.trim());
+    
+    // 1. Сначала пробуем найти куку Better-Auth (новый формат)
+    let sessionToken = cookies
+      .find(c => c.startsWith("better-auth.session_token="))
+      ?.split("=")[1];
 
-    // Если кука сессии не найдена, возвращаем что пользователь не авторизован
-    if (!sessionCookie) {
-      return NextResponse.json({ isAuth: false }); // isAuth = false
+    // 2. Если не нашли Better-Auth куку, пробуем найти кастомную (старый формат)
+    if (!sessionToken) {
+      sessionToken = cookies
+        .find(c => c.startsWith("session="))
+        ?.split("=")[1];
     }
 
-    // Подключаемся к базе данных
+    console.log(`Найденная сессионная кука: ${sessionToken || 'undefined'}`);
+    console.log(`Все куки: ${cookieHeader}`);
+
+    // Если ни одна кука не найдена, возвращаем что пользователь не авторизован
+    if (!sessionToken) {
+      return NextResponse.json({ isAuth: false });
+    }
+
+    // Декодируем URL-encoded значение (Better-Auth использует кодирование)
+    const decodedToken = decodeURIComponent(sessionToken);
+
     const db = await getDB();
     // Ищем сессию в коллекции "session" по token = значению куки
-    const session = await db.collection("session").findOne({ 
-      token: sessionCookie // Ищем сессию с соответствующим токеном
+    const session = await db.collection("session").findOne({
+      token: decodedToken, // Используем декодированный токен
     });
 
     // Проверяем: есть ли сессия И не истекла ли она
     const isAuth = !!session && new Date(session.expiresAt) > new Date();
     // !!session - преобразует в boolean (true если сессия существует)
     // new Date(session.expiresAt) > new Date() - проверяет что дата истечения еще не наступила
-    
+
     // Возвращаем JSON ответ с статусом авторизации
     return NextResponse.json({ isAuth });
-
-  } catch {
-    // В случае ЛЮБОЙ ошибки возвращаем что пользователь не авторизован
+  } catch (error) {
+    // Ловим ошибки и логируем их
+    console.error("Error in check-session:", error);
+    // В случае ошибки возвращаем что пользователь не авторизован
     return NextResponse.json({ isAuth: false });
   }
 }

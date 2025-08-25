@@ -1,17 +1,11 @@
-// Импорт NextResponse из Next.js для создания HTTP ответов
 import { NextResponse } from "next/server";
-// Импорт функции getDB для подключения к базе данных
 import { getDB } from "../../../../../utils/api-routes";
-// Импорт модуля crypto для генерации криптографически безопасных случайных значений
 import { randomBytes } from "crypto";
 
-// Экспорт асинхронной функции POST для обработки POST запросов
 export async function POST(request: Request) {
   try {
-    // Парсим JSON тело запроса и извлекаем phoneNumber и password
     const { phoneNumber, password } = await request.json();
 
-    // Получаем подключение к базе данных
     const db = await getDB();
     // Ищем пользователя в коллекции 'user' по номеру телефона
     const user = await db.collection("user").findOne({ phoneNumber });
@@ -40,7 +34,7 @@ export async function POST(request: Request) {
     // СОЗДАЕМ СЕССИЮ ТОЧНО КАК Better-Auth
     // Генерируем криптографически безопасный случайный ID для сессии
     // 32 байта = 256 бит, преобразованные в hex-строку
-    const sessionId = randomBytes(32).toString("hex");
+    const sessionId = randomBytes(16).toString("hex");
 
     // Устанавливаем время жизни сессии в секундах (7 дней)
     // 7 дней * 24 часа * 60 минут * 60 секунд
