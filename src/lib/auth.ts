@@ -3,9 +3,9 @@ import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordR
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { phoneNumber } from "better-auth/plugins";
-import { nextCookies } from "better-auth/next-js"; // Импортируем nextCookies плагин
 import { MongoClient } from "mongodb";
 import { Resend } from "resend";
+import EmailChangeVerification from "@/app/(auth)/user-profile/_components/EmailChangeVerification";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
@@ -14,8 +14,8 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export const auth = betterAuth({
   database: mongodbAdapter(db),
   session: {
-    expiresIn: 30 * 24 * 60 * 60, // 30 дней в секундах (30 * 24 часа * 60 минут * 60 секунд)
-    updateAge: 24 * 60 * 60, // Обновлять сессию каждые 24 часа
+    expiresIn: 30 * 24 * 60 * 60, 
+    updateAge: 24 * 60 * 60, 
   },
   emailAndPassword: {
     enabled: true,
@@ -42,6 +42,32 @@ export const auth = betterAuth({
     expiresIn: 86400,
     autoSignInAfterVerification: false,
   },
+
+  changeEmail: {
+    enabled: true,
+    sendChangeEmailVerification: async ({
+      user,
+      newEmail,
+      url,
+    }: {
+      user: { email: string; name: string };
+      newEmail: string;
+      url: string;
+    }) => {
+      // Отправляем письмо подтверждения на текущий email
+      await resend.emails.send({
+        from: "Северяночка <onboarding@resend.dev>",
+        to: user.email,
+        subject: "Подтверждение смены email в Северяночке",
+        react: EmailChangeVerification({
+          username: user.name,
+          currentEmail: user.email,
+          newEmail,
+          verificationUrl: url,
+        }),
+      });
+    },
+  },
   plugins: [
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
@@ -60,7 +86,6 @@ export const auth = betterAuth({
       expiresIn: 300,
       requireVerification: true,
     }),
-    nextCookies() // ДОБАВЛЯЕМ nextCookies плагин ПОСЛЕДНИМ в массиве
   ],
   user: {
     additionalFields: {

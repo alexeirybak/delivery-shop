@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 // Тип данных пользователя
 type UserData = {
+  avatar: string | undefined;
   id: string; 
   name: string; 
   surname: string; 
@@ -14,6 +15,9 @@ type UserData = {
   birthdayDate?: string;
   location?: string;
   region?: string; 
+  card: string;
+  hasCard: boolean;
+  isPhoneRegistration: boolean;
 } | null; 
 
 type AuthState = {
@@ -39,7 +43,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   // Асинхронная функция проверки статуса аутентификации
-  checkAuth: async () => {
+  checkAuth: async () => { // Пригодится для проверки авторизации при переходе на любую страницу и в любой компонент, если мы там ее будем вызывать
     try {
       set({ isLoading: true }); // Включаем индикатор загрузки
       // Отправляем запрос к API для проверки сессии

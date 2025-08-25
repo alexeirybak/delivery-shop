@@ -20,8 +20,6 @@ const Profile = () => {
     checkAuth();
   }, [checkAuth]);
 
-  console.log(user);
-
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
@@ -88,7 +86,7 @@ const handleLogout = async () => {
         onClick={toggleMenu}
       >
         <Image
-          src={getAvatarByGender(user?.gender)}
+          src={user ? getAvatarByGender(user.gender) : "/images/graphics/defaultAvatars/male.png"}
           alt="Ваш профиль"
           width={40}
           height={40}
