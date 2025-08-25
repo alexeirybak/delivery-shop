@@ -16,13 +16,11 @@ const Profile = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Добавляем проверку аутентификации при монтировании
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
   console.log(user);
-
 
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
@@ -48,24 +46,16 @@ const handleLogout = async () => {
   try {
     await logout();
     
-    // Дополнительная очистка на клиенте на всякий случай
-    document.cookie = 'session=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT;';
     
     router.replace("/");
   } catch (error) {
     console.error("Не удалось выйти:", error);
-    // Вызываем метод logout для очистки состояния
-    useAuthStore.getState().logout().catch(() => {
-      // Если и это падает, принудительно очищаем
-      useAuthStore.setState({ isAuth: false, user: null });
-    });
   } finally {
     setIsLoggingOut(false);
     setIsMenuOpen(false);
   }
 };
 
-  // Показываем заглушку во время загрузки
   if (isLoading) {
     return (
       <div className="ml-6 w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
