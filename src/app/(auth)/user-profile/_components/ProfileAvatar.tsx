@@ -1,35 +1,52 @@
 "use client";
 
 import Image from "next/image";
-import { getAvatarByGender } from "../../../../../utils/getAvatarByGender";
 import IconAvatarChange from "@/components/svg/IconAvatarChange";
 import { useState, useRef, useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
+import { useAvatar } from "@/hooks/useAvatar";
+import { getAvatarByGender } from "../../../../../utils/getAvatarByGender";
 
 interface AvatarUploadProps {
-  avatar?: string;
   gender: string;
 }
 
-const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
+const ProfileAvatar = ({ gender }: AvatarUploadProps) => {
   const { user, fetchUserData } = useAuthStore();
-  const [currentAvatar, setCurrentAvatar] = useState<string>(avatar || "");
   const [showCameraModal, setShowCameraModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string>(""); // Восстанавливаем превью
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const getDisplayAvatar = () => {
-    if (currentAvatar.startsWith("data:image")) {
-      return currentAvatar;
-    } else if (currentAvatar) {
-      return `/api/auth/avatar/${currentAvatar}`;
+  const { displayAvatar, isLoading: isUploading, uploadAvatar } = useAvatar({
+    userId: user?.id,
+    gender
+  });
+
+  // Эффект для обработки видео потока
+  useEffect(() => {
+    if (videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream;
     }
-    return getAvatarByGender(gender);
-  };
+  }, [cameraStream]);
+
+  // Останавливаем камеру при размонтировании
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach((track) => track.stop());
+      }
+      // Очищаем превью URL
+      if (previewUrl && previewUrl.startsWith('blob:')) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [cameraStream, previewUrl]);
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
@@ -39,88 +56,58 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
+
     // Показываем превью перед загрузкой
     const reader = new FileReader();
     reader.onload = (event) => {
       if (event.target?.result) {
-        setCurrentAvatar(event.target.result as string);
+        const previewUrl = event.target.result as string;
+        setPreviewUrl(previewUrl);
+        // Сохраняем файл и показываем подтверждение
+        setPendingFile(file);
+        setShowConfirmModal(true);
       }
     };
     reader.readAsDataURL(file);
-    
-    handleAvatarChange(file);
   };
 
-  const handleAvatarChange = async (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Пожалуйста, выберите изображение");
-      return;
-    }
-
-    if (file.size > 5 * 1024 * 1024) {
-      alert("Размер файла не должен превышать 5MB");
-      return;
-    }
-
-    setIsUploading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append("avatar", file);
-
-      if (!user?.id) {
-        alert("Ошибка: пользователь не авторизован");
-        setIsUploading(false);
-        return;
-      }
-
-      formData.append("userId", user.id);
-
-      const response = await fetch("/api/auth/upload-avatar", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        setCurrentAvatar(result.avatarId);
-        
-        // Обновляем данные пользователя через существующий метод
+  const handleAvatarConfirm = async () => {
+    if (pendingFile) {
+      setShowConfirmModal(false);
+      try {
+        await uploadAvatar(pendingFile);
+        // Обновляем данные пользователя
         await fetchUserData();
-        
-        alert("Аватар успешно обновлен!");
-      } else {
-        const errorData = await response.json();
-        throw new Error(errorData.error || "Ошибка загрузки");
-      }
-    } catch (error) {
-      console.error("Error uploading avatar:", error);
-      alert("Не удалось загрузить аватар");
-      
-      // Восстанавливаем предыдущий аватар в случае ошибки
-      if (avatar) {
-        setCurrentAvatar(avatar);
-      } else {
-        setCurrentAvatar("");
-      }
-    } finally {
-      setIsUploading(false);
-      
-      // Сбрасываем значение input для возможности повторной загрузки того же файла
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        // Очищаем превью после успешной загрузки
+        if (previewUrl && previewUrl.startsWith('blob:')) {
+          URL.revokeObjectURL(previewUrl);
+        }
+        setPreviewUrl("");
+      } catch (error) {
+        alert(error instanceof Error ? error.message : "Ошибка загрузки");
+        // Восстанавливаем предыдущий аватар в случае ошибки
+        setPreviewUrl("");
+      } finally {
+        setPendingFile(null);
       }
     }
   };
 
-  // Эффект для обработки видео потока
-  useEffect(() => {
-    if (videoRef.current && cameraStream) {
-      videoRef.current.srcObject = cameraStream;
+  const handleAvatarCancel = () => {
+    setShowConfirmModal(false);
+    setPendingFile(null);
+    // Очищаем превью
+    if (previewUrl && previewUrl.startsWith('blob:')) {
+      URL.revokeObjectURL(previewUrl);
     }
-  }, [cameraStream]);
+    setPreviewUrl("");
 
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  // Функции для работы с камерой
   const startCamera = async () => {
     try {
       const stream = await navigator.mediaDevices.getUserMedia({
@@ -166,19 +153,22 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
 
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       try {
         const photoDataUrl = canvas.toDataURL("image/jpeg", 0.8);
         
-        // Показываем превью
-        setCurrentAvatar(photoDataUrl);
+        // Устанавливаем превью из фото
+        setPreviewUrl(photoDataUrl);
         stopCamera();
 
-        // Конвертируем и загружаем на сервер
-        const file = dataUrlToFile(photoDataUrl, `avatar-${user?.id}-${Date.now()}.jpg`);
-        handleAvatarChange(file);
+        const fileName = user?.id
+          ? `avatar-${user.id}-${Date.now()}.jpg`
+          : `avatar-${Date.now()}.jpg`;
+
+        const file = dataUrlToFile(photoDataUrl, fileName);
+        setPendingFile(file);
+        setShowConfirmModal(true);
       } catch (error) {
         console.error("Ошибка создания фото:", error);
         alert("Не удалось сделать фото");
@@ -203,13 +193,10 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
     return new File([u8arr], filename, { type: mime });
   };
 
-  useEffect(() => {
-    return () => {
-      if (cameraStream) {
-        cameraStream.getTracks().forEach((track) => track.stop());
-      }
-    };
-  }, [cameraStream]);
+  // Получаем отображаемый аватар (либо превью, либо текущий)
+  const getDisplayAvatar = () => {
+    return previewUrl || displayAvatar;
+  };
 
   return (
     <div className="flex flex-col items-center mb-8">
@@ -223,7 +210,7 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
           onError={handleImageError}
           priority
         />
-        
+
         {isUploading && (
           <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
@@ -312,6 +299,48 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
                 Камера запускается...
               </p>
             )}
+          </div>
+        </div>
+      )}
+
+      {showConfirmModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded p-6 max-w-sm w-full">
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Подтверждение смены аватара
+            </h3>
+
+            <div className="flex justify-center mb-4">
+              <Image
+                src={previewUrl}
+                width={80}
+                height={80}
+                alt="Превью аватара"
+                className="w-20 h-20 rounded-full object-cover"
+              />
+            </div>
+
+            <p className="text-gray-600 mb-6 text-center">
+              Вы уверены, что хотите сменить аватар? Старое изображение будет
+              удалено.
+            </p>
+
+            <div className="flex gap-3 w-full">
+              <button
+                onClick={handleAvatarConfirm}
+                disabled={isUploading}
+                className="flex-1 bg-primary text-white py-2 rounded hover:bg-green-600 transition-colors disabled:opacity-50"
+              >
+                {isUploading ? "Загрузка..." : "Да, сменить"}
+              </button>
+              <button
+                onClick={handleAvatarCancel}
+                disabled={isUploading}
+                className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 transition-colors disabled:opacity-50"
+              >
+                Отмена
+              </button>
+            </div>
           </div>
         </div>
       )}

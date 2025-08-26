@@ -6,15 +6,21 @@ import iconArrow from "/public/icons-header/icon-arrow.svg";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
+import { useAvatar } from "@/hooks/useAvatar";
 import { getAvatarByGender } from "../../../utils/getAvatarByGender";
 
 const Profile = () => {
-  const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
+  const { isAuth, user, logout, checkAuth, isLoading: authLoading } = useAuthStore();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const { displayAvatar, isLoading: avatarLoading } = useAvatar({
+    userId: user?.id,
+    gender: user?.gender || "male"
+  });
 
   useEffect(() => {
     checkAuth();
@@ -39,22 +45,25 @@ const Profile = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-const handleLogout = async () => {
-  setIsLoggingOut(true);
-  try {
-    await logout();
-    
-    
-    router.replace("/");
-  } catch (error) {
-    console.error("Не удалось выйти:", error);
-  } finally {
-    setIsLoggingOut(false);
-    setIsMenuOpen(false);
-  }
-};
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+      router.replace("/");
+    } catch (error) {
+      console.error("Не удалось выйти:", error);
+    } finally {
+      setIsLoggingOut(false);
+      setIsMenuOpen(false);
+    }
+  };
 
-  if (isLoading) {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+    const target = e.target as HTMLImageElement;
+    target.src = getAvatarByGender(user?.gender || "male");
+  };
+
+  if (authLoading || avatarLoading) {
     return (
       <div className="ml-6 w-10 h-10 rounded-full bg-gray-200 animate-pulse"></div>
     );
@@ -86,14 +95,16 @@ const handleLogout = async () => {
         onClick={toggleMenu}
       >
         <Image
-          src={user ? getAvatarByGender(user.gender) : "/images/graphics/defaultAvatars/male.png"}
+          src={displayAvatar}
           alt="Ваш профиль"
           width={40}
           height={40}
           className="min-w-10 min-h-10 md:block xl:block rounded-full object-cover"
+          onError={handleImageError}
+          priority
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
-          {isLoading ? "Загрузка..." : user?.name}
+          {authLoading ? "Загрузка..." : user?.name}
         </p>
         <div className="hidden xl:block">
           <Image

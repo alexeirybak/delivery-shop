@@ -14,13 +14,31 @@ export async function POST(request: NextRequest) {
 
     const db = await getDB();
     const bucket = new GridFSBucket(db, { bucketName: 'avatars' });
+    const userIdObj = new ObjectId(userId);
+
+    // Ищем существующий аватар пользователя в коллекции avatars.files
+    const existingAvatar = await db.collection("avatars.files").findOne({
+      "metadata.userId": userIdObj
+    });
+
+    // Если у пользователя уже есть аватар, удаляем его
+    if (existingAvatar) {
+      try {
+        // Удаляем файл из GridFS (это автоматически удалит и chunks)
+        await bucket.delete(existingAvatar._id);
+        console.log(`Старый аватар ${existingAvatar._id} удален для пользователя ${userId}`);
+      } catch (deleteError) {
+        // Логируем ошибку, но не прерываем выполнение
+        console.warn("Не удалось удалить старый аватар:", deleteError);
+      }
+    }
 
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
     const uploadStream = bucket.openUploadStream(file.name, {
       metadata: { 
-        userId: new ObjectId(userId), 
+        userId: userIdObj, 
         originalName: file.name, 
         uploadedAt: new Date() 
       }
@@ -32,11 +50,6 @@ export async function POST(request: NextRequest) {
       uploadStream.on('finish', () => resolve(uploadStream.id));
       uploadStream.on('error', reject);
     });
-
-    await db.collection("users").updateOne(
-      { _id: new ObjectId(userId) },
-      { $set: { avatar: fileId.toString() } }
-    );
 
     return NextResponse.json({ 
       success: true, 

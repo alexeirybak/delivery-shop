@@ -1,30 +1,37 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
-import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
 import { MailWarning, Phone } from "lucide-react";
 import { ErrorContent } from "../(reg)/_components/ErrorContent";
-import DeleteAccountModal from "./_components/DeleteAccountModal";
 import ProfileHeader from "./_components/ProfileHeader";
 import ProfileAvatar from "./_components/ProfileAvatar";
 import SecuritySection from "./_components/SecuritySection";
-import ErrorComponent from "@/components/ErrorComponent";
-import "./styles.css";
 import { Loader } from "@/components/Loader";
+import "./styles.css";
 
 const ProfilePage = () => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<{
-    error: Error;
-    userMessage: string;
-  } | null>(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
-  const { user, isAuth, logout } = useAuthStore();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+  const { user, isAuth, checkAuth } = useAuthStore();
   const router = useRouter();
-  const isPhoneRegistration = user?.isPhoneRegistration;
+  const isPhoneRegistration = user?.phoneNumberVerified;
+
+  useEffect(() => {
+    const checkAuthentication = async () => {
+      await checkAuth();
+      setIsCheckingAuth(false);
+    };
+
+    checkAuthentication();
+  }, [checkAuth]);
+
+  useEffect(() => {
+    // Двойная проверка !isCheckingAuth && !isAuth означает: "Если проверка авторизации завершена И пользователь не авторизован → сделай редирект". Это гарантирует, что редирект произойдет только после того, как мы точно узнаем статус авторизации пользователя.
+    if (!isCheckingAuth && !isAuth) {
+      router.replace("/");
+    }
+  }, [isCheckingAuth, isAuth, router]);
 
   const handleToLogin = () => {
     router.replace("/login");
@@ -34,41 +41,12 @@ const ProfilePage = () => {
     router.replace("/register");
   };
 
-  if (isLoading) {
+  if (isCheckingAuth) {
     return <Loader />;
   }
 
-  const handleDeleteAccount = async () => {
-    if (!user) return;
-
-    try {
-      setIsLoading(true);
-      const response = await fetch("/api/auth/delete-account", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id }),
-      });
-
-      if (response.ok) {
-        logout();
-        router.replace("/");
-      } else {
-        throw new Error("Failed to delete account");
-      }
-    } catch (error) {
-      console.error("Ошибка при удалении аккаунта:", error);
-      setError({
-        error: error as Error,
-        userMessage: "Не удалось удалить аккаунт. Попробуйте позже.",
-      });
-    } finally {
-      setIsLoading(false);
-      setShowDeleteConfirm(false);
-    }
-  };
-
   if (!isAuth) {
-    return <LoadingContent title="Перенаправление на страницу входа" />;
+    return <Loader />;
   }
 
   if (!user) {
@@ -82,12 +60,6 @@ const ProfilePage = () => {
           onClick: handleToRegister,
         }}
       />
-    );
-  }
-
-  if (error) {
-    return (
-      <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
   }
 
@@ -116,25 +88,14 @@ const ProfilePage = () => {
                   </div>
                 </div>
 
-                <ProfileAvatar
-                  gender={user.gender || "male"}
-                  avatar={user.avatar}
-                />
+                <ProfileAvatar gender={user.gender || "male"} />
 
-                <SecuritySection
-                  onDeleteAccount={() => setShowDeleteConfirm(true)}
-                />
+                <SecuritySection />
               </div>
             </div>
           </div>
         </div>
       </div>
-
-      <DeleteAccountModal
-        isOpen={showDeleteConfirm}
-        onClose={() => setShowDeleteConfirm(false)}
-        onConfirm={handleDeleteAccount}
-      />
     </>
   );
 };
