@@ -2,7 +2,7 @@ import Image from "next/image";
 
 type TooltipProps = {
   text: string;
-  position?: "top" | "bottom"; // Добавляем пропс для управления позицией
+  position?: "top" | "bottom";
 };
 
 const Tooltip = ({ text, position = "bottom" }: TooltipProps) => {
@@ -24,7 +24,6 @@ const Tooltip = ({ text, position = "bottom" }: TooltipProps) => {
           height={21}
           className={`${position === "bottom" ? "mr-4" : "mx-4"}`}
         />
-        {/* Треугольник внизу, если position="top" */}
         {position === "top" ? (
           <div
             className="absolute left-1/2 -bottom-0.75 transform -translate-x-1/2 w-0 h-0 
@@ -32,7 +31,6 @@ const Tooltip = ({ text, position = "bottom" }: TooltipProps) => {
                      border-l-transparent border-r-transparent border-t-[#d80000]"
           ></div>
         ) : (
-          // Треугольник вверху (по умолчанию)
           <div
             className="absolute left-1/2 -top-0.75 transform -translate-x-1/2 w-0 h-0 
                      border-l-[6px] border-r-[6px] border-b-[4px] 

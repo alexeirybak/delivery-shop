@@ -15,10 +15,8 @@ export async function POST(request: NextRequest) {
 
     const db = await getDB();
 
-    // Хешируем новый пароль
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-    // Обновляем пароль в базе
     const result = await db.collection("user").updateOne(
       { phoneNumber },
       {
