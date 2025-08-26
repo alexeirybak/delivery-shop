@@ -26,18 +26,12 @@ const ProfilePage = () => {
   const router = useRouter();
   const isPhoneRegistration = user?.isPhoneRegistration;
 
-  // Handlers
   const handleToLogin = () => {
     router.replace("/login");
   };
 
   const handleToRegister = () => {
     router.replace("/register");
-  };
-
-  const handleLogout = () => {
-    logout();
-    router.replace("/");
   };
 
   if (isLoading) {
@@ -128,7 +122,6 @@ const ProfilePage = () => {
                 />
 
                 <SecuritySection
-                  onLogout={handleLogout}
                   onDeleteAccount={() => setShowDeleteConfirm(true)}
                 />
               </div>

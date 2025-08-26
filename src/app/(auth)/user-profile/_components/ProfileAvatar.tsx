@@ -12,16 +12,17 @@ interface AvatarUploadProps {
 }
 
 const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
-  const { user } = useAuthStore();
+  const { user, fetchUserData } = useAuthStore();
   const [currentAvatar, setCurrentAvatar] = useState<string>(avatar || "");
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const getDisplayAvatar = () => {
-    // Если currentAvatar уже DataURL (начинается с data:image), используем его
     if (currentAvatar.startsWith("data:image")) {
       return currentAvatar;
     } else if (currentAvatar) {
@@ -30,9 +31,7 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
     return getAvatarByGender(gender);
   };
 
-  const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
-  ) => {
+  const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
     target.src = getAvatarByGender(gender);
   };
@@ -40,6 +39,16 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
   const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    
+    // Показываем превью перед загрузкой
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setCurrentAvatar(event.target.result as string);
+      }
+    };
+    reader.readAsDataURL(file);
+    
     handleAvatarChange(file);
   };
 
@@ -54,12 +63,15 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
       return;
     }
 
+    setIsUploading(true);
+
     try {
       const formData = new FormData();
       formData.append("avatar", file);
 
       if (!user?.id) {
         alert("Ошибка: пользователь не авторизован");
+        setIsUploading(false);
         return;
       }
 
@@ -73,6 +85,10 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
       if (response.ok) {
         const result = await response.json();
         setCurrentAvatar(result.avatarId);
+        
+        // Обновляем данные пользователя через существующий метод
+        await fetchUserData();
+        
         alert("Аватар успешно обновлен!");
       } else {
         const errorData = await response.json();
@@ -81,6 +97,20 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
     } catch (error) {
       console.error("Error uploading avatar:", error);
       alert("Не удалось загрузить аватар");
+      
+      // Восстанавливаем предыдущий аватар в случае ошибки
+      if (avatar) {
+        setCurrentAvatar(avatar);
+      } else {
+        setCurrentAvatar("");
+      }
+    } finally {
+      setIsUploading(false);
+      
+      // Сбрасываем значение input для возможности повторной загрузки того же файла
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
     }
   };
 
@@ -140,14 +170,14 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       try {
-        const photoDataUrl = canvas.toDataURL("image/png");
-        // Для фото с камеры временно используем DataURL
+        const photoDataUrl = canvas.toDataURL("image/jpeg", 0.8);
+        
+        // Показываем превью
         setCurrentAvatar(photoDataUrl);
-        alert("Фото успешно сделано!");
         stopCamera();
 
         // Конвертируем и загружаем на сервер
-        const file = dataUrlToFile(photoDataUrl, "camera-photo.png");
+        const file = dataUrlToFile(photoDataUrl, `avatar-${user?.id}-${Date.now()}.jpg`);
         handleAvatarChange(file);
       } catch (error) {
         console.error("Ошибка создания фото:", error);
@@ -161,7 +191,7 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
   const dataUrlToFile = (dataUrl: string, filename: string): File => {
     const arr = dataUrl.split(",");
     const mimeMatch = arr[0].match(/:(.*?);/);
-    const mime = mimeMatch ? mimeMatch[1] : "image/png";
+    const mime = mimeMatch ? mimeMatch[1] : "image/jpeg";
     const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
@@ -193,20 +223,29 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
           onError={handleImageError}
           priority
         />
+        
+        {isUploading && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+        )}
 
         <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 transition-colors">
           <input
+            ref={fileInputRef}
             type="file"
             className="hidden"
-            accept="image/jpeg,image/png,image/webp,image/gif"
+            accept="image/jpeg,image/png,image/webp"
             onChange={handleFileInputChange}
+            disabled={isUploading}
           />
           <IconAvatarChange />
         </label>
 
         <button
           onClick={startCamera}
-          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300"
+          disabled={isUploading}
+          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Сделать фото"
         >
           <Image
@@ -246,7 +285,7 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
             <div className="flex gap-3 w-full">
               <button
                 onClick={takePhoto}
-                disabled={!isCameraReady}
+                disabled={!isCameraReady || isUploading}
                 className="flex-1 text-white px-3 bg-primary hover:bg-[#039b03] hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) cursor-pointer rounded disabled:opacity-50 disabled:cursor-not-allowed duration-300"
               >
                 <div className="flex flex-row gap-x-2 justify-center items-center">
@@ -261,7 +300,8 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
               </button>
               <button
                 onClick={stopCamera}
-                className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-(--shadow-button-active) cursor-pointer duration-300"
+                disabled={isUploading}
+                className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-(--shadow-button-active) cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Отмена
               </button>
@@ -280,7 +320,9 @@ const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
         <p className="text-sm text-gray-600 mb-1">
           Нажмите на иконки для смены аватара
         </p>
-        <p className="text-xs text-gray-500">Загрузить файл или сделать фото</p>
+        <p className="text-xs text-gray-500">
+          {isUploading ? "Загрузка..." : "Загрузить файл или сделать фото"}
+        </p>
       </div>
     </div>
   );
