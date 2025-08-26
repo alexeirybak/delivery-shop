@@ -4,16 +4,15 @@ import Image from "next/image";
 import { getAvatarByGender } from "../../../../../utils/getAvatarByGender";
 import IconAvatarChange from "@/components/svg/IconAvatarChange";
 import { useState, useRef, useEffect } from "react";
+import { useAuthStore } from "@/store/authStore";
 
 interface AvatarUploadProps {
   avatar?: string;
   gender: string;
 }
 
-const ProfileAvatar = ({ 
-  avatar, 
-  gender, 
-}: AvatarUploadProps) => {
+const ProfileAvatar = ({ avatar, gender }: AvatarUploadProps) => {
+  const { user } = useAuthStore();
   const [currentAvatar, setCurrentAvatar] = useState<string>(avatar || "");
   const [showCameraModal, setShowCameraModal] = useState(false);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
@@ -22,7 +21,14 @@ const ProfileAvatar = ({
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const getDisplayAvatar = () => {
-    return currentAvatar || getAvatarByGender(gender);
+    // Если currentAvatar уже DataURL (начинается с data:image), используем его
+    if (currentAvatar.startsWith('data:image')) {
+      return currentAvatar;
+    } else if (currentAvatar) {
+      // ИСПРАВЛЕН ПУТЬ - теперь /api/auth/avatar/
+      return `/api/auth/avatar/${currentAvatar}`;
+    }
+    return getAvatarByGender(gender);
   };
 
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
@@ -30,30 +36,52 @@ const ProfileAvatar = ({
     target.src = getAvatarByGender(gender);
   };
 
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    processImageFile(file);
+    handleAvatarChange(file);
   };
 
-  const processImageFile = (file: File) => {
-    if (!file.type.startsWith('image/')) {
-      alert('Пожалуйста, выберите изображение');
+  const handleAvatarChange = async (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      alert("Пожалуйста, выберите изображение");
       return;
     }
 
     if (file.size > 5 * 1024 * 1024) {
-      alert('Размер файла не должен превышать 5MB');
+      alert("Размер файла не должен превышать 5MB");
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const imageDataUrl = e.target?.result as string;
-      setCurrentAvatar(imageDataUrl);
-      alert('Аватар успешно обновлен!');
-    };
-    reader.readAsDataURL(file);
+    try {
+      const formData = new FormData();
+      formData.append("avatar", file);
+      
+      if (!user?.id) {
+        alert("Ошибка: пользователь не авторизован");
+        return;
+      }
+      
+      formData.append("userId", user.id);
+
+      // ИСПРАВЛЕН ПУТЬ - теперь /api/auth/upload-avatar
+      const response = await fetch("/api/auth/upload-avatar", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setCurrentAvatar(result.avatarId);
+        alert("Аватар успешно обновлен!");
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Ошибка загрузки");
+      }
+    } catch (error) {
+      console.error("Error uploading avatar:", error);
+      alert("Не удалось загрузить аватар");
+    }
   };
 
   // Эффект для обработки видео потока
@@ -65,21 +93,20 @@ const ProfileAvatar = ({
 
   const startCamera = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
-        video: { 
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: {
           width: { ideal: 640 },
           height: { ideal: 480 },
-          facingMode: "user"
-        } 
+          facingMode: "user",
+        },
       });
-      
+
       setCameraStream(stream);
       setShowCameraModal(true);
-      setIsCameraReady(false); // Сбрасываем флаг готовности
-      
+      setIsCameraReady(false);
     } catch (error) {
-      console.error('Ошибка доступа к камере:', error);
-      alert('Не удалось получить доступ к камере');
+      console.error("Ошибка доступа к камере:", error);
+      alert("Не удалось получить доступ к камере");
     }
   };
 
@@ -89,7 +116,7 @@ const ProfileAvatar = ({
 
   const stopCamera = () => {
     if (cameraStream) {
-      cameraStream.getTracks().forEach(track => track.stop());
+      cameraStream.getTracks().forEach((track) => track.stop());
       setCameraStream(null);
     }
     setShowCameraModal(false);
@@ -100,40 +127,56 @@ const ProfileAvatar = ({
     if (videoRef.current && canvasRef.current && isCameraReady) {
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      const context = canvas.getContext('2d');
-      
+      const context = canvas.getContext("2d");
+
       if (!context) {
-        alert('Ошибка создания контекста canvas');
+        alert("Ошибка создания контекста canvas");
         return;
       }
 
-      // Устанавливаем размеры
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
-      
-      // Делаем снимок
+
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      
-      // Конвертируем в DataURL
+
       try {
-        const photoDataUrl = canvas.toDataURL('image/png');
+        const photoDataUrl = canvas.toDataURL("image/png");
+        // Для фото с камеры временно используем DataURL
         setCurrentAvatar(photoDataUrl);
-        alert('Фото успешно сделано!');
+        alert("Фото успешно сделано!");
         stopCamera();
+        
+        // Конвертируем и загружаем на сервер
+        const file = dataUrlToFile(photoDataUrl, "camera-photo.png");
+        handleAvatarChange(file);
       } catch (error) {
-        console.error('Ошибка создания фото:', error);
-        alert('Не удалось сделать фото');
+        console.error("Ошибка создания фото:", error);
+        alert("Не удалось сделать фото");
       }
     } else {
-      alert('Камера еще не готова. Подождите немного.');
+      alert("Камера еще не готова. Подождите немного.");
     }
   };
 
-  // Останавливаем камеру при размонтировании компонента
+  const dataUrlToFile = (dataUrl: string, filename: string): File => {
+    const arr = dataUrl.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : 'image/png';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    
+    return new File([u8arr], filename, { type: mime });
+  };
+
   useEffect(() => {
     return () => {
       if (cameraStream) {
-        cameraStream.getTracks().forEach(track => track.stop());
+        cameraStream.getTracks().forEach((track) => track.stop());
       }
     };
   }, [cameraStream]);
@@ -151,18 +194,16 @@ const ProfileAvatar = ({
           priority
         />
 
-        {/* Кнопка загрузки файла */}
         <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 transition-colors">
           <input
             type="file"
             className="hidden"
             accept="image/jpeg,image/png,image/webp,image/gif"
-            onChange={handleAvatarChange}
+            onChange={handleFileInputChange}
           />
           <IconAvatarChange />
         </label>
 
-        {/* Кнопка для камеры */}
         <button
           onClick={startCamera}
           className="absolute bottom-0 right-8 bg-blue-500 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-blue-600 transition-colors"
@@ -172,12 +213,13 @@ const ProfileAvatar = ({
         </button>
       </div>
 
-      {/* Модальное окно камеры */}
       {showCameraModal && (
         <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-lg p-4 max-w-sm w-full">
-            <h3 className="text-lg font-semibold mb-4 text-center">Сделайте фото</h3>
-            
+            <h3 className="text-lg font-semibold mb-4 text-center">
+              Сделайте фото
+            </h3>
+
             <div className="relative">
               <video
                 ref={videoRef}
@@ -193,9 +235,9 @@ const ProfileAvatar = ({
                 </div>
               )}
             </div>
-            
+
             <canvas ref={canvasRef} className="hidden" />
-            
+
             <div className="flex gap-3 justify-center">
               <button
                 onClick={takePhoto}
@@ -225,9 +267,7 @@ const ProfileAvatar = ({
         <p className="text-sm text-gray-600 mb-1">
           Нажмите на иконки для смены аватара
         </p>
-        <p className="text-xs text-gray-500">
-          Загрузить файл или сделать фото
-        </p>
+        <p className="text-xs text-gray-500">Загрузить файл или сделать фото</p>
       </div>
     </div>
   );
