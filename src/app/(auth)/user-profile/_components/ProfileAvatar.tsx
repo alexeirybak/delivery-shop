@@ -217,7 +217,7 @@ const ProfileAvatar = ({ gender }: AvatarUploadProps) => {
           </div>
         )}
 
-        <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 transition-colors">
+        <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 duration-300">
           <input
             ref={fileInputRef}
             type="file"
