@@ -1,20 +1,53 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
 import { getAvatarByGender } from "../../../../utils/getAvatarByGender";
+import { useEffect, useRef, useState } from "react";
 import IconAvatarChange from "@/components/svg/IconAvatarChange";
+import { useAuthStore } from "@/store/authStore";
+import ConfirmAvatarModal from "./ConfirmAvatarModal";
+import { useAvatar } from "@/hooks/useAvatar";
+import CameraModal from "./CameraModal";
+import { optimizeCameraPhoto } from "../../../../utils/optimizeCameraPhoto";
+import { optimizeImage } from "../../../../utils/optimizeImage";
 
 const ProfileAvatar = ({ gender }: { gender: string }) => {
-  const [currentAvatar, setCurrentAvatar] = useState<string>("");
+  const { user } = useAuthStore();
   const [previewUrl, setPreviewUrl] = useState<string>("");
   const [pendingFile, setPendingFile] = useState<File | null>(null);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [showCameraModal, setShowCameraModal] = useState(false);
+  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
+  const [isCameraReady, setIsCameraReady] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const getDisplayAvatar = () => {
-    return currentAvatar || getAvatarByGender(gender);
-  };
+  const {
+    displayAvatar,
+    isLoading: isUploading,
+    uploadAvatar,
+  } = useAvatar({ userId: user?.id, gender });
+
+  // Эффект для обработки видео потока
+  useEffect(() => {
+    if (videoRef.current && cameraStream) {
+      videoRef.current.srcObject = cameraStream;
+    }
+  }, [cameraStream]);
+
+  // Останавливаем камеру при размонтировании
+  useEffect(() => {
+    return () => {
+      if (cameraStream) {
+        cameraStream.getTracks().forEach((track) => track.stop());
+      }
+      // Очищаем превью URL
+      if (previewUrl && previewUrl.startsWith("blob:")) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [cameraStream, previewUrl]);
 
   const handleImageError = (
     e: React.SyntheticEvent<HTMLImageElement, Event>
@@ -23,90 +56,226 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     target.src = getAvatarByGender(gender);
   };
 
-  const handleFileInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = async (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    console.log(file);
 
-    // Показываем превью перед загрузкой
-    const reader = new FileReader(); // FileReader для чтения содержимого файла и преобразования его в Data URL (base64 строку).
-    reader.onload = (event) => {
-      if (event.target?.result) {
-        const previewUrl = event.target.result as string;
-        console.log(previewUrl);
-        setPreviewUrl(previewUrl);
-        // Сохраняем файл и показываем подтверждение
-        setPendingFile(file);
-        setShowConfirmModal(true);
+    // const reader = new FileReader();
+
+    // reader.onload = (event) => {
+    //   if (event.target?.result) {
+    //     const previewUrl = event.target.result as string;
+
+    //     setPreviewUrl(previewUrl);
+    //     setPendingFile(file);
+    //     setShowConfirmModal(true);
+    //   }
+    // };
+
+    // reader.readAsDataURL(file);
+
+    try {
+      // Оптимизируем загружаемый файл
+      const optimizedFile = await optimizeImage(file, 400, 400, 0.7);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        if (event.target?.result) {
+          const previewUrl = event.target.result as string;
+          setPreviewUrl(previewUrl);
+          setPendingFile(optimizedFile);
+          setShowConfirmModal(true);
+        }
+      };
+      reader.readAsDataURL(optimizedFile);
+    } catch (error) {
+      console.error("Ошибка оптимизации изображения:", error);
+      alert("Не удалось обработать изображение");
+    }
+  };
+
+  const handleAvatarConfirm = async () => {
+    if (pendingFile) {
+      setShowConfirmModal(false);
+
+      try {
+        await uploadAvatar(pendingFile);
+        if (previewUrl && previewUrl.startsWith("blob:")) {
+          URL.revokeObjectURL(previewUrl);
+        }
+        setPreviewUrl("");
+      } catch (error) {
+        alert(error instanceof Error ? error.message : "Ошибка загрузки");
+        setPreviewUrl("");
+      } finally {
+        setPendingFile(null);
       }
-    };
-    reader.readAsDataURL(file);
+    }
+  };
+
+  const handleAvatarCancel = () => {
+    setShowConfirmModal(false);
+    setPendingFile(null);
+    if (previewUrl && previewUrl.startsWith("blob:")) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl("");
+
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  // Объявление асинхронной функции startCamera для запуска камеры
+  const startCamera = async () => {
+    // Блок try для обработки потенциальных ошибок
+    try {
+      // Запрос доступа к медиаустройствам пользователя с помощью getUserMedia
+      const stream = await navigator.mediaDevices.getUserMedia({
+        // Настройки видео
+        video: {
+          // Предпочтительная ширина видео - 640px
+          width: { ideal: 640 },
+          // Предпочтительная высота видео - 480px
+          height: { ideal: 480 },
+          // Режим камеры - фронтальная (пользовательская) камера
+          facingMode: "user",
+        },
+      });
+
+      // Установка полученного видеопотока в состояние компонента
+      setCameraStream(stream);
+      // Открытие модального окна с камерой
+      setShowCameraModal(true);
+      // Сброс флага готовности камеры (вероятно, для последующей настройки)
+      setIsCameraReady(false);
+    } catch (error) {
+      // Логирование ошибки в консоль для отладки
+      console.error("Ошибка доступа к камере:", error);
+      // Показ пользователю предупреждения об ошибке
+      alert("Не удалось получить доступ к камере");
+    }
+  };
+
+  const stopCamera = () => {
+    if (cameraStream) {
+      cameraStream.getTracks().forEach((track) => track.stop());
+      setCameraStream(null);
+    }
+    setShowCameraModal(false);
+    setIsCameraReady(false);
+  };
+
+  const takePhoto = async () => {
+    if (videoRef.current && canvasRef.current && isCameraReady && user?.id) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      const context = canvas.getContext("2d");
+
+      if (!context) {
+        alert("Ошибка создания контекста canvas");
+        return;
+      }
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      try {
+        // Оптимизируем фото перед сохранением
+        const optimizedFile = await optimizeCameraPhoto(
+          canvas,
+          0.7,
+          400,
+          user.id
+        );
+
+        // Создаем превью для подтверждения
+        const previewUrl = URL.createObjectURL(optimizedFile);
+
+        setPreviewUrl(previewUrl);
+        stopCamera();
+        setPendingFile(optimizedFile);
+        setShowConfirmModal(true);
+      } catch (error) {
+        console.error("Ошибка создания фото:", error);
+        alert("Не удалось сделать фото");
+      }
+    } else {
+      alert("Камера еще не готова. Подождите немного.");
+    }
+  };
+
+  const handleVideoLoaded = () => {
+    setIsCameraReady(true);
   };
 
   return (
     <div className="flex flex-col items-center mb-8">
       <div className="relative">
         <Image
-          src={getDisplayAvatar()}
+          src={displayAvatar}
           width={128}
           height={128}
           alt="Аватар профиля"
           className="w-32 h-32 rounded-full border-4 border-white shadow-lg object-cover"
           onError={handleImageError}
-          priority //Ссылка на скрытый элемент <input type="file">, чтобы активировать его кликом на иконку
+          priority
         />
+        {isUploading && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-full">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
+          </div>
+        )}
         <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 duration-300">
           <input
-            ref={fileInputRef} // Ссылка на скрытый элемент <input type="file">, чтобы активировать его кликом на иконку
+            ref={fileInputRef}
             type="file"
             className="hidden"
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/jpeg,image/png,image/webp,image/gif"
             onChange={handleFileInputChange}
-            //disabled={isUploading}
           />
           <IconAvatarChange />
         </label>
-        {showConfirmModal && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
-            <div className="bg-white rounded p-6 max-w-sm w-full">
-              <h3 className="text-lg font-semibold mb-4 text-center">
-                Подтверждение смены аватара
-              </h3>
-
-              <div className="flex justify-center mb-4">
-                <Image
-                  src={previewUrl}
-                  width={80}
-                  height={80}
-                  alt="Превью аватара"
-                  className="w-20 h-20 rounded-full object-cover"
-                />
-              </div>
-
-              <p className="text-gray-600 mb-6 text-center">
-                Вы уверены, что хотите сменить аватар? Старое изображение будет
-                удалено.
-              </p>
-
-              <div className="flex gap-3 w-full">
-                <button
-                  //onClick={handleAvatarConfirm}
-                  //disabled={isUploading}
-                  className="flex-1 bg-primary text-white py-2 rounded hover:bg-green-600 duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-                >Да, сменить
-                  {/* {isUploading ? "Загрузка..." : "Да, сменить"} */}
-                </button>
-                <button
-                  //onClick={handleAvatarCancel}
-                  //disabled={isUploading}
-                  className="flex-1 bg-[#f3f2f1] rounded hover:shadow-button-secondary py-2 active:shadow-(--shadow-button-active) disabled:opacity-50 text-[#606060] duration-300 cursor-pointer"
-                >
-                  Отмена
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        <button
+          onClick={startCamera}
+          disabled={isUploading}
+          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Сделать фото"
+        >
+          <Image
+            src="/images/graphics/camera.png"
+            alt="Фото"
+            width={24}
+            height={24}
+          />
+        </button>
+        {/* Убираем условный рендеринг */}
+        <ConfirmAvatarModal
+          isOpen={showConfirmModal}
+          previewUrl={previewUrl}
+          isUploading={isUploading}
+          onConfirm={handleAvatarConfirm}
+          onCancel={handleAvatarCancel}
+        />
+        <CameraModal
+          isOpen={showCameraModal}
+          isCameraReady={isCameraReady}
+          isUploading={isUploading}
+          videoRef={videoRef}
+          canvasRef={canvasRef}
+          onTakePhoto={takePhoto}
+          onClose={stopCamera}
+          onVideoLoaded={handleVideoLoaded}
+        />
+      </div>
+      <div className="mt-3 text-center text-[#414141]">
+        <p className="text-sm mb-1">Нажмите на иконки для смены аватара</p>
+        <p className="text-xs">
+          {isUploading ? "Загрузка..." : "Загрузить файл или сделать фото"}
+        </p>
       </div>
     </div>
   );
