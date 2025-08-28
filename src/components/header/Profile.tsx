@@ -107,7 +107,7 @@ const Profile = () => {
         onClick={toggleMenu}
       >
         <Image
-          src={avatarSrc || getAvatarByGender(user?.gender || "default")}
+          src={avatarSrc || getAvatarByGender(user?.gender)}
           alt="Ваш профиль"
           width={40}
           height={40}

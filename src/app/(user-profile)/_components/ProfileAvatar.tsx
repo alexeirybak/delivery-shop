@@ -35,28 +35,18 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     }
   }, [cameraStream]);
 
-  // Останавливаем камеру при размонтировании
   useEffect(() => {
-    // Функция очистки - выполнится при размонтировании компонента
-    // или при изменении зависимостей перед следующим выполнением эффекта
     return () => {
-      // Останавливаем все треки видеопотока камеры
       if (cameraStream) {
-        // Получаем все медиа-треки из потока (видео, аудио)
         cameraStream.getTracks().forEach((track) => {
-          // Останавливаем каждый трек - камера перестает работать
           track.stop();
         });
       }
 
-      // Освобождаем память от blob URL превью изображения
       if (previewUrl && previewUrl.startsWith("blob:")) {
-        // URL.revokeObjectURL освобождает память, занятую blob URL
-        // Это предотвращает утечку памяти
         URL.revokeObjectURL(previewUrl);
       }
     };
-    // Эффект сработает при размонтировании или при изменении cameraStream/previewUrl
   }, [cameraStream, previewUrl]);
 
   const handleImageError = (
@@ -72,22 +62,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // const reader = new FileReader();
-
-    // reader.onload = (event) => {
-    //   if (event.target?.result) {
-    //     const previewUrl = event.target.result as string;
-
-    //     setPreviewUrl(previewUrl);
-    //     setPendingFile(file);
-    //     setShowConfirmModal(true);
-    //   }
-    // };
-
-    // reader.readAsDataURL(file);
-
     try {
-      // Оптимизируем загружаемый файл
       const optimizedFile = await optimizeImage(file, 400, 400, 0.7);
 
       const reader = new FileReader();
