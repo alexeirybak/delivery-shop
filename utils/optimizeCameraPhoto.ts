@@ -1,9 +1,3 @@
-// Уменьшение размера - до 10 раз меньше исходного файла
-// Стандартизация - все аватары одинакового размера и формата
-// Быстрая загрузка - меньший трафик и время загрузки
-// Автоматическая обрезка - сохранение пропорций
-// Единый формат - все изображения в JPEG для consistency
-
 export const optimizeCameraPhoto = (
   canvas: HTMLCanvasElement,
   quality: number = 0.8,
@@ -23,32 +17,27 @@ export const optimizeCameraPhoto = (
     let width = canvas.width;
     let height = canvas.height;
 
-    // Масштабируем если нужно
+    // Масштабируем если нужно (сохраняем пропорции)
     if (width > maxSize || height > maxSize) {
-      if (width > height) {
-        height = Math.round((height * maxSize) / width);
-        width = maxSize;
-      } else {
-        width = Math.round((width * maxSize) / height);
-        height = maxSize;
-      }
+      const ratio = Math.min(maxSize / width, maxSize / height);
+      width = Math.round(width * ratio);
+      height = Math.round(height * ratio);
     }
 
     tempCanvas.width = width;
     tempCanvas.height = height;
 
-    // Рисуем с оптимизацией
+    // Рисуем с оптимизацией (сглаживание для лучшего качества)
+    ctx.imageSmoothingQuality = 'high';
     ctx.drawImage(canvas, 0, 0, width, height);
 
     tempCanvas.toBlob(
       (blob) => {
         if (blob) {
-          const fileName = `avatar-${userId}-${Date.now()}.jpg`;
-          const file = new File([blob], fileName, {
-            type: "image/jpeg",
-            lastModified: Date.now(),
-          });
-          resolve(file);
+          // Упрощаем создание File (lastModified не обязателен)
+          resolve(new File([blob], `avatar-${userId}-${Date.now()}.jpg`, {
+            type: "image/jpeg"
+          }));
         } else {
           reject(new Error("Failed to create blob"));
         }

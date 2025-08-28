@@ -23,6 +23,7 @@ const CameraModal = ({
   onClose,
   onVideoLoaded,
 }: CameraModalProps) => {
+  
   if (!isOpen) return null;
 
   return (

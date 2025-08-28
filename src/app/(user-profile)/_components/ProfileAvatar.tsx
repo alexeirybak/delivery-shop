@@ -29,7 +29,6 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     uploadAvatar,
   } = useAvatar({ userId: user?.id, gender });
 
-  // Эффект для обработки видео потока
   useEffect(() => {
     if (videoRef.current && cameraStream) {
       videoRef.current.srcObject = cameraStream;
@@ -38,15 +37,26 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
 
   // Останавливаем камеру при размонтировании
   useEffect(() => {
+    // Функция очистки - выполнится при размонтировании компонента
+    // или при изменении зависимостей перед следующим выполнением эффекта
     return () => {
+      // Останавливаем все треки видеопотока камеры
       if (cameraStream) {
-        cameraStream.getTracks().forEach((track) => track.stop());
+        // Получаем все медиа-треки из потока (видео, аудио)
+        cameraStream.getTracks().forEach((track) => {
+          // Останавливаем каждый трек - камера перестает работать
+          track.stop();
+        });
       }
-      // Очищаем превью URL
+
+      // Освобождаем память от blob URL превью изображения
       if (previewUrl && previewUrl.startsWith("blob:")) {
+        // URL.revokeObjectURL освобождает память, занятую blob URL
+        // Это предотвращает утечку памяти
         URL.revokeObjectURL(previewUrl);
       }
     };
+    // Эффект сработает при размонтировании или при изменении cameraStream/previewUrl
   }, [cameraStream, previewUrl]);
 
   const handleImageError = (
@@ -128,33 +138,21 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     }
   };
 
-  // Объявление асинхронной функции startCamera для запуска камеры
   const startCamera = async () => {
-    // Блок try для обработки потенциальных ошибок
     try {
-      // Запрос доступа к медиаустройствам пользователя с помощью getUserMedia
       const stream = await navigator.mediaDevices.getUserMedia({
-        // Настройки видео
         video: {
-          // Предпочтительная ширина видео - 640px
           width: { ideal: 640 },
-          // Предпочтительная высота видео - 480px
           height: { ideal: 480 },
-          // Режим камеры - фронтальная (пользовательская) камера
           facingMode: "user",
         },
       });
 
-      // Установка полученного видеопотока в состояние компонента
       setCameraStream(stream);
-      // Открытие модального окна с камерой
       setShowCameraModal(true);
-      // Сброс флага готовности камеры (вероятно, для последующей настройки)
       setIsCameraReady(false);
     } catch (error) {
-      // Логирование ошибки в консоль для отладки
       console.error("Ошибка доступа к камере:", error);
-      // Показ пользователю предупреждения об ошибке
       alert("Не удалось получить доступ к камере");
     }
   };
@@ -169,41 +167,66 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
   };
 
   const takePhoto = async () => {
+    // Проверяем условия для безопасного создания фото:
+    // - videoRef.current - видеоэлемент существует и содержит видеопоток
+    // - canvasRef.current - canvas элемент доступен для рисования
+    // - isCameraReady - камера полностью инициализирована и готова
+    // - user?.id - пользователь авторизован (нужен для имени файла)
     if (videoRef.current && canvasRef.current && isCameraReady && user?.id) {
+      // Сохраняем ссылки на DOM-элементы для удобства и производительности
       const video = videoRef.current;
       const canvas = canvasRef.current;
-      const context = canvas.getContext("2d");
 
+      // Получаем 2D контекст рисования для canvas
+      // Контекст предоставляет API для работы с графикой
+      const context = canvas.getContext("2d");
+      // Проверяем, что браузер поддерживает 2D рисование
       if (!context) {
         alert("Ошибка создания контекста canvas");
-        return;
+        return; // Прерываем выполнение если контекст недоступен
       }
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+      // Устанавливаем размеры canvas равными размерам видео-кадра
+      // Это важно для корректного захвата изображения без искажений
+      canvas.width = video.videoWidth; // Ширина видео-потока
+      canvas.height = video.videoHeight; // Высота видео-потока
+
+      // Рисуем текущий кадр видео на canvas
+      // drawImage захватывает текущее изображение с видеоэлемента
+      // Параметры: источник, x-координата, y-координата, ширина, высота
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       try {
         // Оптимизируем фото перед сохранением
+        // optimizeCameraPhoto - кастомная функция которая:
+        // 1. Конвертирует canvas в Blob/File
+        // 2. Сжимает изображение с качеством 0.7 (70%)
+        // 3. Масштабирует до 400px (сохраняя пропорции)
+        // 4. Генерирует имя файла на основе user.id
         const optimizedFile = await optimizeCameraPhoto(
-          canvas,
-          0.7,
-          400,
-          user.id
+          canvas, // Canvas элемент с изображением
+          0.7, // Качество сжатия (0.7 = 70%)
+          400, // Максимальный размер стороны
+          user.id // ID пользователя для имени файла
         );
 
-        // Создаем превью для подтверждения
+        // Создаем Blob URL для превью изображения
+        // URL.createObjectURL создает временную ссылку на файл в памяти
+        // Это позволяет отобразить изображение без загрузки на сервер
         const previewUrl = URL.createObjectURL(optimizedFile);
 
-        setPreviewUrl(previewUrl);
-        stopCamera();
-        setPendingFile(optimizedFile);
-        setShowConfirmModal(true);
+        // Обновляем состояние компонента:
+        setPreviewUrl(previewUrl); // URL для превью
+        stopCamera(); // Выключаем камеру
+        setPendingFile(optimizedFile); // Сохраняем файл для загрузки
+        setShowConfirmModal(true); // Показываем модалку подтверждения
       } catch (error) {
+        // Обрабатываем ошибки оптимизации или создания файла
         console.error("Ошибка создания фото:", error);
         alert("Не удалось сделать фото");
       }
     } else {
+      // Если условия не выполнены - сообщаем пользователю
       alert("Камера еще не готова. Подождите немного.");
     }
   };
