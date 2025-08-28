@@ -6,51 +6,39 @@ export const optimizeImage = async (
 ): Promise<File> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-
-    if (!ctx) {
-      reject(new Error('Canvas context not available'));
-      return;
-    }
+    const url = URL.createObjectURL(file);
 
     img.onload = () => {
-      // Рассчитываем новые размеры с сохранением пропорций
-      let width = img.width;
-      let height = img.height;
+      URL.revokeObjectURL(url); // Освобождаем память сразу
 
-      if (width > height) {
-        if (width > maxWidth) {
-          height = Math.round((height * maxWidth) / width);
-          width = maxWidth;
-        }
-      } else {
-        if (height > maxHeight) {
-          width = Math.round((width * maxHeight) / height);
-          height = maxHeight;
-        }
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      
+      if (!ctx) {
+        reject(new Error('Canvas context not available'));
+        return;
       }
 
-      // Устанавливаем размеры canvas
+      let { width, height } = img;
+
+      // Упрощенное масштабирование с сохранением пропорций
+      if (width > maxWidth || height > maxHeight) {
+        const ratio = Math.min(maxWidth / width, maxHeight / height);
+        width = Math.round(width * ratio);
+        height = Math.round(height * ratio);
+      }
+
       canvas.width = width;
       canvas.height = height;
 
-      // Рисуем оптимизированное изображение
       ctx.drawImage(img, 0, 0, width, height);
 
-      // Конвертируем в Blob с выбранным качеством
       canvas.toBlob(
         (blob) => {
           if (blob) {
-            const optimizedFile = new File(
-              [blob], 
-              file.name, 
-              { 
-                type: 'image/jpeg', 
-                lastModified: Date.now() 
-              }
-            );
-            resolve(optimizedFile);
+            // Генерируем правильное имя файла
+            const newName = file.name.replace(/\.[^/.]+$/, '') + '.jpg';
+            resolve(new File([blob], newName, { type: 'image/jpeg' }));
           } else {
             reject(new Error('Failed to create blob'));
           }
@@ -61,10 +49,10 @@ export const optimizeImage = async (
     };
 
     img.onerror = () => {
+      URL.revokeObjectURL(url); // Освобождаем память при ошибке
       reject(new Error('Failed to load image'));
     };
 
-    // Загружаем изображение
-    img.src = URL.createObjectURL(file);
+    img.src = url;
   });
 };
