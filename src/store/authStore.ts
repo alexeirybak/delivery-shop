@@ -13,6 +13,7 @@ type UserData = {
   birthdayDate?: string;
   location?: string;
   region?: string;
+  avatarUrl?: string; // Добавляем поле для аватара
 } | null;
 
 type AuthState = {
@@ -23,6 +24,7 @@ type AuthState = {
   logout: () => Promise<void>;
   checkAuth: () => Promise<boolean>;
   fetchUserData: () => Promise<void>;
+  updateAvatar: (avatarUrl: string) => void; // Новый метод для обновления аватара
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
@@ -75,7 +77,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const userData = await response.json();
-      
+
       set({ user: userData, isLoading: false });
     } catch (error) {
       console.error("Ошибка загрузки данных пользователя:", error);
@@ -85,6 +87,12 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         set({ isAuth: false });
       }
     }
+  },
+
+  updateAvatar: (avatarUrl: string) => {
+    set((state) => ({
+      user: state.user ? { ...state.user, avatarUrl } : null,
+    }));
   },
 
   logout: async () => {

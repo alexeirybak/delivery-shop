@@ -242,7 +242,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
         <button
           onClick={startCamera}
           disabled={isUploading}
-          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute -bottom-1 left-0 bg-[#c84f26] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           title="Сделать фото"
         >
           <Image

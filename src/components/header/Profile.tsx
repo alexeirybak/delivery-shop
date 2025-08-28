@@ -13,8 +13,24 @@ const Profile = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [avatarSrc, setAvatarSrc] = useState<string>("");
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+
+  const [lastUpdate, setLastUpdate] = useState(Date.now());
+
+  useEffect(() => {
+    setLastUpdate(Date.now());
+  }, [user]);
+
+  // Устанавливаем начальный источник аватара
+  useEffect(() => {
+    if (user?.id) {
+      setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
+    } else if (user?.gender) {
+      setAvatarSrc(getAvatarByGender(user.gender));
+    }
+  }, [user, lastUpdate]);
 
   useEffect(() => {
     checkAuth();
@@ -39,20 +55,25 @@ const Profile = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
-const handleLogout = async () => {
-  setIsLoggingOut(true);
-  try {
-    await logout();
-    
-    
-    router.replace("/");
-  } catch (error) {
-    console.error("Не удалось выйти:", error);
-  } finally {
-    setIsLoggingOut(false);
-    setIsMenuOpen(false);
-  }
-};
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    try {
+      await logout();
+      router.replace("/");
+    } catch (error) {
+      console.error("Не удалось выйти:", error);
+    } finally {
+      setIsLoggingOut(false);
+      setIsMenuOpen(false);
+    }
+  };
+
+  const handleAvatarError = () => {
+    // Если загрузка аватара из API не удалась, используем дефолтный аватар
+    if (user?.gender) {
+      setAvatarSrc(getAvatarByGender(user.gender));
+    }
+  };
 
   if (isLoading) {
     return (
@@ -86,14 +107,15 @@ const handleLogout = async () => {
         onClick={toggleMenu}
       >
         <Image
-          src={getAvatarByGender(user?.gender)}
+          src={avatarSrc || getAvatarByGender(user?.gender || "default")}
           alt="Ваш профиль"
           width={40}
           height={40}
           className="min-w-10 min-h-10 md:block xl:block rounded-full object-cover"
+          onError={handleAvatarError}
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
-          {isLoading ? "Загрузка..." : user?.name}
+          {user?.name}
         </p>
         <div className="hidden xl:block">
           <Image
