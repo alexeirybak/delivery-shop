@@ -167,66 +167,40 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
   };
 
   const takePhoto = async () => {
-    // Проверяем условия для безопасного создания фото:
-    // - videoRef.current - видеоэлемент существует и содержит видеопоток
-    // - canvasRef.current - canvas элемент доступен для рисования
-    // - isCameraReady - камера полностью инициализирована и готова
-    // - user?.id - пользователь авторизован (нужен для имени файла)
     if (videoRef.current && canvasRef.current && isCameraReady && user?.id) {
-      // Сохраняем ссылки на DOM-элементы для удобства и производительности
       const video = videoRef.current;
       const canvas = canvasRef.current;
 
-      // Получаем 2D контекст рисования для canvas
-      // Контекст предоставляет API для работы с графикой
       const context = canvas.getContext("2d");
-      // Проверяем, что браузер поддерживает 2D рисование
       if (!context) {
         alert("Ошибка создания контекста canvas");
-        return; // Прерываем выполнение если контекст недоступен
+        return; 
       }
 
-      // Устанавливаем размеры canvas равными размерам видео-кадра
-      // Это важно для корректного захвата изображения без искажений
-      canvas.width = video.videoWidth; // Ширина видео-потока
-      canvas.height = video.videoHeight; // Высота видео-потока
+      canvas.width = video.videoWidth; 
+      canvas.height = video.videoHeight; 
 
-      // Рисуем текущий кадр видео на canvas
-      // drawImage захватывает текущее изображение с видеоэлемента
-      // Параметры: источник, x-координата, y-координата, ширина, высота
       context.drawImage(video, 0, 0, canvas.width, canvas.height);
 
       try {
-        // Оптимизируем фото перед сохранением
-        // optimizeCameraPhoto - кастомная функция которая:
-        // 1. Конвертирует canvas в Blob/File
-        // 2. Сжимает изображение с качеством 0.7 (70%)
-        // 3. Масштабирует до 400px (сохраняя пропорции)
-        // 4. Генерирует имя файла на основе user.id
         const optimizedFile = await optimizeCameraPhoto(
-          canvas, // Canvas элемент с изображением
-          0.7, // Качество сжатия (0.7 = 70%)
-          400, // Максимальный размер стороны
-          user.id // ID пользователя для имени файла
+          canvas, 
+          0.7,
+          400, 
+          user.id 
         );
 
-        // Создаем Blob URL для превью изображения
-        // URL.createObjectURL создает временную ссылку на файл в памяти
-        // Это позволяет отобразить изображение без загрузки на сервер
         const previewUrl = URL.createObjectURL(optimizedFile);
 
-        // Обновляем состояние компонента:
-        setPreviewUrl(previewUrl); // URL для превью
-        stopCamera(); // Выключаем камеру
-        setPendingFile(optimizedFile); // Сохраняем файл для загрузки
-        setShowConfirmModal(true); // Показываем модалку подтверждения
+        setPreviewUrl(previewUrl); 
+        stopCamera(); 
+        setPendingFile(optimizedFile); 
+        setShowConfirmModal(true); 
       } catch (error) {
-        // Обрабатываем ошибки оптимизации или создания файла
         console.error("Ошибка создания фото:", error);
         alert("Не удалось сделать фото");
       }
     } else {
-      // Если условия не выполнены - сообщаем пользователю
       alert("Камера еще не готова. Подождите немного.");
     }
   };
