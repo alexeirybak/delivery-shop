@@ -5,12 +5,15 @@ import { AlertCircle, Mail, Edit } from "lucide-react";
 import { buttonStyles } from "@/app/(auth)/styles";
 import { CONFIG } from "../../../../config/config";
 import { authClient } from "@/lib/auth-client";
+import { SuccessChangeEmail } from "./SuccessChangeEmail"; // Импортируем компонент
+import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 
 const ProfileEmail = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const { user, fetchUserData } = useAuthStore();
 
   useEffect(() => {
@@ -66,10 +69,8 @@ const ProfileEmail = () => {
       } else {
         const response = await authClient.changeEmail({
           newEmail: email,
-          callbackURL: "/user-profile",
+          callbackURL: "/login",
         });
-
-        console.log("Change email response:", response);
 
         if (response.error) {
           if (response.error.code === "COULDNT_UPDATE_YOUR_EMAIL") {
@@ -79,12 +80,12 @@ const ProfileEmail = () => {
           }
         }
 
-        alert("Письмо для подтверждения смены email отправлено на ваш текущий адрес");
+        setShowSuccess(true);
         setIsEditing(false);
       }
     } catch (error) {
       console.error("Ошибка при сохранении:", error);
-      
+
       if (error instanceof Error) {
         setError(error.message);
       } else {
@@ -101,6 +102,14 @@ const ProfileEmail = () => {
     setIsEditing(false);
     setError("");
   };
+
+  if (showSuccess) {
+    return (
+      <AuthFormLayout>
+        <SuccessChangeEmail email={user?.email || ""} />
+      </AuthFormLayout>
+    );
+  }
 
   return (
     <div className="mb-6">
@@ -160,7 +169,8 @@ const ProfileEmail = () => {
         <div className="flex items-center bg-orange-50 text-[#ff6633] px-3 py-2 rounded-lg mb-3">
           <AlertCircle className="h-4 w-4 mr-2" />
           <span className="text-sm">
-            Для смены email потребуется подтверждение на текущем адресе и верификация нового адреса
+            Для смены email потребуется подтверждение на прежнем адресе.
+            Отменить эту операцию будет нельзя
           </span>
         </div>
       )}
@@ -179,7 +189,9 @@ const ProfileEmail = () => {
           value={email}
           onChange={handleEmailChange}
           className={`${formStyles.input} [&&]:w-full disabled:cursor-not-allowed [&&]:disabled:bg-[#f3f2f1] ${
-            error ? "border-red-500 focus:border-red-500 focus:ring-red-500" : ""
+            error
+              ? "border-red-500 focus:border-red-500 focus:ring-red-500"
+              : ""
           }`}
           placeholder="Введите ваш email"
           disabled={!isEditing}

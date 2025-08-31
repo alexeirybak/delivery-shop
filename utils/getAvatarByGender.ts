@@ -1,6 +1,10 @@
-export const getAvatarByGender = (gender?: string) => {
-  if (gender === "male") return "/images/graphics/defaultAvatars/male.png";
-  if (gender === "female") return "/images/graphics/defaultAvatars/female.png";
-
-  return "/images/graphics/defaultAvatars/male.png";
+export const getAvatarByGender = (gender?: string): string => {
+  switch (gender?.toLowerCase()) {
+    case 'male':
+      return '/images/graphics/defaultAvatars/male.png';
+    case 'female':
+      return '/images/graphics/defaultAvatars/female.png';
+    default:
+      return '/images/graphics/defaultAvatars/male.png';
+  }
 };

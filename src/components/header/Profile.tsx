@@ -18,17 +18,20 @@ const Profile = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  useEffect(() => {
+   useEffect(() => {
     setLastUpdate(Date.now());
   }, [user]);
 
   useEffect(() => {
     if (user?.id) {
+      // Всегда пытаемся загрузить аватар из API с временной меткой
       setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
     } else if (user?.gender) {
       setAvatarSrc(getAvatarByGender(user.gender));
+    } else {
+      setAvatarSrc(getAvatarByGender('default'));
     }
-  }, [user, lastUpdate]);
+  }, [user, lastUpdate]); // Добавили avatarKey в зависимости
 
   useEffect(() => {
     checkAuth();
@@ -57,7 +60,6 @@ const Profile = () => {
     setIsLoggingOut(true);
     try {
       await logout();
-
       router.replace("/");
     } catch (error) {
       console.error("Не удалось выйти:", error);
@@ -68,9 +70,17 @@ const Profile = () => {
   };
 
   const handleAvatarError = () => {
+    console.log('Аватар не найден, используем дефолтный');
+    // При ошибке загрузки аватара переключаемся на дефолтный
     if (user?.gender) {
       setAvatarSrc(getAvatarByGender(user.gender));
+    } else {
+      setAvatarSrc(getAvatarByGender('default'));
     }
+  };
+
+  const handleAvatarLoad = () => {
+    console.log('Аватар успешно загружен');
   };
 
   if (isLoading) {
@@ -105,11 +115,12 @@ const Profile = () => {
         onClick={toggleMenu}
       >
         <Image
-          src={avatarSrc || getAvatarByGender(user?.gender)}
+          src={avatarSrc}
           alt="Ваш профиль"
           width={40}
           height={40}
           onError={handleAvatarError}
+          onLoad={handleAvatarLoad}
           className="min-w-10 min-h-10 md:block xl:block rounded-full object-cover"
         />
         <p className="hidden xl:block cursor-pointer p-2.5">

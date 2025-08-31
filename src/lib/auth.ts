@@ -252,6 +252,7 @@ export const auth = betterAuth({
   user: {
     changeEmail: {
       enabled: true,
+      requireEmailVerification: false,
       sendChangeEmailVerification: sendChangeEmailVerification,
     },
     additionalFields: {

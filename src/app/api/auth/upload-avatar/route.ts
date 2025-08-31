@@ -52,6 +52,16 @@ export async function POST(request: NextRequest) {
       uploadStream.on("error", reject);
     });
 
+    // ОБНОВЛЯЕМ ПОЛЬЗОВАТЕЛЯ - ДОБАВЛЯЕМ/ОБНОВЛЯЕМ ПОЛЕ hasAvatar: true
+    await db.collection("user").updateOne(
+      { _id: userIdObj },
+      { 
+        $set: { 
+          hasAvatar: true,
+        } 
+      }
+    );
+
     return NextResponse.json({
       success: true,
       avatarId: fileId.toString(),

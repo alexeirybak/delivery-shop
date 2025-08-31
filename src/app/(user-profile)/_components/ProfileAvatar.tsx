@@ -27,7 +27,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
     displayAvatar,
     isLoading: isUploading,
     uploadAvatar,
-  } = useAvatar({ userId: user?.id, gender });
+  } = useAvatar();
 
   useEffect(() => {
     if (videoRef.current && cameraStream) {

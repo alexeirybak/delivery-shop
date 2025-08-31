@@ -4,23 +4,29 @@ import { useCallback, useEffect, useState } from "react";
 import { getAvatarByGender } from "../../utils/getAvatarByGender";
 import { useAuthStore } from "@/store/authStore";
 
-interface UseAvatarProps {
-  userId?: string;
-  gender?: string;
-}
-
-const useAvatar = ({ userId, gender = "male" }: UseAvatarProps) => {
+const useAvatar = () => {
   const [currentAvatar, setCurrentAvatar] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
-  const { fetchUserData } = useAuthStore();
+  const { user, fetchUserData } = useAuthStore();
+
+  const userId = user?.id; 
+  const userHasAvatar = user?.hasAvatar; 
+  const gender = user?.gender; 
 
   const getDisplayAvatar = useCallback(() => {
-    return currentAvatar || getAvatarByGender(gender);
+    return currentAvatar || getAvatarByGender(gender || "default");
   }, [currentAvatar, gender]);
 
   const loadAvatar = useCallback(async () => {
+    // Проверяем наличие аватара
     if (!userId) {
-      setCurrentAvatar(getAvatarByGender(gender));
+      setCurrentAvatar(getAvatarByGender(gender || "default"));
+      return;
+    }
+
+    // Если у пользователя нет аватара в БД, используем дефолтный
+    if (userHasAvatar === false) {
+      setCurrentAvatar(getAvatarByGender(gender || "default"));
       return;
     }
 
@@ -41,14 +47,16 @@ const useAvatar = ({ userId, gender = "male" }: UseAvatarProps) => {
         }
       }
 
-      setCurrentAvatar(getAvatarByGender(gender));
+      // Если аватар не найден, но в БД указано что он есть - это ошибка
+      console.warn("Аватар не найден, хотя в БД указано hasAvatar: true");
+      setCurrentAvatar(getAvatarByGender(gender || "default"));
     } catch (error) {
       console.error("Error loading avatar:", error);
-      setCurrentAvatar(getAvatarByGender(gender));
+      setCurrentAvatar(getAvatarByGender(gender || "default"));
     } finally {
       setIsLoading(false);
     }
-  }, [gender, userId]);
+  }, [gender, userId, userHasAvatar]); // Добавили userHasAvatar в зависимости
 
   useEffect(() => {
     loadAvatar();
@@ -93,8 +101,9 @@ const useAvatar = ({ userId, gender = "male" }: UseAvatarProps) => {
           throw new Error(errorData.error || "Ошибка загрузки");
         }
 
+        // Перезагружаем аватар и данные пользователя
         await loadAvatar();
-        await fetchUserData();
+        await fetchUserData(); // Это должно обновить hasAvatar в стейте
 
         return true;
       } catch (error) {

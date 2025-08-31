@@ -13,6 +13,7 @@ type UserData = {
   birthdayDate?: string;
   location?: string;
   region?: string;
+  hasAvatar?: boolean;
 } | null;
 
 type AuthState = {
