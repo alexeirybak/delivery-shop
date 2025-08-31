@@ -45,7 +45,7 @@ const LocationSection = () => {
     setIsSaving(true);
     try {
       const response = await fetch("/api/auth/location", {
-        method: "PATCH",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
