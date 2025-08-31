@@ -3,6 +3,7 @@ import SelectCity from "@/app/(auth)/(reg)/_components/SelectCity";
 import { useState, useEffect, ChangeEvent } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { buttonStyles } from "@/app/(auth)/styles";
+import { Edit } from "lucide-react";
 
 interface ProfileFormData {
   region: string;
@@ -81,14 +82,15 @@ const LocationSection = () => {
 
   return (
     <div className="mb-8">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-wrap justify-between items-center mb-4 gap-3">
         <h3 className="text-lg font-semibold text-[#414141]">Местоположение</h3>
 
         {!isEditing ? (
           <button
             onClick={() => setIsEditing(true)}
-            className={`${buttonStyles.active} px-4 py-2 rounded items-center justify-center font-medium duration-300 cursor-pointer`}
+            className={`${buttonStyles.active} px-4 py-2 rounded justify-center font-medium duration-300 cursor-pointer flex items-center`}
           >
+            <Edit className="h-4 w-4 mr-1" />
             Редактировать
           </button>
         ) : (

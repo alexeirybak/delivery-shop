@@ -46,7 +46,7 @@ const ForgotPassword = () => {
         <div className="flex flex-col items-center">
           <KeyRound className="w-12 h-12 text-(--color-primary) mb-4" />
           <h1 className="text-2xl font-bold text-center">
-            Восстановление пароля
+            Восстановление / смена пароля
           </h1>
         </div>
         <p>
