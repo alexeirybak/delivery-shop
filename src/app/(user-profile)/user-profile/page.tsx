@@ -9,7 +9,9 @@ import { useEffect, useState } from "react";
 import { Loader } from "@/components/Loader";
 import SecuritySection from "../_components/SecuritySection";
 import ProfileAvatar from "../_components/ProfileAvatar";
-import "../styles.css"
+import "../styles.css";
+import LocationSection from "../_components/LocationSection";
+import ProfileEmail from "../_components/ProfileEmail";
 
 const ProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -71,7 +73,7 @@ const ProfilePage = () => {
             <div className="p-6 md:p-8">
               <div className="flex items-center justify-center mb-6">
                 <div className="bg-primary text-white px-3 py-1 rounded-full text-sm flex items-center">
-                  {!isPhoneRegistration ? (
+                  {isPhoneRegistration ? (
                     <>
                       <Phone className="h-4 w-4 mr-1" />
                       <span>Зарегистрирован по телефону</span>
@@ -85,6 +87,8 @@ const ProfilePage = () => {
                 </div>
               </div>
               <ProfileAvatar gender={user.gender || "male"} />
+              <LocationSection />
+              <ProfileEmail />
               <SecuritySection />
             </div>
           </div>
