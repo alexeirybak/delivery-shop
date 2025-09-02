@@ -206,7 +206,7 @@ const RegisterPage = () => {
           />
         </div>
         {invalidFormMessage && (
-          <div className="text-red-500 text-center my-4 p-4 bg-red-50 rounded">
+          <div className="text-[#d80000] text-center my-4 p-4 bg-[#ffc7c7] rounded">
             {invalidFormMessage}
           </div>
         )}

@@ -134,9 +134,9 @@ const EnterLoginPage = () => {
           error={error}
           icon={
             loginType === "email" ? (
-              <MailWarning className="h-8 w-8 text-red-600" />
+              <MailWarning className="h-8 w-8 text-[#d80000]" />
             ) : (
-              <PhoneOff className="h-8 w-8 text-red-600" />
+              <PhoneOff className="h-8 w-8 text-[#d80000]" />
             )
           }
           secondaryAction={{

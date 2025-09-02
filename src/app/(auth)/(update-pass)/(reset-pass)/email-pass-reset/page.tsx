@@ -53,7 +53,7 @@ const ResetPassword = () => {
         <ErrorContent
           title="Что-то пошло не так!"
           error={error}
-          icon={<MailWarning className="h-8 w-8 text-red-600" />}
+          icon={<MailWarning className="h-8 w-8 text-[#d80000]" />}
           secondaryAction={{
             label: (
               <>

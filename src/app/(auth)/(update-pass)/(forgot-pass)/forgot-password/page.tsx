@@ -54,7 +54,7 @@ const ForgotPassword = () => {
           инструкции по сбросу пароля.
         </p>
         {error && (
-          <div className="p-5 bg-red-100 text-red-600 rounded">{error}</div>
+          <div className="p-5 bg-[#ffc7c7] text-[#d80000] rounded">{error}</div>
         )}
         <form
           onSubmit={handleSubmit}

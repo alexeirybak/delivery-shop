@@ -134,7 +134,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
               required
             />
             {error && (
-              <div className="text-red-500 text-center mt-2 text-sm">
+              <div className="text-[#d80000] text-center mt-2 text-sm">
                 {error}
               </div>
             )}

@@ -21,7 +21,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
         <h3 className="text-xl font-bold mb-4">Подтверждение удаления</h3>
 
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded text-sm">
+          <div className="mb-4 p-3 bg-[#ffc7c7] border border-red-300 text-[#d80000] rounded text-sm">
             {error}
           </div>
         )}

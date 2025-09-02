@@ -21,7 +21,7 @@ type ErrorContentProps = {
 
 export const ErrorContent = ({
   error,
-  icon = <XCircle className="h-8 w-8 text-red-600" />,
+  icon = <XCircle className="h-8 w-8 text-[#d80000]" />,
   title = "Ошибка отправки",
   primaryAction,
   secondaryAction,
@@ -29,7 +29,7 @@ export const ErrorContent = ({
   return (
     <div className="space-y-6">
       <div className="flex flex-col items-center text-center space-y-4">
-        <div className="p-3 bg-red-100 rounded-full">{icon}</div>
+        <div className="p-3 bg-[#ffc7c7] rounded-full">{icon}</div>
         <div className="space-y-2">
           <h3 className="text-2xl font-bold text-[#414141]">{title}</h3>
           {error && <p className="text-gray-600 max-w-md">{error}</p>}

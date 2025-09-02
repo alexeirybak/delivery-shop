@@ -81,7 +81,7 @@ const SecuritySection: React.FC = () => {
       <div className="border-t pt-8">
         <h2 className="text-2xl font-bold text-[#414141] mb-6">Безопасность</h2>
         {error && (
-          <div className="mb-4 p-3 bg-red-100 border border-red-300 text-[#d80000] rounded">
+          <div className="mb-4 p-3 bg-[#ffc7c7] border border-red-300 text-[#d80000] rounded">
             {error}
           </div>
         )}

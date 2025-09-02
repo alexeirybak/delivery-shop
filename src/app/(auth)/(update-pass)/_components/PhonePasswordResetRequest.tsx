@@ -65,7 +65,7 @@ export const PhonePasswordResetRequest = ({
         </p>
 
         {error && (
-          <div className="p-3 bg-red-100 text-red-700 rounded text-sm">
+          <div className="p-3 bg-[#ffc7c7] text-[#d80000] rounded text-sm">
             {error}
           </div>
         )}

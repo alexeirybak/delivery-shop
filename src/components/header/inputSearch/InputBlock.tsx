@@ -88,7 +88,7 @@ const InputBlock = ({
       {isOpen && (
         <div className="absolute -mt-0.5 left-0 right-0 z-100 max-h-[300px] overflow-y-auto bg-white rounded-b border-1 border-(--color-primary) border-t-0 shadow-inherit break-words">
           {error ? (
-            <div className="p-2 text-red-500 text-sm">
+            <div className="p-2 text-[#d80000] text-sm">
               {error}
               <button
                 onClick={() => setError(null)}

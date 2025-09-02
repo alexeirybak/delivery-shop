@@ -1,12 +1,13 @@
 import { useAuthStore } from "@/store/authStore";
 
 import { formStyles, profileStyles } from "@/app/(auth)/styles";
-import { Mail, Edit, AlertCircle } from "lucide-react";
+import { Mail, Edit } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CONFIG } from "../../../../config/config";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { SuccessChangeEmail } from "./SuccessChangeEmail";
 import { authClient } from "@/lib/auth-client";
+import AlertMessage from "./AlertMessage";
 
 const ProfileEmail = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -106,7 +107,7 @@ const ProfileEmail = () => {
   if (showSuccess) {
     return (
       <AuthFormLayout>
-        <SuccessChangeEmail email={user?.email || ""}  newEmail={email}/>
+        <SuccessChangeEmail email={user?.email || ""} newEmail={email} />
       </AuthFormLayout>
     );
   }
@@ -138,42 +139,6 @@ const ProfileEmail = () => {
         )}
       </div>
 
-      {hasNoEmail && !isEditing && (
-        <div className="flex items-center bg-amber-50 text-amber-700 px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Рекомендуем добавить email для получения уведомлений
-          </span>
-        </div>
-      )}
-
-      {isEditing && isPhoneRegistered && (
-        <div className="flex items-center bg-green-50 text-primary px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Вы можете изменить email без подтверждения, так как были
-            зарегистрированы по телефону
-          </span>
-        </div>
-      )}
-
-      {isEditing && !isPhoneRegistered && (
-        <div className="flex items-center bg-orange-50 text-[#ff6633] px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">
-            Для смены email потребуется подтверждение на прежнем и новом
-            адресах.
-          </span>
-        </div>
-      )}
-
-      {error && (
-        <div className="flex items-center bg-red-50 text-red-700 px-3 py-2 rounded-lg mb-3">
-          <AlertCircle className="h-4 w-4 mr-2" />
-          <span className="text-sm">{error}</span>
-        </div>
-      )}
-
       <div className={profileStyles.inputContainer}>
         <input
           id="email"
@@ -186,6 +151,29 @@ const ProfileEmail = () => {
         />
         <Mail className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
       </div>
+
+      {hasNoEmail && !isEditing && (
+        <AlertMessage
+          type="warning"
+          message="Рекомендуем добавить email для получения уведомлений"
+        />
+      )}
+
+      {isEditing && isPhoneRegistered && (
+        <AlertMessage
+          type="success"
+          message="Вы можете изменить email без подтверждения, так как были зарегистрированы по телефону"
+        />
+      )}
+
+      {isEditing && !isPhoneRegistered && (
+        <AlertMessage
+          type="warning"
+          message="Для смены email потребуется подтверждение на прежнем и новом адресах."
+        />
+      )}
+
+      {error && <AlertMessage type="error" message={error} />}
     </div>
   );
 };

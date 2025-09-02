@@ -77,7 +77,7 @@ export default function VerifyEmailPage() {
       ) : error ? (
         <ErrorContent
           error={error}
-          icon={<MailWarning className="h-8 w-8 text-red-600" />}
+          icon={<MailWarning className="h-8 w-8 text-[#d80000]" />}
           primaryAction={{ label: "Войти", onClick: handleToLogin }}
           secondaryAction={{
             label: "Попробовать снова",

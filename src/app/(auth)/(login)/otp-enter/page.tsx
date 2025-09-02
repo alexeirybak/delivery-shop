@@ -78,7 +78,7 @@ const OTPLoginPage = () => {
       <AuthFormLayout>
         <ErrorContent
           error={error}
-          icon={<PhoneOff className="h-8 w-8 text-red-600" />}
+          icon={<PhoneOff className="h-8 w-8 text-[#d80000]" />}
           primaryAction={{
             label: "Попробовать снова",
             onClick: handleRetry,
