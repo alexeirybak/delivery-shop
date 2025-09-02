@@ -12,7 +12,7 @@ import ProfileAvatar from "../_components/ProfileAvatar";
 import "../styles.css";
 import LocationSection from "../_components/LocationSection";
 import ProfileEmail from "../_components/ProfileEmail";
-import ProfilePhone from "../_components/PhoneChange/ProfilePhone";
+import ProfilePhone from "../_components/PhoneChange/ProfilePhoneSettings";
 
 const ProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();

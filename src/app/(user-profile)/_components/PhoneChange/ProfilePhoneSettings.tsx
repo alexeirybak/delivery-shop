@@ -17,12 +17,13 @@ const ProfilePhone = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [isSendingOTP, setIsSendingOTP] = useState(false);
-  const [verificationStep, setVerificationStep] = useState<"edit" | "verify">("edit");
+  const [verificationStep, setVerificationStep] = useState<"edit" | "verify">(
+    "edit"
+  );
   const [code, setCode] = useState("");
   const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
   const [timeLeft, setTimeLeft] = useState(TIMEOUT_PERIOD);
   const [canResend, setCanResend] = useState(false);
-  
   const { user, fetchUserData } = useAuthStore();
   const isPhoneRegistered = user?.phoneNumberVerified === true;
   const currentPhone = user?.phoneNumber || "";
@@ -43,9 +44,9 @@ const ProfilePhone = () => {
 
   useEffect(() => {
     if (user) {
-      setNewPhoneNumber(user.phoneNumber || "");
+      setNewPhoneNumber(currentPhone);
     }
-  }, [user]);
+  }, [currentPhone, user]);
 
   const handleCancel = () => {
     setNewPhoneNumber(currentPhone);
@@ -59,31 +60,6 @@ const ProfilePhone = () => {
   const handlePhoneChange = (value: string) => {
     setNewPhoneNumber(value);
     setError("");
-  };
-
-  const handleSave = async () => {
-    if (!user) return;
-
-    if (newPhoneNumber === currentPhone) {
-      setError("Новый номер телефона совпадает с текущим");
-      return;
-    }
-
-    setIsSaving(true);
-    setError("");
-
-    try {
-      if (!isPhoneRegistered) {
-        await updatePhoneDirectly();
-      } else {
-        await sendVerificationCode();
-      }
-    } catch (error) {
-      console.error("Ошибка:", error);
-      setError("Произошла неизвестная ошибка");
-    } finally {
-      setIsSaving(false);
-    }
   };
 
   const updatePhoneDirectly = async () => {
@@ -108,18 +84,42 @@ const ProfilePhone = () => {
     setIsEditing(false);
   };
 
-  const sendVerificationCode = async () => {
-    if (!currentPhone) {
-      setError("Нет текущего номера телефона для подтверждения");
-      return false;
+  const handleSave = async () => {
+    if (!user) return;
+
+    if (newPhoneNumber === currentPhone) {
+      setError("Новый номер телефона совпадает с текущим");
+      return;
     }
 
+    setIsSaving(true);
+    setError("");
+
+    try {
+      if (!isPhoneRegistered) {
+        await updatePhoneDirectly();
+      } else {
+        // Для подтвержденных - отправляем код на новый номер
+        await sendVerificationCode();
+      }
+    } catch (error) {
+      console.error("Ошибка:", error);
+      setError(
+        error instanceof Error ? error.message : "Произошла неизвестная ошибка"
+      );
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const sendVerificationCode = async () => {
     setIsSendingOTP(true);
     setError("");
 
     try {
+      // ПРАВИЛЬНО: отправляем код на СТАРЫЙ номер (текущий владелец)
       await authClient.phoneNumber.sendOtp(
-        { phoneNumber: currentPhone },
+        { phoneNumber: currentPhone }, // ← currentPhone, а не newPhoneNumber
         {
           onSuccess: () => {
             setIsSendingOTP(false);
@@ -146,41 +146,41 @@ const ProfilePhone = () => {
     setIsSaving(true);
 
     try {
+      // Проверяем код, отправленный на СТАРЫЙ номер
       const { error: verifyError } = await authClient.phoneNumber.verify({
-        phoneNumber: currentPhone,
+        phoneNumber: currentPhone, // ← Проверяем код для старого номера
         code,
         disableSession: false,
       });
 
       if (verifyError) throw verifyError;
 
-      await updatePhoneAfterVerification();
+      // Только после успешной проверки кода на старом номере - обновляем телефон
+      // Здесь нужно использовать СВОЙ API endpoint для безопасности
+      const response = await fetch("/api/auth/update-phone", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          phoneNumber: newPhoneNumber,
+          userId: user?.id,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка при обновлении номера");
+      }
+
+      await fetchUserData();
+      alert("Номер телефона успешно обновлен!");
+      setIsEditing(false);
+      setVerificationStep("edit");
+      setCode("");
+      setAttemptsLeft(MAX_ATTEMPTS);
     } catch (error) {
       handleVerificationError(error);
     } finally {
       setIsSaving(false);
     }
-  };
-
-  const updatePhoneAfterVerification = async () => {
-    const response = await fetch("/api/auth/update-phone", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ phoneNumber: newPhoneNumber, userId: user?.id }),
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error || "Ошибка при обновлении номера");
-    }
-
-    await fetchUserData();
-    alert("Номер телефона успешно обновлен!");
-    setIsEditing(false);
-    setVerificationStep("edit");
-    setCode("");
-    setAttemptsLeft(MAX_ATTEMPTS);
   };
 
   const handleVerificationError = (error: unknown) => {
@@ -228,7 +228,6 @@ const ProfilePhone = () => {
       <PhoneInput
         value={newPhoneNumber}
         onChange={handlePhoneChange}
-        placeholder="Введите новый номер телефона"
         disabled={!isEditing || verificationStep === "verify"}
       />
 
@@ -246,12 +245,7 @@ const ProfilePhone = () => {
         />
       )}
 
-      {error && (
-        <AlertMessage
-          type="error"
-          message={error}
-        />
-      )}
+      {error && <AlertMessage type="error" message={error} />}
 
       {verificationStep === "verify" && (
         <PhoneVerifyView
