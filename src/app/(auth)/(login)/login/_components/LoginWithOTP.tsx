@@ -11,16 +11,14 @@ import { useEffect, useState } from "react";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
 import OTPResendCode from "@/app/(auth)/_components/OTPResendButton";
-
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_PERIOD = 180;
+import { CONFIG } from "../../../../../../config/config";
 
 const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
-  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const [attemptsLeft, setAttemptsLeft] = useState(CONFIG.MAX_ATTEMPTS);
+  const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
   const router = useRouter();
   const { login } = useAuthStore();
 
@@ -44,7 +42,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
 
       if (verifyError) throw verifyError;
 
-      setAttemptsLeft(MAX_ATTEMPTS);
+      setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
 
       const response = await fetch("/api/auth/check-phone", {
         method: "POST",
@@ -87,7 +85,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
           onSuccess: () => {
             startTimer();
             setError("");
-            setAttemptsLeft(MAX_ATTEMPTS);
+            setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
           },
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");
