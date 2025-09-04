@@ -40,7 +40,7 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 px-4 py-2 bg-[#d80000] text-white rounded hover:bg-red-700 duration-300 cursor-pointer"
+            className="flex-1 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-12 rounded font-medium duration-300 text-center cursor-pointer"
           >
             Удалить
           </button>

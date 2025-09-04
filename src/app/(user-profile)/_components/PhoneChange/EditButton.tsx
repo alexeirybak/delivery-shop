@@ -1,11 +1,11 @@
 import { Edit } from "lucide-react";
 import { profileStyles } from "@/app/(auth)/styles";
 
-interface PhoneDisplayViewProps {
+interface EditButtonProps {
   onEdit: () => void;
 }
 
-const PhoneDisplayView = ({ onEdit }: PhoneDisplayViewProps) => {
+const EditButton = ({ onEdit }: EditButtonProps) => {
   return (
     <button onClick={onEdit} className={profileStyles.editButton}>
       <Edit className="h-4 w-4 mr-1" />
@@ -14,4 +14,4 @@ const PhoneDisplayView = ({ onEdit }: PhoneDisplayViewProps) => {
   );
 };
 
-export default PhoneDisplayView;
+export default EditButton;

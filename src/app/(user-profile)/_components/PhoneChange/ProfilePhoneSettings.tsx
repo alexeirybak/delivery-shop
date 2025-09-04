@@ -3,13 +3,12 @@ import { useAuthStore } from "@/store/authStore";
 import { profileStyles } from "@/app/(auth)/styles";
 import PhoneEditView from "./PhoneEditView";
 import PhoneVerifyView from "./PhoneVerifyView";
-import PhoneDisplayView from "./PhoneDisplayView";
 import AlertMessage from "../AlertMessage";
 import PhoneInput from "./PhoneInput";
 import { authClient } from "@/lib/auth-client";
-
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_PERIOD = 180;
+import EditButton from "./EditButton";
+import useTimer from "@/hooks/useTimer"; 
+import { CONFIG } from "../../../../../config/config";
 
 const ProfilePhone = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -17,30 +16,15 @@ const ProfilePhone = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [isSendingOTP, setIsSendingOTP] = useState(false);
-  const [verificationStep, setVerificationStep] = useState<"edit" | "verify">(
-    "edit"
-  );
+  const [verificationStep, setVerificationStep] = useState<"edit" | "verify">("edit");
   const [code, setCode] = useState("");
-  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
-  const [timeLeft, setTimeLeft] = useState(TIMEOUT_PERIOD);
-  const [canResend, setCanResend] = useState(false);
+  const [attemptsLeft, setAttemptsLeft] = useState(CONFIG.MAX_ATTEMPTS);
   const { user, fetchUserData } = useAuthStore();
   const isPhoneRegistered = user?.phoneNumberVerified === true;
   const currentPhone = user?.phoneNumber || "";
 
-  useEffect(() => {
-    if (timeLeft > 0) {
-      const timer = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
-      return () => clearTimeout(timer);
-    } else {
-      setCanResend(true);
-    }
-  }, [timeLeft]);
 
-  const startTimer = () => {
-    setTimeLeft(TIMEOUT_PERIOD);
-    setCanResend(false);
-  };
+  const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
 
   useEffect(() => {
     if (user) {
@@ -54,7 +38,7 @@ const ProfilePhone = () => {
     setVerificationStep("edit");
     setError("");
     setCode("");
-    setAttemptsLeft(MAX_ATTEMPTS);
+    setAttemptsLeft(CONFIG.MAX_ATTEMPTS); 
   };
 
   const handlePhoneChange = (value: string) => {
@@ -99,7 +83,6 @@ const ProfilePhone = () => {
       if (!isPhoneRegistered) {
         await updatePhoneDirectly();
       } else {
-        // Для подтвержденных - отправляем код на новый номер
         await sendVerificationCode();
       }
     } catch (error) {
@@ -117,14 +100,13 @@ const ProfilePhone = () => {
     setError("");
 
     try {
-      // ПРАВИЛЬНО: отправляем код на СТАРЫЙ номер (текущий владелец)
       await authClient.phoneNumber.sendOtp(
-        { phoneNumber: currentPhone }, // ← currentPhone, а не newPhoneNumber
+        { phoneNumber: currentPhone },
         {
           onSuccess: () => {
             setIsSendingOTP(false);
             setVerificationStep("verify");
-            startTimer();
+            startTimer(); 
           },
           onError: (ctx) => {
             setIsSendingOTP(false);
@@ -146,36 +128,18 @@ const ProfilePhone = () => {
     setIsSaving(true);
 
     try {
-      // Проверяем код, отправленный на СТАРЫЙ номер
       const { error: verifyError } = await authClient.phoneNumber.verify({
-        phoneNumber: currentPhone, // ← Проверяем код для старого номера
+        phoneNumber: currentPhone,
         code,
         disableSession: false,
       });
 
       if (verifyError) throw verifyError;
 
-      // Только после успешной проверки кода на старом номере - обновляем телефон
-      // Здесь нужно использовать СВОЙ API endpoint для безопасности
-      const response = await fetch("/api/auth/update-phone", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          phoneNumber: newPhoneNumber,
-          userId: user?.id,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Ошибка при обновлении номера");
-      }
-
-      await fetchUserData();
-      alert("Номер телефона успешно обновлен!");
-      setIsEditing(false);
+      updatePhoneDirectly();
       setVerificationStep("edit");
       setCode("");
-      setAttemptsLeft(MAX_ATTEMPTS);
+      setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
     } catch (error) {
       handleVerificationError(error);
     } finally {
@@ -207,7 +171,7 @@ const ProfilePhone = () => {
         <h3 className={profileStyles.sectionTitle}>Телефон</h3>
 
         {verificationStep === "edit" && !isEditing ? (
-          <PhoneDisplayView onEdit={() => setIsEditing(true)} />
+          <EditButton onEdit={() => setIsEditing(true)} />
         ) : verificationStep === "edit" && isEditing ? (
           <PhoneEditView
             onCancel={handleCancel}

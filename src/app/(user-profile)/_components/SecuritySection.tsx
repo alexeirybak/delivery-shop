@@ -5,10 +5,8 @@ import { buttonStyles } from "@/app/(auth)/styles";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteAccountModal from "./DeleteAccountModal";
-import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
 
 const SecuritySection: React.FC = () => {
-  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const { user, logout } = useAuthStore();
@@ -31,35 +29,41 @@ const SecuritySection: React.FC = () => {
   const handleDeleteAccount = async () => {
     if (!user) return;
 
-    try {
-      setIsLoading(true);
-      setError(null);
-
-      const response = await fetch("/api/auth/delete-account", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user.id }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || "Не удалось удалить аккаунт");
-      }
-
-      logout(); // Это очистит Zustand store
-      router.replace("/goodbye"); // Редирект на страницу прощания
-    } catch (error) {
-      console.error("Ошибка при удалении аккаунта:", error);
-      setError(
-        error instanceof Error
-          ? error.message
-          : "Не удалось удалить аккаунт. Попробуйте позже."
-      );
-    } finally {
-      setIsLoading(false);
-      setShowDeleteConfirm(false);
+    if (user.phoneNumberVerified === true) {
+      router.push("/verify-delete-phone");
+    } else {
+      router.push("/verify-delete-email");
     }
+
+    // try {
+    //   setIsLoading(true);
+    //   setError(null);
+
+    //   const response = await fetch("/api/auth/delete-account", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ userId: user.id }),
+    //   });
+
+    //   const data = await response.json();
+
+    //   if (!response.ok) {
+    //     throw new Error(data.message || "Не удалось удалить аккаунт");
+    //   }
+
+    //   logout(); // Это очистит Zustand store
+    //   router.replace("/goodbye"); // Редирект на страницу прощания
+    // } catch (error) {
+    //   console.error("Ошибка при удалении аккаунта:", error);
+    //   setError(
+    //     error instanceof Error
+    //       ? error.message
+    //       : "Не удалось удалить аккаунт. Попробуйте позже."
+    //   );
+    // } finally {
+    //   setIsLoading(false);
+    //   setShowDeleteConfirm(false);
+    // }
   };
 
   const handleOpenDeleteModal = () => {
@@ -71,10 +75,6 @@ const SecuritySection: React.FC = () => {
     setError(null);
     setShowDeleteConfirm(false);
   };
-
-  if (isLoading) {
-    return <LoadingContent title="Аккаунт удаляется " />;
-  }
 
   return (
     <>

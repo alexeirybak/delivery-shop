@@ -15,7 +15,6 @@ const PhoneInput = ({
   disabled = false,
 }: PhoneInputProps) => {
   
-  // Преобразуем чистый номер в формат для маски
   const maskedValue = useMemo(() => {
     if (!value) return "";
     
@@ -24,7 +23,6 @@ const PhoneInput = ({
       cleanPhone = '7' + cleanPhone.slice(1);
     }
     
-    // Форматируем для маски: +7 (999) 123-45-67
     let formatted = "+7";
     if (cleanPhone.length > 1) {
       formatted += ` (${cleanPhone.slice(1, 4)}`;

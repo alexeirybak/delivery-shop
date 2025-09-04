@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     const db = await getDB();
     const { userId } = await request.json();
 
-    // Преобразуем userId в ObjectId
     const userObjectId = ObjectId.createFromHexString(userId);
 
     const deleteResult = await db.collection("user").deleteOne({

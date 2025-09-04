@@ -25,7 +25,7 @@ const PasswordResetEmail = (props: ResetPasswordProps) => {
           <Container className="bg-white rounded-md p-6 max-w-145 mx-auto">
             <Section>
               <Text className="text-xl font-bold text-gray-900 mb-4 mt-0">
-                Восстановление пароля
+                Восстановление / смена пароля
               </Text>
 
               <Text className="text-base text-gray-700 mb-4 mt-0 leading-5">
