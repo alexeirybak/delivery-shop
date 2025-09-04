@@ -215,7 +215,7 @@ const VerifyDeletePhonePage = () => {
         </p>
 
         <p className="text-center">
-          Введите код из SMS, отправленный на номер {phoneNumber}
+          Введите код из SMS, отправленный на номер +{phoneNumber}
         </p>
 
         {error && (
