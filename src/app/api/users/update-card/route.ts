@@ -15,14 +15,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Валидация номера карты
-    if (!/^\d{16}$/.test(cardNumber)) {
-      return NextResponse.json(
-        { error: "Номер карты должен содержать 16 цифр" },
-        { status: 400 }
-      );
-    }
-
     // Конвертируем userId в ObjectId
     let objectId;
     try {
