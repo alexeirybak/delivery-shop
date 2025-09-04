@@ -106,7 +106,7 @@ const ProfileCard = () => {
   return (
     <div className="mb-8">
       <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
-        <h3 className={profileStyles.sectionTitle}>Карта лояльности</h3>
+        <h3 className={profileStyles.sectionTitle}>Карта</h3>
 
         {!isEditing ? (
           <button

@@ -8,6 +8,7 @@ import { Resend } from "resend";
 import { CONFIG } from "../../config/config";
 import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChangeVerification";
 import DeleteVerify from "@/app/(user-profile)/_components/DeleteVerify";
+import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
@@ -119,6 +120,9 @@ export const auth = betterAuth({
           subject: "Подтвердите email",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),
         });
+      },
+      afterDelete: async (user) => {
+        await deleteUserAvatarFromGridFS(user.id);
       },
     },
     additionalFields: {

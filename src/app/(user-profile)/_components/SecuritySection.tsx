@@ -85,7 +85,7 @@ const SecuritySection: React.FC = () => {
             {error}
           </div>
         )}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <button
             onClick={logoutFromProfile}
             className={`${buttonStyles.active} flex flex-1 items-center justify-center h-12 bg-[#f3f2f1] text-[#606060] px-4 py-2 rounded font-medium hover:shadow-button-cancel active:shadow-button-cancel-active duration-300 cursor-pointer`}
