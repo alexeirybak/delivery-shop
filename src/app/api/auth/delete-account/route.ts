@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../utils/api-routes";
-import { GridFSBucket, ObjectId, Db } from "mongodb";
+import { deleteUserAvatarFromGridFS } from "../../../../../utils/deleteUserAvatar";
 
 export async function POST(request: NextRequest) {
   try {
@@ -37,7 +38,8 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. ПОСЛЕ успешного удаления пользователя удаляем аватар
-    await deleteUserAvatarFromGridFS(db, userObjectId);
+    // Используем вашу готовую утилиту
+    await deleteUserAvatarFromGridFS(userId);
 
     return NextResponse.json(
       { message: "Аккаунт успешно удален" },
@@ -52,25 +54,5 @@ export async function POST(request: NextRequest) {
       },
       { status: 500 }
     );
-  }
-}
-
-// Функция для удаления аватара из GridFS с правильной типизацией
-async function deleteUserAvatarFromGridFS(db: Db, userId: ObjectId): Promise<void> {
-  try {
-    const bucket = new GridFSBucket(db, { bucketName: "avatars" });
-
-    // Ищем файл аватара пользователя
-    const avatarFile = await db.collection("avatars.files").findOne({
-      "metadata.userId": userId,
-    });
-
-    if (avatarFile) {
-      // Удаляем файл из GridFS (удаляет и chunks и files)
-      await bucket.delete(avatarFile._id);
-      console.log(`Аватар пользователя ${userId} удален`);
-    }
-  } catch (error) {
-    console.error("Ошибка при удалении аватара:", error);
   }
 }

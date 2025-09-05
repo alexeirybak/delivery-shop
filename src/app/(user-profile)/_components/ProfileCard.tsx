@@ -3,6 +3,7 @@ import { formStyles, profileStyles } from "@/app/(auth)/styles";
 import { CreditCard, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { InputMask } from "@react-input/mask";
+import { cleanCardNumber, isValidCardNumber, formatCardNumber } from "../../../../utils/validation/validateProfileCard";
 
 const ProfileCard = () => {
   const { user, fetchUserData } = useAuthStore();
@@ -30,14 +31,14 @@ const ProfileCard = () => {
   };
 
   const handleSave = async () => {
-    const cleanedCardNumber = cardNumber.replace(/\s/g, "");
+    const cleanedCardNumber = cleanCardNumber(cardNumber);
     
     if (!cleanedCardNumber.trim()) {
       setError("Номер карты не может быть пустым");
       return;
     }
 
-    if (!/^\d{16}$/.test(cleanedCardNumber)) {
+    if (!isValidCardNumber(cleanedCardNumber)) {
       setError("Номер карты должен содержать 16 цифр");
       return;
     }
@@ -77,31 +78,12 @@ const ProfileCard = () => {
     if (!isEditing) return;
     
     const value = e.target.value;
-    // Очищаем от пробелов и ограничиваем 16 цифрами
-    const cleanValue = value.replace(/\D/g, "").slice(0, 16);
+    // Очищаем и ограничиваем 16 цифрами
+    const cleanValue = cleanCardNumber(value).slice(0, 16);
     setCardNumber(cleanValue);
   };
 
-  // Форматируем значение для отображения
-  const getDisplayValue = () => {
-    if (!cardNumber) return "";
-    
-    const cleanValue = cardNumber.replace(/\D/g, "");
-    
-    if (!isEditing) {
-      // В режиме просмотра показываем только последние 4 цифры
-      if (cleanValue.length <= 4) return cleanValue;
-      return `**** **** **** ${cleanValue.slice(-4)}`;
-    }
-    
-    // В режиме редактирования форматируем с пробелами
-    if (cleanValue.length <= 4) return cleanValue;
-    if (cleanValue.length <= 8) return `${cleanValue.slice(0, 4)} ${cleanValue.slice(4)}`;
-    if (cleanValue.length <= 12) return `${cleanValue.slice(0, 4)} ${cleanValue.slice(4, 8)} ${cleanValue.slice(8)}`;
-    return `${cleanValue.slice(0, 4)} ${cleanValue.slice(4, 8)} ${cleanValue.slice(8, 12)} ${cleanValue.slice(12)}`;
-  };
-
-  const displayValue = getDisplayValue();
+  const displayValue = formatCardNumber(cardNumber, isEditing);
 
   return (
     <div className="mb-8">
