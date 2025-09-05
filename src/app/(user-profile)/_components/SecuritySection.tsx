@@ -34,36 +34,6 @@ const SecuritySection: React.FC = () => {
     } else {
       router.push("/verify-delete-email");
     }
-
-    // try {
-    //   setIsLoading(true);
-    //   setError(null);
-
-    //   const response = await fetch("/api/auth/delete-account", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ userId: user.id }),
-    //   });
-
-    //   const data = await response.json();
-
-    //   if (!response.ok) {
-    //     throw new Error(data.message || "Не удалось удалить аккаунт");
-    //   }
-
-    //   logout(); // Это очистит Zustand store
-    //   router.replace("/goodbye"); // Редирект на страницу прощания
-    // } catch (error) {
-    //   console.error("Ошибка при удалении аккаунта:", error);
-    //   setError(
-    //     error instanceof Error
-    //       ? error.message
-    //       : "Не удалось удалить аккаунт. Попробуйте позже."
-    //   );
-    // } finally {
-    //   setIsLoading(false);
-    //   setShowDeleteConfirm(false);
-    // }
   };
 
   const handleOpenDeleteModal = () => {
