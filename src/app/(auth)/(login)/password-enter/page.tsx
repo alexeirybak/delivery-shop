@@ -105,8 +105,6 @@ const EnterPasswordContent = () => {
             },
           }
         );
-
-        //router.replace("/");
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);

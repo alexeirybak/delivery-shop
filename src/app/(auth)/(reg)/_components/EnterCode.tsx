@@ -9,10 +9,8 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import useTimer from "@/hooks/useTimer";
 import OTPResendCode from "../../_components/OTPResendButton";
-import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "./LoadingContent";
 import { CONFIG } from "../../../../../config/config";
-
 
 export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
@@ -105,11 +103,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   };
 
   if (isLoading) {
-    return (
-      <AuthFormLayout>
-        <LoadingContent title={"Проверяем код..."} />
-      </AuthFormLayout>
-    );
+    return <LoadingContent title={"Проверяем код..."} />;
   }
 
   return (

@@ -13,6 +13,8 @@ import "../styles.css";
 import LocationSection from "../_components/LocationSection";
 import ProfileEmail from "../_components/ProfileEmail";
 import ProfilePhoneSettings from "../_components/ProfilePhone/ProfilePhoneSettings";
+import ProfilePassword from "../_components/ProfilePassword";
+import ProfileCard from "../_components/ProfileCard";
 
 const ProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();
@@ -89,7 +91,11 @@ const ProfilePage = () => {
           <LocationSection />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <ProfileEmail />
-            <ProfilePhoneSettings/>
+            <ProfilePhoneSettings />
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ProfilePassword />
+            <ProfileCard />
           </div>
           <SecuritySection />
         </div>

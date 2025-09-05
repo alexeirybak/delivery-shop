@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { getAvatarByGender } from "../../../utils/getAvatarByGender";
+import { checkAvatarExists } from "../../../utils/avatarUtils";
 
 const Profile = () => {
   const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
@@ -23,12 +24,30 @@ const Profile = () => {
   }, [user]);
 
   useEffect(() => {
-    if (user?.id) {
-      setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
-    } else if (user?.gender) {
-      setAvatarSrc(getAvatarByGender(user.gender));
-    }
+    const checkAvatar = async () => {
+      if (user?.id) {
+        try {
+          const exists = await checkAvatarExists(user.id);
+
+          if (exists) {
+            setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
+          } else {
+            setAvatarSrc(getAvatarByGender(user.gender));
+          }
+        } catch {
+          setAvatarSrc(getAvatarByGender(user.gender));
+        }
+      } else if (user?.gender) {
+        setAvatarSrc(getAvatarByGender(user.gender));
+      }
+    };
+
+    checkAvatar();
   }, [user, lastUpdate]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   useEffect(() => {
     checkAuth();

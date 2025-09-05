@@ -3,8 +3,8 @@ import { getDB } from "../../../../../../utils/api-routes";
 import { GridFSBucket, ObjectId } from "mongodb";
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
+  request: NextRequest, 
+  { params }: { params: Promise<{ userId: string }> } 
 ) {
   try {
     const { userId } = await params;
@@ -15,7 +15,7 @@ export async function GET(
     if (!userId) {
       return NextResponse.json(
         { error: "User ID не предоставлен" },
-        { status: 400 }
+        { status: 400 } 
       );
     }
 
@@ -25,51 +25,49 @@ export async function GET(
     } catch {
       return NextResponse.json(
         { error: "Неверный формат User ID" },
-        { status: 400 }
+        { status: 400 } 
       );
     }
 
     const fileExists = await db.collection("avatars.files").findOne({
-      "metadata.userId": userIdObjectId,
+      "metadata.userId": userIdObjectId, 
     });
 
     if (!fileExists) {
-      return NextResponse.json(
-        { exists: false, message: "Аватар не найден" },
-        { status: 200 }
-      );
+      return NextResponse.json({ error: "Аватар не найден" }, { status: 404 });
     }
 
     const downloadStream = bucket.openDownloadStream(fileExists._id);
 
     const chunks: Buffer[] = [];
     for await (const chunk of downloadStream) {
-      chunks.push(chunk);
+      chunks.push(chunk); 
     }
 
+    // Проверка, что файл не пустой
     if (chunks.length === 0) {
       return NextResponse.json(
-        { exists: false, message: "Файл аватара пустой" },
-        { status: 200 }
+        { error: "Файл аватара пустой" },
+        { status: 404 }
       );
     }
 
     const buffer = Buffer.concat(chunks);
 
     return new NextResponse(buffer, {
-      status: 200,
+      status: 200, 
       headers: {
-        "Content-Type": fileExists.contentType || "image/jpeg",
-        "Content-Length": buffer.length.toString(),
-        "Cache-Control": "no-cache, no-store, must-revalidate",
-        Pragma: "no-cache",
-        Expires: "0",
+        "Content-Type": fileExists.contentType || "image/jpeg", 
+        "Content-Length": buffer.length.toString(), 
+        "Cache-Control": "no-cache, no-store, must-revalidate", 
+        Pragma: "no-cache", 
+        Expires: "0", 
       },
     });
   } catch {
     return NextResponse.json(
       { error: "Ошибка получения аватара" },
-      { status: 500 }
+      { status: 500 } 
     );
   }
 }

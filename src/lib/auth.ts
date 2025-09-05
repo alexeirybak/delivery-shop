@@ -7,6 +7,8 @@ import { MongoClient } from "mongodb";
 import { Resend } from "resend";
 import { CONFIG } from "../../config/config";
 import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChangeVerification";
+import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
+import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
@@ -103,6 +105,26 @@ export const auth = betterAuth({
         });
       },
     },
+    deleteUser: {
+      enabled: true,
+      sendDeleteAccountVerification: async ({
+        user,
+        url,
+      }: {
+        user: { email: string; name: string };
+        url: string;
+      }) => {
+        await resend.emails.send({
+          from: "Северяночка <onboarding@resend.dev>",
+          to: user.email,
+          subject: "Удаление аккаунта",
+          react: DeleteVerify({ username: user.name, verifyUrl: url }),
+        });
+      },
+      afterDelete: async (user) => {
+        await deleteUserAvatarFromGridFS(user.id);
+      },
+    },
     additionalFields: {
       phoneNumber: { type: "string", input: true, required: true },
       surname: { type: "string", input: true, required: true },
@@ -157,7 +179,7 @@ export const auth = betterAuth({
 //     `,
 //     text: `Подтвердите Ваш email\n\nСпасибо, ${user.name}, за регистрацию!\n\nДля подтверждения перейдите по ссылке: ${url}`,
 //   });
-  
+
 //   console.log("Email отправлен через MailDev. Preview: http://localhost:1080");
 // }
 
@@ -183,7 +205,7 @@ export const auth = betterAuth({
 //     `,
 //     text: `Сброс пароля\n\nЗдравствуйте, ${user.name}!\n\nДля сброса пароля перейдите по ссылке: ${url}`,
 //   });
-  
+
 //   console.log("Email сброса пароля отправлен через MailDev. Preview: http://localhost:1080");
 // }
 
@@ -210,7 +232,7 @@ export const auth = betterAuth({
 //     `,
 //     text: `Подтверждение смены email\n\nЗдравствуйте, ${user.name}!\n\nВы запросили смену email с ${user.email} на ${newEmail}.\n\nДля подтверждения перейдите по ссылке: ${url}`,
 //   });
-  
+
 //   console.log("Email смены email отправлен через MailDev. Preview: http://localhost:1080");
 // }
 
