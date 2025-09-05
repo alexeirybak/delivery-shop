@@ -4,11 +4,13 @@ import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { useAuthStore } from "@/store/authStore";
 import { AuthFormLayout } from "../_components/AuthFormLayout";
-import { Loader2, Trash2, Mail, Check } from "lucide-react";
+import { Loader2, Trash2, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useTimer from "@/hooks/useTimer";
 import { CONFIG } from "../../../../config/config";
 import { formStyles } from "@/app/(auth)/styles";
+import { deleteUserAccount } from "../../../../utils/deleteUserAccount";
+import { DeleteAccountInitialStep } from "@/app/(user-profile)/_components/DeleteAccountInitialStep";
 
 const VerifyDeletePhonePage = () => {
   const [loading, setLoading] = useState(false);
@@ -19,13 +21,13 @@ const VerifyDeletePhonePage = () => {
   const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
   const { user, logout } = useAuthStore();
   const router = useRouter();
-  
+
   const phoneNumber = user?.phoneNumber;
   const userId = user?.id;
 
   const handleSendCode = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!canResend) {
       setError(`Подождите ${timeLeft} секунд перед повторной отправкой`);
       return;
@@ -62,28 +64,6 @@ const VerifyDeletePhonePage = () => {
     }
   };
 
-  const deleteUserAccount = async (userId: string) => {
-    try {
-      const response = await fetch("/api/auth/delete-account", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ userId }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Ошибка при удалении аккаунта");
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error("Ошибка при удалении аккаунта:", error);
-      throw error;
-    }
-  };
-
   const handleVerifyCode = async (e: React.FormEvent) => {
     e.preventDefault();
     if (code.length !== 4 || !userId || !phoneNumber) return;
@@ -102,16 +82,13 @@ const VerifyDeletePhonePage = () => {
         throw new Error("Неверный код подтверждения");
       }
 
-      // Код верный, удаляем аккаунт
       await deleteUserAccount(userId);
       await logout();
       router.push("/goodbye");
-
     } catch (error) {
       console.error("Ошибка верификации:", error);
       setError("Ошибка при удалении аккаунта");
-      
-      // При ошибке сбрасываем форму для полного перезапуска процесса
+
       setTimeout(() => {
         setCodeSent(false);
         setCode("");
@@ -153,52 +130,13 @@ const VerifyDeletePhonePage = () => {
 
   if (!codeSent) {
     return (
-      <AuthFormLayout>
-        <div className="flex flex-col gap-y-8">
-          <div className="flex flex-col items-center">
-            <Trash2 className="w-12 h-12 text-red-500 mb-4" />
-            <h1 className="text-2xl font-bold text-center">Удаление аккаунта</h1>
-          </div>
-          <p className="text-center text-red-600 font-medium">
-            Внимание! Это действие необратимо. Все Ваши данные будут удалены без возможности восстановления.
-          </p>
-          
-          <p className="text-center">
-            Для подтверждения удаления аккаунта мы отправим SMS с кодом
-            на телефон, по которому Вы регистрировались.
-          </p>
-
-          {error && (
-            <div className="p-3 bg-[#ffc7c7] text-[#d80000] text-center rounded">{error}</div>
-          )}
-
-          <form
-            onSubmit={handleSendCode}
-            className="mx-auto flex flex-col justify-center"
-            autoComplete="off"
-          >
-            <button
-              type="submit"
-              disabled={loading || !canResend}
-              className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-10 rounded font-medium duration-300 text-center cursor-pointer disabled:bg-[#fcd5ba]"
-            >
-              {loading ? (
-                <>
-                  <Loader2 className="animate-spin w-4 h-4" />
-                  Отправка...
-                </>
-              ) : !canResend ? (
-                `Ждите ${timeLeft} сек`
-              ) : (
-                <>
-                  <Mail className="w-4 h-4 flex-shrink-0" />
-                  Получить код подтверждения
-                </>
-              )}
-            </button>
-          </form>
-        </div>
-      </AuthFormLayout>
+      <DeleteAccountInitialStep
+        loading={loading}
+        error={error}
+        canResend={canResend}
+        timeLeft={timeLeft}
+        onSendCode={handleSendCode}
+      />
     );
   }
 
@@ -207,9 +145,11 @@ const VerifyDeletePhonePage = () => {
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col items-center">
           <Trash2 className="w-12 h-12 text-red-500 mb-4" />
-          <h1 className="text-2xl font-bold text-center">Последнее подтверждение</h1>
+          <h1 className="text-2xl font-bold text-center">
+            Последнее подтверждение
+          </h1>
         </div>
-        
+
         <p className="text-center text-red-600 font-medium">
           Вы собираетесь безвозвратно удалить свой аккаунт и все данные!
         </p>
@@ -219,7 +159,9 @@ const VerifyDeletePhonePage = () => {
         </p>
 
         {error && (
-          <div className="p-3 bg-[#ffc7c7] text-[#d80000] rounded text-center">{error}</div>
+          <div className="p-3 bg-[#ffc7c7] text-[#d80000] rounded text-center">
+            {error}
+          </div>
         )}
 
         <div className="flex flex-col gap-3 items-center">
