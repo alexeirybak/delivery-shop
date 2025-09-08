@@ -6,16 +6,11 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <footer className="bg-[#f9f4e2] mt-10 md:mt-15 xl:mt-20 bg-[url('/images/graphics/pattern-footer.png')] px-[max(12px,calc((100%-1208px)/2))] w-full">
-      <div className="px-7 py-10 grid-container gap-6 text-main-text md:gap-x-10 items-center">
+      <div className="px-7 py-10 grid-container gap-6 text-[#414141] md:gap-x-10 items-center">
         {/* Логотип со ссылкой на главную */}
         <div className="logo">
           <Link href="/" className="relative w-23 h-16 md:w-16 md:h-11 block">
-            <Image
-              src="/icons-footer/logo-footer.png"
-              alt="Логотип"
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-            />
+            <Image src="/icons-footer/logo-footer.png" alt="Логотип" fill sizes="(max-width: 768px) 100vw, 50vw"/>
           </Link>
         </div>
 

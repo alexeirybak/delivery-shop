@@ -1,14 +1,14 @@
 export const buttonStyles = {
-  base: "w-65 h-17 my-10 mx-auto text-2xl rounded cursor-pointer duration-200",
+  base: "w-65 h-17 my-10 mx-auto text-2xl rounded cursor-pointer transition-all duration-200",
   active:
-    "bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) flex items-center justify-center rounded cursor-pointer duration-300",
-  inactive: "bg-[#fcd5ba] text-[#ff6633] rounded",
+    "bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active)",
+  inactive: "bg-[#fcd5ba] text-[#ff6633]",
 };
 
 export const formStyles = {
   label: "text-base text-[#8f8f8f] block",
   input:
-    "w-65 h-10 py-2 px-4 text-main-text text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none caret-(--color-primary)",
+    "w-65 h-10 py-2 px-4 text-[#414141] text-base border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none caret-(--color-primary)",
   loginLink:
     "mb-10 mx-auto h-8 text-(--color-primary) hover:text-white active:text-white border-1 border-(--color-primary) bg-white hover:bg-(--color-primary) active:shadow-(--shadow-button-default) w-30 rounded flex items-center justify-center duration-300",
   radioLabel: "px-4 py-2 border rounded-lg cursor-pointer transition-colors",
@@ -33,6 +33,6 @@ export const profileStyles = {
     "px-4 py-2 md:flex-none flex-1 bg-[#f3f2f1] rounded hover:shadow-button-secondary active:shadow-(--shadow-button-active) text-[#606060] duration-300 cursor-pointer",
   saveButton:
     "px-4 py-2 md:flex-none flex-1 bg-primary hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) rounded text-white duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer",
-  sectionTitle: "text-lg font-semibold text-main-text w-20",
+  sectionTitle: "text-lg font-semibold text-[#414141] w-20",
   inputContainer: "relative",
 };

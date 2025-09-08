@@ -1,7 +1,7 @@
-import { formStyles, profileStyles } from "@/app/styles";
+import { formStyles, profileStyles } from "@/app/(auth)/styles";
 import { InputMask } from "@react-input/mask";
 import { Phone } from "lucide-react";
-import { maskedValue } from "../../../../../utils/maskPhone";
+import { useMemo } from "react";
 
 interface ProfilePhoneInputProps {
   value: string;
@@ -10,6 +10,31 @@ interface ProfilePhoneInputProps {
 }
 
 const PhoneInput = ({ value, onChange, disabled }: ProfilePhoneInputProps) => {
+  const maskedValue = useMemo(() => {
+    if (!value) return "";
+
+    const cleanPhone = value.replace(/\D/g, "");
+
+    let formatted = "+7";
+
+    if (cleanPhone.length > 1) {
+      formatted += ` (${cleanPhone.slice(1, 4)}`;
+    }
+
+    if (cleanPhone.length > 4) {
+      formatted += `) ${cleanPhone.slice(4, 7)}`;
+    }
+
+    if (cleanPhone.length > 7) {
+      formatted += `-${cleanPhone.slice(7, 9)}`;
+    }
+
+    if (cleanPhone.length > 9) {
+      formatted += `-${cleanPhone.slice(9, 11)}`;
+    }
+
+    return formatted;
+  }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const maskedValue = e.target.value;
@@ -36,7 +61,7 @@ const PhoneInput = ({ value, onChange, disabled }: ProfilePhoneInputProps) => {
         mask="+7 (___) ___-__-__"
         replacement={{ _: /\d/ }}
         placeholder="+7 (___) ___-__-__"
-        value={maskedValue(value)}
+        value={maskedValue}
         onChange={handleChange}
         className={`${formStyles.input} [&&]:w-full disabled:cursor-not-allowed [&&]:disabled:bg-[#f3f2f1]`}
         disabled={disabled}

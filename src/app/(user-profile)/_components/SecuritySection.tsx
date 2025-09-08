@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { buttonStyles } from "@/app/styles";
+import { buttonStyles } from "@/app/(auth)/styles";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteAccountModal from "./DeleteAccountModal";
@@ -48,7 +48,7 @@ const SecuritySection: React.FC = () => {
   return (
     <>
       <div className="border-t pt-8">
-        <h2 className="text-2xl font-bold text-main-text mb-6">Безопасность</h2>
+        <h2 className="text-2xl font-bold text-[#414141] mb-6">Безопасность</h2>
         {error && (
           <div className="mb-4 p-3 bg-red-100 border border-red-300 text-[#d80000] rounded">
             {error}
@@ -57,7 +57,7 @@ const SecuritySection: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <button
             onClick={logoutFromProfile}
-            className={`${buttonStyles.active} flex-1 h-12 bg-[#f3f2f1] text-[#606060] px-4 py-2 font-medium hover:shadow-button-cancel active:shadow-button-cancel-active`}
+            className={`${buttonStyles.active} flex flex-1 items-center justify-center h-12 bg-[#f3f2f1] text-[#606060] px-4 py-2 rounded font-medium hover:shadow-button-cancel active:shadow-button-cancel-active duration-300 cursor-pointer`}
           >
             Выйти из личного кабинета
           </button>

@@ -37,7 +37,7 @@ const Breadcrumbs = () => {
               className={
                 item.isLast
                   ? "text-[#8f8f8f]"
-                  : "text-main-text hover:underline cursor-pointer"
+                  : "text-[#414141] hover:underline cursor-pointer"
               }
             >
               {item.isLast ? (

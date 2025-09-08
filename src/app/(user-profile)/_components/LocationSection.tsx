@@ -1,6 +1,6 @@
 import SelectRegion from "@/app/(auth)/(reg)/_components/SelectRegion";
 import SelectCity from "@/app/(auth)/(reg)/_components/SelectCity";
-import { profileStyles } from "@/app/styles";
+import { profileStyles } from "@/app/(auth)/styles";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useAuthStore } from "@/store/authStore";
 import { Edit } from "lucide-react";

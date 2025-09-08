@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../../styles";
+import { buttonStyles, formStyles } from "../../styles";
 import { Loader2, Phone, KeyRound } from "lucide-react";
 import { InputMask } from "@react-input/mask";
 
@@ -93,7 +93,7 @@ export const PhonePasswordResetRequest = ({
           <button
             type="submit"
             disabled={loading}
-            className={`${buttonStyles.active} [&&]:w-full [&&]:h-10 gap-2`}
+            className={`${buttonStyles.active} rounded [&&]:w-full [&&]:h-10 cursor-pointer flex items-center justify-center gap-2`}
           >
             {loading ? (
               <>

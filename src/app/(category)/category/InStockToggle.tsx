@@ -34,7 +34,7 @@ const InStockToggle = ({ checked, onChangeAction }: InStockToggleProps) => {
               `}
           ></div>
         </div>
-        <span className="ml-2 text-sm text-main-text">В наличии</span>
+        <span className="ml-2 text-sm text-[#414141]">В наличии</span>
       </label>
     </div>
   );

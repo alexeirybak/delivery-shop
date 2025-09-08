@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../../styles";
+import { buttonStyles, formStyles } from "../../styles";
 import { InputMask } from "@react-input/mask";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -39,7 +39,9 @@ const EnterLoginPage = () => {
 
   const handleForgotPassword = () => {
     if (loginType === "phone") {
-      router.replace(`/phone-pass-reset`);
+      router.replace(
+        `/phone-pass-reset`
+      );
     } else {
       router.replace("/forgot-password");
     }
@@ -167,7 +169,7 @@ const EnterLoginPage = () => {
 
   return (
     <AuthFormLayout>
-      <h1 className="text-2xl font-bold text-main-text text-center mb-8">
+      <h1 className="text-2xl font-bold text-[#414141] text-center mb-8">
         Вход
       </h1>
       <form
@@ -255,7 +257,7 @@ const EnterLoginPage = () => {
           </Link>
           <button
             onClick={handleForgotPassword}
-            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
+            className="h-8 text-[#414141] hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
           >
             Забыли пароль?
           </button>

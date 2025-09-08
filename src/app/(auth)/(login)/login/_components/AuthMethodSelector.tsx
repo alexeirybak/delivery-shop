@@ -1,6 +1,6 @@
 "use client";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
-import { iconContainerStyles } from "@/app/styles";
+import { iconContainerStyles } from "@/app/(auth)/styles";
 import { Smartphone, Key, ArrowLeft } from "lucide-react";
 
 interface AuthMethodSelectorProps {
@@ -56,7 +56,7 @@ export const AuthMethodSelector: React.FC<AuthMethodSelectorProps> = ({
 
           <button
             onClick={onBackAction}
-            className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+            className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
           >
             <ArrowLeft className="h-4 w-4" />
             Вернуться

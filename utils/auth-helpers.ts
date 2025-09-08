@@ -49,7 +49,6 @@ export async function getUserById(userId: string) {
     location: user.location,
     region: user.region,
     card: user.card,
-    role: user.role,
   };
 }
 

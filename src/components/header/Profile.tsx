@@ -19,24 +19,6 @@ const Profile = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  // Функция для отображения имени в зависимости от роли
-  const getDisplayName = () => {
-    if (!user?.name) return "Загрузка...";
-
-    if (user.role === "manager") {
-      return "Менеджер";
-    } else if (user.role === "admin") {
-      return "Администратор";
-    }
-
-    return user.name;
-  };
-
-  // Проверка, является ли пользователь менеджером или администратором
-  const isManagerOrAdmin = () => {
-    return user?.role === "manager" || user?.role === "admin";
-  };
-
   useEffect(() => {
     setLastUpdate(Date.now());
   }, [user]);
@@ -68,6 +50,10 @@ const Profile = () => {
   }, [checkAuth]);
 
   useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth <= 768);
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -90,6 +76,7 @@ const Profile = () => {
     setIsLoggingOut(true);
     try {
       await logout();
+
       router.replace("/");
     } catch (error) {
       console.error("Не удалось выйти:", error);
@@ -145,7 +132,7 @@ const Profile = () => {
           className="min-w-10 min-h-10 md:block xl:block rounded-full object-cover"
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
-          {getDisplayName()}
+          {isLoading ? "Загрузка..." : user?.name}
         </p>
         <div className="hidden xl:block">
           <Image
@@ -173,31 +160,22 @@ const Profile = () => {
       >
         <Link
           href="/user-profile"
-          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300"
           onClick={() => setIsMenuOpen(false)}
         >
           Профиль
         </Link>
         <Link
           href="/"
-          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300"
           onClick={() => setIsMenuOpen(false)}
         >
           Главная
         </Link>
-        {isManagerOrAdmin() && (
-          <Link
-            href="/administrator"
-            className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
-            onClick={() => setIsMenuOpen(false)}
-          >
-            Панель управления
-          </Link>
-        )}
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className="w-full text-left px-4 py-3 text-main-text hover:text-[#ff6633] duration-300 border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full text-left px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300 border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoggingOut ? "Выход..." : "Выйти"}
         </button>

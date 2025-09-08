@@ -68,7 +68,7 @@ const ProductCard = ({
         <div className="flex flex-col p-2 h-[189px]">
           <div className="flex flex-row justify-between items-start h-[45px]">
             <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
+              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-[#414141]">
                 <span>{formatPrice(priceByCard)}</span>
                 <span>₽</span>
               </div>
@@ -88,7 +88,7 @@ const ProductCard = ({
               </div>
             )}
           </div>
-          <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
+          <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
           {ratingValue > 0 && <StarRating rating={ratingValue} />}

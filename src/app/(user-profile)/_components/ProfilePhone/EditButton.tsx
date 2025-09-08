@@ -1,4 +1,4 @@
-import { profileStyles } from "@/app/styles";
+import { profileStyles } from "@/app/(auth)/styles";
 import { Edit } from "lucide-react";
 
 const EditButton = ({ onEdit }: { onEdit: () => void }) => {

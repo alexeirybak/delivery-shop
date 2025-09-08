@@ -1,13 +1,9 @@
 import { useAuthStore } from "@/store/authStore";
-import { formStyles, profileStyles } from "@/app/styles";
+import { formStyles, profileStyles } from "@/app/(auth)/styles";
 import { CreditCard, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { InputMask } from "@react-input/mask";
-import {
-  cleanCardNumber,
-  isValidCardNumber,
-  formatCardNumber,
-} from "../../../../utils/validation/validProfileCard";
+import { cleanCardNumber, isValidCardNumber, formatCardNumber } from "../../../../utils/validation/validProfileCard";
 
 const ProfileCard = () => {
   const { user, fetchUserData } = useAuthStore();
@@ -36,7 +32,7 @@ const ProfileCard = () => {
 
   const handleSave = async () => {
     const cleanedCardNumber = cleanCardNumber(cardNumber);
-
+    
     if (!cleanedCardNumber.trim()) {
       setError("Номер карты не может быть пустым");
       return;
@@ -80,7 +76,7 @@ const ProfileCard = () => {
 
   const handleCardNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!isEditing) return;
-
+    
     const value = e.target.value;
     // Очищаем и ограничиваем 16 цифрами
     const cleanValue = cleanCardNumber(value).slice(0, 16);

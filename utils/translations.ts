@@ -18,7 +18,5 @@ export const TRANSLATIONS: Record<string, string> = {
   "meat": "Мясо, птица, колбаса",
   "non-food": "Непродовольственные товары",
   "category": "Категория",
-  "user-profile": "Личный кабинет",
-  "administrator": "Панель управления",
-  "users-list": "Список пользователей",
+  "user-profile": "Личный кабинет"
 };

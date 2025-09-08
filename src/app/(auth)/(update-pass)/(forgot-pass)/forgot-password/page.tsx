@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { AuthFormLayout } from "../../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../../../styles";
+import { buttonStyles, formStyles } from "../../../styles";
 import { Loader2, Mail, KeyRound } from "lucide-react";
 import SuccessSentEmail from "../../_components/SuccessSentEmail";
 
@@ -78,7 +78,7 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={loading}
-            className={`${buttonStyles.active} [&&]:w-full [&&]:h-10 [&&]:mt-8 gap-2`}
+            className={`${buttonStyles.active} rounded [&&]:w-full [&&]:h-10 [&&]:mt-8 cursor-pointer flex items-center justify-center gap-2`}
             style={loading ? { backgroundColor: "#fcd5ba" } : {}}
           >
             {loading ? (

@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/authStore";
-import { formStyles, profileStyles } from "@/app/styles";
+import { formStyles, profileStyles } from "@/app/(auth)/styles";
 import { Mail, Edit } from "lucide-react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { CONFIG } from "../../../../config/config";

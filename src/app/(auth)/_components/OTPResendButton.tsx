@@ -10,7 +10,7 @@ const OTPResendCode = ({
   onResendAction: () => void;
 }) => {
   return !canResend ? (
-    <p className="text-main-text text-xs text-center">
+    <p className="text-[#414141] text-xs text-center">
       Запросить код повторно можно через{" "}
       <span className="font-bold">{timeLeft} секунд</span>
     </p>

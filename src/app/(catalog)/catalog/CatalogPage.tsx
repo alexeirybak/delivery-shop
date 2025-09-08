@@ -189,7 +189,7 @@ const CatalogPage = () => {
           onResetLayoutAction={resetLayout}
         />
       )}
-      <h1 className="mb-4 md:mb-8 xl:mb-10 flex flex-row text-4xl mb:text-5xl xl:text-[64px] text-main-text font-bold">
+      <h1 className="mb-4 md:mb-8 xl:mb-10 flex flex-row text-4xl mb:text-5xl xl:text-[64px] text-[#414141] font-bold">
         Каталог
       </h1>
       <CatalogGrid

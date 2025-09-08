@@ -1,6 +1,17 @@
 import { authClient } from "@/lib/auth-client";
-import { AuthState } from "@/types/auth";
+import { UserData } from "@/types/userData";
 import { create } from "zustand";
+
+
+type AuthState = {
+  isAuth: boolean;
+  user: UserData;
+  isLoading: boolean;
+  login: () => void;
+  logout: () => Promise<void>;
+  checkAuth: () => Promise<boolean>;
+  fetchUserData: () => Promise<void>;
+};
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   isAuth: false,
