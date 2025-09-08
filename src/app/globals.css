@@ -8,6 +8,7 @@
 @theme inline {
   --font-sans: var(--font-rubik);
   --color-primary: #70c05b;
+  --color-main-text: #414141;
   --shadow-default: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
   --shadow-button-default: 4px 8px 16px 0px rgba(112, 192, 91, 0.2);
   --shadow-button-secondary: 4px 8px 16px 0px rgba(0, 0, 0, 0.1);
@@ -16,13 +17,7 @@
   --shadow-card-shop: 0px 8px 16px 0px rgba(202, 147, 96, 0.5);
   --shadow-category-block: 1px 2px 4px 0px rgba(112, 192, 91, 0.2);
   --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
-}
-
-@media (prefers-color-scheme: dark) {
-  /* :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  } */
+  
 }
 
 body {

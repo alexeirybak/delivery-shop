@@ -1,10 +1,17 @@
 import { CatalogAdminControlsProps } from "@/types/catalogAdminControlsProps";
+import { useAuthStore } from "@/store/authStore";
 
 const CatalogAdminControls = ({
   isEditing,
   onToggleEditingAction,
   onResetLayoutAction,
 }: CatalogAdminControlsProps) => {
+  const { user } = useAuthStore();
+  
+  if (user?.role !== "admin") {
+    return null;
+  }
+
   return (
     <div className="flex justify-end mb-4">
       <button

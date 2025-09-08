@@ -2,7 +2,7 @@
 
 import { ChangeEvent, useState } from "react";
 import Image from "next/image";
-import { formStyles } from "../../styles";
+import { formStyles } from "../../../styles";
 import Tooltip from "../../_components/Tooltip";
 import { validateBirthDate } from "../../../../../utils/validation/validateBirthDate";
 

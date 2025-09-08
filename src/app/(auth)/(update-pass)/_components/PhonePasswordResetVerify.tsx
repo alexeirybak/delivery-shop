@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { Loader2, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import PasswordInput from "../../_components/PasswordInput";
@@ -196,7 +196,7 @@ export const PhonePasswordResetVerify = ({
               <button
                 type="submit"
                 disabled={loading}
-                className={`${buttonStyles.active} rounded w-full max-w-65 px-4 [&&]:h-10 cursor-pointer flex items-center justify-center gap-2 mx-auto`}
+                className={`${buttonStyles.active} w-full max-w-65 px-4 [&&]:h-10 gap-2 mx-auto`}
               >
                 {loading ? (
                   <>

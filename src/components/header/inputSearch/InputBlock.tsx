@@ -76,7 +76,7 @@ const InputBlock = ({
   };
 
   return (
-    <div className="relative min-w-[261px] flex-grow" ref={searchRef}>
+    <div className="relative min-w-[261px] flex-1" ref={searchRef}>
       <SearchInput
         query={query}
         setQuery={setQuery}

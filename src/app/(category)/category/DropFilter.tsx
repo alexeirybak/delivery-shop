@@ -24,7 +24,7 @@ const DropFilter = ({
       </button>
       <div
         className={`xl:hidden flex flex-col gap-y-10
-          fixed top-0 left-0 h-screen w-full max-w-90 bg-white z-50 p-4 overflow-y-auto shadow-(--shadow-article) text-[#414141]
+          fixed top-0 left-0 h-screen w-full max-w-90 bg-white z-50 p-4 overflow-y-auto shadow-(--shadow-article) text-main-text
           transform origin-left
           transition-all duration-300 ease-in-out
           ${isFilterOpen ? "opacity-100 scale-x-100" : "opacity-0 scale-x-0"}

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckCircle } from "lucide-react";
 import { AuthFormLayout } from "../../../_components/AuthFormLayout";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 export default function VerifySuccessPage() {
   const router = useRouter();
@@ -33,18 +33,19 @@ export default function VerifySuccessPage() {
           <CheckCircle className="h-10 w-10 text-white" />
         </div>
 
-        <h1 className="text-2xl font-bold text-[#414141] mb-2">
+        <h1 className="text-2xl font-bold text-main-text mb-2">
           Email успешно подтвержден!
         </h1>
 
         <p className="text-gray-600 mb-6">
-          Ваш адрес электронной почты был успешно подтвержден. Теперь Вы можете войти в свой аккаунт.
+          Ваш адрес электронной почты был успешно подтвержден. Теперь Вы можете
+          войти в свой аккаунт.
         </p>
 
         <div className="space-y-4">
           <button
             onClick={() => router.replace("/login")}
-            className={`${buttonStyles.active} px-4 py-2 rounded cursor-pointer`}
+            className={`${buttonStyles.active} px-4 py-2`}
           >
             Перейти к авторизации
           </button>

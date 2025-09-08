@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { useEffect, useState } from "react";
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import useTimer from "@/hooks/useTimer";
@@ -109,7 +109,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        <h1 className="text-2xl font-bold text-[#414141] text-center">
+        <h1 className="text-2xl font-bold text-main-text text-center">
           Регистрация
         </h1>
         <div>
@@ -156,7 +156,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
         <Link
           href="/register"
-          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

@@ -1,6 +1,6 @@
 import { Loader2, Check, Trash2 } from "lucide-react";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 interface DeleteAccountVerificationStepProps {
   phoneNumber?: string;
@@ -23,7 +23,7 @@ export const DeleteAccountVerificationStep = ({
   timeLeft,
   onCodeChange,
   onVerify,
-  onResend
+  onResend,
 }: DeleteAccountVerificationStepProps) => {
   return (
     <AuthFormLayout>
@@ -86,7 +86,7 @@ export const DeleteAccountVerificationStep = ({
           <button
             onClick={onResend}
             disabled={!canResend}
-            className="text-[#414141] hover:text-black text-sm underline duration-300 cursor-pointer disabled:opacity-50"
+            className="text-main-text hover:text-black text-sm underline duration-300 cursor-pointer disabled:opacity-50"
           >
             {canResend
               ? "Отправить код повторно"
