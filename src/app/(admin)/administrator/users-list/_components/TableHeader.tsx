@@ -6,7 +6,7 @@ import { tableStyles } from "../../styles";
 interface TableHeaderProps {
   sortBy: string;
   sortDirection: "asc" | "desc";
-  onSort: (field: string) => void;
+  onSort: (field: string, direction: "asc" | "desc") => void;
 }
 
 const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
@@ -50,6 +50,15 @@ const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
     },
   ];
 
+  const handleIconClick = (
+    e: React.MouseEvent,
+    field: string,
+    direction: "asc" | "desc"
+  ) => {
+    e.stopPropagation(); // Предотвращаем всплытие события
+    onSort(field, direction);
+  };
+
   return (
     <div
       className={`hidden md:grid grid-cols-1 md:grid-cols-12 md:gap-2 rounded ${tableStyles.spacing.cell} bg-[#f3f2f1] ${tableStyles.border.bottom}`}
@@ -61,21 +70,28 @@ const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
           <div
             key={key}
             className={`${span} text-xs break-all font-semibold ${key !== "createdAt" ? tableStyles.border.right : ""} ${
-              sortable
-                ? "cursor-pointer"
-                : "cursor-not-allowed opacity-50"
+              sortable ? "cursor-default" : "cursor-not-allowed opacity-50"
             } duration-300`}
-            onClick={() => sortable && onSort(key)}
           >
-            <div className="flex justify-center items-center gap-2">
+            <div className="flex justify-center items-center gap-1">
               {label}
               {sortable && (
                 <div className="flex flex-col">
                   <ChevronUp 
-                    className={`h-4 w-4 ${isActiveSort && sortDirection === "asc" ? "text-[#008c48]" : "text-gray-400 opacity-50"}`} 
+                    className={`h-3 w-3 cursor-pointer ${
+                      isActiveSort && sortDirection === "asc" 
+                        ? "text-[#008c48]" 
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                    onClick={(e) => handleIconClick(e, key, "asc")}
                   />
                   <ChevronDown 
-                    className={`h-4 w-4 -mt-1 ${isActiveSort && sortDirection === "desc" ? "text-[#008c48]" : "text-gray-400 opacity-50"}`} 
+                    className={`h-3 w-3 -mt-1 cursor-pointer ${
+                      isActiveSort && sortDirection === "desc" 
+                        ? "text-[#008c48]" 
+                        : "text-gray-400 hover:text-gray-600"
+                    }`}
+                    onClick={(e) => handleIconClick(e, key, "desc")}
                   />
                 </div>
               )}

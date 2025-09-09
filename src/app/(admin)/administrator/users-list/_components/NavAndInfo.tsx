@@ -2,7 +2,19 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { tableStyles } from "../../styles";
 
-const NavAndInfo = ({totalUsers}: {totalUsers: number}) => {
+interface NavAndInfoProps {
+  totalUsers: number;
+  pageSize: number;
+  onPageSizeChange: (size: number) => void;
+  pageSizeOptions: number[];
+}
+
+const NavAndInfo = ({ 
+  totalUsers, 
+  pageSize, 
+  onPageSizeChange, 
+  pageSizeOptions 
+}: NavAndInfoProps) => {
   return (
     <div className={tableStyles.spacing.section}>
       <Link
@@ -12,8 +24,31 @@ const NavAndInfo = ({totalUsers}: {totalUsers: number}) => {
         <ArrowLeft className="h-4 w-4 ml-1" />
         Назад в панель управления
       </Link>
-      <h1 className="text-lg lg:text-2xl font-bold mb-4">Список пользователей</h1>
-      <p className="text-sm lg:text-base">Всего пользователей: {totalUsers}</p>
+      
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
+        <div>
+          <h1 className="text-lg lg:text-2xl font-bold mb-2">Список пользователей</h1>
+          <p className="text-sm lg:text-base">Всего пользователей: {totalUsers}</p>
+        </div>
+        
+        <div className="flex items-center gap-2">
+          <label htmlFor="pageSize" className="text-sm text-gray-600 whitespace-nowrap">
+            Пользователей на странице:
+          </label>
+          <select
+            id="pageSize"
+            value={pageSize}
+            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+            className="border border-gray-300 rounded px-2 py-1 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500"
+          >
+            {pageSizeOptions.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
     </div>
   );
 };

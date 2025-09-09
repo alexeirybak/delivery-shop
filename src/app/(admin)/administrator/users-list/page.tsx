@@ -1,38 +1,18 @@
 "use client";
 
-import {
-  useState,
-  useEffect,
-  useCallback,
-  useDeferredValue,
-  memo,
-} from "react";
-import { UserData, ListUsersResponse } from "@/types/userData";
+import { useState, useEffect, useCallback, memo } from "react";
+import { UserData } from "@/types/userData";
 import { Loader } from "@/components/Loader";
 import ErrorComponent from "@/components/ErrorComponent";
 import NavAndInfo from "./_components/NavAndInfo";
-import Filters from "./_components/Filters";
 import UsersTable from "./_components/UsersTable";
+import { useAuthStore } from "@/store/authStore";
 
-const PAGE_SIZE = 10;
-
-interface FiltersState {
-  id: string;
-  name: string;
-  surname: string;
-  email: string;
-  phoneNumber: string;
-  role: string;
-  minAge: string;
-  maxAge: string;
-  startDate: string;
-  endDate: string;
-}
+const DEFAULT_PAGE_SIZE = 5;
+const PAGE_SIZE_OPTIONS = [1, 5, 10, 20, 50, 100];
 
 const UsersList = () => {
-  const [allUsers, setAllUsers] = useState<UserData[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<UserData[]>([]);
-  const [displayedUsers, setDisplayedUsers] = useState<UserData[]>([]);
+  const [users, setUsers] = useState<UserData[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<{
     error: Error;
@@ -40,207 +20,71 @@ const UsersList = () => {
   } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+  const [pageSize, setPageSize] = useState(DEFAULT_PAGE_SIZE);
+  
+  const { user: currentUser } = useAuthStore();
+  const isManager = currentUser?.role === 'manager';
 
-  const [filters, setFilters] = useState<FiltersState>({
-    id: "",
-    name: "",
-    surname: "",
-    email: "",
-    phoneNumber: "",
-    role: "",
-    minAge: "",
-    maxAge: "",
-    startDate: "",
-    endDate: "",
-  });
+  // Загрузка пользователей с пагинацией
+  const loadUsers = useCallback(
+    async (page: number, sortField: string, sortDir: "asc" | "desc", limit: number) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-  const deferredFilters = useDeferredValue(filters);
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          sortBy: sortField,
+          sortDirection: sortDir,
+          isManager: isManager.toString(),
+        });
 
-  const calculateAge = useCallback((birthDate: Date): number => {
-    const today = new Date();
-    let age = today.getFullYear() - birthDate.getFullYear();
-    const monthDiff = today.getMonth() - birthDate.getMonth();
-
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
-      age--;
-    }
-
-    return age;
-  }, []);
-
-  // Загрузка всех пользователей
-  const loadAllUsers = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
-
-      const response = await fetch(`/api/admin/users?limit=1000`, {
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.error || "Ошибка загрузки пользователей");
-      }
-
-      const data: ListUsersResponse = await response.json();
-
-      if (data?.users) {
-        setAllUsers(data.users);
-        setFilteredUsers(data.users);
-        setTotalUsers(data.users.length);
-      }
-    } catch (error) {
-      setError({
-        error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
-        userMessage: "Не удалось загрузить список пользователей",
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
-
-  // Фильтрация и сортировка данных
-  useEffect(() => {
-    let result = [...allUsers];
-
-    // Фильтрация по ID (последние 4 символа)
-    if (deferredFilters.id) {
-    const filterDigits = deferredFilters.id.replace(/\D/g, "");
-    if (filterDigits) {
-      result = result.filter((user) => {
-        try {
-          const last4Hex = user.id.slice(-4);
-          const decimalId = parseInt(last4Hex, 16);
-          const decimalString = decimalId.toString();
-          return decimalString.includes(filterDigits);
-        } catch {
-          return false;
+        // Добавляем параметры региона и города для менеджера
+        if (isManager && currentUser) {
+          queryParams.append('managerRegion', currentUser.region || '');
+          queryParams.append('managerLocation', currentUser.location || '');
         }
-      });
-    }
-  }
 
-    if (deferredFilters.name) {
-      result = result.filter((user) =>
-        user.name?.toLowerCase().includes(deferredFilters.name.toLowerCase())
-      );
-    }
+        const response = await fetch(`/api/admin/users?${queryParams}`);
 
-    if (deferredFilters.surname) {
-      result = result.filter((user) =>
-        user.surname
-          ?.toLowerCase()
-          .includes(deferredFilters.surname.toLowerCase())
-      );
-    }
+        if (!response.ok) {
+          throw new Error("Ошибка загрузки пользователей");
+        }
 
-    if (deferredFilters.email) {
-      result = result.filter((user) =>
-        user.email?.toLowerCase().includes(deferredFilters.email.toLowerCase())
-      );
-    }
+        const data = await response.json();
 
-    if (deferredFilters.phoneNumber) {
-      result = result.filter((user) =>
-        user.phoneNumber
-          ?.toLowerCase()
-          .includes(deferredFilters.phoneNumber.toLowerCase())
-      );
-    }
-
-    if (deferredFilters.role) {
-      result = result.filter((user) => user.role === deferredFilters.role);
-    }
-
-    if (deferredFilters.startDate) {
-      const startDate = new Date(deferredFilters.startDate);
-      result = result.filter((user) => {
-        const userDate = new Date(user.createdAt);
-        return userDate >= startDate;
-      });
-    }
-
-    if (deferredFilters.endDate) {
-      const endDate = new Date(deferredFilters.endDate);
-      endDate.setHours(23, 59, 59, 999);
-      result = result.filter((user) => {
-        const userDate = new Date(user.createdAt);
-        return userDate <= endDate;
-      });
-    }
-
-    if (deferredFilters.minAge || deferredFilters.maxAge) {
-      result = result.filter((user) => {
-        if (!user.birthdayDate) return false;
-        const birthDate = new Date(user.birthdayDate);
-        const age = calculateAge(birthDate);
-
-        if (deferredFilters.minAge && age < parseInt(deferredFilters.minAge))
-          return false;
-        if (deferredFilters.maxAge && age > parseInt(deferredFilters.maxAge))
-          return false;
-        return true;
-      });
-    }
-
-    // Сортировка
-    result.sort((a, b) => {
-      let aValue: string | number;
-      let bValue: string | number;
-
-      if (sortBy === "age") {
-        aValue = a.birthdayDate ? calculateAge(new Date(a.birthdayDate)) : 0;
-        bValue = b.birthdayDate ? calculateAge(new Date(b.birthdayDate)) : 0;
-      } else {
-        const sortKey = sortBy as keyof UserData;
-        aValue = a[sortKey] as string;
-        bValue = b[sortKey] as string;
+        if (data?.users) {
+          setUsers(data.users);
+          setTotalUsers(data.totalCount);
+          setTotalPages(data.totalPages);
+        }
+      } catch (error) {
+        setError({
+          error:
+            error instanceof Error ? error : new Error("Неизвестная ошибка"),
+          userMessage: "Не удалось загрузить список пользователей",
+        });
+      } finally {
+        setLoading(false);
       }
+    },
+    [isManager, currentUser]
+  );
 
-      const aString = String(aValue || "");
-      const bString = String(bValue || "");
-
-      return sortDirection === "asc"
-        ? aString.localeCompare(bString)
-        : bString.localeCompare(aString);
-    });
-
-    setFilteredUsers(result);
-    setTotalUsers(result.length);
-    setCurrentPage(1);
-  }, [allUsers, deferredFilters, sortBy, sortDirection, calculateAge]);
-
-  // Пагинация
+  // Загрузка данных при изменении страницы, сортировки или количества пользователей на странице
   useEffect(() => {
-    const startIndex = (currentPage - 1) * PAGE_SIZE;
-    const paginatedUsers = filteredUsers.slice(
-      startIndex,
-      startIndex + PAGE_SIZE
-    );
-    setDisplayedUsers(paginatedUsers);
-  }, [filteredUsers, currentPage]);
-
-  // Первоначальная загрузка
-  useEffect(() => {
-    loadAllUsers();
-  }, [loadAllUsers]);
+    loadUsers(currentPage, sortBy, sortDirection, pageSize);
+  }, [currentPage, sortBy, sortDirection, pageSize, loadUsers]);
 
   const handleSort = (field: string) => {
-    if (sortBy === field) {
-      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
-    } else {
-      setSortBy(field);
-      setSortDirection("desc");
-    }
+    const newDirection =
+      sortBy === field && sortDirection === "desc" ? "asc" : "desc";
+    setSortBy(field);
+    setSortDirection(newDirection);
     setCurrentPage(1);
   };
 
@@ -248,30 +92,10 @@ const UsersList = () => {
     setCurrentPage(page);
   };
 
-  const handleFilterChange = (newFilters: FiltersState) => {
-    setFilters(newFilters);
+  const handlePageSizeChange = (newSize: number) => {
+    setPageSize(newSize);
+    setCurrentPage(1);
   };
-
-  const handleClearFilters = () => {
-    setFilters({
-      id: "",
-      name: "",
-      surname: "",
-      email: "",
-      phoneNumber: "",
-      role: "",
-      minAge: "",
-      maxAge: "",
-      startDate: "",
-      endDate: "",
-    });
-  };
-
-  const handleRoleChange = useCallback(() => {
-    loadAllUsers();
-  }, [loadAllUsers]);
-
-  const totalPages = Math.ceil(totalUsers / PAGE_SIZE);
 
   if (loading) return <Loader />;
 
@@ -283,23 +107,21 @@ const UsersList = () => {
 
   return (
     <div className="p-3 lg:p-6">
-      <NavAndInfo totalUsers={totalUsers} />
-
-      <Filters
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onClearFilters={handleClearFilters}
+      <NavAndInfo 
+        totalUsers={totalUsers} 
+        pageSize={pageSize}
+        onPageSizeChange={handlePageSizeChange}
+        pageSizeOptions={PAGE_SIZE_OPTIONS}
       />
 
       <UsersTable
-        users={displayedUsers}
+        users={users}
         sortBy={sortBy}
         sortDirection={sortDirection}
         onSort={handleSort}
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
-        onRoleChange={handleRoleChange}
       />
     </div>
   );

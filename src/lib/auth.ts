@@ -10,13 +10,10 @@ import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChang
 import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
 import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 import { admin } from "better-auth/plugins";
-import { nextCookies } from "better-auth/next-js";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
 const resend = new Resend(process.env.RESEND_API_KEY);
-
-
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
@@ -67,10 +64,7 @@ export const auth = betterAuth({
       expiresIn: 300,
       requireVerification: true,
     }),
-    admin({
-      adminRoles: ["admin", "manager"], // Указываем какие роли считаются административными
-    }),
-    nextCookies(),
+    admin(),
   ],
   user: {
     changeEmail: {

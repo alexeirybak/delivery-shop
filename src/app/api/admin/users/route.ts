@@ -3,34 +3,63 @@ import { getDB } from '../../../../../utils/api-routes';
 
 interface UserFilter {
   role?: string;
+  name?: { $regex: string; $options: string };
+  surname?: { $regex: string; $options: string };
+  email?: { $regex: string; $options: string };
+  phoneNumber?: { $regex: string; $options: string };
+  createdAt?: {
+    $gte?: Date;
+    $lte?: Date;
+  };
+  region?: string;
+  location?: string;
 }
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '50');
-    const offset = parseInt(searchParams.get('offset') || '0');
+    const limit = parseInt(searchParams.get('limit') || '5');
+    const page = parseInt(searchParams.get('page') || '1');
     const role = searchParams.get('role');
+    const sortBy = searchParams.get('sortBy') || 'createdAt';
+    const sortDirection = searchParams.get('sortDirection') || 'desc';
+    const managerRegion = searchParams.get('managerRegion');
+    const managerLocation = searchParams.get('managerLocation');
+    const isManager = searchParams.get('isManager') === 'true';
 
     const db = await getDB();
     
     // Построение условия фильтрации
     const filter: UserFilter = {};
+    
     if (role && role !== 'all') {
       filter.role = role;
     }
 
-    // Получение пользователей с пагинацией
+    // Если это менеджер, фильтруем по его региону и городу
+    if (isManager && managerRegion && managerLocation) {
+      filter.region = managerRegion;
+      filter.location = managerLocation;
+    }
+
+    // Расчет смещения
+    const offset = (page - 1) * limit;
+
+    // Определение сортировки
+    const sortOptions: { [key: string]: 1 | -1 } = {};
+    sortOptions[sortBy] = sortDirection === 'asc' ? 1 : -1;
+
+    // Получение пользователей с пагинацией и сортировкой
     const users = await db
       .collection('user')
       .find(filter)
-      .sort({ createdAt: -1 })
+      .sort(sortOptions)
       .skip(offset)
       .limit(limit)
       .toArray();
 
     // Получение общего количества
-    const totalCount = await db.collection('users').countDocuments(filter);
+    const totalCount = await db.collection('user').countDocuments(filter);
 
     // Преобразование ObjectId в строки
     const formattedUsers = users.map(user => ({
@@ -55,10 +84,12 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       users: formattedUsers,
       totalCount,
+      currentPage: page,
+      totalPages: Math.ceil(totalCount / limit),
       hasMore: offset + users.length < totalCount,
     });
   } catch (error) {
-    console.error('Error fetching users:', error);
+    console.error('Ошибка при загрузке пользователей:', error);
     return NextResponse.json(
       { error: 'Ошибка при загрузке пользователей' },
       { status: 500 }
