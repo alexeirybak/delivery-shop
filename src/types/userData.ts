@@ -12,4 +12,5 @@ export type UserData = {
   region?: string;
   card?: string;
   hasCard: string;
+  role: string;
 } | null;

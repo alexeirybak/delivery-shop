@@ -6,6 +6,7 @@ import ErrorComponent from "@/components/ErrorComponent";
 import { Loader } from "@/components/Loader";
 import CatalogAdminControls from "../CatalogAdminControls";
 import CatalogGrid from "../CatalogGrid";
+import { useAuthStore } from "@/store/authStore";
 
 export const metadata = {
   title: 'Каталог товаров магазина "Северяночка"',
@@ -26,7 +27,9 @@ const CatalogPage = () => {
     userMessage: string;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const isAdmin = true;
+  const { user } = useAuthStore();
+
+  const isAdmin = user?.role === "admin";
 
   const fetchCategories = async () => {
     try {
