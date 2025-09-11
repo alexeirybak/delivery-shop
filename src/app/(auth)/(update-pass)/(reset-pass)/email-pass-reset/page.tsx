@@ -105,7 +105,6 @@ const ResetPassword = () => {
       setTimeout(() => {
         router.replace("/login");
       }, 3000);
-      
     } catch (error) {
       setError(error instanceof Error ? error.message : "Произошла ошибка");
     } finally {
@@ -167,7 +166,7 @@ const ResetPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`text-white bg-(--color-primary) hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full max-w-65 mx-auto p-2 gap-4 cursor-pointer duration-300 rounded ${loading ? "bg-[#e5ffde]" : "bg-(--color-primary)"}`}
+          className={`text-white bg-primary hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full max-w-65 mx-auto p-2 gap-4 cursor-pointer duration-300 rounded ${loading ? "bg-[#e5ffde]" : "bg-primary"}`}
         >
           {loading ? "Сохранение..." : "Сохранить новый пароль"}
         </button>

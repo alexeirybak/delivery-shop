@@ -51,22 +51,22 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
     activeFilterCount === 0
       ? "Фильтры"
       : activeFilterCount === 1
-      ? "Фильтр 1"
-      : `Фильтры ${activeFilterCount}`;
+        ? "Фильтр 1"
+        : `Фильтры ${activeFilterCount}`;
 
   return (
     <div className="flex flex-wrap flex-row gap-4">
       <div
         className={`h-8 p-2 rounded text-xs flex justify-center items-center duration-300 cursor-not-allowed gap-x-2 ${
           (activeFilter && activeFilter.length > 0) || hasPriceFilter
-            ? "bg-(--color-primary) text-white"
+            ? "bg-primary text-white"
             : "bg-[#f3f2f1] text-[#606060]"
         }`}
       >
         {filterButtonText}
       </div>
       {hasPriceFilter && (
-        <div className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-(--color-primary) text-white">
+        <div className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-primary text-white">
           <Link
             href={buildClearPriceFilterLink()}
             className="flex items-center gap-x-2"
@@ -84,9 +84,7 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
         </div>
       )}
       {activeFilterCount > 0 && (
-        <div
-          className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-(--color-primary) text-white"
-        >
+        <div className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-primary text-white">
           <Link
             href={buildClearFiltersLink()}
             className="flex items-center gap-x-2"
@@ -97,8 +95,7 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
               alt="Очистить фильтры"
               width={24}
               height={24}
-              style={{ filter: "brightness(0) invert(1)" }
-              }
+              style={{ filter: "brightness(0) invert(1)" }}
             />
           </Link>
         </div>

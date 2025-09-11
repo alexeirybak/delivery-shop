@@ -17,7 +17,7 @@ const Maps = () => {
       }}
     >
       <section>
-        <div className="flex flex-col justify-center xl:max-w-[1208px] text-[#414141]">
+        <div className="flex flex-col justify-center xl:max-w-[1208px] text-main-text">
           <h2 className="mb-4 md:mb-8 xl:mb-10 text-2xl xl:text-4xl text-left font-bold">
             Наши магазины
           </h2>
@@ -30,7 +30,7 @@ const Maps = () => {
                   onClick={() => setCurrentLocation(key)}
                   className={`p-2 text-xs justify-center items-center active:shadow-(--shadow-button-active) border-none rounded cursor-pointer transition-colors duration-300 ${
                     isActive
-                      ? "bg-(--color-primary) text-white hover: shadow-(--shadow-button-default)"
+                      ? "bg-primary text-white hover: shadow-(--shadow-button-default)"
                       : "bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)"
                   }`}
                 >
@@ -51,7 +51,7 @@ const Maps = () => {
                 key={shop.id}
                 geometry={shop.coordinates}
                 properties={{
-                  hintContent: shop.name
+                  hintContent: shop.name,
                 }}
                 options={{
                   iconLayout: "default#image",

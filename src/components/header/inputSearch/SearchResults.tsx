@@ -16,7 +16,7 @@ const SearchResults = ({
 
   if (groupedProducts.length > 0) {
     return (
-      <div className="p-2 flex flex-col gap-2 text-[#414141]">
+      <div className="p-2 flex flex-col gap-2 text-main-text">
         {groupedProducts.map((group) => (
           <div key={group.category} className="flex flex-col gap-2">
             <Link

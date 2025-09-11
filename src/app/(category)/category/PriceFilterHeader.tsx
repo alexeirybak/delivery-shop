@@ -11,7 +11,7 @@ const PriceFilterHeader = ({ onResetAction }: PriceFilterHeaderProps) => {
       <button
         type="button"
         onClick={onResetAction}
-        className="text-xs rounded bg-[#f3f2f1] h-8 p-2 cursor-pointer  hover:bg-(--color-primary) hover:shadow-(--shadow-button-default) hover:text-white active:shadow-(--shadow-button-active) duration-300"
+        className="text-xs rounded bg-[#f3f2f1] h-8 p-2 cursor-pointer  hover:bg-primary hover:shadow-(--shadow-button-default) hover:text-white active:shadow-(--shadow-button-active) duration-300"
       >
         Очистить
       </button>

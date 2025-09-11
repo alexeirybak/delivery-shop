@@ -68,7 +68,7 @@ const ProductCard = ({
         <div className="flex flex-col p-2 h-[189px]">
           <div className="flex flex-row justify-between items-start h-[45px]">
             <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-[#414141]">
+              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
                 <span>{formatPrice(priceByCard)}</span>
                 <span>₽</span>
               </div>
@@ -88,13 +88,13 @@ const ProductCard = ({
               </div>
             )}
           </div>
-          <div className="h-13.5 text-xs md:text-base text-[#414141] line-clamp-3 md:line-clamp-2 leading-[1.5]">
+          <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
           {ratingValue > 0 && <StarRating rating={ratingValue} />}
         </div>
       </Link>
-      <button className="absolute border bottom-2 left-2 right-2 border-(--color-primary) hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-(--color-primary) transition-all duration-300 cursor-pointer select-none">
+      <button className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none">
         В корзину
       </button>
     </div>

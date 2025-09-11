@@ -10,7 +10,7 @@ const SearchInput = ({
   handleInputBlur,
 }: SearchInputProps) => {
   return (
-    <div className="relative rounded border-1 border-(--color-primary) shadow-(--shadow-button-default) leading-[150%]">
+    <div className="relative rounded border-1 border-primary shadow-(--shadow-button-default) leading-[150%]">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -21,7 +21,7 @@ const SearchInput = ({
           type="text"
           value={query}
           placeholder="Найти товар"
-          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base caret-(--color-primary)"
+          className="w-full h-10 p-2 outline-none text-[#8f8f8f] text-base caret-primary"
           onFocus={handleInputFocus}
           onChange={(e) => setQuery(e.target.value)}
           onBlur={handleInputBlur}

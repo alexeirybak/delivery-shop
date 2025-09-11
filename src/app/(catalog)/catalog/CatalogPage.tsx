@@ -6,6 +6,7 @@ import ErrorComponent from "@/components/ErrorComponent";
 import { Loader } from "@/components/Loader";
 import CatalogAdminControls from "../CatalogAdminControls";
 import CatalogGrid from "../CatalogGrid";
+import { useAuthStore } from "@/store/authStore";
 
 export const metadata = {
   title: 'Каталог товаров магазина "Северяночка"',
@@ -26,7 +27,9 @@ const CatalogPage = () => {
     userMessage: string;
   } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const isAdmin = true;
+  const { user } = useAuthStore();
+
+  const isAdmin = user?.role === "admin";
 
   const fetchCategories = async () => {
     try {
@@ -189,7 +192,7 @@ const CatalogPage = () => {
           onResetLayoutAction={resetLayout}
         />
       )}
-      <h1 className="mb-4 md:mb-8 xl:mb-10 flex flex-row text-4xl mb:text-5xl xl:text-[64px] text-[#414141] font-bold">
+      <h1 className="mb-4 md:mb-8 xl:mb-10 flex flex-row text-4xl mb:text-5xl xl:text-[64px] text-main-text font-bold">
         Каталог
       </h1>
       <CatalogGrid

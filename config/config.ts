@@ -5,4 +5,9 @@ export const CONFIG = {
   ITEMS_PER_PAGE_CATEGORY: 6,
   CARD_DISCOUNT_PERCENT: 6,
   FALLBACK_PRICE_RANGE: { min: 0, max: 3000 },
+  SITE_URL: "https://delivery-shop.ru",
+  TEMPORARY_EMAIL_DOMAIN: "@delivery-shop.ru",
+  MAX_ATTEMPTS: 3,
+  TIMEOUT_PERIOD: 180,
+  DEFAULT_PAGE_SIZE: 5,
 };

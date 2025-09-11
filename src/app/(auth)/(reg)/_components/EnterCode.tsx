@@ -9,19 +9,16 @@ import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import useTimer from "@/hooks/useTimer";
 import OTPResendCode from "../../_components/OTPResendButton";
-import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "./LoadingContent";
-
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_PERIOD = 180;
+import { CONFIG } from "../../../../../config/config";
 
 export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const [attemptsLeft, setAttemptsLeft] = useState(MAX_ATTEMPTS);
+  const [attemptsLeft, setAttemptsLeft] = useState(CONFIG.MAX_ATTEMPTS);
   const { regFormData } = useRegFormContext();
-  const { timeLeft, canResend, startTimer } = useTimer(TIMEOUT_PERIOD);
+  const { timeLeft, canResend, startTimer } = useTimer(CONFIG.TIMEOUT_PERIOD);
   const router = useRouter();
 
   useEffect(() => {
@@ -45,7 +42,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
       if (verifyError) throw verifyError;
 
-      setAttemptsLeft(MAX_ATTEMPTS);
+      setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
 
       const passwordResponse = await fetch("/api/auth/set-password", {
         method: "POST",
@@ -62,8 +59,16 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
         throw new Error(errorData.error || "Ошибка установки пароля");
       }
 
-      const { error: updateError } = await authClient.updateUser(regFormData);
+      let userDataToUpdate = { ...regFormData };
 
+      if (verifyData.user.phoneNumberVerified) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        const { email, ...rest } = userDataToUpdate;
+        userDataToUpdate = rest as typeof regFormData;
+      }
+
+      const { error: updateError } =
+        await authClient.updateUser(userDataToUpdate);
       if (updateError) throw updateError;
 
       router.replace("/login");
@@ -92,7 +97,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
           onSuccess: () => {
             startTimer();
             setError("");
-            setAttemptsLeft(MAX_ATTEMPTS);
+            setAttemptsLeft(CONFIG.MAX_ATTEMPTS);
           },
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");
@@ -106,17 +111,13 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
   };
 
   if (isLoading) {
-    return (
-      <AuthFormLayout>
-        <LoadingContent title={"Проверяем код..."} />
-      </AuthFormLayout>
-    );
+    return <LoadingContent title={"Проверяем код..."} />;
   }
 
   return (
     <>
       <div className="flex flex-col gap-y-8">
-        <h1 className="text-2xl font-bold text-[#414141] text-center">
+        <h1 className="text-2xl font-bold text-main-text text-center">
           Регистрация
         </h1>
         <div>
@@ -163,7 +164,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
         <Link
           href="/register"
-          className="h-8 text-xs text-[#414141] hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

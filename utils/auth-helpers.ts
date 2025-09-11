@@ -48,6 +48,8 @@ export async function getUserById(userId: string) {
     birthdayDate: user.birthdayDate,
     location: user.location,
     region: user.region,
+    card: user.card,
+    role: user.role,
   };
 }
 
