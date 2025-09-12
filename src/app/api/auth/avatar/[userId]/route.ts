@@ -10,47 +10,38 @@ export async function GET(
     const { userId } = await params;
 
     const db = await getDB();
-    // Создание экземпляра GridFSBucket для работы с файлами в коллекции "avatars"
     const bucket = new GridFSBucket(db, { bucketName: "avatars" });
 
-    // Проверка наличия userId в запросе
     if (!userId) {
       return NextResponse.json(
         { error: "User ID не предоставлен" },
-        { status: 400 } // HTTP 400 - Bad Request
+        { status: 400 } 
       );
     }
 
-    // Попытка преобразовать строковый userId в ObjectId
     let userIdObjectId;
     try {
       userIdObjectId = new ObjectId(userId);
     } catch {
-      // Если преобразование не удалось - возвращаем ошибку
       return NextResponse.json(
         { error: "Неверный формат User ID" },
-        { status: 400 } // HTTP 400 - Bad Request
+        { status: 400 } 
       );
     }
 
-    // Поиск метаданных файла в коллекции avatars.files по userId
     const fileExists = await db.collection("avatars.files").findOne({
-      "metadata.userId": userIdObjectId, // Ищем файл, где в metadata есть поле userId
+      "metadata.userId": userIdObjectId, 
     });
 
-    // Если файл не найден - возвращаем ошибку 404
     if (!fileExists) {
       return NextResponse.json({ error: "Аватар не найден" }, { status: 404 });
     }
 
-    // Создание потока для чтения файла из GridFS по его _id
     const downloadStream = bucket.openDownloadStream(fileExists._id);
 
-    // Сборка файла из chunks (чанков) - частей файла
     const chunks: Buffer[] = [];
-    // Асинхронный перебор чанков из потока
     for await (const chunk of downloadStream) {
-      chunks.push(chunk); // Добавление каждого чанка в массив
+      chunks.push(chunk); 
     }
 
     // Проверка, что файл не пустой
@@ -61,18 +52,16 @@ export async function GET(
       );
     }
 
-    // Объединение всех чанков в один буфер
     const buffer = Buffer.concat(chunks);
 
-    // Возврат файла в ответе
     return new NextResponse(buffer, {
       status: 200, 
       headers: {
-        "Content-Type": fileExists.contentType || "image/jpeg", // MIME-тип файла или image/jpeg по умолчанию
-        "Content-Length": buffer.length.toString(), // Размер файла в байтах
-        "Cache-Control": "no-cache, no-store, must-revalidate", // Запрет кэширования
-        Pragma: "no-cache", // Совместимость с HTTP/1.0
-        Expires: "0", // Срок действия кэша
+        "Content-Type": fileExists.contentType || "image/jpeg", 
+        "Content-Length": buffer.length.toString(), 
+        "Cache-Control": "no-cache, no-store, must-revalidate", 
+        Pragma: "no-cache", 
+        Expires: "0", 
       },
     });
   } catch {

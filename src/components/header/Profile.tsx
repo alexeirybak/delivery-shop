@@ -7,6 +7,8 @@ import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import { getAvatarByGender } from "../../../utils/getAvatarByGender";
+import { checkAvatarExists } from "../../../utils/avatarUtils";
+import MiniLoader from "../MiniLoader";
 
 const Profile = () => {
   const { isAuth, user, logout, checkAuth, isLoading } = useAuthStore();
@@ -18,17 +20,51 @@ const Profile = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
+  const getDisplayName = () => {
+    if (!user?.name) return <MiniLoader />;
+
+    if (user.role === "manager") {
+      return "Менеджер";
+    } else if (user.role === "admin") {
+      return "Администратор";
+    }
+
+    return user.name;
+  };
+
+  const isManagerOrAdmin = () => {
+    return user?.role === "manager" || user?.role === "admin";
+  };
+
   useEffect(() => {
     setLastUpdate(Date.now());
   }, [user]);
 
   useEffect(() => {
-    if (user?.id) {
-      setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
-    } else if (user?.gender) {
-      setAvatarSrc(getAvatarByGender(user.gender));
-    }
+    const checkAvatar = async () => {
+      if (user?.id) {
+        try {
+          const exists = await checkAvatarExists(user.id);
+
+          if (exists) {
+            setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
+          } else {
+            setAvatarSrc(getAvatarByGender(user.gender));
+          }
+        } catch {
+          setAvatarSrc(getAvatarByGender(user.gender));
+        }
+      } else if (user?.gender) {
+        setAvatarSrc(getAvatarByGender(user.gender));
+      }
+    };
+
+    checkAvatar();
   }, [user, lastUpdate]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   useEffect(() => {
     checkAuth();
@@ -113,7 +149,7 @@ const Profile = () => {
           className="min-w-10 min-h-10 md:block xl:block rounded-full object-cover"
         />
         <p className="hidden xl:block cursor-pointer p-2.5">
-          {isLoading ? "Загрузка..." : user?.name}
+          {getDisplayName()}
         </p>
         <div className="hidden xl:block">
           <Image
@@ -141,22 +177,31 @@ const Profile = () => {
       >
         <Link
           href="/user-profile"
-          className="block px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
           onClick={() => setIsMenuOpen(false)}
         >
           Профиль
         </Link>
         <Link
           href="/"
-          className="block px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
           onClick={() => setIsMenuOpen(false)}
         >
           Главная
         </Link>
+        {isManagerOrAdmin() && (
+          <Link
+            href="/administrator"
+            className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Панель управления
+          </Link>
+        )}
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className="w-full text-left px-4 py-3 text-[#414141] hover:text-[#ff6633] duration-300 border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full text-left px-4 py-3 text-main-text hover:text-[#ff6633] duration-300 border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoggingOut ? "Выход..." : "Выйти"}
         </button>

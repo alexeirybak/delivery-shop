@@ -163,7 +163,7 @@ const PriceFilter = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col gap-y-10 text-[#414141]"
+      className="flex flex-col gap-y-10 text-main-text"
     >
       <PriceFilterHeader onResetAction={resetPriceFilter} />
       <PriceInputs
@@ -184,7 +184,10 @@ const PriceFilter = ({
         values={sliderValues}
         onChangeAction={handleSliderChange}
       />
-      <InStockToggle checked={inStock} onChangeAction={(checked) => setInStock(checked)} />
+      <InStockToggle
+        checked={inStock}
+        onChangeAction={(checked) => setInStock(checked)}
+      />
       <button
         type="submit"
         className="bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center duration-300 cursor-pointer"

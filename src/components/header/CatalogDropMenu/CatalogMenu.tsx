@@ -4,8 +4,8 @@ import { CatalogMenuProps } from "@/types/catalogMenuProps";
 import Link from "next/link";
 import SearchBlock from "../SearchBlock";
 
-const CatalogMenu = (
-  {isLoading,
+const CatalogMenu = ({
+  isLoading,
   isCatalogOpen,
   setIsCatalogOpen,
   categories,
@@ -13,8 +13,8 @@ const CatalogMenu = (
   menuRef,
   error,
   onMouseEnter,
-  onFocusChangeAction}: CatalogMenuProps
-) => {
+  onFocusChangeAction,
+}: CatalogMenuProps) => {
   return (
     <>
       <div
@@ -45,7 +45,7 @@ const CatalogMenu = (
                   <Link
                     key={category.slug}
                     href={`/category/${category.slug}`}
-                    className="block px-4 py-2 text-[#414141] hover:text-[#ff6633] font-bold duration-300"
+                    className="block px-4 py-2 text-main-text hover:text-[#ff6633] font-bold duration-300"
                     onClick={() => setIsCatalogOpen(false)}
                   >
                     {category.title}

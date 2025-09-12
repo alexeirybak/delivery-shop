@@ -19,13 +19,13 @@ const ArticleCard = ({ img, title, createdAt, text }: ArticleCardProps) => {
         <time className="text-[8px] text-[#8f8f8f]">
           {new Date(createdAt).toLocaleDateString("ru-RU")}
         </time>
-        <h3 className="text-[#414141] text-base font-bold xl:text-lg">
+        <h3 className="text-main-text text-base font-bold xl:text-lg">
           {title}
         </h3>
-        <p className="text-[#414141] line-clamp-3 text-xs xl:text-base">
+        <p className="text-main-text line-clamp-3 text-xs xl:text-base">
           {text}
         </p>
-        <button className="rounded mt-auto w-37.5 h-10 bg-[#E5FFDE] text-base text-[#70C05B] hover:bg-(--color-primary) hover:shadow-(--shadow-button-default) hover:text-white active:shadow-(--shadow-button-active) duration-300 cursor-pointer">
+        <button className="rounded mt-auto w-37.5 h-10 bg-[#E5FFDE] text-base text-[#70C05B] hover:bg-primary hover:shadow-(--shadow-button-default) hover:text-white active:shadow-(--shadow-button-active) duration-300 cursor-pointer">
           Подробнее
         </button>
       </div>

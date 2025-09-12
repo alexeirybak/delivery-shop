@@ -22,17 +22,17 @@ export const UnverifiedEmail = ({
       <div className="flex flex-col gap-y-4 justify-center items-center">
         <MailWarning className="h-8 w-8 text-[#ff6633]" />
 
-        <h2 className="text-2xl font-medium text-[#414141] tracking-tight">
+        <h2 className="text-2xl font-medium text-main-text tracking-tight">
           Требуется{" "}
           <span className="text-[#ff6633] font-semibold">подтверждение</span>
         </h2>
 
         <div className="w-full">
           <div className="w-full bg-white/95 rounded p-4 border border-gray-100 shadow-xs flex flex-col items-center">
-            <p className="text-[#414141] text-sm font-light">
+            <p className="text-main-text text-sm font-light">
               Письмо отправлено на:
             </p>
-            <p className="font-medium text-[#414141] mt-1 text-lg">{email}</p>
+            <p className="font-medium text-main-text mt-1 text-lg">{email}</p>
             <p className="text-xs text-gray-400 mt-2 font-light">
               Проверьте все папки, включая «Спам»
             </p>
@@ -57,10 +57,10 @@ export const UnverifiedEmail = ({
               setLoginAction("");
               setShowUnverifiedEmailAction(false);
             }}
-            className={`${formStyles.loginLink} [&&]:h-auto [&&]:my-auto text-(--color-primary) hover:text-white w-full cursor-pointer`}
+            className={`${formStyles.loginLink} [&&]:h-auto [&&]:my-auto text-primary hover:text-white w-full cursor-pointer`}
           >
             <span className="relative flex items-center justify-center gap-2 font-medium py-3.5 px-6 text-sm hover:*:text-white">
-              <Search className="h-5 w-5 text-(--color-primary) transition-colors duration-300" />
+              <Search className="h-5 w-5 text-primary transition-colors duration-300" />
               <span className="translate-y-px">Использовать другой email</span>
             </span>
           </button>

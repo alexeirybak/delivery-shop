@@ -29,16 +29,17 @@ export default function VerifySuccessPage() {
   return (
     <AuthFormLayout>
       <div className="p-8 text-center">
-        <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-(--color-primary) mb-6">
+        <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-primary mb-6">
           <CheckCircle className="h-10 w-10 text-white" />
         </div>
 
-        <h1 className="text-2xl font-bold text-[#414141] mb-2">
+        <h1 className="text-2xl font-bold text-main-text mb-2">
           Email успешно подтвержден!
         </h1>
 
         <p className="text-gray-600 mb-6">
-          Ваш адрес электронной почты был успешно подтвержден. Теперь Вы можете войти в свой аккаунт.
+          Ваш адрес электронной почты был успешно подтвержден. Теперь Вы можете
+          войти в свой аккаунт.
         </p>
 
         <div className="space-y-4">

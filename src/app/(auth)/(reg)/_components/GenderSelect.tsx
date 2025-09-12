@@ -20,7 +20,7 @@ const GenderSelect = ({ value, onChangeAction }: GenderSelectProps) => {
           <label
             key={gender.id}
             className={`flex flex-1 items-center justify-center rounded duration-300 cursor-pointer ${
-              value === gender.id ? "bg-(--color-primary) text-white" : ""
+              value === gender.id ? "bg-primary text-white" : ""
             }`}
           >
             <input

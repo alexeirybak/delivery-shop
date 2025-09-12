@@ -16,7 +16,7 @@ const SlideOne = () => {
           />
         </div>
 
-        <h2 className="text-lg md:text-2xl xl:text-5xl font-bold text-[#414141]">
+        <h2 className="text-lg md:text-2xl xl:text-5xl font-bold text-main-text">
           Доставка бесплатно от 1000 ₽
         </h2>
       </div>
