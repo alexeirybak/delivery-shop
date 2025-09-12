@@ -3,11 +3,11 @@
 import { useCallback, useEffect, useState } from "react";
 import NavAndInfo from "./_components/NavAndInfo";
 import { UserData } from "@/types/userData";
-import { Loader } from "lucide-react";
 import ErrorComponent from "@/components/ErrorComponent";
 import { useAuthStore } from "@/store/authStore";
 import { CONFIG } from "../../../../../config/config";
 import UsersTable from "./_components/UsersTable";
+import { Loader } from "@/components/Loader";
 
 const PAGE_SIZE_OPTIONS = [1, 5, 10, 20, 50, 100];
 
@@ -17,6 +17,8 @@ const UsersList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [sortBy, setSortBy] = useState("createdAt");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<{
     error: Error;
@@ -34,49 +36,68 @@ const UsersList = () => {
     setCurrentPage(1);
   };
 
-  const loadUsers = useCallback(async (page: number, limit: number) => {
-    try {
-      setLoading(true);
-      setError(null);
+  const handleSort = (field: string) => {
+    const newDirection =
+      sortBy === field && sortDirection === "desc" ? "asc" : "desc";
+    setSortBy(field);
+    setSortDirection(newDirection);
+    setCurrentPage(1);
+  };
 
-      const queryParams = new URLSearchParams({
-        page: page.toString(),
-        limit: limit.toString(),
-        isManager: isManager.toString(),
-      });
+  const loadUsers = useCallback(
+    async (
+      page: number,
+      sortField: string,
+      sortDir: "asc" | "desc",
+      limit: number
+    ) => {
+      try {
+        setLoading(true);
+        setError(null);
 
-      if (isManager && currentUser) {
-        queryParams.append("managerRegion", currentUser.region || "");
-        queryParams.append("managerLocation", currentUser.location || "");
+        const queryParams = new URLSearchParams({
+          page: page.toString(),
+          limit: limit.toString(),
+          isManager: isManager.toString(),
+          sortBy: sortField,
+          sortDirection: sortDir,
+        });
+
+        if (isManager && currentUser) {
+          queryParams.append("managerRegion", currentUser.region || "");
+          queryParams.append("managerLocation", currentUser.location || "");
+        }
+
+        const response = await fetch(`/api/admin/users?${queryParams}`);
+
+        if (!response.ok) {
+          throw new Error("Ошибка загрузки пользователей");
+        }
+
+        const data = await response.json();
+
+        if (data?.users) {
+          setUsers(data.users);
+          setTotalUsers(data.totalCount);
+          setTotalPages(data.totalPages);
+          console.log(data.users);
+        }
+      } catch (error) {
+        setError({
+          error:
+            error instanceof Error ? error : new Error("Неизвестная ошибка"),
+          userMessage: "Не удалось загрузить список пользователей",
+        });
+      } finally {
+        setLoading(false);
       }
-
-      const response = await fetch(`/api/admin/users?${queryParams}`);
-
-      if (!response.ok) {
-        throw new Error("Ошибка загрузки пользователей");
-      }
-
-      const data = await response.json();
-
-      if (data?.users) {
-        setUsers(data.users);
-        setTotalUsers(data.totalCount);
-        setTotalPages(data.totalPages);
-        console.log(data.users);
-      }
-    } catch (error) {
-      setError({
-        error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
-        userMessage: "Не удалось загрузить список пользователей",
-      });
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [currentUser, isManager]
+  );
 
   useEffect(() => {
-    loadUsers(currentPage, pageSize);
-  }, [loadUsers, currentPage, pageSize]);
+    loadUsers(currentPage, sortBy, sortDirection, pageSize);
+  }, [loadUsers, currentPage, pageSize, sortBy, sortDirection]);
 
   if (loading) return <Loader />;
 
@@ -99,6 +120,9 @@ const UsersList = () => {
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={handlePageChange}
+        sortBy={sortBy}
+        sortDirection={sortDirection}
+        onSort={handleSort}
       />
     </div>
   );

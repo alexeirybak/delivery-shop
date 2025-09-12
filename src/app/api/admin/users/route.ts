@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "../../../../../utils/api-routes";
 import { CONFIG } from "../../../../../config/config";
+import { getShortDecimalId } from "../../../../../utils/admin/shortDecimalId";
+import { calculateAge } from "../../../../../utils/admin/calculateAge";
 
 interface UserFilter {
   region?: string;
@@ -18,6 +20,8 @@ export async function GET(request: NextRequest) {
     const managerRegion = searchParams.get("managerRegion");
     const managerLocation = searchParams.get("managerLocation");
     const isManager = searchParams.get("isManager") === "true";
+    const sortBy = searchParams.get("sortBy") || "createdAt";
+    const sortDirection = searchParams.get("sortDirection") || "desc";
 
     const db = await getDB();
 
@@ -28,14 +32,23 @@ export async function GET(request: NextRequest) {
       filter.location = managerLocation;
     }
 
-    const users = await db.collection("user").find(filter).toArray();
+    const sortOptions: { [key: string]: 1 | -1 } = {};
+    sortOptions[sortBy] = sortDirection === "asc" ? 1 : -1;
+
+    const users = await db
+      .collection("user")
+      .find(filter)
+      .sort(sortOptions)
+      .toArray();
 
     const totalCount = await db.collection("user").countDocuments(filter);
 
     const formattedUsers = users.map((user) => ({
       id: user._id.toString(),
+      decimalId: getShortDecimalId(user._id.toString()),
       name: user.name || "",
       surname: user.surname || "",
+      age: calculateAge(user.birthdayDate),
       email: user.email || "",
       phoneNumber: user.phoneNumber || "",
       role: user.role || "user",

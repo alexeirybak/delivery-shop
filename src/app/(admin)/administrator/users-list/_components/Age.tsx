@@ -12,8 +12,8 @@ const Age = ({ birthdayDate }: AgeProps) => {
     <div
       className={`text-xs border-b border-gray-300 md:border-b-0 order-3 ${tableStyles.colSpans.age} ${tableStyles.border.right}`}
     >
-      {age === "-" ? (
-        "-"
+      {age === 0 ? (
+        0
       ) : (
         <>
           {age}

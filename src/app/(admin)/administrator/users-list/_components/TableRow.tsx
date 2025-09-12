@@ -15,7 +15,7 @@ interface TableRowProps {
 
 const TableRow = ({ user }: TableRowProps) => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-1 md:gap-2 px-3 py-1 duration-300 hover:bg-gray-50 hover:shadow-lg rounded-lg">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-1 md:gap-2 px-3 py-1 duration-300 hover:bg-gray-50 hover:shadow-lg rounded">
       <UserId userId={user.id} />
       <Person
         name={user.name}
@@ -28,7 +28,7 @@ const TableRow = ({ user }: TableRowProps) => {
         phone={user.phoneNumber}
         phoneVerified={user.phoneNumberVerified}
       />
-      <Role initialRole={user.role} userId={user.role} />
+      <Role initialRole={user.role} userId={user.id} />
       <Register createdAt={user.createdAt} />
     </div>
   );

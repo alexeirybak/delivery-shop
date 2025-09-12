@@ -21,7 +21,7 @@ const Person = ({
         {name} {surname}
       </div>
       {birthdaySoon && (
-        <span className="inline-flex items-center gap-2 text-[#ff6633] rounded-full text-xs md:justify-start">
+        <span className="inline-flex items-center gap-2 text-[#ff6633] text-xs md:justify-start">
           <Cake className="h-4 w-4" />
           {formatBirthday(birthday)}
         </span>

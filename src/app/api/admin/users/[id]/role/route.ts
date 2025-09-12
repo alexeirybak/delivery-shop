@@ -4,18 +4,18 @@ import { ObjectId } from "mongodb";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { role } = await request.json();
-    const userId = params.id;
+    const {id} = await params;
 
     const db = await getDB();
 
     const result = await db
       .collection("user")
       .updateOne(
-        { _id: new ObjectId(userId) },
+        { _id: ObjectId.createFromHexString(id) },
         { $set: { role, updatedAt: new Date() } }
       );
 
@@ -28,7 +28,7 @@ export async function POST(
 
     return NextResponse.json({
       success: true,
-      userId,
+      id,
       role,
     });
   } catch (error) {

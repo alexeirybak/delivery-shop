@@ -1,5 +1,5 @@
-export const calculateAge = (birthday: string) => {
-  if (!birthday) return "-";
+export const calculateAge = (birthday: string): number => {
+  if (!birthday) return 0;
 
   const birthDate = new Date(birthday);
   const today = new Date();
