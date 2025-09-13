@@ -41,12 +41,8 @@ export async function GET(request: NextRequest) {
       filter.location = managerLocation;
     }
 
-    if (role && role !== "all") {
-      filter.role = role;
-    }
-
     // ФИЛЬТРАЦИЯ ПО ID - ЧАСТИЧНОЕ СОВПАДЕНИЕ
-    if (id) {
+    if (id && id.trim() !== "") {
       const searchId = id.trim();
 
       // Получаем только ID всех пользователей (это мало данных)
@@ -98,6 +94,10 @@ export async function GET(request: NextRequest) {
       Object.assign(filter, {
         phoneNumber: { $regex: phoneNumber, $options: "i" },
       });
+    }
+
+    if (role && role !== "all") {
+      filter.role = role;
     }
 
     // ФИЛЬТРАЦИЯ ПО ВОЗРАСТУ
@@ -191,7 +191,6 @@ export async function GET(request: NextRequest) {
       totalCount,
       currentPage: page,
       totalPages: Math.ceil(totalCount / limit),
-      hasMore: offset + users.length < totalCount,
     });
   } catch (error) {
     console.error("Ошибка при загрузке пользователей:", error);
