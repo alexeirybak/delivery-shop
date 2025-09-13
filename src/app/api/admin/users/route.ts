@@ -65,8 +65,8 @@ export async function GET(request: NextRequest) {
       } else {
         Object.assign(filter, { _id: { $in: [] } }); // Пустой результат
       }
-
     }
+
     // Текстовая фильтрация
     if (name && name.trim() !== "") {
       Object.assign(filter, {
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
     if (sortBy === "age") {
       sortOptions.birthdayDate = sortDirection === "asc" ? 1 : -1;
     } else if (sortBy === "id") {
-      sortOptions._id = sortDirection === "asc" ? 1 : -1;
+      sortOptions.createdAt = sortDirection === "asc" ? 1 : -1;
     } else {
       sortOptions[sortBy] = sortDirection === "asc" ? 1 : -1;
     }
@@ -157,6 +157,17 @@ export async function GET(request: NextRequest) {
       .skip(offset)
       .limit(limit)
       .toArray();
+
+    if (sortBy === "id") {
+      users.sort((a, b) => {
+        const decimalA = parseInt(getShortDecimalId(a._id.toString()));
+        const decimalB = parseInt(getShortDecimalId(b._id.toString()));
+
+        return sortDirection === "asc"
+          ? decimalA - decimalB
+          : decimalB - decimalA;
+      });
+    }
 
     const totalCount = await db.collection("user").countDocuments(filter);
 
