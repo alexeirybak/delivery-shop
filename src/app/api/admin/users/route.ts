@@ -3,6 +3,7 @@ import { getDB } from "../../../../../utils/api-routes";
 import { CONFIG } from "../../../../../config/config";
 import { getShortDecimalId } from "../../../../../utils/admin/shortDecimalId";
 import { calculateAge } from "../../../../../utils/admin/calculateAge";
+import { Filter, Document } from "mongodb";
 
 export async function GET(request: NextRequest) {
   try {
@@ -31,144 +32,136 @@ export async function GET(request: NextRequest) {
 
     const db = await getDB();
 
-    // Сначала получаем всех пользователей
-    const allUsers = await db.collection("user").find({}).toArray();
+    // СОЗДАЕМ ФИЛЬТР ДЛЯ MONGODB
+    const filter: Filter<Document> = {};
 
-    // Применяем фильтрацию в памяти
-    let filteredUsers = allUsers;
+    // ТЕКУЩИЙ ВАРИАНТ - ОН УЖЕ ПРОСТОЙ И ПРАВИЛЬНЫЙ
+    if (isManager && managerRegion && managerLocation) {
+      filter.region = managerRegion;
+      filter.location = managerLocation;
+    }
 
-    // ФИЛЬТРАЦИЯ ПО ID (decimalId)
-    if (id && id.trim() !== "") {
-      filteredUsers = filteredUsers.filter((user) => {
-        const userDecimalId = getShortDecimalId(user._id.toString());
-        return userDecimalId.includes(id);
+    if (role && role !== "all") {
+      filter.role = role;
+    }
+
+    // ФИЛЬТРАЦИЯ ПО ID - ЧАСТИЧНОЕ СОВПАДЕНИЕ
+    if (id) {
+      const searchId = id.trim();
+
+      // Получаем только ID всех пользователей (это мало данных)
+      const allUserIds = await db
+        .collection("user")
+        .find({}, { projection: { _id: 1 } })
+        .toArray();
+
+      // Фильтруем по partial match decimalId
+      const matchingIds = allUserIds
+        .filter((user) => {
+          const decimalId = getShortDecimalId(user._id.toString());
+          return decimalId.includes(searchId); // ЧАСТИЧНОЕ СОВПАДЕНИЕ
+        })
+        .map((user) => user._id);
+
+      // Используем отфильтрованные ID в основном запросе
+      if (matchingIds.length > 0) {
+        Object.assign(filter, { _id: { $in: matchingIds } });
+      } else {
+        Object.assign(filter, { _id: { $in: [] } }); // Пустой результат
+      }
+
+    }
+    // Текстовая фильтрация
+    if (name && name.trim() !== "") {
+      Object.assign(filter, {
+        name: { $regex: name, $options: "i" },
       });
     }
 
-    // ФИЛЬТРАЦИЯ ПО РОЛИ
-    if (role && role !== "all") {
-      filteredUsers = filteredUsers.filter((user) => user.role === role);
-    }
-
-    // ФИЛЬТРАЦИЯ ПО ИМЕНИ
-    if (name && name.trim() !== "") {
-      const regex = new RegExp(name, "i");
-      filteredUsers = filteredUsers.filter(
-        (user) => user.name && regex.test(user.name)
-      );
-    }
-
-    // ФИЛЬТРАЦИЯ ПО ФАМИЛИИ
     if (surname && surname.trim() !== "") {
-      const regex = new RegExp(surname, "i");
-      filteredUsers = filteredUsers.filter(
-        (user) => user.surname && regex.test(user.surname)
-      );
+      Object.assign(filter, {
+        surname: { $regex: surname, $options: "i" },
+      });
     }
 
-   // ФИЛЬТРАЦИЯ ПО EMAIL
-if (email && email.trim() !== '') {
-  const searchEmail = email.trim().toLowerCase();
-  
-  filteredUsers = filteredUsers.filter(user => {
-    // Проверяем базовые условия
-    if (!user.email || typeof user.email !== 'string' || user.email.trim() === '') {
-      return false;
+    if (email && email.trim() !== "") {
+      Object.assign(filter, {
+        email: {
+          $regex: email,
+          $options: "i",
+          $not: { $regex: CONFIG.TEMPORARY_EMAIL_DOMAIN, $options: "i" },
+        },
+      });
     }
-    
-    // ИСКЛЮЧАЕМ технические email (как в UI)
-    if (user.email.includes(CONFIG.TEMPORARY_EMAIL_DOMAIN)) {
-      return false; // Не показываем технические email в результатах поиска
-    }
-    
-    // Поиск по содержанию
-    const userEmail = user.email.toLowerCase();
-    return userEmail.includes(searchEmail);
-  });
-}
-    // ФИЛЬТРАЦИЯ ПО ТЕЛЕФОНУ
+
     if (phoneNumber && phoneNumber.trim() !== "") {
-      const regex = new RegExp(phoneNumber, "i");
-      filteredUsers = filteredUsers.filter(
-        (user) => user.phoneNumber && regex.test(user.phoneNumber)
-      );
+      Object.assign(filter, {
+        phoneNumber: { $regex: phoneNumber, $options: "i" },
+      });
     }
 
     // ФИЛЬТРАЦИЯ ПО ВОЗРАСТУ
-    if ((minAge && minAge.trim() !== "") || (maxAge && maxAge.trim() !== "")) {
-      filteredUsers = filteredUsers.filter((user) => {
-        if (!user.birthdayDate) return false;
+    if (minAge || maxAge) {
+      const currentYear = new Date().getFullYear();
+      const birthdayDateFilter: Record<string, string> = {};
 
-        const age = calculateAge(user.birthdayDate);
-        let passesFilter = true;
+      if (minAge && minAge.trim() !== "") {
+        const minAgeNum = parseInt(minAge);
+        const maxBirthdayYear = currentYear - minAgeNum;
+        birthdayDateFilter.$lte = `${maxBirthdayYear}-12-31T23:59:59.999Z`;
+      }
 
-        if (minAge && minAge.trim() !== "") {
-          passesFilter = passesFilter && age >= parseInt(minAge);
-        }
-        if (maxAge && maxAge.trim() !== "") {
-          passesFilter = passesFilter && age <= parseInt(maxAge);
-        }
+      if (maxAge && maxAge.trim() !== "") {
+        const maxAgeNum = parseInt(maxAge);
+        const minBirthdayYear = currentYear - maxAgeNum - 1;
+        birthdayDateFilter.$gte = `${minBirthdayYear}-01-01T00:00:00.000Z`;
+      }
 
-        return passesFilter;
-      });
+      Object.assign(filter, { birthdayDate: birthdayDateFilter });
     }
 
-    // ФИЛЬТРАЦИЯ ПО ДАТЕ РЕГИСТРАЦИИ
-    if (
-      (startDate && startDate.trim() !== "") ||
-      (endDate && endDate.trim() !== "")
-    ) {
-      filteredUsers = filteredUsers.filter((user) => {
-        if (!user.createdAt) return false;
+    // Фильтрация по дате регистрации
+    const createdAtFilter: Record<string, Date> = {};
 
-        const userDate = new Date(user.createdAt);
-        let passesFilter = true;
-
-        if (startDate && startDate.trim() !== "") {
-          passesFilter = passesFilter && userDate >= new Date(startDate);
-        }
-        if (endDate && endDate.trim() !== "") {
-          const endDateObj = new Date(endDate);
-          endDateObj.setHours(23, 59, 59, 999); // До конца дня
-          passesFilter = passesFilter && userDate <= endDateObj;
-        }
-
-        return passesFilter;
-      });
+    if (startDate && startDate.trim() !== "") {
+      createdAtFilter.$gte = new Date(startDate);
     }
 
-    // ФИЛЬТРАЦИЯ ДЛЯ МЕНЕДЖЕРА
-    if (isManager && managerRegion && managerLocation) {
-      filteredUsers = filteredUsers.filter(
-        (user) =>
-          user.region === managerRegion && user.location === managerLocation
-      );
+    if (endDate && endDate.trim() !== "") {
+      createdAtFilter.$lte = new Date(endDate);
+    }
+
+    if (Object.keys(createdAtFilter).length > 0) {
+      Object.assign(filter, { createdAt: createdAtFilter });
     }
 
     // СОРТИРОВКА
-    filteredUsers.sort((a, b) => {
-      const direction = sortDirection === "asc" ? 1 : -1;
+    const sortOptions: { [key: string]: 1 | -1 } = {};
 
-      if (sortBy === "createdAt") {
-        return (
-          direction *
-          (new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime())
-        );
-      }
-
-      if (a[sortBy] < b[sortBy]) return -1 * direction;
-      if (a[sortBy] > b[sortBy]) return 1 * direction;
-      return 0;
-    });
+    if (sortBy === "age") {
+      sortOptions.birthdayDate = sortDirection === "asc" ? 1 : -1;
+    } else if (sortBy === "id") {
+      sortOptions._id = sortDirection === "asc" ? 1 : -1;
+    } else {
+      sortOptions[sortBy] = sortDirection === "asc" ? 1 : -1;
+    }
 
     // ПАГИНАЦИЯ
-    const totalCount = filteredUsers.length;
-    const startIndex = (page - 1) * limit;
-    const endIndex = Math.min(startIndex + limit, totalCount);
-    const paginatedUsers = filteredUsers.slice(startIndex, endIndex);
+    const offset = (page - 1) * limit;
+
+    // ВЫПОЛНЯЕМ ЗАПРОС
+    const users = await db
+      .collection("user")
+      .find(filter)
+      .sort(sortOptions)
+      .skip(offset)
+      .limit(limit)
+      .toArray();
+
+    const totalCount = await db.collection("user").countDocuments(filter);
 
     // ФОРМАТИРОВАНИЕ РЕЗУЛЬТАТА
-    const formattedUsers = paginatedUsers.map((user) => ({
+    const formattedUsers = users.map((user) => ({
       id: user._id.toString(),
       decimalId: getShortDecimalId(user._id.toString()),
       name: user.name || "",
@@ -198,7 +191,7 @@ if (email && email.trim() !== '') {
       totalCount,
       currentPage: page,
       totalPages: Math.ceil(totalCount / limit),
-      hasMore: endIndex < totalCount,
+      hasMore: offset + users.length < totalCount,
     });
   } catch (error) {
     console.error("Ошибка при загрузке пользователей:", error);
