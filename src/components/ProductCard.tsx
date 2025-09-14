@@ -1,3 +1,4 @@
+// components/ProductCard.tsx
 import Image from "next/image";
 import iconHeart from "/public/icons-header/icon-heart.svg";
 import { ProductCardProps } from "@/types/product";
@@ -10,8 +11,9 @@ const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
 const ProductCard = ({
   _id,
+  id,
   img,
-  description,
+  description, // Используем description для передачи в URL
   basePrice,
   discountPercent = 0,
   rating,
@@ -37,6 +39,17 @@ const ProductCard = ({
 
   const ratingValue = rating?.rate || 5;
 
+  // Используем числовой id для ссылки, если он есть
+  const productId = id || _id;
+  
+  // Создаем URL с description в search-параметрах
+  const productUrl = {
+    pathname: `/catalog/product/${productId}`,
+    query: { 
+      desc: encodeURIComponent(description.substring(0, 50)) // Берем первые 50 символов
+    }
+  };
+
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
       <button className="w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2 right-2 opacity-50 rounded cursor-pointer duration-300 z-10">
@@ -48,7 +61,7 @@ const ProductCard = ({
           sizes="24px"
         />
       </button>
-      <Link href={`/product/${_id}`}>
+      <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
             src={img}

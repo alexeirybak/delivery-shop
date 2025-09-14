@@ -1,23 +1,42 @@
+// components/Breadcrumbs.tsx
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import iconToRight from "/public/icons-products/icon-arrow-right.svg";
 import { TRANSLATIONS } from "../../utils/translations";
 
 const Breadcrumbs = () => {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
-  if (pathname === "/" || pathname === "/search") return null;
+  // Скрываем на главной, поиске и других страницах если нужно
+  const hiddenPaths = ["/", "/search", "/cart", "/profile"];
+  if (hiddenPaths.includes(pathname)) return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
+  
+  // Получаем description из search-параметров
+  const productDesc = searchParams.get('desc');
+  const decodedProductDesc = productDesc ? decodeURIComponent(productDesc) : null;
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
+    
+    let label = TRANSLATIONS[segment] || segment;
+    
+    // Если это страница продукта и есть description из search-параметров
+    if (decodedProductDesc && 
+        index === pathSegments.length - 1 && 
+        pathSegments.includes('product') && 
+        !isNaN(Number(segment))) {
+      label = decodedProductDesc + (decodedProductDesc.length > 50 ? '...' : '');
+    }
+    
     return {
-      label: TRANSLATIONS[segment] || segment,
-      href,
+      label,
+      href: index === pathSegments.length - 1 ? `${href}?desc=${productDesc}` : href,
       isLast: index === pathSegments.length - 1,
     };
   });
