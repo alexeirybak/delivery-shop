@@ -1,8 +1,8 @@
-// app/products/[id]/_components/AddReviewForm.tsx
 "use client";
 
 import { useState } from "react";
 import { useAuthStore } from "@/store/authStore";
+import BigStarIcon from "@/components/svg/BigStarIcon";
 
 interface AddReviewFormProps {
   productId: string;
@@ -14,23 +14,27 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
+  const [showValidationError, setShowValidationError] = useState(false);
   const { user } = useAuthStore();
+
+  const isFormValid = rating > 0 && comment.trim().length > 0;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (rating === 0 || !comment.trim()) {
-      setError("Заполните все поля");
-      return;
-    }
 
     if (!user) {
       setError("Необходимо авторизоваться");
       return;
     }
 
+    if (!isFormValid) {
+      setShowValidationError(true);
+      return;
+    }
+
     setSubmitting(true);
     setError("");
+    setShowValidationError(false);
 
     try {
       const response = await fetch(`/api/products/${productId}/reviews`, {
@@ -39,9 +43,10 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          userId: user.id,
           rating,
-          comment: comment.trim(),
+          comment,
+          userId: user.id,
+          userName: user.name,
         }),
       });
 
@@ -55,7 +60,8 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
       setRating(0);
       onReviewAdded();
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : "Ошибка при отправке отзыва";
+      const errorMessage =
+        err instanceof Error ? err.message : "Ошибка при отправке отзыва";
       setError(errorMessage);
       console.error("Ошибка отправки отзыва:", err);
     } finally {
@@ -64,58 +70,64 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
   };
 
   return (
-    <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-      <h3 className="text-xl font-semibold mb-4">Оставить отзыв</h3>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-medium mb-2">Оценка</label>
+    <div className="mt-10">
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4.5 flex flex-row gap-x-4 items-center">
+          <label className="text-lg font-bold">Ваша оценка</label>
           <div className="flex items-center">
             {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
-                onClick={() => setRating(star)}
-                className="cursor-pointer hover:scale-110 transition-transform text-2xl mr-1"
+                onClick={() => {
+                  setRating(star);
+                  setShowValidationError(false);
+                }}
+                className="cursor-pointer hover:scale-110 transition-transform mr-1"
               >
-                {star <= rating ? (
-                  <span className="text-yellow-400">★</span>
-                ) : (
-                  <span className="text-gray-300">☆</span>
-                )}
+                <BigStarIcon filled={star <= rating} />
               </button>
             ))}
           </div>
-          {rating > 0 && (
-            <p className="text-sm text-gray-500 mt-1">Выбрано: {rating} звезд</p>
+        </div>
+        <div className="w-full max-w-[544px] mb-5">
+          <div className="mb-4">
+            <textarea
+              id="comment"
+              value={comment}
+              onChange={(e) => {
+                setComment(e.target.value);
+                setShowValidationError(false);
+              }}
+              rows={4}
+              className="w-full max-w-[544px] bg-white px-4 py-2 border border-[#bfbfbf] rounded focus:outline-none focus:ring-1 focus:ring-primary"
+              placeholder="Отзыв"
+              style={{ resize: "vertical" }}
+            />
+          </div>
+
+          {/* Сообщение о необходимости заполнить все поля */}
+          {showValidationError && (
+            <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
+              Пожалуйста, поставьте оценку и напишите отзыв
+            </div>
+          )}
+
+          {/* Сообщение об ошибке авторизации или сервера */}
+          {error && (
+            <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
+              {error}
+            </div>
           )}
         </div>
 
-        <div>
-          <label htmlFor="comment" className="block text-sm font-medium mb-2">
-            Ваш отзыв
-          </label>
-          <textarea
-            id="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            rows={4}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Поделитесь вашим мнением о товаре..."
-            required
-          />
-        </div>
-
-        {error && (
-          <div className="text-red-500 text-sm p-2 bg-red-50 rounded-md">
-            {error}
-          </div>
-        )}
-
         <button
           type="submit"
-          disabled={submitting || rating === 0 || !comment.trim()}
-          className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+          className={`${
+            submitting
+              ? "cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]"
+              : "text-base bg-[#ff6633] text-white hover:shadow-(--shadow-article)"
+          } w-[188px] p-2 flex items-center justify-center rounded duration-300 cursor-pointer`}
         >
           {submitting ? "Отправка..." : "Отправить отзыв"}
         </button>

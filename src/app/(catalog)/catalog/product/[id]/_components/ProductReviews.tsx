@@ -1,16 +1,18 @@
-// app/products/[id]/_components/ProductReviews.tsx
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import StarRating from "@/components/StarRating";
+import ErrorComponent from "@/components/ErrorComponent";
 
 interface Review {
-  _id: string; // исправлено с id на _id
+  _id: string;
   userId: string;
-  userName: string;
   rating: number;
   comment: string;
   createdAt: string;
+  updatedAt: string;
+  userName: string;
 }
 
 interface ProductReviewsProps {
@@ -21,21 +23,27 @@ interface ProductReviewsProps {
 const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
+  const [error, setError] = useState<{
+    error: Error;
+    userMessage: string;
+  } | null>(null);
 
   const fetchReviews = async () => {
     try {
       setLoading(true);
       const response = await fetch(`/api/products/${productId}/reviews`);
-      
+
       if (!response.ok) {
         throw new Error("Не удалось загрузить отзывы");
       }
-      
+
       const data = await response.json();
       setReviews(data);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Ошибка загрузки отзывов");
+    } catch (error) {
+      setError({
+        error: error instanceof Error ? error : new Error("Неизвестная ошибка"),
+        userMessage: "Не удалось загрузить отзывы",
+      });
     } finally {
       setLoading(false);
     }
@@ -43,11 +51,12 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
 
   useEffect(() => {
     fetchReviews();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, refreshKey]);
 
   if (loading) {
     return (
-      <div className="mt-8">
+      <div>
         <h2 className="text-xl font-semibold mb-4">Отзывы</h2>
         <div className="animate-pulse space-y-4">
           {[...Array(3)].map((_, i) => (
@@ -65,37 +74,45 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
 
   if (error) {
     return (
-      <div className="mt-8">
-        <h2 className="text-xl font-semibold mb-4">Отзывы</h2>
-        <div className="text-red-500">{error}</div>
-      </div>
+      <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
   }
 
   return (
-    <div className="mt-8">
-      <h2 className="text-xl font-semibold mb-4">
-        Отзывы ({reviews.length})
-      </h2>
+    <div>
+      <h2 className="text-xl font-bold mb-4">Отзывы</h2>
       
       {reviews.length === 0 ? (
-        <p className="text-gray-500">Пока нет отзывов. Будьте первым!</p>
+        <p className="text-main-text">Пока нет отзывов. Будьте первым!</p>
       ) : (
-        <div className="space-y-4">
-          {reviews.map((review) => (
-            <div key={review._id} className="p-4 bg-white border rounded-lg"> {/* Исправлено на review._id */}
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center space-x-2">
-                  <span className="font-semibold">{review.userName}</span>
-                  <span className="text-gray-500 text-sm">
+        <div className="flex flex-col gap-y-10">
+          {reviews.map((review) => {
+            const userName = review.userName || "Неизвестный пользователь";
+            return (
+              <div key={review._id}>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="rounded-[47px] border border-[#f3f2f1] p-2.5 w-9 h-9 flex items-center justify-center">
+                    <Image
+                      src="/icons-products/icon-user.svg"
+                      alt="Пользователь"
+                      width={16}
+                      height={16}
+                    />
+                  </div>
+                  <span className="text-lg">{userName}</span>
+                </div>
+
+                <div className="flex flex-row items-center gap-x-4 mb-2">
+                  <StarRating rating={review.rating} />
+                  <span className="text-[#8f8f8f] text-xs">
                     {new Date(review.createdAt).toLocaleDateString("ru-RU")}
                   </span>
+                  
                 </div>
-                <StarRating rating={review.rating} />
+                <p className="text-main-text text-base">{review.comment}</p>
               </div>
-              <p className="text-gray-700">{review.comment}</p>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>

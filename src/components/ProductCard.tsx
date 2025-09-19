@@ -1,4 +1,3 @@
-// components/ProductCard.tsx
 import Image from "next/image";
 import iconHeart from "/public/icons-header/icon-heart.svg";
 import { ProductCardProps } from "@/types/product";
@@ -13,12 +12,16 @@ const ProductCard = ({
   _id,
   id,
   img,
-  description, // Используем description для передачи в URL
+  description,
   basePrice,
   discountPercent = 0,
   rating,
   tags,
 }: ProductCardProps) => {
+
+  // Устанавливаем значение по умолчанию 5.0, если рейтинг отсутствует или равен 0
+  const ratingValue = rating?.average ?? 5.0;
+
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount > 0 ? price * (1 - discount / 100) : price;
   };
@@ -37,16 +40,12 @@ const ProductCard = ({
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const ratingValue = rating?.rate || 5;
-
-  // Используем числовой id для ссылки, если он есть
   const productId = id || _id;
   
-  // Создаем URL с description в search-параметрах
   const productUrl = {
     pathname: `/catalog/product/${productId}`,
     query: { 
-      desc: encodeURIComponent(description.substring(0, 50)) // Берем первые 50 символов
+      desc: encodeURIComponent(description.substring(0, 50))
     }
   };
 
@@ -104,7 +103,11 @@ const ProductCard = ({
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          {ratingValue > 0 && <StarRating rating={ratingValue} />}
+          
+          {/* УБИРАЕМ УСЛОВИЕ && - отображаем рейтинг всегда */}
+          <div className="flex items-center mt-2">
+            <StarRating rating={ratingValue} />
+          </div>
         </div>
       </Link>
       <button className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none">

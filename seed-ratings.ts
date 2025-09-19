@@ -1,8 +1,7 @@
-import { faker } from '@faker-js/faker';
 import { MongoClient } from 'mongodb';
 import 'dotenv/config';
 
-async function addArticleField() {
+async function updateProductsDistribution() {
   try {
     // Подключение к базе данных
     const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
@@ -18,16 +17,23 @@ async function addArticleField() {
 
     // 2. Подготавливаем операции обновления
     const bulkUpdateOps = existingProducts.map(product => {
-      // Генерируем шестизначное число с ведущими нулями
-      const articleNumber = faker.number.int({ min: 0, max: 999999 });
-      const article = articleNumber.toString().padStart(6, '0');
+      // Все значения оценок установлены в 0 внутри rating.distribution
+      const distribution = {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0
+      };
 
       return {
         updateOne: {
           filter: { _id: product._id },
           update: {
             $set: {
-              article: article
+              'rating.rate': 5.0,    // Устанавливаем рейтинг 5.0
+              'rating.count': 0,     // Обнуляем количество оценок
+              'rating.distribution': distribution // Обнуляем распределение
             }
           }
         }
@@ -38,7 +44,9 @@ async function addArticleField() {
     if (bulkUpdateOps.length > 0) {
       const result = await productsCollection.bulkWrite(bulkUpdateOps);
       console.log(`Обновлено ${result.modifiedCount} продуктов`);
-      console.log('Добавлено поле article с шестизначными номерами');
+      console.log('Обновлены значения rating:');
+      console.log('rate: 5.0, count: 0');
+      console.log('distribution: 1:0, 2:0, 3:0, 4:0, 5:0');
     } else {
       console.log('Нет продуктов для обновления');
     }
@@ -51,6 +59,6 @@ async function addArticleField() {
   }
 }
 
-addArticleField();
+updateProductsDistribution();
 
-//Команда для запуска: npx ts-node seed-article-db.ts
+//Команда для запуска: npx ts-node seed-ratings.ts

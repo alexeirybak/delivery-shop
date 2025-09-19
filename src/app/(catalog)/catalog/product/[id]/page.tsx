@@ -1,32 +1,60 @@
+import { Metadata } from "next";
 import ErrorComponent from "@/components/ErrorComponent";
 import StarRating from "@/components/StarRating";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
-import { ProductDescription } from "@/types/productDescription";
 import Image from "next/image";
+import RatingDistribution from "./_components/RatingDistribution";
+import { getReviewsWord } from "../../../../../../utils/reviewsWord";
+import ShareButton from "./_components/ShareButton";
+import ImagesBlock from "./_components/ImagesBlock";
+import ProductOffer from "./_components/ProductOffer";
+import CartButton from "./_components/CartButton";
+import Bonuses from "./_components/Bonuses";
+import { CONFIG } from "../../../../../../config/config";
+import DiscountMessage from "./_components/DiscountMessage";
+import AdditionalInfo from "./_components/AdditionalInfo";
+import SimilarProducts from "./_components/SimilarProducts";
+import { ProductCardProps } from "@/types/product";
+import SameBrandProducts from "./_components/SameBrandProducts";
+import { getProduct } from "@/lib/products";
 
 interface PageProps {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}
+
+// Динамические метаданные
+export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+  try {
+    const { id } = await params;
+    const product = await getProduct(id);
+    
+    return {
+      title: `${product.title}`,
+      description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
+      openGraph: {
+        title: product.title,
+        description: product.description || `Заказывайте ${product.title} по лучшей цене`,
+        images: product.img ? [product.img[0]] : [],
+      },
+    };
+  } catch {
+    const searchParamsObj = await searchParams;
+    const productTitle = decodeURIComponent(String(searchParamsObj.desc));
+    
+    return {
+      title: `${productTitle}`,
+      description: `Заказывайте ${productTitle} по лучшей цене. Быстрая доставка, гарантия качества.`
+    };
+  }
 }
 
 const ProductPage = async ({ params }: PageProps) => {
-  let product: ProductDescription | null = null;
-  let productId = "";
+  let product: ProductCardProps;
+  const  productId = (await params).id;
 
   try {
-    productId = (await params).id;
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${productId}`,
-      {
-        next: { revalidate: 3600 },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Ошибка HTTP: ${response.status}`);
-    }
-
-    product = await response.json();
+    product = await getProduct(productId); 
   } catch (error) {
     return (
       <ErrorComponent
@@ -49,127 +77,68 @@ const ProductPage = async ({ params }: PageProps) => {
     ? product.basePrice * (1 - product.discountPercent / 100)
     : product.basePrice;
 
+  const cardPrice = discountedPrice * (1 - CONFIG.CARD_DISCOUNT_PERCENT / 100);
+  const bonusesAmount = cardPrice * 0.05;
+
   return (
-    <div className="mx-auto text-main-text">
+    <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
       <h1 className="text-2xl font-bold mb-4">{product.title}</h1>
-      <div className="flex flex-row flex-wrap items-center gap-6 mb-4 md:mb-6">
-        <div className="text-xs">арт. {product.article}</div>
-        <div className="flex flex-row flex-wrap gap-2 items-center">
-          <StarRating rating={product.rating?.rate || 5} />
-          <p className="text-sm text-gray-600">
-            {product.rating?.count || 0} отзывов
-          </p>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div className="relative">
-          <Image
-            src={product.img}
-            alt={product.title}
-            width={500}
-            height={500}
-            className="w-full h-auto rounded-lg object-cover"
-            priority
-          />
-          {product.discountPercent && (
-            <div className="absolute top-4 left-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
-              -{product.discountPercent}%
-            </div>
-          )}
-        </div>
-
-        <div className="space-y-6">
-          <p className="text-gray-600">{product.description}</p>
-
-          {product.rating && (
-            <div className="flex items-center space-x-2">
-              <div className="flex items-center">
-                <span className="text-yellow-400">★</span>
-                <span className="ml-1 text-gray-700">
-                  {product.rating.rate}
-                </span>
-              </div>
-              <span className="text-gray-400">
-                ({product.rating.count} отзывов)
-              </span>
-            </div>
-          )}
-
-          <div className="space-y-2">
-            <div className="flex items-center space-x-4">
-              <span className="text-2xl font-bold text-gray-900">
-                {discountedPrice.toFixed(2)} ₽
-              </span>
-              {product.discountPercent && (
-                <span className="text-lg text-gray-400 line-through">
-                  {product.basePrice.toFixed(2)} ₽
-                </span>
-              )}
-            </div>
+      <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
+        <div className="flex flex-row flex-wrap items-center gap-6 mb-4 md:mb-6">
+          <div className="text-xs">арт. {product.article}</div>
+          <div className="flex flex-row flex-wrap gap-2 items-center">
+            <StarRating rating={product.rating.average || 5} />
+            <p className="text-sm underline">
+              {product.rating.count || 0}{" "}
+              {getReviewsWord(product.rating.count || 0)}
+            </p>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
-            <div>
-              <span className="text-gray-500">Вес: </span>
-              <span className="font-medium">{product.weight} кг</span>
-            </div>
-            <div>
-              <span className="text-gray-500">В наличии: </span>
-              <span className="font-medium">{product.quantity} шт</span>
-            </div>
-          </div>
-
-          <div className="space-y-3">
-            <div>
-              <span className="text-gray-500">Категории: </span>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {product.categories.map((category, index) => (
-                  <span
-                    key={index}
-                    className="bg-gray-100 text-gray-700 px-2 py-1 rounded text-xs"
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <span className="text-gray-500">Теги: </span>
-              <div className="flex flex-wrap gap-2 mt-1">
-                {product.tags.map((tag, index) => (
-                  <span
-                    key={index}
-                    className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-xs"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            {product.isHealthyFood && (
-              <div className="flex items-center text-green-600">
-                <span>✓ Полезное питание</span>
-              </div>
-            )}
-            {product.isOurProduction && (
-              <div className="flex items-center text-blue-600">
-                <span>✓ Наше производство</span>
-              </div>
-            )}
-          </div>
-
-          <button className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
-            Добавить в корзину
+          <ShareButton title={product.title} />
+          <button className="flex flex-row flex-wrap gap-2 items-center cursor-pointer">
+            <Image
+              src="/icons-header/icon-heart.svg"
+              alt="Избранное"
+              width={24}
+              height={24}
+              className="select-none"
+            />
+            <p className="text-sm">В избранное</p>
           </button>
         </div>
-      </div>
+        <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">
+          <ImagesBlock product={product} />
 
-      <ReviewsWrapper productId={productId} />
+          <div className="md:w-[344px] lg:w-[376px] flex flex-col">
+            <ProductOffer
+              discountedPrice={discountedPrice}
+              cardPrice={cardPrice}
+            />
+            <CartButton />
+            <Bonuses bonus={bonusesAmount} />
+            <DiscountMessage
+              productId={product.id.toString()}
+              productTitle={product.title}
+              currentPrice={discountedPrice}
+            />
+            <AdditionalInfo
+              brand={product.brand}
+              manufacturer={product.manufacturer}
+              weight={product.weight}
+            />
+          </div>
+          <SimilarProducts currentProduct={product} />
+        </div>
+        <SameBrandProducts currentProduct={product} />
+        <div>
+          <h2 className="text-2xl xl:text-4xl text-left font-bold text-main-text mb-4 md:mb-8 xl:mb-10">
+            Отзывы
+          </h2>
+          <div className="flex flex-col md:flex-row flex-wrap gap-4 md:gap-x-8 xl:gap-x-36">
+            <RatingDistribution distribution={product.rating.distribution} />
+            <ReviewsWrapper productId={productId} />
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

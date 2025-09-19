@@ -16,13 +16,13 @@ const ReviewsWrapper = ({ productId }: ReviewsWrapperProps) => {
   };
 
   return (
-    <>
+    <div className="flex flex-col w-full md:flex-1 min-w-0">
       <ProductReviews productId={productId} refreshKey={refreshKey} />
       <AddReviewForm 
         productId={productId} 
         onReviewAdded={handleReviewAdded} 
       />
-    </>
+    </div>
   );
 };
 
