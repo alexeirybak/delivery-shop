@@ -24,6 +24,7 @@
     "rc-slider": "^11.1.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-share": "^5.2.2",
     "resend": "^6.0.1",
     "zustand": "^5.0.7"
   },
@@ -31,7 +32,7 @@
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
     "@types/bcrypt": "^6.0.0",
-    "@types/node": "^20.19.7",
+    "@types/node": "^20.19.17",
     "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -40,6 +41,6 @@
     "eslint-config-next": "15.3.3",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }

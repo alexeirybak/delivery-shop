@@ -10,7 +10,7 @@ const GridCategoryBlock = ({
 }: GridCategoryBlockProps) => {
   return (
     <Link
-      href={`category/${slug}`}
+      href={`/catalog/${slug}`}
       className="block relative h-full overflow-hidden group min-w-40 md:min-w-[224px] xl:min-w-[274px]"
     >
       <Image

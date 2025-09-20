@@ -13,6 +13,9 @@ const rubik = Rubik({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
+  ),
   title: "Северяночка",
   description: "Доставка и покупка продуктов питания",
 };

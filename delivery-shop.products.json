@@ -1,0 +1,4291 @@
+[{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e66"
+  },
+  "id": 1,
+  "img": "/images/products/img-1.jpeg",
+  "title": "Блинчики с мясом",
+  "description": "Г/Ц Блинчики с мясом вес, Россия",
+  "basePrice": 89,
+  "discountPercent": 20,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread",
+    "meat",
+    "frozen"
+  ],
+  "weight": 0.4,
+  "quantity": 100,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "981151",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e67"
+  },
+  "id": 2,
+  "img": "/images/products/img-2.jpeg",
+  "title": "Молоко Простоквашино",
+  "description": "Молоко пастеризованное цельное",
+  "basePrice": 89,
+  "discountPercent": 15,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 1,
+  "quantity": 10,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "626098",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e68"
+  },
+  "id": 3,
+  "img": "/images/products/img-3.jpeg",
+  "title": "Колбаса Сальчичон",
+  "description": "Колбаса сырокопченая премиум класса",
+  "basePrice": 350,
+  "discountPercent": 25,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.5,
+  "quantity": 0,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "141040",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e69"
+  },
+  "id": 4,
+  "img": "/images/products/img-4.jpeg",
+  "title": "Сосиски Молочные",
+  "description": "Сосиски вареные высшего сорта",
+  "basePrice": 250,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.4,
+  "quantity": 34,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "558667",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6a"
+  },
+  "id": 5,
+  "img": "/images/products/img-5.jpeg",
+  "title": "Колбаса Сальчинон",
+  "description": "Колбаса сырокопченая",
+  "basePrice": 599.99,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.6,
+  "quantity": 0,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "517357",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6b"
+  },
+  "id": 6,
+  "img": "/images/products/img-6.jpeg",
+  "title": "Сыр Ламбер",
+  "description": "Сыр Ламбер Маасдам полутвердый 45%, 180г",
+  "basePrice": 134.99,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.18,
+  "quantity": 18,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "300804",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6c"
+  },
+  "id": 7,
+  "img": "/images/products/img-7.jpeg",
+  "title": "Пельмени Сибирская коллекция",
+  "description": "Пельмени Сибирская коллекция, категория В, 700г",
+  "basePrice": 360,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat",
+    "frozen"
+  ],
+  "weight": 0.7,
+  "quantity": 100,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "712615",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Китай"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6d"
+  },
+  "id": 8,
+  "img": "/images/products/img-8.jpeg",
+  "title": "Сырок творожный",
+  "description": "Сырок творожный Родимая Сторонка 8% с изюмом 100г, категория В, 700г",
+  "basePrice": 64.99,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.1,
+  "quantity": 100,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "475713",
+  "brand": "Домик в деревне",
+  "manufacturer": "Польша"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6e"
+  },
+  "id": 9,
+  "img": "/images/products/img-9.jpeg",
+  "title": "Печенье Юбилейное",
+  "description": "Печенье витаминизированное Юбилейное традиционное 134 г - отзывы покупателей на маркетплейсе Мегамаркет",
+  "basePrice": 55,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.134,
+  "quantity": 100,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "206939",
+  "brand": "ВкусВилл",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e6f"
+  },
+  "id": 10,
+  "img": "/images/products/img-10.jpeg",
+  "title": "Свинина Тушеная",
+  "description": "Свинина тушеная ГОСТ Сытый боярин 325 г",
+  "basePrice": 160,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.35,
+  "quantity": 100,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "366304",
+  "brand": "ВкусВилл",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e70"
+  },
+  "id": 11,
+  "img": "/images/products/img-11.jpeg",
+  "title": "Томатный соус",
+  "description": "Соус томатный Помидорка для пасты 350 мл",
+  "basePrice": 137,
+  "discountPercent": 20,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [],
+  "weight": 0.35,
+  "quantity": 100,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "007491",
+  "brand": "ВкусВилл",
+  "manufacturer": "Армения"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e71"
+  },
+  "id": 12,
+  "img": "/images/products/img-12.jpeg",
+  "title": "Имунеле For kids 1,5%",
+  "description": "Напиток кисломолочный с соком Имунеле For kids 1,5% 100 гр клубничное мороженое БЗМЖ",
+  "basePrice": 36,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids",
+    "dairy",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 17,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "810614",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e72"
+  },
+  "id": 13,
+  "img": "/images/products/img-13.jpeg",
+  "title": "Напиток молочно-соковый",
+  "description": "Напиток молочно-соковый Мажитэль Party 950г пина колада БЗМЖ",
+  "basePrice": 142,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy",
+    "healthy"
+  ],
+  "weight": 0.95,
+  "quantity": 13,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "669672",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Армения"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e73"
+  },
+  "id": 14,
+  "img": "/images/products/img-14.jpeg",
+  "title": "Индейка 'Индилайт' охлажденная",
+  "description": "Лангет из индейки Индилайт охлажденный 400 г",
+  "basePrice": 270,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy",
+    "healthy"
+  ],
+  "weight": 0.4,
+  "quantity": 19,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "010338",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e74"
+  },
+  "id": 15,
+  "img": "/images/products/img-15.jpeg",
+  "title": "Черешня",
+  "description": "Черешня свежая 100 г",
+  "basePrice": 45,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 132,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "462016",
+  "brand": "Green Ray",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e75"
+  },
+  "id": 16,
+  "img": "/images/products/img-16.jpeg",
+  "title": "Томаты, помидоры",
+  "description": "Томаты Бычье сердце",
+  "basePrice": 200,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 100,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "113146",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e76"
+  },
+  "id": 17,
+  "img": "/images/products/img-17.jpeg",
+  "title": "Шашлык",
+  "description": "Шашлык свиной",
+  "basePrice": 320,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 1,
+  "quantity": 100,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "878863",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e77"
+  },
+  "id": 18,
+  "img": "/images/products/img-18.jpeg",
+  "title": "Кукурузные палочки",
+  "description": "Кукурузные палочки в сахарной пудре Ёшки-матрёшки 120 г",
+  "basePrice": 40,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [],
+  "weight": 0.12,
+  "quantity": 100,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "440037",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e78"
+  },
+  "id": 19,
+  "img": "/images/products/img-19.jpeg",
+  "title": "Филе индейки",
+  "description": "Филе индейки малое охлажденное Индилайт 500 г",
+  "basePrice": 410,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.5,
+  "quantity": 100,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "434314",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e79"
+  },
+  "id": 20,
+  "img": "/images/products/img-20.jpeg",
+  "title": "Грудка цыпленка-бройлера",
+  "description": "Грудка цыпленка-бройлера охлажденная Куриная ферма",
+  "basePrice": 300,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 1,
+  "quantity": 22,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "797599",
+  "brand": "Green Ray",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7a"
+  },
+  "id": 21,
+  "img": "/images/products/img-21.jpeg",
+  "title": "Наггетсы куриные",
+  "description": "Наггетсы куриные Семья довольна 300 г",
+  "basePrice": 185,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat",
+    "frozen"
+  ],
+  "weight": 1,
+  "quantity": 20,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "285236",
+  "brand": "Натуральный выбор",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7b"
+  },
+  "id": 22,
+  "img": "/images/products/img-22.jpeg",
+  "title": "Карбонад свиной охлажденный",
+  "description": "Карбонад свиной охлажденный",
+  "basePrice": 410,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 1,
+  "quantity": 15,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "196555",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7c"
+  },
+  "id": 23,
+  "img": "/images/products/img-23.jpeg",
+  "title": "Фарш говяжий охлажденный",
+  "description": "Фарш говяжий охлажденный Black Angus Мираторг 400 г",
+  "basePrice": 290,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "meat"
+  ],
+  "weight": 0.4,
+  "quantity": 23,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "290827",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7d"
+  },
+  "id": 24,
+  "img": "/images/products/img-24.jpeg",
+  "title": "Сыр Пошехонский",
+  "description": "Сыр Пошехонский 45% Семья довольна 200 г БЗМЖ",
+  "basePrice": 165,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.2,
+  "quantity": 28,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "361032",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7e"
+  },
+  "id": 25,
+  "img": "/images/products/img-25.jpeg",
+  "title": "Сметана 20%",
+  "description": "Сметана 20% Домик в деревне 300 гр БЗМЖ",
+  "basePrice": 116,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.3,
+  "quantity": 44,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "281848",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e7f"
+  },
+  "id": 26,
+  "img": "/images/products/img-26.jpeg",
+  "title": "Творог 5%",
+  "description": "Творог 5% Родные луга 180 г БЗМЖ",
+  "basePrice": 71.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.18,
+  "quantity": 43,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "943778",
+  "brand": "Green Ray",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e80"
+  },
+  "id": 27,
+  "img": "/images/products/img-27.jpeg",
+  "title": "Молоко сгущенное",
+  "description": "Молоко сгущенное с сахаром 8,5% Вологодские молочные продукты 270 г БЗМЖ",
+  "basePrice": 110,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "dairy"
+  ],
+  "weight": 0.27,
+  "quantity": 94,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "574147",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e81"
+  },
+  "id": 28,
+  "img": "/images/products/img-28.jpeg",
+  "title": "Батон с изюмом",
+  "description": "Батон с изюмом 300 г",
+  "basePrice": 60.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.3,
+  "quantity": 34,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "885814",
+  "brand": "Магнит",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e82"
+  },
+  "id": 29,
+  "img": "/images/products/img-29.jpeg",
+  "title": "Булочки чесночные",
+  "description": "Булочки чесночные 180 г",
+  "basePrice": 52.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.18,
+  "quantity": 43,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "241009",
+  "brand": "Простоквашино",
+  "manufacturer": "Казахстан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e83"
+  },
+  "id": 30,
+  "img": "/images/products/img-30.jpeg",
+  "title": "Хлеб Пикантный",
+  "description": "Хлеб Пикантный 400 г",
+  "basePrice": 55.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.4,
+  "quantity": 24,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "631416",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Китай"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e84"
+  },
+  "id": 31,
+  "img": "/images/products/img-31.jpeg",
+  "title": "Рулет с грушевым повидлом",
+  "description": "Рулет с грушевым повидлом 160 г",
+  "basePrice": 78,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.16,
+  "quantity": 31,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "772357",
+  "brand": "Добрый",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e85"
+  },
+  "id": 32,
+  "img": "/images/products/img-32.jpeg",
+  "title": "Хлеб Жито в нарезку",
+  "description": "Хлеб Жито в нарезку Северодвинский хлебокомбинат 400 г",
+  "basePrice": 90,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.4,
+  "quantity": 56,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "196570",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e86"
+  },
+  "id": 33,
+  "img": "/images/products/img-33.jpeg",
+  "title": "Хлеб Добрыня",
+  "description": "Хлеб Добрыня 300 г",
+  "basePrice": 73.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread"
+  ],
+  "weight": 0.3,
+  "quantity": 45,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "693839",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e87"
+  },
+  "id": 34,
+  "img": "/images/products/img-34.jpeg",
+  "title": "Хлебцы цельнозерновые пшенично-ржаные",
+  "description": "Хлебцы цельнозерновые Хлебцы Молодцы 100 г пшенично-ржаные",
+  "basePrice": 62,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 28,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "844912",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e88"
+  },
+  "id": 35,
+  "img": "/images/products/img-35.jpeg",
+  "title": "Хлебцы Dr.Korner кукурузно-рисовые",
+  "description": "Хлебцы Dr.Korner 100 г кукурузно-рисовые с чиа и льном",
+  "basePrice": 145,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 36,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "057077",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e89"
+  },
+  "id": 36,
+  "img": "/images/products/img-36.jpeg",
+  "title": "Хлебец Отруби-микс",
+  "description": "Хлебец Отруби-микс с морковью Хлебный Дом 330 г",
+  "basePrice": 85,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "bread",
+    "healthy"
+  ],
+  "weight": 0.33,
+  "quantity": 28,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "886536",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8a"
+  },
+  "id": 37,
+  "img": "/images/products/img-37.jpeg",
+  "title": "Яблоки зеленые",
+  "description": "Яблоки Гренни Смит",
+  "basePrice": 190,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 39,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "269579",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8b"
+  },
+  "id": 38,
+  "img": "/images/products/img-38.jpeg",
+  "title": "Салат Фриллис в горшочке",
+  "description": "Салат Фриллис в горшочке 1 шт",
+  "basePrice": 140,
+  "discountPercent": 20,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.21,
+  "quantity": 56,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "233658",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Турция"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8c"
+  },
+  "id": 39,
+  "img": "/images/products/img-39.jpeg",
+  "title": "Груша Анжу/Пакхам",
+  "description": "Груша Анжу/Пакхам",
+  "basePrice": 200,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 17,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "114028",
+  "brand": "Простоквашино",
+  "manufacturer": "Сербия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8d"
+  },
+  "id": 40,
+  "img": "/images/products/img-40.jpeg",
+  "title": "Малина замороженная",
+  "description": "Малина Семья довольна 300 г",
+  "basePrice": 335,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "frozen",
+    "healthy"
+  ],
+  "weight": 0.3,
+  "quantity": 24,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "116761",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8e"
+  },
+  "id": 41,
+  "img": "/images/products/img-41.jpeg",
+  "title": "Огурцы свежие",
+  "description": "Огурцы Кураж Вологда 400 г",
+  "basePrice": 150,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.4,
+  "quantity": 19,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "911678",
+  "brand": "Магнит",
+  "manufacturer": "Армения"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e8f"
+  },
+  "id": 42,
+  "img": "/images/products/img-42.jpeg",
+  "title": "Чеснок фасованый в сетке",
+  "description": "Чеснок фасованый в сетке",
+  "basePrice": 70,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 37,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "196892",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e90"
+  },
+  "id": 43,
+  "img": "/images/products/img-43.jpeg",
+  "title": "Капуста фиолетовая",
+  "description": "Капуста фиолетовая",
+  "basePrice": 160,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 90,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "805841",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e91"
+  },
+  "id": 44,
+  "img": "/images/products/img-44.jpeg",
+  "title": "Дыня свежая",
+  "description": "Дыня свежая, желтая (Туркменистан)",
+  "basePrice": 180,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 101,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "695683",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e92"
+  },
+  "id": 45,
+  "img": "/images/products/img-45.jpeg",
+  "title": "Капуста цветная",
+  "description": "Капуста цветная",
+  "basePrice": 300,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 49,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "810848",
+  "brand": "Простоквашино",
+  "manufacturer": "Сербия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e93"
+  },
+  "id": 46,
+  "img": "/images/products/img-46.jpeg",
+  "title": "Салат Айсберг",
+  "description": "Салат Айсберг",
+  "basePrice": 20,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.1,
+  "quantity": 34,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "113435",
+  "brand": "Лента",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e94"
+  },
+  "id": 47,
+  "img": "/images/products/img-47.jpeg",
+  "title": "Тесто слоеное бездрожжевое",
+  "description": "Тесто слоеное бездрожжевое Морозко 500 г",
+  "basePrice": 160,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen"
+  ],
+  "weight": 0.5,
+  "quantity": 28,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "710966",
+  "brand": "Ашан",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e95"
+  },
+  "id": 48,
+  "img": "/images/products/img-48.jpeg",
+  "title": "Мороженое стаканчик пломбир Коровка из Кореновки",
+  "description": "Мороженое стаканчик пломбир Коровка из Кореновки 100 г БЗМЖ",
+  "basePrice": 110,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen",
+    "dairy"
+  ],
+  "weight": 0.1,
+  "quantity": 58,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "519736",
+  "brand": "Простоквашино",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e96"
+  },
+  "id": 49,
+  "img": "/images/products/img-49.jpeg",
+  "title": "Стейк палтуса замороженый",
+  "description": "Стейк палтуса замороженый Borealis 400 г",
+  "basePrice": 830,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen"
+  ],
+  "weight": 1,
+  "quantity": 77,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "998562",
+  "brand": "Green Ray",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e97"
+  },
+  "id": 50,
+  "img": "/images/products/img-50.jpeg",
+  "title": "Пицца Жаренки Морозко",
+  "description": "Пицца Жаренки Морозко 300 г",
+  "basePrice": 220,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen"
+  ],
+  "weight": 0.3,
+  "quantity": 25,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "856841",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e98"
+  },
+  "id": 51,
+  "img": "/images/products/img-51.jpeg",
+  "title": "Котлеты из индейки",
+  "description": "Котлеты Из индейки Ложкаревъ 400г",
+  "basePrice": 116,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen",
+    "meat"
+  ],
+  "weight": 0.4,
+  "quantity": 24,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "083315",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e99"
+  },
+  "id": 52,
+  "img": "/images/products/img-52.jpeg",
+  "title": "Брусника замороженная",
+  "description": "Брусника Всегда пожалуйста 300 г",
+  "basePrice": 295,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen",
+    "fruit",
+    "healthy"
+  ],
+  "weight": 0.3,
+  "quantity": 10,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "815400",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9a"
+  },
+  "id": 53,
+  "img": "/images/products/img-53.jpeg",
+  "title": "Тушка кролика замороженная",
+  "description": "Тушка кролика замороженная",
+  "basePrice": 855,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen",
+    "meat",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 4,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "590982",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9b"
+  },
+  "id": 54,
+  "img": "/images/products/img-54.jpeg",
+  "title": "Вареники с картофелем и грибами",
+  "description": "Вареники с картофелем и грибами Вологодский мясокомбинат 450 г",
+  "basePrice": 130,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "frozen",
+    "healthy"
+  ],
+  "weight": 0.45,
+  "quantity": 7,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "202545",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9c"
+  },
+  "id": 55,
+  "img": "/images/products/img-55.jpeg",
+  "title": "Напиток газированный Кола",
+  "description": "Напиток газированный Кола 0,5 л",
+  "basePrice": 40,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks"
+  ],
+  "weight": 0.5,
+  "quantity": 113,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "058689",
+  "brand": "Перекресток",
+  "manufacturer": "Китай"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9d"
+  },
+  "id": 56,
+  "img": "/images/products/img-56.jpeg",
+  "title": "Напиток сокосодержащий",
+  "description": "Напиток сокосодержащий Любимый 0,95 л тропический микс",
+  "basePrice": 120,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 76,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "458459",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9e"
+  },
+  "id": 57,
+  "img": "/images/products/img-57.jpeg",
+  "title": "Минеральная вода газированная",
+  "description": "Минеральная вода газированная Куртяевская К-1 1,5 л",
+  "basePrice": 56,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 1.5,
+  "quantity": 56,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "912024",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Польша"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600e9f"
+  },
+  "id": 58,
+  "img": "/images/products/img-58.jpeg",
+  "title": "Напиток чайный Lipton зеленый",
+  "description": "Напиток чайный Lipton зеленый 1,5 л",
+  "basePrice": 56,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks"
+  ],
+  "weight": 1.5,
+  "quantity": 33,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "866286",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea0"
+  },
+  "id": 59,
+  "img": "/images/products/img-59.jpeg",
+  "title": "Вода питьевая негазированная",
+  "description": "Вода питьевая негазированная Шишкин лес 1 л",
+  "basePrice": 65,
+  "discountPercent": 50,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks"
+  ],
+  "weight": 1,
+  "quantity": 18,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "256414",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea1"
+  },
+  "id": 60,
+  "img": "/images/products/img-60.jpeg",
+  "title": "Вода питьевая минеральная газированная №17 Ессентуки",
+  "description": "Вода питьевая минеральная газированная №17 Ессентуки 0,45 л",
+  "basePrice": 120,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 0.6,
+  "quantity": 24,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "141665",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea2"
+  },
+  "id": 61,
+  "img": "/images/products/img-61.jpeg",
+  "title": "Сок гранатовый",
+  "description": "Сок Nar 0,31 л гранатовый",
+  "basePrice": 81.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 0.5,
+  "quantity": 6,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "140292",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea3"
+  },
+  "id": 62,
+  "img": "/images/products/img-62.jpeg",
+  "title": "Сок яблочный",
+  "description": "Сок Сады Придонья 1 л яблочный прямого отжима",
+  "basePrice": 115,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 1,
+  "quantity": 34,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "801450",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea4"
+  },
+  "id": 63,
+  "img": "/images/products/img-63.jpeg",
+  "title": "Напиток сокосодержащий апельсин",
+  "description": "Напиток сокосодержащий Палпи Добрый 0,9 л апельсин",
+  "basePrice": 190,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks"
+  ],
+  "weight": 1,
+  "quantity": 26,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "787117",
+  "brand": "Магнит",
+  "manufacturer": "Армения"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea5"
+  },
+  "id": 64,
+  "img": "/images/products/img-64.jpeg",
+  "title": "Вода питьевая газированная",
+  "description": "Вода питьевая газированная Святой Источник 1 л",
+  "basePrice": 60,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks"
+  ],
+  "weight": 1,
+  "quantity": 45,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "193527",
+  "brand": "Лента",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea6"
+  },
+  "id": 65,
+  "img": "/images/products/img-65.jpeg",
+  "title": "Детокс-сок облепиха-апельсин-имбирь",
+  "description": "Детокс-сок !deaS 1л облепиха-апельсин-имбирь",
+  "basePrice": 235,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 1.2,
+  "quantity": 34,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "575329",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea7"
+  },
+  "id": 66,
+  "img": "/images/products/img-66.jpeg",
+  "title": "Сок апельсиновый",
+  "description": "Сок апельсиновый Rich 1 л",
+  "basePrice": 275,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "drinks",
+    "healthy"
+  ],
+  "weight": 1.1,
+  "quantity": 41,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "282467",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Казахстан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea8"
+  },
+  "id": 67,
+  "img": "/images/products/img-67.jpeg",
+  "title": "Конфеты шоколадные",
+  "description": "Конфеты шоколадные Золотая лилия Konti 100 г",
+  "basePrice": 45,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.1,
+  "quantity": 42,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "721713",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ea9"
+  },
+  "id": 68,
+  "img": "/images/products/img-68.jpeg",
+  "title": "Зефир глазированный",
+  "description": "Зефир глазированный с ароматом ванили Вологжанка 100 г",
+  "basePrice": 43.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.1,
+  "quantity": 12,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "995400",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eaa"
+  },
+  "id": 69,
+  "img": "/images/products/img-69.jpeg",
+  "title": "Печенье сахарное Twix",
+  "description": "Печенье сахарное Twix Xtra 82 г",
+  "basePrice": 80,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.082,
+  "quantity": 54,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "039367",
+  "brand": "Чистый продукт",
+  "manufacturer": "Китай"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eab"
+  },
+  "id": 70,
+  "img": "/images/products/img-70.jpeg",
+  "title": "Сушки ванильные",
+  "description": "Сушки Малышка Ванильные Вологжанка 300 г",
+  "basePrice": 44,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.3,
+  "quantity": 51,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "057492",
+  "brand": "Натуральный выбор",
+  "manufacturer": "Польша"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eac"
+  },
+  "id": 71,
+  "img": "/images/products/img-71.jpeg",
+  "title": "Жевательная резинка Dirol",
+  "description": "Жевательная резинка Dirol 13,6 г арбузно-дынный коктейль",
+  "basePrice": 30,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.014,
+  "quantity": 345,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "671788",
+  "brand": "Ашан",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ead"
+  },
+  "id": 72,
+  "img": "/images/products/img-72.jpeg",
+  "title": "Карамель Chupa Chups",
+  "description": "Карамель Chupa Chups 12г фруктовая с соком",
+  "basePrice": 13,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.012,
+  "quantity": 445,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "955627",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eae"
+  },
+  "id": 73,
+  "img": "/images/products/img-73.jpeg",
+  "title": "Конфеты Джек Шоколадные истории Konti",
+  "description": "Конфеты Джек Шоколадные истории Konti",
+  "basePrice": 50,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.1,
+  "quantity": 156,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "808428",
+  "brand": "Перекресток",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eaf"
+  },
+  "id": 74,
+  "img": "/images/products/img-74.jpeg",
+  "title": "Сухари изюмные",
+  "description": "Сухари Яркая цена 300 г изюмные",
+  "basePrice": 56,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.3,
+  "quantity": 43,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "027558",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb0"
+  },
+  "id": 75,
+  "img": "/images/products/img-75.jpeg",
+  "title": "Вафли с ароматом шоколада",
+  "description": "Вафли Вологжанка 200 г с ароматом шоколада",
+  "basePrice": 77,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.2,
+  "quantity": 40,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "838082",
+  "brand": "Бабушкина крынка",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb1"
+  },
+  "id": 76,
+  "img": "/images/products/img-76.jpeg",
+  "title": "Печенье Choco Pie Cacao Lotte",
+  "description": "Печенье Choco Pie Cacao Lotte 12шт Х 28 гр",
+  "basePrice": 240,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "confectionery"
+  ],
+  "weight": 0.336,
+  "quantity": 18,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "348068",
+  "brand": "Green Ray",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb2"
+  },
+  "id": 77,
+  "img": "/images/products/img-77.jpeg",
+  "title": "Кофе растворимый",
+  "description": "Кофе растворимый Nescafe Gold 95 г",
+  "basePrice": 370,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.14,
+  "quantity": 57,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "262331",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb3"
+  },
+  "id": 78,
+  "img": "/images/products/img-78.jpeg",
+  "title": "Чай черный",
+  "description": "Чай черный Greenfield Golden Ceylon 100 пак",
+  "basePrice": 468,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.2,
+  "quantity": 56,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "318646",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb4"
+  },
+  "id": 79,
+  "img": "/images/products/img-79.jpeg",
+  "title": "Чай черный",
+  "description": "Чай черный Greenfield Golden Ceylon 25 пак",
+  "basePrice": 100,
+  "discountPercent": 5,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.05,
+  "quantity": 177,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "375182",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb5"
+  },
+  "id": 80,
+  "img": "/images/products/img-80.jpeg",
+  "title": "Цикорий растворимый",
+  "description": "Цикорий растворимый Экологика 85 г",
+  "basePrice": 360,
+  "discountPercent": 5,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee",
+    "healthy"
+  ],
+  "weight": 0.12,
+  "quantity": 78,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "642425",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb6"
+  },
+  "id": 81,
+  "img": "/images/products/img-81.jpeg",
+  "title": "Чай зеленый",
+  "description": "Чай зеленый Принцесса Ява сочный лимон 25 пак",
+  "basePrice": 73.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee",
+    "healthy"
+  ],
+  "weight": 0.05,
+  "quantity": 20,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "596455",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb7"
+  },
+  "id": 82,
+  "img": "/images/products/img-82.jpeg",
+  "title": "Чай черный",
+  "description": "Чай черный Принцесса Нури 25 пак черная смородина",
+  "basePrice": 82,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.05,
+  "quantity": 32,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "882012",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb8"
+  },
+  "id": 83,
+  "img": "/images/products/img-83.jpeg",
+  "title": "Чай черный",
+  "description": "Чай черный Ahmad Tea Raspberry Indulgence 25 пак",
+  "basePrice": 210,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.05,
+  "quantity": 11,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "740064",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eb9"
+  },
+  "id": 84,
+  "img": "/images/products/img-84.jpeg",
+  "title": "Кофе сублимированный",
+  "description": "Кофе сублимированный Monarch Original 130 г",
+  "basePrice": 500,
+  "discountPercent": 5,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.18,
+  "quantity": 56,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "345643",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eba"
+  },
+  "id": 85,
+  "img": "/images/products/img-85.jpeg",
+  "title": "Кофе в зернах",
+  "description": "Кофе в зернах Lebo extra арабика 1000г",
+  "basePrice": 2500,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 1,
+  "quantity": 22,
+  "tags": [
+    "new"
+  ],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "601496",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ebb"
+  },
+  "id": 86,
+  "img": "/images/products/img-86.jpeg",
+  "title": "Чай черный",
+  "description": "Чай черный Sun Tea Hills Ягодный коктейль 20 пирамидок",
+  "basePrice": 70,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "tea-coffee"
+  ],
+  "weight": 0.036,
+  "quantity": 44,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "891832",
+  "brand": "Добрый",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ebc"
+  },
+  "id": 87,
+  "img": "/images/products/img-87.jpeg",
+  "title": "Сахар белый кусковой",
+  "description": "Сахар белый кусковой 500 г",
+  "basePrice": 73,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.5,
+  "quantity": 344,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "078248",
+  "brand": "Green Ray",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ebd"
+  },
+  "id": 88,
+  "img": "/images/products/img-88.jpeg",
+  "title": "Соль каменная",
+  "description": "Соль каменная 1 кг",
+  "basePrice": 18,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 1,
+  "quantity": 278,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "973904",
+  "brand": "Перекресток",
+  "manufacturer": "Сербия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ebe"
+  },
+  "id": 89,
+  "img": "/images/products/img-89.jpeg",
+  "title": "Крупа рис круглозерный",
+  "description": "Крупа рис круглозерный Яркая цена 800 г",
+  "basePrice": 60,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.8,
+  "quantity": 184,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "432781",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ebf"
+  },
+  "id": 90,
+  "img": "/images/products/img-90.jpeg",
+  "title": "Хлопья овсяные Геркулес",
+  "description": "Хлопья овсяные Геркулес Яркая цена 400 г",
+  "basePrice": 19,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.4,
+  "quantity": 126,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "903456",
+  "brand": "Ашан",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec0"
+  },
+  "id": 91,
+  "img": "/images/products/img-91.jpeg",
+  "title": "Макароны Рожки гладкие",
+  "description": "Макароны Рожки гладкие Яркая цена 400 г",
+  "basePrice": 19,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.4,
+  "quantity": 93,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "674494",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec1"
+  },
+  "id": 92,
+  "img": "/images/products/img-92.jpeg",
+  "title": "Хлопья овсяные",
+  "description": "Хлопья овсяные №2 Ясно солнышко 500 г",
+  "basePrice": 100,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.5,
+  "quantity": 166,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "852136",
+  "brand": "Green Ray",
+  "manufacturer": "Польша"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec2"
+  },
+  "id": 93,
+  "img": "/images/products/img-93.jpeg",
+  "title": "Макароны Перья гладкие",
+  "description": "Макароны Перья гладкие Яркая цена 400 г",
+  "basePrice": 19,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.4,
+  "quantity": 34,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "206852",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec3"
+  },
+  "id": 94,
+  "img": "/images/products/img-94.jpeg",
+  "title": "Макароны Улитки",
+  "description": "Макароны Улитки Makfa 400 гр",
+  "basePrice": 70,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.4,
+  "quantity": 27,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "059668",
+  "brand": "Ашан",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec4"
+  },
+  "id": 95,
+  "img": "/images/products/img-95.jpeg",
+  "title": "Крупа греча ядрица",
+  "description": "Крупа греча ядрица Сытый боярин 800 г",
+  "basePrice": 70,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.8,
+  "quantity": 19,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "440423",
+  "brand": "Беседа",
+  "manufacturer": "Беларусь"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec5"
+  },
+  "id": 96,
+  "img": "/images/products/img-96.jpeg",
+  "title": "Мука пшеничная",
+  "description": "Мука пшеничная высший сорт Makfa 2 кг",
+  "basePrice": 130,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 2,
+  "quantity": 68,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "270822",
+  "brand": "Домик в деревне",
+  "manufacturer": "Сербия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec6"
+  },
+  "id": 97,
+  "img": "/images/products/img-97.jpeg",
+  "title": "Крупа пшено шлифованное",
+  "description": "Крупа пшено шлифованное Яркая цена 800 г",
+  "basePrice": 32,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "grocery"
+  ],
+  "weight": 0.8,
+  "quantity": 62,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "703114",
+  "brand": "Лента",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec7"
+  },
+  "id": 98,
+  "img": "/images/products/img-98.jpeg",
+  "title": "Корм для кошек",
+  "description": "Корм для кошек Kitekat 85г с говядиной в соусе",
+  "basePrice": 25,
+  "discountPercent": 10,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.085,
+  "quantity": 654,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "623738",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Армения"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec8"
+  },
+  "id": 99,
+  "img": "/images/products/img-99.jpeg",
+  "title": "Корм для кошек",
+  "description": "Корм для кошек Whiskas 75 г паштет с уткой",
+  "basePrice": 26,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.075,
+  "quantity": 324,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "219686",
+  "brand": "Лента",
+  "manufacturer": "Сербия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ec9"
+  },
+  "id": 100,
+  "img": "/images/products/img-100.jpeg",
+  "title": "Пеленки для домашних животных",
+  "description": "Пеленки Joyful Pets для домашних животных с суперабсорбентом 60х40 см 10шт",
+  "basePrice": 120,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.15,
+  "quantity": 64,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "988379",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eca"
+  },
+  "id": 101,
+  "img": "/images/products/img-101.jpeg",
+  "title": "Корм для кошек",
+  "description": "Корм для стерилизованных кошек Perfect Fit 75г кролик в соусе",
+  "basePrice": 29,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.075,
+  "quantity": 74,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "614791",
+  "brand": "Агрокомплекс",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ecb"
+  },
+  "id": 102,
+  "img": "/images/products/img-102.jpeg",
+  "title": "Наполнитель для кошачьих туалетов",
+  "description": "Наполнитель комкующийся для кошачьих туалетов Мяудодыр 5 л",
+  "basePrice": 135,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 7.5,
+  "quantity": 26,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "707827",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ecc"
+  },
+  "id": 103,
+  "img": "/images/products/img-103.jpeg",
+  "title": "Корм для собак",
+  "description": "Корм для активных собак Purina One Мини 85 г с уткой, пасторй и зеленой фасолью",
+  "basePrice": 37,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.085,
+  "quantity": 65,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "647145",
+  "brand": "Ашан",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ecd"
+  },
+  "id": 104,
+  "img": "/images/products/img-104.jpeg",
+  "title": "Набор игрушек для животных",
+  "description": "Набор игрушек для животных Мурочкин микс 4 шт",
+  "basePrice": 120,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 0.2,
+  "quantity": 88,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "864042",
+  "brand": "Green Ray",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ece"
+  },
+  "id": 105,
+  "img": "/images/products/img-105.jpeg",
+  "title": "Корм для собак",
+  "description": "Корм для собак Pedigree для взрослых собак крупных пород говядина 13 кг",
+  "basePrice": 3299,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 13,
+  "quantity": 76,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": false,
+  "article": "476989",
+  "brand": "ВкусВилл",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ecf"
+  },
+  "id": 106,
+  "img": "/images/products/img-106.jpeg",
+  "title": "Корм для собак сухой",
+  "description": "Корм для собак сухой Чаппи (Chappi) 15 кг мясное изобилие",
+  "basePrice": 3599,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 15,
+  "quantity": 52,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "136700",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed0"
+  },
+  "id": 107,
+  "img": "/images/products/img-107.jpeg",
+  "title": "Корм для собак Sensitive Зоогурман 1,2 кг ягненок с рисом",
+  "description": "Корм для собак Sensitive Зоогурман 1,2 кг ягненок с рисом",
+  "basePrice": 550,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "zoo"
+  ],
+  "weight": 1.2,
+  "quantity": 23,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "075584",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed1"
+  },
+  "id": 108,
+  "img": "/images/products/img-108.jpeg",
+  "title": "Творог детский",
+  "description": "Творог детский Агуша 3,9% 100г яблоко банан БЗМЖ",
+  "basePrice": 44,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.1,
+  "quantity": 65,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "290217",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed2"
+  },
+  "id": 109,
+  "img": "/images/products/img-109.jpeg",
+  "title": "Сок детский",
+  "description": "Сок детский ФрутоНяня 0,2 л яблоко",
+  "basePrice": 38,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.2,
+  "quantity": 166,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "943486",
+  "brand": "Перекресток",
+  "manufacturer": "Казахстан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed3"
+  },
+  "id": 110,
+  "img": "/images/products/img-110.jpeg",
+  "title": "Подгузники-трусики",
+  "description": "Подгузники-трусики Joonies Premium Soft 12-17 кг 38 шт",
+  "basePrice": 1100,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 1245,
+  "quantity": 63,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "966223",
+  "brand": "Беседа",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed4"
+  },
+  "id": 111,
+  "img": "/images/products/img-111.jpeg",
+  "title": "Вода питьевая детская",
+  "description": "Вода питьевая детская ФрутоНяня 330 мл",
+  "basePrice": 34,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.33,
+  "quantity": 81,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "426450",
+  "brand": "Моя семья",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed5"
+  },
+  "id": 112,
+  "img": "/images/products/img-112.jpeg",
+  "title": "Порошок стиральный детский",
+  "description": "Порошок стиральный детский Ушастый нянь 400 г",
+  "basePrice": 98,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.4,
+  "quantity": 84,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": false,
+  "article": "639133",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed6"
+  },
+  "id": 113,
+  "img": "/images/products/img-113.jpeg",
+  "title": "Пюре детское овощи",
+  "description": "Пюре детское ФрутоНяня 100 г говядина овощи",
+  "basePrice": 89,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.15,
+  "quantity": 76,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "679120",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed7"
+  },
+  "id": 114,
+  "img": "/images/products/img-114.jpeg",
+  "title": "Сок детский",
+  "description": "Сок детский Сады Придонья 125 мл яблоко прямого отжима",
+  "basePrice": 19,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.125,
+  "quantity": 632,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "055021",
+  "brand": "Чистый продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed8"
+  },
+  "id": 115,
+  "img": "/images/products/img-115.jpeg",
+  "title": "Печенье детское",
+  "description": "Печенье детское Бегемотик Бонди 180 гр обогащенное железом",
+  "basePrice": 99,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.2,
+  "quantity": 201,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "309745",
+  "brand": "Простоквашино",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ed9"
+  },
+  "id": 116,
+  "img": "/images/products/img-116.jpeg",
+  "title": "Паста зубная детская",
+  "description": "Паста зубная Splat Juicy с фтором арбуз детская 55 мл",
+  "basePrice": 240,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.1,
+  "quantity": 39,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "262062",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600eda"
+  },
+  "id": 117,
+  "img": "/images/products/img-117.jpeg",
+  "title": "Салфетки влажные детские",
+  "description": "Салфетки влажные Pamperino Kids ромашка и витамин Е 15 шт",
+  "basePrice": 25,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "kids"
+  ],
+  "weight": 0.05,
+  "quantity": 676,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "537994",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600edb"
+  },
+  "id": 118,
+  "img": "/images/products/img-118.jpeg",
+  "title": "Спички",
+  "description": "Спички домашние блок",
+  "basePrice": 30,
+  "discountPercent": 15,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.1,
+  "quantity": 3467,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "023225",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600edc"
+  },
+  "id": 119,
+  "img": "/images/products/img-119.jpeg",
+  "title": "Батарейка АА",
+  "description": "Батарейка GP Super Alkaline LR6 15А-CR4 АА 4шт",
+  "basePrice": 260,
+  "discountPercent": 15,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.2,
+  "quantity": 332,
+  "tags": [
+    "actions"
+  ],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "373467",
+  "brand": "Моя семья",
+  "manufacturer": "Казахстан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600edd"
+  },
+  "id": 120,
+  "img": "/images/products/img-120.jpeg",
+  "title": "Вилки одноразовые",
+  "description": "Вилки одноразовые Яркая цена 50шт",
+  "basePrice": 90.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.1,
+  "quantity": 332,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "508504",
+  "brand": "Перекресток",
+  "manufacturer": "Азербайджан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ede"
+  },
+  "id": 121,
+  "img": "/images/products/img-121.jpeg",
+  "title": "Чашка кофейная одноразовая",
+  "description": "Чашка кофейная одноразовая Яркая цена 200 мл 6шт",
+  "basePrice": 25,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.1,
+  "quantity": 155,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "238866",
+  "brand": "Савушкин продукт",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600edf"
+  },
+  "id": 122,
+  "img": "/images/products/img-122.jpeg",
+  "title": "Фольга алюминиевая",
+  "description": "Фольга алюминиевая Paterra 44 см х 10м",
+  "basePrice": 250,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.2,
+  "quantity": 85,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "316991",
+  "brand": "Домик в деревне",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ee0"
+  },
+  "id": 123,
+  "img": "/images/products/img-123.jpeg",
+  "title": "Мыльница дорожная",
+  "description": "Мыльница дорожная",
+  "basePrice": 48.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.1,
+  "quantity": 25,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "614408",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ee1"
+  },
+  "id": 124,
+  "img": "/images/products/img-124.jpeg",
+  "title": "Воронка",
+  "description": "Воронка средняя Полимербыт",
+  "basePrice": 45,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.1,
+  "quantity": 10,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "239213",
+  "brand": "Фермерский продукт",
+  "manufacturer": "Казахстан"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ee2"
+  },
+  "id": 125,
+  "img": "/images/products/img-125.jpeg",
+  "title": "Контейнер",
+  "description": "Контейнер Butterfly Полимербыт 0,75 л",
+  "basePrice": 240,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.2,
+  "quantity": 11,
+  "tags": [],
+  "isHealthyFood": true,
+  "isNonGMO": true,
+  "article": "879650",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ee3"
+  },
+  "id": 126,
+  "img": "/images/products/img-126.jpeg",
+  "title": "Стакан стекольный",
+  "description": "Стакан Ода Опытный стекольный завод 250 мл",
+  "basePrice": 43.5,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.2,
+  "quantity": 44,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "751181",
+  "brand": "Моя семья",
+  "manufacturer": "Россия"
+},
+{
+  "_id": {
+    "$oid": "6870e20977b23dea92600ee4"
+  },
+  "id": 127,
+  "img": "/images/products/img-127.jpeg",
+  "title": "Кружка стекло",
+  "description": "Кружка стекло 250мл Elica",
+  "basePrice": 90,
+  "discountPercent": 0,
+  "rating": {
+    "rate": 5,
+    "count": 0,
+    "distribution": {
+      "1": 0,
+      "2": 0,
+      "3": 0,
+      "4": 0,
+      "5": 0
+    }
+  },
+  "categories": [
+    "non-food"
+  ],
+  "weight": 0.2,
+  "quantity": 27,
+  "tags": [],
+  "isHealthyFood": false,
+  "isNonGMO": true,
+  "article": "784280",
+  "brand": "Добрый",
+  "manufacturer": "Россия"
+}]
