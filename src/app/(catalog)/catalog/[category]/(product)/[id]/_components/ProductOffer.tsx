@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { CONFIG } from "../../../../../../../config/config";
+import { CONFIG } from "../../../../../../../../config/config";
 
 interface ProductOfferProps {
   discountedPrice: number;

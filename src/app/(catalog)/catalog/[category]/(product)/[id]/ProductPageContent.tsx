@@ -1,81 +1,26 @@
-import { Metadata } from "next";
-import ErrorComponent from "@/components/ErrorComponent";
 import StarRating from "@/components/StarRating";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Image from "next/image";
 import RatingDistribution from "./_components/RatingDistribution";
-import { getReviewsWord } from "../../../../../../utils/reviewsWord";
+import { getReviewsWord } from "../../../../../../../utils/reviewsWord";
 import ShareButton from "./_components/ShareButton";
 import ImagesBlock from "./_components/ImagesBlock";
 import ProductOffer from "./_components/ProductOffer";
 import CartButton from "./_components/CartButton";
 import Bonuses from "./_components/Bonuses";
-import { CONFIG } from "../../../../../../config/config";
+import { CONFIG } from "../../../../../../../config/config";
 import DiscountMessage from "./_components/DiscountMessage";
 import AdditionalInfo from "./_components/AdditionalInfo";
 import SimilarProducts from "./_components/SimilarProducts";
 import { ProductCardProps } from "@/types/product";
 import SameBrandProducts from "./_components/SameBrandProducts";
-import { getProduct } from "@/lib/products";
 
-interface PageProps {
-  params: Promise<{ id: string }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+interface ProductPageContentProps {
+  product: ProductCardProps;
+  productId: string;
 }
 
-export async function generateMetadata({
-  params,
-  searchParams,
-}: PageProps): Promise<Metadata> {
-  try {
-    const { id } = await params;
-    const product = await getProduct(id);
-
-    return {
-      title: `${product.title}`,
-      description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
-      openGraph: {
-        title: product.title,
-        description:
-          product.description || `Заказывайте ${product.title} по лучшей цене`,
-        images: product.img ? [product.img[0]] : [],
-      },
-    };
-  } catch {
-    const searchParamsObj = await searchParams;
-    const productTitle = decodeURIComponent(String(searchParamsObj.desc));
-
-    return {
-      title: `${productTitle}`,
-      description: `Заказывайте ${productTitle} по лучшей цене. Быстрая доставка, гарантия качества.`,
-    };
-  }
-}
-
-const ProductPage = async ({ params }: PageProps) => {
-  let product: ProductCardProps;
-  const productId = (await params).id;
-
-  try {
-    product = await getProduct(productId);
-  } catch (error) {
-    return (
-      <ErrorComponent
-        error={error instanceof Error ? error : new Error(String(error))}
-        userMessage="Не удалось загрузить данные о продукте"
-      />
-    );
-  }
-
-  if (!product) {
-    return (
-      <ErrorComponent
-        error={new Error("Продукт не найден")}
-        userMessage="Продукт не найден"
-      />
-    );
-  }
-
+const ProductPageContent = ({ product, productId }: ProductPageContentProps) => {
   const discountedPrice = product.discountPercent
     ? product.basePrice * (1 - product.discountPercent / 100)
     : product.basePrice;
@@ -146,4 +91,4 @@ const ProductPage = async ({ params }: PageProps) => {
   );
 };
 
-export default ProductPage;
+export default ProductPageContent;

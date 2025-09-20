@@ -9,7 +9,6 @@ import { CONFIG } from "../../config/config";
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
 const ProductCard = ({
-  _id,
   id,
   img,
   description,
@@ -40,7 +39,7 @@ const ProductCard = ({
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const productId = id || _id;
+  const productId = id;
   const mainCategory = categories?.[0];
 
   const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getDB } from "../../../../../../../utils/api-routes";
+import { getDB } from "../../../../../../../../utils/api-routes";
 import { ProductCardProps } from "@/types/product";
 
 interface SimilarProductsProps {
