@@ -9,13 +9,14 @@ import { CONFIG } from "../../config/config";
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
 const ProductCard = ({
-  _id,
+  id,
   img,
   description,
   basePrice,
   discountPercent = 0,
   rating,
   tags,
+  categories
 }: ProductCardProps) => {
   const calculateFinalPrice = (price: number, discount: number): number => {
     return discount > 0 ? price * (1 - discount / 100) : price;
@@ -35,7 +36,13 @@ const ProductCard = ({
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const ratingValue = rating?.rate || 5;
+  const ratingValue = rating?.average ?? 5.0;
+
+const productId = id;
+  const mainCategory = categories?.[0];
+
+  const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;
+
 
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
@@ -48,7 +55,7 @@ const ProductCard = ({
           sizes="24px"
         />
       </button>
-      <Link href={`/product/${_id}`}>
+      <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
             src={img}
@@ -91,7 +98,7 @@ const ProductCard = ({
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          {ratingValue > 0 && <StarRating rating={ratingValue} />}
+          {<StarRating rating={ratingValue} />}
         </div>
       </Link>
       <button className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none">
