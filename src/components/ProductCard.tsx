@@ -17,8 +17,8 @@ const ProductCard = ({
   discountPercent = 0,
   rating,
   tags,
+  categories,
 }: ProductCardProps) => {
-
   // Устанавливаем значение по умолчанию 5.0, если рейтинг отсутствует или равен 0
   const ratingValue = rating?.average ?? 5.0;
 
@@ -41,13 +41,9 @@ const ProductCard = ({
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
   const productId = id || _id;
-  
-  const productUrl = {
-    pathname: `/catalog/product/${productId}`,
-    query: { 
-      desc: encodeURIComponent(description.substring(0, 50))
-    }
-  };
+  const mainCategory = categories?.[0];
+
+  const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;
 
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
@@ -103,7 +99,7 @@ const ProductCard = ({
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          
+
           {/* УБИРАЕМ УСЛОВИЕ && - отображаем рейтинг всегда */}
           <div className="flex items-center mt-2">
             <StarRating rating={ratingValue} />

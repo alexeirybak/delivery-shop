@@ -13,7 +13,10 @@ const Bonuses = ({ bonus }: { bonus: number }) => {
         height={11}
       />
       <p className="text-xs text-primary">
-        Вы получаете <span className="font-bold">{roundedBonus} {bonusWord}</span>
+        Вы получаете{" "}
+        <span className="font-bold">
+          {roundedBonus} {bonusWord}
+        </span>
       </p>
     </div>
   );

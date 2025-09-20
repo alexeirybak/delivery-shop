@@ -1,4 +1,3 @@
-// components/Breadcrumbs.tsx
 "use client";
 
 import Link from "next/link";
@@ -11,27 +10,20 @@ const Breadcrumbs = () => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
-  // Скрываем на главной, поиске и других страницах если нужно
-  const hiddenPaths = ["/", "/search", "/cart", "/profile"];
-  if (hiddenPaths.includes(pathname)) return null;
+  if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
-  
-  // Получаем description из search-параметров
   const productDesc = searchParams.get('desc');
-  const decodedProductDesc = productDesc ? decodeURIComponent(productDesc) : null;
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
     
     let label = TRANSLATIONS[segment] || segment;
     
-    // Если это страница продукта и есть description из search-параметров
-    if (decodedProductDesc && 
-        index === pathSegments.length - 1 && 
-        pathSegments.includes('product') && 
-        !isNaN(Number(segment))) {
-      label = decodedProductDesc + (decodedProductDesc.length > 50 ? '...' : '');
+    // Если это последний сегмент (ID продукта) и есть описание
+    if (index === pathSegments.length - 1 && productDesc && 
+        pathSegments.includes('catalog') && pathSegments.length >= 3) {
+      label = decodeURIComponent(productDesc);
     }
     
     return {
@@ -60,7 +52,7 @@ const Breadcrumbs = () => {
               }
             >
               {item.isLast ? (
-                item.label
+                <span className="line-clamp-1 max-w-[200px]">{item.label}</span>
               ) : (
                 <Link href={item.href}>{item.label}</Link>
               )}
@@ -68,9 +60,7 @@ const Breadcrumbs = () => {
             {!item.isLast && (
               <Image
                 src={iconToRight}
-                alt={`Переход от ${item.label} к ${
-                  breadcrumbs[breadcrumbs.length - 1].label
-                }`}
+                alt={`Переход от ${item.label} к следующему`}
                 width={24}
                 height={24}
                 sizes="24px"

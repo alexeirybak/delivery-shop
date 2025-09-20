@@ -23,38 +23,41 @@ interface PageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-// Динамические метаданные
-export async function generateMetadata({ params, searchParams }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PageProps): Promise<Metadata> {
   try {
     const { id } = await params;
     const product = await getProduct(id);
-    
+
     return {
       title: `${product.title}`,
       description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
       openGraph: {
         title: product.title,
-        description: product.description || `Заказывайте ${product.title} по лучшей цене`,
+        description:
+          product.description || `Заказывайте ${product.title} по лучшей цене`,
         images: product.img ? [product.img[0]] : [],
       },
     };
   } catch {
     const searchParamsObj = await searchParams;
     const productTitle = decodeURIComponent(String(searchParamsObj.desc));
-    
+
     return {
       title: `${productTitle}`,
-      description: `Заказывайте ${productTitle} по лучшей цене. Быстрая доставка, гарантия качества.`
+      description: `Заказывайте ${productTitle} по лучшей цене. Быстрая доставка, гарантия качества.`,
     };
   }
 }
 
 const ProductPage = async ({ params }: PageProps) => {
   let product: ProductCardProps;
-  const  productId = (await params).id;
+  const productId = (await params).id;
 
   try {
-    product = await getProduct(productId); 
+    product = await getProduct(productId);
   } catch (error) {
     return (
       <ErrorComponent
@@ -82,7 +85,7 @@ const ProductPage = async ({ params }: PageProps) => {
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
-      <h1 className="text-2xl font-bold mb-4">{product.title}</h1>
+      <h1 className="text-2xl font-bold mb-4">{product.description}</h1>
       <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
         <div className="flex flex-row flex-wrap items-center gap-6 mb-4 md:mb-6">
           <div className="text-xs">арт. {product.article}</div>

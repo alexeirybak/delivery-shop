@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import dotenv from "dotenv";
 import path from "path";
-import PriceAlertEmail from "@/app/(catalog)/catalog/product/[id]/_components/PriceAlertEmail";
+import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/[id]/_components/PriceAlertEmail";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
@@ -37,7 +37,7 @@ export async function sendPriceAlertEmail({
         oldPrice,
         newPrice,
         productUrl,
-        unsubscribeUrl
+        unsubscribeUrl,
       }),
     });
 
@@ -52,4 +52,3 @@ export async function sendPriceAlertEmail({
     return false;
   }
 }
-

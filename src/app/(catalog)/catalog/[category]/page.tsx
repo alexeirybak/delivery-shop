@@ -2,11 +2,11 @@ import GenericListPage from "@/app/(products)/GenericListPage";
 import { Loader } from "@/components/Loader";
 import { Suspense } from "react";
 import { TRANSLATIONS } from "../../../../../utils/translations";
-import fetchProductsByCategory from "../fetchCategory";
-import FilterButtons from "../FilterButtons";
-import FilterControls from "../FilterControls";
-import PriceFilter from "../PriceFilter";
-import DropFilter from "../DropFilter";
+import fetchProductsByCategory from "../../../(category)/category/fetchCategory";
+import FilterButtons from "../../../(category)/category/FilterButtons";
+import FilterControls from "../../../(category)/category/FilterControls";
+import PriceFilter from "../../../(category)/category/PriceFilter";
+import DropFilter from "../../../(category)/category/DropFilter";
 
 export async function generateMetadata({
   params,
