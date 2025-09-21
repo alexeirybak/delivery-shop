@@ -3,15 +3,19 @@
 import { randomBytes } from "crypto";
 import { getDB } from "../../utils/api-routes";
 
-interface ActionState {
-  error?: string;
+export interface PriceAlertFormState {
+  errors?: {
+    email?: string;
+    general?: string;
+  };
   success?: boolean;
   unsubscribeToken?: string;
 }
 
 export async function createPriceAlert(
+  prevState: PriceAlertFormState | null,
   formData: FormData
-): Promise<ActionState> {
+): Promise<PriceAlertFormState> {
   try {
     const db = await getDB();
 
@@ -20,13 +24,24 @@ export async function createPriceAlert(
     const email = formData.get("email") as string;
     const currentPrice = Number(formData.get("currentPrice"));
 
+    // Валидация
+    if (!email.trim()) {
+      return { errors: { email: "Email обязателен" } };
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return { errors: { email: "Введите корректный email" } };
+    }
+
+    // Проверка существующей подписки
     const existingAlert = await db.collection("priceAlerts").findOne({
       productId,
       email,
     });
 
     if (existingAlert) {
-      return { error: "Вы уже подписаны на уведомления для этого товара" };
+      return { errors: { email: "Вы уже подписаны на уведомления для этого товара" } };
     }
 
     const unsubscribeToken = randomBytes(32).toString("hex");
@@ -43,13 +58,13 @@ export async function createPriceAlert(
     return { success: true, unsubscribeToken };
   } catch (error) {
     console.error("Ошибка создания подписки:", error);
-    return { error: "Ошибка оформления подписки" };
+    return { errors: { general: "Ошибка оформления подписки" } };
   }
 }
 
 export async function unsubscribePriceAlert(
   token: string
-): Promise<ActionState> {
+): Promise<{ success?: boolean; error?: string }> {
   try {
     const db = await getDB();
 
