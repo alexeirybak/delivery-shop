@@ -6,7 +6,6 @@ interface PriceAlertDocument {
   email: string;
   productTitle: string;
   currentPrice: number;
-  isActive: boolean;
   createdAt: Date;
   lastNotified?: Date | null;
 }
@@ -18,8 +17,7 @@ export async function POST(request: Request) {
 
     const existingAlert = await db.collection<PriceAlertDocument>('priceAlerts').findOne({
       productId,
-      email: email.toLowerCase(),
-      isActive: true
+      email,
     });
 
     if (existingAlert) {
@@ -34,7 +32,6 @@ export async function POST(request: Request) {
       email: email.toLowerCase(),
       productTitle,
       currentPrice,
-      isActive: true,
       createdAt: new Date(),
       lastNotified: null
     });

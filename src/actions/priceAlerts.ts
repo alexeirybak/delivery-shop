@@ -1,7 +1,7 @@
-'use server';
+"use server";
 
-import { randomBytes } from 'crypto';
-import { getDB } from '../../utils/api-routes';
+import { randomBytes } from "crypto";
+import { getDB } from "../../utils/api-routes";
 
 interface ActionState {
   error?: string;
@@ -9,66 +9,61 @@ interface ActionState {
   unsubscribeToken?: string;
 }
 
-export async function createPriceAlert(formData: FormData): Promise<ActionState> {
+export async function createPriceAlert(
+  formData: FormData
+): Promise<ActionState> {
   try {
     const db = await getDB();
-    
-    const productId = formData.get('productId') as string;
-    const productTitle = formData.get('productTitle') as string;
-    const email = formData.get('email') as string;
-    const currentPrice = Number(formData.get('currentPrice'));
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email || !emailRegex.test(email)) {
-      return { error: 'Введите корректный email' };
-    }
+    const productId = formData.get("productId") as string;
+    const productTitle = formData.get("productTitle") as string;
+    const email = formData.get("email") as string;
+    const currentPrice = Number(formData.get("currentPrice"));
 
-    const existingAlert = await db.collection('priceAlerts').findOne({
+    const existingAlert = await db.collection("priceAlerts").findOne({
       productId,
-      email: email.toLowerCase()
+      email,
     });
 
     if (existingAlert) {
-      return { error: 'Вы уже подписаны на уведомления для этого товара' };
+      return { error: "Вы уже подписаны на уведомления для этого товара" };
     }
 
-    const unsubscribeToken = randomBytes(32).toString('hex');
+    const unsubscribeToken = randomBytes(32).toString("hex");
 
-    await db.collection('priceAlerts').insertOne({
-      email: email.toLowerCase(),
+    await db.collection("priceAlerts").insertOne({
+      email,
       productId,
       productTitle,
-      currentPrice, 
-      unsubscribeToken, 
+      currentPrice,
+      unsubscribeToken,
       createdAt: new Date(),
     });
 
     return { success: true, unsubscribeToken };
   } catch (error) {
-    console.error('Ошибка создания подписки:', error);
-    return { error: 'Ошибка оформления подписки' };
+    console.error("Ошибка создания подписки:", error);
+    return { error: "Ошибка оформления подписки" };
   }
 }
 
-export async function unsubscribePriceAlert(token: string): Promise<ActionState> {
+export async function unsubscribePriceAlert(
+  token: string
+): Promise<ActionState> {
   try {
-    console.log('Unsubscribing with token:', token);
-    
     const db = await getDB();
-    
-    const result = await db.collection('priceAlerts').deleteOne({
-      unsubscribeToken: token
+
+    const result = await db.collection("priceAlerts").deleteOne({
+      unsubscribeToken: token,
     });
 
-    console.log('Delete result:', result);
-
     if (result.deletedCount === 0) {
-      return { error: 'Подписка не найдена' };
+      return { error: "Подписка не найдена" };
     }
 
     return { success: true };
   } catch (error) {
-    console.error('Ошибка отписки:', error);
-    return { error: 'Ошибка отмены подписки' };
+    console.error("Ошибка отписки:", error);
+    return { error: "Ошибка отмены подписки" };
   }
 }

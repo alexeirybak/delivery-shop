@@ -17,4 +17,6 @@ export interface UserData {
   updatedAt: string;
   emailVerified: boolean;
   phoneNumberVerified: boolean;
-}
+} 
+
+export type UserDataOrNull = UserData | null;
