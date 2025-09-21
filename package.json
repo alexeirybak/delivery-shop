@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start -p 3000",
     "lint": "next lint",
-    "price-check": "tsx src/scripts/checkPriceAlerts.ts",
-    "price-check-api": "curl -X GET 'http://localhost:3000/api/cron/price-check?secret=0522fc7d6a8a11c6e489fcaa7760d569cf85ae4eae2c4f339349591a849faed2'"
+    "price-check-api": "curl -X GET http://localhost:3000/api/cron/price-check?secret=0522fc7d6a8a11c6e489fcaa7760d569cf85ae4eae2c4f339349591a849faed2"
   },
   "dependencies": {
     "@faker-js/faker": "^9.9.0",

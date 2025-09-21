@@ -32,7 +32,6 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
         <Body className="bg-[#f5f5f5] font-sans py-8 px-4">
           <Container className="bg-white rounded-none p-0 max-w-[600px] mx-auto">
             
-            {/* Header Banner */}
             <Section className="bg-[#ff6633] py-6 px-8 text-center">
               <Text className="text-2xl font-bold text-white mb-2 mt-0">
                 🎉 Ура! Цена снизилась
@@ -42,9 +41,7 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
               </Text>
             </Section>
 
-            {/* Main Content */}
             <Section className="px-8 py-8">
-              {/* Product Card */}
               <Section className="border border-[#e0e0e0] rounded-lg p-6 mb-8 bg-[#fafafa]">
                 <Text className="text-xl font-semibold text-[#414141] mb-6 text-center">
                   {productTitle}
@@ -85,8 +82,6 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
                   </Row>
                 </Section>
               </Section>
-
-              {/* Call to Action */}
               <Text className="text-[#414141] text-base mb-6 text-center leading-6">
                 Не упустите возможность купить товар по выгодной цене!
               </Text>

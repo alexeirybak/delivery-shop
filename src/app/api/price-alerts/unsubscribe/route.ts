@@ -15,7 +15,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // ПЕРЕДАЕМ ТОКЕН В ФУНКЦИЮ
     const result = await unsubscribePriceAlert(token);
 
     if (result.error) {
