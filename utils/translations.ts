@@ -22,3 +22,6 @@ export const TRANSLATIONS: Record<string, string> = {
   "administrator": "Панель управления",
   "users-list": "Список пользователей"
 };
+
+
+// node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"

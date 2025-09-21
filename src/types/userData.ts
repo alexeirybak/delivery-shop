@@ -6,7 +6,7 @@ export interface UserData {
   surname: string;
   email: string;
   phoneNumber: string;
-  role: 'user' | 'admin' | 'manager';
+  role: "user" | "admin" | "manager";
   birthdayDate: string;
   region: string;
   location: string;
@@ -18,3 +18,5 @@ export interface UserData {
   emailVerified: boolean;
   phoneNumberVerified: boolean;
 }
+
+export type UserDataOrNull = UserData | null;

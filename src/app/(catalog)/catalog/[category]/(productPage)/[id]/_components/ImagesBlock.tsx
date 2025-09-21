@@ -13,9 +13,8 @@ const ImagesBlock = ({ product }: { product: ProductCardProps }) => {
             <Image
               src={product.img}
               alt={`${product.title} - миниатюра ${index + 1}`}
-              width={64}
-              height={86}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
               sizes="64px"
             />
           </div>
@@ -31,9 +30,8 @@ const ImagesBlock = ({ product }: { product: ProductCardProps }) => {
         <Image
           src={product.img}
           alt={product.title}
-          width={504}
-          height={496}
-          className="w-full h-full object-contain"
+          fill
+          className="object-contain"
           sizes="(max-width: 768px) 248px, (max-width: 1032px) 272px, 504px"
           priority
         />
