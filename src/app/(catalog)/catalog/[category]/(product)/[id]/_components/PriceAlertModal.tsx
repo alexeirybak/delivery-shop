@@ -39,6 +39,7 @@ export const PriceAlertModal = ({
 
   useEffect(() => {
     if (state?.success && state.unsubscribeToken) {
+      // Вызываем успешную подписку и закрываем модалку
       onSuccessAction(state.unsubscribeToken);
       onCloseAction();
     }

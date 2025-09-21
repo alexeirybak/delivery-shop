@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { unsubscribePriceAlert } from "@/actions/priceAlerts";
 import IconBell from "@/components/svg/IconBell";
 import { PriceAlertModal } from "./PriceAlertModal";
@@ -30,16 +30,27 @@ const DiscountMessage = ({
   const [notification, setNotification] = useState("");
   const { isAuth } = useAuthStore();
 
+  // Эффект для автоматического скрытия уведомления
+  useEffect(() => {
+    if (notification) {
+      const timer = setTimeout(() => {
+        setNotification("");
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [notification]);
+
   const handleOpenModal = () => {
     if (!isAuth) {
-      setNotification("Подписка доступна только для авторизованных пользователей");
-      setTimeout(() => setNotification(""), 3000);
+      setNotification(
+        "Подписка доступна только для авторизованных пользователей"
+      );
       return;
     }
 
     if (isSubscribed) {
       setNotification("Вы уже подписаны на уведомления для этого товара");
-      setTimeout(() => setNotification(""), 3000);
       return;
     }
     setIsModalOpen(true);
@@ -53,7 +64,6 @@ const DiscountMessage = ({
     setIsSubscribed(true);
     setUnsubscribeToken(token);
     setNotification("Вы успешно подписались на уведомления!");
-    setTimeout(() => setNotification(""), 3000);
   };
 
   const handleUnsubscribe = async () => {
@@ -66,10 +76,8 @@ const DiscountMessage = ({
       if (result?.success) {
         setIsSubscribed(false);
         setNotification("Вы отписались от уведомлений");
-        setTimeout(() => setNotification(""), 3000);
       } else if (result?.error) {
         setNotification(result.error);
-        setTimeout(() => setNotification(""), 3000);
       }
     } finally {
       setIsLoading(false);
@@ -89,7 +97,7 @@ const DiscountMessage = ({
       {isSubscribed ? (
         <button
           onClick={handleUnsubscribe}
-          disabled={isLoading}
+          disabled={isLoading || !unsubscribeToken}
           className="flex flex-row items-center gap-2 p-2 mb-6 text-[#606060] rounded text-xs hover:bg-gray-200 mx-auto duration-300 cursor-pointer"
         >
           <IconBell crossed={false} />
@@ -107,14 +115,16 @@ const DiscountMessage = ({
         </button>
       )}
 
-      <PriceAlertModal
-        isOpen={isModalOpen}
-        onCloseAction={handleCloseModal}
-        productId={productId}
-        productTitle={productTitle}
-        currentPrice={currentPrice}
-        onSuccessAction={handleSubscribeSuccess}
-      />
+      {isModalOpen && (
+        <PriceAlertModal
+          isOpen={isModalOpen}
+          onCloseAction={handleCloseModal}
+          productId={productId}
+          productTitle={productTitle}
+          currentPrice={currentPrice}
+          onSuccessAction={handleSubscribeSuccess}
+        />
+      )}
     </>
   );
 };
