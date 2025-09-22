@@ -20,7 +20,10 @@ interface ProductPageContentProps {
   productId: string;
 }
 
-const ProductPageContent = ({ product, productId }: ProductPageContentProps) => {
+const ProductPageContent = ({
+  product,
+  productId,
+}: ProductPageContentProps) => {
   const discountedPrice = product.discountPercent
     ? product.basePrice * (1 - product.discountPercent / 100)
     : product.basePrice;
@@ -82,7 +85,10 @@ const ProductPageContent = ({ product, productId }: ProductPageContentProps) => 
             Отзывы
           </h2>
           <div className="flex flex-col md:flex-row flex-wrap gap-4 md:gap-x-8 xl:gap-x-36">
-            <RatingDistribution distribution={product.rating.distribution} />
+            <RatingDistribution
+              distribution={product.rating.distribution}
+              averageRating={product.rating.average}
+            />
             <ReviewsWrapper productId={productId} />
           </div>
         </div>
