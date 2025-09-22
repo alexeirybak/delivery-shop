@@ -5,16 +5,12 @@ interface AdditionalInfoProps {
 }
 
 const AdditionalInfo = ({ brand, manufacturer, weight }: AdditionalInfoProps) => {
-  // Функция для точного форматирования веса
   const formatWeight = (weight: number): string => {
     if (weight < 1) {
-      // Меньше 1 кг - в граммах
       const grams = weight * 1000;
-      // Убираем лишние нули после запятой
       const formattedGrams = grams % 1 === 0 ? grams.toString() : grams.toFixed(1).replace(/\.0$/, '');
       return `${formattedGrams} г`;
     } else {
-      // 1 кг и больше
       const formattedKg = weight % 1 === 0 ? weight.toString() : weight.toFixed(2).replace(/\.00$/, '');
       return `${formattedKg} кг`;
     }
