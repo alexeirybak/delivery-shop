@@ -1,39 +1,42 @@
-// components/ImageUploader.tsx
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 
 interface ImageUploaderProps {
   onImageUpload: (file: File) => void;
   maxSize?: number;
-  acceptedTypes?: string[];
 }
 
 export default function ImageUploader({
   onImageUpload,
-  maxSize = 5 * 1024 * 1024, // 5MB по умолчанию
-  acceptedTypes = ['image/jpeg', 'image/png', 'image/webp', 'image/gif']
+  maxSize = 5 * 1024 * 1024
 }: ImageUploaderProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = (file: File) => {
-    if (!acceptedTypes.includes(file.type)) {
-      setError('Неподдерживаемый формат файла');
-      return;
+  const validateFile = useCallback((file: File): boolean => {
+    if (!file.type.includes('image/jpeg')) {
+      setError('Разрешены только JPG изображения');
+      return false;
     }
 
     if (file.size > maxSize) {
-      setError('Файл слишком большой');
-      return;
+      setError(`Файл слишком большой. Максимум ${maxSize / 1024 / 1024}MB`);
+      return false;
     }
 
     setError('');
-    onImageUpload(file);
-  };
+    return true;
+  }, [maxSize]);
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleFile = useCallback((file: File) => {
+    if (validateFile(file)) {
+      onImageUpload(file);
+    }
+  }, [validateFile, onImageUpload]);
+
+  const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
     
@@ -41,28 +44,28 @@ export default function ImageUploader({
     if (files.length > 0) {
       handleFile(files[0]);
     }
-  };
+  }, [handleFile]);
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(true);
-  };
+  }, []);
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     setIsDragging(false);
-  };
+  }, []);
 
-  const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
       handleFile(files[0]);
     }
-  };
+  }, [handleFile]);
 
-  const triggerFileInput = () => {
+  const triggerFileInput = useCallback(() => {
     fileInputRef.current?.click();
-  };
+  }, []);
 
   return (
     <div className="w-full">
@@ -80,7 +83,7 @@ export default function ImageUploader({
         <input
           ref={fileInputRef}
           type="file"
-          accept={acceptedTypes.join(',')}
+          accept="image/jpeg,image/jpg"
           onChange={handleFileInput}
           className="hidden"
         />
@@ -91,14 +94,14 @@ export default function ImageUploader({
           </svg>
           
           <p className="text-sm text-gray-600">
-            Перетащите изображение сюда или{' '}
+            Перетащите JPG изображение сюда или{' '}
             <span className="text-blue-600 hover:text-blue-800 font-medium">
               выберите файл
             </span>
           </p>
           
           <p className="text-xs text-gray-500">
-            PNG, JPG, GIF до {maxSize / 1024 / 1024}MB
+            JPG до {maxSize / 1024 / 1024}MB
           </p>
         </div>
       </div>

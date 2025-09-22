@@ -1,42 +1,51 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getDB } from "../../../../../../../../utils/api-routes";
 import { ProductCardProps } from "@/types/product";
 
 interface SimilarProductsProps {
   currentProduct: ProductCardProps;
 }
 
+interface SimilarProduct {
+  id: string;
+  title: string;
+  img: string;
+  basePrice: number;
+  discountPercent: number;
+  categories: string[];
+}
+
 const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
   try {
-    const db = await getDB();
     const category = currentProduct.categories[0];
 
     if (!category) return null;
 
-    const products = await db
-      .collection<ProductCardProps>("products")
-      .find({
-        categories: { $in: [category] },
-        id: { $ne: currentProduct.id },
-      })
-      .toArray();
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
+      {
+        next: { revalidate: 3600 }
+      }
+    );
 
-    const similarProducts = products
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 4);
+    if (!response.ok) {
+      throw new Error('Не удалось получить похожие продукты');
+    }
+
+    const data = await response.json();
+    const similarProducts: SimilarProduct[] = data.similarProducts;
 
     if (similarProducts.length === 0) {
       return null;
     }
 
-    const calculatePrice = (product: ProductCardProps) => {
+    const calculatePrice = (product: SimilarProduct) => {
       const discount = product.basePrice * (product.discountPercent / 100);
       return Math.round(product.basePrice - discount);
     };
 
     return (
-      <div className=" mx-auto flex flex-col items-center">
+      <div className="mx-auto flex flex-col items-center">
         <div className="w-full max-w-[328px] md:max-w-[688px] xl:max-w-[168px]">
           <h3 className="text-sm md:text-lg font-semibold mb-2 text-[#606060] text-left">
             Похожие
@@ -48,7 +57,7 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
             <Link
               key={product.id}
               href={`/catalog/product/${product.id}`}
-              className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block duration-300"
+              className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block duration-300 hover:shadow-lg"
             >
               <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] flex-shrink-0">
                 <Image
@@ -56,7 +65,7 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
                   alt={product.title}
                   fill
                   className="object-contain rounded"
-                  sizes="111px"
+                  sizes="(max-width: 768px) 78px, (max-width: 1280px) 172px, 168px"
                 />
               </div>
               <div className="flex items-center font-bold p-2 md:p-2.5">
