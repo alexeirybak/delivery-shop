@@ -12,14 +12,14 @@ const SameBrandProducts = async ({ currentProduct }: SameBrandProductsProps) => 
       if (!currentProduct.brand) return [];
 
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand/${encodeURIComponent(currentProduct.brand)}`,
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand/${currentProduct.brand}`,
         {
           next: { revalidate: 3600 },
         }
       );
 
       if (!response.ok) {
-        throw new Error(`Failed to fetch brand products: ${response.status}`);
+        throw new Error(`Не удалось получить товары этого бренда: ${response.status}`);
       }
 
       const brandProducts = await response.json();
@@ -29,7 +29,7 @@ const SameBrandProducts = async ({ currentProduct }: SameBrandProductsProps) => 
         .slice(0, 4);
 
     } catch (error) {
-      console.error('Error fetching same brand products:', error);
+      console.error('Ошибка при получении товаров этого же бренда:', error);
       return [];
     }
   };
