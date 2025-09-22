@@ -6,39 +6,27 @@ interface SameBrandProductsProps {
 }
 
 const SameBrandProducts = async ({ currentProduct }: SameBrandProductsProps) => {
+  if (!currentProduct.brand) return null;
 
-  const fetchSameBrandProducts = async (): Promise<ProductCardProps[]> => {
-    try {
-      if (!currentProduct.brand) return [];
+  let sameBrandProducts: ProductCardProps[] = [];
 
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand/${currentProduct.brand}`,
-        {
-          next: { revalidate: 3600 },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`Не удалось получить товары этого бренда: ${response.status}`);
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand/${currentProduct.brand}?excludeProductId=${currentProduct.id}&limit=4`,
+      {
+        next: { revalidate: 3600 },
       }
+    );
 
-      const brandProducts = await response.json();
-      
-      return brandProducts
-        .filter((product: ProductCardProps) => product.id !== currentProduct.id)
-        .slice(0, 4);
-
-    } catch (error) {
-      console.error('Ошибка при получении товаров этого же бренда:', error);
-      return [];
+    if (response.ok) {
+      const data = await response.json();
+      sameBrandProducts = data.sameBrandProducts || [];
     }
-  };
-
-  const sameBrandProducts = await fetchSameBrandProducts();
-
-  if (!sameBrandProducts || sameBrandProducts.length === 0) {
-    return null;
+  } catch (error) {
+    console.error('Ошибка при получении товаров этого же бренда:', error);
   }
+
+  if (!sameBrandProducts || sameBrandProducts.length === 0) return null;
 
   return (
     <ProductsSection
