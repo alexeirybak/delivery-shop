@@ -12,7 +12,7 @@ const SameBrandProducts = async ({ currentProduct }: SameBrandProductsProps) => 
 
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand/${currentProduct.brand}?excludeProductId=${currentProduct.id}&limit=4`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/brand?brand=${currentProduct.brand}&productId=${currentProduct.id}`,
       {
         next: { revalidate: 3600 },
       }
