@@ -15,6 +15,8 @@ const RatingDistribution = ({
   averageRating,
   distribution,
 }: RatingDistributionProps) => {
+  const totalReviews = distribution["1"] + distribution["2"] + distribution["3"] + distribution["4"] + distribution["5"];
+
   const renderStars = (rating: number) => {
     return (
       <div className="flex flex-row gap-1">
@@ -29,8 +31,6 @@ const RatingDistribution = ({
       </div>
     );
   };
-
-  const totalReviews = Object.values(distribution).reduce((sum, count) => sum + count, 0);
 
   if (totalReviews === 0) {
     return (

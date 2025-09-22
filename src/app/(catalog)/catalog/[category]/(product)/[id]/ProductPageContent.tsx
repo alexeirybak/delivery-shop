@@ -31,6 +31,8 @@ const ProductPageContent = ({
   const cardPrice = discountedPrice * (1 - CONFIG.CARD_DISCOUNT_PERCENT / 100);
   const bonusesAmount = cardPrice * 0.05;
 
+  console.log(product)
+
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
       <h1 className="text-2xl font-bold mb-4">{product.description}</h1>
@@ -86,8 +88,8 @@ const ProductPageContent = ({
           </h2>
           <div className="flex flex-col md:flex-row flex-wrap gap-4 md:gap-x-8 xl:gap-x-36">
             <RatingDistribution
-              distribution={product.rating.distribution}
               averageRating={product.rating.average}
+              distribution={product.rating.distribution}
             />
             <ReviewsWrapper productId={productId} />
           </div>

@@ -56,7 +56,43 @@ export async function POST(
       );
     }
 
-    // Создаем отзыв
+    // Получаем текущий продукт чтобы обновить distribution
+    const product = await db.collection("products").findOne({
+      id: parseInt(productId)
+    });
+
+    if (!product) {
+      return NextResponse.json(
+        { message: "Продукт не найден" },
+        { status: 400 }
+      );
+    }
+
+    // ОБНОВЛЯЕМ DISTRIBUTION В КОЛЛЕКЦИИ PRODUCTS
+    const newDistribution = { ...product.rating.distribution };
+    const ratingKey = rating.toString() as keyof typeof newDistribution;
+    newDistribution[ratingKey] += 1;
+
+    const newCount = product.rating.count + 1;
+    
+    // Пересчитываем средний рейтинг на основе distribution
+    const totalRating = newDistribution["1"] * 1 + newDistribution["2"] * 2 + newDistribution["3"] * 3 + newDistribution["4"] * 4 + newDistribution["5"] * 5;
+    const newAverage = Math.round((totalRating / newCount) * 10) / 10;
+
+    // ОБНОВЛЯЕМ ПРОДУКТ В КОЛЛЕКЦИИ PRODUCTS
+    await db.collection("products").updateOne(
+      { id: parseInt(productId) },
+      {
+        $set: {
+          "rating.distribution": newDistribution,
+          "rating.count": newCount,
+          "rating.average": newAverage,
+          updatedAt: new Date()
+        }
+      }
+    );
+
+    // СОЗДАЕМ ОТЗЫВ В КОЛЛЕКЦИИ REVIEWS
     const newReview = {
       productId,
       userId,
