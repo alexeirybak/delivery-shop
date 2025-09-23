@@ -22,16 +22,7 @@ export async function GET(
       );
     }
 
-    const reviewsCount = await db.collection("reviews").countDocuments({
-      productId: id,
-    });
-
-    const updatedProduct = { ...product };
-    if (updatedProduct.rating) {
-      updatedProduct.rating.count = reviewsCount;
-    }
-
-    return NextResponse.json(updatedProduct);
+    return NextResponse.json(product);
   } catch (error) {
     console.error("Ошибка при получении продукта:", error);
     return NextResponse.json(

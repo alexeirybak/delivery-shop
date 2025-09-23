@@ -38,13 +38,13 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongodb_1 = require("mongodb");
 require("dotenv/config");
-function updateProductsDistribution() {
+function resetRateField() {
     return __awaiter(this, void 0, void 0, function () {
-        var client, db, productsCollection, existingProducts, bulkUpdateOps, result, error_1;
+        var client, db, productsCollection, result, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 7, , 8]);
+                    _a.trys.push([0, 4, , 5]);
                     client = new mongodb_1.MongoClient(process.env.DELIVERY_SHOP_DB_URL);
                     return [4 /*yield*/, client.connect()];
                 case 1:
@@ -52,58 +52,28 @@ function updateProductsDistribution() {
                     console.log('Соединение с MongoDB установлено');
                     db = client.db(process.env.DELIVERY_SHOP_DB_NAME);
                     productsCollection = db.collection('products');
-                    return [4 /*yield*/, productsCollection.find({}).toArray()];
-                case 2:
-                    existingProducts = _a.sent();
-                    console.log("\u041D\u0430\u0439\u0434\u0435\u043D\u043E ".concat(existingProducts.length, " \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u0432 \u0434\u043B\u044F \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F"));
-                    bulkUpdateOps = existingProducts.map(function (product) {
-                        // Все значения оценок установлены в 0 внутри rating.distribution
-                        var distribution = {
-                            "1": 0,
-                            "2": 0,
-                            "3": 0,
-                            "4": 0,
-                            "5": 0
-                        };
-                        return {
-                            updateOne: {
-                                filter: { _id: product._id },
-                                update: {
-                                    $set: {
-                                        'rating.rate': 5.0, // Устанавливаем рейтинг 5.0
-                                        'rating.count': 0, // Обнуляем количество оценок
-                                        'rating.distribution': distribution // Обнуляем распределение
-                                    }
-                                }
+                    return [4 /*yield*/, productsCollection.updateMany({}, {
+                            $set: {
+                                'rating.rate': 0
                             }
-                        };
-                    });
-                    if (!(bulkUpdateOps.length > 0)) return [3 /*break*/, 4];
-                    return [4 /*yield*/, productsCollection.bulkWrite(bulkUpdateOps)];
-                case 3:
+                        })];
+                case 2:
                     result = _a.sent();
-                    console.log("\u041E\u0431\u043D\u043E\u0432\u043B\u0435\u043D\u043E ".concat(result.modifiedCount, " \u043F\u0440\u043E\u0434\u0443\u043A\u0442\u043E\u0432"));
-                    console.log('Обновлены значения rating:');
-                    console.log('rate: 5.0, count: 0');
-                    console.log('distribution: 1:0, 2:0, 3:0, 4:0, 5:0');
-                    return [3 /*break*/, 5];
-                case 4:
-                    console.log('Нет продуктов для обновления');
-                    _a.label = 5;
-                case 5: return [4 /*yield*/, client.close()];
-                case 6:
+                    console.log("\u041E\u0431\u043D\u0443\u043B\u0435\u043D\u043E \u043F\u043E\u043B\u0435 rate \u0432 ".concat(result.modifiedCount, " \u0434\u043E\u043A\u0443\u043C\u0435\u043D\u0442\u0430\u0445"));
+                    return [4 /*yield*/, client.close()];
+                case 3:
                     _a.sent();
                     console.log('Разорвано соединение с MongoDB');
-                    return [3 /*break*/, 8];
-                case 7:
+                    return [3 /*break*/, 5];
+                case 4:
                     error_1 = _a.sent();
                     console.error('Ошибка:', error_1);
                     process.exit(1);
-                    return [3 /*break*/, 8];
-                case 8: return [2 /*return*/];
+                    return [3 /*break*/, 5];
+                case 5: return [2 /*return*/];
             }
         });
     });
 }
-updateProductsDistribution();
-//Команда для запуска: npx tsc seed-ratings.ts // node seed-ratings.js
+resetRateField();
+//Команда для запуска: npx tsc seed-rate-to-null.ts // node seed-rate-to-null.js

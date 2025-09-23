@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const ImagesBlock = ({ product }: { product: ProductCardProps }) => {
   return (
-    <div className="flex flex-row gap-x-4 h-[248px] xl:h-[496px]">
+    <div className="flex flex-row gap-x-4 h-[248px] xl:h-[496px] justify-center">
       <div className="flex flex-col justify-between h-full shrink-0">
         {[...Array(5)].map((_, index) => (
           <div

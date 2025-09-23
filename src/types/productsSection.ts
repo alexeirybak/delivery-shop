@@ -7,4 +7,5 @@ export interface ProductsSectionProps {
     href: string;
   };
   products: ProductCardProps[];
+  mobileItemsLimit?: number;
 }
