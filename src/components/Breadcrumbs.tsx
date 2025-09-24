@@ -23,7 +23,7 @@ const Breadcrumbs = () => {
     // Если это последний сегмент (ID продукта) и есть описание
     if (index === pathSegments.length - 1 && productDesc && 
         pathSegments.includes('catalog') && pathSegments.length >= 3) {
-      label = decodeURIComponent(productDesc);
+      label = productDesc;
     }
     
     return {

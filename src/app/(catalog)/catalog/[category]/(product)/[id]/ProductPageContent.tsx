@@ -14,6 +14,7 @@ import AdditionalInfo from "./_components/AdditionalInfo";
 import SimilarProducts from "./_components/SimilarProducts";
 import { ProductCardProps } from "@/types/product";
 import SameBrandProducts from "./_components/SameBrandProducts";
+import Actions from "@/app/(products)/Actions";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -31,7 +32,7 @@ const ProductPageContent = ({
   const cardPrice = discountedPrice * (1 - CONFIG.CARD_DISCOUNT_PERCENT / 100);
   const bonusesAmount = cardPrice * 0.05;
 
-  console.log(product)
+  console.log(product);
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
@@ -94,6 +95,7 @@ const ProductPageContent = ({
             <ReviewsWrapper productId={productId} />
           </div>
         </div>
+        <Actions randomLimit={6} mobileItemsLimit={6} />
       </div>
     </div>
   );

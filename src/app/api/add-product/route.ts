@@ -1,26 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDB } from '../../../../utils/api-routes';
 
-interface ProductData {
-  id: number;
-  img: string;
-  title: string;
-  description: string;
-  basePrice: number;
-  discountPercent: number;
-  rating: { score: number; count: number };
-  categories: string[];
-  weight: number;
-  quantity: number;
-  tags: string[];
-  isHealthyFood: boolean;
-  isNonGMO: boolean;
-  updatedAt: Date;
-  article: string;
-  brand: string;
-  manufacturer: string;
-}
-
 export async function POST(request: NextRequest) {
   try {
     const db = await getDB();
@@ -42,20 +22,34 @@ export async function POST(request: NextRequest) {
       isNonGMO,
       categories,
       tags,
-      img
+      img,
+      id
     } = body;
 
-    const count = await productsCollection.countDocuments();
-    const nextId = count + 1;
+    if (!id) {
+      return NextResponse.json(
+        { error: 'Вставьте изображение товара' },
+        { status: 400 }
+      );
+    }
 
-    const productData: ProductData = {
-      id: nextId,
-      img: img || `/images/products/img-${nextId}.jpg`,
+    const productData = {
+      id: id,
+      img: img || `/images/products/img-${id}.jpeg`,
       title,
       description,
       basePrice: Number(basePrice),
       discountPercent: Number(discountPercent) || 0,
-      rating: { score: 0, count: 0 },
+      rating: { 
+        count: 0,
+        distribution: {
+          1: 0,
+          2: 0,
+          3: 0,
+          4: 0,
+          5: 0
+        }
+      },
       categories: Array.isArray(categories) ? categories : [],
       weight: Number(weight),
       quantity: Number(quantity),
