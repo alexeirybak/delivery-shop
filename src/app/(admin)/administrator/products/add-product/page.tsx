@@ -17,59 +17,8 @@ import Tags from "./_components/Tags";
 import CheckboxGroup from "./_components/CheckboxGroup";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-
-interface AddProductFormData {
-  title: string;
-  description: string;
-  basePrice: string;
-  discountPercent: string;
-  weight: string;
-  quantity: string;
-  article: string;
-  brand: string;
-  manufacturer: string;
-  isHealthyFood: boolean;
-  isNonGMO: boolean;
-  categories: string[];
-  tags: string[];
-}
-
-interface AddProductApiResponse {
-  success: boolean;
-  product?: {
-    _id: string;
-    id: number;
-    img: string;
-    title: string;
-  };
-  error?: string;
-}
-
-interface ImageUploadResponse {
-  success: boolean;
-  product?: {
-    id: number;
-    img: string;
-    filename: string;
-  };
-  error?: string;
-}
-
-const initialProductData = {
-  title: "",
-  description: "",
-  basePrice: "",
-  discountPercent: "",
-  weight: "",
-  quantity: "",
-  article: "",
-  brand: "",
-  manufacturer: "",
-  isHealthyFood: false,
-  isNonGMO: false,
-  categories: [],
-  tags: [],
-};
+import { AddProductApiResponse, AddProductFormData, ImageUploadResponse } from "@/types/addProductTypes";
+import { initialProductData } from "@/constants/addProductFormData";
 
 export default function AddProductPage() {
   const router = useRouter();
@@ -183,7 +132,7 @@ export default function AddProductPage() {
         setCreatedProductId(productId); // Сохраняем тот же ID
         alert("Товар успешно добавлен!");
       }
-      
+
     } catch (error) {
       alert(
         "Ошибка: " +
