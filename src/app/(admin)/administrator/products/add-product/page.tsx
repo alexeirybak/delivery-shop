@@ -42,6 +42,7 @@ export default function AddProductPage() {
     if (!imageFile || !id) return null;
 
     setUploading(true);
+    
     const formData = new FormData();
     formData.append("image", imageFile);
     formData.append("imageId", id.toString());
