@@ -244,9 +244,6 @@ export default function AddProductPage() {
               <p className="text-green-800 font-medium">
                 Товар успешно создан!
               </p>
-              <p className="text-green-600 text-sm mt-1">
-                ID: {createdProductId}
-              </p>
             </div>
             <div className="flex gap-2">
               <button
