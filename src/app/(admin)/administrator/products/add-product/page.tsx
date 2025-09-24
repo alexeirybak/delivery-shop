@@ -76,14 +76,13 @@ export default function AddProductPage() {
   const [formData, setFormData] =
     useState<AddProductFormData>(initialProductData);
   const [image, setImage] = useState<File | null>(null);
-  const [imageId, setImageId] = useState<number | null>(null);
   const [uploading, setUploading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [createdProductId, setCreatedProductId] = useState<number | null>(null);
 
   const hasActionsTag = formData.tags.includes("actions");
 
-  const generateImageId = useCallback(() => {
+  const generateProductId = useCallback(() => {
     return Math.floor(Math.random() * 1000000000000000);
   }, []);
 
@@ -120,11 +119,6 @@ export default function AddProductPage() {
 
   const handleImageChange = (file: File | null) => {
     setImage(file);
-    if (file) {
-      setImageId(generateImageId());
-    } else {
-      setImageId(null);
-    }
   };
 
   const handleTagsChange = (tags: string[]) => {
@@ -134,7 +128,6 @@ export default function AddProductPage() {
   const clearForm = () => {
     setFormData(initialProductData);
     setImage(null);
-    setImageId(null);
     setCreatedProductId(null);
   };
 
@@ -152,14 +145,13 @@ export default function AddProductPage() {
     setLoading(true);
 
     try {
+      const productId = generateProductId();
       let imagePath: string | null = null;
-      let finalImageId: number | null = imageId;
 
-      if (image && imageId) {
-        const uploadResult = await uploadImage(image, imageId);
+      if (image) {
+        const uploadResult = await uploadImage(image, productId);
         if (uploadResult) {
           imagePath = uploadResult.img;
-          finalImageId = uploadResult.id;
         } else {
           alert("Ошибка загрузки изображения");
           setLoading(false);
@@ -175,7 +167,7 @@ export default function AddProductPage() {
         body: JSON.stringify({
           ...formData,
           img: imagePath,
-          id: finalImageId,
+          id: productId,
           basePrice: Number(formData.basePrice),
           discountPercent: Number(formData.discountPercent),
           weight: Number(formData.weight),
@@ -187,12 +179,11 @@ export default function AddProductPage() {
 
       const result: AddProductApiResponse = await response.json();
 
-      if (response.ok && result.success && result.product) {
-        setCreatedProductId(result.product.id);
+      if (response.ok && result.success) {
+        setCreatedProductId(productId); // Сохраняем тот же ID
         alert("Товар успешно добавлен!");
-      } else {
-        alert("Ошибка: " + (result.error || "Неизвестная ошибка"));
       }
+      
     } catch (error) {
       alert(
         "Ошибка: " +
@@ -310,7 +301,11 @@ export default function AddProductPage() {
             </div>
             <div className="flex gap-2">
               <button
-                onClick={() => router.push(`/catalog/${formData.categories[0]}/${createdProductId}`)}
+                onClick={() =>
+                  router.push(
+                    `/catalog/${formData.categories[0]}/${createdProductId}`
+                  )
+                }
                 className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm cursor-pointer"
               >
                 Перейти к товару
