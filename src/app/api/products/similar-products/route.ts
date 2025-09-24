@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
         { 
           $match: { 
             categories: { $in: [category] },
-            id: { $ne: productId } 
+            id: { $ne: parseInt(productId) }
           } 
         },
         { $sample: { size: limit } }
