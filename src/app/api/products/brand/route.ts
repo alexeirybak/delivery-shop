@@ -5,7 +5,7 @@ import { CONFIG } from "../../../../../config/config";
 
 interface MatchCondition {
   brand: string;
-  id?: { $ne: string };
+  id?: { $ne: number };
 }
 
 export async function GET(request: NextRequest) {
@@ -27,7 +27,7 @@ export async function GET(request: NextRequest) {
     };
 
     if (productId) {
-      matchCondition.id = { $ne: productId };
+      matchCondition.id = { $ne: parseInt(productId) };
     }
 
     const sameBrandProducts = await db
