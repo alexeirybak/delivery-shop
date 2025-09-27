@@ -5,7 +5,6 @@ import {
   AddProductFormData,
   ImageUploadResponse,
 } from "@/types/addProductTypes";
-import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
@@ -90,7 +89,6 @@ export default function EditProductPage() {
     }
   }, [productId]);
 
-// В вашей странице редактирования продукта
 const uploadImage = async (imageFile: File | null): Promise<boolean> => {
   if (!imageFile) return false;
 
@@ -256,13 +254,6 @@ const handleSubmit = async (e: FormEvent) => {
 
   return (
     <div className="container flex flex-col items-center px-4 py-8 text-main-text mx-auto">
-      <Link
-        href="/administrator"
-        className="hover:underline mb-3 lg:mb-4 flex flex-row items-center gap-3 text-sm lg:text-base"
-      >
-        <ArrowLeft className="h-4 w-4 ml-1" />
-        Назад в панель управления
-      </Link>
       <h1 className="text-3xl font-bold mb-8">Редактировать товар</h1>
 
       <form onSubmit={handleSubmit} className="max-w-2xl space-y-6 w-full">
