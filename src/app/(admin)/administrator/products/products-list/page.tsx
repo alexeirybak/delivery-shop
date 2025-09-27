@@ -6,15 +6,7 @@ import SearchProductResult from "./_components/SearchProductsResult";
 import SearchHeader from "./_components/SearchHeader";
 import SearchInput from "./_components/SearchInput";
 import SearchStates from "./_components/SearchStates";
-
-interface Product {
-  id: number;
-  title: string;
-  article: string;
-  basePrice: number;
-  quantity: number;
-  categories: string[];
-}
+import { ProductCardProps } from "@/types/product";
 
 interface DeleteModalState {
   isOpen: boolean;
@@ -23,7 +15,7 @@ interface DeleteModalState {
 }
 
 export default function ProductsListPage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
