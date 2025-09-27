@@ -21,7 +21,6 @@ import Categories from "../../add-product/_components/Categories";
 import Tags from "../../add-product/_components/Tags";
 import CheckboxGroup from "../../add-product/_components/CheckboxGroup";
 import ImageUploadSection from "../../add-product/_components/ImageUploadSection";
-import { Trash2 } from "lucide-react";
 import { ProductCardProps } from "@/types/product";
 
 
@@ -38,7 +37,6 @@ export default function EditProductPage() {
   const [existingImage, setExistingImage] = useState<string>("");
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [deleting, setDeleting] = useState(false);
 
   // Загрузка данных продукта
   useEffect(() => {
@@ -115,6 +113,8 @@ const uploadImage = async (imageFile: File | null): Promise<boolean> => {
   }
 };
 
+const hasActionsTag = formData.tags.includes("actions");
+
 const handleSubmit = async (e: FormEvent) => {
   e.preventDefault();
   
@@ -131,8 +131,8 @@ const handleSubmit = async (e: FormEvent) => {
   try {
     // Загружаем новое изображение, если оно было изменено
     if (image) {
-      const uploadSuccess = await uploadImage(image);
-      if (!uploadSuccess) {
+      const uploadResult = await uploadImage(image);
+      if (!uploadResult) {
         alert("Ошибка загрузки изображения");
         setLoading(false);
         return;
@@ -174,43 +174,7 @@ const handleSubmit = async (e: FormEvent) => {
     setLoading(false);
   }
 };
-
-  const handleDelete = async () => {
-    if (!confirm(`Вы уверены, что хотите удалить товар "${formData.title}"?`)) {
-      return;
-    }
-
-    setDeleting(true);
-
-    try {
-      const response = await fetch("/api/delete-product", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ id: parseInt(productId) }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        alert("Товар успешно удален");
-        router.push("/administrator");
-      } else {
-        alert(
-          "Ошибка удаления товара: " + (result.error || "Неизвестная ошибка")
-        );
-      }
-    } catch (error) {
-      alert("Ошибка при удалении товара");
-      console.error("Delete error:", error);
-    } finally {
-      setDeleting(false);
-    }
-  };
-
-  const hasActionsTag = formData.tags.includes("actions");
-
+  
   const handleInputChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -319,17 +283,8 @@ const handleSubmit = async (e: FormEvent) => {
           loading={loading}
           existingImage={existingImage}
         />
-        <div className="flex gap-4">
-          <button
-            type="button"
-            onClick={handleDelete}
-            disabled={deleting || loading}
-            className="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 px-4 rounded disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
-          >
-            <Trash2 size={18} />
-            {deleting ? "Удаление..." : "Удалить товар"}
-          </button>
-
+        
+          
           <button
             type="submit"
             disabled={loading || uploading}
@@ -337,7 +292,7 @@ const handleSubmit = async (e: FormEvent) => {
           >
             {loading ? "Обновление..." : "Обновить товар"}
           </button>
-        </div>
+        
       </form>
     </div>
   );

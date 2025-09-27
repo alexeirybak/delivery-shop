@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
       isNonGMO,
       categories,
       tags,
-      img, // Новый путь к изображению (если было загружено новое)
     } = body;
 
     if (!id) {
@@ -32,9 +31,6 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
-
-    // ВАЖНО: Всегда используем путь с ID продукта
-    const imagePath = `/images/products/img-${id}.jpeg`;
 
     const updateData = {
       title,
@@ -50,8 +46,8 @@ export async function POST(request: NextRequest) {
       isNonGMO: Boolean(isNonGMO),
       categories: Array.isArray(categories) ? categories : [],
       tags: Array.isArray(tags) ? tags : [],
-      img: imagePath, // Всегда используем путь с ID продукта
       updatedAt: new Date(),
+      // Убрали поле img полностью - путь формируется на лету
     };
 
     const result = await productsCollection.updateOne(
