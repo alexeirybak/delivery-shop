@@ -4,7 +4,7 @@ import { getDB } from "../../../../../utils/api-routes";
 export const dynamic = "force-dynamic";
 
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {

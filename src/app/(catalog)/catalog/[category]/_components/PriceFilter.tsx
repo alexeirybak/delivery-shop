@@ -15,7 +15,9 @@ const PriceFilter = ({
   basePath,
   category,
   setIsFilterOpenAction,
-}: PriceFilterProps) => {
+  apiEndpoint = "/category",
+  userId, // Получаем userId из пропсов
+}: PriceFilterProps & { apiEndpoint?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlPriceFrom = searchParams.get("priceFrom") || "";
@@ -49,7 +51,12 @@ const PriceFilter = ({
       params.set("category", currentCategory);
       params.set("getPriceRangeOnly", "true");
 
-      const response = await fetch(`/api/category?${params.toString()}`);
+      // Добавляем userId в параметры, если он есть
+      if (userId) {
+        params.set("userId", userId);
+      }
+
+      const response = await fetch(`/api/${apiEndpoint}?${params.toString()}`);
 
       if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
 
@@ -80,7 +87,7 @@ const PriceFilter = ({
     } finally {
       setIsLoading(false);
     }
-  }, [category, searchParams, urlPriceFrom, urlPriceTo]);
+  }, [category, searchParams, urlPriceFrom, urlPriceTo, apiEndpoint, userId]);
 
   useEffect(() => {
     fetchPriceData();
@@ -150,7 +157,7 @@ const PriceFilter = ({
     router.push(`${basePath}?${params.toString()}`);
   }, [basePath, priceRange.max, priceRange.min, router, searchParams]);
 
-  if (isLoading) {
+  if (isLoading || isNaN(priceRange.min) || isNaN(priceRange.max)) {
     return <MiniLoader />;
   }
 

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { ProductCardProps } from "@/types/product";
 import { CONFIG } from "../../../../../../../config/config";
 import StarRating from "@/components/StarRating";
@@ -15,6 +14,7 @@ import SameBrandProducts from "./_components/SameBrandProducts";
 import RatingDistribution from "./_components/RatingDistribution";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Actions from "@/app/(products)/Actions";
+import FavoriteButton from "@/components/FavoriteButton";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -45,16 +45,10 @@ const ProductPageContent = ({
           </p>
         </div>
         <ShareButton title={product.title} />
-        <button className="flex flex-row flex-wrap gap-2 items-center cursor-pointer">
-          <Image
-            src="/icons-header/icon-heart.svg"
-            alt="Избранное"
-            width={24}
-            height={24}
-            className="select-none w-6 h-6"
-          />
+        <div className="flex flex-row flex-wrap gap-2 items-center">
+          <FavoriteButton productId={productId} iconSize={24} />
           <p className="text-sm">В избранное</p>
-        </button>
+        </div>
       </div>
       <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
         <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">

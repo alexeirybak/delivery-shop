@@ -27,16 +27,18 @@ const TopMenu = () => {
         </li>
       </Link>
       {!isManagerOrAdmin && (
-        <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">
-          <Image
-            src={iconHeart}
-            alt="Избранное"
-            width={24}
-            height={24}
-            className="object-contain w-6 h-6"
-          />
-          <span>Избранное</span>
-        </li>
+        <Link href="/favorites">
+          <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">
+            <Image
+              src={iconHeart}
+              alt="Избранное"
+              width={24}
+              height={24}
+              className="object-contain w-6 h-6"
+            />
+            <span>Избранное</span>
+          </li>
+        </Link>
       )}
 
       <li className="flex flex-col items-center gap-2.5 w-11 cursor-pointer">

@@ -34,3 +34,9 @@ export interface ImageUploadResponse {
   };
   error?: string;
 }
+
+export interface UpdateProductApiResponse {
+  success: boolean;
+  message?: string;
+  error?: string;
+}

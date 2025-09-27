@@ -6,16 +6,33 @@ const fetchProductsByCategory = async (
     priceFrom?: string;
     priceTo?: string;
     inStock?: boolean;
+    userId?: string | null;
   }
 ) => {
-  const { pagination, filter, priceFrom, priceTo, inStock } = options;
+
+  const { pagination, filter, priceFrom, priceTo, inStock, userId } = options;
 
   try {
+    if (category === "favorites") {
+      
+      if (!userId) {
+        return {
+          items: [],
+          totalCount: 0,
+        };
+      }
+    }
+
     const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/category`);
 
     url.searchParams.append("category", category);
     url.searchParams.append("startIdx", pagination.startIdx.toString());
     url.searchParams.append("perPage", pagination.perPage.toString());
+
+    // Передаем userId для избранного
+    if (category === "favorites" && userId) {
+      url.searchParams.append("userId", userId);
+    }
 
     if (filter) {
       if (Array.isArray(filter)) {
@@ -43,6 +60,8 @@ const fetchProductsByCategory = async (
       throw new Error(`Серверная ошибка получения продуктов категории`);
 
     const data = await res.json();
+
+    console.log(data);
 
     return {
       items: data.products || data,

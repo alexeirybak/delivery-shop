@@ -1,11 +1,11 @@
 import { buttonStyles } from "@/app/(auth)/styles";
 import Link from "next/link";
 
-const AdminPanel = () => {
+const AdminProducts = () => {
   return (
     <div className="p-6">
       <h1 className="text-2xl text-main-text font-bold mb-6">
-        Панель управления
+        Панель управления продуктами
       </h1>
 
       <div className="grid gap-4">
@@ -38,4 +38,4 @@ const AdminPanel = () => {
   );
 };
 
-export default AdminPanel;
+export default AdminProducts;
