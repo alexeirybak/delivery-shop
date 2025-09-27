@@ -21,6 +21,18 @@ const AdminPanel = () => {
         >
           Добавление товара
         </Link>
+        <Link
+          href="/administrator/products/products-list"
+          className={`${buttonStyles.active} [&&]:justify-start px-4 py-2 w-full md:w-1/2`}
+        >
+          Список товаров
+        </Link>
+        <Link
+          href="/administrator/products/products-list"
+          className={`${buttonStyles.active} [&&]:justify-start px-4 py-2 w-full md:w-1/2`}
+        >
+          Редактирование товара
+        </Link>
       </div>
     </div>
   );
