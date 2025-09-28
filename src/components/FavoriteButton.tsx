@@ -7,7 +7,7 @@ import { useFavorites } from "@/hooks/useFavorites";
 import IconHeart from "./svg/IconHeart";
 
 const FavoriteButton = ({ productId }: { productId: string }) => {
-  const { isAuth, user } = useAuthStore();
+  const { isAuth } = useAuthStore();
   const { toggleFavorite, isFavorite, isLoading } = useFavorites();
   const [isProcessing, setIsProcessing] = useState(false);
   const router = useRouter();
@@ -15,11 +15,6 @@ const FavoriteButton = ({ productId }: { productId: string }) => {
   const handleClick = async () => {
     if (!isAuth) {
       router.push("/login");
-      return;
-    }
-
-    if (user?._id) {
-      router.push(`/favorites`);
       return;
     }
 
@@ -47,7 +42,7 @@ const FavoriteButton = ({ productId }: { productId: string }) => {
   `}
       title={isActive ? "Удалить из избранного" : "Добавить в избранное"}
     >
-      <IconHeart size={24} isActive={isActive} />
+      <IconHeart isActive={isActive} />
     </button>
   );
 };
