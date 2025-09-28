@@ -6,7 +6,6 @@ import { FilterControlsProps } from "@/types/filterControlsProps";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-// Вынесите основную логику в отдельный компонент
 function FilterControlsContent({ basePath }: FilterControlsProps) {
   const searchParams = useSearchParams();
 
@@ -106,7 +105,6 @@ function FilterControlsContent({ basePath }: FilterControlsProps) {
   );
 }
 
-// Основной компонент с Suspense
 const FilterControls = ({ basePath }: FilterControlsProps) => {
   return (
     <Suspense fallback={
