@@ -11,7 +11,6 @@ import PriceInputs from "./PriceInputs";
 import PriceRangeSlider from "./PriceRangeSlider";
 import InStockToggle from "./InStockToggle";
 
-// Вынесите основную логику в отдельный компонент
 function PriceFilterContent({
   basePath,
   category,
@@ -199,7 +198,6 @@ function PriceFilterContent({
   );
 }
 
-// Основной компонент с Suspense
 const PriceFilter = ({
   basePath,
   category,
