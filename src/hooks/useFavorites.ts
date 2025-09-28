@@ -8,33 +8,37 @@ export const useFavorites = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const loadFavorites = async () => {
-    if (!user?.id) {
-      setFavorites([]);
-      return;
-    }
-
-    setIsLoading(true);
-    try {
-      const response = await fetch(`/api/users/favorites`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ 
-          action: "GET",
-          userId: user.id 
-        }),
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        setFavorites(data.favorites || []);
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (!user?.id) {
+        setFavorites([]);
+        return;
       }
-    } catch (error) {
-      console.error("Ошибка загрузки избранного:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
+      setIsLoading(true);
+      try {
+        const response = await fetch(`/api/users/favorites`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            action: "GET",
+            userId: user.id 
+          }),
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          setFavorites(data.favorites || []);
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки избранного:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadFavorites();
+  }, [user?.id]);
 
   const toggleFavorite = async (productId: string) => {
     if (!user?.id) return;
@@ -61,20 +65,15 @@ export const useFavorites = () => {
       }
     } catch (error) {
       console.error("Ошибка переключения избранного:", error);
+      throw error; // Пробрасываем ошибку для обработки в компоненте
     }
   };
 
   const isFavorite = (productId: string) => favorites.includes(productId);
 
-  useEffect(() => {
-    loadFavorites();
-  }, [user?.id]);
-
   return {
-    favorites,
-    isLoading,
     toggleFavorite,
     isFavorite,
-    reloadFavorites: loadFavorites,
+    isLoading,
   };
 };
