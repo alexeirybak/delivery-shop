@@ -7,7 +7,6 @@ import { Suspense } from "react";
 import iconToRight from "/public/icons-products/icon-arrow-right.svg";
 import { TRANSLATIONS } from "../../utils/translations";
 
-// Вынесите основную логику в отдельный компонент
 function BreadcrumbsContent() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -83,7 +82,6 @@ function BreadcrumbsContent() {
   );
 }
 
-// Основной компонент с Suspense
 const Breadcrumbs = () => {
   return (
     <Suspense fallback={
