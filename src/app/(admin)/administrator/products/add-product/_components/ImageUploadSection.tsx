@@ -38,7 +38,7 @@ const ImageUploadSection = ({
     setImage(null);
     onImageChange(null);
 
-    if (previewUrl) {
+    if (previewUrl && previewUrl.startsWith('blob:')) {
       URL.revokeObjectURL(previewUrl);
     }
     setPreviewUrl(null);
