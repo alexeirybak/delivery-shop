@@ -10,7 +10,6 @@ const FILTERS = [
   { key: "non-gmo", label: "Без ГМО" },
 ];
 
-// Вынесите основную логику в отдельный компонент
 function FilterButtonsContent({ basePath }: { basePath: string }) {
   const searchParams = useSearchParams();
   const currentFilters = searchParams.getAll("filter");
@@ -54,7 +53,6 @@ function FilterButtonsContent({ basePath }: { basePath: string }) {
   );
 }
 
-// Основной компонент с Suspense
 const FilterButtons = ({ basePath }: { basePath: string }) => {
   return (
     <Suspense fallback={
