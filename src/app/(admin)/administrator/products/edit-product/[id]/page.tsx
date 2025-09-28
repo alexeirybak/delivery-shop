@@ -7,7 +7,7 @@ import {
 } from "@/types/addProductTypes";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { ChangeEvent, FormEvent, Suspense, useEffect, useState } from "react";
 import Title from "../../_components/Title";
 import Article from "../../_components/Article";
 import Description from "../../_components/Description";
@@ -26,6 +26,14 @@ import { ProductCardProps } from "@/types/product";
 import MiniLoader from "@/components/MiniLoader";
 
 export default function EditProductPage() {
+  return (
+    <Suspense fallback={<MiniLoader />}>
+      <EditProductContent />
+    </Suspense>
+  );
+}
+
+function EditProductContent() {
   const params = useParams();
   const productId = params.id as string;
 

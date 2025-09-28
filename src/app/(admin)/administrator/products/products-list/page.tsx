@@ -26,7 +26,6 @@ export default function ProductsListPage() {
     productTitle: "",
   });
 
-  // Функция поиска продуктов
   const fetchProducts = useCallback(async (searchQuery: string = "") => {
     if (!searchQuery.trim()) {
       setProducts([]);
@@ -56,28 +55,24 @@ export default function ProductsListPage() {
     }
   }, []);
 
-  // Обработчик поиска
   const handleSearch = () => {
     if (searchTerm.trim().length >= 3) {
       fetchProducts(searchTerm);
     }
   };
 
-  // Поиск при нажатии Enter
   const handleKeyPress = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && searchTerm.trim().length >= 3) {
       handleSearch();
     }
   };
 
-  // Функция очистки результатов
   const handleClearResults = () => {
     setSearchTerm("");
     setProducts([]);
     setHasSearched(false);
   };
 
-  // Обработчик открытия модального окна удаления
   const openDeleteModal = (productId: number, productTitle: string) => {
     setDeleteModal({
       isOpen: true,
@@ -86,7 +81,6 @@ export default function ProductsListPage() {
     });
   };
 
-  // Обработчик закрытия модального окна
   const closeDeleteModal = () => {
     setDeleteModal({
       isOpen: false,
@@ -95,7 +89,6 @@ export default function ProductsListPage() {
     });
   };
 
-  // Функция удаления товара
   const handleDeleteProduct = async () => {
     if (!deleteModal.productId) return;
 
