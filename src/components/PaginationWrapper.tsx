@@ -23,7 +23,6 @@ function getItemsPerPageByWidth(contentType?: string) {
   return 4;
 }
 
-// Вынесите основную логику в отдельный компонент
 function PaginationWrapperContent({
   totalItems,
   currentPage,
@@ -84,7 +83,6 @@ function PaginationWrapperContent({
   );
 }
 
-// Основной компонент с Suspense
 const PaginationWrapper = ({
   totalItems,
   currentPage,
