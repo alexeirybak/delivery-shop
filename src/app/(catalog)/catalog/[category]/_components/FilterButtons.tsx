@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
 
 const FILTERS = [
   { key: "our-production", label: "Товары нашего производства" },
@@ -9,7 +10,7 @@ const FILTERS = [
   { key: "non-gmo", label: "Без ГМО" },
 ];
 
-const FilterButtons = ({ basePath }: { basePath: string }) => {
+function FilterButtonsContent({ basePath }: { basePath: string }) {
   const searchParams = useSearchParams();
   const currentFilters = searchParams.getAll("filter");
 
@@ -49,6 +50,25 @@ const FilterButtons = ({ basePath }: { basePath: string }) => {
         </Link>
       ))}
     </div>
+  );
+}
+
+const FilterButtons = ({ basePath }: { basePath: string }) => {
+  return (
+    <Suspense fallback={
+      <div className="flex flex-row flex-wrap gap-4 items-center mb-10">
+        {FILTERS.map((filter) => (
+          <div
+            key={filter.key}
+            className="h-8 p-2 rounded text-xs bg-[#f3f2f1] text-[#606060] animate-pulse"
+          >
+            {filter.label}
+          </div>
+        ))}
+      </div>
+    }>
+      <FilterButtonsContent basePath={basePath} />
+    </Suspense>
   );
 };
 
