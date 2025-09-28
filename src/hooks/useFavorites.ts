@@ -8,6 +8,7 @@ export const useFavorites = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Получение избранного
   useEffect(() => {
     const loadFavorites = async () => {
       if (!user?.id) {
@@ -17,15 +18,7 @@ export const useFavorites = () => {
 
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/users/favorites`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
-            action: "GET",
-            userId: user.id 
-          }),
-        });
-        
+        const response = await fetch(`/api/users/favorites?userId=${user.id}`);
         if (response.ok) {
           const data = await response.json();
           setFavorites(data.favorites || []);
@@ -43,29 +36,25 @@ export const useFavorites = () => {
   const toggleFavorite = async (productId: string) => {
     if (!user?.id) return;
 
-    try {
-      const isCurrentlyFavorite = favorites.includes(productId);
-      
-      const response = await fetch("/api/users/favorites", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          action: isCurrentlyFavorite ? "REMOVE" : "ADD",
-          userId: user.id,
-          productId,
-        }),
-      });
+    const isCurrentlyFavorite = favorites.includes(productId);
+    const action = isCurrentlyFavorite ? "remove" : "add";
+    
+    const response = await fetch("/api/users/favorites", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        userId: user.id,
+        productId,
+        action
+      }),
+    });
 
-      if (response.ok) {
-        if (isCurrentlyFavorite) {
-          setFavorites((prev) => prev.filter((id) => id !== productId));
-        } else {
-          setFavorites((prev) => [...prev, productId]);
-        }
+    if (response.ok) {
+      if (isCurrentlyFavorite) {
+        setFavorites(prev => prev.filter(id => id !== productId));
+      } else {
+        setFavorites(prev => [...prev, productId]);
       }
-    } catch (error) {
-      console.error("Ошибка переключения избранного:", error);
-      throw error; // Пробрасываем ошибку для обработки в компоненте
     }
   };
 

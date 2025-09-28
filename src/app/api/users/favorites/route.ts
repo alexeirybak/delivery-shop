@@ -11,29 +11,48 @@ interface UserDocument {
   updatedAt: Date;
 }
 
-export async function POST(request: NextRequest) {
+// GET - получение избранного
+export async function GET(request: NextRequest) {
   try {
-    const { action, userId, productId } = await request.json();
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
 
     if (!userId) {
       return NextResponse.json({ favorites: [] });
     }
 
     const db = await getDB();
-    const userObjectId = new ObjectId(userId);
+    const user = await db.collection<UserDocument>('user').findOne({ 
+      _id: new ObjectId(userId) 
+    });
 
-    // GET - получение избранного
-    if (action === "GET") {
-      const user = await db.collection<UserDocument>('user').findOne({ 
-        _id: userObjectId 
-      });
-      return NextResponse.json({ 
-        favorites: user?.favorites || [] 
-      });
+    return NextResponse.json({ 
+      favorites: user?.favorites || [] 
+    });
+
+  } catch {
+    return NextResponse.json(
+      { error: 'Ошибка получения избранного' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  try {
+    const { userId, productId, action } = await request.json();
+
+    if (!userId || !productId) {
+      return NextResponse.json(
+        { error: 'userId и productId обязательны' },
+        { status: 400 }
+      );
     }
 
-    // ADD - добавление в избранное
-    if (action === "ADD" && productId) {
+    const db = await getDB();
+    const userObjectId = new ObjectId(userId);
+
+    if (action === "add") {
       const result = await db.collection<UserDocument>('user').updateOne(
         { _id: userObjectId },
         { 
@@ -49,8 +68,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
-    // REMOVE - удаление из избранного
-    if (action === "REMOVE" && productId) {
+    if (action === "remove") {
       const result = await db.collection<UserDocument>('user').updateOne(
         { _id: userObjectId },
         { 
@@ -66,12 +84,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true });
     }
 
-    return NextResponse.json({ error: 'Неверные параметры' }, { status: 400 });
+    return NextResponse.json({ error: 'Неверное действие' }, { status: 400 });
 
-  } catch (error) {
-    console.error('Error in favorites API:', error);
+  } catch {
     return NextResponse.json(
-      { error: 'Ошибка работы с избранным' },
+      { error: 'Ошибка изменения избранного' },
       { status: 500 }
     );
   }
