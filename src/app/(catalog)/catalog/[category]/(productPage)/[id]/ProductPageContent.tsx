@@ -15,6 +15,7 @@ import SameBrandProducts from "./_components/SameBrandProducts";
 import RatingDistribution from "./_components/RatingDistribution";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Actions from "@/app/(products)/Actions";
+import Link from "next/link";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -45,7 +46,7 @@ const ProductPageContent = ({
           </p>
         </div>
         <ShareButton title={product.title} />
-        <button className="flex flex-row flex-wrap gap-2 items-center cursor-pointer">
+        <Link href="/favorites" className="flex flex-row flex-wrap gap-2 items-center cursor-pointer">
           <Image
             src="/icons-header/icon-heart.svg"
             alt="Избранное"
@@ -54,7 +55,7 @@ const ProductPageContent = ({
             className="select-none w-6 h-6"
           />
           <p className="text-sm">В избранное</p>
-        </button>
+        </Link>
       </div>
       <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
         <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">

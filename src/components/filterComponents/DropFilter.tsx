@@ -9,9 +9,13 @@ import PriceFilter from "./PriceFilter";
 const DropFilter = ({
   basePath,
   category,
+  apiEndpoint = "/category",
+  userId,
 }: {
   basePath: string;
   category: string;
+  apiEndpoint: string;
+  userId: string;
 }) => {
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   return (
@@ -50,6 +54,8 @@ const DropFilter = ({
           basePath={basePath}
           category={category}
           setIsFilterOpenAction={setIsFilterOpen}
+          apiEndpoint={apiEndpoint}
+          userId={userId}
         />
       </div>
     </div>
