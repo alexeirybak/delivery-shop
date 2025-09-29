@@ -1,9 +1,8 @@
-
 "use client";
-
+ 
 import { useSearchParams, useRouter } from "next/navigation";
 import { FormEvent, useCallback, useEffect, useState, Suspense } from "react";
-import { CONFIG } from "../../../../../../config/config";
+import { CONFIG } from "../../../config/config";
 import { PriceFilterProps, PriceRange } from "@/types/priceTypes";
 import MiniLoader from "@/components/MiniLoader";
 import ErrorComponent from "@/components/ErrorComponent";
@@ -11,18 +10,22 @@ import PriceFilterHeader from "./PriceFilterHeader";
 import PriceInputs from "./PriceInputs";
 import PriceRangeSlider from "./PriceRangeSlider";
 import InStockToggle from "./InStockToggle";
-
-function PriceFilterContent({
-  basePath,
-  category,
-  setIsFilterOpenAction,
-}: PriceFilterProps) {
+ 
+function PriceFilterContent(props: PriceFilterProps) {
+  const {
+    basePath,
+    category,
+    setIsFilterOpenAction,
+    apiEndpoint = "/category",
+    userId,
+  } = props;
+  
   const router = useRouter();
   const searchParams = useSearchParams();
   const urlPriceFrom = searchParams.get("priceFrom") || "";
   const urlPriceTo = searchParams.get("priceTo") || "";
   const urlInStock = searchParams.get("inStock") === "true";
-
+ 
   const [inputValues, setInputValues] = useState({
     from: urlPriceFrom,
     to: urlPriceTo,
@@ -35,35 +38,39 @@ function PriceFilterContent({
     error: Error;
     userMessage: string;
   } | null>(null);
-
+ 
   const [isLoading, setIsLoading] = useState(true);
-
+ 
   const fetchPriceData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const currentCategory = category || searchParams.get("category");
       if (!currentCategory) return;
-
+ 
       const params = new URLSearchParams();
-
+ 
       params.set("category", currentCategory);
       params.set("getPriceRangeOnly", "true");
-
-      const response = await fetch(`/api/category?${params.toString()}`);
-
+ 
+      if (userId) {
+        params.set("userId", userId);
+      }
+ 
+      const response = await fetch(`/api/${apiEndpoint}?${params.toString()}`);
+ 
       if (!response.ok) throw new Error(`Ошибка сервера: ${response.status}`);
-
+ 
       const data = await response.json();
       const receivedRange = data.priceRange || CONFIG.FALLBACK_PRICE_RANGE;
-
+ 
       const roundedRange = {
         min: Math.floor(Number(receivedRange.min)),
         max: Math.ceil(Number(receivedRange.max)),
       };
-
+ 
       setPriceRange(roundedRange);
-
+ 
       setInputValues({
         from: urlPriceFrom || roundedRange.min.toString(),
         to: urlPriceTo || roundedRange.max.toString(),
@@ -81,37 +88,37 @@ function PriceFilterContent({
     } finally {
       setIsLoading(false);
     }
-  }, [category, searchParams, urlPriceFrom, urlPriceTo]);
-
+  }, [apiEndpoint, category, searchParams, urlPriceFrom, urlPriceTo, userId]);
+ 
   useEffect(() => {
     fetchPriceData();
   }, [fetchPriceData]);
-
+ 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
     applyPriceFilter();
     if (setIsFilterOpenAction) setIsFilterOpenAction(false);
   };
-
+ 
   const applyPriceFilter = useCallback(() => {
     const params = new URLSearchParams(searchParams.toString());
-
+ 
     let fromValue = Math.max(
       priceRange.min,
       parseInt(inputValues.from) || priceRange.min
     );
-
+ 
     let toValue = Math.min(
       priceRange.max,
       parseInt(inputValues.to) || priceRange.max
     );
-
+ 
     if (fromValue > toValue) [fromValue, toValue] = [toValue, fromValue];
-
+ 
     params.set("priceFrom", fromValue.toString());
     params.set("priceTo", toValue.toString());
     params.set("inStock", inStock.toString());
-
+ 
     router.push(`${basePath}?${params.toString()}`);
   }, [
     searchParams,
@@ -123,44 +130,44 @@ function PriceFilterContent({
     router,
     basePath,
   ]);
-
+ 
   const sliderValues = [
     parseInt(inputValues.from) || priceRange.min,
     parseInt(inputValues.to) || priceRange.max,
   ];
-
+ 
   const handleSliderChange = useCallback((values: [number, number]) => {
     setInputValues({
       from: values[0].toString(),
       to: values[1].toString(),
     });
   }, []);
-
+ 
   const resetPriceFilter = useCallback(() => {
     setInputValues({
       from: priceRange.min.toString(),
       to: priceRange.max.toString(),
     });
-
+ 
     const params = new URLSearchParams(searchParams.toString());
-
+ 
     params.delete("priceFrom");
     params.delete("priceTo");
     params.delete("page");
-
+ 
     router.push(`${basePath}?${params.toString()}`);
   }, [basePath, priceRange.max, priceRange.min, router, searchParams]);
-
-  if (isLoading) {
+ 
+  if (isLoading || isNaN(priceRange.min) || isNaN(priceRange.max)) {
     return <MiniLoader />;
   }
-
+ 
   if (error) {
     return (
       <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
   }
-
+ 
   return (
     <form
       onSubmit={handleSubmit}
@@ -198,21 +205,13 @@ function PriceFilterContent({
     </form>
   );
 }
-
-const PriceFilter = ({
-  basePath,
-  category,
-  setIsFilterOpenAction,
-}: PriceFilterProps) => {
+ 
+const PriceFilter = (props: PriceFilterProps) => {
   return (
     <Suspense fallback={<MiniLoader />}>
-      <PriceFilterContent
-        basePath={basePath}
-        category={category}
-        setIsFilterOpenAction={setIsFilterOpenAction}
-      />
+      <PriceFilterContent {...props} />
     </Suspense>
   );
 };
-
+ 
 export default PriceFilter;
