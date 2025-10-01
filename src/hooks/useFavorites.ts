@@ -61,8 +61,8 @@ export const useFavorites = () => {
   const isFavorite = (productId: string) => favorites.includes(productId);
 
   return {
-    toggleFavorite,
-    isFavorite,
-    isLoading,
+    toggleFavorite, 
+    isFavorite,    
+    isLoading,    
   };
 };
