@@ -1,6 +1,6 @@
 import { Loader2, Check, Trash2 } from "lucide-react";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
-import { formStyles } from "@/app/(auth)/styles";
+import { formStyles } from "@/app/styles";
 
 interface DeleteAccountVerificationStepProps {
   phoneNumber?: string;

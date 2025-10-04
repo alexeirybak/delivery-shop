@@ -1,4 +1,4 @@
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import Link from "next/link";
 
 const AdminPanel = () => {

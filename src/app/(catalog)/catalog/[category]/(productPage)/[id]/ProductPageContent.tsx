@@ -1,6 +1,9 @@
-import Image from "next/image";
 import { ProductCardProps } from "@/types/product";
 import { CONFIG } from "../../../../../../../config/config";
+import {
+  calculateFinalPrice,
+  calculatePriceByCard,
+} from "../../../../../../../utils/calcPrices";
 import StarRating from "@/components/StarRating";
 import { getReviewsWord } from "../../../../../../../utils/reviewsWord";
 import ShareButton from "./_components/ShareButton";
@@ -15,7 +18,7 @@ import SameBrandProducts from "./_components/SameBrandProducts";
 import RatingDistribution from "./_components/RatingDistribution";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Actions from "@/app/(products)/Actions";
-import Link from "next/link";
+import FavoriteButton from "@/components/FavoriteButton";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -26,16 +29,26 @@ const ProductPageContent = ({
   product,
   productId,
 }: ProductPageContentProps) => {
-  const discountedPrice = product.discountPercent
-    ? product.basePrice * (1 - product.discountPercent / 100)
-    : product.basePrice;
+  // Используем утилиты вместо ручных расчетов
+  const priceWithDiscount = calculateFinalPrice(
+    product.basePrice,
+    product.discountPercent || 0
+  );
 
-  const cardPrice = discountedPrice * (1 - CONFIG.CARD_DISCOUNT_PERCENT / 100);
-  const bonusesAmount = cardPrice * 0.05;
+  const cardPrice = calculatePriceByCard(
+    priceWithDiscount,
+    CONFIG.CARD_DISCOUNT_PERCENT
+  );
+
+  const bonusesAmount = Math.round(
+    (priceWithDiscount * CONFIG.BONUSES_PERCENT) / 100
+  );
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
-      <h1 className="text-2xl font-bold mb-4">{product.description}</h1>
+      <h1 className="text-xl md:text-2xl font-bold mb-4">
+        {product.description}
+      </h1>
       <div className="flex flex-row flex-wrap items-center gap-6 mb-4 md:mb-6">
         <div className="text-xs">арт. {product.article}</div>
         <div className="flex flex-row flex-wrap gap-2 items-center">
@@ -46,34 +59,22 @@ const ProductPageContent = ({
           </p>
         </div>
         <ShareButton title={product.title} />
-        <Link
-          href="/favorites"
-          className="flex flex-row flex-wrap gap-2 items-center cursor-pointer"
-        >
-          <Image
-            src="/icons-header/icon-heart.svg"
-            alt="Избранное"
-            width={24}
-            height={24}
-            className="select-none w-6 h-6"
-          />
-          <p className="text-sm">В избранное</p>
-        </Link>
+        <FavoriteButton productId={productId} />
       </div>
       <div className="flex flex-col gap-y-25 md:gap-y-20 xl:gap-y-30">
         <div className="flex flex-col md:flex-row md:flex-wrap gap-10 w-full justify-center">
           <ImagesBlock product={product} />
           <div className="md:w-[344px] lg:w-[376px] flex flex-col">
             <ProductOffer
-              discountedPrice={discountedPrice}
+              priceWithDiscount={priceWithDiscount}
               cardPrice={cardPrice}
             />
-            <CartButton />
+            <CartButton productId={productId} />
             <Bonuses bonus={bonusesAmount} />
             <DiscountMessage
               productId={productId.toString()}
               productTitle={product.title}
-              currentPrice={discountedPrice.toString()}
+              currentPrice={priceWithDiscount.toString()}
             />
             <AdditionalInfo
               brand={product.brand}

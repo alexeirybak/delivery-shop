@@ -7,24 +7,7 @@ import FilterButtons from "@/app/(catalog)/catalog/[category]/_components/Filter
 import FilterControls from "@/app/(catalog)/catalog/[category]/_components/FilterControls";
 import PriceFilter from "@/app/(catalog)/catalog/[category]/_components/PriceFilter";
 import DropFilter from "@/app/(catalog)/catalog/[category]/_components/DropFilter";
-import { headers } from "next/headers";
-import {
-  getCustomSessionToken,
-  getValidCustomSession,
-} from "../../../../utils/auth-helpers"; // Укажите правильный путь
-
-async function getServerUserId() {
-  try {
-    const headersList = await headers();
-    const cookies = headersList.get("cookie");
-    const sessionToken = getCustomSessionToken(cookies);
-    if (!sessionToken) return null;
-    const session = await getValidCustomSession(sessionToken);
-    return session?.userId || null;
-  } catch {
-    return null;
-  }
-}
+import { getServerUserId } from "../../../../utils/serverUserId";
 
 const FavoritesPage = async ({
   searchParams,
@@ -85,7 +68,7 @@ const FavoritesPage = async ({
                     priceFrom,
                     priceTo,
                     inStock,
-                    userId, // Передаем userId в fetch функцию
+                    userId, 
                   }),
                 basePath: `/${category}`,
                 contentType: "category",

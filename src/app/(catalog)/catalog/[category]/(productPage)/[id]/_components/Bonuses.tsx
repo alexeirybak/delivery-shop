@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { getBonusesWord } from "../../../../../../../../utils/bonusWord";
+
 const Bonuses = ({ bonus }: { bonus: number }) => {
   const roundedBonus = Math.round(bonus);
   const bonusWord = getBonusesWord(roundedBonus);

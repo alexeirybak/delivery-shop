@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/authStore";
-import { formStyles, profileStyles } from "@/app/(auth)/styles";
+import { formStyles, profileStyles } from "@/app/styles";
 import { Key, ArrowRight, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "@/app/(auth)/styles";
+import { buttonStyles, formStyles } from "@/app/styles";
 import { MailWarning, PlusCircle, HelpCircle, Search } from "lucide-react";
 import { useRouter } from "next/navigation";
 

@@ -3,9 +3,14 @@
 interface InStockToggleProps {
   checked: boolean;
   onChangeAction: (checked: boolean) => void;
+  labelText?: string;
 }
 
-const InStockToggle = ({ checked, onChangeAction }: InStockToggleProps) => {
+const InStockToggle = ({
+  checked,
+  onChangeAction,
+  labelText,
+}: InStockToggleProps) => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative inline-flex items-center cursor-pointer">
@@ -34,7 +39,7 @@ const InStockToggle = ({ checked, onChangeAction }: InStockToggleProps) => {
               `}
           ></div>
         </div>
-        <span className="ml-2 text-sm text-main-text">В наличии</span>
+        <span className="ml-2 text-sm text-main-text">{labelText}</span>
       </label>
     </div>
   );

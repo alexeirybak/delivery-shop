@@ -4,7 +4,8 @@ import { formatPrice } from "../../utils/formatPrice";
 import StarRating from "./StarRating";
 import Link from "next/link";
 import { CONFIG } from "../../config/config";
-import FavoriteButton from "./FavoriteButton";
+import FavoriteButton from "../components/FavoriteButton";
+import { AddToCartButton } from "./AddToCartButton";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
@@ -45,9 +46,7 @@ const ProductCard = ({
 
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
-      <FavoriteButton
-        productId={productId.toString()}
-      />
+      <FavoriteButton productId={productId.toString()} />
       <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
@@ -94,9 +93,9 @@ const ProductCard = ({
           {<StarRating rating={ratingValue} />}
         </div>
       </Link>
-      <button className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none">
-        В корзину
-      </button>
+      <AddToCartButton
+        productId={productId.toString()}
+      />
     </div>
   );
 };

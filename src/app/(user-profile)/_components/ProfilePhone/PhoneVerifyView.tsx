@@ -1,4 +1,4 @@
-import { formStyles, profileStyles } from "@/app/(auth)/styles";
+import { formStyles, profileStyles } from "@/app/styles";
 
 interface PhoneVerifyViewProps {
   currentPhone: string;

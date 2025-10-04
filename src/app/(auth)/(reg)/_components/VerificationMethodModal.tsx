@@ -2,7 +2,7 @@
 
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { Smartphone, Mail } from "lucide-react";
-import { verificationButtonStyles } from "../../styles";
+import { verificationButtonStyles } from "../../../styles";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import Link from "next/link";
 

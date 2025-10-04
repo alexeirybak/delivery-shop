@@ -1,4 +1,4 @@
-import { formStyles, profileStyles } from "@/app/(auth)/styles";
+import { formStyles, profileStyles } from "@/app/styles";
 import { InputMask } from "@react-input/mask";
 import { Phone } from "lucide-react";
 import { useMemo } from "react";

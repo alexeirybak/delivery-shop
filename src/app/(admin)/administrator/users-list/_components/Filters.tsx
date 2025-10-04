@@ -1,6 +1,6 @@
 "use client";
 
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import { FiltersState } from "@/types/filtersState";
 
 interface FiltersProps {

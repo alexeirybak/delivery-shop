@@ -1,24 +1,25 @@
 import Image from "next/image";
 import { CONFIG } from "../../../../../../../../config/config";
+import { formatPrice } from "../../../../../../../../utils/formatPrice";
 
 interface ProductOfferProps {
-  discountedPrice: number;
+  priceWithDiscount: number;
   cardPrice: number;
 }
 
-const ProductOffer = ({ discountedPrice, cardPrice }: ProductOfferProps) => {
+const ProductOffer = ({ priceWithDiscount, cardPrice }: ProductOfferProps) => {
   return (
     <div className="flex flex-row justify-between gap-2 leading-1.5 h-19 mb-4">
       <div className="flex flex-col justify-end">
         <p className="text-[#606060] text-xl md:text-lg xl:text-2xl mb-1.5">
-          {discountedPrice.toFixed(2)} ₽
+          {formatPrice(priceWithDiscount)} ₽
         </p>
         <p className="text-[#bfbfbf] text-[8px] md:text-xs">Обычная цена</p>
       </div>
 
       <div className="flex flex-col justify-end">
         <p className="text-main-text text-2xl xl:text-4xl font-bold mb-1.5 text-right">
-          {cardPrice.toFixed(2)} ₽
+          {formatPrice(cardPrice)} ₽
         </p>
         <div className="flex flex-row gap-x-1 items-center relative">
           <p className="text-[#bfbfbf] text-[8px] md:text-xs">

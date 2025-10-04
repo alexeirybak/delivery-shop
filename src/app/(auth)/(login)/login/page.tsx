@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../styles";
+import { buttonStyles, formStyles } from "../../../styles";
 import { InputMask } from "@react-input/mask";
 import Link from "next/link";
 import { useRouter } from "next/navigation";

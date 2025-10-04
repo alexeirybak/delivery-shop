@@ -37,6 +37,8 @@ const CatalogMenu = ({
                 userMessage={error.userMessage}
               />
             )}
+            
+            {/* Всегда показываем лоадер при загрузке */}
             {isLoading ? (
               <MiniLoader />
             ) : categories && categories.length > 0 ? (
