@@ -61,10 +61,10 @@ const TopMenu = () => {
       </li>
 
       {!isManagerOrAdmin && (
-        <li className="relative flex flex-col items-center gap-2.5 w-11 cursor-pointer">
+        <li className="relative flex flex-col items-center gap-2.5 w-11">
           <Link
             href="/cart"
-            className="flex flex-col items-center gap-2.5 w-11 cursor-pointer"
+            className="flex flex-col items-center gap-2.5 w-11"
           >
             <IconCart isActive={isCartPage} />
             
