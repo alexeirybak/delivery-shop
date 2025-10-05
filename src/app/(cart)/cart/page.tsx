@@ -46,6 +46,12 @@ const CartPage = () => {
     (item) => !removedItems.includes(item.productId)
   );
 
+  // Добавил уже после урока. Фильтруем товары в наличии для расчетов цен Добавлена переменная availableCartItems, которая фильтрует visibleCartItems, оставляя только товары в наличии. Все расчеты цен (totalPrice, totalMaxPrice, totalDiscount, totalBonuses) теперь используют availableCartItems вместо visibleCartItems
+  const availableCartItems = visibleCartItems.filter((item) => {
+    const product = productsData[item.productId];
+    return product && product.quantity > 0;
+  });
+
   // Асинхронная функция загрузки данных корзины и товаров
   const fetchCartAndProducts = async () => {
     setIsCartLoading(true); // Включаем индикатор загрузки
@@ -169,7 +175,7 @@ const CartPage = () => {
   );
 
   // Расчет общей стоимости ВСЕХ товаров в корзине
-  const totalPrice = visibleCartItems.reduce((total, item) => {
+  const totalPrice = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total; // Пропускаем если данные товара не загружены
 
@@ -188,7 +194,7 @@ const CartPage = () => {
   }, 0);
 
   // Расчет общей максимальной цены (базовые цены без скидок по карте лояльности)
-  const totalMaxPrice = visibleCartItems.reduce((total, item) => {
+  const totalMaxPrice = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total;
 
@@ -201,7 +207,7 @@ const CartPage = () => {
   }, 0);
 
   // Расчет общей суммы скидки (разница между ценой без карты и ценой с картой)
-  const totalDiscount = visibleCartItems.reduce((total, item) => {
+  const totalDiscount = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total;
 
@@ -232,7 +238,7 @@ const CartPage = () => {
     : totalPrice; // Без использования бонусов
 
   // Расчет общего количества бонусов, которые будут начислены за покупку
-  const totalBonuses = visibleCartItems.reduce((total, item) => {
+  const totalBonuses = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total;
 
