@@ -84,24 +84,24 @@ const CartPage = () => {
     }
   };
 
-const handleQuantityUpdate = useCallback(
-  async (productId: string, newQuantity: number) => {
-    // Оптимистичное обновление store
-    const updatedCartItems = cartItems.map((item) =>
-      item.productId === productId ? { ...item, quantity: newQuantity } : item
-    );
-    updateCart(updatedCartItems);
+  const handleQuantityUpdate = useCallback(
+    async (productId: string, newQuantity: number) => {
+      // Оптимистичное обновление store
+      const updatedCartItems = cartItems.map((item) =>
+        item.productId === productId ? { ...item, quantity: newQuantity } : item
+      );
+      updateCart(updatedCartItems);
 
-    try {
-      await updateOrderItemQuantityAction(productId, newQuantity);
-    } catch (error) {
-      console.error("Ошибка обновления количества:", error);
-      // Откат к предыдущему состоянию
-      updateCart(cartItems);
-    }
-  },
-  [cartItems, updateCart]
-);
+      try {
+        await updateOrderItemQuantityAction(productId, newQuantity);
+      } catch (error) {
+        console.error("Ошибка обновления количества:", error);
+        // Откат к предыдущему состоянию
+        updateCart(cartItems);
+      }
+    },
+    [cartItems, updateCart]
+  );
 
   const handleRemoveSelected = async () => {
     if (selectedItems.length === 0) return;

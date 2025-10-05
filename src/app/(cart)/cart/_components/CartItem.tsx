@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, memo } from "react";
-import { updateOrderItemQuantityAction } from "@/actions/orderActions";
 import { CONFIG } from "../../../../../config/config";
 import {
   calculateFinalPrice,
@@ -47,7 +46,6 @@ const CartItem = memo(function CartItem({
     setQuantity(newQuantity);
 
     try {
-      await updateOrderItemQuantityAction(item.productId, newQuantity);
       onQuantityUpdate(item.productId, newQuantity);
 
       if (newQuantity === 0) {
