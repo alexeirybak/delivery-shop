@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRegFormContext } from "@/app/contexts/RegFormContext";
 import { useEffect, useState } from "react";
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import useTimer from "@/hooks/useTimer";

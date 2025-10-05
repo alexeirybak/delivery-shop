@@ -52,7 +52,7 @@ const CatalogMenu = ({
                   </Link>
                 ))}
               </div>
-            ) : (
+            ) : !isLoading && (
               <div className="py-2 text-center">Нет доступных категорий</div>
             )}
           </div>

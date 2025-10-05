@@ -8,7 +8,7 @@ import { AuthFormLayout } from "../../_components/AuthFormLayout";
 import { LoadingContent } from "../../(reg)/_components/LoadingContent";
 import PasswordInput from "../../_components/PasswordInput";
 import { authClient } from "@/lib/auth-client";
-import Tooltip from "../../_components/Tooltip";
+import Tooltip from "@/components/Tooltip";
 import { buttonStyles } from "../../styles";
 
 const EnterPasswordPage = () => {

@@ -1,6 +1,6 @@
 "use client";
 import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
-import { iconContainerStyles } from "@/app/(auth)/styles";
+import { iconContainerStyles } from "@/app/styles";
 import { Smartphone, Key, ArrowLeft } from "lucide-react";
 
 interface AuthMethodSelectorProps {

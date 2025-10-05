@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteAccountModal from "./DeleteAccountModal";

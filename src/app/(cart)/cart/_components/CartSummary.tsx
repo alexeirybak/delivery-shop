@@ -1,4 +1,4 @@
-import { buttonStyles } from "@/app/styles";
+import { buttonStyles } from "@/app/(auth)/styles";
 import { formatPrice } from "../../../../../utils/formatPrice";
 import Bonuses from "@/app/(catalog)/catalog/[category]/(productPage)/[id]/_components/Bonuses";
 import { CartSummaryProps } from "../../../../types/cart";

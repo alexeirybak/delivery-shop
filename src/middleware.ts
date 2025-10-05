@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export async function middleware(request: NextRequest) {
-  const protectedPaths = ["/profile", "/administrator"];
+  const protectedPaths = ["/profile", "/administrator", "/cart", "/favorite"];
   const isProtectedPath = protectedPaths.some((path) =>
     request.nextUrl.pathname.startsWith(path)
   );

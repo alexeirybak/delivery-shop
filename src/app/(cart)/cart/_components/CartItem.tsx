@@ -25,7 +25,8 @@ const CartItem = memo(function CartItem({
   onQuantityUpdate,
   hasLoyaltyCard,
 }: CartItemProps) {
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+    // Убрал из state quantity альтернативу в виде || 1
+  const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 

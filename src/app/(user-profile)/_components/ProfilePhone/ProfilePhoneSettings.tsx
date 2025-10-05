@@ -1,5 +1,5 @@
 import { useAuthStore } from "@/store/authStore";
-import { profileStyles } from "@/app/(auth)/styles";
+import { profileStyles } from "@/app/styles";
 import { useEffect, useState } from "react";
 import AlertMessage from "../AlertMessage";
 import { authClient } from "@/lib/auth-client";

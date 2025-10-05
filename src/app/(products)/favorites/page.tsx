@@ -50,7 +50,7 @@ const FavoritesPage = async ({
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col mx-auto">
-      <h1 className="ml-3 xl:ml-0 text-4xl md:text-5xl text-left font-bold text-main-text mb-8 md:mb-10 xl:mb-15 max-w-[336px] md:max-w-max leading-[150%]">
+      <h1 className="ml-3 xl:ml-0 text-4xl md:text-5xl xl:text-[64px] text-left font-bold text-main-text mb-8 md:mb-10 xl:mb-15 max-w-[336px] md:max-w-max leading-[150%]">
         {TRANSLATIONS[category] || category}
       </h1>
       <DropFilter basePath={`/${category}`} category={category} />
@@ -85,7 +85,7 @@ const FavoritesPage = async ({
                     priceFrom,
                     priceTo,
                     inStock,
-                    userId, // Передаем userId в fetch функцию
+                    userId, 
                   }),
                 basePath: `/${category}`,
                 contentType: "category",

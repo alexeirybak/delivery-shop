@@ -27,7 +27,6 @@ export const TRANSLATIONS: Record<string, string> = {
   "products-list": "Список товаров",
   "edit-product": "Редактировать товар",
   "favorites": "Избранное",
+  "cart": "Корзина"
 };
 
-
-// node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"

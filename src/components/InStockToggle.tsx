@@ -6,11 +6,7 @@ interface InStockToggleProps {
   labelText?: string;
 }
 
-const InStockToggle = ({
-  checked,
-  onChangeAction,
-  labelText,
-}: InStockToggleProps) => {
+const InStockToggle = ({ checked, onChangeAction, labelText }: InStockToggleProps) => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative inline-flex items-center cursor-pointer">

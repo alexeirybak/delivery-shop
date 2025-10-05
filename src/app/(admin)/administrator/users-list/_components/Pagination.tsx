@@ -1,4 +1,4 @@
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 interface PaginationProps {
   currentPage: number;

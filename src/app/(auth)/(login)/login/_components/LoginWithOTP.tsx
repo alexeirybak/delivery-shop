@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useAuthStore } from "@/store/authStore";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import useTimer from "@/hooks/useTimer";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";

@@ -1,4 +1,4 @@
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { TRANSLATIONS } from "../../../../../../../utils/translations";
@@ -19,18 +19,16 @@ interface SearchProductResultProps {
   onOpenDeleteModal: (productId: number, productTitle: string) => void;
 }
 
-const SearchProductResult = ({ 
-  products, 
-  deletingId, 
-  onClearResults, 
-  onOpenDeleteModal 
+const SearchProductResult = ({
+  products,
+  deletingId,
+  onClearResults,
+  onOpenDeleteModal,
 }: SearchProductResultProps) => {
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <p className="text-main-text">
-          Найдено товаров: {products.length}
-        </p>
+        <p className="text-main-text">Найдено товаров: {products.length}</p>
         {products.length > 0 && (
           <button
             onClick={onClearResults}
@@ -59,7 +57,12 @@ const SearchProductResult = ({
                   <p>Артикул: {product.article}</p>
                   <p>Цена: {product.basePrice} руб.</p>
                   <p>Остаток: {product.quantity} шт.</p>
-                  <p>Категории: {product.categories.map(cat => TRANSLATIONS[cat] || cat).join(", ") || "—"}</p>
+                  <p>
+                    Категории:{" "}
+                    {product.categories
+                      .map((cat) => TRANSLATIONS[cat] || cat)
+                      .join(", ") || "—"}
+                  </p>
                 </div>
               </div>
 

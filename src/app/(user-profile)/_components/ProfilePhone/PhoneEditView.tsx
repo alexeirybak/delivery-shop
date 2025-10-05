@@ -1,4 +1,4 @@
-import { profileStyles } from "@/app/(auth)/styles";
+import { profileStyles } from "@/app/styles";
 
 interface PhoneEditViewProps {
   onCancel: () => void;

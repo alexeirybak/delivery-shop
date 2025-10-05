@@ -19,7 +19,7 @@ const QuantitySelector = memo(function QuantitySelector({
     <div className="flex items-center gap-2 w-25 h-10 bg-primary p-2 rounded text-white relative">
       <button
         onClick={onDecrement}
-        disabled={quantity < 1 || isUpdating || isOutOfStock}
+        disabled={quantity < 0 || isUpdating || isOutOfStock}
         className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
       >
         <div className="w-[15px] h-[1px] bg-white"></div>
