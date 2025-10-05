@@ -4,7 +4,7 @@ interface CartHeaderProps {
 
 const CartHeader = ({ itemCount }: CartHeaderProps) => {
   return (
-    <div className="relative w-[326px] h-24">
+    <div className="relative w-full max-w-[336px] md:w-[336px] h-24">
       <h1 className="text-4xl md:text-5xl xl:text-[64px] font-bold mb-8 md:mb-10 xl:mb-15">
         Корзина
       </h1>

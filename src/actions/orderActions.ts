@@ -1,16 +1,10 @@
 "use server";
 
+import { OrderCartItem } from "@/types/cart";
 import { getDB } from "../../utils/api-routes";
 import { getServerUserId } from "../../utils/getServerUserId";
 import { ObjectId } from "mongodb";
 import { revalidatePath } from "next/cache";
-
-export interface OrderCartItem {
-  productId: string;
-  quantity: number;
-  addedAt: Date;
-  hasLoyaltyDiscount: boolean;
-}
 
 export async function getOrderCartAction(): Promise<OrderCartItem[]> {
   try {

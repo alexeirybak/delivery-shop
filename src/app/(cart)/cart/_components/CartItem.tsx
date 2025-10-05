@@ -118,7 +118,7 @@ const CartItem = memo(function CartItem({
         </div>
 
         {showTooltip && <Tooltip text="Количество ограничено" position="top" />}
-        <div className="flex flex-wrap justify-between items-center gap-2 w-full p-2 md:flex-nowrap md:flex-col md:justify-normal md:items-end xl:flex-row xl:items-start xl:justify-end">
+        <div className="flex flex-wrap justify-between items-center gap-2 w-full md:w-30 xl:w-[236px] p-2 md:flex-nowrap md:flex-col md:justify-normal md:items-end xl:flex-row xl:items-start xl:justify-end">
           {!isOutOfStock && (
             <QuantitySelector
               quantity={quantity}

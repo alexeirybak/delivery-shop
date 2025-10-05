@@ -27,3 +27,10 @@ export interface CartItemProps {
   onQuantityUpdate: (productId: string, newQuantity: number) => void;
   hasLoyaltyCard: boolean;
 }
+
+export interface OrderCartItem {
+  productId: string;
+  quantity: number;
+  addedAt: Date;
+  hasLoyaltyDiscount: boolean;
+}
