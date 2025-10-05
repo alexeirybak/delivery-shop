@@ -2,6 +2,7 @@
 
 import { addToCartAction } from "@/actions/cartActions";
 import CartActionMessage from "@/components/CartActionMessage";
+import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ const CartButton = ({ productId }: { productId: string }) => {
     success: boolean;
     message: string;
   } | null>(null);
+  const { fetchCart } = useCartStore();
 
   console.log(productId);
   const handleSubmit = async () => {
@@ -20,6 +22,9 @@ const CartButton = ({ productId }: { productId: string }) => {
     try {
       const result = await addToCartAction(productId);
       setMessage(result);
+      if (result.success) {
+        await fetchCart();
+      }
     } catch {
       setMessage({
         success: false,

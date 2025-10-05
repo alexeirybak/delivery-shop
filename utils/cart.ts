@@ -4,6 +4,8 @@ export interface CartItem {
   addedAt: Date;
 }
 
+
+
 export interface UserWithCart {
   _id: string;
   email: string;

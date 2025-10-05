@@ -12,9 +12,6 @@ export interface OrderCartItem {
   hasLoyaltyDiscount: boolean;
 }
 
-// Получить корзину пользователя
-// Получить корзину пользователя
-// Получить корзину пользователя
 export async function getOrderCartAction(): Promise<OrderCartItem[]> {
   try {
     const userId = await getServerUserId();

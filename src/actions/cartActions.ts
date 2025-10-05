@@ -6,12 +6,7 @@ import { ObjectId } from "mongodb";
 import { getBonusesWord } from "../../utils/bonusWord";
 import { CONFIG } from "../../config/config";
 import { formatPrice } from "../../utils/formatPrice";
-
-export interface CartItem {
-  productId: string;
-  quantity: number;
-  addedAt: Date;
-}
+import { CartItem } from "../../utils/cart";
 
 export async function addToCartAction(
   productId: string,
