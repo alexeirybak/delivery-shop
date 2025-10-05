@@ -4,6 +4,8 @@ export const CONFIG = {
   ITEMS_PER_PAGE_MAIN_ARTICLES: 3,
   ITEMS_PER_PAGE_CATEGORY: 6,
   CARD_DISCOUNT_PERCENT: 6,
+  BONUSES_PERCENT: 5,
+  MAX_BONUSES_PERCENT: 30,
   FALLBACK_PRICE_RANGE: { min: 0, max: 3000 },
   SITE_URL: "https://delivery-shop.ru",
   TEMPORARY_EMAIL_DOMAIN: "@delivery-shop.ru",
