@@ -5,7 +5,6 @@ import {
   calculatePriceByCard,
 } from "../../../../../../../utils/calcPrices";
 import StarRating from "@/components/StarRating";
-import { getReviewsWord } from "../../../../../../../utils/reviewsWord";
 import ShareButton from "./_components/ShareButton";
 import ImagesBlock from "./_components/ImagesBlock";
 import ProductOffer from "./_components/ProductOffer";
@@ -19,6 +18,7 @@ import RatingDistribution from "./_components/RatingDistribution";
 import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Actions from "@/app/(products)/Actions";
 import FavoriteButton from "@/components/FavoriteButton";
+import { getFullEnding } from "../../../../../../../utils/getWordEnding";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -29,7 +29,6 @@ const ProductPageContent = ({
   product,
   productId,
 }: ProductPageContentProps) => {
-  // Используем утилиты вместо ручных расчетов
   const priceWithDiscount = calculateFinalPrice(
     product.basePrice,
     product.discountPercent || 0
@@ -55,7 +54,7 @@ const ProductPageContent = ({
           <StarRating rating={product.rating.rate || 5} />
           <p className="text-sm underline">
             {product.rating.count || 0}{" "}
-            {getReviewsWord(product.rating.count || 0)}
+            {`отзыв${getFullEnding(product.rating.count || 0)}`}
           </p>
         </div>
         <ShareButton title={product.title} />
@@ -66,7 +65,7 @@ const ProductPageContent = ({
           <ImagesBlock product={product} />
           <div className="md:w-[344px] lg:w-[376px] flex flex-col">
             <ProductOffer
-              priceWithDiscount={priceWithDiscount}
+              discountedPrice={priceWithDiscount}
               cardPrice={cardPrice}
             />
             <CartButton productId={productId} />

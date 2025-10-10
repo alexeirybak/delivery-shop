@@ -1,10 +1,10 @@
 "use client";
 
 import { useAuthStore } from "@/store/authStore";
-import { buttonStyles } from "@/app/styles";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import DeleteAccountModal from "./DeleteAccountModal";
+import { buttonStyles } from "@/app/styles";
 
 const SecuritySection: React.FC = () => {
   const [error, setError] = useState<string | null>(null);

@@ -9,7 +9,7 @@ import ErrorComponent from "@/components/ErrorComponent";
 import PriceFilterHeader from "./PriceFilterHeader";
 import PriceInputs from "./PriceInputs";
 import PriceRangeSlider from "./PriceRangeSlider";
-import InStockToggle from "./InStockToggle";
+import InStockToggle from "../../../../../components/InStockToggle";
 
 const PriceFilter = ({
   basePath,
@@ -194,6 +194,7 @@ const PriceFilter = ({
       <InStockToggle
         checked={inStock}
         onChangeAction={(checked) => setInStock(checked)}
+        labelText="В наличии"
       />
       <button
         type="submit"

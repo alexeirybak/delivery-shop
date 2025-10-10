@@ -4,8 +4,12 @@ import { formatPrice } from "../../utils/formatPrice";
 import StarRating from "./StarRating";
 import Link from "next/link";
 import { CONFIG } from "../../config/config";
-import FavoriteButton from "../components/FavoriteButton";
-import { AddToCartButton } from "./AddToCartButton";
+import FavoriteButton from "./FavoriteButton";
+import {
+  calculateFinalPrice,
+  calculatePriceByCard,
+} from "../../utils/calcPrices";
+import AddToCartButton from "./AddToCartButton";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
@@ -19,14 +23,6 @@ const ProductCard = ({
   tags,
   categories,
 }: ProductCardProps) => {
-  const calculateFinalPrice = (price: number, discount: number): number => {
-    return discount > 0 ? price * (1 - discount / 100) : price;
-  };
-
-  const calculatePriceByCard = (price: number, discount: number): number => {
-    return calculateFinalPrice(price, discount);
-  };
-
   const isNewProduct = tags?.includes("new");
 
   const finalPrice = isNewProduct
@@ -51,7 +47,7 @@ const ProductCard = ({
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
             src={img}
-            alt="Акция"
+            alt="Товар"
             fill
             className="object-contain"
             priority={false}
@@ -87,15 +83,13 @@ const ProductCard = ({
               </div>
             )}
           </div>
-          <div className="h-13 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
+          <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
           {<StarRating rating={ratingValue} />}
         </div>
       </Link>
-      <AddToCartButton
-        productId={productId.toString()}
-      />
+      <AddToCartButton productId={productId.toString()} />
     </div>
   );
 };

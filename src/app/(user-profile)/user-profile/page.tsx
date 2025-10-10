@@ -9,12 +9,12 @@ import { useEffect, useState } from "react";
 import { Loader } from "@/components/Loader";
 import SecuritySection from "../_components/SecuritySection";
 import ProfileAvatar from "../_components/ProfileAvatar";
-import "../styles.css";
 import LocationSection from "../_components/LocationSection";
 import ProfileEmail from "../_components/ProfileEmail";
 import ProfilePhoneSettings from "../_components/ProfilePhone/ProfilePhoneSettings";
 import ProfilePassword from "../_components/ProfilePassword";
 import ProfileCard from "../_components/ProfileCard";
+import "../styles.css";
 
 const ProfilePage = () => {
   const { user, isAuth, checkAuth } = useAuthStore();

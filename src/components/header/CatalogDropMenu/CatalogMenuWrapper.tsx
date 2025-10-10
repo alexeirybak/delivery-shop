@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Category } from "@/types/categories";
-import CatalogMenu from "../CatalogDropMenu/CatalogMenu";
+import CatalogMenu from "./CatalogMenu";
 
 const CatalogMenuWrapper = () => {
   const [isCatalogOpen, setIsCatalogOpen] = useState(false);

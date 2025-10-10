@@ -1,7 +1,7 @@
 "use client";
 
-import { MailCheck } from "lucide-react";
 import { buttonStyles } from "@/app/styles";
+import { MailCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export const SuccessChangeEmail = ({

@@ -3,7 +3,7 @@
 import IconVision from "@/components/svg/IconVision";
 import { formStyles } from "../../styles";
 import { ChangeEvent } from "react";
-import Tooltip from "../../../components/Tooltip";
+import Tooltip from "@/components/Tooltip";
 import { isPasswordValid } from "../../../../utils/validation/passwordValid";
 
 interface PasswordInputProps {

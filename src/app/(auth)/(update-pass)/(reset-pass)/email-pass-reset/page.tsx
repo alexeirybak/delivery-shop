@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import PasswordInput from "../../../_components/PasswordInput";
 import { AuthFormLayout } from "../../../_components/AuthFormLayout";
-import Tooltip from "../../../../../components/Tooltip";
+import Tooltip from "@/components/Tooltip";
 import { isPasswordValid } from "../../../../../../utils/validation/passwordValid";
 import { ErrorContent } from "@/app/(auth)/(reg)/_components/ErrorContent";
 import { MailWarning } from "lucide-react";

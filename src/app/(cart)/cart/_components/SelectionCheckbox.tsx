@@ -1,5 +1,5 @@
 import { memo } from "react";
-import SelectedIcon from "./SelectedIcon";
+import SelectedIcon from "../../../../components/svg/SelectedIcon";
 
 interface SelectionCheckboxProps {
   isSelected: boolean;
@@ -8,7 +8,7 @@ interface SelectionCheckboxProps {
 
 const SelectionCheckbox = memo(function SelectionCheckbox({
   isSelected,
-  onSelectionChange
+  onSelectionChange,
 }: SelectionCheckboxProps) {
   return (
     <label className="flex items-center cursor-pointer z-50">

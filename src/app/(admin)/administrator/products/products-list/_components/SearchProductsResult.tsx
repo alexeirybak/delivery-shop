@@ -1,7 +1,7 @@
-import { buttonStyles } from "@/app/styles";
 import { Edit, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { TRANSLATIONS } from "../../../../../../../utils/translations";
+import { buttonStyles } from "@/app/styles";
 
 interface Product {
   id: number;

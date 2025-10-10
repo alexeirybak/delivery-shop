@@ -6,6 +6,7 @@ interface QuantitySelectorProps {
   isOutOfStock: boolean;
   onDecrement: () => void;
   onIncrement: () => void;
+  onProductCard?: boolean;
 }
 
 const QuantitySelector = memo(function QuantitySelector({
@@ -14,12 +15,17 @@ const QuantitySelector = memo(function QuantitySelector({
   isOutOfStock,
   onDecrement,
   onIncrement,
+  onProductCard,
 }: QuantitySelectorProps) {
   return (
-    <div className="flex items-center gap-2 w-25 h-10 bg-primary p-2 rounded text-white relative">
+    <div
+      className={`flex items-center bg-primary p-2 rounded text-white relative h-10 gap-2 ${
+        onProductCard ? " w-full justify-between" : "w-25"
+      }`}
+    >
       <button
         onClick={onDecrement}
-        disabled={quantity < 1 || isUpdating || isOutOfStock}
+        disabled={quantity < 0 || isUpdating || isOutOfStock}
         className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
       >
         <div className="w-[15px] h-[1px] bg-white"></div>

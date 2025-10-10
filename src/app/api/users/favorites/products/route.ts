@@ -24,6 +24,11 @@ export async function GET(request: Request) {
     const userId = searchParams.get("userId");
 
     if (!userId) {
+      if (getPriceRangeOnly) {
+        return NextResponse.json({
+          priceRange: CONFIG.FALLBACK_PRICE_RANGE
+        });
+      }
       return NextResponse.json({ products: [], totalCount: 0 });
     }
 
@@ -33,21 +38,27 @@ export async function GET(request: Request) {
         .collection("user")
         .findOne({ _id: new ObjectId(userId) });
 
-      const favoriteProductIds = user?.favorites || [];
+      if (!user) {
+        return NextResponse.json({
+          priceRange: CONFIG.FALLBACK_PRICE_RANGE
+        });
+      }
 
+      const favoriteProductIds = user.favorites || [];
+      
       // ПРЕОБРАЗУЕМ СТРОКИ В ЧИСЛА
-      const numericFavoriteIds = favoriteProductIds.map((id: string) =>
-        parseInt(id)
-      );
-
+      const numericFavoriteIds = favoriteProductIds
+        .map(id => parseInt(id))
+        .filter(id => !isNaN(id));
+      
       if (numericFavoriteIds.length === 0) {
         return NextResponse.json({
-          priceRange: CONFIG.FALLBACK_PRICE_RANGE,
+          priceRange: CONFIG.FALLBACK_PRICE_RANGE
         });
       }
 
       const query: Filter<ProductCardProps> = {
-        id: { $in: numericFavoriteIds }, // используем числа
+        id: { $in: numericFavoriteIds } // используем числа
       };
 
       const priceRange = await db
@@ -82,20 +93,24 @@ export async function GET(request: Request) {
     }
 
     const favoriteProductIds = user.favorites || [];
-
+    
+    console.log("⭐ Favorite IDs (strings):", favoriteProductIds);
+    
     // ПРЕОБРАЗУЕМ СТРОКИ В ЧИСЛА
-    const numericFavoriteIds = favoriteProductIds.map((id: string) =>
-      parseInt(id)
-    );
-
+    const numericFavoriteIds = favoriteProductIds
+      .map(id => parseInt(id))
+      .filter(id => !isNaN(id));
+    
     if (numericFavoriteIds.length === 0) {
-      return NextResponse.json({
-        priceRange: CONFIG.FALLBACK_PRICE_RANGE,
+      return NextResponse.json({ 
+        products: [], 
+        totalCount: 0,
+        priceRange: CONFIG.FALLBACK_PRICE_RANGE
       });
-    }
+    }    
 
     const query: Filter<ProductCardProps> = {
-      id: { $in: numericFavoriteIds },
+      id: { $in: numericFavoriteIds } 
     };
 
     // ОБЩАЯ ЛОГИКА ФИЛЬТРАЦИИ
@@ -138,13 +153,10 @@ export async function GET(request: Request) {
         .toArray(),
     ]);
 
-    const actualPriceRange =
-      products.length > 0
-        ? {
-            min: Math.min(...products.map((p) => p.basePrice)),
-            max: Math.max(...products.map((p) => p.basePrice)),
-          }
-        : CONFIG.FALLBACK_PRICE_RANGE;
+    const actualPriceRange = products.length > 0 ? {
+      min: Math.min(...products.map((p) => p.basePrice)),
+      max: Math.max(...products.map((p) => p.basePrice))
+    } : CONFIG.FALLBACK_PRICE_RANGE;
 
     return NextResponse.json({
       products,

@@ -1,5 +1,4 @@
 import { useAuthStore } from "@/store/authStore";
-import { profileStyles } from "@/app/styles";
 import { useEffect, useState } from "react";
 import AlertMessage from "../AlertMessage";
 import { authClient } from "@/lib/auth-client";
@@ -9,6 +8,7 @@ import PhoneEditView from "./PhoneEditView";
 import { CONFIG } from "../../../../../config/config";
 import useTimer from "@/hooks/useTimer";
 import ProfilePhoneInput from "./ProfilePhoneInput";
+import { profileStyles } from "@/app/styles";
 
 const ProfilePhoneSetting = () => {
   const [isEditing, setIsEditing] = useState(false);

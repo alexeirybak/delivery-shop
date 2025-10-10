@@ -37,8 +37,6 @@ const CatalogMenu = ({
                 userMessage={error.userMessage}
               />
             )}
-            
-            {/* Всегда показываем лоадер при загрузке */}
             {isLoading ? (
               <MiniLoader />
             ) : categories && categories.length > 0 ? (
@@ -54,7 +52,7 @@ const CatalogMenu = ({
                   </Link>
                 ))}
               </div>
-            ) : (
+            ) : !isLoading && (
               <div className="py-2 text-center">Нет доступных категорий</div>
             )}
           </div>

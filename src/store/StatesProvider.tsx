@@ -1,10 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
-import { useAuthStore } from "@/store/authStore";
-import { useCartStore } from "@/store/cartStore";
+import { useAuthStore } from "./authStore";
+import { useCartStore } from "./cartStore";
 
-const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+const StatesProvider = ({ children }: { children: React.ReactNode }) => {
   const { checkAuth, user } = useAuthStore();
   const { fetchCart, clearCart } = useCartStore();
 
@@ -12,21 +12,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     checkAuth();
   }, [checkAuth]);
 
-  // Синхронизируем корзину при изменении пользователя
   useEffect(() => {
     if (user) {
       const isManagerOrAdmin = user.role === "manager" || user.role === "admin";
       if (!isManagerOrAdmin) {
         fetchCart();
       } else {
-        clearCart(); // Очищаем корзину для менеджеров/админов
+        clearCart();
       }
     } else {
-      clearCart(); // Очищаем корзину при выходе
+      clearCart();
     }
   }, [user, fetchCart, clearCart]);
 
   return <>{children}</>;
 };
 
-export default AuthProvider;
+export default StatesProvider;

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { AuthFormLayout } from "../../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../../../styles";
+import { buttonStyles, formStyles } from "@/app/styles";
 import { Loader2, Mail, KeyRound } from "lucide-react";
 import SuccessSentEmail from "../../_components/SuccessSentEmail";
 

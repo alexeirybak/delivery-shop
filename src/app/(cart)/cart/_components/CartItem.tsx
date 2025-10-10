@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, memo } from "react";
+import Link from "next/link";
 import { CONFIG } from "../../../../../config/config";
 import {
   calculateFinalPrice,
@@ -14,8 +15,7 @@ import ProductImage from "./ProductImage";
 import PriceDisplay from "./PriceDisplay";
 import QuantitySelector from "./QuantitySelector";
 import DiscountBadge from "./DiscountBadge";
-import { CartItemProps } from "../../../../../utils/cartItem";
-import Link from "next/link";
+import { CartItemProps } from "@/types/cart";
 
 const CartItem = memo(function CartItem({
   item,
@@ -25,7 +25,8 @@ const CartItem = memo(function CartItem({
   onQuantityUpdate,
   hasLoyaltyCard,
 }: CartItemProps) {
-  const [quantity, setQuantity] = useState(item.quantity || 1);
+    // Убрал из state quantity альтернативу в виде || 1
+  const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
 
@@ -47,10 +48,6 @@ const CartItem = memo(function CartItem({
 
     try {
       onQuantityUpdate(item.productId, newQuantity);
-
-      if (newQuantity === 0) {
-        console.log("Товар с количеством 0");
-      }
     } catch (error) {
       console.error("Ошибка обновления количества:", error);
       setQuantity(previousQuantity);
@@ -91,35 +88,37 @@ const CartItem = memo(function CartItem({
         }
       />
       <div className="flex flex-row flex-wrap md:flex-row justify-between w-full md:flex-nowrap">
-        <ProductImage productId={item.productId} title={productData.title} />
+        <div className="flex flex-row flex-wrap md:flex-nowrap">
+          <ProductImage productId={item.productId} title={productData.title} />
 
-        <div className="flex-1 flex min-w-[224px] flex-col gap-y-2.5 p-2.5">
-          <Link
-            className="text-base hover:text-[#ff6633] cursor-pointer"
-            href={`/catalog/${productData.categories[0]}/${item.productId}`}
-          >
-            {productData.description}
-          </Link>
+          <div className="flex-1 flex min-w-[224px] md:flex-initial flex-col gap-y-2.5 p-2.5">
+            <Link
+              className="text-base hover:text-[#ff6633] cursor-pointer"
+              href={`/catalog/${productData.categories[0]}/${item.productId}`}
+            >
+              {productData.description}
+            </Link>
 
-          <div className="flex flex-row gap-x-2 items-center">
-            <PriceDisplay
-              finalPrice={finalPrice}
-              priceWithDiscount={priceWithDiscount}
-              totalFinalPrice={totalFinalPrice}
-              totalPriceWithoutCard={totalPriceWithoutCard}
-              hasDiscount={hasDiscount}
-              hasLoyaltyCard={hasLoyaltyCard}
-              isOutOfStock={isOutOfStock}
-            />
+            <div className="flex flex-row gap-x-2 items-center">
+              <PriceDisplay
+                finalPrice={finalPrice}
+                priceWithDiscount={priceWithDiscount}
+                totalFinalPrice={totalFinalPrice}
+                totalPriceWithoutCard={totalPriceWithoutCard}
+                hasDiscount={hasDiscount}
+                hasLoyaltyCard={hasLoyaltyCard}
+                isOutOfStock={isOutOfStock}
+              />
 
-            {hasDiscount && (
-              <DiscountBadge discountPercent={productData.discountPercent} />
-            )}
+              {hasDiscount && (
+                <DiscountBadge discountPercent={productData.discountPercent} />
+              )}
+            </div>
           </div>
         </div>
 
         {showTooltip && <Tooltip text="Количество ограничено" position="top" />}
-        <div className="flex flex-wrap justify-between items-center gap-2 w-full p-2 md:flex-nowrap md:flex-col md:justify-normal md:items-end xl:flex-row xl:items-start xl:justify-end">
+        <div className="flex flex-wrap justify-between items-center gap-2 w-full md:w-30 xl:w-[236px] p-2 md:flex-nowrap md:flex-col md:justify-normal md:items-end xl:flex-row xl:items-start xl:justify-end">
           {!isOutOfStock && (
             <QuantitySelector
               quantity={quantity}
@@ -146,7 +145,7 @@ const CartItem = memo(function CartItem({
                       {formatPrice(totalPriceWithoutCard)} ₽
                     </p>
                     <p className="font-normal text-xs text-[#ff6633]">
-                      {formatPrice(totalFinalPrice- totalPriceWithoutCard)} ₽
+                      {formatPrice(totalFinalPrice - totalPriceWithoutCard)} ₽
                     </p>
                   </div>
                 )}

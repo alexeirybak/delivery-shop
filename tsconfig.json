@@ -28,8 +28,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "seed-db.ts",
-    "src/app/api/auth/set-password",
-    "src/app/(cart)/_components/cart"
+    "src/app/api/auth/set-password"
   ],
   "exclude": ["node_modules"]
 }

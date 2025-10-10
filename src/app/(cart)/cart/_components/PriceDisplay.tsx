@@ -14,25 +14,24 @@ interface PriceDisplayProps {
 const PriceDisplay = memo(function PriceDisplay({
   finalPrice,
   priceWithDiscount,
-
   hasDiscount,
   isOutOfStock
 }: PriceDisplayProps) {
-  if (isOutOfStock) {
-    return <span className="font-normal text-base flex">Нет в наличии</span>;
-  }
-
+    
   return (
+    // Немного изменил, чтобы даже когда товара нет в наличии, показывалась цена
     <>
       <div className="mt-2 text-xs flex gap-x-2 items-baseline">
         {hasDiscount ? (
           <>
             <div className="flex flex-col">
-              <span className="font-bold">{formatPrice(finalPrice)} ₽</span>
+              <span className={`font-bold ${isOutOfStock ? 'text-gray-500' : ''}`}>
+                {formatPrice(finalPrice)} ₽
+              </span>
               <span className="text-[#bfbfbf]">С картой</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[#606060]">
+              <span className={`text-[#606060] ${isOutOfStock ? 'line-through text-gray-400' : ''}`}>
                 {formatPrice(priceWithDiscount)} ₽
               </span>
               <span className="text-[#bfbfbf]">Обычная</span>
@@ -40,7 +39,7 @@ const PriceDisplay = memo(function PriceDisplay({
           </>
         ) : (
           <div className="flex flex-col">
-            <span className="font-bold">
+            <span className={`font-bold ${isOutOfStock ? 'text-gray-500' : ''}`}>
               {formatPrice(priceWithDiscount)} ₽
             </span>
           </div>

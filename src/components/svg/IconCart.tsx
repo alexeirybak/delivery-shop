@@ -1,5 +1,4 @@
 const IconCart = ({ isActive }: { isActive: boolean }) => {
-
   const fillColor = isActive ? "#ff6633" : "#606060";
 
   return (
