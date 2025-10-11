@@ -3,10 +3,7 @@
 import { getDB } from "../../utils/api-routes";
 import { getServerUserId } from "../../utils/getServerUserId";
 import { ObjectId } from "mongodb";
-import { CONFIG } from "../../config/config";
-import { formatPrice } from "../../utils/formatPrice";
 import { CartItem } from "../types/cart";
-import { getFullEnding } from "../../utils/getWordEnding";
 
 export async function addToCartAction(
   productId: string
@@ -42,14 +39,6 @@ export async function addToCartAction(
       return { success: false, message: "Продукт не найден" };
     }
 
-    const discountPercent = product.discountPercent || 0;
-    const basePrice = product.basePrice || 0;
-
-    const priceWithDiscount =
-      Math.round(basePrice * (1 - discountPercent / 100) * 100) / 100;
-
-    const hasLoyaltyCard = user.card && user.card !== "";
-
     const cartItems: CartItem[] = user.cart || [];
 
     const existingItem = cartItems.find(
@@ -59,29 +48,17 @@ export async function addToCartAction(
     if (existingItem) {
       return {
         success: false,
-        message:
-          "Товар уже в корзине. Изменить его количество можно на странице корзины",
+        message: "",
       };
     }
 
-    const calculatedBonuses = Math.round(
-      (priceWithDiscount * CONFIG.BONUSES_PERCENT) / 100
-    );
+    const productQuantity = product.quantity || 0;
 
-    let loyaltyPrice: number | undefined;
-    let loyaltyDiscountApplied = false;
-
-    if (hasLoyaltyCard) {
-      const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
-      loyaltyPrice =
-        Math.round(priceWithDiscount * (1 - cardDiscountPercent / 100) * 100) /
-        100;
-      loyaltyDiscountApplied = true;
-    }
+    const initialQuantity = productQuantity > 0 ? 1 : 0;
 
     const newCartItem: CartItem = {
       productId,
-      quantity: 1,
+      quantity: initialQuantity,
       addedAt: new Date(),
     };
 
@@ -94,29 +71,11 @@ export async function addToCartAction(
         { $set: { cart: newCartItems } }
       );
 
-    let successMessage = "Товар добавлен в корзину";
+    return {
+      success: true,
+      message: "",
+    };
 
-    if (loyaltyDiscountApplied && loyaltyPrice) {
-      const discountAmount = priceWithDiscount - loyaltyPrice;
-      const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
-      successMessage += ` (скидка по карте -${cardDiscountPercent}%: -${formatPrice(discountAmount)} ₽)`;
-    }
-
-    const bonusWord = `${`бонус${getFullEnding(calculatedBonuses)}`}`;
-    
-    successMessage += `. При покупке Вы получите ${calculatedBonuses} ${bonusWord}.`;
-
-    const result: { success: boolean; message: string; loyaltyPrice?: number } =
-      {
-        success: true,
-        message: successMessage,
-      };
-
-    if (hasLoyaltyCard && loyaltyPrice) {
-      result.loyaltyPrice = loyaltyPrice;
-    }
-
-    return result;
   } catch {
     return { success: false, message: "Ошибка сервера" };
   }

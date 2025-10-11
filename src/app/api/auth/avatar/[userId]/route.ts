@@ -44,7 +44,6 @@ export async function GET(
       chunks.push(chunk); 
     }
 
-    // Проверка, что файл не пустой
     if (chunks.length === 0) {
       return NextResponse.json(
         { error: "Файл аватара пустой" },

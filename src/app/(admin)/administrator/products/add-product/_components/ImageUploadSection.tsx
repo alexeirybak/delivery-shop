@@ -7,19 +7,18 @@ interface ImageUploadSectionProps {
   onImageChange: (file: File | null) => void;
   uploading: boolean;
   loading: boolean;
-  existingImage?: string; // Добавьте это свойство
+  existingImage?: string; 
 }
 
 const ImageUploadSection = ({
   onImageChange,
   uploading,
   loading,
-  existingImage, // Получите пропс
+  existingImage, 
 }: ImageUploadSectionProps) => {
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // Добавьте эффект для отображения существующего изображения
   useEffect(() => {
     if (existingImage) {
       setPreviewUrl(existingImage);

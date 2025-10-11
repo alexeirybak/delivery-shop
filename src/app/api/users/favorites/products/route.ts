@@ -32,7 +32,6 @@ export async function GET(request: Request) {
       return NextResponse.json({ products: [], totalCount: 0 });
     }
 
-    // ОБРАБОТКА ЗАПРОСА ДИАПАЗОНА ЦЕН
     if (getPriceRangeOnly) {
       const user = await db
         .collection("user")
@@ -46,10 +45,9 @@ export async function GET(request: Request) {
 
       const favoriteProductIds = user.favorites || [];
       
-      // ПРЕОБРАЗУЕМ СТРОКИ В ЧИСЛА
       const numericFavoriteIds = favoriteProductIds
-        .map(id => parseInt(id))
-        .filter(id => !isNaN(id));
+        .map((id: string) => parseInt(id))
+        .filter((id: number) => !isNaN(id));
       
       if (numericFavoriteIds.length === 0) {
         return NextResponse.json({
@@ -58,7 +56,7 @@ export async function GET(request: Request) {
       }
 
       const query: Filter<ProductCardProps> = {
-        id: { $in: numericFavoriteIds } // используем числа
+        id: { $in: numericFavoriteIds } 
       };
 
       const priceRange = await db
@@ -83,7 +81,6 @@ export async function GET(request: Request) {
       });
     }
 
-    // ОСНОВНАЯ ЛОГИКА ПОЛУЧЕНИЯ ТОВАРОВ ИЗБРАННОГО
     const user = await db
       .collection("user")
       .findOne({ _id: new ObjectId(userId) });
@@ -96,10 +93,9 @@ export async function GET(request: Request) {
     
     console.log("⭐ Favorite IDs (strings):", favoriteProductIds);
     
-    // ПРЕОБРАЗУЕМ СТРОКИ В ЧИСЛА
     const numericFavoriteIds = favoriteProductIds
-      .map(id => parseInt(id))
-      .filter(id => !isNaN(id));
+      .map((id: string) => parseInt(id))
+      .filter((id: number) => !isNaN(id));
     
     if (numericFavoriteIds.length === 0) {
       return NextResponse.json({ 
@@ -113,7 +109,6 @@ export async function GET(request: Request) {
       id: { $in: numericFavoriteIds } 
     };
 
-    // ОБЩАЯ ЛОГИКА ФИЛЬТРАЦИИ
     if (inStock) {
       query.quantity = { $gt: 0 };
     }
@@ -141,7 +136,6 @@ export async function GET(request: Request) {
       }
     }
 
-    // ВЫПОЛНЯЕМ ЗАПРОС
     const [totalCount, products] = await Promise.all([
       db.collection<ProductCardProps>("products").countDocuments(query),
       db

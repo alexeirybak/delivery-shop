@@ -3,7 +3,7 @@ export interface PriceFilterProps {
   category: string;
   setIsFilterOpenAction?: (isOpen: boolean) => void;
   apiEndpoint?: string;
-  userId?: string | null; // Добавляем опциональный userId
+  userId?: string | null; 
 }
 
 export type PriceRange = {

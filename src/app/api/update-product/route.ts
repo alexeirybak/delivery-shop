@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
       categories: Array.isArray(categories) ? categories : [],
       tags: Array.isArray(tags) ? tags : [],
       updatedAt: new Date(),
-      // Убрали поле img полностью - путь формируется на лету
     };
 
     const result = await productsCollection.updateOne(

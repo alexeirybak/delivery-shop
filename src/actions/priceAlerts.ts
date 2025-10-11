@@ -24,7 +24,6 @@ export async function createPriceAlert(
     const email = formData.get("email") as string;
     const currentPrice = Number(formData.get("currentPrice"));
 
-    // Валидация
     if (!email.trim()) {
       return { errors: { email: "Email обязателен" } };
     }
@@ -34,7 +33,6 @@ export async function createPriceAlert(
       return { errors: { email: "Введите корректный email" } };
     }
 
-    // Проверка существующей подписки
     const existingAlert = await db.collection("priceAlerts").findOne({
       productId,
       email,

@@ -18,11 +18,9 @@ export const optimizeImage = async (
         return;
       }
 
-      // Устанавливаем квадратные размеры
       canvas.width = size;
       canvas.height = size;
 
-      // Вычисляем параметры для обрезки и масштабирования
       const aspectRatio = img.width / img.height;
       
       let sourceX = 0;
@@ -30,29 +28,24 @@ export const optimizeImage = async (
       let sourceWidth = img.width;
       let sourceHeight = img.height;
 
-      // Обрезаем до квадрата перед масштабированием
       if (aspectRatio > 1) {
-        // Ширина больше высоты - обрезаем по бокам
-        sourceWidth = img.height; // Делаем квадрат
-        sourceX = (img.width - sourceWidth) / 2; // Центрируем
+        sourceWidth = img.height; 
+        sourceX = (img.width - sourceWidth) / 2; 
       } else if (aspectRatio < 1) {
-        // Высота больше ширины - обрезаем сверху и снизу
-        sourceHeight = img.width; // Делаем квадрат
-        sourceY = (img.height - sourceHeight) / 2; // Центрируем
+        sourceHeight = img.width; 
+        sourceY = (img.height - sourceHeight) / 2; 
       }
-      // Если aspectRatio = 1 - уже квадрат, ничего не меняем
 
-      // Рисуем с обрезкой и масштабированием
       ctx.drawImage(
         img,
-        sourceX,          // X координата источника для обрезки
-        sourceY,          // Y координата источника для обрезки
-        sourceWidth,      // Ширина области источника
-        sourceHeight,     // Высота области источника
-        0,                // X координата назначения
-        0,                // Y координата назначения
-        size,             // Ширина назначения
-        size              // Высота назначения
+        sourceX,          
+        sourceY,          
+        sourceWidth,      
+        sourceHeight,     
+        0,                
+        0,                
+        size,             
+        size             
       );
 
       canvas.toBlob(

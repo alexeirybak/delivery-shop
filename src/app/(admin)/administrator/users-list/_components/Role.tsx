@@ -21,9 +21,8 @@ const Role = ({ initialRole, userId }: RoleProps) => {
   const { user: currentUser } = useAuthStore();
 
   const isAdmin = currentUser?.role === "admin";
-  const canChangeRole = isAdmin; // Только админы могут менять роли
+  const canChangeRole = isAdmin; 
 
-  // Синхронизируем локальное состояние с пропсом role при изменении
   useEffect(() => {
     setLocalRole(initialRole as UserRole);
   }, [initialRole]);
@@ -54,7 +53,6 @@ const Role = ({ initialRole, userId }: RoleProps) => {
       }
     } catch (error) {
       console.error("Ошибка при обновлении роли:", error);
-      // Возвращаем предыдущую роль в случае ошибки
       setLocalRole(initialRole as UserRole);
     } finally {
       setIsChanging(false);

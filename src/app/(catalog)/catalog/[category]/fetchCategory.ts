@@ -29,7 +29,6 @@ const fetchProductsByCategory = async (
     url.searchParams.append("startIdx", pagination.startIdx.toString());
     url.searchParams.append("perPage", pagination.perPage.toString());
 
-    // Передаем userId для избранного
     if (category === "favorites" && userId) {
       url.searchParams.append("userId", userId);
     }

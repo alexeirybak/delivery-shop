@@ -120,7 +120,7 @@ export default function AddProductPage() {
       const result: AddProductApiResponse = await response.json();
 
       if (response.ok && result.success) {
-        setCreatedProductId(productId); // Сохраняем тот же ID
+        setCreatedProductId(productId); 
       }
     } catch (error) {
       alert(

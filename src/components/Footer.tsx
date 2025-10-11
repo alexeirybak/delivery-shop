@@ -19,7 +19,6 @@ const Footer = () => {
           </Link>
         </div>
 
-        {/* Социальные сети с кликабельными иконками */}
         <div className="social flex flex-row gap-x-5 md:flex-col xl:flex-row gap-y-3 justify-between">
           <div className="flex gap-x-5 items-start">
             <a href="https://vk.com" target="_blank" rel="noopener noreferrer">
@@ -71,7 +70,6 @@ const Footer = () => {
           </div>
         </div>
 
-        {/* Телефон с кликом */}
         <div className="phone">
           <a
             href="tel:+78007773333"
@@ -90,7 +88,6 @@ const Footer = () => {
           </a>
         </div>
 
-        {/* Навигация с кликабельными пунктами */}
         <nav className="nav">
           <ul className="flex flex-wrap gap-x-8 text-xs gap-4 xl:gap-y-2 md:gap-x-10">
             <li className="hover:text-black cursor-pointer">

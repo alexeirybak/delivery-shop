@@ -1,5 +1,4 @@
 import { useAuthStore } from "@/store/authStore";
-import { formStyles, profileStyles } from "@/app/styles";
 import { CreditCard, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { InputMask } from "@react-input/mask";
@@ -8,6 +7,7 @@ import {
   isValidCardNumber,
   formatCardNumber,
 } from "../../../../utils/validation/validProfileCard";
+import { formStyles, profileStyles } from "@/app/(auth)/styles";
 
 const ProfileCard = () => {
   const { user, fetchUserData } = useAuthStore();
@@ -82,7 +82,6 @@ const ProfileCard = () => {
     if (!isEditing) return;
 
     const value = e.target.value;
-    // Очищаем и ограничиваем 16 цифрами
     const cleanValue = cleanCardNumber(value).slice(0, 16);
     setCardNumber(cleanValue);
   };
@@ -124,7 +123,6 @@ const ProfileCard = () => {
 
       <div className={profileStyles.inputContainer}>
         {isEditing ? (
-          // В режиме редактирования используем InputMask
           <InputMask
             mask="____ ____ ____ ____"
             replacement={{ _: /\d/ }}
@@ -135,7 +133,6 @@ const ProfileCard = () => {
             disabled={isLoading}
           />
         ) : (
-          // В режиме просмотра используем обычный input
           <input
             type="text"
             value={displayValue || "Не указана"}

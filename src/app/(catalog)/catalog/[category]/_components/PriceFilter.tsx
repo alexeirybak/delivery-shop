@@ -16,7 +16,7 @@ const PriceFilter = ({
   category,
   setIsFilterOpenAction,
   apiEndpoint = "/category",
-  userId, // Получаем userId из пропсов
+  userId, 
 }: PriceFilterProps & { apiEndpoint?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -51,7 +51,6 @@ const PriceFilter = ({
       params.set("category", currentCategory);
       params.set("getPriceRangeOnly", "true");
 
-      // Добавляем userId в параметры, если он есть
       if (userId) {
         params.set("userId", userId);
       }

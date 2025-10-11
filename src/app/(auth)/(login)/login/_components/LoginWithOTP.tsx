@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useAuthStore } from "@/store/authStore";
-import { buttonStyles } from "@/app/styles";
 import useTimer from "@/hooks/useTimer";
 import { authClient } from "@/lib/auth-client";
 import Link from "next/link";
@@ -12,6 +11,7 @@ import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
 import OTPResendCode from "@/app/(auth)/_components/OTPResendButton";
 import { CONFIG } from "../../../../../../config/config";
+import { buttonStyles } from "@/app/(auth)/styles";
 
 const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");
