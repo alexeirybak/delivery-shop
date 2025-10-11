@@ -46,14 +46,6 @@ export default function DeliveryTimesAdmin() {
         Управление графиком доставки на 3 дня
       </h1>
 
-      
-
-      {error && (
-        <div className="p-3 md:p-4 mb-4 rounded border bg-[#ffc7c7] text-[#d80000]">
-          {error}
-        </div>
-      )}
-
       <AddTimeSlotForm
         startTime={startTime}
         endTime={endTime}
@@ -74,6 +66,11 @@ export default function DeliveryTimesAdmin() {
 
       <SaveButton saving={saving} onClick={saveDeliveryTimes} />
       {message && <MessageAlert message={message} type={messageType} />}
+      {error && (
+        <div className="p-3 md:p-4 mb-4 rounded border bg-[#ffc7c7] text-[#d80000]">
+          {error}
+        </div>
+      )}
     </div>
   );
 }
