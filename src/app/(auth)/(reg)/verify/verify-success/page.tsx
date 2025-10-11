@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CheckCircle } from "lucide-react";
 import { AuthFormLayout } from "../../../_components/AuthFormLayout";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 export default function VerifySuccessPage() {
   const router = useRouter();

@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles, formStyles } from "../../../styles";
 import { InputMask } from "@react-input/mask";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -11,6 +10,7 @@ import { ErrorContent } from "../../(reg)/_components/ErrorContent";
 import { MailWarning, PhoneOff } from "lucide-react";
 import { UnverifiedEmail } from "./_components/UnverifiedEmail";
 import { AuthMethodSelector } from "./_components/AuthMethodSelector";
+import { buttonStyles, formStyles } from "../../../styles";
 
 const EnterLoginPage = () => {
   const [login, setLogin] = useState("");

@@ -7,7 +7,7 @@ import {
   isValidCardNumber,
   formatCardNumber,
 } from "../../../../utils/validation/validProfileCard";
-import { formStyles, profileStyles } from "@/app/(auth)/styles";
+import { formStyles, profileStyles } from "@/app/styles";
 
 const ProfileCard = () => {
   const { user, fetchUserData } = useAuthStore();
