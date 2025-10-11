@@ -34,3 +34,21 @@ export interface OrderCartItem {
   addedAt: Date;
   hasLoyaltyDiscount: boolean;
 }
+
+export interface CartBaseProps {
+  visibleCartItems: CartItem[];
+  totalMaxPrice: number;
+  totalDiscount: number;
+  finalPrice: number;
+  totalBonuses: number;
+  isMinimumReached: boolean;
+}
+
+export interface BonusesSectionProps {
+  bonusesCount: number;
+  useBonuses: boolean;
+  onUseBonusesChange: (use: boolean) => void;
+  totalPrice: number;
+}
+
+export interface CartSidebarProps extends CartBaseProps, BonusesSectionProps {}

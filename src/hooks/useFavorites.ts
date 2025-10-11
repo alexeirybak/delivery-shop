@@ -8,7 +8,6 @@ export const useFavorites = () => {
   const [favorites, setFavorites] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Получение избранного
   useEffect(() => {
     const loadFavorites = async () => {
       if (!user?.id) {

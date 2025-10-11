@@ -38,7 +38,6 @@ export default function EditProductPage() {
   const [isLoadingProduct, setIsLoadingProduct] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Загрузка данных продукта
   useEffect(() => {
     const fetchProduct = async () => {
       try {
@@ -56,7 +55,6 @@ export default function EditProductPage() {
 
         const product: ProductCardProps = await response.json();
 
-        // Преобразуем данные для формы
         setFormData({
           title: product.title || "",
           description: product.description || "",
@@ -94,7 +92,7 @@ const uploadImage = async (imageFile: File | null): Promise<boolean> => {
 
   const formData = new FormData();
   formData.append("image", imageFile);
-  formData.append("imageId", productId); // Всегда используем ID продукта
+  formData.append("imageId", productId); 
 
   try {
     const response = await fetch("/api/upload-image", {
@@ -129,7 +127,6 @@ const handleSubmit = async (e: FormEvent) => {
   setLoading(true);
 
   try {
-    // Загружаем новое изображение, если оно было изменено
     if (image) {
       const uploadResult = await uploadImage(image);
       if (!uploadResult) {
@@ -139,7 +136,6 @@ const handleSubmit = async (e: FormEvent) => {
       }
     }
 
-    // Отправляем обновление продукта
     const response = await fetch(`/api/update-product`, {
       method: "POST",
       headers: {
@@ -147,7 +143,7 @@ const handleSubmit = async (e: FormEvent) => {
       },
       body: JSON.stringify({
         ...formData,
-        id: parseInt(productId), // ID остается неизменным
+        id: parseInt(productId), 
         basePrice: Number(formData.basePrice),
         discountPercent: Number(formData.discountPercent),
         weight: Number(formData.weight),

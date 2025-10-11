@@ -16,7 +16,7 @@ const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
     field: string,
     direction: "asc" | "desc"
   ) => {
-    e.stopPropagation(); // Предотвращаем всплытие события
+    e.stopPropagation(); 
     onSort(field, direction);
   };
 

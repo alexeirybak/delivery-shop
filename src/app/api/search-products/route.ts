@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         quantity: 1, 
         categories: 1 
       })
-      .sort({ title: 1 }) // Сортировка по названию
+      .sort({ title: 1 }) 
       .toArray();
 
     return NextResponse.json({ 

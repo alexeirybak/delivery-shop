@@ -19,7 +19,6 @@ export async function GET(request: NextRequest) {
     const sortBy = searchParams.get("sortBy") || "createdAt";
     const sortDirection = searchParams.get("sortDirection") || "desc";
 
-    // Получаем параметры фильтрации
     const id = searchParams.get("id");
     const name = searchParams.get("name");
     const surname = searchParams.get("surname");

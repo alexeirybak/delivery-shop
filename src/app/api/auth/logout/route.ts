@@ -3,7 +3,6 @@ import { getDB } from "../../../../../utils/api-routes";
 
 export async function POST(request: Request) {
   try {
-    // Очищаем кастомную сессию
     const sessionCookie = request.headers
       .get("cookie")
       ?.split(";")
@@ -15,7 +14,6 @@ export async function POST(request: Request) {
       await db.collection("session").deleteOne({ token: sessionCookie });
     }
 
-    // Очищаем куку
     const response = NextResponse.json({ success: true });
     response.cookies.set("session", "", {
       expires: new Date(0),

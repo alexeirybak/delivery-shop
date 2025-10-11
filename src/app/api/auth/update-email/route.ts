@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Конвертируем userId в ObjectId
     let objectId;
     try {
       objectId = ObjectId.createFromHexString(userId);

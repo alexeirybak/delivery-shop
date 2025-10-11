@@ -13,12 +13,10 @@ export const formatCardNumber = (cardNumber: string, isEditing: boolean = false)
   if (!cleanValue) return "";
   
   if (!isEditing) {
-    // В режиме просмотра показываем только последние 4 цифры
     if (cleanValue.length <= 4) return cleanValue;
     return `**** **** **** ${cleanValue.slice(-4)}`;
   }
   
-  // В режиме редактирования форматируем с пробелами
   if (cleanValue.length <= 4) return cleanValue;
   if (cleanValue.length <= 8) return `${cleanValue.slice(0, 4)} ${cleanValue.slice(4)}`;
   if (cleanValue.length <= 12) return `${cleanValue.slice(0, 4)} ${cleanValue.slice(4, 8)} ${cleanValue.slice(8)}`;

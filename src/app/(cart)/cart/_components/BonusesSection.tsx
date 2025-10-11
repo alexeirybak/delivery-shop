@@ -1,6 +1,5 @@
 import InStockToggle from "@/components/InStockToggle";
 import { CONFIG } from "../../../../../config/config";
-import { getFullEnding } from "../../../../../utils/getWordEnding";
 
 interface BonusesSectionProps {
   bonusesCount: number;
@@ -34,7 +33,7 @@ const BonusesSection = ({
         </p>
       </div>
       <div className="text-[#8f8f8f]">
-        {`На карте накоплено ${bonusesCount} бонус${getFullEnding(bonusesCount)}`}
+        {`На карте накоплено ${bonusesCount} ₽`}
       </div>
     </div>
   );
