@@ -52,9 +52,13 @@ export async function addToCartAction(
       };
     }
 
+    const productQuantity = product.quantity || 0;
+    
+    const initialQuantity = productQuantity > 0 ? 1 : 0;
+
     const newCartItem: CartItem = {
       productId,
-      quantity: 1,
+      quantity: initialQuantity,
       addedAt: new Date(),
     };
 

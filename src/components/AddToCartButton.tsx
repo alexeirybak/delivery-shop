@@ -1,7 +1,10 @@
 "use client";
 
 import { addToCartAction } from "@/actions/addToCartActions";
-import { updateOrderItemQuantityAction } from "@/actions/orderActions";
+import {
+  updateOrderItemQuantityAction,
+  removeMultipleOrderItemsAction,
+} from "@/actions/orderActions";
 import { useState } from "react";
 import CartActionMessage from "./CartActionMessage";
 import { useCartStore } from "@/store/cartStore";
@@ -15,13 +18,11 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
     message: string;
   } | null>(null);
 
-  const cartItems = useCartStore((state) => state.cartItems);
-  const fetchCart = useCartStore((state) => state.fetchCart);
-  const updateCart = useCartStore((state) => state.updateCart);
+  const { cartItems, fetchCart, updateCart } = useCartStore();
 
   const cartItem = cartItems.find((item) => item.productId === productId);
   const currentQuantity = cartItem?.quantity || 0;
-  const isInCart = currentQuantity >= 0;
+  const isInCart = currentQuantity > 0; // Изменил условие - теперь товар в корзине только когда количество больше 0
 
   const handleAddToCart = async () => {
     setIsLoading(true);
@@ -29,17 +30,17 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
 
     try {
       const result = await addToCartAction(productId);
-      
+
       // Показываем сообщение только если это ошибка И сообщение не пустое
       if (!result.success && result.message) {
         setMessage(result);
       }
-      
+
       if (result.success) {
         await fetchCart();
       }
     } catch (error) {
-      console.error("Error adding to cart:", error);
+      console.error("Ошибка добавления товара в корзину:", error);
       setMessage({
         success: false,
         message: "Ошибка при добавлении в корзину",
@@ -57,25 +58,29 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
     try {
       let updatedCartItems;
       if (newQuantity === 0) {
+        // УДАЛЯЕМ товар из корзины
         updatedCartItems = cartItems.filter(
           (item) => item.productId !== productId
         );
+        updateCart(updatedCartItems);
+        // Используем removeMultipleOrderItemsAction для удаления с сервера
+        await removeMultipleOrderItemsAction([productId]);
       } else {
+        // ОБНОВЛЯЕМ количество товара
         updatedCartItems = cartItems.map((item) =>
           item.productId === productId
             ? { ...item, quantity: newQuantity }
             : item
         );
+        updateCart(updatedCartItems);
+        await updateOrderItemQuantityAction(productId, newQuantity);
       }
 
-      updateCart(updatedCartItems);
-      await updateOrderItemQuantityAction(productId, newQuantity);
-
-      if (newQuantity === 0) {
-        await fetchCart();
-      }
+      // Всегда обновляем корзину после изменений
+      await fetchCart();
     } catch (error) {
       console.error("Ошибка обновления количества:", error);
+      // В случае ошибки заново загружаем корзину с сервера
       await fetchCart();
     } finally {
       setIsUpdating(false);
