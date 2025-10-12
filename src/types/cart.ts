@@ -1,4 +1,6 @@
+// types/cart.ts
 import { ProductCardProps } from "./product";
+import { DeliveryAddress, DeliveryTime } from "./order";
 
 export interface CartItem {
   productId: string;
@@ -11,10 +13,19 @@ export interface CartSummaryProps {
   totalMaxPrice: number;
   totalDiscount: number;
   finalPrice: number;
+  totalPrice: number;
   totalBonuses: number;
   isMinimumReached: boolean;
   onCheckout?: () => void;
   isCheckout?: boolean;
+  deliveryData?: {
+    address: DeliveryAddress;
+    time: DeliveryTime;
+    isValid: boolean;
+  } | null; // Добавляем null
+  useBonuses?: boolean;
+  bonusesCount?: number;
+  productsData?: { [key: string]: ProductCardProps };
 }
 
 export interface CartItemProps {
@@ -37,7 +48,6 @@ export interface OrderCartItem {
   hasLoyaltyDiscount: boolean;
 }
 
-// Базовый интерфейс для общих пропсов корзины
 export interface CartBaseProps {
   visibleCartItems: CartItem[];
   totalMaxPrice: number;
@@ -47,13 +57,19 @@ export interface CartBaseProps {
   isMinimumReached: boolean;
 }
 
-// Расширяем базовый интерфейс для CartSummary
 export interface CartSummaryProps extends CartBaseProps {
   onCheckout?: () => void;
   isCheckout?: boolean;
+  deliveryData?: {
+    address: DeliveryAddress;
+    time: DeliveryTime;
+    isValid: boolean;
+  } | null;
+  useBonuses?: boolean;
+  bonusesCount?: number;
+  productsData?: { [key: string]: ProductCardProps };
 }
 
-// Интерфейс для бонусной секции
 export interface BonusesSectionProps {
   bonusesCount: number;
   useBonuses: boolean;
@@ -61,8 +77,13 @@ export interface BonusesSectionProps {
   totalPrice: number;
 }
 
-// Полный интерфейс для CartSidebar
 export interface CartSidebarProps extends CartBaseProps, BonusesSectionProps {
   onCheckout?: () => void;
   isCheckout?: boolean;
+  deliveryData?: {
+    address: DeliveryAddress;
+    time: DeliveryTime;
+    isValid: boolean;
+  } | null; 
+  productsData?: { [key: string]: ProductCardProps };
 }

@@ -3,20 +3,16 @@ import { Clock } from "lucide-react";
 import { additionalStyles, labelStyles, selectStyles } from "./styles";
 import { formStyles } from "@/app/styles";
 import SkeletonDeliveryTime from "./DeliveryTimeSkeletons";
+import { Schedule } from "@/types/deliverySchedule";
+import { getThreeDaysDates } from "@/app/(admin)/administrator/delivery-times/utils/getThreeDaysDates";
+import { isTimeSlotPassed } from "../utils.ts/isTimeSlotPassed";
+import { formatTimeSlot } from "../utils.ts/formatTimeSlot";
 
 interface DeliveryTimeProps {
   selectedDate: string;
   selectedTimeSlot: string;
   onDateChange: (date: string) => void;
   onTimeSlotChange: (timeSlot: string) => void;
-}
-
-interface DaySchedule {
-  [timeSlot: string]: boolean;
-}
-
-interface Schedule {
-  [date: string]: DaySchedule;
 }
 
 const DeliveryTime = ({
@@ -31,53 +27,6 @@ const DeliveryTime = ({
   const [tooltipSlot, setTooltipSlot] = useState<string | null>(null);
   const [schedule, setSchedule] = useState<Schedule>({});
   const [loading, setLoading] = useState(true);
-
-  // Функция для получения дат на 3 дня вперед
-  const getThreeDaysDates = (): string[] => {
-    const dates: string[] = [];
-    const today = new Date();
-
-    const localToday = new Date(
-      today.getFullYear(),
-      today.getMonth(),
-      today.getDate()
-    );
-
-    for (let i = 0; i < 3; i++) {
-      const date = new Date(localToday);
-      date.setDate(localToday.getDate() + i);
-      const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, "0");
-      const day = String(date.getDate()).padStart(2, "0");
-      const dateString = `${year}-${month}-${day}`;
-      dates.push(dateString);
-    }
-
-    return dates;
-  };
-
-  // Функция для форматирования времени для мобильных/десктоп
-  const formatTimeSlot = (
-    timeSlot: string
-  ): { mobileLabel: string; desktopLabel: string } => {
-    const [start, end] = timeSlot.split("-");
-
-    // Форматирование для мобильных: убираем ведущие нули и :00
-    const mobileStart = start
-      .replace(/^0(\d):00$/, "$1")
-      .replace(/^(\d+):00$/, "$1");
-    const mobileEnd = end
-      .replace(/^0(\d):00$/, "$1")
-      .replace(/^(\d+):00$/, "$1");
-    const mobileLabel = `${mobileStart}-${mobileEnd}`;
-
-    // Форматирование для десктоп: заменяем : на . и оставляем ведущие нули
-    const desktopStart = start.replace(":", ".");
-    const desktopEnd = end.replace(":", ".");
-    const desktopLabel = `${desktopStart} - ${desktopEnd}`;
-
-    return { mobileLabel, desktopLabel };
-  };
 
   // Загрузка графика доставки
   useEffect(() => {
@@ -133,20 +82,25 @@ const DeliveryTime = ({
       .map((slot) => {
         const formatted = formatTimeSlot(slot);
         const isFree = daySchedule[slot] !== false;
+        const isPassed = isTimeSlotPassed(slot, selectedDate);
+        const isAvailable = isFree && !isPassed;
+
+        console.log('Slot:', slot, { isFree, isPassed, isAvailable });
 
         return {
           value: slot,
           mobileLabel: formatted.mobileLabel,
           desktopLabel: formatted.desktopLabel,
-          free: isFree,
+          free: isAvailable,
+          passed: isPassed,
         };
       });
 
     return slots;
   };
 
-  const handleTimeSlotClick = (slot: { value: string; free: boolean }) => {
-    if (slot.free) {
+  const handleTimeSlotClick = (slot: { value: string; free: boolean; passed?: boolean }) => {
+    if (slot.free && !slot.passed) {
       onTimeSlotChange(slot.value);
     }
   };
@@ -187,21 +141,22 @@ const DeliveryTime = ({
                 <div
                   key={slot.value}
                   className="relative"
-                  onMouseEnter={() => !slot.free && setTooltipSlot(slot.value)}
+                  onMouseEnter={() => (!slot.free || slot.passed) && setTooltipSlot(slot.value)}
                   onMouseLeave={() => setTooltipSlot(null)}
-                  onTouchStart={() => !slot.free && setTooltipSlot(slot.value)}
+                  onTouchStart={() => (!slot.free || slot.passed) && setTooltipSlot(slot.value)}
                   onTouchEnd={() => setTooltipSlot(null)}
                 >
                   <button
                     type="button"
                     onClick={() => handleTimeSlotClick(slot)}
                     className={`p-2 rounded justify-center items-center w-full h-10 duration-300 ${
-                      selectedTimeSlot === slot.value && slot.free
+                      selectedTimeSlot === slot.value && slot.free && !slot.passed
                         ? "bg-primary text-white hover:shadow-button-default active:shadow-button-active"
-                        : slot.free
+                        : slot.free && !slot.passed
                           ? "bg-[#f3f2f1] hover:shadow-button-secondary cursor-pointer"
                           : "bg-white opacity-50 cursor-not-allowed"
                     }`}
+                    disabled={!slot.free || slot.passed}
                   >
                     {/* Мобильная версия - скрыта на xl и выше */}
                     <span className="xl:hidden text-sm">
@@ -214,12 +169,15 @@ const DeliveryTime = ({
                     </span>
                   </button>
 
-                  {/* Тултип для занятых слотов */}
-                  {!slot.free && tooltipSlot === slot.value && (
+                  {/* Тултип для занятых или прошедших слотов */}
+                  {(!slot.free || slot.passed) && tooltipSlot === slot.value && (
                     <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2">
                       <div className="bg-[#f4f6fb] text-[#151515] text-sm rounded-[5px] p-2 flex items-center gap-2 whitespace-nowrap shadow-lg">
                         <Clock size={16} />
-                        На это время доставить не можем
+                        {slot.passed 
+                          ? "Это время уже прошло" 
+                          : "На это время доставить не можем"
+                        }
                       </div>
                       <div className="absolute top-full left-1/2 transform -translate-x-1/2 border-4 border-transparent border-t-[#f4f6fb]"></div>
                     </div>

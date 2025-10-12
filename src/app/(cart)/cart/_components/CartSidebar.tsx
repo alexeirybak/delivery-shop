@@ -15,6 +15,7 @@ const CartSidebar = ({
   isMinimumReached,
   onCheckout,
   isCheckout = false,
+  deliveryData
 }: CartSidebarProps) => {
   return (
     <div className="flex flex-col gap-y-6 md:w-[255px] xl:w-[272px]">
@@ -34,6 +35,10 @@ const CartSidebar = ({
         isMinimumReached={isMinimumReached}
         onCheckout={onCheckout}
         isCheckout={isCheckout} 
+        deliveryData={deliveryData}
+        useBonuses={useBonuses}
+        bonusesCount={bonusesCount}
+        totalPrice={totalPrice}
       />
     </div>
   );

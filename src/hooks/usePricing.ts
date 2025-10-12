@@ -43,7 +43,6 @@ export const usePricing = ({
     return total + finalPrice * item.quantity;
   }, 0);
 
-  // Расчет общей максимальной цены (базовые цены без скидок по карте лояльности)
   const totalMaxPrice = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total;
@@ -56,7 +55,6 @@ export const usePricing = ({
     return total + priceWithDiscount * item.quantity;
   }, 0);
 
-  // Расчет общей суммы скидки (разница между ценой без карты и ценой с картой)
   const totalDiscount = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
     if (!product) return total;
@@ -75,18 +73,16 @@ export const usePricing = ({
     return total + itemDiscount;
   }, 0);
 
-  // Максимальное количество бонусов, которые можно использовать (процент из конфига)
   const maxBonusUse = Math.min(
     bonusesCount,
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
-  // Итоговая цена с учетом использованных бонусов (не может быть отрицательной)
   const finalPrice = useBonuses
     ? Math.max(0, totalPrice - maxBonusUse)
     : totalPrice;
 
-  // Расчет общего количества бонусов, которые будут начислены за покупку
+
   const totalBonuses = useCallback(() => {
     return availableCartItems.reduce((total, item) => {
       const product = productsData[item.productId];
@@ -102,7 +98,6 @@ export const usePricing = ({
     }, 0);
   }, [availableCartItems, productsData]);
 
-  // Проверка достижения минимальной суммы заказа (1000 рублей)
   const isMinimumReached = finalPrice >= 1000;
 
   return {

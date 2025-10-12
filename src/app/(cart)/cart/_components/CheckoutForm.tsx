@@ -1,11 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import DeliveryAddress from "./DeliveryAddress";
 import DeliveryTime from "./DeliveryTime";
+import { DeliveryAddress as DeliveryAddressType, DeliveryTime as DeliveryTimeType } from "@/types/order";
 
-const CheckoutForm = () => {
-  const [deliveryFormData, setDeliveryFormData] = useState({
+interface CheckoutFormProps {
+  onFormDataChange: (data: {
+    address: DeliveryAddressType;
+    time: DeliveryTimeType;
+    isValid: boolean;
+  }) => void;
+}
+
+const CheckoutForm = ({ onFormDataChange }: CheckoutFormProps) => {
+  const [deliveryFormData, setDeliveryFormData] = useState<DeliveryAddressType>({
     city: "",
     street: "",
     house: "",
@@ -13,13 +22,51 @@ const CheckoutForm = () => {
     additional: "",
   });
 
-  const [deliveryDate, setDeliveryDate] = useState("");
-  const [deliveryTimeSlot, setDeliveryTimeSlot] = useState("");
+  const [deliveryTime, setDeliveryTime] = useState<DeliveryTimeType>({
+    date: "",
+    timeSlot: "",
+  });
 
-  const handleFormDataChange = (field: string, value: string) => {
-    setDeliveryFormData((prev) => ({
+  // Проверяем валидность формы при изменении данных
+  useEffect(() => {
+    const isAddressValid = Boolean(
+      deliveryFormData.city &&
+      deliveryFormData.street &&
+      deliveryFormData.house
+    );
+
+    const isTimeValid = Boolean(
+      deliveryTime.date &&
+      deliveryTime.timeSlot
+    );
+
+    const isValid = isAddressValid && isTimeValid;
+
+    onFormDataChange({
+      address: deliveryFormData,
+      time: deliveryTime,
+      isValid
+    });
+  }, [deliveryFormData, deliveryTime, onFormDataChange]);
+
+  const handleFormDataChange = (field: keyof DeliveryAddressType, value: string) => {
+    setDeliveryFormData(prev => ({
       ...prev,
-      [field]: value,
+      [field]: value
+    }));
+  };
+
+  const handleDateChange = (date: string) => {
+    setDeliveryTime(prev => ({
+      ...prev,
+      date
+    }));
+  };
+
+  const handleTimeSlotChange = (timeSlot: string) => {
+    setDeliveryTime(prev => ({
+      ...prev,
+      timeSlot
     }));
   };
 
@@ -31,10 +78,10 @@ const CheckoutForm = () => {
       />
 
       <DeliveryTime
-        selectedDate={deliveryDate}
-        selectedTimeSlot={deliveryTimeSlot}
-        onDateChange={setDeliveryDate}
-        onTimeSlotChange={setDeliveryTimeSlot}
+        selectedDate={deliveryTime.date}
+        selectedTimeSlot={deliveryTime.timeSlot}
+        onDateChange={handleDateChange}
+        onTimeSlotChange={handleTimeSlotChange}
       />
     </div>
   );

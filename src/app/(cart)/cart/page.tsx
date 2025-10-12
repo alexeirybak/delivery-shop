@@ -16,6 +16,7 @@ import CartItem from "./_components/CartItem";
 import CartSidebar from "./_components/CartSidebar";
 import { usePricing } from "@/hooks/usePricing";
 import CheckoutForm from "./_components/CheckoutForm";
+import { DeliveryAddress, DeliveryTime } from "@/types/order";
 
 const CartPage = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -29,6 +30,22 @@ const CartPage = () => {
   const [useBonuses, setUseBonuses] = useState<boolean>(false);
   const [isCheckout, setIsCheckout] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("Корзина");
+  const [deliveryData, setDeliveryData] = useState<{
+    address: DeliveryAddress;
+    time: DeliveryTime;
+    isValid: boolean;
+  } | null>(null);
+
+  const handleFormDataChange = useCallback(
+    (data: {
+      address: DeliveryAddress;
+      time: DeliveryTime;
+      isValid: boolean;
+    }) => {
+      setDeliveryData(data);
+    },
+    []
+  );
 
   const { cartItems, updateCart } = useCartStore();
 
@@ -41,7 +58,6 @@ const CartPage = () => {
     return product && product.quantity > 0;
   });
 
-  // Используем хук для расчетов цен
   const pricingData = usePricing({
     availableCartItems,
     productsData,
@@ -59,7 +75,6 @@ const CartPage = () => {
     isMinimumReached,
   } = pricingData;
 
-  // Общие пропсы для CartSidebar
   const commonSidebarProps = {
     bonusesCount,
     useBonuses,
@@ -75,6 +90,8 @@ const CartPage = () => {
       setIsCheckout(true);
       setTitle("Доставка");
     },
+    deliveryData,
+    productsData,
   };
 
   const fetchCartAndProducts = async () => {
@@ -214,7 +231,7 @@ const CartPage = () => {
                 onDeselectAll={deselectAllItems}
                 onRemoveSelected={handleRemoveSelected}
               />
-              
+
               <div className="flex flex-col gap-y-6">
                 {visibleCartItems.map((item) => (
                   <CartItem
@@ -230,13 +247,10 @@ const CartPage = () => {
               </div>
             </>
           ) : (
-            <CheckoutForm />
+            <CheckoutForm onFormDataChange={handleFormDataChange} />
           )}
         </div>
-        <CartSidebar
-          {...commonSidebarProps}
-          isCheckout={isCheckout}
-        />
+        <CartSidebar {...commonSidebarProps} isCheckout={isCheckout} />
       </div>
     </div>
   );

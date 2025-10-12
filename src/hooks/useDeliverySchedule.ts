@@ -38,15 +38,13 @@ export function useDeliverySchedule() {
       if (data.schedule && Object.keys(data.schedule).length > 0) {
         const loadedSchedule = data.schedule as Schedule;
 
-        console.log(loadedSchedule);
-
         const updatedSchedule: Schedule = {};
         dates.forEach((date) => {
           updatedSchedule[date] = loadedSchedule[date]
             ? { ...loadedSchedule[date] } // копируем существующие данные
             : {}; // или создаем пустой объект
         });
-        console.log(updatedSchedule);
+        
         setSchedule(updatedSchedule);
 
         const slots = new Set(

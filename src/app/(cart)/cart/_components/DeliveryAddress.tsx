@@ -1,16 +1,12 @@
+// components/DeliveryAddress.tsx
 import { formStyles } from "@/app/styles";
 import { cities } from "@/data/cities";
 import { additionalStyles, labelStyles, selectStyles } from "./styles";
+import { DeliveryAddress as DeliveryAddressType } from "@/types/order";
 
 interface DeliveryAddressProps {
-  formData: {
-    city: string;
-    street: string;
-    house: string;
-    apartment: string;
-    additional: string;
-  };
-  onFormDataChange: (field: string, value: string) => void;
+  formData: DeliveryAddressType;
+  onFormDataChange: (field: keyof DeliveryAddressType, value: string) => void;
 }
 
 const DeliveryAddress = ({
@@ -23,7 +19,7 @@ const DeliveryAddress = ({
       <div className="flex flex-col gap-y-4 xl:flex-row xl:flex-nowrap md:gap-x-8 xl:gap-x-10">
         <div className="flex flex-col gap-y-4 md:flex-row md:w-full md:justify-between md:gap-x-8">
           <div className="md:flex-1">
-            <label className={labelStyles}>Населенный пункт</label>
+            <label className={labelStyles}>Населенный пункт *</label>
             <select
               value={formData.city}
               onChange={(e) => onFormDataChange("city", e.target.value)}
@@ -39,7 +35,7 @@ const DeliveryAddress = ({
           </div>
 
           <div className="md:flex-1">
-            <label className={labelStyles}>Улица</label>
+            <label className={labelStyles}>Улица *</label>
             <input
               type="text"
               value={formData.street}
@@ -52,7 +48,7 @@ const DeliveryAddress = ({
 
         <div className="flex flex-row gap-x-4 md:gap-x-8 xl:gap-x-10">
           <div className="flex-1">
-            <label className={labelStyles}>Дом</label>
+            <label className={labelStyles}>Дом *</label>
             <input
               type="text"
               value={formData.house}

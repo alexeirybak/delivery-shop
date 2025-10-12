@@ -61,8 +61,6 @@ const fetchProductsByCategory = async (
 
     const data = await res.json();
 
-    console.log(data);
-
     return {
       items: data.products || data,
       totalCount: data.totalCount || data.length,
