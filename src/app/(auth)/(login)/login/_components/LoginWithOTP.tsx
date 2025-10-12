@@ -11,7 +11,7 @@ import { AuthFormLayout } from "@/app/(auth)/_components/AuthFormLayout";
 import { LoadingContent } from "@/app/(auth)/(reg)/_components/LoadingContent";
 import OTPResendCode from "@/app/(auth)/_components/OTPResendButton";
 import { CONFIG } from "../../../../../../config/config";
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 
 const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   const [code, setCode] = useState("");

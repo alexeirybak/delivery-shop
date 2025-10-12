@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 import { AuthFormLayout } from "../../_components/AuthFormLayout";
-import { buttonStyles } from "../../styles";
+import { buttonStyles } from "../../../styles";
 import { Loader2, MessageCircle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import PasswordInput from "../../_components/PasswordInput";

@@ -1,4 +1,4 @@
-import { buttonStyles } from "@/app/(auth)/styles";
+import { buttonStyles } from "@/app/styles";
 import { formatPrice } from "../../../../../utils/formatPrice";
 import Bonuses from "@/app/(catalog)/catalog/[category]/(productPage)/[id]/_components/Bonuses";
 import { CartSummaryProps } from "../../../../types/cart";
@@ -17,7 +17,8 @@ const CartSummary = ({
       <div className="flex flex-col gap-y-2.5 pb-6 border-b-2 border-[#f3f2f1]">
         <div className="flex flex-row justify-between">
           <p className="text-[#8f8f8f]">
-            {visibleCartItems.length} {`товар${getFullEnding(visibleCartItems.length)}`}
+            {visibleCartItems.length}{" "}
+            {`товар${getFullEnding(visibleCartItems.length)}`}
           </p>
           <p className="">{formatPrice(totalMaxPrice)} ₽</p>
         </div>
