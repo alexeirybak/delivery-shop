@@ -16,7 +16,6 @@ export default function DeliveryTimesAdmin() {
     loading,
     saving,
     message,
-    messageType,
     error,
     startTime,
     endTime,
@@ -65,7 +64,7 @@ export default function DeliveryTimesAdmin() {
       </div>
 
       <SaveButton saving={saving} onClick={saveDeliveryTimes} />
-      {message && <MessageAlert message={message} type={messageType} />}
+      {message && <MessageAlert message={message} />}
       {error && (
         <div className="p-3 md:p-4 mb-4 rounded border bg-[#ffc7c7] text-[#d80000]">
           {error}

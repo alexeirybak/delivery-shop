@@ -8,9 +8,6 @@ export function useDeliverySchedule() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">(
-    "success"
-  );
   const [error, setError] = useState("");
   const [startTime, setStartTime] = useState("08:00");
   const [endTime, setEndTime] = useState("14:00");
@@ -19,9 +16,8 @@ export function useDeliverySchedule() {
   const dates = getThreeDaysDates();
 
   const showMessage = useCallback(
-    (text: string, type: "success" | "error" = "success") => {
+    (text: string) => {
       setMessage(text);
-      setMessageType(type);
     },
     []
   );
@@ -204,7 +200,6 @@ export function useDeliverySchedule() {
     loading,
     saving,
     message,
-    messageType,
     error,
     startTime,
     endTime,
