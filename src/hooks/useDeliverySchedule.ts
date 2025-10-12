@@ -8,7 +8,6 @@ export function useDeliverySchedule() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
-  const [messageType, setMessageType] = useState<"success" | "error">("success");
   const [error, setError] = useState("");
   const [startTime, setStartTime] = useState("08:00");
   const [endTime, setEndTime] = useState("14:00");
@@ -16,10 +15,12 @@ export function useDeliverySchedule() {
 
   const dates = getThreeDaysDates();
 
-  const showMessage = useCallback((text: string, type: "success" | "error" = "success") => {
-    setMessage(text);
-    setMessageType(type);
-  }, []);
+  const showMessage = useCallback(
+    (text: string) => {
+      setMessage(text);
+    },
+    []
+  );
 
   const initializeEmptySchedule = useCallback(() => {
     const emptySchedule: Schedule = {};
@@ -37,15 +38,19 @@ export function useDeliverySchedule() {
       if (data.schedule && Object.keys(data.schedule).length > 0) {
         const loadedSchedule = data.schedule as Schedule;
 
-        const updatedSchedule = dates.reduce<Schedule>((acc, date) => {
-          acc[date] = loadedSchedule[date] ? { ...loadedSchedule[date] } : {};
-          return acc;
-        }, {});
+        console.log(loadedSchedule);
 
+        const updatedSchedule: Schedule = {};
+        dates.forEach((date) => {
+          updatedSchedule[date] = loadedSchedule[date]
+            ? { ...loadedSchedule[date] } // копируем существующие данные
+            : {}; // или создаем пустой объект
+        });
+        console.log(updatedSchedule);
         setSchedule(updatedSchedule);
 
         const slots = new Set(
-          dates.flatMap(date => Object.keys(updatedSchedule[date] || {}))
+          dates.flatMap((date) => Object.keys(updatedSchedule[date] || {}))
         );
         setTimeSlots(Array.from(slots));
       } else {
@@ -111,37 +116,41 @@ export function useDeliverySchedule() {
     showMessage("Временной слот добавлен для всех дней");
   }, [startTime, endTime, timeSlots, schedule, dates, showMessage]);
 
-  const updateTimeSlotStatus = useCallback((
-    date: string,
-    timeSlot: string,
-    free: boolean
-  ) => {
-    setSchedule((prev) => ({
-      ...prev,
-      [date]: {
-        ...prev[date],
-        [timeSlot]: free,
-      },
-    }));
-  }, []);
+  const updateTimeSlotStatus = useCallback(
+    (date: string, timeSlot: string, free: boolean) => {
+      setSchedule((prev) => ({
+        ...prev,
+        [date]: {
+          ...prev[date],
+          [timeSlot]: free,
+        },
+      }));
+    },
+    []
+  );
 
-  const removeTimeSlot = useCallback((slotToRemove: string) => {
-    setError("");
+  const removeTimeSlot = useCallback(
+    (slotToRemove: string) => {
+      setError("");
 
-    const updatedTimeSlots = timeSlots.filter((slot) => slot !== slotToRemove);
-    setTimeSlots(updatedTimeSlots);
+      const updatedTimeSlots = timeSlots.filter(
+        (slot) => slot !== slotToRemove
+      );
+      setTimeSlots(updatedTimeSlots);
 
-    const updatedSchedule: Schedule = { ...schedule };
+      const updatedSchedule: Schedule = { ...schedule };
 
-    dates.forEach((date) => {
-      if (updatedSchedule[date]) {
-        delete updatedSchedule[date][slotToRemove];
-      }
-    });
+      dates.forEach((date) => {
+        if (updatedSchedule[date]) {
+          delete updatedSchedule[date][slotToRemove];
+        }
+      });
 
-    setSchedule(updatedSchedule);
-    showMessage("Временной слот удален из всех дней");
-  }, [timeSlots, schedule, dates, showMessage]);
+      setSchedule(updatedSchedule);
+      showMessage("Временной слот удален из всех дней");
+    },
+    [timeSlots, schedule, dates, showMessage]
+  );
 
   const saveDeliveryTimes = useCallback(async () => {
     setError("");
@@ -184,7 +193,6 @@ export function useDeliverySchedule() {
     loading,
     saving,
     message,
-    messageType,
     error,
     startTime,
     endTime,
