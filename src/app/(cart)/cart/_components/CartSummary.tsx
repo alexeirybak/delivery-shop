@@ -34,7 +34,7 @@ const CartSummary = ({
   } = useCartStore();
 
   // Фильтруем товары с количеством > 0 на фронтенде
-  const validCartItems = cartItems.filter(item => item.quantity > 0);
+  const visibleCartItems = cartItems.filter(item => item.quantity > 0);
 
   const {
     totalPrice,
@@ -69,7 +69,7 @@ const CartSummary = ({
 
     // Используем отфильтрованные товары
     const isValidForm =
-      isAddressValid && isTimeValid && isMinimumReached && validCartItems.length > 0;
+      isAddressValid && isTimeValid && isMinimumReached && visibleCartItems.length > 0;
 
     return isValidForm;
   };
@@ -90,7 +90,7 @@ const CartSummary = ({
     setIsProcessing(true);
 
     try {
-      const cartItemsWithPrices: CartItemWithPrice[] = validCartItems.map((item) => {
+      const cartItemsWithPrices: CartItemWithPrice[] = visibleCartItems.map((item) => {
         const product = productsData[item.productId];
         if (!product) {
           return {
@@ -179,7 +179,7 @@ const CartSummary = ({
       <div className="flex flex-col gap-y-2.5 pb-6 border-b-2 border-[#f3f2f1]">
         <div className="flex flex-row justify-between">
           <p className="text-[#8f8f8f]">
-            {validCartItems.length} {`товар${getFullEnding(validCartItems.length)}`}
+            {visibleCartItems.length} {`товар${getFullEnding(visibleCartItems.length)}`}
           </p>
           <p className="">{formatPrice(totalMaxPrice)} ₽</p>
         </div>
@@ -209,9 +209,9 @@ const CartSummary = ({
 
           {!isCheckout ? (
             <button
-              disabled={!isMinimumReached || validCartItems.length === 0}
+              disabled={!isMinimumReached || visibleCartItems.length === 0}
               className={`p-4 rounded mx-auto w-full text-2xl ${
-                isMinimumReached && validCartItems.length > 0
+                isMinimumReached && visibleCartItems.length > 0
                   ? buttonStyles.active
                   : buttonStyles.inactive
               }`}

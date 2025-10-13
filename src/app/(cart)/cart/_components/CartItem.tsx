@@ -106,7 +106,6 @@ const CartItem = memo(function CartItem({
                 totalFinalPrice={totalFinalPrice}
                 totalPriceWithoutCard={totalPriceWithoutCard}
                 hasDiscount={hasDiscount}
-                hasLoyaltyCard={hasLoyaltyCard}
                 isOutOfStock={isOutOfStock}
               />
 

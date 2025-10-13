@@ -65,7 +65,6 @@ const CartPage = () => {
     return product && product.quantity > 0;
   });
 
-  // Хук usePricing автоматически сохраняет данные в store
   usePricing({
     availableCartItems,
     productsData,

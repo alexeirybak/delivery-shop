@@ -7,7 +7,6 @@ interface PriceDisplayProps {
   totalFinalPrice: number;
   totalPriceWithoutCard: number;
   hasDiscount: boolean;
-  hasLoyaltyCard: boolean;
   isOutOfStock: boolean;
 }
 
@@ -17,7 +16,7 @@ const PriceDisplay = memo(function PriceDisplay({
   hasDiscount,
   isOutOfStock
 }: PriceDisplayProps) {
-    
+
   return (
     // Немного изменил, чтобы даже когда товара нет в наличии, показывалась цена
     <>
