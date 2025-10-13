@@ -1,4 +1,4 @@
-const DeliveryTimeSkeletons = () => {
+const SkeletonDeliveryTime = () => {
   return (
     <div>
       <div className="h-8 xl:h-9 bg-gray-200 rounded mb-6 w-32 animate-pulse"></div>
@@ -29,4 +29,4 @@ const DeliveryTimeSkeletons = () => {
   );
 };
 
-export default DeliveryTimeSkeletons;
+export default SkeletonDeliveryTime;

@@ -1,4 +1,3 @@
-// components/DeliveryAddress.tsx
 import { formStyles } from "@/app/styles";
 import { cities } from "@/data/cities";
 import { additionalStyles, labelStyles, selectStyles } from "./styles";

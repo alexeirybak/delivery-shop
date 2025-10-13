@@ -33,7 +33,6 @@ const CartSummary = ({
     setIsCheckout,
   } = useCartStore();
 
-  // Фильтруем товары с количеством > 0 на фронтенде
   const visibleCartItems = cartItems.filter(item => item.quantity > 0);
 
   const {
@@ -51,39 +50,10 @@ const CartSummary = ({
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
-  // Функция проверки валидности формы
-  const isFormValid = (): boolean => {
-    if (!deliveryData) {
-      return false;
-    }
-
-    const { address, time } = deliveryData;
-
-    // Проверяем обязательные поля адреса
-    const isAddressValid = Boolean(
-      address.city?.trim() && address.street?.trim() && address.house?.trim()
-    );
-
-    // Проверяем время доставки
-    const isTimeValid = Boolean(time.date?.trim() && time.timeSlot?.trim());
-
-    // Используем отфильтрованные товары
-    const isValidForm =
-      isAddressValid && isTimeValid && isMinimumReached && visibleCartItems.length > 0;
-
-    return isValidForm;
-  };
-
-  const canProceedWithPayment = (): boolean => {
-    return isFormValid() && !isProcessing;
-  };
-
   const handleCashPayment = async () => {
-    if (!isFormValid()) {
-      return;
-    }
-
+    // Проверяем что deliveryData не null/undefined
     if (!deliveryData) {
+      console.error("Данные доставки не заполнены");
       return;
     }
 
@@ -100,13 +70,11 @@ const CartSummary = ({
           };
         }
 
-        // Сначала применяем скидку на товар
         const priceWithDiscount = calculateFinalPrice(
           product.basePrice,
           product.discountPercent || 0
         );
 
-        // Затем применяем скидку по карте лояльности, если есть
         const finalPrice = hasLoyaltyCard
           ? calculatePriceByCard(
               priceWithDiscount,
@@ -117,27 +85,25 @@ const CartSummary = ({
         return {
           productId: item.productId,
           quantity: item.quantity,
-          price: finalPrice, // ← итоговая цена с учетом всех скидок
-          basePrice: product.basePrice, // ← базовая цена
-          discountPercent: product.discountPercent || 0, // ← скидка на товар
-          hasLoyaltyDiscount: hasLoyaltyCard, // ← была ли применена скидка по карте
+          price: finalPrice,
+          basePrice: product.basePrice,
+          discountPercent: product.discountPercent || 0,
+          hasLoyaltyDiscount: hasLoyaltyCard,
         };
       });
 
-      // Создаем заказ с уже отфильтрованными товарами
       const result = await createOrderAction({
         finalPrice,
         totalBonuses,
         usedBonuses,
         totalDiscount,
-        deliveryAddress: deliveryData.address,
-        deliveryTime: deliveryData.time,
+        deliveryAddress: deliveryData.address, // Теперь безопасно
+        deliveryTime: deliveryData.time, // Теперь безопасно
         cartItems: cartItemsWithPrices,
         totalPrice: totalMaxPrice,
         paymentMethod: "cash_on_delivery",
       });
 
-      // Сохраняем номер заказа и показываем сообщение об успехе
       setOrderNumber(result.orderNumber);
       setIsOrdered(true);
     } catch (error: unknown) {
@@ -151,7 +117,9 @@ const CartSummary = ({
   };
 
   const handleOnlinePayment = () => {
-    if (!isFormValid()) {
+    // Проверяем что deliveryData не null/undefined
+    if (!deliveryData) {
+      console.error("Данные доставки не заполнены");
       return;
     }
     setIsOrdered(true);
@@ -173,6 +141,9 @@ const CartSummary = ({
       return `${baseStyles} bg-gray-300 text-gray-500 cursor-not-allowed`;
     }
   };
+
+  // Проверяем можно ли продолжить с оплатой
+  const canProceedWithPayment = !isProcessing && !!deliveryData;
 
   return (
     <>
@@ -224,9 +195,9 @@ const CartSummary = ({
               {!isOrdered ? (
                 <>
                   <button
-                    disabled={!canProceedWithPayment()}
+                    disabled={!canProceedWithPayment}
                     className={`rounded w-full text-xl h-15 items-center justify-center ${
-                      canProceedWithPayment()
+                      canProceedWithPayment
                         ? buttonStyles.active
                         : buttonStyles.inactive
                     }`}
@@ -236,8 +207,8 @@ const CartSummary = ({
                   </button>
 
                   <button
-                    disabled={!canProceedWithPayment()}
-                    className={getButtonStyles(canProceedWithPayment())}
+                    disabled={!canProceedWithPayment}
+                    className={getButtonStyles(canProceedWithPayment)}
                     onClick={handleCashPayment}
                   >
                     {isProcessing ? "Оформление..." : "Оплатить при получении"}
@@ -246,13 +217,6 @@ const CartSummary = ({
                   {!deliveryData && (
                     <div className="text-sm text-yellow-600 text-center mt-2">
                       Заполните форму доставки
-                    </div>
-                  )}
-
-                  {deliveryData && !deliveryData.isValid && (
-                    <div className="text-sm text-red-500 text-center mt-2">
-                      Заполните все обязательные поля доставки (город, улица,
-                      дом, дата и время)
                     </div>
                   )}
                 </>

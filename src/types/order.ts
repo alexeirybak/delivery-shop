@@ -1,5 +1,3 @@
-import { ProductCardProps } from "./product";
-
 export interface DeliveryAddress {
   city: string;
   street: string;
@@ -38,15 +36,5 @@ export interface OrderCartItem {
   productId: string;
   quantity: number;
   addedAt: Date;
-}
-
-export interface CartSummaryProps {
-  onCheckout: () => void;
-  deliveryData?: {
-    address: DeliveryAddress;
-    time: DeliveryTime;
-    isValid: boolean;
-  };
-  productsData: Record<string, ProductCardProps>;
 }
 
