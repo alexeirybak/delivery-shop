@@ -1,4 +1,4 @@
-// types/order.ts
+import { ProductCardProps } from "./product";
 
 export interface DeliveryAddress {
   city: string;
@@ -16,11 +16,10 @@ export interface DeliveryTime {
 export interface CartItemWithPrice {
   productId: string;
   quantity: number;
-  price: number;
-  productData?: {
-    name: string;
-    category: string;
-  };
+  price: number; // итоговая цена с учетом всех скидок
+  basePrice?: number; // базовая цена
+  discountPercent?: number; // скидка на товар
+  hasLoyaltyDiscount?: boolean; // применена ли скидка по карте лояльности
 }
 
 export interface OrderData {
@@ -32,5 +31,22 @@ export interface OrderData {
   finalPrice: number;
   totalBonuses: number;
   usedBonuses: number;
-  paymentMethod: 'cash_on_delivery' | 'online';
+  paymentMethod: "cash_on_delivery" | "online";
 }
+
+export interface OrderCartItem {
+  productId: string;
+  quantity: number;
+  addedAt: Date;
+}
+
+export interface CartSummaryProps {
+  onCheckout: () => void;
+  deliveryData?: {
+    address: DeliveryAddress;
+    time: DeliveryTime;
+    isValid: boolean;
+  };
+  productsData: Record<string, ProductCardProps>;
+}
+

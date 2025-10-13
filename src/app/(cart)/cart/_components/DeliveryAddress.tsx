@@ -35,7 +35,7 @@ const DeliveryAddress = ({
           </div>
 
           <div className="md:flex-1">
-            <label className={labelStyles}>Улица *</label>
+            <label className={labelStyles}>Улица</label>
             <input
               type="text"
               value={formData.street}
@@ -48,7 +48,7 @@ const DeliveryAddress = ({
 
         <div className="flex flex-row gap-x-4 md:gap-x-8 xl:gap-x-10">
           <div className="flex-1">
-            <label className={labelStyles}>Дом *</label>
+            <label className={labelStyles}>Дом</label>
             <input
               type="text"
               value={formData.house}

@@ -85,8 +85,6 @@ const DeliveryTime = ({
         const isPassed = isTimeSlotPassed(slot, selectedDate);
         const isAvailable = isFree && !isPassed;
 
-        console.log('Slot:', slot, { isFree, isPassed, isAvailable });
-
         return {
           value: slot,
           mobileLabel: formatted.mobileLabel,

@@ -1,10 +1,13 @@
 "use client";
 
-import { useCallback } from "react";
+import { useCallback, useEffect } from "react";
 import { ProductCardProps } from "@/types/product";
-import { calculateFinalPrice, calculatePriceByCard } from "../../utils/calcPrices";
+import {
+  calculateFinalPrice,
+  calculatePriceByCard,
+} from "../../utils/calcPrices";
 import { CONFIG } from "../../config/config";
-
+import { useCartStore } from "../store/cartStore";
 
 interface UsePricingProps {
   availableCartItems: Array<{
@@ -26,6 +29,8 @@ export const usePricing = ({
   bonusesCount,
   useBonuses,
 }: UsePricingProps) => {
+  const { updatePricing } = useCartStore();
+
   // Расчет общей стоимости ВСЕХ товаров в корзине
   const totalPrice = availableCartItems.reduce((total, item) => {
     const product = productsData[item.productId];
@@ -82,7 +87,6 @@ export const usePricing = ({
     ? Math.max(0, totalPrice - maxBonusUse)
     : totalPrice;
 
-
   const totalBonuses = useCallback(() => {
     return availableCartItems.reduce((total, item) => {
       const product = productsData[item.productId];
@@ -98,7 +102,29 @@ export const usePricing = ({
     }, 0);
   }, [availableCartItems, productsData]);
 
+  const totalBonusesValue = totalBonuses();
   const isMinimumReached = finalPrice >= 1000;
+
+  useEffect(() => {
+    updatePricing({
+      totalPrice,
+      totalMaxPrice,
+      totalDiscount,
+      finalPrice,
+      maxBonusUse,
+      totalBonuses: totalBonusesValue,
+      isMinimumReached,
+    });
+  }, [
+    totalPrice,
+    totalMaxPrice,
+    totalDiscount,
+    finalPrice,
+    maxBonusUse,
+    totalBonusesValue,
+    isMinimumReached,
+    updatePricing,
+  ]);
 
   return {
     totalPrice,
@@ -106,7 +132,7 @@ export const usePricing = ({
     totalDiscount,
     finalPrice,
     maxBonusUse,
-    totalBonuses: totalBonuses(),
+    totalBonuses: totalBonusesValue,
     isMinimumReached,
   };
 };

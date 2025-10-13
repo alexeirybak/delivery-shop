@@ -16,6 +16,7 @@ import PriceDisplay from "./PriceDisplay";
 import QuantitySelector from "./QuantitySelector";
 import DiscountBadge from "./DiscountBadge";
 import { CartItemProps } from "@/types/cart";
+import { useCartStore } from "@/store/cartStore";
 
 const CartItem = memo(function CartItem({
   item,
@@ -23,12 +24,11 @@ const CartItem = memo(function CartItem({
   isSelected,
   onSelectionChange,
   onQuantityUpdate,
-  hasLoyaltyCard,
 }: CartItemProps) {
-    // Убрал из state quantity альтернативу в виде || 1
   const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
+  const { hasLoyaltyCard } = useCartStore();
 
   const handleQuantityChange = async (newQuantity: number) => {
     if (newQuantity < 0) return;

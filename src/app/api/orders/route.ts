@@ -1,15 +1,28 @@
-// app/api/orders/route.ts
 import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
+import { getServerUserId } from "../../../../utils/getServerUserId";
+import { ObjectId } from 'mongodb';
 
 export async function POST(request: Request) {
   try {
     const db = await getDB();
     const orderData = await request.json();
 
-    // Получаем информацию о пользователе
-    const user = await db.collection("user").findOne({});
-    
+    // Получаем ID текущего пользователя из сессии
+    const userId = await getServerUserId();
+
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Пользователь не авторизован" },
+        { status: 401 }
+      );
+    }
+
+    // Находим пользователя по его ID
+    const user = await db.collection("user").findOne({
+      _id: ObjectId.createFromHexString(userId),
+    });
+
     if (!user) {
       return NextResponse.json(
         { message: "Пользователь не найден" },
@@ -17,72 +30,66 @@ export async function POST(request: Request) {
       );
     }
 
-    // Создаем заказ - используем данные как есть из orderData
+    // Остальной код без изменений
+    const roundedUsedBonuses = Math.floor(orderData.usedBonuses || 0);
+    const roundedEarnedBonuses = Math.floor(orderData.totalBonuses || 0);
+    const roundedTotalAmount =
+      Math.round((orderData.finalPrice || 0) * 100) / 100;
+    const roundedDiscountAmount =
+      Math.round((orderData.totalDiscount || 0) * 100) / 100;
+
     const order = {
       userId: user._id,
-      orderNumber: `Заказ №${Date.now()}-${Math.random().toString(36).substring(2, 11)}`,
+      orderNumber: `${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`,
       status: "pending",
       paymentMethod: orderData.paymentMethod,
-      paymentStatus: orderData.paymentMethod === 'cash_on_delivery' ? 'pending' : 'waiting',
-      totalAmount: orderData.finalPrice,
-      discountAmount: orderData.totalDiscount,
-      usedBonuses: orderData.usedBonuses, // Должно приходить из CartSummary
-      earnedBonuses: orderData.totalBonuses,
+      paymentStatus:
+        orderData.paymentMethod === "cash_on_delivery" ? "pending" : "waiting",
+      totalAmount: roundedTotalAmount,
+      discountAmount: roundedDiscountAmount,
+      usedBonuses: roundedUsedBonuses,
+      earnedBonuses: roundedEarnedBonuses,
       deliveryAddress: orderData.deliveryAddress,
       deliveryDate: orderData.deliveryTime.date,
       deliveryTimeSlot: orderData.deliveryTime.timeSlot,
-      items: orderData.cartItems.map((item: { productId: string; quantity: number; price: number }) => ({
-        productId: item.productId,
-        quantity: item.quantity,
-        price: item.price, // Используем price из cartItems
-        // Убираем productData - не нужно
-      })),
+      surname: user.surname,
+      name: user.name,
+      phone: user.phoneNumber,
+      gender: user.gender,
+      birthday: user.birthdayDate,
+      items: orderData.cartItems.map(
+        (item: {
+          productId: string;
+          quantity: number;
+          price: number;
+          discountPercent?: number;
+          hasLoyaltyDiscount?: boolean;
+        }) => ({
+          productId: item.productId,
+          quantity: item.quantity,
+          price: Math.round((item.price || 0) * 100) / 100,
+          discountPercent: item.discountPercent,
+          hasLoyaltyDiscount: item.hasLoyaltyDiscount,
+        })
+      ),
       createdAt: new Date(),
-      updatedAt: new Date()
+      updatedAt: new Date(),
     };
 
-    console.log("Создаем заказ с usedBonuses:", order.usedBonuses);
-
-    // Сохраняем заказ в коллекции orders
     const result = await db.collection("orders").insertOne(order);
 
-    // Добавляем заказ в историю покупок пользователя
-    const purchaseItem = {
-      orderId: result.insertedId,
-      orderNumber: order.orderNumber,
-      date: order.createdAt,
-      totalAmount: order.totalAmount,
-      status: order.status,
-      usedBonuses: orderData.usedBonuses, // Сохраняем usedBonuses
-      earnedBonuses: orderData.totalBonuses
-    };
-
-    // Обновляем массив покупок
-    const currentPurchases = user.purchases || [];
-    const updatedPurchases = [...currentPurchases, purchaseItem];
-
-    await db.collection("user").updateOne(
-      { _id: user._id },
-      { 
-        $set: { 
-          purchases: updatedPurchases
-        } 
-      }
-    );
-
-    return NextResponse.json({ 
-      success: true, 
+    return NextResponse.json({
+      success: true,
       order: {
         ...order,
-        _id: result.insertedId
+        _id: result.insertedId,
       },
-      orderNumber: order.orderNumber
+      orderNumber: order.orderNumber,
     });
-
   } catch (error) {
-    console.error('Ошибка создания заказа:', error);
+    console.error("Ошибка создания заказа:", error);
     return NextResponse.json(
-      { message: 'Внутренняя ошибка сервера' },
+      { message: "Внутренняя ошибка сервера" },
       { status: 500 }
     );
   }

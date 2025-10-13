@@ -24,17 +24,15 @@ const CartPage = () => {
     [key: string]: ProductCardProps;
   }>({});
   const [bonusesCount, setBonusesCount] = useState<number>(0);
-  const [hasLoyaltyCard, setHasLoyaltyCard] = useState<boolean>(false);
   const [removedItems, setRemovedItems] = useState<string[]>([]);
   const [isCartLoading, setIsCartLoading] = useState(true);
-  const [useBonuses, setUseBonuses] = useState<boolean>(false);
-  const [isCheckout, setIsCheckout] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("Корзина");
   const [deliveryData, setDeliveryData] = useState<{
     address: DeliveryAddress;
     time: DeliveryTime;
     isValid: boolean;
   } | null>(null);
+  console.log(useCartStore.getState())
 
   const handleFormDataChange = useCallback(
     (data: {
@@ -47,7 +45,16 @@ const CartPage = () => {
     []
   );
 
-  const { cartItems, updateCart } = useCartStore();
+  const {
+    cartItems,
+    updateCart,
+    isCheckout,
+    setIsCheckout,
+    isOrdered,
+    hasLoyaltyCard,
+    setHasLoyaltyCard,
+    useBonuses,
+  } = useCartStore();
 
   const visibleCartItems = cartItems.filter(
     (item) => !removedItems.includes(item.productId)
@@ -58,34 +65,16 @@ const CartPage = () => {
     return product && product.quantity > 0;
   });
 
-  const pricingData = usePricing({
+  // Хук usePricing автоматически сохраняет данные в store
+  usePricing({
     availableCartItems,
     productsData,
-    hasLoyaltyCard,
     bonusesCount,
     useBonuses,
+    hasLoyaltyCard,
   });
 
-  const {
-    totalPrice,
-    totalMaxPrice,
-    totalDiscount,
-    finalPrice,
-    totalBonuses,
-    isMinimumReached,
-  } = pricingData;
-
   const commonSidebarProps = {
-    bonusesCount,
-    useBonuses,
-    onUseBonusesChange: setUseBonuses,
-    totalPrice,
-    visibleCartItems,
-    totalMaxPrice,
-    totalDiscount,
-    finalPrice,
-    totalBonuses,
-    isMinimumReached,
     onCheckout: () => {
       setIsCheckout(true);
       setTitle("Доставка");
@@ -220,7 +209,9 @@ const CartPage = () => {
 
       <div className="flex flex-col md:flex-row gap-8 xl:gap-x-15">
         {/* Левая колонка - товары или форма оформления */}
-        <div className="flex-1">
+        <div
+          className={`flex-1 ${isOrdered ? "pointer-events-none opacity-50" : ""}`}
+        >
           {!isCheckout ? (
             // Режим корзины
             <>
@@ -241,7 +232,6 @@ const CartPage = () => {
                     isSelected={selectedItems.includes(item.productId)}
                     onSelectionChange={handleItemSelection}
                     onQuantityUpdate={handleQuantityUpdate}
-                    hasLoyaltyCard={hasLoyaltyCard}
                   />
                 ))}
               </div>
@@ -250,7 +240,7 @@ const CartPage = () => {
             <CheckoutForm onFormDataChange={handleFormDataChange} />
           )}
         </div>
-        <CartSidebar {...commonSidebarProps} isCheckout={isCheckout} />
+        <CartSidebar {...commonSidebarProps} />
       </div>
     </div>
   );

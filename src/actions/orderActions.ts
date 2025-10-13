@@ -1,6 +1,6 @@
 "use server";
 
-import { OrderCartItem } from "@/types/cart";
+import { OrderCartItem } from "@/types/order";
 import { getDB } from "../../utils/api-routes";
 import { getServerUserId } from "../../utils/getServerUserId";
 import { ObjectId } from "mongodb";
@@ -19,7 +19,11 @@ export async function getOrderCartAction(): Promise<OrderCartItem[]> {
       _id: ObjectId.createFromHexString(userId),
     });
 
-    return user?.cart || [];
+    if (!user || !user.cart) {
+      return [];
+    }
+
+    return user.cart as OrderCartItem[];
   } catch (error) {
     console.error("Error getting cart:", error);
     return [];
@@ -43,8 +47,12 @@ export async function getUserBonusesAction(): Promise<{
       _id: ObjectId.createFromHexString(userId),
     });
 
-    const bonusesCount = user?.bonusesCount || 0;
-    const hasLoyaltyCard = !!(user?.card && user.card !== "");
+    if (!user) {
+      return { bonusesCount: 0, hasLoyaltyCard: false };
+    }
+
+    const bonusesCount = user.bonusesCount || 0;
+    const hasLoyaltyCard = Boolean(user.card && user.card !== "");
 
     return { bonusesCount, hasLoyaltyCard };
   } catch (error) {
@@ -111,8 +119,13 @@ export async function removeMultipleOrderItemsAction(
       return { success: false, message: "Пользователь не найден" };
     }
     
+    if (!user.cart) {
+      return { success: true, message: "Корзина уже пуста" };
+    }
+    
     // Фильтруем корзину, удаляя указанные товары
-    const updatedCart = user.cart.filter(
+    const cart = user.cart as OrderCartItem[];
+    const updatedCart = cart.filter(
       (item: OrderCartItem) => !productIds.includes(item.productId)
     );
     

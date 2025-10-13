@@ -1,13 +1,6 @@
+import { Schedule } from "@/types/deliverySchedule";
 import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
-
-interface DaySchedule {
-  [timeSlot: string]: boolean;
-}
-
-interface Schedule {
-  [date: string]: DaySchedule;
-}
 
 export async function GET() {
   try {

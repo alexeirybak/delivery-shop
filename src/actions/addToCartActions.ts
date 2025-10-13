@@ -48,7 +48,7 @@ export async function addToCartAction(
     if (existingItem) {
       return {
         success: false,
-        message: "", // Пустое сообщение вместо "Товар уже в корзине"
+        message: "", 
       };
     }
 

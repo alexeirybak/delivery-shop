@@ -5,33 +5,49 @@ import { useState } from "react";
 import { createOrderAction } from "@/actions/orderDelivery";
 import { CartSummaryProps } from "@/types/cart";
 import { CartItemWithPrice } from "@/types/order";
-import { CreditCard } from "lucide-react";
 import Bonuses from "@/app/(catalog)/catalog/[category]/(productPage)/[id]/_components/Bonuses";
 import { useRouter } from "next/navigation";
 import { CONFIG } from "../../../../../config/config";
+import { useCartStore } from "@/store/cartStore";
+import {
+  calculateFinalPrice,
+  calculatePriceByCard,
+} from "../../../../../utils/calcPrices";
+import OrderSuccessMessage from "./OrderSuccessMessage";
 
 const CartSummary = ({
-  visibleCartItems,
-  totalMaxPrice,
-  totalDiscount,
-  finalPrice,
-  totalPrice,
-  totalBonuses,
-  isMinimumReached,
   onCheckout,
-  isCheckout = false,
   deliveryData,
-  bonusesCount = 0,
   productsData = {},
-  useBonuses = false,
 }: CartSummaryProps) => {
-  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const router = useRouter();
 
+  const {
+    pricing,
+    cartItems,
+    isCheckout,
+    isOrdered,
+    setIsOrdered,
+    hasLoyaltyCard,
+  } = useCartStore();
+
+  // Фильтруем товары с количеством > 0 на фронтенде
+  const validCartItems = cartItems.filter(item => item.quantity > 0);
+
+  const {
+    totalPrice,
+    totalMaxPrice,
+    totalDiscount,
+    finalPrice,
+    totalBonuses,
+    maxBonusUse,
+    isMinimumReached,
+  } = pricing;
+
   const usedBonuses = Math.min(
-    bonusesCount,
+    maxBonusUse,
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
@@ -51,11 +67,9 @@ const CartSummary = ({
     // Проверяем время доставки
     const isTimeValid = Boolean(time.date?.trim() && time.timeSlot?.trim());
 
+    // Используем отфильтрованные товары
     const isValidForm =
-      isAddressValid &&
-      isTimeValid &&
-      isMinimumReached &&
-      visibleCartItems.length > 0;
+      isAddressValid && isTimeValid && isMinimumReached && validCartItems.length > 0;
 
     return isValidForm;
   };
@@ -76,33 +90,56 @@ const CartSummary = ({
     setIsProcessing(true);
 
     try {
-      const cartItemsWithPrices: CartItemWithPrice[] = visibleCartItems.map(
-        (item) => {
-          const product = productsData[item.productId];
+      const cartItemsWithPrices: CartItemWithPrice[] = validCartItems.map((item) => {
+        const product = productsData[item.productId];
+        if (!product) {
           return {
             productId: item.productId,
             quantity: item.quantity,
-            price: product?.basePrice || 0,
+            price: 0,
           };
         }
-      );
 
-      // Создаем заказ
+        // Сначала применяем скидку на товар
+        const priceWithDiscount = calculateFinalPrice(
+          product.basePrice,
+          product.discountPercent || 0
+        );
+
+        // Затем применяем скидку по карте лояльности, если есть
+        const finalPrice = hasLoyaltyCard
+          ? calculatePriceByCard(
+              priceWithDiscount,
+              CONFIG.CARD_DISCOUNT_PERCENT
+            )
+          : priceWithDiscount;
+
+        return {
+          productId: item.productId,
+          quantity: item.quantity,
+          price: finalPrice, // ← итоговая цена с учетом всех скидок
+          basePrice: product.basePrice, // ← базовая цена
+          discountPercent: product.discountPercent || 0, // ← скидка на товар
+          hasLoyaltyDiscount: hasLoyaltyCard, // ← была ли применена скидка по карте
+        };
+      });
+
+      // Создаем заказ с уже отфильтрованными товарами
       const result = await createOrderAction({
+        finalPrice,
+        totalBonuses,
+        usedBonuses,
+        totalDiscount,
         deliveryAddress: deliveryData.address,
         deliveryTime: deliveryData.time,
         cartItems: cartItemsWithPrices,
         totalPrice: totalMaxPrice,
-        totalDiscount: totalDiscount,
-        finalPrice, // Используем finalPrice без изменений
-        totalBonuses: totalBonuses,
-        usedBonuses,
         paymentMethod: "cash_on_delivery",
       });
 
       // Сохраняем номер заказа и показываем сообщение об успехе
       setOrderNumber(result.orderNumber);
-      setShowSuccessMessage(true);
+      setIsOrdered(true);
     } catch (error: unknown) {
       console.error("Ошибка при создании заказа:", error);
       const errorMessage =
@@ -115,14 +152,14 @@ const CartSummary = ({
 
   const handleOnlinePayment = () => {
     if (!isFormValid()) {
-      alert("Пожалуйста, заполните все обязательные поля доставки");
       return;
     }
+    setIsOrdered(true);
     console.log("Оплата на сайте");
   };
 
   const handleNewOrder = () => {
-    setShowSuccessMessage(false);
+    setIsOrdered(false);
     setOrderNumber(null);
     router.replace("/");
   };
@@ -142,8 +179,7 @@ const CartSummary = ({
       <div className="flex flex-col gap-y-2.5 pb-6 border-b-2 border-[#f3f2f1]">
         <div className="flex flex-row justify-between">
           <p className="text-[#8f8f8f]">
-            {visibleCartItems.length}{" "}
-            {`товар${getFullEnding(visibleCartItems.length)}`}
+            {validCartItems.length} {`товар${getFullEnding(validCartItems.length)}`}
           </p>
           <p className="">{formatPrice(totalMaxPrice)} ₽</p>
         </div>
@@ -173,9 +209,9 @@ const CartSummary = ({
 
           {!isCheckout ? (
             <button
-              disabled={!isMinimumReached || visibleCartItems.length === 0}
+              disabled={!isMinimumReached || validCartItems.length === 0}
               className={`p-4 rounded mx-auto w-full text-2xl ${
-                isMinimumReached && visibleCartItems.length > 0
+                isMinimumReached && validCartItems.length > 0
                   ? buttonStyles.active
                   : buttonStyles.inactive
               }`}
@@ -185,7 +221,7 @@ const CartSummary = ({
             </button>
           ) : (
             <div className="flex flex-col gap-3">
-              {!showSuccessMessage ? (
+              {!isOrdered ? (
                 <>
                   <button
                     disabled={!canProceedWithPayment()}
@@ -221,37 +257,11 @@ const CartSummary = ({
                   )}
                 </>
               ) : (
-                <div className="text-center p-4 bg-[#e5ffde] text-[#008c49] rounded border border-primary">
-                  <div className="font-bold text-lg mb-2">
-                    Заказ оформлен успешно!
-                  </div>
-                  <div className="mb-3">
-                    Номер вашего заказа: <strong>{orderNumber}</strong>
-                  </div>
-                  <div className="text-sm mb-3">
-                    Вы можете оплатить заказ при получении курьеру наличными или
-                    картой. С Вами свяжутся для подтверждения времени доставки.
-                  </div>
-                  {useBonuses && (
-                    <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-                      <CreditCard size={16} className="flex-shrink-0" />
-                      {usedBonuses} бонус
-                      {getFullEnding(usedBonuses)} будет списано после
-                      подтверждения оплаты
-                    </div>
-                  )}
-                  <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-                    <CreditCard size={16} className="flex-shrink-0" />
-                    После доставки вам будет начислено {totalBonuses} бонус
-                    {getFullEnding(totalBonuses)}
-                  </div>
-                  <button
-                    onClick={handleNewOrder}
-                    className={`${baseStyles} bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer duration-300`}
-                  >
-                    Вернуться на главную
-                  </button>
-                </div>
+                <OrderSuccessMessage
+                  orderNumber={orderNumber}
+                  onNewOrder={handleNewOrder}
+                  baseStyles={baseStyles}
+                />
               )}
             </div>
           )}
