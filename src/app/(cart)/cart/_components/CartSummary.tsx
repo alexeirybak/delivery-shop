@@ -15,10 +15,7 @@ import {
 } from "../../../../../utils/calcPrices";
 import OrderSuccessMessage from "./OrderSuccessMessage";
 
-const CartSummary = ({
-  deliveryData,
-  productsData = {},
-}: CartSummaryProps) => {
+const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
   const router = useRouter();
@@ -33,7 +30,7 @@ const CartSummary = ({
     setIsCheckout,
   } = useCartStore();
 
-  const visibleCartItems = cartItems.filter(item => item.quantity > 0);
+  const visibleCartItems = cartItems.filter((item) => item.quantity > 0);
 
   const {
     totalPrice,
@@ -60,37 +57,39 @@ const CartSummary = ({
     setIsProcessing(true);
 
     try {
-      const cartItemsWithPrices: CartItemWithPrice[] = visibleCartItems.map((item) => {
-        const product = productsData[item.productId];
-        if (!product) {
+      const cartItemsWithPrices: CartItemWithPrice[] = visibleCartItems.map(
+        (item) => {
+          const product = productsData[item.productId];
+          if (!product) {
+            return {
+              productId: item.productId,
+              quantity: item.quantity,
+              price: 0,
+            };
+          }
+
+          const priceWithDiscount = calculateFinalPrice(
+            product.basePrice,
+            product.discountPercent || 0
+          );
+
+          const finalPrice = hasLoyaltyCard
+            ? calculatePriceByCard(
+                priceWithDiscount,
+                CONFIG.CARD_DISCOUNT_PERCENT
+              )
+            : priceWithDiscount;
+
           return {
             productId: item.productId,
             quantity: item.quantity,
-            price: 0,
+            price: finalPrice,
+            basePrice: product.basePrice,
+            discountPercent: product.discountPercent || 0,
+            hasLoyaltyDiscount: hasLoyaltyCard,
           };
         }
-
-        const priceWithDiscount = calculateFinalPrice(
-          product.basePrice,
-          product.discountPercent || 0
-        );
-
-        const finalPrice = hasLoyaltyCard
-          ? calculatePriceByCard(
-              priceWithDiscount,
-              CONFIG.CARD_DISCOUNT_PERCENT
-            )
-          : priceWithDiscount;
-
-        return {
-          productId: item.productId,
-          quantity: item.quantity,
-          price: finalPrice,
-          basePrice: product.basePrice,
-          discountPercent: product.discountPercent || 0,
-          hasLoyaltyDiscount: hasLoyaltyCard,
-        };
-      });
+      );
 
       const result = await createOrderAction({
         finalPrice,
@@ -134,13 +133,6 @@ const CartSummary = ({
 
   const baseStyles =
     "h-10 rounded w-full text-base items-center justify-center duration-300";
-  const getButtonStyles = (isActive: boolean) => {
-    if (isActive) {
-      return `${baseStyles} bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer`;
-    } else {
-      return `${baseStyles} bg-gray-300 text-gray-500 cursor-not-allowed`;
-    }
-  };
 
   // Проверяем можно ли продолжить с оплатой
   const canProceedWithPayment = !isProcessing && !!deliveryData;
@@ -150,7 +142,8 @@ const CartSummary = ({
       <div className="flex flex-col gap-y-2.5 pb-6 border-b-2 border-[#f3f2f1]">
         <div className="flex flex-row justify-between">
           <p className="text-[#8f8f8f]">
-            {visibleCartItems.length} {`товар${getFullEnding(visibleCartItems.length)}`}
+            {visibleCartItems.length}{" "}
+            {`товар${getFullEnding(visibleCartItems.length)}`}
           </p>
           <p className="">{formatPrice(totalMaxPrice)} ₽</p>
         </div>
@@ -186,7 +179,7 @@ const CartSummary = ({
                   ? buttonStyles.active
                   : buttonStyles.inactive
               }`}
-              onClick={() => setIsCheckout(true)} 
+              onClick={() => setIsCheckout(true)}
             >
               Оформить заказ
             </button>
@@ -208,7 +201,11 @@ const CartSummary = ({
 
                   <button
                     disabled={!canProceedWithPayment}
-                    className={getButtonStyles(canProceedWithPayment)}
+                    className={`rounded w-full text-xl h-15 items-center justify-center ${
+                      canProceedWithPayment
+                        ? buttonStyles.active
+                        : buttonStyles.inactive
+                    }`}
                     onClick={handleCashPayment}
                   >
                     {isProcessing ? "Оформление..." : "Оплатить при получении"}
