@@ -8,8 +8,6 @@ export interface CartItem {
 }
 
 export interface CartSummaryProps {
-  onCheckout?: () => void;
-  isCheckout?: boolean;
   deliveryData?: {
     address: DeliveryAddress;
     time: DeliveryTime;

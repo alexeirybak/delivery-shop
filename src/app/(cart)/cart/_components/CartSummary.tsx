@@ -16,7 +16,6 @@ import {
 import OrderSuccessMessage from "./OrderSuccessMessage";
 
 const CartSummary = ({
-  onCheckout,
   deliveryData,
   productsData = {},
 }: CartSummaryProps) => {
@@ -31,6 +30,7 @@ const CartSummary = ({
     isOrdered,
     setIsOrdered,
     hasLoyaltyCard,
+    setIsCheckout,
   } = useCartStore();
 
   // Фильтруем товары с количеством > 0 на фронтенде
@@ -215,7 +215,7 @@ const CartSummary = ({
                   ? buttonStyles.active
                   : buttonStyles.inactive
               }`}
-              onClick={onCheckout}
+              onClick={() => setIsCheckout(true)} 
             >
               Оформить заказ
             </button>

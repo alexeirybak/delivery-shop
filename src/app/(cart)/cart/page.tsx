@@ -49,7 +49,6 @@ const CartPage = () => {
     cartItems,
     updateCart,
     isCheckout,
-    setIsCheckout,
     isOrdered,
     hasLoyaltyCard,
     setHasLoyaltyCard,
@@ -65,6 +64,7 @@ const CartPage = () => {
     return product && product.quantity > 0;
   });
 
+
   usePricing({
     availableCartItems,
     productsData,
@@ -73,11 +73,7 @@ const CartPage = () => {
     hasLoyaltyCard,
   });
 
-  const commonSidebarProps = {
-    onCheckout: () => {
-      setIsCheckout(true);
-      setTitle("Доставка");
-    },
+  const sidebarProps = {
     deliveryData,
     productsData,
   };
@@ -119,6 +115,10 @@ const CartPage = () => {
       setIsCartLoading(false);
     }
   };
+
+  useEffect(() => {
+    setTitle(isCheckout ? "Доставка" : "Корзина");
+  }, [isCheckout]);
 
   useEffect(() => {
     fetchCartAndProducts();
@@ -239,7 +239,7 @@ const CartPage = () => {
             <CheckoutForm onFormDataChange={handleFormDataChange} />
           )}
         </div>
-        <CartSidebar {...commonSidebarProps} />
+        <CartSidebar {...sidebarProps} />
       </div>
     </div>
   );
