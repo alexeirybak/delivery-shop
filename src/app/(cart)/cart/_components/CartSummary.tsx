@@ -47,6 +47,16 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
+  const handleOnlinePayment = () => {
+    // Проверяем что deliveryData не null/undefined
+    if (!deliveryData) {
+      console.error("Данные доставки не заполнены");
+      return;
+    }
+
+    console.log("Оплата на сайте");
+  };
+
   const handleCashPayment = async () => {
     // Проверяем что deliveryData не null/undefined
     if (!deliveryData) {
@@ -91,13 +101,14 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
         }
       );
 
+      // Создаем заказ с оплатой при получении
       const result = await createOrderAction({
         finalPrice,
         totalBonuses,
         usedBonuses,
         totalDiscount,
-        deliveryAddress: deliveryData.address, // Теперь безопасно
-        deliveryTime: deliveryData.time, // Теперь безопасно
+        deliveryAddress: deliveryData.address,
+        deliveryTime: deliveryData.time,
         cartItems: cartItemsWithPrices,
         totalPrice: totalMaxPrice,
         paymentMethod: "cash_on_delivery",
@@ -115,27 +126,17 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     }
   };
 
-  const handleOnlinePayment = () => {
-    // Проверяем что deliveryData не null/undefined
-    if (!deliveryData) {
-      console.error("Данные доставки не заполнены");
-      return;
-    }
-    setIsOrdered(true);
-    console.log("Оплата на сайте");
-  };
-
   const handleNewOrder = () => {
     setIsOrdered(false);
     setOrderNumber(null);
     router.replace("/");
   };
 
-  const baseStyles =
-    "h-10 rounded w-full text-base items-center justify-center duration-300";
-
   // Проверяем можно ли продолжить с оплатой
   const canProceedWithPayment = !isProcessing && !!deliveryData;
+
+  const baseStyles =
+    "h-10 rounded w-full text-base items-center justify-center duration-300";
 
   return (
     <>
@@ -201,10 +202,10 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
 
                   <button
                     disabled={!canProceedWithPayment}
-                    className={`rounded w-full text-xl h-15 items-center justify-center ${
+                    className={`h-10 rounded w-full text-base items-center justify-center duration-300 ${
                       canProceedWithPayment
-                        ? buttonStyles.active
-                        : buttonStyles.inactive
+                        ? "bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer"
+                        : "bg-gray-300 text-gray-500 cursor-not-allowed"
                     }`}
                     onClick={handleCashPayment}
                   >
