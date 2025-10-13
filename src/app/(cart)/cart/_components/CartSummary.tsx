@@ -135,9 +135,6 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   // Проверяем можно ли продолжить с оплатой
   const canProceedWithPayment = !isProcessing && !!deliveryData;
 
-  const baseStyles =
-    "h-10 rounded w-full text-base items-center justify-center duration-300";
-
   return (
     <>
       <div className="flex flex-col gap-y-2.5 pb-6 border-b-2 border-[#f3f2f1]">
@@ -222,7 +219,6 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
                 <OrderSuccessMessage
                   orderNumber={orderNumber}
                   onNewOrder={handleNewOrder}
-                  baseStyles={baseStyles}
                 />
               )}
             </div>

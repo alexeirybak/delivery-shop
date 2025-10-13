@@ -6,13 +6,11 @@ import { CONFIG } from "../../../../../config/config";
 interface OrderSuccessMessageProps {
   orderNumber: string | null;
   onNewOrder: () => void;
-  baseStyles: string;
 }
 
 const OrderSuccessMessage = ({
   orderNumber,
   onNewOrder,
-  baseStyles,
 }: OrderSuccessMessageProps) => {
   const { pricing, useBonuses } = useCartStore();
   const { totalBonuses, maxBonusUse, totalPrice } = pricing;
@@ -22,24 +20,24 @@ const OrderSuccessMessage = ({
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
+  const baseStyles =
+    "h-10 rounded w-full text-base items-center justify-center duration-300";
+
   return (
     <div className="text-center p-4 bg-[#e5ffde] text-[#008c49] rounded border border-primary">
-      <div className="font-bold text-lg mb-2">
-        Заказ оформлен успешно!
-      </div>
+      <div className="font-bold text-lg mb-2">Заказ оформлен успешно!</div>
       <div className="mb-3">
         Номер вашего заказа: <strong>{orderNumber}</strong>
       </div>
       <div className="text-sm mb-3">
-        Вы можете оплатить заказ при получении курьеру наличными или
-        картой. С Вами свяжутся для подтверждения времени доставки.
+        Вы можете оплатить заказ при получении курьеру наличными или картой. С
+        Вами свяжутся для подтверждения времени доставки.
       </div>
       {useBonuses && (
         <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
           <CreditCard size={16} className="flex-shrink-0" />
           {usedBonuses} бонус
-          {getFullEnding(usedBonuses)} будет списано после
-          подтверждения оплаты
+          {getFullEnding(usedBonuses)} будет списано после подтверждения оплаты
         </div>
       )}
       <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
