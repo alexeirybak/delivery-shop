@@ -47,10 +47,39 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
 
-  const handleOnlinePayment = () => {
-    // Проверяем что deliveryData не null/undefined
+  // Функция проверки валидности формы
+  const isFormValid = (): boolean => {
     if (!deliveryData) {
-      console.error("Данные доставки не заполнены");
+      return false;
+    }
+
+    const { address, time } = deliveryData;
+
+    // Проверяем обязательные поля адреса
+    const isAddressValid = Boolean(
+      address.city?.trim() && address.street?.trim() && address.house?.trim()
+    );
+
+    // Проверяем время доставки
+    const isTimeValid = Boolean(time.date?.trim() && time.timeSlot?.trim());
+
+    // Используем отфильтрованные товары
+    const isValidForm =
+      isAddressValid &&
+      isTimeValid &&
+      isMinimumReached &&
+      visibleCartItems.length > 0;
+
+    return isValidForm;
+  };
+
+  const canProceedWithPayment = (): boolean => {
+    return isFormValid() && !isProcessing;
+  };
+
+  const handleOnlinePayment = () => {
+    if (!isFormValid()) {
+      console.error("Форма доставки невалидна");
       return;
     }
 
@@ -58,9 +87,12 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   };
 
   const handleCashPayment = async () => {
-    // Проверяем что deliveryData не null/undefined
+    if (!isFormValid()) {
+      console.error("Форма доставки невалидна");
+      return;
+    }
+
     if (!deliveryData) {
-      console.error("Данные доставки не заполнены");
       return;
     }
 
@@ -132,8 +164,6 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     router.replace("/");
   };
 
-  // Проверяем можно ли продолжить с оплатой
-  const canProceedWithPayment = !isProcessing && !!deliveryData;
 
   return (
     <>
@@ -188,7 +218,7 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
                   <button
                     disabled={!canProceedWithPayment}
                     className={`rounded w-full text-xl h-15 items-center justify-center ${
-                      canProceedWithPayment
+                      canProceedWithPayment()
                         ? buttonStyles.active
                         : buttonStyles.inactive
                     }`}
@@ -200,7 +230,7 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
                   <button
                     disabled={!canProceedWithPayment}
                     className={`h-10 rounded w-full text-base items-center justify-center duration-300 ${
-                      canProceedWithPayment
+                      canProceedWithPayment()
                         ? "bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer"
                         : "bg-gray-300 text-gray-500 cursor-not-allowed"
                     }`}
@@ -208,12 +238,6 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
                   >
                     {isProcessing ? "Оформление..." : "Оплатить при получении"}
                   </button>
-
-                  {!deliveryData && (
-                    <div className="text-sm text-yellow-600 text-center mt-2">
-                      Заполните форму доставки
-                    </div>
-                  )}
                 </>
               ) : (
                 <OrderSuccessMessage
