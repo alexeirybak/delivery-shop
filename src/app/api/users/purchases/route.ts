@@ -1,6 +1,8 @@
 import { CONFIG } from "../../../../../config/config";
 import { getDB } from "../../../../../utils/api-routes";
 import { NextResponse } from "next/server";
+import { getServerUserId } from "../../../../../utils/getServerUserId";
+import { ObjectId } from "mongodb";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
@@ -14,13 +16,23 @@ export async function GET(request: Request) {
       url.searchParams.get("perPage") || CONFIG.ITEMS_PER_PAGE.toString()
     );
 
-    const user = await db.collection("users").findOne({});
+    const userId = await getServerUserId();
+
+    if (!userId) {
+      return NextResponse.json({ products: [], totalCount: 0 });
+    }
+
+    const userObjectId = ObjectId.createFromHexString(userId);
+
+    const user = await db.collection("user").findOne({
+      _id: userObjectId,
+    });
 
     if (!user?.purchases?.length) {
       return NextResponse.json({ products: [], totalCount: 0 });
     }
 
-    const productIds = user.purchases.map((p: { id: number }) => p.id);
+    const productIds = user.purchases; // Просто берем массив чисел
 
     if (userPurchasesLimit) {
       const limit = parseInt(userPurchasesLimit);

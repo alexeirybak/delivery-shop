@@ -53,7 +53,6 @@ export async function getUserBonusesAction(): Promise<{
   }
 }
 
-// Обновить количество товара в корзине
 export async function updateOrderItemQuantityAction(
   productId: string, 
   quantity: number
@@ -89,7 +88,6 @@ export async function updateOrderItemQuantityAction(
   }
 }
 
-// Удалить несколько товаров из корзины
 export async function removeMultipleOrderItemsAction(
   productIds: string[]
 ): Promise<{ success: boolean; message: string }> {

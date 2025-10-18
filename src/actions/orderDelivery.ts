@@ -21,9 +21,9 @@ export const createOrderAction = async (orderData: {
   totalBonuses: number;
   usedBonuses: number;
   paymentMethod: "cash_on_delivery" | "online";
+  paymentId?: string;
 }) => {
   try {
-    console.log(orderData);
     const response = await fetch("/api/orders", {
       method: "POST",
       headers: {

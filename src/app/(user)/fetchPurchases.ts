@@ -9,7 +9,9 @@ const fetchPurchases = async (
 
     if (options?.userPurchasesLimit) {
       url.searchParams.append("userPurchasesLimit", options.userPurchasesLimit.toString());
-    } else if (options?.pagination) {
+    } 
+    
+    if (options?.pagination) {
       url.searchParams.append(
         "startIdx",
         options.pagination.startIdx.toString()
@@ -23,6 +25,8 @@ const fetchPurchases = async (
       throw new Error('Серверная ошибка получения Ваших покупок');
 
     const data = await res.json();
+
+     console.log(data);
 
     return {
       items: data.products || data,

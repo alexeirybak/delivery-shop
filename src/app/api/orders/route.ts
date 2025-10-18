@@ -8,7 +8,6 @@ export async function POST(request: Request) {
     const db = await getDB();
     const orderData = await request.json();
 
-    // Получаем ID текущего пользователя из сессии
     const userId = await getServerUserId();
 
     if (!userId) {
@@ -18,7 +17,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Находим пользователя по его ID
     const user = await db.collection("user").findOne({
       _id: ObjectId.createFromHexString(userId),
     });
@@ -37,13 +35,18 @@ export async function POST(request: Request) {
     const roundedDiscountAmount =
       Math.round((orderData.totalDiscount || 0) * 100) / 100;
 
+    // Определяем статусы в зависимости от способа оплаты
+    const paymentMethod = orderData.paymentMethod;
+    const paymentStatus = paymentMethod === "online" ? "paid" : "pending";
+    const orderStatus = paymentMethod === "online" ? "confirmed" : "pending";
+
     const order = {
       userId: user._id,
       orderNumber: `${Date.now()}-${Math.floor(Math.random() * 900 + 100)}`,
-      status: "pending",
-      paymentMethod: orderData.paymentMethod,
-      paymentStatus:
-        orderData.paymentMethod === "cash_on_delivery" ? "pending" : "waiting",
+      status: orderStatus,
+      paymentMethod: paymentMethod,
+      paymentStatus: paymentStatus,
+      paymentId: orderData.paymentId, 
       totalAmount: roundedTotalAmount,
       discountAmount: roundedDiscountAmount,
       usedBonuses: roundedUsedBonuses,
