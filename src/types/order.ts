@@ -9,13 +9,11 @@ export interface CartItemWithPrice extends CartItem {
 
 
 export interface DeliveryAddress {
+  additional: string;
   city: string;
   street: string;
   house: string;
   apartment?: string;
-  entrance?: string;
-  floor?: string;
-  comment?: string;
 }
 
 export interface DeliveryTime {

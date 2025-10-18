@@ -11,6 +11,7 @@ import { PriceSummary } from "./PriceSummary";
 import { CheckoutButton } from "./CheckoutButton";
 import { PaymentButtons } from "./PaymentButtons";
 import { MinimumOrderWarning } from "./MinimumOrderWarning";
+
 const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);

@@ -4,6 +4,7 @@ import { ProductCardProps } from "./product";
 export interface CartItem {
   productId: string;
   quantity: number;
+  addedAt: Date;
 }
 
 export interface CartSummaryProps {

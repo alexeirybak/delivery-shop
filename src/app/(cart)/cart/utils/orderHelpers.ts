@@ -39,6 +39,7 @@ export const prepareCartItemsWithPrices = (
         productId: item.productId,
         quantity: item.quantity,
         price: 0,
+        addedAt: item.addedAt, 
       };
     }
 
@@ -58,6 +59,7 @@ export const prepareCartItemsWithPrices = (
       basePrice: product.basePrice,
       discountPercent: product.discountPercent || 0,
       hasLoyaltyDiscount: hasLoyaltyCard,
+      addedAt: item.addedAt,
     };
   });
 };
