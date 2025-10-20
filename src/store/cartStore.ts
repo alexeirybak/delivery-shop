@@ -80,4 +80,23 @@ export const useCartStore = create<CartState>((set) => ({
   setIsOrdered: (isOrdered: boolean) => {
     set({ isOrdered });
   },
+
+  resetAfterOrder: () => {
+    set({
+      cartItems: [],
+      totalItems: 0,
+      isCheckout: false,
+      isOrdered: false,
+      useBonuses: false,
+      pricing: {
+        totalPrice: 0,
+        totalMaxPrice: 0,
+        totalDiscount: 0,
+        finalPrice: 0,
+        maxBonusUse: 0,
+        totalBonuses: 0,
+        isMinimumReached: false,
+      },
+    });
+  },
 }));
