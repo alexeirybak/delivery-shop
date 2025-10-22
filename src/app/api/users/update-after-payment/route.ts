@@ -6,10 +6,10 @@ import { getServerUserId } from "../../../../../utils/getServerUserId";
 export async function POST(request: Request) {
   try {
     const db = await getDB();
-    const requestData = await request.json();
+    const requestData = await request.json(); 
 
     const { usedBonuses, earnedBonuses, purchasedProductIds } = requestData;
-    const userId = await getServerUserId();
+    const userId = await getServerUserId(); 
 
     if (!userId) {
       return NextResponse.json(
@@ -20,7 +20,7 @@ export async function POST(request: Request) {
 
     let userObjectId;
     try {
-      userObjectId = ObjectId.createFromHexString(userId);
+      userObjectId = ObjectId.createFromHexString(userId); 
     } catch {
       console.error("Invalid user ID format:", userId);
       return NextResponse.json(
@@ -56,6 +56,7 @@ export async function POST(request: Request) {
     }
 
     const newBonusesCount = currentBonuses - usedBonusesNum + earnedBonusesNum;
+    
     const currentPurchases = Array.isArray(user.purchases)
       ? user.purchases
       : [];
@@ -66,27 +67,27 @@ export async function POST(request: Request) {
 
     // СОЗДАЕМ МАССИВ ТОЛЬКО С УНИКАЛЬНЫМИ ID
     const uniqueNewIds = numericPurchasedIds.filter(
-      (id: number, index: number, array: number[]) => array.indexOf(id) === index
+      (id: number, index: number, array: number[]) => array.indexOf(id) === index // Оставляем только уникальные ID: если индекс первого вхождения равен текущему индексу, значит это не дубликат
     );
 
     // ОБЪЕДИНЯЕМ СУЩЕСТВУЮЩИЕ И НОВЫЕ ПОКУПКИ, УБИРАЯ ДУБЛИКАТЫ
-    const allPurchases = [...currentPurchases, ...uniqueNewIds];
+    const allPurchases = [...currentPurchases, ...uniqueNewIds]; // Объединяем два массива в один с помощью spread оператора
     const updatedPurchases = allPurchases.filter(
-      (id: number, index: number, array: number[]) => array.indexOf(id) === index
+      (id: number, index: number, array: number[]) => array.indexOf(id) === index // Фильтруем объединенный массив, оставляя только уникальные значения (удаляем возможные дубликаты между currentPurchases и uniqueNewIds)
     );
 
     const updateResult = await db.collection("user").updateOne(
       { _id: userObjectId },
       {
         $set: {
-          bonusesCount: newBonusesCount,
-          purchases: updatedPurchases,
-          cart: [],
-          updatedAt: new Date(),
+          bonusesCount: newBonusesCount, 
+          purchases: updatedPurchases, 
+          cart: [], 
+          updatedAt: new Date(), 
         },
       }
     );
-
+    
     if (updateResult.modifiedCount === 0) {
       return NextResponse.json(
         { message: "Данные не были обновлены" },
@@ -98,12 +99,12 @@ export async function POST(request: Request) {
       success: true,
       message: "Пользователь успешно обновлен",
       updatedFields: {
-        bonusesDeducted: usedBonusesNum,
-        bonusesAdded: earnedBonusesNum,
-        newBonusesCount,
-        productsAdded: uniqueNewIds.length,
-        totalPurchases: updatedPurchases.length,
-        cartCleared: true,
+        bonusesDeducted: usedBonusesNum, 
+        bonusesAdded: earnedBonusesNum, 
+        newBonusesCount, 
+        productsAdded: uniqueNewIds.length, // Количество добавленных продуктов
+        totalPurchases: updatedPurchases.length, 
+        cartCleared: true, 
       },
     });
   } catch (error) {
