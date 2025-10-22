@@ -8,13 +8,10 @@ interface ActionProps {
   mobileItemsLimit?: number;
 }
 
-const Actions = async ({
-  randomLimit = CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS,
-  mobileItemsLimit = 4,
-}: ActionProps) => {
+const Actions = async ({ mobileItemsLimit = 4 }: ActionProps) => {
   try {
     const { items } = await fetchProductsByTag("actions", {
-      randomLimit,
+      pagination: { startIdx: 0, perPage: CONFIG.ITEMS_PER_PAGE_MAIN_PRODUCTS },
     });
 
     return (

@@ -26,7 +26,6 @@ export async function getOrderCartAction(): Promise<OrderCartItem[]> {
   }
 }
 
-// Получить количество бонусов пользователя
 export async function getUserBonusesAction(): Promise<{
   bonusesCount: number;
   hasLoyaltyCard: boolean;
@@ -53,7 +52,6 @@ export async function getUserBonusesAction(): Promise<{
   }
 }
 
-// Обновить количество товара в корзине
 export async function updateOrderItemQuantityAction(
   productId: string, 
   quantity: number
@@ -89,7 +87,6 @@ export async function updateOrderItemQuantityAction(
   }
 }
 
-// Удалить несколько товаров из корзины
 export async function removeMultipleOrderItemsAction(
   productIds: string[]
 ): Promise<{ success: boolean; message: string }> {
@@ -102,7 +99,6 @@ export async function removeMultipleOrderItemsAction(
 
     const db = await getDB();
     
-    // Получаем текущую корзину
     const user = await db.collection("user").findOne({
       _id: ObjectId.createFromHexString(userId),
     });
@@ -111,12 +107,10 @@ export async function removeMultipleOrderItemsAction(
       return { success: false, message: "Пользователь не найден" };
     }
     
-    // Фильтруем корзину, удаляя указанные товары
     const updatedCart = user.cart.filter(
       (item: OrderCartItem) => !productIds.includes(item.productId)
     );
     
-    // Обновляем корзину
     await db.collection("user").updateOne(
       { _id: ObjectId.createFromHexString(userId) },
       { 

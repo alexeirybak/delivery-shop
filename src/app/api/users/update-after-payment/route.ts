@@ -11,8 +11,6 @@ export async function POST(request: Request) {
     const { usedBonuses, earnedBonuses, purchasedProductIds } = requestData;
     const userId = await getServerUserId();
 
-    console.log(`ID пользователя -1`, userId);
-
     if (!userId) {
       return NextResponse.json(
         { message: "Пользователь не авторизован" },
@@ -23,7 +21,6 @@ export async function POST(request: Request) {
     let userObjectId;
     try {
       userObjectId = ObjectId.createFromHexString(userId);
-      console.log(`ID пользователя - 2`, userObjectId);
     } catch {
       console.error("Invalid user ID format:", userId);
       return NextResponse.json(
@@ -66,7 +63,17 @@ export async function POST(request: Request) {
     const numericPurchasedIds = (purchasedProductIds || []).map((id: string) =>
       Number(id)
     );
-    const updatedPurchases = [...currentPurchases, ...numericPurchasedIds];
+
+    // СОЗДАЕМ МАССИВ ТОЛЬКО С УНИКАЛЬНЫМИ ID
+    const uniqueNewIds = numericPurchasedIds.filter(
+      (id: number, index: number, array: number[]) => array.indexOf(id) === index
+    );
+
+    // ОБЪЕДИНЯЕМ СУЩЕСТВУЮЩИЕ И НОВЫЕ ПОКУПКИ, УБИРАЯ ДУБЛИКАТЫ
+    const allPurchases = [...currentPurchases, ...uniqueNewIds];
+    const updatedPurchases = allPurchases.filter(
+      (id: number, index: number, array: number[]) => array.indexOf(id) === index
+    );
 
     const updateResult = await db.collection("user").updateOne(
       { _id: userObjectId },
@@ -94,7 +101,7 @@ export async function POST(request: Request) {
         bonusesDeducted: usedBonusesNum,
         bonusesAdded: earnedBonusesNum,
         newBonusesCount,
-        productsAdded: numericPurchasedIds.length,
+        productsAdded: uniqueNewIds.length,
         totalPurchases: updatedPurchases.length,
         cartCleared: true,
       },

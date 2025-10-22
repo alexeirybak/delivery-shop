@@ -1,26 +1,36 @@
 import { CONFIG } from "../../../../../config/config";
 import { getDB } from "../../../../../utils/api-routes";
 import { NextResponse } from "next/server";
-export const dynamic = "force-dynamic";
+import { ObjectId } from "mongodb";
 
 export async function GET(request: Request) {
   try {
     const db = await getDB();
 
     const url = new URL(request.url);
+
+    // Получаем userId из параметров или из сессии
+    const userId = url.searchParams.get("userId");
+
+    if (!userId) {
+      return NextResponse.json({ products: [], totalCount: 0 });
+    }
+
     const userPurchasesLimit = url.searchParams.get("userPurchasesLimit");
     const startIdx = parseInt(url.searchParams.get("startIdx") || "0");
     const perPage = parseInt(
       url.searchParams.get("perPage") || CONFIG.ITEMS_PER_PAGE.toString()
     );
 
-    const user = await db.collection("users").findOne({});
+    const user = await db.collection("user").findOne({
+      _id: ObjectId.createFromHexString(userId),
+    });
 
     if (!user?.purchases?.length) {
       return NextResponse.json({ products: [], totalCount: 0 });
     }
 
-    const productIds = user.purchases.map((p: { id: number }) => p.id);
+    const productIds = user.purchases;
 
     if (userPurchasesLimit) {
       const limit = parseInt(userPurchasesLimit);

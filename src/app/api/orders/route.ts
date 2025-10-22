@@ -8,7 +8,7 @@ export async function POST(request: Request) {
     const db = await getDB();
     const orderData = await request.json();
 
-    // Получаем ID текущего пользователя из сессии
+
     const userId = await getServerUserId();
 
     if (!userId) {
