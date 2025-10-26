@@ -21,7 +21,6 @@ const fetchPurchases = async (options?: {
       url.searchParams.append("perPage", options.pagination.perPage.toString());
     }
 
-    // Добавляем userId в параметры запроса
     if (options?.userId) {
       url.searchParams.append("userId", options.userId);
     }

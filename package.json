@@ -37,10 +37,12 @@
     "@types/node": "^20.19.17",
     "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",
+    "@types/react-datepicker": "^6.2.0",
     "@types/react-dom": "^19",
     "dotenv": "^17.2.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.3",
+    "react-datepicker": "^8.8.0",
     "tailwindcss": "^4",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.2"

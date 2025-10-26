@@ -28,7 +28,6 @@ const DeliveryTime = ({
   const [schedule, setSchedule] = useState<Schedule>({});
   const [loading, setLoading] = useState(true);
 
-  // Загрузка графика доставки
   useEffect(() => {
     const fetchDeliveryTimes = async () => {
       try {
@@ -48,7 +47,6 @@ const DeliveryTime = ({
     fetchDeliveryTimes();
   }, []);
 
-  // Генерация доступных дат
   useEffect(() => {
     const dates = getThreeDaysDates().map((dateString) => {
       const [year, month, day] = dateString.split("-");
@@ -67,14 +65,12 @@ const DeliveryTime = ({
     }
   }, [selectedDate, onDateChange]);
 
-  // Получение всех временных слотов для выбранной даты (свободных и занятых)
   const getAllTimeSlots = () => {
     if (!schedule[selectedDate]) return [];
 
     const daySchedule = schedule[selectedDate];
     const slots = Object.keys(daySchedule)
       .sort((a, b) => {
-        // Сортировка по времени начала
         const [startA] = a.split("-");
         const [startB] = b.split("-");
         return startA.localeCompare(startB);
@@ -165,12 +161,10 @@ const DeliveryTime = ({
                     }`}
                     disabled={!slot.free || slot.passed}
                   >
-                    {/* Мобильная версия - скрыта на xl и выше */}
                     <span className="xl:hidden text-sm">
                       {slot.mobileLabel}
                     </span>
 
-                    {/* Десктоп версия - показывается на xl и выше */}
                     <span className="hidden xl:block text-base">
                       {slot.desktopLabel}
                     </span>
