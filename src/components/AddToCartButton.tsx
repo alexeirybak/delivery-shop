@@ -17,12 +17,12 @@ interface AddToCartButtonProps {
   status?: "out-of-stock" | "low-stock";
 }
 
-const AddToCartButton: React.FC<AddToCartButtonProps> = ({
+const AddToCartButton = ({
   productId,
   disabled = false,
   availableQuantity,
   status,
-}) => {
+}: AddToCartButtonProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [tooltipMessage, setTooltipMessage] = useState("");
@@ -32,14 +32,14 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const cartItem = cartItems.find((item) => item.productId === productId);
   const currentQuantity = cartItem?.quantity || 0;
   const isInCart = currentQuantity > 0;
+  const displayQuantity = Math.min(currentQuantity, availableQuantity);
 
-  const hasReachedMaxQuantity = currentQuantity >= availableQuantity;
+  const hasReachedMaxQuantity = displayQuantity >= availableQuantity;
   const isOutOfStock = status === "out-of-stock" || availableQuantity === 0;
 
   const showMessage = (message: string) => {
-    // Не показываем новое сообщение, если уже показывается такое же
     if (tooltipMessage === message && showTooltip) return;
-    
+
     setTooltipMessage(message);
     setShowTooltip(true);
     setTimeout(() => {
@@ -77,8 +77,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   const handleQuantityUpdate = async (newQuantity: number) => {
     if (newQuantity < 0 || isLoading) return;
 
-    // Показываем сообщение только если пытаемся УВЕЛИЧИТЬ количество сверх лимита
-    if (newQuantity > availableQuantity && newQuantity > currentQuantity) {
+    if (newQuantity > availableQuantity) {
       showMessage(`Осталось ${availableQuantity} шт. этого товара`);
       return;
     }
@@ -115,7 +114,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   };
 
   const handleDecrement = () => {
-    const newQuantity = Math.max(0, currentQuantity - 1);
+    const newQuantity = Math.max(0, displayQuantity - 1);
     handleQuantityUpdate(newQuantity);
   };
 
@@ -124,7 +123,7 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       showMessage(`Осталось ${availableQuantity} шт. этого товара`);
       return;
     }
-    handleQuantityUpdate(currentQuantity + 1);
+    handleQuantityUpdate(displayQuantity + 1);
   };
 
   const getButtonText = () => {
@@ -143,17 +142,13 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
   return (
     <div className="relative">
       {showTooltip && (
-        <Tooltip 
-          text={tooltipMessage} 
-          position="top"
-          orderPosition={true}
-        />
+        <Tooltip text={tooltipMessage} position="top" orderPosition={true} />
       )}
-      
+
       {isInCart && !isOutOfStock ? (
         <div className="absolute flex justify-center bottom-2 left-2 right-2">
           <QuantitySelector
-            quantity={currentQuantity}
+            quantity={displayQuantity} // Всегда показываем корректное количество!
             isUpdating={isLoading}
             isOutOfStock={isOutOfStock}
             onDecrement={handleDecrement}
@@ -164,7 +159,9 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
       ) : (
         <button
           onClick={handleAddToCart}
-          disabled={isOutOfStock || disabled || isLoading || hasReachedMaxQuantity}
+          disabled={
+            isOutOfStock || disabled || isLoading || hasReachedMaxQuantity
+          }
           className={`absolute border bottom-2 left-2 right-2 h-10 rounded justify-center items-center duration-300 select-none ${
             isOutOfStock || disabled || hasReachedMaxQuantity
               ? "bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed"

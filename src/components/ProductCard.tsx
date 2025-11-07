@@ -36,8 +36,6 @@ const ProductCard = ({
 }: ExtendedProductCardProps) => {
   const isNewProduct = tags?.includes("new");
 
-  console.log(`Базовая цена в карточке`, basePrice);
-
   // Если это страница заказов, не применяем скидку по карте лояльности
   const finalPrice = isNewProduct
     ? basePrice
@@ -48,8 +46,6 @@ const ProductCard = ({
     : isNewProduct
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
-
-  console.log(`Цена в карточке: ${priceByCard}, isOrderPage: ${isOrderPage}`);
 
   const productId = id;
   const mainCategory = categories?.[0];

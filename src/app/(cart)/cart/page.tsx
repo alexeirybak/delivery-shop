@@ -100,7 +100,6 @@ const CartPage = () => {
 
       const orderCartItems = await getOrderCartAction();
 
-      // Получаем все продукты за один раз
       const productPromises = orderCartItems.map(async (item) => {
         try {
           const response = await fetch(`/api/products/${item.productId}`);
@@ -114,7 +113,6 @@ const CartPage = () => {
 
       const productsResults = await Promise.all(productPromises);
 
-      // Создаем CartItem[] и productsData одновременно
       const cartItemsData: CartItemType[] = [];
       const productsMap: { [key: string]: ProductCardProps } = {};
 
