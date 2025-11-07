@@ -1,7 +1,7 @@
 import IconStar from "@/components/svg/IconStar";
 
 interface RatingDistributionProps {
-  averageRating: number;
+  averageRating: number | 5;
   distribution: {
     "1": number;
     "2": number;
@@ -47,7 +47,7 @@ const RatingDistribution = ({
   return (
     <div>
       <div className="flex flex-row gap-x-2 xl:gap-x-4 items-center mb-4">
-        <div>{renderStars(averageRating)}</div>
+        <div>{renderStars(averageRating || 5)}</div>
         <div className="text-lg font-bold">{averageRating} из 5</div>
       </div>
 

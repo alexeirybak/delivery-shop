@@ -1,5 +1,3 @@
-import { ObjectId } from "mongodb";
-
 export interface DeliveryAddress {
   city: string;
   street: string;
@@ -42,6 +40,8 @@ export interface UpdateUserData {
 }
 
 export interface OrderItem {
+  basePrice: number;
+  title: string;
   productId: string;
   quantity: number;
   price: number;
@@ -55,10 +55,6 @@ export interface OrderItem {
     description: string;
     basePrice: number;
     discountPercent: number;
-    weight?: number;
-    categories?: string[];
-    brand?: string;
-    manufacturer?: string;
   };
 }
 
@@ -87,36 +83,6 @@ export interface Order {
   updatedAt: string;
 }
 
-export interface OrderItemDB {
-  productId: ObjectId; 
-  quantity: number;
-  price: number;
-  discountPercent?: number;
-  hasLoyaltyDiscount?: boolean;
-}
 
-export interface OrderDB {
-  _id: ObjectId;
-  userId: ObjectId;
-  orderNumber: string;
-  status: string;
-  paymentMethod: string;
-  paymentStatus: string;
-  totalAmount: number;
-  discountAmount: number;
-  usedBonuses: number;
-  earnedBonuses: number;
-  deliveryAddress: DeliveryAddress;
-  deliveryDate: string;
-  deliveryTimeSlot: string;
-  surname: string;
-  name: string;
-  phone: string;
-  gender?: string;
-  birthday?: string;
-  items: OrderItemDB[];
-  createdAt: Date;
-  updatedAt: Date;
-}
 
 

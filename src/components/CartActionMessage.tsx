@@ -11,7 +11,7 @@ interface CartActionMessageProps {
 const CartActionMessage = ({ message, onClose }: CartActionMessageProps) => {
   return (
     <div
-      className={`absolute bottom-2.25 left-0 right-0 mx-2 px-3 py-3 rounded text-xs text-left z-10 shadow-lg ${
+      className={`absolute bottom-2 left-0 right-0 mx-2 px-3 py-3 rounded text-xs text-left z-10 shadow-lg ${
         message.success
           ? "bg-[#e5ffde] text-[#008c49] border border-[#008c49]"
           : "bg-yellow-50 text-yellow-800 border border-yellow-200"

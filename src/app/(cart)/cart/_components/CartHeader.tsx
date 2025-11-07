@@ -9,7 +9,6 @@ const CartHeader = ({ itemCount, title }: CartHeaderProps) => {
       <h1 className="text-4xl md:text-5xl xl:text-[64px] font-bold mb-8 md:mb-10 xl:mb-15">
         {title}
       </h1>
-      {/* Немного адаптировал стили под заголовки */}
       {itemCount > 0 && (
         <div
           className={`absolute ml-5 -top-2 ${

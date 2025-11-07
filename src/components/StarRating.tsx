@@ -1,6 +1,10 @@
 import IconStar from "./svg/IconStar";
 
-const StarRating = ({ rating = 5.0 }: { rating: number }) => {
+interface StarRatingProps {
+  rating?: number;
+}
+
+const StarRating = ({ rating = 5.0 }: StarRatingProps) => {
   const stars = [];
 
   for (let i = 1; i <= 5; i++) {

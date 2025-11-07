@@ -1,21 +1,36 @@
+import { useState } from "react";
 import { Order } from "@/types/order";
 import OrderCard from "./OrderCard";
+import { CONFIG } from "../../../../../config/config";
 
 const UserOrdersList = ({ orders }: { orders: Order[] }) => {
-  if (orders.length === 0) {
-    return (
-      <div className="text-center text-main-text py-12">
-        <h3 className="text-xl font-semibold mb-2">Заказов пока нет</h3>
-        <p>Когда вы сделаете заказ, он появится здесь</p>
-      </div>
-    );
-  }
+  const [visibleOrdersCount, setVisibleOrdersCount] = useState<number>(CONFIG.ITEMS_PER_ORDER_PRODUCTS);
+
+  const visibleOrders = orders.slice(0, visibleOrdersCount);
+  const hasMoreOrders = orders.length > visibleOrdersCount;
+
+  const handleShowMore = () => {
+    setVisibleOrdersCount(prevCount => prevCount + 4);
+  };
 
   return (
-    <div className="space-y-30">
-      {orders.map((order) => (
-        <OrderCard key={order._id} order={order} />
-      ))}
+    <div>
+      <div className="space-y-30">
+        {visibleOrders.map((order) => (
+          <OrderCard key={order._id} order={order} />
+        ))}
+      </div>
+      
+      {hasMoreOrders && (
+        <div className="flex justify-center mt-15">
+          <button
+            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            onClick={handleShowMore}
+          >
+            Показать еще
+          </button>
+        </div>
+      )}
     </div>
   );
 };

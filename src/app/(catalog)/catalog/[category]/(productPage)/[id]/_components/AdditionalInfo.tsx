@@ -1,9 +1,9 @@
 import { formatWeight } from "../../../../../../../../utils/formatWeight";
 
 interface AdditionalInfoProps {
-  brand: string;
-  manufacturer: string;
-  weight: number;
+  brand: string | undefined;
+  manufacturer: string | undefined;
+  weight: number | undefined;
 }
 
 const AdditionalInfo = ({
@@ -23,7 +23,7 @@ const AdditionalInfo = ({
       </div>
       <div className="flex justify-between bg-[#f3f2f1] py-1 px-2">
         <span className="font-medium">Упаковка:</span>
-        <span>{formatWeight(weight)}</span>
+        <span>{formatWeight(weight || 0)}</span>
       </div>
     </div>
   );

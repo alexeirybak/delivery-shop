@@ -7,5 +7,7 @@ export interface ProductsSectionProps {
     href: string;
   };
   products: ProductCardProps[];
+  applyIndexStyles?: boolean;
+  contentType?: string;
   mobileItemsLimit?: number;
 }

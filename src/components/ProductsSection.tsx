@@ -9,10 +9,13 @@ const ProductsSection = ({
   applyIndexStyles = true,
   contentType,
   mobileItemsLimit = 4,
+  isOrderPage = false, // Новый пропс
 }: ProductsSectionProps & {
   applyIndexStyles?: boolean;
   contentType?: string;
+  isOrderPage?: boolean; // Новый пропс
 }) => {
+
   const gridClasses =
     contentType === "category"
       ? "grid-cols-2 md:grid-cols-3"
@@ -47,7 +50,7 @@ const ProductsSection = ({
                     : ""
                 }
               >
-                <ProductCard {...item} />
+                <ProductCard {...item} isOrderPage={isOrderPage} />
               </li>
             ))}
           </ul>

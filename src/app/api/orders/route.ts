@@ -1,9 +1,8 @@
 import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
 import { getServerUserId } from "../../../../utils/getServerUserId";
-import { ObjectId } from 'mongodb';
-import { ProductCardProps } from "@/types/product";
-import { OrderDB, OrderItemDB } from "@/types/order";
+import { ObjectId } from "mongodb";
+import { Order } from "@/types/order";
 
 export async function POST(request: Request) {
   try {
@@ -68,7 +67,7 @@ export async function POST(request: Request) {
           quantity: item.quantity,
           price: Math.round((item.price || 0) * 100) / 100,
           discountPercent: item.discountPercent,
-          hasLoyaltyDiscount: item.hasLoyaltyDiscount,
+          hasLoyaltyDiscount: user.hasCard,
         })
       ),
       createdAt: new Date(),
@@ -106,66 +105,27 @@ export async function GET() {
       );
     }
 
-    const orders = await db
-      .collection('orders')
+    const orders = (await db
+      .collection("orders")
       .find({ userId: ObjectId.createFromHexString(userId) })
       .sort({ createdAt: -1 })
-      .toArray() as OrderDB[];
+      .toArray()) as unknown as Order[];
 
-    const ordersWithProducts = await Promise.all(
-      orders.map(async (order) => {
-        const itemsWithProducts = await Promise.all(
-          order.items.map(async (item: OrderItemDB) => {
-            try {
-              const product = await db
-                .collection('products')
-                .findOne({ _id: item.productId }) as ProductCardProps | null;
-              
-              return {
-                ...item,
-                productId: item.productId.toString(), 
-                productDetails: product ? {
-                  _id: product._id.toString(),
-                  id: product.id,
-                  img: product.img,
-                  title: product.title,
-                  description: product.description,
-                  basePrice: product.basePrice,
-                  discountPercent: product.discountPercent,
-                  weight: product.weight,
-                  categories: product.categories,
-                  brand: product.brand,
-                  manufacturer: product.manufacturer
-                } : null
-              };
-            } catch (itemError) {
-              console.error('Ошибка при обработке товара:', itemError);
-              return {
-                ...item,
-                productId: item.productId?.toString?.(),
-                productDetails: null
-              };
-            }
-          })
-        );
+    if (!orders || orders.length === 0) {
+      return NextResponse.json({
+        success: true,
+        orders: [],
+      });
+    }
 
-        return {
-          ...order,
-          _id: order._id.toString(),
-          userId: order.userId.toString(),
-          items: itemsWithProducts
-        };
-      })
-    );
-
-    return NextResponse.json({ 
-      success: true, 
-      orders: ordersWithProducts 
+    return NextResponse.json({
+      success: true,
+      orders: orders,
     });
   } catch (error) {
-    console.error('Ошибка получения заказов:', error);
+    console.error("Ошибка получения заказов:", error);
     return NextResponse.json(
-      { message: 'Внутренняя ошибка сервера' },
+      { message: "Внутренняя ошибка сервера" },
       { status: 500 }
     );
   }

@@ -32,8 +32,6 @@ export async function checkPriceAlerts(): Promise<void> {
       .find({})
       .toArray();
 
-    console.log(`Найдено подписок: ${activeAlerts.length}`);
-
     if (activeAlerts.length === 0) {
       console.log('Нет активных подписок для проверки');
       return;

@@ -7,8 +7,7 @@ const fetchFavorites = async (options: {
   userId?: string | null;
 }) => {
   const { pagination, filter, priceFrom, priceTo, inStock, userId } = options;
-  console.log(options);
-
+ 
   try {
     if (!userId) {
       return {
@@ -54,7 +53,6 @@ const fetchFavorites = async (options: {
     }
 
     const data = await res.json();
-    console.log(data);
 
     return {
       items: data.products || [],

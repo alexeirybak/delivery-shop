@@ -1,4 +1,8 @@
-const IconCart = ({ isActive }: { isActive: boolean }) => {
+interface IconProp {
+  isActive?: boolean;
+}
+
+const IconCart = ({ isActive }: IconProp) => {
   const fillColor = isActive ? "#ff6633" : "#606060";
 
   return (

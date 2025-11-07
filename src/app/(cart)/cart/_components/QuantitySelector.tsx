@@ -17,6 +17,7 @@ const QuantitySelector = memo(function QuantitySelector({
   onIncrement,
   onProductCard,
 }: QuantitySelectorProps) {
+  
   return (
     <div
       className={`flex items-center bg-primary p-2 rounded text-white relative h-10 gap-2 ${

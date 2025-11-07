@@ -48,7 +48,7 @@ export async function addToCartAction(
     if (existingItem) {
       return {
         success: false,
-        message: "",
+        message: "Товар уже в корзине", // ДОБАВЛЕНО СООБЩЕНИЕ
       };
     }
 
@@ -60,6 +60,9 @@ export async function addToCartAction(
       productId,
       quantity: initialQuantity,
       addedAt: new Date(),
+      price: 0,
+      discountPercent: 0,
+      hasLoyaltyDiscount: false
     };
 
     const newCartItems = [...cartItems, newCartItem];
@@ -73,7 +76,7 @@ export async function addToCartAction(
 
     return {
       success: true,
-      message: "",
+      message: "Товар добавлен в корзину", 
     };
 
   } catch {

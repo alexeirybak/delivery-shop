@@ -47,7 +47,7 @@ export async function getUserBonusesAction(): Promise<{
 
     return { bonusesCount, hasLoyaltyCard };
   } catch (error) {
-    console.error("Error getting bonuses:", error);
+    console.error("Ошибка получения бонусов:", error);
     return { bonusesCount: 0, hasLoyaltyCard: false };
   }
 }
@@ -82,7 +82,7 @@ export async function updateOrderItemQuantityAction(
     revalidatePath("/cart");
     return { success: true, message: "Количество обновлено" };
   } catch (error) {
-    console.error("Error updating cart item:", error);
+    console.error("Ошибка обновления товара в корзине:", error);
     return { success: false, message: "Ошибка сервера" };
   }
 }

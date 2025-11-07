@@ -19,14 +19,18 @@ export interface ProductCardProps {
   description: string;
   basePrice: number;
   discountPercent: number;
-  rating: ProductRating;
-  tags: string[];
-  weight: number;
   quantity: number;
+  orderQuantity?: number,
   categories: string[];
-  article: string;
-  brand: string;
-  manufacturer: string;
-  isHealthyFood: boolean;
-  isNonGMO: boolean;
+  tags?: string[];
+  hasLoyaltyDiscount?: boolean;
+  rating?: ProductRating;
+  weight?: number;
+  article?: string;
+  brand?: string;
+  manufacturer?: string;
+  isHealthyFood?: boolean;
+  isNonGMO?: boolean;
+  isLowStock?: boolean;
+  insufficientStock?: boolean;
 }

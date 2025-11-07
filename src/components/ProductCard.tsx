@@ -10,8 +10,14 @@ import {
   calculatePriceByCard,
 } from "../../utils/calcPrices";
 import AddToCartButton from "./AddToCartButton";
+import IconCart from "./svg/IconCart";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
+
+// Расширяем интерфейс для нового пропса
+interface ExtendedProductCardProps extends ProductCardProps {
+  isOrderPage?: boolean;
+}
 
 const ProductCard = ({
   id,
@@ -22,18 +28,28 @@ const ProductCard = ({
   rating,
   tags,
   categories,
-}: ProductCardProps) => {
+  quantity,
+  orderQuantity,
+  isLowStock,
+  insufficientStock,
+  isOrderPage = false, // Новый пропс
+}: ExtendedProductCardProps) => {
   const isNewProduct = tags?.includes("new");
 
+  console.log(`Базовая цена в карточке`, basePrice);
+
+  // Если это страница заказов, не применяем скидку по карте лояльности
   const finalPrice = isNewProduct
     ? basePrice
     : calculateFinalPrice(basePrice, discountPercent);
 
-  const priceByCard = isNewProduct
+  const priceByCard = isOrderPage 
+    ? finalPrice // На странице заказов показываем фактически уплаченную цену
+    : isNewProduct
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const ratingValue = rating?.average ?? 5.0;
+  console.log(`Цена в карточке: ${priceByCard}, isOrderPage: ${isOrderPage}`);
 
   const productId = id;
   const mainCategory = categories?.[0];
@@ -42,7 +58,29 @@ const ProductCard = ({
 
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
+      {/* Количество в заказе */}
+      {orderQuantity && (
+        <div className="absolute top-2 left-2 text-main-text flex flex-col md:flex-row items-center justify-center gap-1 text-lg font-bold z-10">
+          <IconCart />
+          {orderQuantity}
+        </div>
+      )}
+
+      {/* Статус количества на складе - показываем только при проблемах */}
+      {(isLowStock || insufficientStock) && (
+        <div
+          className={`absolute top-2 left-1/2 transform -translate-x-1/2 p-1 rounded text-[8px] md:px-2 md:text-xs z-10 ${
+            insufficientStock
+              ? "bg-[#d80000] text-white"
+              : "bg-[#ff6633] text-white"
+          }`}
+        >
+          {insufficientStock ? "Нет в наличии" : `Осталось: ${quantity}`}
+        </div>
+      )}
+
       <FavoriteButton productId={productId.toString()} />
+
       <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
@@ -53,7 +91,7 @@ const ProductCard = ({
             priority={false}
             sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
           />
-          {discountPercent > 0 && (
+          {!isOrderPage && discountPercent > 0 && (
             <div className="absolute bg-[#ff6633] py-1 px-2 rounded text-white bottom-2.5 left-2.5">
               -{discountPercent}%
             </div>
@@ -67,11 +105,12 @@ const ProductCard = ({
                 <span>{formatPrice(priceByCard)}</span>
                 <span>₽</span>
               </div>
-              {discountPercent > 0 && (
+              {discountPercent > 0 && !isOrderPage && (
                 <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
               )}
             </div>
-            {finalPrice !== basePrice && cardDiscountPercent > 0 && (
+            {/* Скрываем блок "Обычная цена" на странице заказов */}
+            {!isOrderPage && finalPrice !== basePrice && cardDiscountPercent > 0 && (
               <div className="flex flex-col gap-x-1">
                 <div className="flex flex-row gap-x-1 text-xs md:text-base text-[#606060]">
                   <span>{formatPrice(finalPrice)}</span>
@@ -86,10 +125,16 @@ const ProductCard = ({
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          {<StarRating rating={ratingValue} />}
+          <StarRating rating={rating?.rate || 5.0} />
         </div>
       </Link>
-      <AddToCartButton productId={productId.toString()} />
+
+      <AddToCartButton
+        productId={productId.toString()}
+        disabled={insufficientStock}
+        availableQuantity={quantity}
+        status={insufficientStock ? "out-of-stock" : "low-stock"}
+      />
     </div>
   );
 };

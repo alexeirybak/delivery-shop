@@ -1,6 +1,9 @@
-import { CartItem } from "@/types/cart";
-import { CartItemWithPrice, CreateOrderRequest, UpdateUserData } from "@/types/order";
-import { ProductCardProps } from "@/types/product";
+import { CartItem, ProductPriceData } from "@/types/cart";
+import {
+  CartItemWithPrice,
+  CreateOrderRequest,
+  UpdateUserData,
+} from "@/types/order";
 import {
   calculateFinalPrice,
   calculatePriceByCard,
@@ -9,9 +12,9 @@ import { CONFIG } from "../../../../../config/config";
 
 export const prepareCartItemsWithPrices = (
   cartItems: CartItem[],
-  productsData: Record<string, ProductCardProps>,
+  productsData: Record<string, ProductPriceData>, 
   hasLoyaltyCard: boolean
-): CartItemWithPrice[] => {
+) => {
   return cartItems
     .map((item) => {
       const product = productsData[item.productId];

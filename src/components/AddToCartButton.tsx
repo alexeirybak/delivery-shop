@@ -2,20 +2,30 @@
 
 import { addToCartAction } from "@/actions/addToCartActions";
 import { useState } from "react";
-import CartActionMessage from "./CartActionMessage";
 import { useCartStore } from "@/store/cartStore";
 import {
   removeMultipleOrderItemsAction,
   updateOrderItemQuantityAction,
 } from "@/actions/orderActions";
 import QuantitySelector from "@/app/(cart)/cart/_components/QuantitySelector";
+import Tooltip from "@/components/Tooltip";
 
-const AddToCartButton = ({ productId }: { productId: string }) => {
+interface AddToCartButtonProps {
+  productId: string;
+  disabled?: boolean;
+  availableQuantity: number;
+  status?: "out-of-stock" | "low-stock";
+}
+
+const AddToCartButton: React.FC<AddToCartButtonProps> = ({
+  productId,
+  disabled = false,
+  availableQuantity,
+  status,
+}) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
   const { cartItems, updateCart, fetchCart } = useCartStore();
 
@@ -23,15 +33,34 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
   const currentQuantity = cartItem?.quantity || 0;
   const isInCart = currentQuantity > 0;
 
+  const hasReachedMaxQuantity = currentQuantity >= availableQuantity;
+  const isOutOfStock = status === "out-of-stock" || availableQuantity === 0;
+
+  const showMessage = (message: string) => {
+    // Не показываем новое сообщение, если уже показывается такое же
+    if (tooltipMessage === message && showTooltip) return;
+    
+    setTooltipMessage(message);
+    setShowTooltip(true);
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+  };
+
   const handleAddToCart = async () => {
+    if (hasReachedMaxQuantity) {
+      showMessage(`Осталось ${availableQuantity} шт. этого товара`);
+      return;
+    }
+
     setIsLoading(true);
-    setMessage(null);
+    setShowTooltip(false);
 
     try {
       const result = await addToCartAction(productId);
 
       if (!result.success && result.message) {
-        setMessage(result);
+        showMessage(result.message);
       }
 
       if (result.success) {
@@ -39,10 +68,7 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
       }
     } catch (error) {
       console.error("Ошибка добавления товара в корзину:", error);
-      setMessage({
-        success: false,
-        message: "Ошибка при добавлении в корзину",
-      });
+      showMessage("Ошибка при добавлении в корзину");
     } finally {
       setIsLoading(false);
     }
@@ -51,7 +77,14 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
   const handleQuantityUpdate = async (newQuantity: number) => {
     if (newQuantity < 0 || isLoading) return;
 
+    // Показываем сообщение только если пытаемся УВЕЛИЧИТЬ количество сверх лимита
+    if (newQuantity > availableQuantity && newQuantity > currentQuantity) {
+      showMessage(`Осталось ${availableQuantity} шт. этого товара`);
+      return;
+    }
+
     setIsLoading(true);
+    setShowTooltip(false);
 
     try {
       let updatedCartItems;
@@ -74,6 +107,7 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
       await fetchCart();
     } catch (error) {
       console.error("Ошибка обновления количества:", error);
+      showMessage("Ошибка при обновлении количества");
       await fetchCart();
     } finally {
       setIsLoading(false);
@@ -86,17 +120,42 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
   };
 
   const handleIncrement = () => {
+    if (hasReachedMaxQuantity) {
+      showMessage(`Осталось ${availableQuantity} шт. этого товара`);
+      return;
+    }
     handleQuantityUpdate(currentQuantity + 1);
+  };
+
+  const getButtonText = () => {
+    if (isOutOfStock) {
+      return "Нет в наличии";
+    }
+    if (disabled) {
+      return isOutOfStock ? "Нет в наличии" : "Количество ограничено";
+    }
+    if (isLoading) {
+      return "...";
+    }
+    return "В корзину";
   };
 
   return (
     <div className="relative">
-      {isInCart ? (
+      {showTooltip && (
+        <Tooltip 
+          text={tooltipMessage} 
+          position="top"
+          orderPosition={true}
+        />
+      )}
+      
+      {isInCart && !isOutOfStock ? (
         <div className="absolute flex justify-center bottom-2 left-2 right-2">
           <QuantitySelector
             quantity={currentQuantity}
             isUpdating={isLoading}
-            isOutOfStock={false}
+            isOutOfStock={isOutOfStock}
             onDecrement={handleDecrement}
             onIncrement={handleIncrement}
             onProductCard={true}
@@ -105,15 +164,15 @@ const AddToCartButton = ({ productId }: { productId: string }) => {
       ) : (
         <button
           onClick={handleAddToCart}
-          disabled={isLoading}
-          className="absolute border bottom-2 left-2 right-2 border-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center text-primary transition-all duration-300 cursor-pointer select-none"
+          disabled={isOutOfStock || disabled || isLoading || hasReachedMaxQuantity}
+          className={`absolute border bottom-2 left-2 right-2 h-10 rounded justify-center items-center duration-300 select-none ${
+            isOutOfStock || disabled || hasReachedMaxQuantity
+              ? "bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed"
+              : "border-primary text-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-(--shadow-button-active) cursor-pointer"
+          }`}
         >
-          {isLoading ? "..." : "В корзину"}
+          {getButtonText()}
         </button>
-      )}
-
-      {message && (
-        <CartActionMessage message={message} onClose={() => setMessage(null)} />
       )}
     </div>
   );

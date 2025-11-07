@@ -1,7 +1,11 @@
-import { CartSummaryProps } from "../../../../types/cart";
+import {
+  ExtendedCartSummaryProps,
+  CustomCartItem,
+  CustomPricing,
+} from "@/types/cart";
 import { useCartStore } from "@/store/cartStore";
 import { CONFIG } from "../../../../../config/config";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PriceSummary from "./PriceSummary";
 import MinimumOrderWarning from "./MinimumOrderWarning";
 import CheckoutButton from "./CheckoutButton";
@@ -16,12 +20,20 @@ import FakePaymentModal from "@/app/(payment)/FakePaymentModal";
 import PaymentSuccessModal from "@/app/(payment)/PaymentSuccessModal";
 import { useRouter } from "next/navigation";
 
-const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
+const CartSummary = ({
+  deliveryData,
+  productsData = {},
+  customCartItems,
+  customPricing,
+  hasLoyaltyCard = false,
+  isRepeatOrder = false,
+  onOrderSuccess
+}: ExtendedCartSummaryProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
-  const [paymentType, setPaymentType] = useState<"cash" | "online" | null>(
-    null
-  );
+  const [paymentType, setPaymentType] = useState<
+    "cash_on_delivery" | "online" | null
+  >(null);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successData, setSuccessData] = useState<PaymentSuccessData | null>(
@@ -32,16 +44,40 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   const {
     pricing,
     cartItems,
-    hasLoyaltyCard,
     isCheckout,
     setIsCheckout,
     isOrdered,
     setIsOrdered,
     useBonuses,
-    resetAfterOrder
+    resetAfterOrder,
   } = useCartStore();
 
-  const visibleCartItems = cartItems.filter((item) => item.quantity > 0);
+  // Для повторного заказа автоматически показываем checkout
+  useEffect(() => {
+    if (isRepeatOrder) {
+      setIsCheckout(true);
+    }
+  }, [isRepeatOrder, setIsCheckout]);
+
+  // Используем кастомные данные или преобразуем данные из store
+  const visibleCartItems: CustomCartItem[] =
+    isRepeatOrder && customCartItems
+      ? customCartItems
+      : cartItems
+          .filter((item) => item.quantity > 0)
+          .map(
+            (item): CustomCartItem => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              price: 0, // Значение по умолчанию, будет переопределено в prepareCartItemsWithPrices
+              discountPercent: 0,
+              hasLoyaltyDiscount: false,
+              addedAt: item.addedAt || new Date(), // Используем existing addedAt или текущую дату
+            })
+          );
+
+  const currentPricing: CustomPricing =
+    isRepeatOrder && customPricing ? customPricing : pricing;
 
   const {
     totalPrice,
@@ -51,7 +87,7 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     totalBonuses,
     maxBonusUse,
     isMinimumReached,
-  } = pricing;
+  } = currentPricing;
 
   const usedBonuses = Math.min(
     maxBonusUse,
@@ -100,7 +136,7 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
     }
 
     setIsProcessing(true);
-    setPaymentType(paymentMethod === "online" ? "online" : "cash");
+    setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
 
     try {
       const result = await createOrder(paymentMethod, paymentData?.id);
@@ -159,7 +195,12 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
   };
 
   const handlePaymentSuccess = async (paymentData: FakePaymentData) => {
-    await handleOrderCreation("online", paymentData);
+    setShowPaymentModal(false);
+    try {
+      await handleOrderCreation("online", paymentData);
+    } catch (error) {
+      console.error("Ошибка создания заказа:", error);
+    }
   };
 
   const handlePaymentError = (error: string) => {
@@ -169,6 +210,9 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
 
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
+    if (isRepeatOrder && onOrderSuccess) {
+      onOrderSuccess();
+    }
     setIsOrdered(true);
     resetAfterOrder();
     router.push("/user-orders");
@@ -212,14 +256,9 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
 
       <div className="w-full">
         <MinimumOrderWarning isMinimumReached={isMinimumReached} />
-        {!isCheckout ? (
-          <CheckoutButton
-            isCheckout={isCheckout}
-            isMinimumReached={isMinimumReached}
-            visibleCartItemsCount={visibleCartItems.length}
-            onCheckout={() => setIsCheckout(true)}
-          />
-        ) : (
+
+        {/* Всегда показываем кнопки оплаты для повторного заказа */}
+        {isRepeatOrder || isCheckout ? (
           <PaymentButtons
             isOrdered={isOrdered}
             paymentType={paymentType}
@@ -229,8 +268,16 @@ const CartSummary = ({ deliveryData, productsData = {} }: CartSummaryProps) => {
             onOnlinePayment={handleOnlinePayment}
             onCashPayment={handleCashPayment}
           />
+        ) : (
+          <CheckoutButton
+            isCheckout={isCheckout}
+            isMinimumReached={isMinimumReached}
+            visibleCartItemsCount={visibleCartItems.length}
+            onCheckout={() => setIsCheckout(true)}
+          />
         )}
       </div>
+
       <FakePaymentModal
         amount={finalPrice}
         isOpen={showPaymentModal}

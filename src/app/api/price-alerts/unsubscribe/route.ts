@@ -7,8 +7,6 @@ export async function GET(request: NextRequest) {
     const token = searchParams.get('token');
     const email = searchParams.get('email');
 
-    console.log('Unsubscribe API called with:', { token, email });
-
     if (!token || !email) {
       return NextResponse.redirect(
         `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=Неверные параметры запроса`

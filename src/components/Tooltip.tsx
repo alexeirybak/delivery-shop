@@ -3,13 +3,18 @@ import Image from "next/image";
 type TooltipProps = {
   text: string;
   position?: "top" | "bottom";
+  orderPosition?: boolean; 
 };
 
-const Tooltip = ({ text, position = "bottom" }: TooltipProps) => {
+const Tooltip = ({ text, position = "bottom", orderPosition = false }: TooltipProps) => {
   return (
     <div
-      className={`absolute left-0 mt-2 w-full transition-all duration-300 ease-in-out ${
-        position === "top" ? "-top-12" : ""
+      className={`absolute left-0 w-full transition-all duration-300 ease-in-out ${
+        position === "top" 
+          ? orderPosition 
+            ? "-top-28"
+            : "-top-12"
+          : ""
       }`}
     >
       <div

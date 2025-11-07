@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import {
   getOrderCartAction,
   getUserBonusesAction,
@@ -17,6 +17,7 @@ import { usePricing } from "@/hooks/usePricing";
 import CartSidebar from "./_components/CartSidebar";
 import CheckoutForm from "./_components/CheckoutForm";
 import { DeliveryAddress, DeliveryTime } from "@/types/order";
+import type { CartItem as CartItemType, ProductPriceData } from "@/types/cart";
 
 const CartPage = () => {
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
@@ -54,9 +55,23 @@ const CartPage = () => {
     isOrdered,
   } = useCartStore();
 
+  const productsPriceData = useMemo(() => {
+    return Object.keys(productsData).reduce((acc, productId) => {
+      const product = productsData[productId];
+      if (product) {
+        acc[productId] = {
+          basePrice: product.basePrice,
+          discountPercent: product.discountPercent || 0,
+          hasLoyaltyDiscount: product.hasLoyaltyDiscount || false,
+        };
+      }
+      return acc;
+    }, {} as { [key: string]: ProductPriceData });
+  }, [productsData]);
+
   const sidebarProps = {
     deliveryData,
-    productsData,
+    productsData: productsPriceData,
   };
 
   const visibleCartItems = cartItems.filter(
@@ -83,15 +98,14 @@ const CartPage = () => {
       setBonusesCount(userData.bonusesCount);
       setHasLoyaltyCard(userData.hasLoyaltyCard);
 
-      const cartItems = await getOrderCartAction();
+      const orderCartItems = await getOrderCartAction();
 
-      updateCart(cartItems);
-
-      const productPromises = cartItems.map(async (item) => {
+      // Получаем все продукты за один раз
+      const productPromises = orderCartItems.map(async (item) => {
         try {
           const response = await fetch(`/api/products/${item.productId}`);
           const product = await response.json();
-          return { productId: item.productId, product };
+          return { item, product };
         } catch (error) {
           console.error(`Ошибка получения продукта ${item.productId}:`, error);
           return null;
@@ -99,14 +113,29 @@ const CartPage = () => {
       });
 
       const productsResults = await Promise.all(productPromises);
+
+      // Создаем CartItem[] и productsData одновременно
+      const cartItemsData: CartItemType[] = [];
       const productsMap: { [key: string]: ProductCardProps } = {};
 
       productsResults.forEach((result) => {
         if (result && result.product) {
-          productsMap[result.productId] = result.product;
+          const { item, product } = result;
+
+          cartItemsData.push({
+            productId: item.productId,
+            quantity: item.quantity,
+            addedAt: item.addedAt,
+            price: product.basePrice,
+            discountPercent: product.discountPercent || 0,
+            hasLoyaltyDiscount: product.hasLoyaltyDiscount || false,
+          });
+
+          productsMap[item.productId] = product;
         }
       });
 
+      updateCart(cartItemsData);
       setProductsData(productsMap);
     } catch (error) {
       console.error("Ошибка получения данных корзины:", error);
