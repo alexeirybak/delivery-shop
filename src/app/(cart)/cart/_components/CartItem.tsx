@@ -31,7 +31,6 @@ const CartItem = memo(function CartItem({
   const [showTooltip, setShowTooltip] = useState(false);
   const { hasLoyaltyCard } = useCartStore();
 
-  // КОРРЕКТИРУЕМ КОЛИЧЕСТВО ПРИ ЗАГРУЗКЕ КОМПОНЕНТА
   useEffect(() => {
     if (!productData) return;
     
@@ -39,7 +38,6 @@ const CartItem = memo(function CartItem({
     
     // Если в корзине больше чем доступно, корректируем
     if (quantity > maxQuantity && maxQuantity > 0) {
-      console.log(`Корректируем количество: ${quantity} → ${maxQuantity}`);
       setQuantity(maxQuantity);
       // Вызываем колбэк для обновления в родительском компоненте
       onQuantityUpdate(item.productId, maxQuantity);
@@ -63,7 +61,7 @@ const CartItem = memo(function CartItem({
     setQuantity(newQuantity);
 
     try {
-      await onQuantityUpdate(item.productId, newQuantity);
+      onQuantityUpdate(item.productId, newQuantity);
     } catch (error) {
       console.error("Ошибка обновления количества:", error);
       setQuantity(previousQuantity);

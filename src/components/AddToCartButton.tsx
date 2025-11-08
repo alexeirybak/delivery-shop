@@ -38,7 +38,7 @@ const AddToCartButton = ({
   const isOutOfStock = status === "out-of-stock" || availableQuantity === 0;
 
   const showMessage = (message: string) => {
-    if (tooltipMessage === message && showTooltip) return;
+    // if (tooltipMessage === message && showTooltip) return;
 
     setTooltipMessage(message);
     setShowTooltip(true);
@@ -142,7 +142,7 @@ const AddToCartButton = ({
   return (
     <div className="relative">
       {showTooltip && (
-        <Tooltip text={tooltipMessage} position="top" orderPosition={true} />
+        <Tooltip text={tooltipMessage} position="top" cardPosition={true} />
       )}
 
       {isInCart && !isOutOfStock ? (

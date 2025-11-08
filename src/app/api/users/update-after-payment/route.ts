@@ -64,12 +64,10 @@ export async function POST(request: Request) {
       Number(id)
     );
 
-    // СОЗДАЕМ МАССИВ ТОЛЬКО С УНИКАЛЬНЫМИ ID
     const uniqueNewIds = numericPurchasedIds.filter(
       (id: number, index: number, array: number[]) => array.indexOf(id) === index
     );
 
-    // ОБЪЕДИНЯЕМ СУЩЕСТВУЮЩИЕ И НОВЫЕ ПОКУПКИ, УБИРАЯ ДУБЛИКАТЫ
     const allPurchases = [...currentPurchases, ...uniqueNewIds];
     const updatedPurchases = allPurchases.filter(
       (id: number, index: number, array: number[]) => array.indexOf(id) === index

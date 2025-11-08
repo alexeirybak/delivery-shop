@@ -12,6 +12,7 @@ import CheckoutButton from "./CheckoutButton";
 import PaymentButtons from "./PaymentButtons";
 import { FakePaymentData, PaymentSuccessData } from "@/types/payment";
 import {
+  confirmOrderPayment,
   createOrderRequest,
   prepareCartItemsWithPrices,
   updateUserAfterPayment,
@@ -27,7 +28,7 @@ const CartSummary = ({
   customPricing,
   hasLoyaltyCard = false,
   isRepeatOrder = false,
-  onOrderSuccess
+  onOrderSuccess,
 }: ExtendedCartSummaryProps) => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [orderNumber, setOrderNumber] = useState<string | null>(null);
@@ -39,6 +40,8 @@ const CartSummary = ({
   const [successData, setSuccessData] = useState<PaymentSuccessData | null>(
     null
   );
+  // Добавьте state для хранения ID заказа
+  const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
   const router = useRouter();
 
   const {
@@ -130,49 +133,38 @@ const CartSummary = ({
     paymentMethod: "cash_on_delivery" | "online",
     paymentData?: FakePaymentData
   ) => {
-    if (!deliveryData) {
-      console.error("Данные доставки не заполнены");
-      return;
-    }
+    if (!deliveryData) return;
 
     setIsProcessing(true);
     setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
 
     try {
-      const result = await createOrder(paymentMethod, paymentData?.id);
-
-      if (paymentMethod === "online") {
-        try {
-          await updateUserAfterPayment({
-            usedBonuses: actualUsedBonuses,
-            earnedBonuses: totalBonuses,
-            purchasedProductIds: visibleCartItems.map((item) => item.productId),
-          });
-        } catch (updateError) {
-          console.warn(
-            "Заказ создан, но возникла проблема с обновлением бонусов",
-            updateError
-          );
-        }
+      // Заказ уже создан, просто обрабатываем результат оплаты
+      if (paymentMethod === "online" && paymentData?.status === "succeeded") {
+        // УСПЕШНАЯ ОПЛАТА - списываем товары
+        await confirmOrderPayment(currentOrderId!);
+        await updateUserAfterPayment({
+          usedBonuses: actualUsedBonuses,
+          earnedBonuses: totalBonuses,
+          purchasedProductIds: visibleCartItems.map((item) => item.productId),
+        });
 
         const successModalData: PaymentSuccessData = {
-          orderNumber: result.orderNumber,
-          paymentId: paymentData!.id,
+          orderNumber: orderNumber!,
+          paymentId: paymentData.id,
           amount: finalPrice,
-          cardLast4: paymentData!.cardLast4,
+          cardLast4: paymentData.cardLast4,
         };
 
         setSuccessData(successModalData);
         setShowSuccessModal(true);
       }
+      // При ошибке оплаты ничего не делаем - заказ уже создан
 
-      setOrderNumber(result.orderNumber);
       setIsOrdered(true);
-    } catch (error: unknown) {
-      console.error(`Ошибка при создании ${paymentMethod} заказа:`, error);
-      const errorMessage =
-        error instanceof Error ? error.message : "Произошла неизвестная ошибка";
-      alert(`Ошибка при оформлении заказа: ${errorMessage}`);
+    } catch (error) {
+      console.error("Ошибка:", error);
+      alert("Ошибка при обработке заказа");
     } finally {
       setIsProcessing(false);
     }
@@ -182,12 +174,30 @@ const CartSummary = ({
     await handleOrderCreation("cash_on_delivery");
   };
 
-  const handleOnlinePayment = () => {
+  const handleOnlinePayment = async () => {
     if (!deliveryData) {
       console.error("Данные доставки не заполнены");
       return;
     }
-    setShowPaymentModal(true);
+
+    setIsProcessing(true);
+
+    try {
+      // 🔥 СОЗДАЕМ ЗАКАЗ ПЕРЕД ОТКРЫТИЕМ МОДАЛКИ
+      const result = await createOrder("online");
+      setOrderNumber(result.orderNumber);
+
+      // Сохраняем ID заказа для использования в модалке
+      setCurrentOrderId(result.order._id);
+
+      // Теперь открываем модалку оплаты
+      setShowPaymentModal(true);
+    } catch (error) {
+      console.error("Ошибка при создании заказа:", error);
+      alert("Ошибка при создании заказа");
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   const handleClosePaymentModal = () => {
