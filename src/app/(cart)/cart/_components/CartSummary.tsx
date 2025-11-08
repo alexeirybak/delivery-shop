@@ -40,7 +40,6 @@ const CartSummary = ({
   const [successData, setSuccessData] = useState<PaymentSuccessData | null>(
     null
   );
-  // Добавьте state для хранения ID заказа
   const [currentOrderId, setCurrentOrderId] = useState<string | null>(null);
   const router = useRouter();
 
@@ -72,10 +71,10 @@ const CartSummary = ({
             (item): CustomCartItem => ({
               productId: item.productId,
               quantity: item.quantity,
-              price: 0, // Значение по умолчанию, будет переопределено в prepareCartItemsWithPrices
+              price: 0,
               discountPercent: 0,
               hasLoyaltyDiscount: false,
-              addedAt: item.addedAt || new Date(), // Используем existing addedAt или текущую дату
+              addedAt: item.addedAt || new Date(),
             })
           );
 
@@ -139,27 +138,33 @@ const CartSummary = ({
     setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
 
     try {
-      // Заказ уже создан, просто обрабатываем результат оплаты
-      if (paymentMethod === "online" && paymentData?.status === "succeeded") {
-        // УСПЕШНАЯ ОПЛАТА - списываем товары
-        await confirmOrderPayment(currentOrderId!);
-        await updateUserAfterPayment({
-          usedBonuses: actualUsedBonuses,
-          earnedBonuses: totalBonuses,
-          purchasedProductIds: visibleCartItems.map((item) => item.productId),
-        });
+      // Для онлайн-оплаты: заказ уже создан, обрабатываем результат
+      if (paymentMethod === "online") {
+        if (paymentData?.status === "succeeded") {
+          // УСПЕШНАЯ ОПЛАТА - списываем товары
+          await confirmOrderPayment(currentOrderId!);
+          await updateUserAfterPayment({
+            usedBonuses: actualUsedBonuses,
+            earnedBonuses: totalBonuses,
+            purchasedProductIds: visibleCartItems.map((item) => item.productId),
+          });
 
-        const successModalData: PaymentSuccessData = {
-          orderNumber: orderNumber!,
-          paymentId: paymentData.id,
-          amount: finalPrice,
-          cardLast4: paymentData.cardLast4,
-        };
+          const successModalData: PaymentSuccessData = {
+            orderNumber: orderNumber!,
+            paymentId: paymentData.id,
+            amount: finalPrice,
+            cardLast4: paymentData.cardLast4,
+          };
 
-        setSuccessData(successModalData);
-        setShowSuccessModal(true);
+          setSuccessData(successModalData);
+          setShowSuccessModal(true);
+        }
+        // При ошибке оплаты ничего не делаем - заказ уже создан
+      } else {
+        // Для оплаты при получении - создаем заказ здесь
+        const result = await createOrder(paymentMethod, paymentData?.id);
+        setOrderNumber(result.orderNumber);
       }
-      // При ошибке оплаты ничего не делаем - заказ уже создан
 
       setIsOrdered(true);
     } catch (error) {
@@ -183,14 +188,12 @@ const CartSummary = ({
     setIsProcessing(true);
 
     try {
-      // 🔥 СОЗДАЕМ ЗАКАЗ ПЕРЕД ОТКРЫТИЕМ МОДАЛКИ
+      // СОЗДАЕМ ЗАКАЗ ПЕРЕД ОТКРЫТИЕМ МОДАЛКИ (и при успехе, и при ошибке)
       const result = await createOrder("online");
       setOrderNumber(result.orderNumber);
-
-      // Сохраняем ID заказа для использования в модалке
       setCurrentOrderId(result.order._id);
 
-      // Теперь открываем модалку оплаты
+      // Открываем модалку оплаты
       setShowPaymentModal(true);
     } catch (error) {
       console.error("Ошибка при создании заказа:", error);
@@ -209,13 +212,14 @@ const CartSummary = ({
     try {
       await handleOrderCreation("online", paymentData);
     } catch (error) {
-      console.error("Ошибка создания заказа:", error);
+      console.error("Ошибка обработки заказа:", error);
     }
   };
 
   const handlePaymentError = (error: string) => {
     setShowPaymentModal(false);
     alert(`Ошибка оплаты: ${error}`);
+    // Заказ УЖЕ создан в handleOnlinePayment со статусом pending + waiting
   };
 
   const handleCloseSuccessModal = () => {
@@ -267,7 +271,6 @@ const CartSummary = ({
       <div className="w-full">
         <MinimumOrderWarning isMinimumReached={isMinimumReached} />
 
-        {/* Всегда показываем кнопки оплаты для повторного заказа */}
         {isRepeatOrder || isCheckout ? (
           <PaymentButtons
             isOrdered={isOrdered}
