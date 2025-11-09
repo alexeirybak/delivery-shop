@@ -59,7 +59,7 @@ export const useOrderProducts = (order: Order) => {
               img: productData.img,
               title: productData.title,
               description: productData.description,
-              basePrice: item.basePrice || item.price, // Базовая цена из заказа
+              basePrice: item.price, // Базовая цена из заказа
               discountPercent: item.discountPercent || 0, // Скидка из заказа
               orderQuantity: orderQuantity,
               rating: productData.rating,

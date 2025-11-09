@@ -124,9 +124,10 @@ const CartPage = () => {
             productId: item.productId,
             quantity: item.quantity,
             addedAt: item.addedAt,
-            price: product.basePrice,
+            price: product.price,
             discountPercent: product.discountPercent || 0,
-            hasLoyaltyDiscount: product.hasLoyaltyDiscount || false,
+            hasLoyaltyDiscount: product.hasLoyaltyDiscount,
+            hasCard: product.hasLoyaltyDiscount
           });
 
           productsMap[item.productId] = product;

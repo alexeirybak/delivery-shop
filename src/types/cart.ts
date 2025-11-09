@@ -8,12 +8,13 @@ export interface DeliveryData {
 }
 
 export interface CartItem {
+  hasCard: boolean;
   productId: string;
-  quantity: number;
-  addedAt: Date;
   price: number;
   discountPercent: number;
+  quantity: number;
   hasLoyaltyDiscount: boolean;
+  addedAt: Date;
 }
 
 export interface CartSummaryProps {

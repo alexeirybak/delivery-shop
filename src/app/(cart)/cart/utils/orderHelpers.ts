@@ -1,4 +1,4 @@
-import { CartItem, ProductPriceData } from "@/types/cart";
+import { CartItem, CustomCartItem, ProductPriceData } from "@/types/cart";
 import {
   CartItemWithPrice,
   CreateOrderRequest,
@@ -11,7 +11,7 @@ import {
 import { CONFIG } from "../../../../../config/config";
 
 export const prepareCartItemsWithPrices = (
-  cartItems: CartItem[],
+  cartItems: (CustomCartItem | CartItem)[],
   productsData: Record<string, ProductPriceData>, 
   hasLoyaltyCard: boolean
 ) => {

@@ -48,7 +48,7 @@ export async function addToCartAction(
     if (existingItem) {
       return {
         success: false,
-        message: "Товар уже в корзине", // ДОБАВЛЕНО СООБЩЕНИЕ
+        message: "Товар уже в корзине", 
       };
     }
 
@@ -60,9 +60,10 @@ export async function addToCartAction(
       productId,
       quantity: initialQuantity,
       addedAt: new Date(),
-      price: 0,
-      discountPercent: 0,
-      hasLoyaltyDiscount: false
+      hasCard: user.hasCard,
+      price: product.basePrice,
+      discountPercent: product.discountPercent,
+      hasLoyaltyDiscount: user.hasCard,
     };
 
     const newCartItems = [...cartItems, newCartItem];
@@ -76,9 +77,8 @@ export async function addToCartAction(
 
     return {
       success: true,
-      message: "Товар добавлен в корзину", 
+      message: "Товар добавлен в корзину",
     };
-
   } catch {
     return { success: false, message: "Ошибка сервера" };
   }

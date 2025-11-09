@@ -9,6 +9,8 @@ export async function POST(request: Request) {
     const db = await getDB();
     const orderData = await request.json();
 
+    console.log(orderData);
+
     const userId = await getServerUserId();
 
     if (!userId) {
@@ -67,7 +69,7 @@ export async function POST(request: Request) {
           quantity: item.quantity,
           price: Math.round((item.price || 0) * 100) / 100,
           discountPercent: item.discountPercent,
-          hasLoyaltyDiscount: user.hasCard,
+          hasLoyaltyDiscount: item.hasLoyaltyDiscount,
         })
       ),
       createdAt: new Date(),

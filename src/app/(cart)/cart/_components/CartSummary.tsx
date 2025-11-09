@@ -2,6 +2,7 @@ import {
   ExtendedCartSummaryProps,
   CustomCartItem,
   CustomPricing,
+  CartItem,
 } from "@/types/cart";
 import { useCartStore } from "@/store/cartStore";
 import { CONFIG } from "../../../../../config/config";
@@ -26,7 +27,6 @@ const CartSummary = ({
   productsData = {},
   customCartItems,
   customPricing,
-  hasLoyaltyCard = false,
   isRepeatOrder = false,
   onOrderSuccess,
 }: ExtendedCartSummaryProps) => {
@@ -46,6 +46,7 @@ const CartSummary = ({
   const {
     pricing,
     cartItems,
+    hasLoyaltyCard,
     isCheckout,
     setIsCheckout,
     isOrdered,
@@ -62,21 +63,10 @@ const CartSummary = ({
   }, [isRepeatOrder, setIsCheckout]);
 
   // Используем кастомные данные или преобразуем данные из store
-  const visibleCartItems: CustomCartItem[] =
+  const visibleCartItems: (CustomCartItem | CartItem)[] =
     isRepeatOrder && customCartItems
       ? customCartItems
-      : cartItems
-          .filter((item) => item.quantity > 0)
-          .map(
-            (item): CustomCartItem => ({
-              productId: item.productId,
-              quantity: item.quantity,
-              price: 0,
-              discountPercent: 0,
-              hasLoyaltyDiscount: false,
-              addedAt: item.addedAt || new Date(),
-            })
-          );
+      : cartItems.filter((item) => item.quantity > 0);
 
   const currentPricing: CustomPricing =
     isRepeatOrder && customPricing ? customPricing : pricing;
@@ -105,6 +95,8 @@ const CartSummary = ({
     if (!deliveryData) {
       throw new Error("Данные доставки не заполнены");
     }
+
+    console.log(hasLoyaltyCard);
 
     const cartItemsWithPrices = prepareCartItemsWithPrices(
       visibleCartItems,
