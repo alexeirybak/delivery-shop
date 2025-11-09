@@ -48,7 +48,7 @@ export async function addToCartAction(
     if (existingItem) {
       return {
         success: false,
-        message: "",
+        message: "Товар уже в корзине",
       };
     }
 
@@ -75,7 +75,6 @@ export async function addToCartAction(
       success: true,
       message: "",
     };
-
   } catch {
     return { success: false, message: "Ошибка сервера" };
   }

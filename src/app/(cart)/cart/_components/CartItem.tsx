@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, memo } from "react";
+import { useState, memo, useEffect } from "react";
 import Link from "next/link";
 import { CONFIG } from "../../../../../config/config";
 import {
@@ -25,11 +25,24 @@ const CartItem = memo(function CartItem({
   onSelectionChange,
   onQuantityUpdate,
 }: CartItemProps) {
-  
   const [quantity, setQuantity] = useState(item.quantity);
   const [isUpdating, setIsUpdating] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const { hasLoyaltyCard } = useCartStore();
+
+  useEffect(() => {
+    if (!productData) return;
+
+    const maxQuantity = productData.quantity;
+
+    // Если в корзине больше чем доступно, корректируем
+    if (quantity > maxQuantity) {
+      console.log(`Корректируем количество: ${quantity} → ${maxQuantity}`);
+      setQuantity(maxQuantity);
+      // Вызываем колбэк для обновления в родительском компоненте
+      onQuantityUpdate(item.productId, maxQuantity);
+    }
+  }, [productData, quantity, item.productId, onQuantityUpdate]);
 
   const handleQuantityChange = async (newQuantity: number) => {
     if (newQuantity < 0) return;

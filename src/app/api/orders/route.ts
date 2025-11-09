@@ -18,7 +18,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Находим пользователя по его ID
     const user = await db.collection("user").findOne({
       _id: ObjectId.createFromHexString(userId),
     });

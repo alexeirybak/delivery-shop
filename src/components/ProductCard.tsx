@@ -22,6 +22,7 @@ const ProductCard = ({
   rating,
   tags,
   categories,
+  quantity
 }: ProductCardProps) => {
   const isNewProduct = tags?.includes("new");
 
@@ -32,8 +33,6 @@ const ProductCard = ({
   const priceByCard = isNewProduct
     ? basePrice
     : calculatePriceByCard(finalPrice, cardDiscountPercent);
-
-  const ratingValue = rating?.average ?? 5.0;
 
   const productId = id;
   const mainCategory = categories?.[0];
@@ -86,10 +85,13 @@ const ProductCard = ({
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          {<StarRating rating={ratingValue} />}
+          {<StarRating rating={rating?.rate || 5.0} />}
         </div>
       </Link>
-      <AddToCartButton productId={productId.toString()} />
+      <AddToCartButton
+        productId={productId.toString()}
+        availableQuantity={quantity}
+      />
     </div>
   );
 };

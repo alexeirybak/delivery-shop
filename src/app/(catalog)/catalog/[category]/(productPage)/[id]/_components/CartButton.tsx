@@ -1,41 +1,46 @@
 "use client";
 
 import { addToCartAction } from "@/actions/addToCartActions";
-import CartActionMessage from "@/components/CartActionMessage";
+import Tooltip from "@/components/Tooltip";
 import { useCartStore } from "@/store/cartStore";
 import Image from "next/image";
 import { useState } from "react";
 
 const CartButton = ({ productId }: { productId: string }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [message, setMessage] = useState<{
-    success: boolean;
-    message: string;
-  } | null>(null);
+  const [showTooltip, setShowTooltip] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState("");
 
   const { fetchCart } = useCartStore();
 
+  const showMessage = (message: string) => {
+    setTooltipMessage(message);
+    setShowTooltip(true);
+    setTimeout(() => {
+      setShowTooltip(false);
+    }, 3000);
+  };
+
   const handleSubmit = async () => {
     setIsLoading(true);
-    setMessage(null);
+    setShowTooltip(false);
 
     try {
       const result = await addToCartAction(productId);
-      setMessage(result);
       if (result.success) {
         await fetchCart();
+      } else if (result.message) {
+        showMessage(result.message);
       }
     } catch {
-      setMessage({
-        success: false,
-        message: "Ошибка при добавлении в корзину",
-      });
+      showMessage("Ошибка при добавлении в корзину");
     } finally {
       setIsLoading(false);
     }
   };
   return (
     <div className="relative">
+      {showTooltip && <Tooltip text={tooltipMessage} position="top" />}
       <form action={handleSubmit}>
         <button
           disabled={isLoading}
@@ -52,9 +57,6 @@ const CartButton = ({ productId }: { productId: string }) => {
           <p className="text-center">В корзину</p>
         </button>
       </form>
-      {message && (
-        <CartActionMessage message={message} onClose={() => setMessage(null)} />
-      )}
     </div>
   );
 };

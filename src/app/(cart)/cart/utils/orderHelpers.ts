@@ -1,5 +1,9 @@
 import { CartItem } from "@/types/cart";
-import { CartItemWithPrice, CreateOrderRequest, UpdateUserData } from "@/types/order";
+import {
+  CartItemWithPrice,
+  CreateOrderRequest,
+  UpdateUserData,
+} from "@/types/order";
 import { ProductCardProps } from "@/types/product";
 import {
   calculateFinalPrice,
@@ -76,6 +80,28 @@ export const updateUserAfterPayment = async (data: UpdateUserData) => {
     return await response.json();
   } catch (error) {
     console.error("Ошибка обновления пользователя:", error);
+    throw error;
+  }
+};
+
+export const confirmOrderPayment = async (orderId: string) => {
+  try {
+    const response = await fetch("/api/orders/confirm-payment", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ orderId }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || "Ошибка при подтверждении оплаты");
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error("Ошибка при подтверждении оплаты:", error);
     throw error;
   }
 };
