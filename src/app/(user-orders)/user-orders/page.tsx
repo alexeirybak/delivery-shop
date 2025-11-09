@@ -52,6 +52,27 @@ const UserOrderPage = () => {
       <ErrorComponent error={error.error} userMessage={error.userMessage} />
     );
 
+  // Проверка на пустой массив заказов
+  if (orders.length === 0) {
+    return (
+      <div className="px-[max(12px,calc((100%-1208px)/2))] mx-auto py-8">
+        <h1 className="mb-6 md:mb-8 xl:mb-10 flex flex-row text-4xl md:text-5xl xl:text-[64px] text-main-text font-bold">
+          Заказы
+        </h1>
+        
+        <div className="flex flex-col items-center justify-center py-12 text-center">
+          <div className="text-6xl mb-4">📦</div>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-2">
+            Заказов пока нет
+          </h2>
+          <p className="text-gray-500 max-w-md">
+            Здесь будут отображаться ваши заказы, когда вы сделаете покупки в нашем магазине
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] mx-auto py-8">
       <h1 className="mb-6 md:mb-8 xl:mb-10 flex flex-row text-4xl md:text-5xl xl:text-[64px] text-main-text font-bold">
