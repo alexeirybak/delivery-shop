@@ -65,7 +65,7 @@ export interface Order {
   status: "pending" | "confirmed" | "cancelled" | "delivered";
   paymentMethod: "cash_on_delivery" | "online";
   paymentStatus: "pending" | "waiting" | "paid" | "failed";
-  paymentId?: string;
+  paymentId: string;
   totalAmount: number;
   discountAmount: number;
   usedBonuses: number;
@@ -76,8 +76,8 @@ export interface Order {
   surname: string;
   name: string;
   phone: string;
-  gender?: string;
-  birthday?: string;
+  gender: string;
+  birthday: string;
   items: OrderItem[];
   createdAt: string;
   updatedAt: string;
