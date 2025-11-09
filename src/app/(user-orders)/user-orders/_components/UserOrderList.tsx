@@ -4,7 +4,7 @@ import OrderCard from "./OrderCard";
 import { CONFIG } from "../../../../../config/config";
 
 const UserOrdersList = ({ orders }: { orders: Order[] }) => {
-  const [visibleOrdersCount, setVisibleOrdersCount] = useState<number>(CONFIG.ITEMS_PER_ORDER_PRODUCTS);
+  const [visibleOrdersCount, setVisibleOrdersCount] = useState<number>(CONFIG.ITEMS_PER_ORDERS_PAGE);
 
   const visibleOrders = orders.slice(0, visibleOrdersCount);
   const hasMoreOrders = orders.length > visibleOrdersCount;
