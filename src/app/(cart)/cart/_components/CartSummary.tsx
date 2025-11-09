@@ -128,7 +128,7 @@ const CartSummary = ({
     return await createOrderRequest(orderData);
   };
 
-  const handleOrderCreation = async (
+  const handlePaymentResult = async (
     paymentMethod: "cash_on_delivery" | "online",
     paymentData?: FakePaymentData
   ) => {
@@ -176,7 +176,7 @@ const CartSummary = ({
   };
 
   const handleCashPayment = async () => {
-    await handleOrderCreation("cash_on_delivery");
+    await handlePaymentResult("cash_on_delivery");
   };
 
   const handleOnlinePayment = async () => {
@@ -192,8 +192,6 @@ const CartSummary = ({
       const result = await createOrder("online");
       setOrderNumber(result.orderNumber);
       setCurrentOrderId(result.order._id);
-
-      // Открываем модалку оплаты
       setShowPaymentModal(true);
     } catch (error) {
       console.error("Ошибка при создании заказа:", error);
@@ -210,7 +208,7 @@ const CartSummary = ({
   const handlePaymentSuccess = async (paymentData: FakePaymentData) => {
     setShowPaymentModal(false);
     try {
-      await handleOrderCreation("online", paymentData);
+      await handlePaymentResult("online", paymentData);
     } catch (error) {
       console.error("Ошибка обработки заказа:", error);
     }
@@ -219,7 +217,6 @@ const CartSummary = ({
   const handlePaymentError = (error: string) => {
     setShowPaymentModal(false);
     alert(`Ошибка оплаты: ${error}`);
-    // Заказ УЖЕ создан в handleOnlinePayment со статусом pending + waiting
   };
 
   const handleCloseSuccessModal = () => {
