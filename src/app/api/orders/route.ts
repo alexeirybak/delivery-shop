@@ -1,13 +1,13 @@
 import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
 import { getServerUserId } from "../../../../utils/getServerUserId";
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
+import { Order } from "@/types/order";
 
 export async function POST(request: Request) {
   try {
     const db = await getDB();
     const orderData = await request.json();
-
 
     const userId = await getServerUserId();
 
@@ -86,6 +86,44 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Ошибка создания заказа:", error);
+    return NextResponse.json(
+      { message: "Внутренняя ошибка сервера" },
+      { status: 500 }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const db = await getDB();
+    const userId = await getServerUserId();
+
+    if (!userId) {
+      return NextResponse.json(
+        { message: "Пользователь не авторизован" },
+        { status: 401 }
+      );
+    }
+
+    const orders = (await db
+      .collection("orders")
+      .find({ userId: ObjectId.createFromHexString(userId) })
+      .sort({ createdAt: -1 })
+      .toArray()) as unknown as Order[];
+
+    if (!orders || orders.length === 0) {
+      return NextResponse.json({
+        success: true,
+        orders: [],
+      });
+    }
+
+    return NextResponse.json({
+      success: true,
+      orders: orders,
+    });
+  } catch (error) {
+    console.error("Ошибка получения заказов:", error);
     return NextResponse.json(
       { message: "Внутренняя ошибка сервера" },
       { status: 500 }

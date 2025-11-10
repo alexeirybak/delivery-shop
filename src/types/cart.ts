@@ -1,6 +1,12 @@
 import { DeliveryAddress, DeliveryTime } from "./order";
 import { ProductCardProps } from "./product";
 
+export interface DeliveryData {
+  address: DeliveryAddress;
+  time: DeliveryTime;
+  isValid?: boolean;
+}
+
 export interface CartItem {
   productId: string;
   quantity: number;

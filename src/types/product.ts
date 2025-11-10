@@ -23,6 +23,9 @@ export interface ProductCardProps {
   tags: string[];
   weight: number;
   quantity: number;
+  orderQuantity?: number;
+  isLowStock?: boolean;
+  insufficientStock?: boolean;
   categories: string[];
   article: string;
   brand: string;
