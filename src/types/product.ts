@@ -32,4 +32,5 @@ export interface ProductCardProps {
   manufacturer: string;
   isHealthyFood: boolean;
   isNonGMO: boolean;
+  isOrderPage?: boolean;
 }
