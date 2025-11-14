@@ -20,8 +20,7 @@ export const getAvailableDates = (schedule: Schedule): AvailableDate[] => {
       return {
         date: new Date(dateString),
         dateString,
-        availableSlots: totalSlots,
-        totalSlots,
+        availableSlots: totalSlots
       };
     })
     .filter((item): item is AvailableDate => item !== null);

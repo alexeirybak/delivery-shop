@@ -10,6 +10,7 @@ import {
   calculatePriceByCard,
 } from "../../utils/calcPrices";
 import AddToCartButton from "./AddToCartButton";
+import IconCart from "./svg/IconCart";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
@@ -20,19 +21,21 @@ const ProductCard = ({
   basePrice,
   discountPercent = 0,
   rating,
-  tags,
   categories,
-  quantity
+  quantity,
+  orderQuantity,
+  isLowStock,
+  insufficientStock,
+  isOrderPage = false,
 }: ProductCardProps) => {
-  const isNewProduct = tags?.includes("new");
+  const finalPrice = calculateFinalPrice(basePrice, discountPercent);
 
-  const finalPrice = isNewProduct
-    ? basePrice
-    : calculateFinalPrice(basePrice, discountPercent);
+  const priceByCard = calculatePriceByCard(finalPrice, cardDiscountPercent);
 
-  const priceByCard = isNewProduct
-    ? basePrice
-    : calculatePriceByCard(finalPrice, cardDiscountPercent);
+  const showTwoPrices =
+    !isOrderPage && discountPercent > 0 && cardDiscountPercent > 0;
+
+  const displayPrice = showTwoPrices ? priceByCard : finalPrice;
 
   const productId = id;
   const mainCategory = categories?.[0];
@@ -40,7 +43,25 @@ const ProductCard = ({
   const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;
 
   return (
-    <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-(--shadow-article) duration-300">
+    <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-article duration-300">
+      {orderQuantity && (
+        <div className="absolute top-2 left-2 text-main-text flex items-center p-1 bg-white bg-opacity-80 rounded justify-center gap-1 text-lg font-bold z-10">
+          <IconCart />
+          {orderQuantity}
+        </div>
+      )}
+
+      {(isLowStock || insufficientStock) && (
+        <div
+          className={`absolute top-2 left-1/2 transform -translate-x-1/2 p-1 rounded text-[8px] md:px-2 md:text-xs z-10 ${
+            insufficientStock
+              ? "bg-[#d80000] text-white"
+              : "bg-[#ff6633] text-white"
+          }`}
+        >
+          {insufficientStock ? "Нет в наличии" : `Осталось: ${quantity}`}
+        </div>
+      )}
       <FavoriteButton productId={productId.toString()} />
       <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
@@ -52,7 +73,7 @@ const ProductCard = ({
             priority={false}
             sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
           />
-          {discountPercent > 0 && (
+          {!isOrderPage && discountPercent > 0 && (
             <div className="absolute bg-[#ff6633] py-1 px-2 rounded text-white bottom-2.5 left-2.5">
               -{discountPercent}%
             </div>
@@ -63,14 +84,14 @@ const ProductCard = ({
           <div className="flex flex-row justify-between items-start h-[45px]">
             <div className="flex flex-col gap-x-1">
               <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
-                <span>{formatPrice(priceByCard)}</span>
+                <span>{formatPrice(displayPrice)}</span>
                 <span>₽</span>
               </div>
-              {discountPercent > 0 && (
+              {showTwoPrices && (
                 <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
               )}
             </div>
-            {finalPrice !== basePrice && cardDiscountPercent > 0 && (
+            {showTwoPrices && (
               <div className="flex flex-col gap-x-1">
                 <div className="flex flex-row gap-x-1 text-xs md:text-base text-[#606060]">
                   <span>{formatPrice(finalPrice)}</span>

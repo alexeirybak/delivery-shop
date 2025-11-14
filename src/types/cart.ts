@@ -66,3 +66,22 @@ export interface BonusesSectionProps {
   onUseBonusesChange: (use: boolean) => void;
   totalPrice: number;
 }
+
+export interface CustomCartItem {
+  productId: string;
+  quantity: number;
+  price: number;
+  discountPercent: number;
+  hasLoyaltyDiscount: boolean;
+  addedAt: Date; 
+}
+
+export interface CustomPricing {
+  totalPrice: number;
+  totalMaxPrice: number;
+  totalDiscount: number;
+  finalPrice: number;
+  totalBonuses: number;
+  maxBonusUse: number;
+  isMinimumReached: boolean;
+}

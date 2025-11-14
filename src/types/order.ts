@@ -83,6 +83,14 @@ export interface Order {
   updatedAt: string;
 }
 
+export interface OrderHeaderProps {
+  order: Order;
+  showDeliveryButton: boolean;
+  onOrderClick: () => void;
+  onDeliveryClick: () => void;
+  disabled: boolean;
+}
+
 // СТАТУС ЗАКАЗА
 // pending - заказ создан, ожидает обработки
 // confirmed - заказ подтвержден и выполняется (для онлайн-оплаты после успешной оплаты, а также для оплаты при получении - после подтверждения менеджером)
