@@ -22,7 +22,6 @@ export default function ScheduleTableRow({
 }: ScheduleTableRowProps) {
   return (
     <div className="grid grid-cols-4 hover:bg-gray-50 transition-colors">
-      {/* Ячейка с временным слотом и кнопкой удаления */}
       <div className="p-2 md:p-3 border-r border-gray-200 flex flex-col justify-between">
         <div className="font-medium text-sm md:text-base mb-1 md:mb-2">
           {timeSlot}
@@ -35,7 +34,6 @@ export default function ScheduleTableRow({
         </button>
       </div>
 
-      {/* Ячейки с чекбоксами для каждого дня */}
       {dates.map((date, index) => (
         <div
           key={date}

@@ -35,11 +35,8 @@ const CartItem = memo(function CartItem({
 
     const maxQuantity = productData.quantity;
 
-    // Если в корзине больше чем доступно, корректируем
     if (quantity > maxQuantity) {
-      console.log(`Корректируем количество: ${quantity} → ${maxQuantity}`);
       setQuantity(maxQuantity);
-      // Вызываем колбэк для обновления в родительском компоненте
       onQuantityUpdate(item.productId, maxQuantity);
     }
   }, [productData, quantity, item.productId, onQuantityUpdate]);

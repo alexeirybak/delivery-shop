@@ -13,6 +13,9 @@ import { useOrderProductsData } from "@/hooks/useOrderProductsData";
 import { usePriceComparison } from "@/hooks/usePriceComparison";
 import { useOrderPricing } from "@/hooks/useOrderPricing";
 import { StockWarningsAlert } from "./StockWarningsAlert";
+import RepeatOrderSection from "./RepeatOrderSection";
+import { ProductsData } from "@/types/userOrder";
+import { RepeatOrderSuccessAlert } from "./RepeatOrderSuccessAlert";
 
 const OrderCard = ({ order }: { order: Order }) => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -43,6 +46,10 @@ const OrderCard = ({ order }: { order: Order }) => {
     handleDeliveryClick,
     handleDateSelect,
     handleCancelDelivery,
+    isRepeatOrderCreated,
+    selectedDelivery,
+    handleEditDelivery,
+    handleRepeatOrderSuccess,
   } = useRepeatOrder();
 
   const { deliverySchedule } = useDeliveryData();
@@ -77,10 +84,26 @@ const OrderCard = ({ order }: { order: Order }) => {
         applyIndexStyles={applyIndexStyles}
         isOrderPage={true}
       />
+      <RepeatOrderSection
+        isRepeatOrderCreated={isRepeatOrderCreated}
+        selectedDelivery={selectedDelivery}
+        canCreateRepeatOrder={canCreateRepeatOrder}
+        order={order}
+        priceComparison={priceComparison}
+        showPriceWarning={showPriceWarning}
+        onClosePriceWarning={() => setShowPriceWarning(false)}
+        deliveryData={selectedDelivery}
+        onEditDelivery={handleEditDelivery}
+        productsData={productsData as unknown as ProductsData}
+        cartItemsForSummary={cartItemsForSummary}
+        customPricing={customPricing}
+        onOrderSuccess={handleRepeatOrderSuccess}
+      />
       <StockWarningsAlert
         warnings={stockWarnings}
         hasStockIssues={hasStockIssues}
       />
+      {isRepeatOrderCreated && <RepeatOrderSuccessAlert />}
       <OrderActions
         showOrderDetails={showOrderDetails}
         onToggleDetails={() => setShowOrderDetails(!showOrderDetails)}
