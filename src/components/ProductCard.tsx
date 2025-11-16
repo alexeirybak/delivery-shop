@@ -14,6 +14,10 @@ import IconCart from "./svg/IconCart";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
+interface ExtendedProductCardProps extends ProductCardProps {
+  index?: number;
+}
+
 const ProductCard = ({
   id,
   img,
@@ -27,7 +31,8 @@ const ProductCard = ({
   isLowStock,
   insufficientStock,
   isOrderPage = false,
-}: ProductCardProps) => {
+  index = 0,
+}: ExtendedProductCardProps) => {
   const finalPrice = calculateFinalPrice(basePrice, discountPercent);
 
   const priceByCard = calculatePriceByCard(finalPrice, cardDiscountPercent);
@@ -41,6 +46,8 @@ const ProductCard = ({
   const mainCategory = categories?.[0];
 
   const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;
+
+  const isPriorityImage = index < 4;
 
   return (
     <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-article duration-300">
@@ -70,7 +77,7 @@ const ProductCard = ({
             alt="Товар"
             fill
             className="object-contain"
-            priority={false}
+            priority={isPriorityImage}
             sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
           />
           {!isOrderPage && discountPercent > 0 && (

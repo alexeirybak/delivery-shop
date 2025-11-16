@@ -126,7 +126,5 @@ export const usePriceComparison = (
     comparePrices();
   }, [comparePrices]);
 
-  console.log(currentProducts, priceComparison);
-
   return { currentProducts, priceComparison };
 };

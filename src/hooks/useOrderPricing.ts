@@ -72,12 +72,14 @@ export const useOrderPricing = (
 
     const totalDiscount = totalAfterProductDiscounts - finalTotal;
 
+    const totalBonuses = Math.floor(finalTotal * CONFIG.BONUSES_PERCENT / 100)
+
     return {
       totalPrice: totalAfterProductDiscounts,
       totalMaxPrice: totalAfterProductDiscounts,
       totalDiscount,
       finalPrice: finalTotal,
-      totalBonuses: 0,
+      totalBonuses: totalBonuses,
       maxBonusUse: 0,
       isMinimumReached: true,
     };

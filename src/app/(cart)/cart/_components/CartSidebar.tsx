@@ -1,6 +1,6 @@
 import { CartSidebarProps } from "@/types/cart";
 import BonusesSection from "./BonusesSection";
-import CartSummary from "./CartSummary";
+import CartSummary from "../../../../components/CartSummary";
 
 const CartSidebar = ({ deliveryData, productsData }: CartSidebarProps) => {
   return (

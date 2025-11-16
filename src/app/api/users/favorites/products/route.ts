@@ -91,8 +91,6 @@ export async function GET(request: Request) {
 
     const favoriteProductIds = user.favorites || [];
     
-    console.log("⭐ Favorite IDs (strings):", favoriteProductIds);
-    
     const numericFavoriteIds = favoriteProductIds
       .map((id: string) => parseInt(id))
       .filter((id: number) => !isNaN(id));

@@ -8,6 +8,7 @@ const useRepeatOrder = () => {
   const [selectedDelivery, setSelectedDelivery] = useState<DeliveryData | null>(
     null
   );
+  const [isRepeatOrderCreated, setIsRepeatOrderCreated] = useState(false);
 
   const handleOrderClick = () => setShowDeliveryButton(true);
   const handleDeliveryClick = () => setShowDatePicker(true);
@@ -20,6 +21,7 @@ const useRepeatOrder = () => {
     const deliveryData: DeliveryData = {
       address,
       time: { date: date.toISOString().split("T")[0], timeSlot },
+      isValid: false,
     };
     setSelectedDelivery(deliveryData);
     setShowDatePicker(false);
@@ -27,6 +29,16 @@ const useRepeatOrder = () => {
 
   const handleCancelDelivery = () => {
     setShowDatePicker(false);
+    setSelectedDelivery(null);
+    setShowDeliveryButton(false);
+  };
+
+  const handleEditDelivery = () => {
+    setShowDatePicker(true);
+  };
+
+  const handleRepeatOrderSuccess = () => {
+    setIsRepeatOrderCreated(true);
     setSelectedDelivery(null);
     setShowDeliveryButton(false);
   };
@@ -39,6 +51,11 @@ const useRepeatOrder = () => {
     handleDateSelect,
     selectedDelivery,
     handleCancelDelivery,
+    isRepeatOrderCreated,
+    setIsRepeatOrderCreated,
+    setSelectedDelivery,
+    handleEditDelivery,
+    handleRepeatOrderSuccess,
   };
 };
 

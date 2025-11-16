@@ -2,7 +2,6 @@ import { CreditCard } from "lucide-react";
 import { getFullEnding } from "../../../../../utils/getWordEnding";
 import { useCartStore } from "@/store/cartStore";
 import { CONFIG } from "../../../../../config/config";
-import { useRouter } from "next/navigation";
 
 const OrderSuccessMessage = ({
   orderNumber,
@@ -11,21 +10,17 @@ const OrderSuccessMessage = ({
 }) => {
   const { pricing, useBonuses } = useCartStore();
   const { totalBonuses, maxBonusUse, totalPrice } = pricing;
-  const router = useRouter();
   const { setIsOrdered } = useCartStore();
 
   const handleNewOrder = () => {
     setIsOrdered(false);
-    router.replace("/");
+    window.location.reload();
   };
 
   const usedBonuses = Math.min(
     maxBonusUse,
     Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
   );
-
-  const baseStyles =
-    "h-10 rounded w-full text-base items-center justify-center duration-300";
 
   return (
     <div className="text-center p-4 bg-[#e5ffde] text-[#008c49] rounded border border-primary">
@@ -50,11 +45,11 @@ const OrderSuccessMessage = ({
         {getFullEnding(totalBonuses)}
       </div>
       <button
-        onClick={handleNewOrder}
-        className={`${baseStyles} bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer duration-300`}
-      >
-        Вернуться на главную
-      </button>
+          onClick={handleNewOrder}
+          className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
+        >
+          Обновить страницу
+        </button>
     </div>
   );
 };
