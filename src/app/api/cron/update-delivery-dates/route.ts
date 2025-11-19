@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "../../../../../utils/api-routes";
-import { getThreeDaysDates } from "@/app/(admin)/administrator/delivery-times/utils/getThreeDaysDates";
+import { getThreeDaysDates } from "../../../../../utils/getThreeDaysDates";
 
 export async function GET(request: NextRequest) {
   try {

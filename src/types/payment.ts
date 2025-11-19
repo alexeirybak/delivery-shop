@@ -1,4 +1,4 @@
-export type PaymentSimulationResult = 'success' | 'failure' | 'error';
+export type PaymentSimulationResult = "success" | "failure" | "error";
 
 export interface FakePaymentData {
   id: string;
@@ -6,7 +6,7 @@ export interface FakePaymentData {
   cardLast4: string;
   timestamp: string;
   processor: string;
-  status: 'succeeded' | 'failed';
+  status: "succeeded" | "failed" | "waiting";
 }
 
 export interface PaymentSuccessData {

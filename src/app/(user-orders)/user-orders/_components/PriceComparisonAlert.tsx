@@ -11,7 +11,6 @@ export const PriceComparisonAlert: React.FC<PriceComparisonAlertProps> = ({
   priceComparison,
   onClose,
 }) => {
-  console.log(priceComparison);
   return (
     <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
       <div className="flex justify-between items-start">

@@ -8,9 +8,11 @@ import CheckoutButton from "../app/(cart)/cart/_components/CheckoutButton";
 import PaymentButtons from "../app/(cart)/cart/_components/PaymentButtons";
 import { FakePaymentData, PaymentSuccessData } from "@/types/payment";
 import {
+  clearUserCart,
   confirmOrderPayment,
   createOrderRequest,
   prepareCartItemsWithPrices,
+  updateOrderStatus,
   updateUserAfterPayment,
 } from "../app/(cart)/cart/utils/orderHelpers";
 import FakePaymentModal from "@/app/(payment)/FakePaymentModal";
@@ -134,36 +136,52 @@ const CartSummary = ({
     setIsProcessing(true);
     setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
 
+    let orderCreated = false;
+
     try {
       if (paymentMethod === "online") {
         if (paymentData?.status === "succeeded") {
+          // УСПЕШНАЯ ОПЛАТА - заказ уже создан в handleOnlinePayment
           await confirmOrderPayment(currentOrderId!);
           await updateUserAfterPayment({
             usedBonuses: actualUsedBonuses,
             earnedBonuses: totalBonuses,
             purchasedProductIds: visibleCartItems.map((item) => item.productId),
           });
+
+          orderCreated = true; // Заказ был создан ранее
+
+          const successModalData: PaymentSuccessData = {
+            orderNumber: orderNumber!,
+            paymentId: paymentData!.id,
+            amount: finalPrice,
+            cardLast4: paymentData!.cardLast4,
+          };
+
+          setSuccessData(successModalData);
+          setShowSuccessModal(true);
+        } else {
+          // НЕУСПЕШНАЯ ОПЛАТА - заказ создан, но оплата failed
+          orderCreated = true; // Заказ был создан ранее
+          router.push("/user-orders");
         }
-
-        const successModalData: PaymentSuccessData = {
-          orderNumber: orderNumber!,
-          paymentId: paymentData!.id,
-          amount: finalPrice,
-          cardLast4: paymentData!.cardLast4,
-        };
-
-        setSuccessData(successModalData);
-        setShowSuccessModal(true);
       } else {
+        // НАЛИЧНЫЕ ПРИ ПОЛУЧЕНИИ - создаем заказ здесь
         const result = await createOrder(paymentMethod, paymentData?.id);
         setOrderNumber(result.orderNumber);
+        orderCreated = true; // Заказ успешно создан
       }
 
       setIsOrdered(true);
     } catch (error) {
       console.error(`Ошибка:`, error);
-      alert(`Ошибка при обработке заказаы`);
+      alert(`Ошибка при обработке заказа`);
     } finally {
+      // ОЧИСТКА ТОЛЬКО ЕСЛИ ЗАКАЗ ГАРАНТИРОВАННО СОЗДАН В БД
+      if (orderCreated) {
+        await clearUserCart();
+        resetAfterOrder();
+      }
       setIsProcessing(false);
     }
   };
@@ -184,10 +202,13 @@ const CartSummary = ({
       const result = await createOrder("online");
       setOrderNumber(result.orderNumber);
       setCurrentOrderId(result.order._id);
+
+      // ЗАКАЗ УЖЕ СОЗДАН В БД - можно показывать модалку оплаты
       setShowPaymentModal(true);
     } catch (error) {
       console.error("Ошибка при создании заказа:", error);
       alert("Ошибка при создании заказа");
+      // НЕ очищаем корзину - заказ не создан
     } finally {
       setIsProcessing(false);
     }
@@ -206,9 +227,21 @@ const CartSummary = ({
     }
   };
 
-  const handlePaymentError = (error: string) => {
+  const handlePaymentError = async (error: string) => {
     setShowPaymentModal(false);
-    alert(`Ошибка оплаты: ${error}`);
+
+    if (currentOrderId) {
+      try {
+        // Используем универсальную функцию
+        await updateOrderStatus(currentOrderId, { paymentStatus: "failed" });
+        alert(error);
+      } catch (updateError) {
+        console.error("Ошибка при обновлении статуса платежа:", updateError);
+        alert(`Ошибка оплаты: ${error}`);
+      }
+    } else {
+      alert(`Ошибка оплаты: ${error}`);
+    }
   };
 
   const handleCloseSuccessModal = () => {
@@ -216,7 +249,7 @@ const CartSummary = ({
     if (isRepeatOrder && onOrderSuccess) {
       onOrderSuccess();
     }
-    setIsOrdered(true);
+    setIsOrdered(false); // Сбрасываем флаг заказа
     resetAfterOrder();
     router.push("/user-orders");
   };

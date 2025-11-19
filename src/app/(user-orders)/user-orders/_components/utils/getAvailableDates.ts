@@ -1,4 +1,4 @@
-import { getThreeDaysDates } from "@/app/(admin)/administrator/delivery-times/utils/getThreeDaysDates";
+import { getThreeDaysDates } from "../../../../../../utils/getThreeDaysDates";
 import { AvailableDate } from "@/types/availableDate";
 import { Schedule } from "@/types/deliverySchedule";
 
@@ -20,7 +20,7 @@ export const getAvailableDates = (schedule: Schedule): AvailableDate[] => {
       return {
         date: new Date(dateString),
         dateString,
-        availableSlots: totalSlots
+        availableSlots: totalSlots,
       };
     })
     .filter((item): item is AvailableDate => item !== null);

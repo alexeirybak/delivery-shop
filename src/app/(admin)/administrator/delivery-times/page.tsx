@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import AddTimeSlotForm from "./_components/AddTimeSlotForm";
 import MessageAlert from "./_components/MessageAlert";
 import { useDeliverySchedule } from "@/hooks/useDeliverySchedule";
-import { getThreeDaysDates } from "./utils/getThreeDaysDates";
+import { getThreeDaysDates } from "../../../../../utils/getThreeDaysDates";
 import { sortTimeSlots } from "./utils/sortTimeSlots";
 import ScheduleTable from "./_components/ScheduleTable";
 import SaveButton from "./_components/SaveButton";

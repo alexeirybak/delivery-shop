@@ -93,7 +93,6 @@ const Profile = () => {
     setIsLoggingOut(true);
     try {
       await logout();
-
       router.replace("/");
     } catch (error) {
       console.error("Не удалось выйти:", error);

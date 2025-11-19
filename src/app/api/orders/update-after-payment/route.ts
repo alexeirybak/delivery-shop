@@ -22,7 +22,7 @@ export async function POST(request: Request) {
     try {
       userObjectId = ObjectId.createFromHexString(userId);
     } catch {
-      console.error("Invalid user ID format:", userId);
+      console.error("Неправильный ID пользователя:", userId);
       return NextResponse.json(
         { message: "Неверный формат ID пользователя" },
         { status: 400 }
@@ -81,7 +81,6 @@ export async function POST(request: Request) {
         $set: {
           bonusesCount: newBonusesCount,
           purchases: updatedPurchases,
-          cart: [],
           updatedAt: new Date(),
         },
       }

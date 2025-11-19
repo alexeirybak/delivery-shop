@@ -40,6 +40,8 @@ export interface UpdateUserData {
 }
 
 export interface OrderItem {
+  name: string;
+  totalPrice: number;
   basePrice: number;
   title: string;
   productId: string;
@@ -59,6 +61,7 @@ export interface OrderItem {
 }
 
 export interface Order {
+  paidAt: string;
   _id: string;
   userId: string;
   orderNumber: string;

@@ -3,7 +3,7 @@ import { Clock } from "lucide-react";
 import { additionalStyles, labelStyles, selectStyles } from "./styles";
 import { formStyles } from "@/app/styles";
 import { Schedule } from "@/types/deliverySchedule";
-import { getThreeDaysDates } from "@/app/(admin)/administrator/delivery-times/utils/getThreeDaysDates";
+import { getThreeDaysDates } from "../../../../../utils/getThreeDaysDates";
 import DeliveryTimeSkeletons from "./DeliveryTimeSkeletons";
 import { formatTimeSlot } from "../utils/formatTimeSlot";
 import { isTimeSlotPassed } from "../utils/isTimeSlotPassed";

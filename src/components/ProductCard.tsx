@@ -16,6 +16,7 @@ const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
 interface ExtendedProductCardProps extends ProductCardProps {
   index?: number;
+  isAdminOrderPage?: boolean;
 }
 
 const ProductCard = ({
@@ -31,6 +32,7 @@ const ProductCard = ({
   isLowStock,
   insufficientStock,
   isOrderPage = false,
+  isAdminOrderPage = false,
   index = 0,
 }: ExtendedProductCardProps) => {
   const finalPrice = calculateFinalPrice(basePrice, discountPercent);
@@ -50,7 +52,9 @@ const ProductCard = ({
   const isPriorityImage = index < 4;
 
   return (
-    <div className="relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] h-[349px] align-top p-0 hover:shadow-article duration-300">
+    <div
+      className={`relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-[224px] xl:w-[272px] ${isAdminOrderPage ? "h-auto" : "h-[349px]"} align-top p-0 hover:shadow-article duration-300`}
+    >
       {orderQuantity && (
         <div className="absolute top-2 left-2 text-main-text flex items-center p-1 bg-white bg-opacity-80 rounded justify-center gap-1 text-lg font-bold z-10">
           <IconCart />
@@ -69,7 +73,8 @@ const ProductCard = ({
           {insufficientStock ? "Нет в наличии" : `Осталось: ${quantity}`}
         </div>
       )}
-      <FavoriteButton productId={productId.toString()} />
+      {!isAdminOrderPage && <FavoriteButton productId={productId.toString()} />}
+
       <Link href={productUrl}>
         <div className="relative aspect-square w-40 h-40 md:w-[224px] xl:w-[272px]">
           <Image
@@ -80,46 +85,54 @@ const ProductCard = ({
             priority={isPriorityImage}
             sizes="(max-width: 768px) 160px, (max-width: 1280px) 224px, 272px"
           />
-          {!isOrderPage && discountPercent > 0 && (
+          {!isAdminOrderPage && !isOrderPage && discountPercent > 0 && (
             <div className="absolute bg-[#ff6633] py-1 px-2 rounded text-white bottom-2.5 left-2.5">
               -{discountPercent}%
             </div>
           )}
         </div>
 
-        <div className="flex flex-col p-2 h-[189px]">
-          <div className="flex flex-row justify-between items-start h-[45px]">
-            <div className="flex flex-col gap-x-1">
-              <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
-                <span>{formatPrice(displayPrice)}</span>
-                <span>₽</span>
-              </div>
-              {showTwoPrices && (
-                <p className="text-[#bfbfbf] text-[8px] md:text-xs">С картой</p>
-              )}
-            </div>
-            {showTwoPrices && (
+        <div
+          className={`flex flex-col p-2 ${isAdminOrderPage ? "h-auto" : "h-[189px]"} `}
+        >
+          {!isAdminOrderPage && (
+            <div className="flex flex-row justify-between items-start h-[45px]">
               <div className="flex flex-col gap-x-1">
-                <div className="flex flex-row gap-x-1 text-xs md:text-base text-[#606060]">
-                  <span>{formatPrice(finalPrice)}</span>
+                <div className="flex flex-row gap-x-1 text-sm md:text-lg font-bold text-main-text">
+                  <span>{formatPrice(displayPrice)}</span>
                   <span>₽</span>
                 </div>
-                <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">
-                  Обычная
-                </p>
+                {showTwoPrices && (
+                  <p className="text-[#bfbfbf] text-[8px] md:text-xs">
+                    С картой
+                  </p>
+                )}
               </div>
-            )}
-          </div>
+              {showTwoPrices && (
+                <div className="flex flex-col gap-x-1">
+                  <div className="flex flex-row gap-x-1 text-xs md:text-base text-[#606060]">
+                    <span>{formatPrice(finalPrice)}</span>
+                    <span>₽</span>
+                  </div>
+                  <p className="text-[#bfbfbf] text-[8px] md:text-xs text-right">
+                    Обычная
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
           <div className="h-13.5 text-xs md:text-base text-main-text line-clamp-3 md:line-clamp-2 leading-[1.5]">
             {description}
           </div>
-          {<StarRating rating={rating?.rate || 5.0} />}
+          {!isAdminOrderPage && <StarRating rating={rating?.rate || 5.0} />}
         </div>
       </Link>
-      <AddToCartButton
-        productId={productId.toString()}
-        availableQuantity={quantity}
-      />
+      {!isAdminOrderPage && (
+        <AddToCartButton
+          productId={productId.toString()}
+          availableQuantity={quantity}
+        />
+      )}
     </div>
   );
 };

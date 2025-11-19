@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { getThreeDaysDates } from "@/app/(admin)/administrator/delivery-times/utils/getThreeDaysDates";
+import { getThreeDaysDates } from "../../utils/getThreeDaysDates";
 import { convertTimeToMinutes } from "@/app/(admin)/administrator/delivery-times/utils/convertTimeToMinutes";
 import { Schedule } from "@/types/deliverySchedule";
 
@@ -15,12 +15,9 @@ export function useDeliverySchedule() {
 
   const dates = getThreeDaysDates();
 
-  const showMessage = useCallback(
-    (text: string) => {
-      setMessage(text);
-    },
-    []
-  );
+  const showMessage = useCallback((text: string) => {
+    setMessage(text);
+  }, []);
 
   const initializeEmptySchedule = useCallback(() => {
     const emptySchedule: Schedule = {};

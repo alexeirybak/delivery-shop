@@ -1,7 +1,10 @@
+"use client";
+
 import { CreditCard } from "lucide-react";
 import { getFullEnding } from "../../../../../utils/getWordEnding";
 import { useCartStore } from "@/store/cartStore";
 import { CONFIG } from "../../../../../config/config";
+import { useRouter } from "next/navigation";
 
 const OrderSuccessMessage = ({
   orderNumber,
@@ -11,10 +14,11 @@ const OrderSuccessMessage = ({
   const { pricing, useBonuses } = useCartStore();
   const { totalBonuses, maxBonusUse, totalPrice } = pricing;
   const { setIsOrdered } = useCartStore();
+  const router = useRouter();
 
-  const handleNewOrder = () => {
-    setIsOrdered(false);
-    window.location.reload();
+  const handleToOrder = () => {
+    setIsOrdered(false); // Reset the order state
+    router.push("/user-orders");
   };
 
   const usedBonuses = Math.min(
@@ -29,8 +33,8 @@ const OrderSuccessMessage = ({
         Номер вашего заказа: <strong>{orderNumber}</strong>
       </div>
       <div className="text-sm mb-3">
-        Вы можете оплатить заказ при получении курьеру наличными или картой. С
-        Вами свяжутся для подтверждения времени доставки.
+        {`Вы можете оплатить заказ при получении курьеру наличными или картой. С
+        Вами свяжутся для подтверждения времени доставки. Отслеживать состояние заказов Вы теперь можете на странице "Заказы"`}
       </div>
       {useBonuses && (
         <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
@@ -45,11 +49,11 @@ const OrderSuccessMessage = ({
         {getFullEnding(totalBonuses)}
       </div>
       <button
-          onClick={handleNewOrder}
-          className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
-        >
-          Обновить страницу
-        </button>
+        onClick={handleToOrder}
+        className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
+      >
+        Перейти на страницу заказов
+      </button>
     </div>
   );
 };
