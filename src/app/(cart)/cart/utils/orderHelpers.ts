@@ -2,7 +2,6 @@ import { CartItem } from "@/types/cart";
 import {
   CartItemWithPrice,
   CreateOrderRequest,
-  UpdateUserData,
 } from "@/types/order";
 import { ProductCardProps } from "@/types/product";
 import {
@@ -62,14 +61,20 @@ export const createOrderRequest = async (orderData: CreateOrderRequest) => {
   return await response.json();
 };
 
-export const updateUserAfterPayment = async (data: UpdateUserData) => {
+export const updateUserAfterPayment = async (data: {
+  orderId: string; // ← ДОБАВИЛ orderId
+  usedBonuses?: number;
+  earnedBonuses?: number;
+  purchasedProductIds?: string[];
+}) => {
   try {
     const response = await fetch("/api/orders/update-after-payment", {
+      // endpoint тот же
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(data), // теперь с orderId
     });
 
     if (!response.ok) {

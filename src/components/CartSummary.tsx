@@ -9,7 +9,6 @@ import PaymentButtons from "../app/(cart)/cart/_components/PaymentButtons";
 import { FakePaymentData, PaymentSuccessData } from "@/types/payment";
 import {
   clearUserCart,
-  confirmOrderPayment,
   createOrderRequest,
   prepareCartItemsWithPrices,
   updateUserAfterPayment,
@@ -138,8 +137,8 @@ const CartSummary = ({
     try {
       if (paymentMethod === "online") {
         if (paymentData?.status === "succeeded") {
-          await confirmOrderPayment(currentOrderId!);
           await updateUserAfterPayment({
+            orderId: currentOrderId!, // ← ОБЯЗАТЕЛЬНЫЙ параметр
             usedBonuses: actualUsedBonuses,
             earnedBonuses: totalBonuses,
             purchasedProductIds: visibleCartItems.map((item) => item.productId),
