@@ -8,7 +8,13 @@ export async function POST(request: Request) {
     const db = await getDB();
     const requestData = await request.json();
 
-    const { usedBonuses, earnedBonuses, purchasedProductIds } = requestData;
+    const { 
+      orderId, 
+      usedBonuses, 
+      earnedBonuses, 
+      purchasedProductIds 
+    } = requestData;
+
     const userId = await getServerUserId();
 
     if (!userId) {
@@ -18,20 +24,39 @@ export async function POST(request: Request) {
       );
     }
 
-    let userObjectId;
-    try {
-      userObjectId = ObjectId.createFromHexString(userId);
-    } catch {
-      console.error("Неправильный ID пользователя:", userId);
+    if (!orderId) {
       return NextResponse.json(
-        { message: "Неверный формат ID пользователя" },
+        { message: "ID заказа обязателен" },
         { status: 400 }
       );
     }
 
-    const user = await db.collection("user").findOne({
-      _id: userObjectId,
-    });
+    let userObjectId;
+    let orderObjectId;
+    
+    try {
+      userObjectId = ObjectId.createFromHexString(userId);
+      orderObjectId = ObjectId.createFromHexString(orderId);
+    } catch {
+      console.error("Неправильный формат ID:", { userId, orderId });
+      return NextResponse.json(
+        { message: "Неверный формат ID" },
+        { status: 400 }
+      );
+    }
+
+    // 1. НАХОДИМ ЗАКАЗ И ПОЛЬЗОВАТЕЛЯ
+    const [order, user] = await Promise.all([
+      db.collection("orders").findOne({ _id: orderObjectId }),
+      db.collection("user").findOne({ _id: userObjectId })
+    ]);
+
+    if (!order) {
+      return NextResponse.json(
+        { message: "Заказ не найден" },
+        { status: 404 }
+      );
+    }
 
     if (!user) {
       return NextResponse.json(
@@ -40,73 +65,93 @@ export async function POST(request: Request) {
       );
     }
 
-    const currentBonuses = user.bonusesCount || 0;
-    const usedBonusesNum = Number(usedBonuses) || 0;
-    const earnedBonusesNum = Number(earnedBonuses) || 0;
+    // 2. ОБРАБОТКА БОНУСОВ (если переданы)
+    if (usedBonuses !== undefined || earnedBonuses !== undefined) {
+      const currentBonuses = user.bonusesCount || 0;
+      const usedBonusesNum = Number(usedBonuses) || 0;
+      const earnedBonusesNum = Number(earnedBonuses) || 0;
 
-    if (usedBonusesNum > currentBonuses) {
-      return NextResponse.json(
+      if (usedBonusesNum > currentBonuses) {
+        return NextResponse.json(
+          {
+            message: "Недостаточно бонусов",
+            availableBonuses: currentBonuses,
+            requiredBonuses: usedBonusesNum,
+          },
+          { status: 400 }
+        );
+      }
+
+      const newBonusesCount = currentBonuses - usedBonusesNum + earnedBonusesNum;
+
+      // 3. ОБНОВЛЕНИЕ ПОКУПОК ПОЛЬЗОВАТЕЛЯ (если переданы)
+      let updatedPurchases = Array.isArray(user.purchases) ? user.purchases : [];
+      
+      if (purchasedProductIds && purchasedProductIds.length > 0) {
+        const numericPurchasedIds = purchasedProductIds.map((id: string) => Number(id));
+        const uniqueNewIds = numericPurchasedIds.filter(
+          (id: number, index: number, array: number[]) => array.indexOf(id) === index
+        );
+
+        const allPurchases = [...updatedPurchases, ...uniqueNewIds];
+        updatedPurchases = allPurchases.filter(
+          (id: number, index: number, array: number[]) => array.indexOf(id) === index
+        );
+      }
+
+      // ОБНОВЛЯЕМ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
+      await db.collection("user").updateOne(
+        { _id: userObjectId },
         {
-          message: "Недостаточно бонусов",
-          availableBonuses: currentBonuses,
-          requiredBonuses: usedBonusesNum,
-        },
-        { status: 400 }
+          $set: {
+            bonusesCount: newBonusesCount,
+            purchases: updatedPurchases,
+            updatedAt: new Date(),
+          },
+        }
       );
     }
 
-    const newBonusesCount = currentBonuses - usedBonusesNum + earnedBonusesNum;
-    const currentPurchases = Array.isArray(user.purchases)
-      ? user.purchases
-      : [];
+    // 4. СПИСЫВАЕМ ТОВАРЫ ИЗ ЗАКАЗА
+    for (const item of order.items) {
+      const productIdNumber = parseInt(item.productId);
+      await db.collection("products").updateOne(
+        { id: productIdNumber },
+        {
+          $inc: { quantity: -item.quantity },
+          $set: { updatedAt: new Date() },
+        }
+      );
+    }
 
-    const numericPurchasedIds = (purchasedProductIds || []).map((id: string) =>
-      Number(id)
-    );
-
-    // СОЗДАЕМ МАССИВ ТОЛЬКО С УНИКАЛЬНЫМИ ID
-    const uniqueNewIds = numericPurchasedIds.filter(
-      (id: number, index: number, array: number[]) => array.indexOf(id) === index
-    );
-
-    // ОБЪЕДИНЯЕМ СУЩЕСТВУЮЩИЕ И НОВЫЕ ПОКУПКИ, УБИРАЯ ДУБЛИКАТЫ
-    const allPurchases = [...currentPurchases, ...uniqueNewIds];
-    const updatedPurchases = allPurchases.filter(
-      (id: number, index: number, array: number[]) => array.indexOf(id) === index
-    );
-
-    const updateResult = await db.collection("user").updateOne(
-      { _id: userObjectId },
+    // 5. ОБНОВЛЯЕМ СТАТУС ЗАКАЗА
+    await db.collection("orders").updateOne(
+      { _id: orderObjectId },
       {
         $set: {
-          bonusesCount: newBonusesCount,
-          purchases: updatedPurchases,
+          status: "confirmed",
+          paymentStatus: "paid",
+          paidAt: new Date(),
           updatedAt: new Date(),
         },
       }
     );
 
-    if (updateResult.modifiedCount === 0) {
-      return NextResponse.json(
-        { message: "Данные не были обновлены" },
-        { status: 500 }
-      );
-    }
-
     return NextResponse.json({
       success: true,
-      message: "Пользователь успешно обновлен",
-      updatedFields: {
-        bonusesDeducted: usedBonusesNum,
-        bonusesAdded: earnedBonusesNum,
-        newBonusesCount,
-        productsAdded: uniqueNewIds.length,
-        totalPurchases: updatedPurchases.length,
-        cartCleared: true,
-      },
+      message: "Оплата подтверждена, товары списаны и данные пользователя обновлены",
     });
+
   } catch (error) {
-    console.error("Ошибка обновления данных пользователя:", error);
+    console.error("Ошибка подтверждения оплаты:", error);
+    
+    if (error instanceof Error) {
+      return NextResponse.json(
+        { message: error.message },
+        { status: 400 }
+      );
+    }
+    
     return NextResponse.json(
       { message: "Внутренняя ошибка сервера" },
       { status: 500 }
