@@ -11,13 +11,12 @@ const OrderSuccessMessage = ({
 }: {
   orderNumber: string | null;
 }) => {
-  const { pricing, useBonuses } = useCartStore();
+  const { pricing, useBonuses, resetAfterOrder } = useCartStore();
   const { totalBonuses, maxBonusUse, totalPrice } = pricing;
-  const { setIsOrdered } = useCartStore();
   const router = useRouter();
 
   const handleToOrder = () => {
-    setIsOrdered(false); // Reset the order state
+    resetAfterOrder();
     router.push("/user-orders");
   };
 

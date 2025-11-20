@@ -12,7 +12,6 @@ import {
   confirmOrderPayment,
   createOrderRequest,
   prepareCartItemsWithPrices,
-  updateOrderStatus,
   updateUserAfterPayment,
 } from "../app/(cart)/cart/utils/orderHelpers";
 import FakePaymentModal from "@/app/(payment)/FakePaymentModal";
@@ -83,7 +82,6 @@ const CartSummary = ({
 
   const actualUsedBonuses = useBonuses ? usedBonuses : 0;
 
-  // Функция создания заказа - просто подготавливает данные и отправляет запрос
   const createOrder = async (
     paymentMethod: "cash_on_delivery" | "online",
     paymentId?: string
@@ -137,63 +135,52 @@ const CartSummary = ({
     setIsProcessing(true);
     setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
 
-    // Локальная переменная для отслеживания создания заказа в ЭТОМ вызове функции
-    let orderCreated = false;
-
     try {
       if (paymentMethod === "online") {
-        orderCreated = true;
-        // ДЛЯ ОНЛАЙН-ОПЛАТЫ: заказ УЖЕ создан в handleOnlinePayment до открытия модалки оплаты
         if (paymentData?.status === "succeeded") {
-          // УСПЕШНАЯ ОПЛАТА - подтверждаем платеж и начисляем бонусы
           await confirmOrderPayment(currentOrderId!);
           await updateUserAfterPayment({
             usedBonuses: actualUsedBonuses,
             earnedBonuses: totalBonuses,
             purchasedProductIds: visibleCartItems.map((item) => item.productId),
           });
-
-          const successModalData: PaymentSuccessData = {
-            orderNumber: orderNumber!,
-            paymentId: paymentData!.id,
-            amount: finalPrice,
-            cardLast4: paymentData!.cardLast4,
-          };
-
-          setSuccessData(successModalData);
-          setShowSuccessModal(true);
-        } else {
-          // НЕУСПЕШНАЯ ОПЛАТА - заказ создан, но оплата failed
-          router.push("/user-orders");
         }
+
+        const successModalData: PaymentSuccessData = {
+          orderNumber: orderNumber!,
+          paymentId: paymentData!.id,
+          amount: finalPrice,
+          cardLast4: paymentData!.cardLast4,
+        };
+
+        // СНАЧАЛА показываем модальное окно
+        setSuccessData(successModalData);
+        setShowSuccessModal(true);
+        setIsOrdered(true);
+
+        // ПОТОМ очищаем корзину после создания онлайн
+        await clearUserCart();
       } else {
-        // ДЛЯ НАЛИЧНЫХ ПРИ ПОЛУЧЕНИИ: создаем заказ ЗДЕСЬ, в этом же вызове функции
         const result = await createOrder(paymentMethod, paymentData?.id);
+        await clearUserCart(); // Очищаем корзину после создания наличными
         setOrderNumber(result.orderNumber);
-        orderCreated = true; // Заказ успешно создан в этой функции
+
+        setIsOrdered(true); ///////////
       }
 
       setIsOrdered(true);
     } catch (error) {
       console.error(`Ошибка:`, error);
-      alert(`Ошибка при обработке заказа`);
+      alert(`Ошибка при обработке заказаы`);
     } finally {
-      // КРИТИЧЕСКИ ВАЖНО: очистка корзины происходит ТОЛЬКО если заказ гарантированно создан в БД
-      // Это защищает от ситуации, когда корзина очищается, а заказ не создан
-      if (orderCreated) {
-        await clearUserCart(); // Очищаем корзину в БД
-        resetAfterOrder(); // Очищаем локальный store корзины
-      }
       setIsProcessing(false);
     }
   };
 
-  // Обработчик для наличного платежа - просто вызывает основную функцию
   const handleCashPayment = async () => {
     await handlePaymentResult("cash_on_delivery");
   };
 
-  // Обработчик для онлайн-платежа - создает заказ ДО показа модалки оплаты
   const handleOnlinePayment = async () => {
     if (!deliveryData) {
       console.error("Данные доставки не заполнены");
@@ -203,19 +190,13 @@ const CartSummary = ({
     setIsProcessing(true);
 
     try {
-      // СОЗДАЕМ ЗАКАЗ ЗДЕСЬ - до того как пользователь начнет оплату
-      // Это важно потому что нам нужен orderId для подтверждения платежа
       const result = await createOrder("online");
       setOrderNumber(result.orderNumber);
       setCurrentOrderId(result.order._id);
-
-      // ЗАКАЗ УЖЕ СОЗДАН В БД - можно безопасно показывать модалку оплаты
-      // Даже если пользователь закроет модалку - заказ уже в базе
       setShowPaymentModal(true);
     } catch (error) {
       console.error("Ошибка при создании заказа:", error);
       alert("Ошибка при создании заказа");
-      // НЕ очищаем корзину - заказ не создан
     } finally {
       setIsProcessing(false);
     }
@@ -225,7 +206,6 @@ const CartSummary = ({
     setShowPaymentModal(false);
   };
 
-  // Успешная оплата в модалке - передаем данные в основную функцию обработки
   const handlePaymentSuccess = async (paymentData: FakePaymentData) => {
     setShowPaymentModal(false);
     try {
@@ -235,35 +215,20 @@ const CartSummary = ({
     }
   };
 
-  // Ошибка оплаты в модалке - обновляем статус заказа
   const handlePaymentError = async (error: string) => {
-  setShowPaymentModal(false);
-
-  try {
-    if (currentOrderId) {
-      // Заказ существует - обновляем его статус на "failed"
-      await updateOrderStatus(currentOrderId, { paymentStatus: "failed" });
-    }
-    
-    // Единый alert для всех случаев
+    setShowPaymentModal(false);
     alert(`Ошибка оплаты: ${error}`);
-    
-  } catch (updateError) {
-    console.error("Ошибка при обновлении статуса платежа:", updateError);
-    // Все равно показываем основную ошибку, но логируем дополнительную
-    alert(`Ошибка оплаты: ${error}`);
-  }
-};
+    resetAfterOrder(); // Очищаем корзину после неуспешного заказа
+    router.push("/user-orders");
+  };
 
-  // Закрытие модалки успешной оплаты - финальные действия
   const handleCloseSuccessModal = () => {
     setShowSuccessModal(false);
     if (isRepeatOrder && onOrderSuccess) {
       onOrderSuccess();
     }
-    setIsOrdered(false); // Сбрасываем флаг заказа
-    resetAfterOrder(); // Дополнительная очистка store (на всякий случай)
-    router.push("/user-orders"); // Переходим к заказам
+    resetAfterOrder(); // Очищаем корзину после успешного заказа
+    router.push("/user-orders");
   };
 
   const isFormValid = (): boolean => {
