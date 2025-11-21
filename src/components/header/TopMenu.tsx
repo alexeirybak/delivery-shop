@@ -16,7 +16,7 @@ const TopMenu = () => {
   const isFavoritesPage = pathname === "/favorites";
   const isCartPage = pathname === "/cart";
   const isUserOrdersPage = pathname === "/user-orders";
-  const isAdminOrdersPage = pathname.startsWith("/administrator/admin-orders"); // Исправлено
+  const isAdminOrdersPage = pathname === "/administrator/admin-orders"; // Исправлено
   
   const { user } = useAuthStore();
   const { totalItems, fetchCart } = useCartStore();

@@ -133,7 +133,6 @@ const CartSummary = ({
 
     setIsProcessing(true);
     setPaymentType(paymentMethod === "online" ? "online" : "cash_on_delivery");
-
     try {
       if (paymentMethod === "online") {
         if (paymentData?.status === "succeeded") {
@@ -158,7 +157,6 @@ const CartSummary = ({
         setIsOrdered(true);
 
         // ПОТОМ очищаем корзину после создания онлайн
-        await clearUserCart();
       } else {
         const result = await createOrder(paymentMethod, paymentData?.id);
         await clearUserCart(); // Очищаем корзину после создания наличными
@@ -218,6 +216,7 @@ const CartSummary = ({
     setShowPaymentModal(false);
     alert(`Ошибка оплаты: ${error}`);
     resetAfterOrder(); // Очищаем корзину после неуспешного заказа
+    await clearUserCart();
     router.push("/user-orders");
   };
 

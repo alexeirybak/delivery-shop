@@ -7,44 +7,43 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const db = await getDB();
-    
-    // Получаем даты: месяц назад и 3 дня вперед
+
+    // Получаем даты: месяц назад и послезавтра (включительно)
     const today = new Date();
     const oneMonthAgo = new Date(today);
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-    
-    const threeDaysForward = new Date(today);
-    threeDaysForward.setDate(threeDaysForward.getDate() + 3);
+
+    const dayAfterTomorrow = new Date(today);
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2); // +2 дня = послезавтра
 
     // Форматируем даты в строки YYYY-MM-DD
-    const formatDate = (date: Date) => date.toISOString().split('T')[0];
-    
-    const oneMonthAgoStr = formatDate(oneMonthAgo);
-    const threeDaysForwardStr = formatDate(threeDaysForward);
+    const formatDate = (date: Date) => date.toISOString().split("T")[0];
 
-    // Получаем заказы за период от месяца назад до 3 дней вперед
+    const oneMonthAgoStr = formatDate(oneMonthAgo);
+    const dayAfterTomorrowStr = formatDate(dayAfterTomorrow);
+    const todayStr = formatDate(today);
+
+    // Получаем заказы за период от месяца назад до послезавтра
     const orders = await db
       .collection("orders")
       .find({
         deliveryDate: {
           $gte: oneMonthAgoStr,
-          $lte: threeDaysForwardStr
-        }
+          $lte: dayAfterTomorrowStr,
+        },
       })
-      .sort({ deliveryDate: -1, deliveryTimeSlot: 1 }) // Сначала новые даты
+      .sort({ deliveryDate: -1, deliveryTimeSlot: 1 })
       .toArray();
 
-    // Статистика - заказы за последние 3 дня (включая сегодня)
-    const threeDaysAgo = new Date(today);
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-    const threeDaysAgoStr = formatDate(threeDaysAgo);
-
-    const lastThreeDaysOrders = orders.filter(order => 
-      order.deliveryDate >= threeDaysAgoStr && order.deliveryDate <= formatDate(today)
+    // Статистика - заказы на сегодня, завтра и послезавтра
+    const nextThreeDaysOrders = orders.filter(
+      (order) =>
+        order.deliveryDate >= todayStr &&
+        order.deliveryDate <= dayAfterTomorrowStr
     ).length;
 
     const stats = {
-      lastThreeDaysOrders
+      nextThreeDaysOrders, // заказы на: сегодня + завтра + послезавтра
     };
 
     return NextResponse.json({ orders, stats });
@@ -61,7 +60,7 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const { orderId, status } = await request.json();
-    
+
     if (!orderId || !status) {
       return NextResponse.json(
         { message: "orderId и status обязательны" },
@@ -70,12 +69,14 @@ export async function POST(request: Request) {
     }
 
     const db = await getDB();
-    
+
     // Обновляем статус заказа
-    const result = await db.collection("orders").updateOne(
-      { _id: ObjectId.createFromHexString(orderId) },
-      { $set: { status: status } }
-    );
+    const result = await db
+      .collection("orders")
+      .updateOne(
+        { _id: ObjectId.createFromHexString(orderId) },
+        { $set: { status: status } }
+      );
 
     if (result.modifiedCount === 0) {
       return NextResponse.json(
@@ -84,9 +85,9 @@ export async function POST(request: Request) {
       );
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "Статус заказа обновлен" 
+    return NextResponse.json({
+      success: true,
+      message: "Статус заказа обновлен",
     });
   } catch (error) {
     console.error("Ошибка при обновлении статуса заказа:", error);

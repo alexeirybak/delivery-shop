@@ -13,7 +13,7 @@ interface OrderStats {
   lastThreeDaysOrders: number;
 }
 
-const OrderAdminPage = () => {
+const AdminOrderPage = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [filteredOrders, setFilteredOrders] = useState<Order[]>([]);
   const [stats, setStats] = useState<OrderStats | null>(null);
@@ -118,4 +118,4 @@ const OrderAdminPage = () => {
   );
 };
 
-export default OrderAdminPage;
+export default AdminOrderPage;
