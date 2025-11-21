@@ -72,7 +72,7 @@ const AdminOrderPage = () => {
         (order) => order.deliveryDate === dateString
       );
       setFilteredOrders(filtered);
-      setIsCalendarOpen(false);
+      setIsCalendarOpen(false); // Не забыть про календарь!!!!!!
     }
   };
 

@@ -8,20 +8,32 @@ export async function GET() {
   try {
     const db = await getDB();
 
-    // Получаем даты: месяц назад и послезавтра (включительно)
     const today = new Date();
-    const oneMonthAgo = new Date(today);
+
+    // ФИКС: Устанавливаем время на начало дня для today (сохраняем название!)
+    const todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate()
+    );
+
+    const oneMonthAgo = new Date(todayStart); // Используем todayStart как базовую точку
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-    const dayAfterTomorrow = new Date(today);
-    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2); // +2 дня = послезавтра
+    const dayAfterTomorrow = new Date(todayStart); // Используем todayStart как базовую точку
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2);
 
-    // Форматируем даты в строки YYYY-MM-DD
-    const formatDate = (date: Date) => date.toISOString().split("T")[0];
+    // ФИКС: Форматируем даты в строки YYYY-MM-DD с учетом локального времени
+    const formatDate = (date: Date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, "0");
+      const day = String(date.getDate()).padStart(2, "0");
+      return `${year}-${month}-${day}`;
+    };
 
     const oneMonthAgoStr = formatDate(oneMonthAgo);
     const dayAfterTomorrowStr = formatDate(dayAfterTomorrow);
-    const todayStr = formatDate(today);
+    const todayStr = formatDate(todayStart); // Используем todayStart для форматирования
 
     // Получаем заказы за период от месяца назад до послезавтра
     const orders = await db
@@ -43,7 +55,7 @@ export async function GET() {
     ).length;
 
     const stats = {
-      nextThreeDaysOrders, // заказы на: сегодня + завтра + послезавтра
+      nextThreeDaysOrders,
     };
 
     return NextResponse.json({ orders, stats });
