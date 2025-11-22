@@ -38,7 +38,7 @@ const StatusDropdown = ({
   );
 
   return (
-    <div className="relative z-100" ref={dropdownRef}>
+    <div ref={dropdownRef}>
       <button
         type="button"
         onClick={() => !isUpdating && setIsDropdownOpen(!isDropdownOpen)}
