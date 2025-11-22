@@ -37,7 +37,6 @@ const DateSelector = ({
           width={24}
           height={24}
         />
-        {/* Показываем выбранную дату если она есть */}
         {customDate && (
           <span className="absolute top-0 text-xs text-main-text">
             {customDate.toLocaleDateString("ru-RU")}

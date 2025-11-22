@@ -10,7 +10,7 @@ import TimeSlotSection from "./_components/TimeSlotSection";
 import DateSelector from "./_components/DateSelector";
 
 interface OrderStats {
-  lastThreeDaysOrders: number;
+  nextThreeDaysOrders: number;
 }
 
 const AdminOrderPage = () => {
@@ -72,7 +72,7 @@ const AdminOrderPage = () => {
         (order) => order.deliveryDate === dateString
       );
       setFilteredOrders(filtered);
-      setIsCalendarOpen(false); // Не забыть про календарь!!!!!!
+      setIsCalendarOpen(false);
     }
   };
 

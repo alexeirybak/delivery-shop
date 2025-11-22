@@ -13,9 +13,14 @@ const CityFilterButtons = ({
   selectedCity,
   onCitySelect,
 }: CityFilterButtonsProps) => {
+  // Если городов 2 ("Все города" + 1 реальный город), показываем только реальный город
+  const displayCities = cities.length === 2 && cities.includes("Все города") 
+    ? cities.filter(city => city !== "Все города")
+    : cities;
+
   return (
     <div className="flex flex-wrap gap-2.5 mb-15">
-      {cities.map((city) => {
+      {displayCities.map((city) => {
         const ordersCount = city === "Все города" 
           ? slotOrders.length 
           : slotOrders.filter((order) => order.deliveryAddress?.city === city).length;
