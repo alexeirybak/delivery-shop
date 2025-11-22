@@ -1,13 +1,5 @@
-import { useAuthStore } from "@/store/authStore";
-
 const IconBox = ({ isActive = false }: { isActive?: boolean }) => {
-  const { user } = useAuthStore();
-
-  const fillColor = isActive
-    ? "rgb(255, 102, 51)"
-    : user?.role === "manager" || user?.role === "admin"
-      ? "rgb(255, 102, 51)"
-      : "rgb(65, 65, 65)";
+  const fillColor = isActive ? "rgb(255, 102, 51)" : "rgb(65, 65, 65)";
 
   return (
     <svg
