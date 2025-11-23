@@ -214,6 +214,7 @@ const CartSummary = ({
 
   const handlePaymentError = async (error: string) => {
     setShowPaymentModal(false);
+    // await updateOrderStatus
     alert(`Ошибка оплаты: ${error}`);
     resetAfterOrder(); // Очищаем корзину после неуспешного заказа
     await clearUserCart();
