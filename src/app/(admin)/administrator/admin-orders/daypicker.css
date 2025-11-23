@@ -1,0 +1,28 @@
+.rdp-caption_label,
+.rdp-month_caption,
+.rdp-nav {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  font-size: 0 !important;
+}
+
+.rdp-day_button {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.rdp-weekday {
+  text-align: center !important;
+  font-size: 18px !important;
+  font-style: normal !important;
+  width: 40px !important;
+  margin: 0 auto !important;
+}

@@ -62,7 +62,7 @@ export interface Order {
   _id: string;
   userId: string;
   orderNumber: string;
-  status: "pending" | "confirmed" | "cancelled" | "delivered" | "failed";
+  status: "pending" | "confirmed" | "cancelled" | "delivered" | "failed" | "collected" | "delivering" | "refund" | "returned";
   paymentMethod: "cash_on_delivery" | "online";
   paymentStatus: "pending" | "waiting" | "paid" | "failed";
   paymentId: string;
