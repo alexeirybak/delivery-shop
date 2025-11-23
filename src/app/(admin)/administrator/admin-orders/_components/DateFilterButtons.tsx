@@ -5,7 +5,7 @@ interface DateFilterButtonsProps {
   dates: string[];
   orders: Order[];
   selectedDate: string;
-  onDateSelect: (date: Date | undefined) => void;
+  onDateSelect: (date: string) => void;
 }
 
 const DateFilterButtons = ({
@@ -24,7 +24,7 @@ const DateFilterButtons = ({
         return (
           <button
             key={date}
-            onClick={() => onDateSelect(new Date(date))}
+            onClick={() => onDateSelect(date)}
             className={`p-4 w-46 h-15 rounded duration-300 cursor-pointer text-base md:text-lg xl:text-xl flex justify-between items-center gap-2 ${
               selectedDate === date
                 ? "items-center bg-primary text-white relative gap-2 justify-between"

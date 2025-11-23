@@ -140,10 +140,3 @@ export const updateOrderStatus = async (
 export const markPaymentAsFailed = async (orderId: string) => {
   return await updateOrderStatus(orderId, { paymentStatus: "failed" });
 };
-
-export const confirmOrderPayment = async (orderId: string) => {
-  return await updateOrderStatus(orderId, {
-    paymentStatus: "paid",
-    status: "confirmed",
-  });
-};

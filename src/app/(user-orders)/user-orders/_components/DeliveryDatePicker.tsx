@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import { Schedule } from "@/types/deliverySchedule";
 import MiniLoader from "@/components/MiniLoader";
-import { formatDateFull, formatDateNumeric } from "@/app/(admin)/administrator/delivery-times/utils/dateFormatters";
+import {
+  formatDateFull,
+  formatDateNumeric,
+} from "@/app/(admin)/administrator/delivery-times/utils/dateFormatters";
 import { formatTimeSlot } from "@/app/(cart)/cart/utils/formatTimeSlot";
 import { AvailableDate } from "@/types/availableDate";
-import { getAvailableDates } from "./utils/getAvailableDates";
-import { getAvailableTimeSlots } from "./utils/getAvailableTimeSlots";
-import { formatDisplayDate } from "./utils/formatDisplayDate";
+import { getAvailableDates } from "../utils/getAvailableDates";
+import { getAvailableTimeSlots } from "../utils/getAvailableTimeSlots";
+import { formatDisplayDate } from "../utils/formatDisplayDate";
 
 interface DeliveryDatePickerProps {
   schedule: Schedule;
@@ -45,7 +48,7 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
 
   // Функция для преобразования Date в строку формата "YYYY-MM-DD"
   const formatDateToString = (date: Date): string => {
-    return date.toISOString().split('T')[0];
+    return date.toISOString().split("T")[0];
   };
 
   // Получаем доступные временные слоты для выбранной даты
@@ -66,7 +69,8 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
           </label>
           <div className="grid grid-cols-3 gap-2">
             {availableDates.map((item) => {
-              const isSelected = selectedDate?.toDateString() === item.date.toDateString();
+              const isSelected =
+                selectedDate?.toDateString() === item.date.toDateString();
               return (
                 <button
                   key={item.dateString}
@@ -77,14 +81,18 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
                       : "bg-gray-100 hover:bg-gray-200"
                   }`}
                 >
-                  <div className={`text-xs mt-1 ${
-                    isSelected ? "text-white" : "text-main-text"
-                  }`}>
+                  <div
+                    className={`text-xs mt-1 ${
+                      isSelected ? "text-white" : "text-main-text"
+                    }`}
+                  >
                     {formatDateNumeric(formatDateToString(item.date))}
                   </div>
-                  <div className={`text-xs hidden xs:block ${
-                    isSelected ? "text-white" : "text-main-text"
-                  }`}>
+                  <div
+                    className={`text-xs hidden xs:block ${
+                      isSelected ? "text-white" : "text-main-text"
+                    }`}
+                  >
                     {formatDateFull(formatDateToString(item.date))}
                   </div>
                 </button>
@@ -108,9 +116,7 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
                     disabled={isCreatingOrder}
                     className="bg-gray-100 hover:bg-primary hover:text-white py-2 px-3 rounded text-sm duration-300 cursor-pointer disabled:opacity-50"
                   >
-                    <span className="xl:hidden">
-                      {formatted.mobileLabel}
-                    </span>
+                    <span className="xl:hidden">{formatted.mobileLabel}</span>
                     <span className="hidden xl:block">
                       {formatted.desktopLabel}
                     </span>
