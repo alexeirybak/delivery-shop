@@ -109,9 +109,9 @@ const AdminOrderCard = ({ order, onStatusUpdate }: AdminOrderCardProps) => {
   };
 
   return (
-    <div className="space-y-4">
+    <>
       {/* Заголовок заказа - древовидная структура */}
-      <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-20">
+      <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-20 z-10">
         
         {/* Левая часть: номер заказа + аватар + имя */}
         <div className="flex gap-x-4 items-center">
@@ -183,7 +183,7 @@ const AdminOrderCard = ({ order, onStatusUpdate }: AdminOrderCardProps) => {
           <OrderProductsLoader orderItems={order.items} />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
