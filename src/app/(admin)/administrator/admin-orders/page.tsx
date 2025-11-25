@@ -16,7 +16,7 @@ const AdminOrderPage = () => {
     isLoading,
     error: queryError,
   } = useGetAdminOrdersQuery(undefined, {
-    pollingInterval: 5000, // Увеличиваем интервал, т.к. теперь обновления точечные
+    pollingInterval: 5000, 
     refetchOnFocus: true,
     refetchOnReconnect: true,
   });
