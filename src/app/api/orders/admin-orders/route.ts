@@ -10,7 +10,6 @@ export async function GET() {
 
     const today = new Date();
 
-    // ФИКС: Устанавливаем время на начало дня для today (сохраняем название!)
     const todayStart = new Date(
       today.getFullYear(),
       today.getMonth(),

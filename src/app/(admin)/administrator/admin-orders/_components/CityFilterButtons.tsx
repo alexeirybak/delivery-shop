@@ -13,7 +13,6 @@ const CityFilterButtons = ({
   selectedCity,
   onCitySelect,
 }: CityFilterButtonsProps) => {
-  // Если городов 2 ("Все города" + 1 реальный город), показываем только реальный город
   const displayCities = cities.length === 2 && cities.includes("Все города") 
     ? cities.filter(city => city !== "Все города")
     : cities;

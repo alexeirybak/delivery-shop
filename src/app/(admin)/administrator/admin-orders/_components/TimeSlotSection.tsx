@@ -1,30 +1,44 @@
-import { Order } from "@/types/order";
+// components/TimeSlotSection.tsx
+import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
 import TimeSlotGroup from "./TimeSlotGroup";
+import { useMemo } from "react";
 
 interface TimeSlotSectionProps {
-  filteredOrders: Order[];
+  orderIds: string[]; // Принимаем только IDs
 }
 
-const TimeSlotSection = ({ filteredOrders }: TimeSlotSectionProps) => {
-  const timeSlots = Array.from(
-    new Set(filteredOrders.map((order) => order.deliveryTimeSlot))
-  ).sort();
+const TimeSlotSection = ({ orderIds }: TimeSlotSectionProps) => {
+  const { data } = useGetAdminOrdersQuery();
+
+  // Находим заказы по IDs
+  const orders = useMemo(() => {
+    if (!data?.orders) return [];
+    return data.orders.filter(order => orderIds.includes(order._id));
+  }, [data?.orders, orderIds]);
+
+  // Группируем по временным слотам
+  const timeSlotGroups = useMemo(() => {
+    const timeSlots = Array.from(
+      new Set(orders.map((order) => order.deliveryTimeSlot))
+    ).sort();
+
+    return timeSlots.map(timeSlot => ({
+      timeSlot,
+      orderIds: orders
+        .filter(order => order.deliveryTimeSlot === timeSlot)
+        .map(order => order._id)
+    }));
+  }, [orders]);
 
   return (
     <div className="space-y-8">
-      {timeSlots.map((timeSlot) => {
-        const slotOrders = filteredOrders.filter(
-          (order) => order.deliveryTimeSlot === timeSlot
-        );
-
-        return (
-          <TimeSlotGroup
-            key={timeSlot}
-            timeSlot={timeSlot}
-            slotOrders={slotOrders}
-          />
-        );
-      })}
+      {timeSlotGroups.map(({ timeSlot, orderIds }) => (
+        <TimeSlotGroup
+          key={timeSlot}
+          timeSlot={timeSlot}
+          orderIds={orderIds}
+        />
+      ))}
     </div>
   );
 };
