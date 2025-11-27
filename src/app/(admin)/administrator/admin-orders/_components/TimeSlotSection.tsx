@@ -21,7 +21,7 @@ const TimeSlotSection = ({ orderIds }: TimeSlotSectionProps) => {
   }));
 
   return (
-    <div className="space-y-8">
+    <div className="flex flex-col gap-y-30">
       {timeSlotGroups.map(({ timeSlot, orderIds }) => (
         <TimeSlotGroup key={timeSlot} timeSlot={timeSlot} orderIds={orderIds} />
       ))}
