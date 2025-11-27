@@ -3,10 +3,9 @@ import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
 import TimeSlotGroup from "./TimeSlotGroup";
 
 interface TimeSlotSectionProps {
-  orderIds: string[]; // Принимаем только IDs
+  orderIds: string[]; 
 }
 
-// Самый простой вариант - если заказов немного (до 50)
 const TimeSlotSection = ({ orderIds }: TimeSlotSectionProps) => {
   const { data } = useGetAdminOrdersQuery();
   
