@@ -1,7 +1,4 @@
 import Image from "next/image";
-import bannerCard from "/public/images/banners/banner-card-image.png";
-import bannerActionMobTab from "/public/images/banners/banner-action-mob-tab.jpeg";
-import bannerActionDesk from "/public/images/banners/banner-action-desk.jpeg";
 
 const SpecialOffers = () => {
   return (
@@ -23,7 +20,7 @@ const SpecialOffers = () => {
                 </p>
               </div>
               <Image
-                src={bannerCard}
+                src="/images/banners/banner-card-image.png"
                 alt="Оформите карту"
                 width={220}
                 height={110}
@@ -34,7 +31,7 @@ const SpecialOffers = () => {
               {/* Баннер акций - мобильная/планшетная версия */}
               <div className="xl:hidden w-full h-full">
                 <Image
-                  src={bannerActionMobTab}
+                  src="/images/banners/banner-action-mob-tab.jpeg"
                   alt="Акционные товары"
                   width={353}
                   height={170}
@@ -46,7 +43,7 @@ const SpecialOffers = () => {
               {/* Баннер акций - десктопная версия */}
               <div className="hidden xl:block w-full h-full">
                 <Image
-                  src={bannerActionDesk}
+                  src="/images/banners/banner-action-desk.jpeg"
                   alt="Акционные товары"
                   width={584}
                   height={200}

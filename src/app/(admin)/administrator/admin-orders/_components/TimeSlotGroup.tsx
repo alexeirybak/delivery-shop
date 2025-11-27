@@ -1,24 +1,32 @@
 import Image from "next/image";
 import { Order } from "@/types/order";
-import { useEffect, useState } from "react";
-import { getUniqueCities } from "../utils/getUniqueCities";
-import CityFilterButtons from "./CityFilterButtons";
 import AdminOrderCard from "./AdminOrderCard";
+import { useState, useEffect } from "react";
+import CityFilterButtons from "./CityFilterButtons";
+import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
+import { getUniqueCities } from "../utils/getUniqueCities";
 
 interface TimeSlotGroupProps {
   timeSlot: string;
-  slotOrders: Order[];
+  orderIds: string[]; // Принимаем только IDs
 }
 
-const TimeSlotGroup = ({ timeSlot, slotOrders }: TimeSlotGroupProps) => {
+const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
+  const { data } = useGetAdminOrdersQuery();
   const [selectedCity, setSelectedCity] = useState<string>("Все города");
-  const [localOrders, setLocalOrders] = useState<Order[]>(slotOrders);
+  const [localOrders, setLocalOrders] = useState<Order[]>([]);
 
+  // Находим полные объекты заказов по IDs
   useEffect(() => {
-    setLocalOrders(slotOrders);
-  }, [slotOrders]);
+    if (data?.orders) {
+      const filteredOrders = data.orders.filter((order) => 
+        orderIds.includes(order._id)
+      );
+      setLocalOrders(filteredOrders);
+    }
+  }, [data?.orders, orderIds]);
 
-  const cities = getUniqueCities(slotOrders);
+  const cities = getUniqueCities(localOrders);
 
   const filteredSlotOrders =
     selectedCity === "Все города"
@@ -27,29 +35,14 @@ const TimeSlotGroup = ({ timeSlot, slotOrders }: TimeSlotGroupProps) => {
           (order) => order.deliveryAddress?.city === selectedCity
         );
 
+  const startTime = timeSlot.split("-")[0];
+
   const completedOrdersCount = filteredSlotOrders.filter(
     (order) => order.status === "confirmed"
   ).length;
 
-  const startTime = timeSlot.split("-")[0];
-
   const handleCitySelect = (city: string) => {
     setSelectedCity(city);
-  };
-
-  const handleOrderStatusUpdate = (orderId: string, newStatus: string) => {
-    setLocalOrders((prev) =>
-      prev.map((order) => {
-        if (order._id === orderId) {
-          const updatedOrder: Order = {
-            ...order,
-            status: newStatus as Order["status"],
-          };
-          return updatedOrder;
-        }
-        return order;
-      })
-    );
   };
 
   return (
@@ -78,24 +71,23 @@ const TimeSlotGroup = ({ timeSlot, slotOrders }: TimeSlotGroupProps) => {
           </div>
         </div>
       </div>
+
       {cities.length > 1 && (
         <CityFilterButtons
           cities={cities}
-          slotOrders={slotOrders}
+          slotOrders={localOrders}
           selectedCity={selectedCity}
           onCitySelect={handleCitySelect}
         />
       )}
+
       <div className="flex flex-col gap-y-15">
-        {filteredSlotOrders.map((order) => {
-          return (
-            <AdminOrderCard
-              key={order._id}
-              order={order}
-              onStatusUpdate={handleOrderStatusUpdate}
-            />
-          );
-        })}
+        {filteredSlotOrders.map((order) => (
+          <AdminOrderCard
+            key={order._id}
+            orderId={order._id} // Передаем только ID, как требует дочерний компонент
+          />
+        ))}
       </div>
     </div>
   );

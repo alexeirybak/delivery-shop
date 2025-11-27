@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { SearchInputProps } from "@/types/searchInputProps";
-import iconSearch from "/public/icons-header/icon-search.svg";
 
 const SearchInput = ({
   query,
@@ -10,7 +9,7 @@ const SearchInput = ({
   handleInputBlur,
 }: SearchInputProps) => {
   return (
-    <div className="relative rounded border-1 border-primary shadow-(--shadow-button-default) leading-[150%]">
+    <div className="relative rounded border border-primary shadow-(--shadow-button-default) leading-[150%]">
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -30,7 +29,12 @@ const SearchInput = ({
           className="absolute top-2 right-2 w-6 h-6 cursor-pointer"
           type="submit"
         >
-          <Image src={iconSearch} alt="Поиск" width={24} height={24} />
+          <Image
+            src="/icons-header/icon-search.svg"
+            alt="Поиск"
+            width={24}
+            height={24}
+          />
         </button>
       </form>
     </div>

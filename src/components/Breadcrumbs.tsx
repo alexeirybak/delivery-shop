@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import iconToRight from "/public/icons-products/icon-arrow-right.svg";
 import { TRANSLATIONS } from "../../utils/translations";
 import { Suspense } from "react";
 import MiniLoader from "./MiniLoader";
@@ -67,7 +66,7 @@ function BreadcrumbsContent() {
             </div>
             {!item.isLast && (
               <Image
-                src={iconToRight}
+                src="/icons-products/icon-arrow-right.svg"
                 alt={`Переход от ${item.label} к ${
                   breadcrumbs[breadcrumbs.length - 1].label
                 }`}

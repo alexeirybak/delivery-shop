@@ -1,28 +1,32 @@
-import { Order } from "@/types/order";
+import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
 import TimeSlotGroup from "./TimeSlotGroup";
 
 interface TimeSlotSectionProps {
-  filteredOrders: Order[];
+  orderIds: string[];
 }
 
-const TimeSlotSection = ({ filteredOrders }: TimeSlotSectionProps) => {
-  const timeSlots = Array.from(
-    new Set(filteredOrders.map((order) => order.deliveryTimeSlot))
-  ).sort();
+const TimeSlotSection = ({ orderIds }: TimeSlotSectionProps) => {
+  const { data } = useGetAdminOrdersQuery();
+
+  const orders =
+    data?.orders?.filter((order) => orderIds.includes(order._id)) || [];
+
+  const timeSlots = [...new Set(orders.map((o) => o.deliveryTimeSlot))].sort();
+
+  const timeSlotGroups = timeSlots.map((timeSlot) => ({
+    timeSlot,
+    orderIds: orders
+      .filter((order) => order.deliveryTimeSlot === timeSlot)
+      .map((order) => order._id),
+  }));
+
+  console.log(timeSlotGroups);
+
   return (
     <div className="flex flex-col gap-y-30">
-      {timeSlots.map((timeSlot) => {
-        const slotOrders = filteredOrders.filter(
-          (order) => order.deliveryTimeSlot === timeSlot
-        );
-        return (
-          <TimeSlotGroup
-            key={timeSlot}
-            timeSlot={timeSlot}
-            slotOrders={slotOrders}
-          />
-        );
-      })}
+      {timeSlotGroups.map(({ timeSlot, orderIds }) => (
+        <TimeSlotGroup key={timeSlot} timeSlot={timeSlot} orderIds={orderIds} />
+      ))}
     </div>
   );
 };
