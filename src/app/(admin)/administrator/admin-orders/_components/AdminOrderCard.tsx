@@ -1,5 +1,5 @@
 import OrderProductsLoader from "./OrderProductsLoader";
-import { useState, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { updateOrderStatus } from "@/app/(cart)/cart/utils/orderHelpers";
 import { getMappedStatus } from "../utils/getMappedStatus";
 import { getEnglishStatuses } from "../utils/getEnglishStatuses";
@@ -16,10 +16,8 @@ interface AdminOrderCardProps {
 
 const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
-  
-  const order = useMemo(() => {
-    return data?.orders?.find(o => o._id === orderId);
-  }, [data?.orders, orderId]);
+
+  const order = data?.orders?.find((o) => o._id === orderId);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
     order ? getMappedStatus(order) : ""
@@ -27,20 +25,19 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
 
-  useMemo(() => {
+  // Исправленный эффект для обновления статуса
+  useEffect(() => {
     if (order) {
       setCurrentStatusLabel(getMappedStatus(order));
     }
   }, [order]);
 
-  const formattedPhone = useMemo(() => 
-    order ? formatPhoneNumber(order.phone) : "", 
-    [order]
-  );
+  // Упрощенное форматирование телефона
+  const formattedPhone = order ? formatPhoneNumber(order.phone) : "";
 
   const handleStatusChange = async (newStatusLabel: string) => {
     if (!order) return;
-    
+
     setIsUpdating(true);
     try {
       const { status: englishStatus, paymentStatus } = getEnglishStatuses(
