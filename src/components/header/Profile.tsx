@@ -2,7 +2,6 @@
 
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import iconArrow from "/public/icons-header/icon-arrow.svg";
 import Link from "next/link";
 import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
@@ -153,7 +152,7 @@ const Profile = () => {
         </p>
         <div className="hidden xl:block">
           <Image
-            src={iconArrow}
+            src="/icons-header/icon-arrow.svg"
             alt="Меню профиля"
             width={24}
             height={24}
