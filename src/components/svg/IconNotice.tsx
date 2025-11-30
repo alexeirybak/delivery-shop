@@ -1,7 +1,7 @@
 const IconNotice = () => {
   return (
-    <div className="absolute -top-1 -right-1">
-      <div className="w-3 h-3 bg-orange-500 rounded-full border-2 border-white" />
+    <div className="absolute top-1.5 right-1.75">
+      <div className="w-2.5 h-2.5 bg-[#ff6633] rounded-full" />
     </div>
   );
 };

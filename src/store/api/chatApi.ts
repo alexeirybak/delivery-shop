@@ -4,7 +4,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const chatApi = createApi({
   reducerPath: "chatApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "/api/admin/", 
+    baseUrl: "/api/admin/",
   }),
   tagTypes: ["Chat"],
   endpoints: (builder) => ({
@@ -28,9 +28,8 @@ export const chatApi = createApi({
       }),
       invalidatesTags: ["Chat"],
     }),
-    getUnreadCount: builder.query<number, string>({
-      query: (orderId) => `chat/${orderId}/unread`,
-      providesTags: ["Chat"],
+    hasUnreadMessages: builder.query<boolean, string>({
+      query: (orderId) => `chat/${orderId}/has-unread`,
     }),
   }),
 });
@@ -39,7 +38,7 @@ export const {
   useGetOrderMessagesQuery,
   useSendMessageMutation,
   useMarkAsReadMutation,
-  useGetUnreadCountQuery,
+  useHasUnreadMessagesQuery
 } = chatApi;
 
 export type { ChatMessage };

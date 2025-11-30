@@ -121,7 +121,7 @@ export const updateOrderStatus = async (
 
 // Специализированные функции для обратной совместимости
 export const markPaymentAsFailed = async (orderId: string) => {
-  return await updateOrderStatus(orderId, { paymentStatus: "failed" });
+  return await updateOrderStatus(orderId, { status: "pending", paymentStatus: "failed" });
 };
 
 export const confirmOrderPayment = async (orderId: string) => {

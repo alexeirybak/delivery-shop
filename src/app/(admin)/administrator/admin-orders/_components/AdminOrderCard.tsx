@@ -9,9 +9,10 @@ import IconVision from "@/components/svg/IconVision";
 import Image from "next/image";
 import { formatPhoneNumber } from "../utils/formatPhoneNumber";
 import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
-import { useGetUnreadCountQuery } from "@/store/api/chatApi";
 import OrderChatModal from "./OrderChatModal";
 import IconNotice from "@/components/svg/IconNotice";
+import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
+import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -21,6 +22,8 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
   const order = data?.orders?.find((o) => o._id === orderId);
 
+  console.log(data);
+
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
     order ? getMappedStatus(order) : ""
   );
@@ -28,11 +31,17 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [showChat, setShowChat] = useState(false);
 
-  // Получаем количество непрочитанных сообщений
-  const { data: unreadCount = 0 } = useGetUnreadCountQuery(orderId, {
+  const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
     skip: !orderId,
-    pollingInterval: 1000, // Проверка каждую секунду
   });
+  // Получаем количество непрочитанных сообщений
+  const { data: hasUnread = false } = useHasUnreadMessagesQuery(orderId, {
+    skip: !orderId,
+    pollingInterval: 2000,
+  });
+
+  // Проверяем нужно ли показывать иконку календаря
+  const showCalendarIcon = order && (order.status === "confirmed" || order.status === "pending");
 
   // Исправленный эффект для обновления статуса
   useEffect(() => {
@@ -87,7 +96,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   };
 
   if (!order) return null;
-
   return (
     <>
       <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-20">
@@ -130,19 +138,44 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             {showOrderDetails ? "Скрыть заказ" : "Просмотреть заказ"}
           </button>
 
-          {/* Кнопка чата с уведомлением */}
-          <button
-            className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-            onClick={handleOpenChat}
-          >
-            <Image
-              src="/icons-orders/icon-message.svg"
-              alt="Чат"
-              width={24}
-              height={24}
-            />
-            {unreadCount > 0 && <IconNotice />}
-          </button>
+          {/* Кнопка чата или календаря */}
+          {showCalendarIcon ? (
+            // Показываем иконку календаря для confirmed/pending статусов
+            <button
+              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              onClick={() => {/* Здесь будет добавлен обработчик для календаря */}}
+            >
+              <Image
+                src="/icons-auth/icon-date.svg"
+                alt="Календарь"
+                width={24}
+                height={24}
+              />
+            </button>
+          ) : (
+            // Показываем чат для других статусов
+            <button
+              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              onClick={handleOpenChat}
+            >
+              {messages.length === 0 ? (
+                <Image
+                  src="/icons-orders/icon-message-empty.svg"
+                  alt="Чат пустой"
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <Image
+                  src="/icons-orders/icon-message.svg"
+                  alt="Чат"
+                  width={24}
+                  height={24}
+                />
+              )}
+              {hasUnread && <IconNotice />}
+            </button>
+          )}
         </div>
       </div>
 
@@ -165,7 +198,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
       <OrderChatModal
         orderId={orderId}
         orderNumber={order.orderNumber}
-        userName={order.name} // имя клиента
+        userName={order.name}
         isOpen={showChat}
         onClose={handleCloseChat}
       />

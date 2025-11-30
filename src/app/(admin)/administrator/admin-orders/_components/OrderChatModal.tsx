@@ -46,7 +46,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
         orderId,
         message: message.trim(),
         userName: user?.name || "Администратор",
-        userRole: user?.role || "admin", 
+        userRole: user?.role || "admin",
       };
 
       await sendMessage(messageData).unwrap();
@@ -77,39 +77,33 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
         </h3>
 
         <div className="flex-1 overflow-y-auto space-y-8 w-full mx-auto">
-          {messages.length === 0 ? (
-            <div className="text-center text-main-text py-8">
-              Нет сообщений!
-            </div>
-          ) : (
-            messages.map((msg) => {
-              const role = getMessageRole(msg);
-              const roleDisplayName = getRoleDisplayName(role);
+          {messages.map((msg) => {
+            const role = getMessageRole(msg);
+            const roleDisplayName = getRoleDisplayName(role);
 
-              return (
-                <div key={msg._id} className="flex flex-col">
-                  <div className="flex items-baseline gap-2 mb-1 flex-wrap text-[#8f8f8f]">
-                    <div>{msg.userName}</div>
-                    <div>{roleDisplayName}</div>
-                    <div>
-                      {new Date(msg.timestamp).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}{" "}
-                      {new Date(msg.timestamp).toLocaleDateString("ru-RU", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </div>
-                  </div>
-                  <div className="border-1 border-[#bfbfbf] rounded px-2 py-1">
-                    {msg.message}
+            return (
+              <div key={msg._id} className="flex flex-col">
+                <div className="flex items-baseline gap-2 mb-1 flex-wrap text-[#8f8f8f]">
+                  <div>{msg.userName}</div>
+                  <div>{roleDisplayName}</div>
+                  <div>
+                    {new Date(msg.timestamp).toLocaleTimeString([], {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}{" "}
+                    {new Date(msg.timestamp).toLocaleDateString("ru-RU", {
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "numeric",
+                    })}
                   </div>
                 </div>
-              );
-            })
-          )}
+                <div className="border-1 border-[#bfbfbf] rounded px-2 py-1">
+                  {msg.message}
+                </div>
+              </div>
+            );
+          })}
           <div ref={messagesEndRef} />
         </div>
 

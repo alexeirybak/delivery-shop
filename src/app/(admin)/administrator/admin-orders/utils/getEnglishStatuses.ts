@@ -1,4 +1,3 @@
-// utils/getEnglishStatuses.ts
 import { Order } from "@/types/order";
 
 export const getEnglishStatuses = (russianStatus: string, order: Order): { status: string; paymentStatus?: string } => {
@@ -8,36 +7,32 @@ export const getEnglishStatuses = (russianStatus: string, order: Order): { statu
       case "Подтвержден":
         return { status: "confirmed", paymentStatus: "paid" };
       case "Не подтвердили":
-        return { status: "pending", paymentStatus: "failed" };
+        return { status: "cancelled", paymentStatus: "failed" }; // ← ИСПРАВЛЕНО: "cancelled"
       case "Новый":
-        return { status: "pending", paymentStatus: "waiting" }; // pending + waiting
-      case "Не оплачен":
-        return { status: "pending", paymentStatus: "failed" };
+        return { status: "pending", paymentStatus: "waiting" };
     }
   }
 
-  // Для оплаты при доставке
+  // Для оплаты при доставке  
   if (order.paymentMethod === "cash_on_delivery") {
     switch (russianStatus) {
-      case "Доставляется":
-        return { status: "pending", paymentStatus: "pending" }; // pending + pending
       case "Подтвержден":
         return { status: "confirmed", paymentStatus: "pending" };
       case "Новый":
-        return { status: "pending", paymentStatus: "pending" }; // pending + pending
+        return { status: "pending", paymentStatus: "pending" };
     }
   }
 
-  // Базовые статусы (не влияют на paymentStatus)
+  // Общий маппинг
   const statusMap: { [key: string]: string } = {
-    "В процессе": "pending",
-    "Возврат": "refund", 
-    "Вернули": "returned",
+    "Новый": "pending",
     "Собран": "collected",
     "Доставляется": "delivering",
-    "Подтвержден": "confirmed",
+    "Подтвержден": "confirmed", 
+    "Не подтвердили": "cancelled", // ← ДОБАВЛЕНО
+    "Возврат": "refund",
+    "Вернули": "returned",
     "Получен": "delivered",
-    "Отменен": "cancelled",
   };
 
   return { status: statusMap[russianStatus] || "pending" };
