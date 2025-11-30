@@ -9,6 +9,9 @@ import IconVision from "@/components/svg/IconVision";
 import Image from "next/image";
 import { formatPhoneNumber } from "../utils/formatPhoneNumber";
 import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
+import { useGetUnreadCountQuery } from "@/store/api/chatApi";
+import OrderChatModal from "./OrderChatModal";
+import IconNotice from "@/components/svg/IconNotice";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -16,7 +19,6 @@ interface AdminOrderCardProps {
 
 const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
-
   const order = data?.orders?.find((o) => o._id === orderId);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
@@ -24,6 +26,13 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   );
   const [isUpdating, setIsUpdating] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+
+  // Получаем количество непрочитанных сообщений
+  const { data: unreadCount = 0 } = useGetUnreadCountQuery(orderId, {
+    skip: !orderId,
+    pollingInterval: 1000, // Проверка каждую секунду
+  });
 
   // Исправленный эффект для обновления статуса
   useEffect(() => {
@@ -32,7 +41,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     }
   }, [order]);
 
-  // Упрощенное форматирование телефона
   const formattedPhone = order ? formatPhoneNumber(order.phone) : "";
 
   const handleStatusChange = async (newStatusLabel: string) => {
@@ -68,6 +76,14 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleHideOrder = () => {
     setShowOrderDetails(false);
+  };
+
+  const handleOpenChat = () => {
+    setShowChat(true);
+  };
+
+  const handleCloseChat = () => {
+    setShowChat(false);
   };
 
   if (!order) return null;
@@ -113,16 +129,29 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             <IconVision showPassword={!showOrderDetails} />
             {showOrderDetails ? "Скрыть заказ" : "Просмотреть заказ"}
           </button>
+
+          {/* Кнопка чата с уведомлением */}
+          <button
+            className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            onClick={handleOpenChat}
+          >
+            <Image
+              src="/icons-orders/icon-message.svg"
+              alt="Чат"
+              width={24}
+              height={24}
+            />
+            {unreadCount > 0 && <IconNotice />}
+          </button>
         </div>
       </div>
 
       {showOrderDetails && (
         <div className="space-y-4">
-          {/* Кнопка "Скрыть заказ" внутри деталей заказа */}
           <div className="flex justify-center">
             <button
               className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-              onClick={handleHideOrder} // Функция используется здесь!
+              onClick={handleHideOrder}
             >
               <IconVision showPassword={true} />
               Скрыть заказ
@@ -131,6 +160,15 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           <OrderProductsLoader orderItems={order.items} />
         </div>
       )}
+
+      {/* Модальное окно чата */}
+      <OrderChatModal
+        orderId={orderId}
+        orderNumber={order.orderNumber}
+        userName={order.name} // имя клиента
+        isOpen={showChat}
+        onClose={handleCloseChat}
+      />
     </>
   );
 };
