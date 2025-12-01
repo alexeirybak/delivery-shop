@@ -1,6 +1,7 @@
+// app/api/admin/chat/[orderId]/has-unread/route.ts
 import { NextResponse } from "next/server";
-import { getServerUserId } from "../../../../../../../utils/getServerUserId";
 import { getDB } from "../../../../../../../utils/api-routes";
+import { getServerUserId } from "../../../../../../../utils/getServerUserId";
 
 export async function GET(
   request: Request,
@@ -8,18 +9,17 @@ export async function GET(
 ) {
   try {
     const { orderId } = await params;
-    const userId = await getServerUserId();
+    const currentUserId = await getServerUserId(); // ID того, кто сейчас за компьютером
     const db = await getDB();
 
-    if (!userId) {
+    if (!currentUserId) {
       return NextResponse.json(false);
     }
 
-    // Проверяем есть ли непрочитанные сообщения, кроме своих
+    // Простая проверка: есть ли хоть одно сообщение, которое текущий пользователь не читал
     const hasUnread = await db.collection("chatMessages").findOne({
       orderId,
-      isRead: false,
-      userId: { $ne: userId } // игнорируем сообщения с таким же userId
+      readBy: { $ne: currentUserId } // текущий пользователь НЕ в списке прочитавших
     });
 
     return NextResponse.json(!!hasUnread);

@@ -1,29 +1,30 @@
 import { NextResponse } from "next/server";
 import { getDB } from "../../../../../../../utils/api-routes";
+import { getServerUserId } from "../../../../../../../utils/getServerUserId";
 
 export async function POST(
   request: Request,
   { params }: { params: Promise<{ orderId: string }> }
 ) {
   try {
-    const { orderId } = await params; // Добавляем await здесь
-    const { userId } = await request.json();
+    const { orderId } = await params;
+    const userId = await getServerUserId();
     const db = await getDB();
+
+    console.log(`Пользователь`, userId);
 
     await db.collection("chatMessages").updateMany(
       {
         orderId,
-        userId: { $ne: userId }, // Сообщения не от текущего пользователя
-        isRead: false,
+        readBy: { $ne: userId },
       },
       {
-        $set: { isRead: true },
+        $addToSet: { readBy: userId },
       }
     );
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Ошибка отметки сообщений как прочитанных:", error);
+  } catch {
     return NextResponse.json(
       { message: "Внутренняя ошибка сервера" },
       { status: 500 }

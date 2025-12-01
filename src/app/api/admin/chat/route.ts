@@ -2,23 +2,14 @@ import { NextResponse } from "next/server";
 import { getDB } from "../../../../../utils/api-routes";
 import { getServerUserId } from "../../../../../utils/getServerUserId";
 
-// app/api/admin/chat/route.ts
 export async function POST(request: Request) {
   try {
     const db = await getDB();
     const userId = await getServerUserId();
-    const {
-      orderId,
-      message,
-      userName,
-      userRole = "admin",
-    } = await request.json(); // убираем isAdmin
+    const { orderId, message, userName, userRole = "admin" } = await request.json();
 
     if (!userId) {
-      return NextResponse.json(
-        { message: "Пользователь не авторизован" },
-        { status: 401 }
-      );
+      return NextResponse.json({ message: "Пользователь не авторизован" }, { status: 401 });
     }
 
     const chatMessage = {
@@ -27,9 +18,11 @@ export async function POST(request: Request) {
       userName: userName || "Администратор",
       message,
       timestamp: new Date(),
-      isRead: false,
-      userRole, // сохраняем только роль
+      readBy: [],
+      userRole,
     };
+
+    console.log('💬 Saving message with EMPTY readBy');
 
     const result = await db.collection("chatMessages").insertOne(chatMessage);
 
@@ -39,9 +32,6 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("Ошибка отправки сообщения:", error);
-    return NextResponse.json(
-      { message: "Внутренняя ошибка сервера" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: "Внутренняя ошибка сервера" }, { status: 500 });
   }
 }

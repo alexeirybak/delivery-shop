@@ -13,6 +13,7 @@ import OrderChatModal from "./OrderChatModal";
 import IconNotice from "@/components/svg/IconNotice";
 import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
 import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
+import { useAuthStore } from "@/store/authStore";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -20,9 +21,8 @@ interface AdminOrderCardProps {
 
 const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
+  const { user } = useAuthStore();
   const order = data?.orders?.find((o) => o._id === orderId);
-
-  console.log(data);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
     order ? getMappedStatus(order) : ""
@@ -41,7 +41,8 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   });
 
   // Проверяем нужно ли показывать иконку календаря
-  const showCalendarIcon = order && (order.status === "confirmed" || order.status === "pending");
+  const showCalendarIcon =
+    order && (order.status === "confirmed" || order.status === "pending");
 
   // Исправленный эффект для обновления статуса
   useEffect(() => {
@@ -89,6 +90,10 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleOpenChat = () => {
     setShowChat(true);
+    // Вызываем API без тела запроса
+    fetch(`/api/admin/chat/${orderId}/read`, {
+      method: "POST",
+    });
   };
 
   const handleCloseChat = () => {
@@ -143,7 +148,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             // Показываем иконку календаря для confirmed/pending статусов
             <button
               className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-              onClick={() => {/* Здесь будет добавлен обработчик для календаря */}}
+              onClick={() => {
+                /* Здесь будет добавлен обработчик для календаря */
+              }}
             >
               <Image
                 src="/icons-auth/icon-date.svg"

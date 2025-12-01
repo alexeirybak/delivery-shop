@@ -6,7 +6,6 @@ export interface ChatMessage {
   message: string;
   timestamp: Date;
   isRead: boolean;
-  isAdmin: boolean;
   userRole?: string;
 }
 
@@ -23,8 +22,6 @@ export interface ChatMessage {
   message: string;
   timestamp: Date;
   isRead: boolean;
-  isAdmin: boolean;
-  userRole?: string;
 }
 
 export interface OrderChatModalProps {
@@ -33,6 +30,4 @@ export interface OrderChatModalProps {
   userName: string; 
   isOpen: boolean;
   onClose: () => void;
-  currentUserRole?: string;
-  currentUserName?: string; 
 }

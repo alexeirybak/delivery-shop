@@ -3,7 +3,6 @@ import Image from "next/image";
 import {
   useGetOrderMessagesQuery,
   useSendMessageMutation,
-  useMarkAsReadMutation,
   ChatMessage,
 } from "@/store/api/chatApi";
 import { useAuthStore } from "@/store/authStore";
@@ -21,7 +20,6 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   });
 
   const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
-  const [markAsRead] = useMarkAsReadMutation();
 
   const getMessageRole = (msg: ChatMessage) => {
     return msg.userRole || "courier"; // по умолчанию курьер
@@ -32,10 +30,14 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   }, [messages]);
 
   useEffect(() => {
-    if (isOpen && messages.length > 0) {
-      markAsRead({ orderId, userId: "admin" });
+    if (isOpen && user?._id) {
+      fetch(`/api/admin/chat/${orderId}/read`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: user._id }),
+      }).catch(console.error);
     }
-  }, [isOpen, messages, orderId, markAsRead]);
+  }, [isOpen, orderId, user?._id]);
 
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
