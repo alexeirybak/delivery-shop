@@ -6,7 +6,7 @@ export async function POST(request: Request) {
   try {
     const db = await getDB();
     const userId = await getServerUserId();
-    const { orderId, message, userName, userRole = "admin" } = await request.json();
+    const { orderId, message, userName, userRole} = await request.json();
 
     if (!userId) {
       return NextResponse.json({ message: "Пользователь не авторизован" }, { status: 401 });
@@ -21,8 +21,6 @@ export async function POST(request: Request) {
       readBy: [],
       userRole,
     };
-
-    console.log('💬 Saving message with EMPTY readBy');
 
     const result = await db.collection("chatMessages").insertOne(chatMessage);
 
