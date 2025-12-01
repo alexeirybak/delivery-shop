@@ -6,10 +6,13 @@ export async function POST(request: Request) {
   try {
     const db = await getDB();
     const userId = await getServerUserId();
-    const { orderId, message, userName, userRole} = await request.json();
+    const { orderId, message, userName, userRole } = await request.json();
 
     if (!userId) {
-      return NextResponse.json({ message: "Пользователь не авторизован" }, { status: 401 });
+      return NextResponse.json(
+        { message: "Пользователь не авторизован" },
+        { status: 401 }
+      );
     }
 
     const chatMessage = {
@@ -18,18 +21,22 @@ export async function POST(request: Request) {
       userName,
       message,
       timestamp: new Date(),
-      readBy: [],
+      readBy: [userId],
       userRole,
     };
 
+    // Если используете returnDocument: 'after'
     const result = await db.collection("chatMessages").insertOne(chatMessage);
-
-    return NextResponse.json({
-      ...chatMessage,
+    const insertedDoc = await db.collection("chatMessages").findOne({
       _id: result.insertedId,
     });
+
+    return NextResponse.json(insertedDoc); // Документ уже содержит _id
   } catch (error) {
     console.error("Ошибка отправки сообщения:", error);
-    return NextResponse.json({ message: "Внутренняя ошибка сервера" }, { status: 500 });
+    return NextResponse.json(
+      { message: "Внутренняя ошибка сервера" },
+      { status: 500 }
+    );
   }
 }
