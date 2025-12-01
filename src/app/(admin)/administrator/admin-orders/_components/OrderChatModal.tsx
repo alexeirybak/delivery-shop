@@ -1,23 +1,23 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
-  useGetOrderMessagesQuery, // Оставляем для получения сообщений
+  useGetOrderMessagesQuery,
   ChatMessage,
-} from "@/store/api/chatApi"; // Убрали useSendMessageMutation
+} from "@/store/api/chatApi";
 import { useAuthStore } from "@/store/authStore";
 import { OrderChatModalProps } from "@/types/chat";
 import { getRoleDisplayName } from "../utils/getRoleDisplayName";
 
 const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   const [message, setMessage] = useState("");
-  const [isSending, setIsSending] = useState(false); // Свое состояние для отправки
+  const [isSending, setIsSending] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuthStore();
 
   // Получаем сообщения через RTK Query с polling
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
     skip: !isOpen || !orderId,
-    pollingInterval: isOpen ? 3000 : 0, // Обновляем каждые 3 секунды
+    pollingInterval: isOpen ? 3000 : 0,
   });
 
   const getMessageRole = (msg: ChatMessage) => {
@@ -29,7 +29,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // НАТИВНАЯ отправка сообщения через fetch
+  // Отправка сообщения через fetch
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isSending) return;
@@ -45,8 +45,8 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
         body: JSON.stringify({
           orderId,
           message: message.trim(),
-          userName: user?.name || "Администратор",
-          userRole: user?.role || "admin",
+          userName: user?.name,
+          userRole: user?.role,
         }),
       });
 
@@ -54,16 +54,10 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
         throw new Error(`Ошибка ${response.status}`);
       }
 
-      // Сообщение успешно отправлено
-      setMessage(""); // Очищаем поле
-      
-      // RTK Query автоматически обновит сообщения через polling
-      // Не нужно вручную обновлять кэш
+      setMessage("");
       
     } catch (error) {
       console.error("Ошибка отправки сообщения:", error);
-      // Можно показать ошибку пользователю
-      alert("Не удалось отправить сообщение");
     } finally {
       setIsSending(false);
     }
@@ -135,7 +129,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
               disabled={!message.trim() || isSending}
               className="bg-[#fcd5ba] text-[#ff6633] text-2xl px-4 py-2 h-17 rounded hover:bg-[#ff6633] hover:text-white disabled:cursor-not-allowed cursor-pointer duration-300"
             >
-              {isSending ? "Отправка..." : "Отправить"}
+              {isSending ? "..." : "Отправить"}
             </button>
           </div>
         </form>
