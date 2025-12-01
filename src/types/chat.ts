@@ -26,8 +26,6 @@ export interface ChatMessage {
 
 export interface OrderChatModalProps {
   orderId: string;
-  orderNumber: string;
-  userName: string; 
   isOpen: boolean;
   onClose: () => void;
 }

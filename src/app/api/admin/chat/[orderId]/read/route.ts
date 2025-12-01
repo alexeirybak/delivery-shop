@@ -11,8 +11,6 @@ export async function POST(
     const userId = await getServerUserId();
     const db = await getDB();
 
-    console.log(`Пользователь`, userId);
-
     await db.collection("chatMessages").updateMany(
       {
         orderId,

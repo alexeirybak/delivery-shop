@@ -29,12 +29,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [showChat, setShowChat] = useState(false);
 
-  const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
-    skip: !orderId,
-  });
-  // Получаем количество непрочитанных сообщений
+  const { data: messages = [] } = useGetOrderMessagesQuery(orderId);
+
   const { data: hasUnread = false } = useHasUnreadMessagesQuery(orderId, {
-    skip: !orderId,
     pollingInterval: 2000,
   });
 
@@ -88,13 +85,12 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleOpenChat = () => {
     setShowChat(true);
-    // Вызываем API без тела запроса
-    fetch(`/api/admin/chat/${orderId}/read`, {
-      method: "POST",
-    });
   };
 
   const handleCloseChat = () => {
+    fetch(`/api/admin/chat/${orderId}/read`, {
+      method: "POST",
+    });
     setShowChat(false);
   };
 
@@ -202,8 +198,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
       {/* Модальное окно чата */}
       <OrderChatModal
         orderId={orderId}
-        orderNumber={order.orderNumber}
-        userName={order.name}
         isOpen={showChat}
         onClose={handleCloseChat}
       />
