@@ -10,6 +10,7 @@ export async function POST(
     const { orderId } = await params;
     const userId = await getServerUserId();
     const db = await getDB();
+    console.log(userId);
 
     await db.collection("chatMessages").updateMany(
       {

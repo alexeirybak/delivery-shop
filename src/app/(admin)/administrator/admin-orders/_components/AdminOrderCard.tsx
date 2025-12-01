@@ -198,6 +198,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
       {/* Модальное окно чата */}
       <OrderChatModal
         orderId={orderId}
+
         isOpen={showChat}
         onClose={handleCloseChat}
       />

@@ -1,60 +1,71 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import {
-  useGetOrderMessagesQuery,
-  useSendMessageMutation,
+  useGetOrderMessagesQuery, // Оставляем для получения сообщений
   ChatMessage,
-} from "@/store/api/chatApi";
+} from "@/store/api/chatApi"; // Убрали useSendMessageMutation
 import { useAuthStore } from "@/store/authStore";
 import { OrderChatModalProps } from "@/types/chat";
 import { getRoleDisplayName } from "../utils/getRoleDisplayName";
 
 const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   const [message, setMessage] = useState("");
+  const [isSending, setIsSending] = useState(false); // Свое состояние для отправки
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuthStore();
 
+  // Получаем сообщения через RTK Query с polling
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
     skip: !isOpen || !orderId,
-    pollingInterval: isOpen ? 3000 : 0,
+    pollingInterval: isOpen ? 3000 : 0, // Обновляем каждые 3 секунды
   });
 
-  const [sendMessage, { isLoading: isSending }] = useSendMessageMutation();
-
   const getMessageRole = (msg: ChatMessage) => {
-    return msg.userRole || "courier"; // по умолчанию курьер
+    return msg.userRole || "courier";
   };
 
+  // Автопрокрутка к новым сообщениям
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  useEffect(() => {
-    if (isOpen && user?._id) {
-      fetch(`/api/admin/chat/${orderId}/read`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId: user._id }),
-      }).catch(console.error);
-    }
-  }, [isOpen, orderId, user?._id]);
-
+  // НАТИВНАЯ отправка сообщения через fetch
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isSending) return;
 
+    setIsSending(true);
+    
     try {
-      const messageData = {
-        orderId,
-        message: message.trim(),
-        userName: user?.name || "Администратор",
-        userRole: user?.role || "admin",
-      };
+      const response = await fetch('/api/admin/chat', {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          orderId,
+          message: message.trim(),
+          userName: user?.name || "Администратор",
+          userRole: user?.role || "admin",
+        }),
+      });
 
-      await sendMessage(messageData).unwrap();
-      setMessage("");
+      if (!response.ok) {
+        throw new Error(`Ошибка ${response.status}`);
+      }
+
+      // Сообщение успешно отправлено
+      setMessage(""); // Очищаем поле
+      
+      // RTK Query автоматически обновит сообщения через polling
+      // Не нужно вручную обновлять кэш
+      
     } catch (error) {
       console.error("Ошибка отправки сообщения:", error);
+      // Можно показать ошибку пользователю
+      alert("Не удалось отправить сообщение");
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -124,7 +135,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
               disabled={!message.trim() || isSending}
               className="bg-[#fcd5ba] text-[#ff6633] text-2xl px-4 py-2 h-17 rounded hover:bg-[#ff6633] hover:text-white disabled:cursor-not-allowed cursor-pointer duration-300"
             >
-              {isSending ? "..." : "Отправить"}
+              {isSending ? "Отправка..." : "Отправить"}
             </button>
           </div>
         </form>

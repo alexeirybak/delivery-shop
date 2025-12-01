@@ -12,22 +12,6 @@ export const chatApi = createApi({
       query: (orderId) => `chat/${orderId}`,
       providesTags: ["Chat"],
     }),
-    sendMessage: builder.mutation<ChatMessage, Partial<ChatMessage>>({
-      query: (message) => ({
-        url: "chat",
-        method: "POST",
-        body: message,
-      }),
-      invalidatesTags: ["Chat"],
-    }),
-    markAsRead: builder.mutation<void, { orderId: string; userId: string }>({
-      query: ({ orderId, userId }) => ({
-        url: `chat/${orderId}/read`,
-        method: "POST",
-        body: { userId },
-      }),
-      invalidatesTags: ["Chat"],
-    }),
     hasUnreadMessages: builder.query<boolean, string>({
       query: (orderId) => `chat/${orderId}/has-unread`,
     }),
@@ -36,8 +20,6 @@ export const chatApi = createApi({
 
 export const {
   useGetOrderMessagesQuery,
-  useSendMessageMutation,
-  useMarkAsReadMutation,
   useHasUnreadMessagesQuery
 } = chatApi;
 
