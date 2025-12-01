@@ -13,7 +13,6 @@ import OrderChatModal from "./OrderChatModal";
 import IconNotice from "@/components/svg/IconNotice";
 import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
 import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
-import { useAuthStore } from "@/store/authStore";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -21,7 +20,6 @@ interface AdminOrderCardProps {
 
 const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
-  const { user } = useAuthStore();
   const order = data?.orders?.find((o) => o._id === orderId);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(

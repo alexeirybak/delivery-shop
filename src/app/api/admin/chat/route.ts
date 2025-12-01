@@ -15,7 +15,7 @@ export async function POST(request: Request) {
     const chatMessage = {
       orderId,
       userId,
-      userName: userName || "Администратор",
+      userName,
       message,
       timestamp: new Date(),
       readBy: [],
