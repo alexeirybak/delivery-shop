@@ -1,13 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { ordersApi } from "./api/ordersApi";
+import { chatApi } from "./api/chatApi";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       [ordersApi.reducerPath]: ordersApi.reducer,
+      [chatApi.reducerPath]: chatApi.reducer,
     },
     middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware().concat(ordersApi.middleware),
+      getDefaultMiddleware().concat(ordersApi.middleware, chatApi.middleware),
   });
 };
 

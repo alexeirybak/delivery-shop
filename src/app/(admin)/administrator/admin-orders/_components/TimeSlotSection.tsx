@@ -20,8 +20,6 @@ const TimeSlotSection = ({ orderIds }: TimeSlotSectionProps) => {
       .map((order) => order._id),
   }));
 
-  console.log(timeSlotGroups);
-
   return (
     <div className="flex flex-col gap-y-30">
       {timeSlotGroups.map(({ timeSlot, orderIds }) => (

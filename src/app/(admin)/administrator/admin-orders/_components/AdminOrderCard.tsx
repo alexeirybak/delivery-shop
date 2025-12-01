@@ -8,6 +8,12 @@ import IconVision from "@/components/svg/IconVision";
 import Image from "next/image";
 import { formatPhoneNumber } from "../utils/formatPhoneNumber";
 import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
+import {
+  useGetOrderMessagesQuery,
+  useHasUnreadMessagesQuery,
+} from "@/store/redux/api/chatApi";
+import IconNotice from "@/components/svg/IconNotice";
+import OrderChatModal from "./OrderChatModal";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -23,8 +29,17 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   );
   const [isUpdating, setIsUpdating] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const [showChat, setShowChat] = useState(false);
 
-  // Исправленный эффект для обновления статуса
+  const { data: messages = [] } = useGetOrderMessagesQuery(orderId);
+
+  const { data: hasUnread = false } = useHasUnreadMessagesQuery(orderId, {
+    pollingInterval: 2000,
+  });
+
+  const showCalendarIcon =
+    order && (order.status === "confirmed" || order.status === "pending");
+
   useEffect(() => {
     if (order) {
       setCurrentStatusLabel(getMappedStatus(order));
@@ -62,6 +77,17 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleToggleDetails = () => {
     setShowOrderDetails(!showOrderDetails);
+  };
+
+  const handleOpenChat = () => {
+    fetch(`/api/admin/chat/${orderId}/read`, {
+      method: "POST",
+    });
+    setShowChat(true);
+  };
+
+  const handleCloseChat = () => {
+    setShowChat(false);
   };
 
   if (!order) return null;
@@ -107,8 +133,54 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             <IconVision showPassword={!showOrderDetails} />
             {showOrderDetails ? "Скрыть заказ" : "Просмотреть заказ"}
           </button>
+
+          {/* Кнопка чата или календаря */}
+          {showCalendarIcon ? (
+            // Показываем иконку календаря для confirmed/pending статусов
+            <button
+              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              onClick={() => {
+                /* Здесь будет добавлен обработчик для календаря */
+              }}
+            >
+              <Image
+                src="/icons-auth/icon-date.svg"
+                alt="Календарь"
+                width={24}
+                height={24}
+              />
+            </button>
+          ) : (
+            // Показываем чат для других статусов
+            <button
+              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              onClick={handleOpenChat}
+            >
+              {messages.length === 0 ? (
+                <Image
+                  src="/icons-orders/icon-message-empty.svg"
+                  alt="Чат пустой"
+                  width={24}
+                  height={24}
+                />
+              ) : (
+                <Image
+                  src="/icons-orders/icon-message.svg"
+                  alt="Чат"
+                  width={24}
+                  height={24}
+                />
+              )}
+              {hasUnread && <IconNotice />}
+            </button>
+          )}
         </div>
       </div>
+      <OrderChatModal
+        orderId={orderId}
+        isOpen={showChat}
+        onClose={handleCloseChat}
+      />
     </>
   );
 };
