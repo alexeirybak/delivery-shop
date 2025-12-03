@@ -13,6 +13,7 @@ import OrderChatModal from "./OrderChatModal";
 import IconNotice from "@/components/svg/IconNotice";
 import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
 import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
+import CalendarOrderModal from "./CalendarOrderModal";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -28,6 +29,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [showChat, setShowChat] = useState(false);
+  const [showCalendar, setShowCalendar] = useState(false);
 
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId);
 
@@ -94,6 +96,18 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     setShowChat(false);
   };
 
+  const handleOpenCalendar = () => {
+    if (showCalendarIcon) {
+      setShowCalendar(true);
+    }
+  };
+
+  const handleCloseCalendar = () => {
+    if (showCalendarIcon) {
+      setShowCalendar(false);
+    }
+  };
+
   if (!order) return null;
   return (
     <>
@@ -137,24 +151,26 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             {showOrderDetails ? "Скрыть заказ" : "Просмотреть заказ"}
           </button>
 
-          {/* Кнопка чата или календаря */}
           {showCalendarIcon ? (
-            // Показываем иконку календаря для confirmed/pending статусов
-            <button
-              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-              onClick={() => {
-                /* Здесь будет добавлен обработчик для календаря */
-              }}
-            >
-              <Image
-                src="/icons-auth/icon-date.svg"
-                alt="Календарь"
-                width={24}
-                height={24}
+            <div className="relative">
+              <button
+                className="bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+                onClick={handleOpenCalendar}
+              >
+                <Image
+                  src="/icons-auth/icon-date.svg"
+                  alt="Календарь"
+                  width={24}
+                  height={24}
+                />
+              </button>
+              <CalendarOrderModal
+                orderId={orderId}
+                isOpen={showCalendar}
+                onClose={handleCloseCalendar}
               />
-            </button>
+            </div>
           ) : (
-            // Показываем чат для других статусов
             <button
               className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
               onClick={handleOpenChat}

@@ -1,8 +1,12 @@
 import { isTimeSlotPassed } from "@/app/(cart)/cart/utils/isTimeSlotPassed";
 import { Schedule } from "@/types/deliverySchedule";
+import { formatDateToLocalYYYYMMDD } from "../../../../(admin)/administrator/admin-orders/utils/formatDateToLocalYYYYMMDD";
 
-export const getAvailableTimeSlots = (date: Date, schedule: Schedule): string[] => {
-  const dateString = date.toISOString().split("T")[0];
+export const getAvailableTimeSlots = (
+  date: Date,
+  schedule: Schedule
+): string[] => {
+  const dateString = formatDateToLocalYYYYMMDD(date);
   const daySchedule = schedule[dateString as keyof typeof schedule];
 
   if (!daySchedule) {
@@ -11,7 +15,10 @@ export const getAvailableTimeSlots = (date: Date, schedule: Schedule): string[] 
 
   const availableSlots = Object.entries(daySchedule)
     .filter(([timeSlot, available]) => {
-      if (!available) return false;
+      if (!available) {
+        console.log(`Slot ${timeSlot} not available in schedule`);
+        return false;
+      }
       const isPassed = isTimeSlotPassed(timeSlot, dateString);
       return !isPassed;
     })

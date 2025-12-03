@@ -66,7 +66,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   if (!isOpen) return null;
 
   return (
-    <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-main-text py-10 px-3">
+    <div className="fixed inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-main-text py-10 px-3">
       <div className="max-w-150 w-full relative bg-white rounded shadow-auth-form max-h-[calc(100vh-80px)] flex flex-col px-25 pb-15">
         <button
           onClick={onClose}

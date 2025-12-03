@@ -1,9 +1,4 @@
-import { DeliveryData } from "@/types/cart";
-
-interface DeliveryInfoProps {
-  delivery: DeliveryData;
-  onEdit: () => void;
-}
+import { DeliveryInfoProps } from "@/types/deliverySchedule";
 
 export const DeliveryInfo: React.FC<DeliveryInfoProps> = ({
   delivery,

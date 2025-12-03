@@ -95,8 +95,6 @@ const AdminOrderPage = () => {
         onDateSelect={filterOrdersByDate}
         onCalendarDateSelect={handleDateSelect}
       />
-
-      {/* Передаем только IDs вместо полных заказов */}
       <TimeSlotSection orderIds={filteredOrderIds} />
     </div>
   );
