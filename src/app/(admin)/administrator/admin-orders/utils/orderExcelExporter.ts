@@ -1,8 +1,7 @@
-// utils/orderExcelExporter.ts
+import { SimplifiedOrderData } from "@/types/excel";
 import {
   downloadExcel,
   generateOrderExcel,
-  SimplifiedOrderData,
 } from "../../../../../../utils/excelGenerator";
 import { getMappedStatus } from "./getMappedStatus";
 import { getPaymentStatusText } from "./getPaymentStatusText";
@@ -59,9 +58,7 @@ const enrichOrderItem = async (item: OrderItem): Promise<EnrichedOrderItem> => {
   };
 };
 
-/**
- * Преобразует Order в SimplifiedOrderData для Excel
- */
+
 const prepareExcelData = (order: Order, items: EnrichedOrderItem[]): SimplifiedOrderData => ({
   order: {
     orderNumber: order.orderNumber,
@@ -99,15 +96,11 @@ const prepareExcelData = (order: Order, items: EnrichedOrderItem[]): SimplifiedO
  */
 export const exportOrderToExcel = async (order: Order): Promise<void> => {
   try {
-    // Параллельная загрузка данных о товарах
     const enrichedItems = await Promise.all(
       order.items.map(enrichOrderItem)
     );
-
-    // Подготовка данных для Excel
     const excelData = prepareExcelData(order, enrichedItems);
-    
-    // Генерация и скачивание файла
+
     const excelBuffer = generateOrderExcel(excelData);
     downloadExcel(excelBuffer, `Заказ_${order.orderNumber}`);
   } catch (error) {

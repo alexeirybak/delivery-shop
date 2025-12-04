@@ -83,11 +83,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleToggleDetails = () => {
     if (!showOrderDetails) {
-      // Показываем детали
       setShowOrderDetails(true);
       setShowFullOrder(false);
     } else {
-      // Скрываем всё
       setShowOrderDetails(false);
       setShowFullOrder(false);
     }
@@ -95,11 +93,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleToggleFullOrder = () => {
     if (showFullOrder) {
-      // Возвращаемся в исходное состояние (клик "Скрыть")
       setShowOrderDetails(false);
       setShowFullOrder(false);
     } else {
-      // Показываем полный заказ (клик "Показать заказ")
       setShowFullOrder(true);
     }
   };
