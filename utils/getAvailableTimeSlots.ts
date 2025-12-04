@@ -1,8 +1,9 @@
 import { isTimeSlotPassed } from "@/app/(cart)/cart/utils/isTimeSlotPassed";
 import { Schedule } from "@/types/deliverySchedule";
+import { formatDateToLocalYYYYMMDD } from "./formatDateToLocalYYYYMMDD";
 
 export const getAvailableTimeSlots = (date: Date, schedule: Schedule): string[] => {
-  const dateString = date.toISOString().split("T")[0];
+  const dateString = formatDateToLocalYYYYMMDD(date);
   const daySchedule = schedule[dateString as keyof typeof schedule];
 
   if (!daySchedule) {

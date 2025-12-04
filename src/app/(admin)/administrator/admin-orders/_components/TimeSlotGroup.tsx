@@ -8,7 +8,7 @@ import { getUniqueCities } from "../utils/getUniqueCities";
 
 interface TimeSlotGroupProps {
   timeSlot: string;
-  orderIds: string[]; // Принимаем только IDs
+  orderIds: string[];
 }
 
 const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
@@ -16,10 +16,9 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
   const [selectedCity, setSelectedCity] = useState<string>("Все города");
   const [localOrders, setLocalOrders] = useState<Order[]>([]);
 
-  // Находим полные объекты заказов по IDs
   useEffect(() => {
     if (data?.orders) {
-      const filteredOrders = data.orders.filter((order) => 
+      const filteredOrders = data.orders.filter((order) =>
         orderIds.includes(order._id)
       );
       setLocalOrders(filteredOrders);
@@ -54,6 +53,7 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
             src="/icons-orders/icon-clock.svg"
             width={24}
             height={24}
+            className="w-6 h-6"
           />
           <span className="font-bold">{startTime}</span>
         </div>

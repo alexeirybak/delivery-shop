@@ -26,3 +26,29 @@
   width: 40px !important;
   margin: 0 auto !important;
 }
+
+/* Растягивание календаря */
+.full-width-calendar table {
+  width: 100% !important;
+  table-layout: fixed !important;
+}
+
+.full-width-calendar table {
+  table-layout: fixed !important;
+  margin: 0 auto !important;
+  border-spacing: 0 !important;
+  border-collapse: collapse !important;
+}
+
+.full-width-calendar table th,
+.full-width-calendar table td {
+  width: 40px !important; 
+  height: 40px !important;
+  padding: 3px !important; 
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+.full-width-calendar [class*="button"] {
+  height: 40px !important;
+}
