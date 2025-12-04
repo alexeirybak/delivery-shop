@@ -4,10 +4,11 @@ import { getDB } from "../../../../../../../utils/api-routes";
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { orderId: string } }
+  { params }: { params: Promise<{ orderId: string }> }
 ) {
   try {
-    const { orderId } = params;
+    // АВТОМАТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Добавлен await для params
+    const { orderId } = await params;
 
     // Проверяем валидность orderId
     if (!orderId) {

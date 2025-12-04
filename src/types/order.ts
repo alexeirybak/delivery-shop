@@ -93,26 +93,3 @@ export interface OrderHeaderProps {
   onDeliveryClick: () => void;
   disabled: boolean;
 }
-
-// СТАТУС ЗАКАЗА
-// pending - заказ создан, ожидает обработки
-// confirmed - заказ подтвержден и выполняется (для онлайн-оплаты после успешной оплаты, а также для оплаты при получении - после подтверждения менеджером)
-// delivered - заказ доставлен и завершен
-// cancelled - заказ отменен
-
-//СТАТУС ОПЛАТЫ
-//pending - ожидание обработки
-// waiting - ожидание оплаты
-// paid - оплачено
-
-// Для онлайн-оплаты:
-// 1. Создание: status: "pending", paymentStatus: "pending"
-// 2. Переход на оплату: paymentStatus: "waiting"
-// 3. Успешная оплата: status: "confirmed",
-// paymentStatus: "paid"
-// 4. Доставка: status: "delivered"
-
-// Для оплаты при получении:
-// 1. Создание: status: "pending", paymentStatus: "pending"
-// 2. Подтверждение: status: "confirmed", paymentStatus: "waiting"
-//3. Доставка и оплата: status: "delivered", paymentStatus: "paid"

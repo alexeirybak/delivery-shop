@@ -15,9 +15,16 @@ interface OrderProduct {
 
 interface OrderProductsLoaderProps {
   orderItems: OrderProduct[];
+  applyIndexStyles?: boolean;
+  showFullOrder?: boolean; // Важный проп!
+  onTotalWeightCalculated?: (weight: number) => void;
 }
 
-const OrderProductsLoader = ({ orderItems }: OrderProductsLoaderProps) => {
+const OrderProductsLoader = ({
+  orderItems,
+  applyIndexStyles = true,
+  onTotalWeightCalculated,
+}: OrderProductsLoaderProps) => {
   const [products, setProducts] = useState<ProductCardProps[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,6 +43,18 @@ const OrderProductsLoader = ({ orderItems }: OrderProductsLoaderProps) => {
 
         const productsData = await Promise.all(productPromises);
         setProducts(productsData);
+
+        // Рассчитываем общую массу
+        const weight = productsData.reduce((total, product, index) => {
+          const itemWeight = product.weight || 0;
+          const quantity = orderItems[index]?.quantity || 1;
+          return total + itemWeight * quantity;
+        }, 0);
+
+        // Передаем массу родительскому компоненту
+        if (onTotalWeightCalculated) {
+          onTotalWeightCalculated(weight);
+        }
       } catch (err) {
         console.error("Ошибка:", err);
       } finally {
@@ -48,7 +67,7 @@ const OrderProductsLoader = ({ orderItems }: OrderProductsLoaderProps) => {
     } else {
       setLoading(false);
     }
-  }, [orderItems]);
+  }, [orderItems, onTotalWeightCalculated]);
 
   if (loading) {
     return <MiniLoader />;
@@ -65,7 +84,7 @@ const OrderProductsLoader = ({ orderItems }: OrderProductsLoaderProps) => {
   return (
     <ProductsSection
       products={products}
-      applyIndexStyles={false}
+      applyIndexStyles={applyIndexStyles}
       isAdminOrderPage={true}
     />
   );

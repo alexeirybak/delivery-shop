@@ -14,6 +14,9 @@ import IconNotice from "@/components/svg/IconNotice";
 import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
 import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
 import CalendarOrderModal from "./CalendarOrderModal";
+import OrderDetails from "./OrderDetails";
+import { buttonStyles } from "@/app/styles";
+import { exportOrderToExcel } from "../utils/orderExcelExporter";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -30,6 +33,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const [showOrderDetails, setShowOrderDetails] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
+  const [showFullOrder, setShowFullOrder] = useState(false);
+  const [totalOrderWeight, setTotalOrderWeight] = useState(0);
+  const [isExporting, setIsExporting] = useState(false);
 
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId);
 
@@ -37,11 +43,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     pollingInterval: 2000,
   });
 
-  // Проверяем нужно ли показывать иконку календаря
   const showCalendarIcon =
     order && (order.status === "confirmed" || order.status === "pending");
 
-  // Исправленный эффект для обновления статуса
   useEffect(() => {
     if (order) {
       setCurrentStatusLabel(getMappedStatus(order));
@@ -78,13 +82,40 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   };
 
   const handleToggleDetails = () => {
-    setShowOrderDetails(!showOrderDetails);
+    if (!showOrderDetails) {
+      // Показываем детали
+      setShowOrderDetails(true);
+      setShowFullOrder(false);
+    } else {
+      // Скрываем всё
+      setShowOrderDetails(false);
+      setShowFullOrder(false);
+    }
   };
 
-  const handleHideOrder = () => {
-    setShowOrderDetails(false);
+  const handleToggleFullOrder = () => {
+    if (showFullOrder) {
+      // Возвращаемся в исходное состояние (клик "Скрыть")
+      setShowOrderDetails(false);
+      setShowFullOrder(false);
+    } else {
+      // Показываем полный заказ (клик "Показать заказ")
+      setShowFullOrder(true);
+    }
   };
 
+  const handleExportToExcel = async () => {
+    if (!order || isExporting) return;
+
+    setIsExporting(true);
+    try {
+      await exportOrderToExcel(order);
+    } catch (error) {
+      console.error("Ошибка при выгрузке в Excel:", error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
   const handleOpenChat = () => {
     setShowChat(true);
   };
@@ -108,10 +139,15 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     }
   };
 
+  const handleTotalWeightCalculated = (weight: number) => {
+    setTotalOrderWeight(weight);
+  };
+
   if (!order) return null;
+
   return (
-    <>
-      <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-20">
+    <div className="flex flex-col">
+      <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-x-20">
         <div className="flex gap-x-4 items-center">
           <h2 className="text-base md:text-lg xl:text-2xl font-bold">
             {order.orderNumber.slice(-3)}
@@ -143,13 +179,30 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             onStatusChange={handleStatusChange}
           />
 
+          {/* Кнопка Просмотреть/Скрыть */}
           <button
             className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
             onClick={handleToggleDetails}
           >
             <IconVision showPassword={!showOrderDetails} />
-            {showOrderDetails ? "Скрыть заказ" : "Просмотреть заказ"}
+            {showOrderDetails ? "Скрыть" : "Просмотреть"}
           </button>
+
+          {/* Кнопка Выгрузить в Excel (только когда showOrderDetails = true) */}
+          {showOrderDetails && (
+            <button
+              className={`${buttonStyles.active} hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer`}
+              onClick={handleExportToExcel}
+            >
+              <Image
+                src="/icons-orders/icon-upload.svg" // Нужно добавить иконку Excel
+                alt="Excel"
+                width={24}
+                height={24}
+              />
+              Выгрузить в Excel
+            </button>
+          )}
 
           {showCalendarIcon ? (
             <div className="relative">
@@ -196,28 +249,53 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
         </div>
       </div>
 
+      {/* Товары показываем когда showOrderDetails = true */}
       {showOrderDetails && (
-        <div className="space-y-4">
-          <div className="flex justify-center">
-            <button
-              className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-              onClick={handleHideOrder}
-            >
-              <IconVision showPassword={true} />
-              Скрыть заказ
-            </button>
-          </div>
-          <OrderProductsLoader orderItems={order.items} />
+        <>
+          <OrderProductsLoader
+            orderItems={order.items}
+            onTotalWeightCalculated={handleTotalWeightCalculated}
+            applyIndexStyles={!showFullOrder}
+            showFullOrder={showFullOrder}
+          />
+
+          {/* Полные детали заказа показываем когда showFullOrder = true */}
+          {showFullOrder && (
+            <OrderDetails order={order} totalWeight={totalOrderWeight} />
+          )}
+        </>
+      )}
+
+      {/* Нижняя кнопка Показать заказ/Скрыть */}
+      {showOrderDetails && !showFullOrder && (
+        <div className="flex justify-center mt-10">
+          <button
+            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            onClick={handleToggleFullOrder}
+          >
+            <IconVision showPassword={true} />
+            Показать заказ
+          </button>
+        </div>
+      )}
+      {showFullOrder && (
+        <div className="flex justify-center mt-10">
+          <button
+            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            onClick={handleToggleFullOrder}
+          >
+            <IconVision showPassword={false} />
+            Скрыть
+          </button>
         </div>
       )}
 
-      {/* Модальное окно чата */}
       <OrderChatModal
         orderId={orderId}
         isOpen={showChat}
         onClose={handleCloseChat}
       />
-    </>
+    </div>
   );
 };
 
