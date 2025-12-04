@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Order } from "@/types/order";
 import DateFilterButtons from "./DateFilterButtons";
 import Calendar from "./Calendar";
+import { useEffect, useState } from "react";
 
 interface DateSelectorProps {
   customDate: Date | undefined;
@@ -24,6 +25,24 @@ const DateSelector = ({
   toggleCalendar,
   onCalendarDateSelect,
 }: DateSelectorProps) => {
+  const [calendarMonth, setCalendarMonth] = useState<Date | undefined>(
+    customDate || new Date()
+  );
+
+  useEffect(() => {
+    if (customDate) {
+      setCalendarMonth(customDate);
+    }
+  }, [customDate]);
+
+
+  const handleDateSelect = (date: Date | undefined) => {
+    onCalendarDateSelect(date);
+    if (date) {
+      setCalendarMonth(date);
+    }
+  };
+
   return (
     <div className="flex justify-start items-center gap-3 relative mb-15">
       <button
@@ -39,13 +58,15 @@ const DateSelector = ({
         />
       </button>
       {customDate && (
-        <span className="absolute top-0 text-xs text-main-text">{customDate.toLocaleDateString("ru-RU")}</span>
+        <span className="absolute top-0 text-xs text-main-text">
+          {customDate.toLocaleDateString("ru-RU")}
+        </span>
       )}
       {isCalendarOpen && (
         <Calendar
           customDate={customDate}
-          onDateSelect={onCalendarDateSelect}
-          onMonthChange={onCalendarDateSelect}
+          onDateSelect={handleDateSelect}
+          month={calendarMonth}
         />
       )}
       <DateFilterButtons
