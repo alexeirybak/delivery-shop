@@ -90,3 +90,117 @@ body {
     width: 100%;
   }
 }
+
+
+/* Стили для изображений в редакторе */
+.image-container {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.image-container:hover .image-tools {
+  opacity: 1;
+}
+
+.image-wrapper {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+
+.image-tools {
+  position: absolute;
+  top: -0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.2s;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  padding: 0.5rem;
+  display: flex;
+  gap: 0.25rem;
+  z-index: 10;
+}
+
+.image-tool-btn {
+  padding: 0.375rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.image-tool-btn:hover {
+  background-color: rgba(243, 244, 246, 0.7);
+}
+
+.image-caption {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #4b5563;
+  font-style: italic;
+  margin-top: 0.5rem;
+}
+
+.image-resize-handle {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 1rem;
+  height: 1rem;
+  background-color: #3b82f6;
+  border-radius: 0.25rem 0 0 0;
+  cursor: nwse-resize;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.image-wrapper:hover .image-resize-handle {
+  opacity: 1;
+}
+
+.ProseMirror img {
+  cursor: move;
+}
+
+.ProseMirror-selectednode img {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Классы для выравнивания изображений */
+.text-left .image-wrapper {
+  display: block;
+  text-align: left;
+}
+
+.text-center .image-wrapper {
+  display: block;
+  text-align: center;
+}
+
+.text-right .image-wrapper {
+  display: block;
+  text-align: right;
+}
+
+/* Стили для маркера изменения размера */
+.image-wrapper::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background-color: #3b82f6;
+  border-radius: 2px 0 0 0;
+  opacity: 0;
+  transition: opacity 0.2s;
+  cursor: nwse-resize;
+}
+
+.image-wrapper:hover::after {
+  opacity: 0.7;
+}

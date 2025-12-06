@@ -25,8 +25,8 @@ interface EnrichedOrderItem extends Omit<OrderItem, 'name' | 'title'> {
 /**
  * Получает имя товара с приоритетами
  */
-const getProductName = (item: OrderItem, productData?: ProductData): string => {
-  return item.name || item.title || productData?.title || productData?.name || "Неизвестный товар";
+const getProductName = (productData?: ProductData): string => {
+  return productData?.title || "Неизвестный товар";
 };
 
 /**
@@ -51,7 +51,7 @@ const enrichOrderItem = async (item: OrderItem): Promise<EnrichedOrderItem> => {
   
   return {
     ...item,
-    name: getProductName(item, productData),
+    name: getProductName(productData),
     weight: productData?.weight || 0,
     brand: productData?.brand || "",
     manufacturer: productData?.manufacturer || "",
