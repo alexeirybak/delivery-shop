@@ -7,19 +7,17 @@ import Toolbar from "./Toolbar";
 import LinkInput from "./LinkInput";
 import CharacterCounter from "./CharacterCounter";
 import { useImageUpload } from "@/hooks/useImageUpload";
-import { editorExtensions } from "../../../../../../utils/admin/editorExtensions";
+import { editorExtensions } from "../../../../../../../utils/admin/editorExtensions";
 
 interface TipTapEditorProps {
   content?: string;
   onChange?: (content: string) => void;
-  placeholder?: string;
   maxChars?: number;
 }
 
 export default function TipTapEditor({
   content = "",
   onChange,
-  placeholder = "Начните писать здесь...",
   maxChars = 5000,
 }: TipTapEditorProps) {
   const [isMounted, setIsMounted] = useState(false);
@@ -27,9 +25,11 @@ export default function TipTapEditor({
   const [linkUrl, setLinkUrl] = useState("");
   const { uploading, fileInputRef, handleImageUpload } = useImageUpload();
 
+  console.log("TipTapEditor получил content:", content?.substring(0, 200));
+
   const editor = useEditor({
-    extensions: editorExtensions({ placeholder, maxChars }),
-    content: isMounted ? content : "<p></p>",
+    extensions: editorExtensions({ maxChars }),
+    content: content,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       onChange?.(html);
@@ -68,6 +68,13 @@ export default function TipTapEditor({
     },
     immediatelyRender: false,
   });
+
+  // Критически важный useEffect для обновления контента
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   useEffect(() => {
     setIsMounted(true);

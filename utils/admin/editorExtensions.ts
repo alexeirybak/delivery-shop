@@ -1,6 +1,5 @@
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
-import Placeholder from "@tiptap/extension-placeholder";
 import CharacterCount from "@tiptap/extension-character-count";
 import Underline from "@tiptap/extension-underline";
 import Strike from "@tiptap/extension-strike";
@@ -8,12 +7,10 @@ import TextAlign from "@tiptap/extension-text-align";
 import Link from "@tiptap/extension-link";
 
 interface EditorExtensionsProps {
-  placeholder: string;
   maxChars: number;
 }
 
 export const editorExtensions = ({
-  placeholder,
   maxChars,
 }: EditorExtensionsProps) => [
   StarterKit.configure({
@@ -61,9 +58,6 @@ export const editorExtensions = ({
     types: ["heading", "paragraph"],
     alignments: ["left", "center", "right", "justify"],
     defaultAlignment: "left",
-  }),
-  Placeholder.configure({
-    placeholder,
   }),
   CharacterCount.configure({
     limit: maxChars,

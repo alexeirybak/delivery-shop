@@ -3,5 +3,6 @@ export interface ArticleCardProps {
   img: string;
   title: string;
   text: string;
+  slug: string;
   createdAt: string;
 }

@@ -40,10 +40,10 @@ const AdminPanel = () => {
           График доставки
         </Link>
         <Link
-          href="/administrator/editor"
+          href="/administrator/blog"
           className={`${buttonStyles.active} [&&]:justify-start px-4 py-2 w-full md:w-1/2`}
         >
-          Статьи
+          Блог
         </Link>
       </div>
     </div>
