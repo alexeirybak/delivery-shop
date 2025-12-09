@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Закрываем то, что не должно индексироваться поисковыми роботами:
+Disallow: /api/
+Disallow: /administrator/
+Disallow: /auth/
+Disallow: /cart/
+Disallow: /user-profile/
+Disallow: /user-orders/
+
+# Карта сайта
+Sitemap: http://delivery-shop.ru/sitemap.xml

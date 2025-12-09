@@ -1,0 +1,625 @@
+├── .env
+├── .gitignore
+├── config
+│   └── config.ts
+├── delivery-shop.products.json
+├── eslint.config.mjs
+├── get-structure.ps1
+├── migrate-mongo-config.js
+├── migrations
+│   ├── 20250622192314-products.js
+│   ├── articlesDatabase.json
+│   ├── catalogDatabase.json
+│   ├── productsDatabase.json
+│   └── usersDatabase.json
+├── next-env.d.ts
+├── next.config.ts
+├── package-lock.json
+├── package.json
+├── postcss.config.mjs
+├── project-structure.txt
+├── public
+│   ├── icons-auth
+│   │   ├── icon-arrow-left.svg
+│   │   ├── icon-attention.svg
+│   │   ├── icon-camera.png
+│   │   ├── icon-closer.svg
+│   │   ├── icon-date.svg
+│   │   └── icon-has.svg
+│   ├── icons-footer
+│   │   ├── design.png
+│   │   ├── instargam.svg
+│   │   ├── logo-footer.png
+│   │   ├── OK.svg
+│   │   ├── phone.svg
+│   │   ├── telegram.svg
+│   │   ├── VK.svg
+│   │   └── wa.svg
+│   ├── icons-header
+│   │   ├── icon-arrow-right.svg
+│   │   ├── icon-arrow.svg
+│   │   ├── icon-box.svg
+│   │   ├── icon-burger-menu.svg
+│   │   ├── icon-cart.svg
+│   │   ├── icon-entry.svg
+│   │   ├── icon-heart.svg
+│   │   ├── icon-location.svg
+│   │   ├── icon-logo.svg
+│   │   ├── icon-menu-mob.svg
+│   │   ├── icon-menu.svg
+│   │   ├── icon-search.svg
+│   │   ├── icon-text.png
+│   │   └── logo-text.png
+│   ├── icons-map
+│   │   └── icon-location.svg
+│   ├── icons-orders
+│   │   ├── icon-alert-circle.svg
+│   │   ├── icon-alert-triangle.svg
+│   │   ├── icon-bag.svg
+│   │   ├── icon-check-circle.svg
+│   │   ├── icon-check.svg
+│   │   ├── icon-clock.svg
+│   │   ├── icon-delivery.svg
+│   │   ├── icon-home.svg
+│   │   ├── icon-message-empty.svg
+│   │   ├── icon-message.svg
+│   │   ├── icon-phone.svg
+│   │   └── icon-upload.svg
+│   ├── icons-products
+│   │   ├── icon-arrow-right.svg
+│   │   ├── icon-bell-off.svg
+│   │   ├── icon-closer.svg
+│   │   ├── icon-green-smile.svg
+│   │   ├── icon-info.svg
+│   │   ├── icon-line.svg
+│   │   ├── icon-share.svg
+│   │   ├── icon-shopping-cart.svg
+│   │   └── icon-user.svg
+│   ├── images
+│   │   ├── articles
+│   │   │   ├── article-1.jpeg
+│   │   │   ├── article-2.jpeg
+│   │   │   └── article-3.jpeg
+│   │   ├── banners
+│   │   │   ├── banner-action-desk.jpeg
+│   │   │   ├── banner-action-mob-tab.jpeg
+│   │   │   ├── banner-card-image.png
+│   │   │   └── banner-card.jpeg
+│   │   ├── categories
+│   │   │   ├── img-1.png
+│   │   │   ├── img-10.png
+│   │   │   ├── img-11.png
+│   │   │   ├── img-12.png
+│   │   │   ├── img-13.png
+│   │   │   ├── img-2.png
+│   │   │   ├── img-3.png
+│   │   │   ├── img-4.png
+│   │   │   ├── img-5.png
+│   │   │   ├── img-6.png
+│   │   │   ├── img-7.png
+│   │   │   ├── img-8.png
+│   │   │   └── img-9.png
+│   │   ├── graphics
+│   │   │   ├── avatar.png
+│   │   │   ├── defaultAvatars
+│   │   │   │   ├── female.png
+│   │   │   │   └── male.png
+│   │   │   ├── food.png
+│   │   │   ├── pattern-footer.png
+│   │   │   ├── pattern-slider.png
+│   │   │   ├── slide-1.jpeg
+│   │   │   └── slide-2.jpeg
+│   │   └── products
+│   │       ├── img-1.jpeg
+│   │       ├── img-10.jpeg
+│   │       ├── img-100.jpeg
+│   │       ├── img-101.jpeg
+│   │       ├── img-102.jpeg
+│   │       ├── img-103.jpeg
+│   │       ├── img-104.jpeg
+│   │       ├── img-105.jpeg
+│   │       ├── img-106.jpeg
+│   │       ├── img-107.jpeg
+│   │       ├── img-108.jpeg
+│   │       ├── img-109.jpeg
+│   │       ├── img-11.jpeg
+│   │       ├── img-110.jpeg
+│   │       ├── img-111.jpeg
+│   │       ├── img-112.jpeg
+│   │       ├── img-113.jpeg
+│   │       ├── img-114.jpeg
+│   │       ├── img-115.jpeg
+│   │       ├── img-116.jpeg
+│   │       ├── img-117.jpeg
+│   │       ├── img-118.jpeg
+│   │       ├── img-119.jpeg
+│   │       ├── img-12.jpeg
+│   │       ├── img-120.jpeg
+│   │       ├── img-121.jpeg
+│   │       ├── img-122.jpeg
+│   │       ├── img-123.jpeg
+│   │       ├── img-124.jpeg
+│   │       ├── img-125.jpeg
+│   │       ├── img-126.jpeg
+│   │       ├── img-127.jpeg
+│   │       ├── img-13.jpeg
+│   │       ├── img-14.jpeg
+│   │       ├── img-15.jpeg
+│   │       ├── img-16.jpeg
+│   │       ├── img-17.jpeg
+│   │       ├── img-18.jpeg
+│   │       ├── img-19.jpeg
+│   │       ├── img-2.jpeg
+│   │       ├── img-20.jpeg
+│   │       ├── img-21.jpeg
+│   │       ├── img-211021617623530.jpeg
+│   │       ├── img-22.jpeg
+│   │       ├── img-23.jpeg
+│   │       ├── img-24.jpeg
+│   │       ├── img-25.jpeg
+│   │       ├── img-26.jpeg
+│   │       ├── img-27.jpeg
+│   │       ├── img-28.jpeg
+│   │       ├── img-29.jpeg
+│   │       ├── img-3.jpeg
+│   │       ├── img-30.jpeg
+│   │       ├── img-31.jpeg
+│   │       ├── img-32.jpeg
+│   │       ├── img-33.jpeg
+│   │       ├── img-34.jpeg
+│   │       ├── img-35.jpeg
+│   │       ├── img-36.jpeg
+│   │       ├── img-37.jpeg
+│   │       ├── img-38.jpeg
+│   │       ├── img-39.jpeg
+│   │       ├── img-4.jpeg
+│   │       ├── img-40.jpeg
+│   │       ├── img-41.jpeg
+│   │       ├── img-42.jpeg
+│   │       ├── img-43.jpeg
+│   │       ├── img-44.jpeg
+│   │       ├── img-45.jpeg
+│   │       ├── img-46.jpeg
+│   │       ├── img-47.jpeg
+│   │       ├── img-48.jpeg
+│   │       ├── img-49.jpeg
+│   │       ├── img-5.jpeg
+│   │       ├── img-50.jpeg
+│   │       ├── img-51.jpeg
+│   │       ├── img-52.jpeg
+│   │       ├── img-53.jpeg
+│   │       ├── img-54.jpeg
+│   │       ├── img-55.jpeg
+│   │       ├── img-56.jpeg
+│   │       ├── img-57.jpeg
+│   │       ├── img-58.jpeg
+│   │       ├── img-59.jpeg
+│   │       ├── img-6.jpeg
+│   │       ├── img-60.jpeg
+│   │       ├── img-61.jpeg
+│   │       ├── img-62.jpeg
+│   │       ├── img-63.jpeg
+│   │       ├── img-64.jpeg
+│   │       ├── img-65.jpeg
+│   │       ├── img-66.jpeg
+│   │       ├── img-67.jpeg
+│   │       ├── img-68.jpeg
+│   │       ├── img-69.jpeg
+│   │       ├── img-7.jpeg
+│   │       ├── img-70.jpeg
+│   │       ├── img-71.jpeg
+│   │       ├── img-72.jpeg
+│   │       ├── img-73.jpeg
+│   │       ├── img-74.jpeg
+│   │       ├── img-75.jpeg
+│   │       ├── img-76.jpeg
+│   │       ├── img-77.jpeg
+│   │       ├── img-78.jpeg
+│   │       ├── img-79.jpeg
+│   │       ├── img-8.jpeg
+│   │       ├── img-80.jpeg
+│   │       ├── img-81.jpeg
+│   │       ├── img-82.jpeg
+│   │       ├── img-83.jpeg
+│   │       ├── img-84.jpeg
+│   │       ├── img-85.jpeg
+│   │       ├── img-86.jpeg
+│   │       ├── img-87.jpeg
+│   │       ├── img-88.jpeg
+│   │       ├── img-885438967464816.jpeg
+│   │       ├── img-89.jpeg
+│   │       ├── img-9.jpeg
+│   │       ├── img-90.jpeg
+│   │       ├── img-91.jpeg
+│   │       ├── img-92.jpeg
+│   │       ├── img-93.jpeg
+│   │       ├── img-94.jpeg
+│   │       ├── img-95.jpeg
+│   │       ├── img-96.jpeg
+│   │       ├── img-97.jpeg
+│   │       ├── img-98.jpeg
+│   │       └── img-99.jpeg
+│   ├── robots.txt
+│   └── uploads
+│       ├── 1e5aa4f5-49ed-4d44-8287-4aabaf25af47.jpg
+│       ├── 29a5bf7f-8c34-4fbc-b723-cb4de3fc64d3.jpg
+│       ├── 306106b9-2a83-457b-8814-afa6a1daafef.png
+│       ├── 65105c4c-7e88-43a1-a760-c25a114b9bcb.jpg
+│       ├── 6557047f-61f6-4042-9c23-f433e8831a2e.png
+│       ├── 8e204904-a7dd-4c9d-b832-6b969cab198c.jpg
+│       ├── 9c2911ea-9598-46a1-9a84-4fc46763aefe.jpg
+│       ├── bc163826-7025-48bf-a237-98762f7cb21b.jpg
+│       ├── dc5f4b82-a4ea-4ba6-95f8-43d190c59793.png
+│       ├── dcddd592-4130-44aa-b14c-78d6a4fbb562.jpg
+│       └── f53474fb-db47-4b34-85a9-92e5a8df17b1.jpg
+├── README.md
+├── seed-article-db.ts
+├── seed-db.ts
+├── seed-rate-to-null.js
+├── seed-rate-to-null.ts
+├── seed-ratings.ts
+├── seed-second-db.ts
+├── src
+│   ├── actions
+│   │   ├── addToCartActions.ts
+│   │   ├── orderActions.ts
+│   │   └── priceAlerts.ts
+│   ├── app
+│   │   ├── (admin)
+│   │   │   └── administrator
+│   │   │       ├── admin-orders
+│   │   │       ├── blog
+│   │   │       ├── delivery-times
+│   │   │       ├── layout.tsx
+│   │   │       ├── page.tsx
+│   │   │       ├── products
+│   │   │       ├── styles.ts
+│   │   │       └── users-list
+│   │   ├── (articles)
+│   │   │   ├── ArticleCard.tsx
+│   │   │   ├── articles
+│   │   │   │   └── page.tsx
+│   │   │   ├── Articles.tsx
+│   │   │   ├── ArticlesSection.tsx
+│   │   │   └── fetchArticles.ts
+│   │   ├── (auth)
+│   │   │   ├── _components
+│   │   │   │   ├── AuthFormLayout.tsx
+│   │   │   │   ├── CloseButton.tsx
+│   │   │   │   ├── OTPResendButton.tsx
+│   │   │   │   ├── PasswordInput.tsx
+│   │   │   │   └── PhoneInput.tsx
+│   │   │   ├── (login)
+│   │   │   │   ├── login
+│   │   │   │   ├── otp-enter
+│   │   │   │   └── password-enter
+│   │   │   ├── (reg)
+│   │   │   │   ├── _components
+│   │   │   │   ├── register
+│   │   │   │   └── verify
+│   │   │   ├── (update-pass)
+│   │   │   │   ├── _components
+│   │   │   │   ├── (forgot-pass)
+│   │   │   │   └── (reset-pass)
+│   │   │   ├── verify-delete-email
+│   │   │   │   └── page.tsx
+│   │   │   └── verify-delete-phone
+│   │   │       └── page.tsx
+│   │   ├── (blog)
+│   │   │   ├── [slug]
+│   │   │   ├── ArticleFull.tsx
+│   │   │   └── page.tsx
+│   │   ├── (cart)
+│   │   │   └── cart
+│   │   │       ├── _components
+│   │   │       ├── page.tsx
+│   │   │       └── utils
+│   │   ├── (catalog)
+│   │   │   ├── catalog
+│   │   │   │   ├── [category]
+│   │   │   │   ├── CatalogPage.tsx
+│   │   │   │   ├── page.tsx
+│   │   │   │   └── product
+│   │   │   ├── CatalogAdminControls.tsx
+│   │   │   ├── CatalogGrid.tsx
+│   │   │   └── GridCategoryBlock.tsx
+│   │   ├── (payment)
+│   │   │   ├── FakePaymentModal.tsx
+│   │   │   └── PaymentSuccessModal.tsx
+│   │   ├── (products)
+│   │   │   ├── actions
+│   │   │   │   └── page.tsx
+│   │   │   ├── Actions.tsx
+│   │   │   ├── favorites
+│   │   │   │   ├── fetchFavorites.ts
+│   │   │   │   └── page.tsx
+│   │   │   ├── fetchProducts.ts
+│   │   │   ├── GenericListPage.tsx
+│   │   │   ├── new
+│   │   │   │   └── page.tsx
+│   │   │   └── NewProducts.tsx
+│   │   ├── (search)
+│   │   │   └── search
+│   │   │       └── page.tsx
+│   │   ├── (user-orders)
+│   │   │   └── user-orders
+│   │   │       ├── _components
+│   │   │       └── page.tsx
+│   │   ├── (user-profile)
+│   │   │   ├── _components
+│   │   │   │   ├── AlertMessage.tsx
+│   │   │   │   ├── CameraModal.tsx
+│   │   │   │   ├── ConfirmAvatarModal.tsx
+│   │   │   │   ├── DeleteAccountInitialStep.tsx
+│   │   │   │   ├── DeleteAccountModal.tsx
+│   │   │   │   ├── DeleteAccountVerificationStep.tsx
+│   │   │   │   ├── EmailChangeVerification.tsx
+│   │   │   │   ├── LocationSection.tsx
+│   │   │   │   ├── ProfileAvatar.tsx
+│   │   │   │   ├── ProfileCard.tsx
+│   │   │   │   ├── ProfileEmail.tsx
+│   │   │   │   ├── ProfileHeader.tsx
+│   │   │   │   ├── ProfilePassword.tsx
+│   │   │   │   ├── ProfilePhone
+│   │   │   │   ├── SecuritySection.tsx
+│   │   │   │   └── SuccessChangeEmail.tsx
+│   │   │   ├── goodbye
+│   │   │   │   └── page.tsx
+│   │   │   ├── styles.css
+│   │   │   └── user-profile
+│   │   │       └── page.tsx
+│   │   ├── (user)
+│   │   │   ├── fetchPurchases.ts
+│   │   │   ├── purchases
+│   │   │   │   └── page.tsx
+│   │   │   └── Purchases.tsx
+│   │   ├── api
+│   │   │   ├── add-product
+│   │   │   │   └── route.ts
+│   │   │   ├── admin
+│   │   │   │   ├── chat
+│   │   │   │   ├── orders
+│   │   │   │   └── users
+│   │   │   ├── articles
+│   │   │   │   └── route.ts
+│   │   │   ├── auth
+│   │   │   │   ├── [...all]
+│   │   │   │   ├── avatar
+│   │   │   │   ├── check-login
+│   │   │   │   ├── check-phone
+│   │   │   │   ├── check-session
+│   │   │   │   ├── delete-account
+│   │   │   │   ├── location
+│   │   │   │   ├── login
+│   │   │   │   ├── logout
+│   │   │   │   ├── reset-phone-pass
+│   │   │   │   ├── set-password
+│   │   │   │   ├── update-email
+│   │   │   │   ├── update-phone
+│   │   │   │   ├── upload-avatar
+│   │   │   │   └── user
+│   │   │   ├── cart
+│   │   │   │   └── route.ts
+│   │   │   ├── catalog
+│   │   │   │   └── route.ts
+│   │   │   ├── category
+│   │   │   │   └── route.ts
+│   │   │   ├── cron
+│   │   │   │   ├── price-check
+│   │   │   │   └── update-delivery-dates
+│   │   │   ├── delete-product
+│   │   │   │   └── route.ts
+│   │   │   ├── delivery-times
+│   │   │   │   └── route.ts
+│   │   │   ├── orders
+│   │   │   │   ├── [id]
+│   │   │   │   ├── admin-orders
+│   │   │   │   ├── clear-cart
+│   │   │   │   ├── confirm-payment
+│   │   │   │   ├── route.ts
+│   │   │   │   ├── update-after-payment
+│   │   │   │   └── update-status
+│   │   │   ├── posts
+│   │   │   │   ├── [slug]
+│   │   │   │   ├── actions
+│   │   │   │   ├── admin
+│   │   │   │   ├── categories
+│   │   │   │   └── route.ts
+│   │   │   ├── price-alerts
+│   │   │   │   └── unsubscribe
+│   │   │   ├── products
+│   │   │   │   ├── [id]
+│   │   │   │   ├── brand
+│   │   │   │   ├── route.ts
+│   │   │   │   └── similar-products
+│   │   │   ├── search
+│   │   │   │   └── route.ts
+│   │   │   ├── search-full
+│   │   │   │   └── route.ts
+│   │   │   ├── search-products
+│   │   │   │   └── route.ts
+│   │   │   ├── site-settings
+│   │   │   │   └── route.ts
+│   │   │   ├── update-product
+│   │   │   │   └── route.ts
+│   │   │   ├── upload
+│   │   │   │   └── route.ts
+│   │   │   ├── upload-image
+│   │   │   │   └── route.ts
+│   │   │   └── users
+│   │   │       ├── favorites
+│   │   │       ├── purchases
+│   │   │       └── update-card
+│   │   ├── contexts
+│   │   │   └── RegFormContext.tsx
+│   │   ├── favicon.ico
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   ├── page.tsx
+│   │   ├── providers.tsx
+│   │   └── styles.ts
+│   ├── components
+│   │   ├── AddToCartButton.tsx
+│   │   ├── Breadcrumbs.tsx
+│   │   ├── CartSummary.tsx
+│   │   ├── ErrorComponent.tsx
+│   │   ├── FavoriteButton.tsx
+│   │   ├── Footer.tsx
+│   │   ├── header
+│   │   │   ├── ButtonSearch.tsx
+│   │   │   ├── CatalogDropMenu
+│   │   │   │   ├── CatalogMenu.tsx
+│   │   │   │   └── CatalogMenuWrapper.tsx
+│   │   │   ├── Header.tsx
+│   │   │   ├── HighlightText.tsx
+│   │   │   ├── inputSearch
+│   │   │   │   ├── InputBlock.tsx
+│   │   │   │   ├── SearchInput.tsx
+│   │   │   │   └── SearchResults.tsx
+│   │   │   ├── LogoBlock.tsx
+│   │   │   ├── Profile.tsx
+│   │   │   ├── SearchBlock.tsx
+│   │   │   ├── TopMenu.tsx
+│   │   │   └── UserBlock.tsx
+│   │   ├── InStockToggle.tsx
+│   │   ├── Loader.tsx
+│   │   ├── Maps.tsx
+│   │   ├── MiniLoader.tsx
+│   │   ├── Pagination.tsx
+│   │   ├── PaginationWrapper.tsx
+│   │   ├── ProductCard.tsx
+│   │   ├── ProductsSection.tsx
+│   │   ├── Slider
+│   │   │   ├── SlideOne.tsx
+│   │   │   ├── Slider.tsx
+│   │   │   └── SlideTwo.tsx
+│   │   ├── SpecialOffers.tsx
+│   │   ├── StarRating.tsx
+│   │   ├── svg
+│   │   │   ├── IconAvatarChange.tsx
+│   │   │   ├── IconBell.tsx
+│   │   │   ├── IconBox.tsx
+│   │   │   ├── IconCart.tsx
+│   │   │   ├── IconHeart.tsx
+│   │   │   ├── IconMenuMob.tsx
+│   │   │   ├── IconNotice.tsx
+│   │   │   ├── IconStar.tsx
+│   │   │   └── IconVision.tsx
+│   │   ├── Tooltip.tsx
+│   │   └── ViewAllButton.tsx
+│   ├── constants
+│   │   ├── addProductFormData.ts
+│   │   └── regFormData.ts
+│   ├── data
+│   │   ├── cities.ts
+│   │   ├── columnsUsersList.ts
+│   │   ├── locations.ts
+│   │   └── regions.ts
+│   ├── hooks
+│   │   ├── redux.ts
+│   │   ├── useAvatar.ts
+│   │   ├── useDeliveryData.ts
+│   │   ├── useDeliverySchedule.ts
+│   │   ├── useFavorites.ts
+│   │   ├── useImageUpload.ts
+│   │   ├── useOrderPricing.ts
+│   │   ├── useOrderProducts.ts
+│   │   ├── useOrderProductsData.ts
+│   │   ├── usePriceComparison.ts
+│   │   ├── usePricing.ts
+│   │   ├── useRepeatOrder.ts
+│   │   └── useTimer.ts
+│   ├── lib
+│   │   ├── auth-client.ts
+│   │   ├── auth.ts
+│   │   ├── priceDiscountEmail.ts
+│   │   └── tiptap-utils.ts
+│   ├── middleware.ts
+│   ├── scripts
+│   │   └── checkPriceAlerts.ts
+│   ├── store
+│   │   ├── api
+│   │   │   ├── chatApi.ts
+│   │   │   └── ordersApi.ts
+│   │   ├── authStore.ts
+│   │   ├── cartStore.ts
+│   │   ├── index.ts
+│   │   ├── orderStore.ts
+│   │   └── StatesProvider.tsx
+│   ├── styles
+│   │   ├── _keyframe-animations.scss
+│   │   └── _variables.scss
+│   └── types
+│       ├── addProductTypes.ts
+│       ├── api.ts
+│       ├── articles.ts
+│       ├── articlesSection.ts
+│       ├── availableDate.ts
+│       ├── cart.ts
+│       ├── catalog.ts
+│       ├── catalogAdminControlsProps.ts
+│       ├── catalogGridProps.ts
+│       ├── catalogMenuProps.ts
+│       ├── categories.ts
+│       ├── categoryBlockProps.ts
+│       ├── chat.ts
+│       ├── deliverySchedule.ts
+│       ├── errorProps.ts
+│       ├── excel.ts
+│       ├── filterControlsProps.ts
+│       ├── filtersState.ts
+│       ├── genericListPageProps.tsx
+│       ├── order.ts
+│       ├── paginationProps.ts
+│       ├── payment.ts
+│       ├── priceInputsProps.ts
+│       ├── priceRangeSliderProps.ts
+│       ├── priceTypes.ts
+│       ├── pricingProps.ts
+│       ├── product.ts
+│       ├── productsSection.ts
+│       ├── regFormData.ts
+│       ├── searchInputProps.ts
+│       ├── searchProduct.ts
+│       ├── searchResultsProps.ts
+│       ├── shops.ts
+│       ├── storeStates.ts
+│       ├── userData.ts
+│       └── userOrder.ts
+├── structure.txt
+├── styles.d.ts
+├── tsconfig.json
+└── utils
+    ├── admin
+    │   ├── birthdaySoon.ts
+    │   ├── calculateAge.ts
+    │   ├── editorExtensions.ts
+    │   ├── formatBirthday.ts
+    │   ├── maskPhone.ts
+    │   ├── rolesUtils.ts
+    │   └── shortDecimalId.ts
+    ├── api-routes.ts
+    ├── auth-helpers.ts
+    ├── avatarUtils.ts
+    ├── calcPrices.ts
+    ├── debounce.ts
+    ├── deleteUserAccount.ts
+    ├── deleteUserAvatar.ts
+    ├── excelGenerator.ts
+    ├── formatPrice.ts
+    ├── formatWeight.ts
+    ├── getAvatarByGender.ts
+    ├── getServerUserId.ts
+    ├── getThreeDaysDates.ts
+    ├── getWordEnding.ts
+    ├── optimizeImages
+    │   ├── optimizeCameraPhoto.ts
+    │   └── optimizeImage.ts
+    ├── rc-slider.d.ts
+    ├── shuffleArray.ts
+    ├── translations.ts
+    └── validation
+        ├── form.ts
+        ├── passwordValid.ts
+        ├── validateBirthDate.ts
+        └── validProfileCard.ts

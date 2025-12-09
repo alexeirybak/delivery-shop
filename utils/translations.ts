@@ -32,6 +32,8 @@ export const TRANSLATIONS: Record<string, string> = {
   "user-orders": "Заказы",
   "admin-orders": "Заказы",
   "editor": "Редактор",
+  "create": "Создать",
+  "categories": "Категории",
   "blog": "Блог"
 };
 

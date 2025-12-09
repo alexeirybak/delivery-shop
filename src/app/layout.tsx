@@ -13,13 +13,58 @@ const rubik = Rubik({
   subsets: ["latin", "cyrillic"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-  ),
-  title: "Северяночка",
-  description: "Доставка и покупка продуктов питания",
-};
+async function getSiteSettings() {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"}/api/site-settings`,
+      { cache: "force-cache" }
+    );
+
+    if (!response.ok) return null;
+
+    const data = await response.json();
+    return data.success ? data.data : null;
+  } catch (error) {
+    console.error("Ошибка загрузки настроек:", error);
+    return null;
+  }
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+
+  const title = settings?.siteTitle || "Северяночка";
+  const description =
+    settings?.metaDescription || "Доставка и покупка продуктов питания";
+  const keywords =
+    settings?.siteKeywords?.join(", ") || "доставка, продукты, покупка";
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+  const ogImage = `${baseUrl}/images/banners/banner-action-desk.jpeg`;
+
+  return {
+    title,
+    description,
+    keywords,
+
+    openGraph: {
+      title,
+      description,
+      url: baseUrl,
+      siteName: title,
+      images: [
+        {
+          url: ogImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
+      locale: "ru_RU",
+      type: "website",
+    },
+  };
+}
 
 export default function RootLayout({
   children,
@@ -27,7 +72,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`${rubik.variable} font-sans`}>
         <StoreProvider>
           <StatesProvider>

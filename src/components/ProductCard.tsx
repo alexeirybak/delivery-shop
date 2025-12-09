@@ -11,6 +11,7 @@ import {
 } from "../../utils/calcPrices";
 import AddToCartButton from "./AddToCartButton";
 import IconCart from "./svg/IconCart";
+import { createSlug } from "../../utils/slug-generator";
 
 const cardDiscountPercent = CONFIG.CARD_DISCOUNT_PERCENT;
 
@@ -21,6 +22,7 @@ interface ExtendedProductCardProps extends ProductCardProps {
 
 const ProductCard = ({
   id,
+  title,
   img,
   description,
   basePrice,
@@ -47,7 +49,9 @@ const ProductCard = ({
   const productId = id;
   const mainCategory = categories?.[0];
 
-  const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productId}?desc=${encodeURIComponent(description.substring(0, 50))}`;
+  const productSlug = createSlug(title, id);
+
+  const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productSlug}?desc=${encodeURIComponent(description.substring(0, 50))}`;
 
   const isPriorityImage = index < 4;
 

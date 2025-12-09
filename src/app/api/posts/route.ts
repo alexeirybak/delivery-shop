@@ -12,7 +12,6 @@ export async function POST(request: NextRequest) {
       slug, 
       description, 
       content, 
-      authorId, 
       authorName, 
       tags = [], 
       category, 
@@ -49,11 +48,9 @@ export async function POST(request: NextRequest) {
       slug: slug.trim(),
       description: description?.trim() || "",
       content: content || "",
-      authorId: authorId || "anonymous", // Здесь можно получить из сессии/токена
-      authorName: authorName || "Аноним",
+      authorName: authorName,
       tags: Array.isArray(tags) ? tags : [],
-      category: category || "uncategorized",
-      isPublished,
+      category: category || "Без категории",
       views: 0,
       likes: 0,
       comments: [],
@@ -75,7 +72,7 @@ export async function POST(request: NextRequest) {
       }
     }, { status: 201 });
 
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Ошибка при сохранении статьи:", error);
     return NextResponse.json(
       { 
@@ -101,7 +98,7 @@ export async function GET(request: NextRequest) {
     const skip = (page - 1) * limit;
     
     // Базовый запрос
-    const query: any = {};
+    const query: unknown = {};
     
     if (isPublished !== null) {
       query.isPublished = isPublished === "true";

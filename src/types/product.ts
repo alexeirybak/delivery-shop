@@ -12,6 +12,7 @@ export interface ProductRating {
 }
 
 export interface ProductCardProps {
+  updatedAt: string;
   _id: string;
   id: number;
   img: string;

@@ -1,4 +1,4 @@
-export const transliterate = (text: string): string => {
+export const transliterate = (text: string, toSlug: boolean = false): string => {
   const translitMap: Record<string, string> = {
     а: "a",
     б: "b",
@@ -67,8 +67,20 @@ export const transliterate = (text: string): string => {
     Ю: "Yu",
     Я: "Ya",
   };
-  return text
+  
+  let result = text
     .split("")
     .map((char) => translitMap[char] || char)
     .join("");
+    
+  if (toSlug) {
+    result = result
+      .toLowerCase()
+      .replace(/[^\w\s-]/g, "")
+      .replace(/\s+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "");
+  }
+  
+  return result;
 };
