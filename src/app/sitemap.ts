@@ -1,24 +1,7 @@
 import { MetadataRoute } from "next";
-import { SitemapDataResponse } from "../types/sitemap";
 import { createSlug } from "../../utils/slug-generator";
+import { getSitemapData } from "../../utils/getSitemapData";
 
-async function getSitemapData(): Promise<SitemapDataResponse> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
-
-  try {
-    const res = await fetch(`${baseUrl}/api/sitemap-data`);
-
-    if (!res.ok) {
-      console.error(`Не удалось получить данные для карты сайта: ${res.status}`);
-    }
-
-    const data: SitemapDataResponse = await res.json();
-    return data;
-  } catch (error) {
-    console.error("Ошибка при получении данных для карты сайта:", error);
-    throw error;
-  }
-}
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://delivery-shop.ru";
@@ -74,7 +57,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const productSlug = createSlug(product.title, product.id);
 
       return {
-        // ЧПУ URL для поисковиков
         url: `${baseUrl}/catalog/${product.categorySlug}/${productSlug}`,
         lastModified: product.updatedAt
           ? new Date(product.updatedAt).toISOString().split("T")[0]

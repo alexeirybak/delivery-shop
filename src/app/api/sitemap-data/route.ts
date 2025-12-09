@@ -1,29 +1,22 @@
 import { NextResponse } from "next/server";
 import { getDB } from "../../../../utils/api-routes";
-import {
-  CategoryForSitemap,
-  ProductForSitemap,
-  SitemapDataResponse,
-} from "@/types/sitemap";
-import { ProductCardProps } from "@/types/product";
-import { CatalogProps } from "@/types/catalog";
 
 export const dynamic = "force-dynamic";
 
-export async function GET(): Promise<NextResponse<SitemapDataResponse>> {
+export async function GET() {
   try {
     const db = await getDB();
 
-    // 1. Получаем все категории
-    const categoriesCollection = db.collection<CatalogProps>("catalog");
+    // 1. Категории - ТОЛЬКО slug
+    const categoriesCollection = db.collection("catalog");
     const dbCategories = await categoriesCollection
       .find({})
-      .project<CatalogProps>({ id: 1, slug: 1, title: 1 })
+      .project({ slug: 1 }) // ТОЛЬКО slug!
       .sort({ order: 1 })
       .toArray();
 
-    // 2. Получаем все продукты
-    const productsCollection = db.collection<ProductCardProps>("products");
+    // 2. Продукты - только нужные поля
+    const productsCollection = db.collection("products");
     const dbProducts = await productsCollection
       .find(
         { quantity: { $gt: 0 } },
@@ -36,48 +29,31 @@ export async function GET(): Promise<NextResponse<SitemapDataResponse>> {
           },
         }
       )
-      .sort({ id: 1 })
-      .limit(10000)
+      .limit(10000) // Можно убрать, если товаров меньше
       .toArray();
 
-    // 3. Форматируем данные
-    const formattedCategories: CategoryForSitemap[] = dbCategories.map(
-      (category) => ({
-        id: category.id,
-        slug: category.slug,
-        title: category.title,
-      })
-    );
+    // 3. Форматируем (минимально)
+    const categories = dbCategories.map((cat) => ({
+      slug: cat.slug,
+    }));
 
-    const formattedProducts: ProductForSitemap[] = dbProducts.map((product) => ({
+    const products = dbProducts.map((product) => ({
       id: product.id,
       title: product.title || "",
       updatedAt: product.updatedAt,
-      categorySlug: product.categories[0],
+      categorySlug: product.categories?.[0] || "other",
     }));
 
     return NextResponse.json({
-      success: true,
-      categories: formattedCategories,
-      products: formattedProducts,
-      count: {
-        categories: formattedCategories.length,
-        products: formattedProducts.length,
-      },
-      generatedAt: new Date().toISOString(),
+      categories,
+      products,
+      // Без count, generatedAt, success
     });
   } catch (error) {
-    console.error("Error in sitemap-data API:", error);
-
-    return NextResponse.json({
-      success: false,
-      categories: [],
-      products: [],
-      count: {
-        categories: 0,
-        products: 0,
-      },
-      generatedAt: new Date().toISOString(),
-    }, { status: 500 });
+    console.error("Sitemap data error:", error);
+    return NextResponse.json(
+      { error: "Failed to generate sitemap data" },
+      { status: 500 }
+    );
   }
 }
