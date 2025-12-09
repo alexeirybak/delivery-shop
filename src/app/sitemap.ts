@@ -2,70 +2,70 @@ import { MetadataRoute } from "next";
 import { createSlug } from "../../utils/slug-generator";
 import { getSitemapData } from "../../utils/getSitemapData";
 
-
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://delivery-shop.ru";
-  const currentDate = new Date().toISOString().split("T")[0];
+  const today = new Date().toISOString().split("T")[0];
 
-  // Статические страницы
-  const staticPages: MetadataRoute.Sitemap = [
+  const pages: MetadataRoute.Sitemap = [
     {
       url: `${baseUrl}/`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
+      lastModified: today,
+      changeFrequency: "daily",
       priority: 1,
     },
     {
       url: `${baseUrl}/catalog`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      lastModified: today,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/actions`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      lastModified: today,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/new`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      lastModified: today,
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
       url: `${baseUrl}/articles`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      lastModified: today,
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
   ];
 
-  const sitemapData = await getSitemapData();
+  try {
+    const data = await getSitemapData();
+    
+    // Категории
+    data.categories.forEach(category => {
+      pages.push({
+        url: `${baseUrl}/catalog/${category.slug}`,
+        lastModified: today,
+        changeFrequency: "daily",
+        priority: 0.8,
+      });
+    });
 
-  const categoryPages: MetadataRoute.Sitemap = sitemapData.categories.map(
-    (category) => ({
-      url: `${baseUrl}/catalog/${category.slug}`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    })
-  );
-
-  const productPages: MetadataRoute.Sitemap = sitemapData.products.map(
-    (product) => {
-      const productSlug = createSlug(product.title, product.id);
-
-      return {
-        url: `${baseUrl}/catalog/${product.categorySlug}/${productSlug}`,
-        lastModified: product.updatedAt
-          ? new Date(product.updatedAt).toISOString().split("T")[0]
-          : currentDate,
-        changeFrequency: "weekly" as const,
+    // Товары
+    data.products.forEach(product => {
+      pages.push({
+        url: `${baseUrl}/catalog/${product.categorySlug}/${createSlug(product.title, product.id)}`,
+        lastModified: product.updatedAt?.split('T')[0] || today,
+        changeFrequency: "weekly",
         priority: 0.7,
-      };
-    }
-  );
+      });
+    });
 
-  return [...staticPages, ...categoryPages, ...productPages];
+  } catch (error) {
+    console.error("Sitemap generation error:", error);
+    // Возвращаем хотя бы статические страницы
+  }
+
+  return pages;
 }
