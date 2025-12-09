@@ -57,7 +57,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       const productSlug = createSlug(product.title, product.id);
 
       return {
-        url: `${baseUrl}/catalog/${product.categorySlug}/${productSlug}`,
+        url: `${baseUrl}/${product.categorySlug}/${productSlug}`,
         lastModified: product.updatedAt
           ? new Date(product.updatedAt).toISOString().split("T")[0]
           : currentDate,

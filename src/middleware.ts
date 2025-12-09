@@ -4,38 +4,24 @@ import {
   handleCatalogProductRedirect,
   handleOldProductRedirect,
   handleQueryParamsRedirect,
-  isStaticPath,
 } from "../utils/middleware-redirects";
 
 export async function middleware(request: NextRequest) {
-  const url = request.nextUrl;
   
-  // === 1. Логика защиты путей (оставляем как есть) ===
-  const protectedPaths = ["/profile", "/administrator", "/cart", "/favorite"];
-  const isProtectedPath = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
-  );
-
-  if (isProtectedPath) {
-    try {
-      const sessionCookie =
-        request.cookies.get("better-auth.session_token") ||
-        request.cookies.get("session");
-
-      if (!sessionCookie) {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-    } catch {
+  // 1. Защита закрытых путей
+  if (request.nextUrl.pathname.startsWith('/profile') || 
+      request.nextUrl.pathname.startsWith('/administrator') ||
+      request.nextUrl.pathname.startsWith('/cart') ||
+      request.nextUrl.pathname.startsWith('/favorite')) {
+    
+    const session = request.cookies.get("better-auth.session_token") || 
+                   request.cookies.get("session");
+    if (!session) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }
 
-  // === 2. Пропускаем статические пути ===
-  if (isStaticPath(url.pathname)) {
-    return NextResponse.next();
-  }
-
-  // === 3. Обработка редиректов ===
+  // 2. Обработка редиректов для товаров
   const redirectHandlers = [
     handleCatalogProductRedirect,
     handleOldProductRedirect,

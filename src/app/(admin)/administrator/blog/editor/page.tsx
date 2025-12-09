@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import TipTapEditor from "./_components/TipTapEditor";
 import { CONFIG_BLOG } from "../config-blog";
-import { createSlug } from "../utils/createSlug";
+import { createSlug } from "../../../../../../utils/createSlug";
 import { useAuthStore } from "@/store/authStore";
 import { getStatusText } from "../utils/getStatusText";
 import { ArticleStatus } from "../types/articleStatus";
