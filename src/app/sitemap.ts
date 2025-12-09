@@ -9,13 +9,13 @@ async function getSitemapData(): Promise<SitemapDataResponse> {
     const res = await fetch(`${baseUrl}/api/sitemap-data`);
 
     if (!res.ok) {
-      console.error(`Failed to fetch sitemap data: ${res.status}`);
+      console.error(`Не удалось получить данные для карты сайта: ${res.status}`);
     }
 
     const data: SitemapDataResponse = await res.json();
     return data;
   } catch (error) {
-    console.error("Error fetching sitemap data:", error);
+    console.error("Ошибка при получении данных для карты сайта:", error);
     throw error;
   }
 }
@@ -87,4 +87,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   return [...staticPages, ...categoryPages, ...productPages];
 }
-
