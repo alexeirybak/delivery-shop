@@ -21,7 +21,7 @@ async function getSitemapData(): Promise<SitemapDataResponse> {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://delivery-shop.ru";
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "https://delivery-shop.ru";
   const currentDate = new Date().toISOString().split("T")[0];
 
   // Статические страницы
