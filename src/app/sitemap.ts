@@ -62,7 +62,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           ? new Date(product.updatedAt).toISOString().split("T")[0]
           : currentDate,
         changeFrequency: "weekly" as const,
-        priority: 0.7,
+        priority: 0.5,
       };
     }
   );
