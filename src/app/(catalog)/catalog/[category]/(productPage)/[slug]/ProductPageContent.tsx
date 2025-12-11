@@ -19,6 +19,7 @@ import ReviewsWrapper from "./_components/ReviewsWrapper";
 import Actions from "@/app/(products)/Actions";
 import FavoriteButton from "@/components/FavoriteButton";
 import { getFullEnding } from "../../../../../../../utils/getWordEnding";
+import ProductTitle from "./_components/ProductsTitle";
 
 interface ProductPageContentProps {
   product: ProductCardProps;
@@ -45,9 +46,7 @@ const ProductPageContent = ({
 
   return (
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text">
-      <h1 className="text-xl md:text-2xl font-bold mb-4">
-        {product.description}
-      </h1>
+      <ProductTitle title={product.title} description={product.description} />
       <div className="flex flex-row flex-wrap items-center gap-6 mb-4 md:mb-6">
         <div className="text-xs">арт. {product.article}</div>
         <div className="flex flex-row flex-wrap gap-2 items-center">

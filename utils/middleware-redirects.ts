@@ -1,3 +1,4 @@
+import { baseUrl } from "./baseUrl";
 import { createSlug } from "./createSlug";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -9,8 +10,7 @@ interface ProductInfo {
 // Получение информации о товаре
 async function getProductInfo(id: number): Promise<ProductInfo | null> {
   try {
-    const baseUrl =
-      process.env.NEXT_PUBLIC_BASE_URL || "https://delivery-shop.ru";
+    
     const response = await fetch(`${baseUrl}/api/products/${id}`);
 
     if (response.ok) {
@@ -23,6 +23,7 @@ async function getProductInfo(id: number): Promise<ProductInfo | null> {
   } catch (error) {
     console.error("Error fetching product:", error);
   }
+
   return null;
 }
 
@@ -76,21 +77,6 @@ export async function handleOldProductRedirect(
       const redirectUrl = createRedirectUrl(productInfo, id, category);
       return NextResponse.redirect(new URL(redirectUrl, request.url), 308);
     }
-  }
-
-  return null;
-}
-
-// Удаление query-параметров
-export function handleQueryParamsRedirect(
-  request: NextRequest
-): NextResponse | null {
-  const url = request.nextUrl;
-
-  // Убираем параметры из URL товаров
-  if (url.search && /\/catalog\/[^\/]+\/\d+-/.test(url.pathname)) {
-    url.search = "";
-    return NextResponse.redirect(url, 308);
   }
 
   return null;

@@ -3,7 +3,6 @@ import type { NextRequest } from "next/server";
 import {
   handleCatalogProductRedirect,
   handleOldProductRedirect,
-  handleQueryParamsRedirect,
 } from "../utils/middleware-redirects";
 
 export async function middleware(request: NextRequest) {
@@ -25,7 +24,6 @@ export async function middleware(request: NextRequest) {
   const redirectHandlers = [
     handleCatalogProductRedirect,
     handleOldProductRedirect,
-    handleQueryParamsRedirect,
   ];
 
   for (const handler of redirectHandlers) {

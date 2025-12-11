@@ -51,8 +51,7 @@ const ProductCard = ({
 
   const productSlug = createSlug(title, id);
 
-  const productUrl = `/catalog/${encodeURIComponent(mainCategory)}/${productSlug}?desc=${encodeURIComponent(description.substring(0, 50))}`;
-
+  const productUrl = `/catalog/${mainCategory}/${productSlug}`;
   const isPriorityImage = index < 4;
 
   return (

@@ -1,19 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
 import iconToRight from "/public/icons-products/icon-arrow-right.svg";
 import { TRANSLATIONS } from "../../utils/translations";
+import { useProduct } from "@/app/contexts/ProductContext";
 
 const Breadcrumbs = () => {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const { title } = useProduct();
 
   if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
-  const productDesc = searchParams.get("desc");
+  const productDesc = title;
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");

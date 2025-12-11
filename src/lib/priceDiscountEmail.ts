@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import dotenv from "dotenv";
 import path from "path";
-import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/(productPage)/[id]/_components/PriceAlertEmail";
+import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/(productPage)/[slug]/_components/PriceAlertEmail";
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const resendApiKey = process.env.RESEND_API_KEY;
