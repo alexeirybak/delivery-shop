@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { ProductCardProps } from "@/types/product";
-import { getProduct } from "../getProduct"; // Путь может измениться
+import { getProduct } from "../getProduct";
 import ProductPageContent from "./ProductPageContent";
 import ErrorComponent from "@/components/ErrorComponent";
 
@@ -9,7 +9,8 @@ interface PageProps {
     category: string; // Будет "fruit"
     slug: string; // Будет "46-salat-aysberg"
   }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+  // ❌ Убираем searchParams, если они не используются
+  // searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Функция для извлечения ID из slug
@@ -20,7 +21,7 @@ function extractIdFromSlug(slug: string): string {
 
 export async function generateMetadata({
   params,
-  searchParams,
+  // ❌ Убираем searchParams из параметров
 }: PageProps): Promise<Metadata> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
 
@@ -50,14 +51,34 @@ export async function generateMetadata({
       },
     };
   } catch {
-    const searchParamsObj = await searchParams;
-    const productTitle = decodeURIComponent(String(searchParamsObj.desc));
-
-    return {
-      title: `${productTitle}`,
-      description: `Заказывайте ${productTitle} по лучшей цене. Быстрая доставка, гарантия качества.`,
-      metadataBase: new URL(baseUrl),
-    };
+    console.error("Не удалось сформировать метаданные");
+    
+    // ❌ Убираем использование searchParams
+    // const searchParamsObj = await searchParams;
+    // const productTitle = decodeURIComponent(String(searchParamsObj.desc));
+    
+    // Вместо этого возвращаем fallback на основе slug
+    try {
+      const { category, slug } = await params;
+      const titleFromSlug = slug.split('-').slice(1).join(' ')
+        .replace(/\b\w/g, l => l.toUpperCase());
+      
+      return {
+        title: titleFromSlug || "Товар",
+        description: `Заказывайте товар по лучшей цене. Быстрая доставка, гарантия качества.`,
+        metadataBase: new URL(baseUrl),
+        alternates: {
+          canonical: `${baseUrl}/catalog/${category}/${slug}`,
+        },
+      };
+    } catch {
+      // Если даже params не доступны
+      return {
+        title: "Товар",
+        description: "Страница товара",
+        metadataBase: new URL(baseUrl),
+      };
+    }
   }
 }
 
