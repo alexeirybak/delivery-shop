@@ -14,11 +14,18 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }) {
   const { category } = await params;
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
+
   return {
     title: TRANSLATIONS[category] || category,
     description: `Описание категории товаров "${
       TRANSLATIONS[category] || category
     }" магазина "Северяночка"`,
+    metadataBase: new URL(baseUrl),
+    alternates: {
+      // Всегда указываем на базовый URL без параметров
+      canonical: `${baseUrl}/catalog/${category}`,
+    },
   };
 }
 

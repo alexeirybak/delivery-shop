@@ -6,8 +6,6 @@ interface ProductInfo {
   title: string;
   category: string;
 }
-
-// Получение информации о товаре
 async function getProductInfo(id: number): Promise<ProductInfo | null> {
   try {
     
