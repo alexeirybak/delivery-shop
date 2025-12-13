@@ -7,6 +7,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { RegFormProvider } from "./contexts/RegFormContext";
 import StatesProvider from "@/store/StatesProvider";
 import StoreProvider from "./provider";
+import { ProductProvider } from "./contexts/ProductContext";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -32,10 +33,12 @@ export default function RootLayout({
         <StoreProvider>
           <StatesProvider>
             <RegFormProvider>
-              <Header />
-              <Breadcrumbs />
-              {children}
-              <Footer />
+              <ProductProvider>
+                <Header />
+                <Breadcrumbs />
+                {children}
+                <Footer />
+              </ProductProvider>
             </RegFormProvider>
           </StatesProvider>
         </StoreProvider>
