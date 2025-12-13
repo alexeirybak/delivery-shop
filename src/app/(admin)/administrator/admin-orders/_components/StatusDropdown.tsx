@@ -55,7 +55,7 @@ const StatusDropdown = ({
               alt={currentStatusData.label}
               width={24}
               height={24}
-              className={`flex-shrink-0 ${
+              className={`shrink-0 ${
                 currentStatusLabel === "Доставляется" ||
                 currentStatusLabel === "Новый"
                   ? ""
@@ -108,7 +108,7 @@ const StatusDropdown = ({
                 alt={status.label}
                 width={24}
                 height={24}
-                className="flex-shrink-0 filter brightness-0"
+                className="shrink-0 filter brightness-0"
               />
               <span>{status.label}</span>
             </button>

@@ -55,7 +55,7 @@ export const PriceAlertModal = ({
             name="email"
             required
             placeholder="Ваш email"
-            className={`p-2 rounded text-sm relative border-1 border-primary shadow-button-default outline-0 w-full ${
+            className={`p-2 rounded text-sm relative border border-primary shadow-button-default outline-0 w-full ${
               state?.errors?.email ? "border-[#d80000]" : ""
             }`}
             disabled={isPending}
