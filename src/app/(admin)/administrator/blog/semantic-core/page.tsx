@@ -2,9 +2,9 @@
 
 import { Loader } from "lucide-react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
-import Breadcrumbs from "@/components/Breadcrumbs";
 import SEOForm from "../_CMSComponents/SEOForm";
 import SEORecommendations from "../_CMSComponents/SEORecommendations";
+import Breadcrumbs from "../_CMSComponents/Breadcrumbs";
 
 export default function SemanticCorePage() {
   const {
@@ -28,7 +28,6 @@ export default function SemanticCorePage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-4xl mx-auto">
-        {/* Показываем небольшой лоадер при перезагрузке поверх контента */}
         {reloading && <Loader />}
 
         <Breadcrumbs />

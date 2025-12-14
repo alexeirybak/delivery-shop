@@ -16,7 +16,7 @@ export default function FormButtons({ saving, disabled = false }: FormButtonsPro
         {saving ? "Сохранение..." : "Сохранить настройки"}
       </button>
       <Link
-        href="/administrator/blog"
+        href="/administrator/cms"
         className="px-4 py-2 border rounded hover:bg-gray-50 cursor-pointer transition-colors"
       >
         Назад к панели инструментов
