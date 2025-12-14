@@ -1,6 +1,5 @@
 import Image from "next/image";
 import Link from "next/link";
-import iconBurger from "/public/icons-header/icon-burger-menu.svg";
 import { TRANSLATIONS } from "../../../../utils/translations";
 import HighlightText from "../HighlightText";
 import MiniLoader from "../../MiniLoader";
@@ -31,7 +30,7 @@ const SearchResults = ({
                 />
               </div>
               <Image
-                src={iconBurger}
+                src='/icons-header/icon-burger-menu.svg'
                 alt={TRANSLATIONS[group.category] || group.category}
                 width={24}
                 height={24}
