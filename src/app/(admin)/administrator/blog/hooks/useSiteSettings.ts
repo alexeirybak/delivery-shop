@@ -3,8 +3,7 @@ import { SiteSettings, FormData } from "../types/siteSettings";
 
 export const useSiteSettings = () => {
   const [settings, setSettings] = useState<SiteSettings | null>(null);
-  const [initialLoading, setInitialLoading] = useState(true);
-  const [reloading, setReloading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     siteTitle: "",
@@ -13,12 +12,8 @@ export const useSiteSettings = () => {
     semanticCore: "",
   });
 
-  const loadSettings = async (isReload = false) => {
-    if (isReload) {
-      setReloading(true);
-    } else {
-      setInitialLoading(true);
-    }
+  const loadSettings = async () => {
+    setLoading(true);
     
     try {
       const response = await fetch("/administrator/blog/api/site-settings");
@@ -36,16 +31,12 @@ export const useSiteSettings = () => {
     } catch (error) {
       console.error("Ошибка загрузки настроек:", error);
     } finally {
-      if (isReload) {
-        setReloading(false);
-      } else {
-        setInitialLoading(false);
-      }
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    loadSettings(false);
+    loadSettings();
   }, []);
 
   const handleSave = async (e: React.FormEvent) => {
@@ -73,7 +64,7 @@ export const useSiteSettings = () => {
       const data = await response.json();
       if (data.success) {
         alert("Настройки сохранены");
-        loadSettings(true); // reload after save
+        await loadSettings(); 
       } else {
         alert("Ошибка сохранения");
       }
@@ -87,8 +78,7 @@ export const useSiteSettings = () => {
 
   return {
     settings,
-    initialLoading,
-    reloading,
+    loading,
     saving,
     formData,
     setFormData,
