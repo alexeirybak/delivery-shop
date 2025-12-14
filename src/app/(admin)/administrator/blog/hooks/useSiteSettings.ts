@@ -73,7 +73,7 @@ export const useSiteSettings = () => {
       const data = await response.json();
       if (data.success) {
         alert("Настройки сохранены");
-        loadSettings(true); // reload after save
+        loadSettings(true); 
       } else {
         alert("Ошибка сохранения");
       }
