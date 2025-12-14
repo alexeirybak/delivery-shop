@@ -13,14 +13,17 @@ const CityFilterButtons = ({
   selectedCity,
   onCitySelect,
 }: CityFilterButtonsProps) => {
+  const displayCities = cities.length === 2 && cities.includes("Все города") 
+    ? cities.filter(city => city !== "Все города")
+    : cities;
+
   return (
     <div className="flex flex-wrap gap-2.5 mb-15">
-      {cities.map((city) => {
-        const ordersCount =
-          city === "Все города"
-            ? slotOrders.length
-            : slotOrders.filter((order) => order.deliveryAddress?.city === city)
-                .length;
+      {displayCities.map((city) => {
+        const ordersCount = city === "Все города" 
+          ? slotOrders.length 
+          : slotOrders.filter((order) => order.deliveryAddress?.city === city).length;
+
         return (
           <button
             key={city}

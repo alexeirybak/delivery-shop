@@ -16,7 +16,7 @@ interface OrderProduct {
 interface OrderProductsLoaderProps {
   orderItems: OrderProduct[];
   applyIndexStyles?: boolean;
-  showFullOrder?: boolean; 
+  showFullOrder?: boolean; // Важный проп!
   onTotalWeightCalculated?: (weight: number) => void;
 }
 

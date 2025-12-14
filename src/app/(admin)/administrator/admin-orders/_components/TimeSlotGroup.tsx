@@ -3,12 +3,12 @@ import { Order } from "@/types/order";
 import AdminOrderCard from "./AdminOrderCard";
 import { useState, useEffect } from "react";
 import CityFilterButtons from "./CityFilterButtons";
-import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
-import { getUniqueCities } from "../utils/getUniqueCities";
+import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
+import { getUniqueCities } from "../utils/getUnigueCities";
 
 interface TimeSlotGroupProps {
   timeSlot: string;
-  orderIds: string[];
+  orderIds: string[]; // Принимаем только IDs
 }
 
 const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
@@ -16,9 +16,10 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
   const [selectedCity, setSelectedCity] = useState<string>("Все города");
   const [localOrders, setLocalOrders] = useState<Order[]>([]);
 
+  // Находим полные объекты заказов по IDs
   useEffect(() => {
     if (data?.orders) {
-      const filteredOrders = data.orders.filter((order) =>
+      const filteredOrders = data.orders.filter((order) => 
         orderIds.includes(order._id)
       );
       setLocalOrders(filteredOrders);
@@ -53,7 +54,6 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
             src="/icons-orders/icon-clock.svg"
             width={24}
             height={24}
-            className="w-6 h-6"
           />
           <span className="font-bold">{startTime}</span>
         </div>

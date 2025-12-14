@@ -1,3 +1,4 @@
+import OrderProductsLoader from "./OrderProductsLoader";
 import { useState, useEffect } from "react";
 import { updateOrderStatus } from "@/app/(cart)/cart/utils/orderHelpers";
 import { getMappedStatus } from "../utils/getMappedStatus";
@@ -7,18 +8,15 @@ import UserAvatar from "./UserAvatar";
 import IconVision from "@/components/svg/IconVision";
 import Image from "next/image";
 import { formatPhoneNumber } from "../utils/formatPhoneNumber";
-import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
-import {
-  useGetOrderMessagesQuery,
-  useHasUnreadMessagesQuery,
-} from "@/store/redux/api/chatApi";
-import IconNotice from "@/components/svg/IconNotice";
+import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
 import OrderChatModal from "./OrderChatModal";
+import IconNotice from "@/components/svg/IconNotice";
+import { useHasUnreadMessagesQuery } from "@/store/api/chatApi";
+import { useGetOrderMessagesQuery } from "@/store/api/chatApi";
 import CalendarOrderModal from "./CalendarOrderModal";
-import { buttonStyles } from "@/app/styles";
-import OrderProductsLoader from "./OrderProductsLoader";
 import OrderDetails from "./OrderDetails";
-import { exportOrderToExcel } from "../utils/exportOrderToExcel";
+import { buttonStyles } from "@/app/styles";
+import { exportOrderToExcel } from "../utils/orderExcelExporter";
 
 interface AdminOrderCardProps {
   orderId: string;
@@ -26,7 +24,6 @@ interface AdminOrderCardProps {
 
 const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const { data } = useGetAdminOrdersQuery();
-
   const order = data?.orders?.find((o) => o._id === orderId);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
@@ -103,14 +100,27 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     }
   };
 
+  const handleExportToExcel = async () => {
+    if (!order || isExporting) return;
+
+    setIsExporting(true);
+    try {
+      await exportOrderToExcel(order);
+    } catch (error) {
+      console.error("Ошибка при выгрузке в Excel:", error);
+    } finally {
+      setIsExporting(false);
+    }
+  };
+  
   const handleOpenChat = () => {
-    fetch(`/api/admin/chat/${orderId}/read`, {
-      method: "POST",
-    });
     setShowChat(true);
   };
 
   const handleCloseChat = () => {
+    fetch(`/api/admin/chat/${orderId}/read`, {
+      method: "POST",
+    });
     setShowChat(false);
   };
 
@@ -128,19 +138,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   const handleTotalWeightCalculated = (weight: number) => {
     setTotalOrderWeight(weight);
-  };
-
-  const handleExportToExcel = async () => {
-    if (!order || isExporting) return;
-
-    setIsExporting(true);
-    try {
-      await exportOrderToExcel(order);
-    } catch (error) {
-      console.error("Ошибка при выгрузке в Excel:", error);
-    } finally {
-      setIsExporting(false);
-    }
   };
 
   if (!order) return null;
@@ -178,23 +175,24 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             isUpdating={isUpdating}
             onStatusChange={handleStatusChange}
           />
-          {!showOrderDetails && (
-            <button
-              className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
-              onClick={handleToggleDetails}
-            >
-              <IconVision showPassword={!showOrderDetails} />
-              Просмотреть
-            </button>
-          )}
 
+          {/* Кнопка Просмотреть/Скрыть */}
+          <button
+            className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            onClick={handleToggleDetails}
+          >
+            <IconVision showPassword={!showOrderDetails} />
+            {showOrderDetails ? "Скрыть" : "Просмотреть"}
+          </button>
+
+          {/* Кнопка Выгрузить в Excel (только когда showOrderDetails = true) */}
           {showOrderDetails && (
             <button
               className={`${buttonStyles.active} hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer`}
               onClick={handleExportToExcel}
             >
               <Image
-                src="/icons-orders/icon-upload.svg"
+                src="/icons-orders/icon-upload.svg" // Нужно добавить иконку Excel
                 alt="Excel"
                 width={24}
                 height={24}
@@ -204,9 +202,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           )}
 
           {showCalendarIcon ? (
-            <div>
+            <div className="relative">
               <button
-                className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+                className="bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
                 onClick={handleOpenCalendar}
               >
                 <Image
@@ -247,6 +245,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           )}
         </div>
       </div>
+
       {/* Товары показываем когда showOrderDetails = true */}
       {showOrderDetails && (
         <>
@@ -287,6 +286,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           </button>
         </div>
       )}
+
       <OrderChatModal
         orderId={orderId}
         isOpen={showChat}

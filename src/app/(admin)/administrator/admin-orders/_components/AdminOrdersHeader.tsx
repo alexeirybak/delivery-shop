@@ -5,10 +5,9 @@ interface AdminOrdersHeaderProps {
 }
 
 const AdminOrdersHeader = ({ stats }: AdminOrdersHeaderProps) => {
-
   return (
     <div className="mb-6 md:mb-8 xl:mb-10 relative inline-block">
-      <h1 className="text-4xl md:text-5xl xl:text-[64px] text-main-text font-bold ">
+      <h1 className="text-4xl md:text-5xl xl:text-[64px] text-main-text font-bold">
         Заказы
       </h1>
       {stats && (
