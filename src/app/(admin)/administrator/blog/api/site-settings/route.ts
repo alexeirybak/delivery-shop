@@ -11,18 +11,33 @@ interface SiteSettings {
   updatedAt: string;
 }
 
-// GET - Получение настроек
+// GET - Получение настроек (с атомарным созданием если нет)
 export async function GET() {
   try {
     const db = await getDB();
 
-    // Ищем первый документ в коллекции
-    let settings = await db
+    // Атомарно находим или создаем настройки
+    const result = await db
       .collection<SiteSettings>("site-settings")
-      .findOne({});
+      .findOneAndUpdate(
+        {}, // пустой фильтр - ищем любой документ
+        {
+          $setOnInsert: {
+            siteKeywords: ["ваш", "сайт", "ключевые", "слова"],
+            semanticCore: ["основные", "тематики", "сайта"],
+            metaDescription: "Описание вашего сайта",
+            siteTitle: "Название вашего сайта",
+            updatedAt: new Date().toISOString(),
+          },
+        },
+        {
+          upsert: true, // создать если нет
+          returnDocument: "after", // вернуть документ после операции
+        }
+      );
 
-    // Если настроек нет, создаем дефолтные
-    if (!settings) {
+    if (!result) {
+      // Если по какой-то причине документ не создался
       const defaultSettings: SiteSettings = {
         _id: new ObjectId(),
         siteKeywords: ["ваш", "сайт", "ключевые", "слова"],
@@ -36,14 +51,20 @@ export async function GET() {
         .collection<SiteSettings>("site-settings")
         .insertOne(defaultSettings);
 
-      settings = defaultSettings;
+      return NextResponse.json({
+        success: true,
+        data: {
+          ...defaultSettings,
+          _id: defaultSettings._id.toString(),
+        },
+      });
     }
 
     return NextResponse.json({
       success: true,
       data: {
-        ...settings,
-        _id: settings._id.toString(),
+        ...result,
+        _id: result._id.toString(),
       },
     });
   } catch (error) {
@@ -55,58 +76,40 @@ export async function GET() {
   }
 }
 
-// PUT - Обновление настроек (всегда обновляем первый документ)
+// PUT - Обновление настроек
 export async function PUT(request: Request) {
   try {
     const db = await getDB();
     const data = await request.json();
 
-    // Сначала найдем существующий документ
-    const existingSettings = await db
+    // Атомарное обновление или создание
+    const result = await db
       .collection<SiteSettings>("site-settings")
-      .findOne({});
+      .findOneAndUpdate(
+        {}, // ищем любой документ
+        {
+          $set: {
+            siteKeywords: data.siteKeywords || [],
+            semanticCore: data.semanticCore || [],
+            metaDescription: data.metaDescription || "",
+            siteTitle: data.siteTitle || "",
+            updatedAt: new Date().toISOString(),
+          },
+        },
+        {
+          upsert: true, // создать если нет
+          returnDocument: "after", // вернуть обновленный документ
+        }
+      );
 
-    if (existingSettings) {
-      // Обновляем существующий документ
-      const result = await db
-        .collection<SiteSettings>("site-settings")
-        .updateOne(
-          { _id: existingSettings._id },
-          {
-            $set: {
-              siteKeywords: data.siteKeywords || [],
-              semanticCore: data.semanticCore || [],
-              metaDescription: data.metaDescription || "",
-              siteTitle: data.siteTitle || "",
-              updatedAt: new Date().toISOString(),
-            },
-          }
-        );
-
-      return NextResponse.json({
-        success: true,
-        message: "Настройки обновлены",
-        updated: result.modifiedCount > 0,
-      });
-    } else {
-      // Создаем новый документ
-      const newSettings: SiteSettings = {
-        _id: new ObjectId(),
-        siteKeywords: data.siteKeywords || [],
-        semanticCore: data.semanticCore || [],
-        metaDescription: data.metaDescription || "",
-        siteTitle: data.siteTitle || "",
-        updatedAt: new Date().toISOString(),
-      };
-
-      await db.collection<SiteSettings>("site-settings").insertOne(newSettings);
-
-      return NextResponse.json({
-        success: true,
-        message: "Настройки созданы",
-        created: true,
-      });
-    }
+    return NextResponse.json({
+      success: true,
+      message: result ? "Настройки обновлены" : "Настройки созданы",
+      data: result ? {
+        ...result,
+        _id: result._id.toString(),
+      } : null,
+    });
   } catch (error) {
     console.error("Ошибка сохранения настроек:", error);
     return NextResponse.json(
