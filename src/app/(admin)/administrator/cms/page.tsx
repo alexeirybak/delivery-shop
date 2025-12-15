@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
       description: "Создать статью в редакторе",
       icon: <Plus className="w-6 h-6" />,
       color: "blue",
-      path: "/administrator/blog/editor",
+      path: "/administrator/cms/editor",
       actionText: "Создать",
     },
     {
@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
       description: "Просмотр и управление статьями",
       icon: <FileText className="w-6 h-6" />,
       color: "indigo",
-      path: "/administrator/blog",
+      path: "/administrator/cms/al-articles",
       actionText: "Перейти",
     },
     {
@@ -47,7 +47,7 @@ export default function AdminDashboardPage() {
       description: "Управление категориями блога",
       icon: <FolderTree className="w-6 h-6" />,
       color: "green",
-      path: "/administrator/blog/categories",
+      path: "/administrator/cms/categories",
       actionText: "Управлять",
     },
     {
@@ -56,7 +56,7 @@ export default function AdminDashboardPage() {
       description: "Ключевые слова и SEO",
       icon: <Tags className="w-6 h-6" />,
       color: "purple",
-      path: "/administrator/blog/semantic-core",
+      path: "/administrator/cms/semantic-core",
       actionText: "Настроить",
     },
   ];

@@ -43,17 +43,17 @@ export default function SidebarMenu({ isOpen, onCloseAction }: SidebarMenuProps)
   }, [isOpen]);
 
   const handleNewArticle = () => {
-    router.push("/administrator/blog/editor");
+    router.push("/administrator/cms/editor");
     onCloseAction();
   };
 
   const handleCategoriesPage = () => {
-    router.push("/administrator/blog/categories");
+    router.push("/administrator/cms/categories");
     onCloseAction();
   };
 
   const handleSemanticCorePage = () => {
-    router.push("/administrator/blog/semantic-core");
+    router.push("/administrator/cms/semantic-core");
     onCloseAction();
   };
 

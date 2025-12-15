@@ -1,20 +1,13 @@
 "use client";
 
-import { Loader } from "lucide-react";
-import { useSiteSettings } from "../hooks/useSiteSettings";
-import Breadcrumbs from "@/components/Breadcrumbs";
-import SEOForm from "../_CMSComponents/SEOForm";
-import SEORecommendations from "../_CMSComponents/SEORecommendations";
+import { Loader, Loader2 } from "lucide-react";
+import { useSiteSettings } from "../../../blog/hooks/useSiteSettings";
+import SEOForm from "../../../blog/_CMSComponents/SEOForm";
+import SEORecommendations from "../../../blog/_CMSComponents/SEORecommendations";
 
 export default function SemanticCorePage() {
-  const {
-    settings,
-    loading,
-    saving,
-    formData,
-    handleSave,
-    setFormData,
-  } = useSiteSettings();
+  const { settings, loading, saving, formData, handleSave, setFormData } =
+    useSiteSettings();
 
   if (loading) {
     return (
@@ -25,18 +18,16 @@ export default function SemanticCorePage() {
   }
 
   return (
-    <main className="min-h-screen bg-gray-50 p-6 max-w-4xl mx-auto">
+    <>
       {saving && (
         <div className="fixed top-4 right-4 z-50">
           <div className="flex items-center gap-2 bg-white px-3 py-2 rounded-lg shadow-md">
-            <Loader className="animate-spin h-4 w-4" />
+            <Loader2 className="animate-spin h-4 w-4" />
             <span className="text-sm">Сохранение...</span>
           </div>
         </div>
       )}
-      
-      <Breadcrumbs />
-      
+
       <header className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">
           SEO настройки сайта
@@ -55,6 +46,6 @@ export default function SemanticCorePage() {
       />
 
       <SEORecommendations />
-    </main>
+    </>
   );
 }
