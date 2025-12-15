@@ -4,6 +4,7 @@ import { Loader, Loader2 } from "lucide-react";
 import { useSiteSettings } from "../../../blog/hooks/useSiteSettings";
 import SEOForm from "../../../blog/_CMSComponents/SEOForm";
 import SEORecommendations from "../../../blog/_CMSComponents/SEORecommendations";
+import Header from "../_components/Header";
 
 export default function SemanticCorePage() {
   const { settings, loading, saving, formData, handleSave, setFormData } =
@@ -28,14 +29,10 @@ export default function SemanticCorePage() {
         </div>
       )}
 
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900">
-          SEO настройки сайта
-        </h1>
-        <p className="text-gray-600 mt-2">
-          Настройки ключевых слов и семантического ядра для всего сайта
-        </p>
-      </header>
+      <Header
+        title="SEO настройки сайта"
+        description="Настройки ключевых слов и семантического ядра для всего сайта"
+      />
 
       <SEOForm
         formData={formData}
