@@ -7,7 +7,7 @@ interface FormFieldProps {
   hint: string;
   rows?: number;
   showCommaHint?: boolean;
-  disabled?: boolean; // ← обязательно должно быть здесь
+  disabled?: boolean; 
 }
 
 export default function FormField({
@@ -19,7 +19,7 @@ export default function FormField({
   hint,
   rows = 3,
   showCommaHint = false,
-  disabled = false, // ← и здесь
+  disabled = false, 
 }: FormFieldProps) {
   const inputClasses = `w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary/50 ${
     disabled ? "bg-gray-100 cursor-not-allowed opacity-60" : ""
