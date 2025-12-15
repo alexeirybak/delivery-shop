@@ -7,7 +7,7 @@ interface FormFieldProps {
   hint: string;
   rows?: number;
   showCommaHint?: boolean;
-  disabled?: boolean;
+  disabled?: boolean; // ← обязательно должно быть здесь
 }
 
 export default function FormField({

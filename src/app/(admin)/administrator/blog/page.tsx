@@ -5,7 +5,6 @@ import FilterPanel from "./_CMSComponents/FilterPanel";
 import ArticlesTable from "./_CMSComponents/ArticlesTable";
 import Pagination from "./_CMSComponents/Pagination";
 import { FilterState } from "./types/filterState";
-import SidebarMenu from "./_CMSComponents/SidebarMenu";
 
 interface Article {
   _id: string;
@@ -28,7 +27,6 @@ interface Article {
 
 export default function CMSPage() {
   const [articles, setArticles] = useState<Article[]>([]);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>([]);
   const [authors, setAuthors] = useState<string[]>([]);
@@ -233,28 +231,6 @@ export default function CMSPage() {
             </h1>
             <p className="text-gray-600 mt-2">Всего статей: {totalArticles}</p>
           </div>
-          <div className="flex gap-4">
-            {/* Единственная кнопка - для открытия сайдбара */}
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 cursor-pointer transition-colors flex items-center gap-2"
-            >
-              <svg
-                className="w-5 h-5"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-              Действия
-            </button>
-          </div>
         </div>
 
         {/* Фильтры */}
@@ -289,10 +265,6 @@ export default function CMSPage() {
           )}
         </div>
       </div>
-      <SidebarMenu
-        isOpen={isSidebarOpen}
-        onCloseAction={() => setIsSidebarOpen(false)}
-      />
     </div>
   );
 }
