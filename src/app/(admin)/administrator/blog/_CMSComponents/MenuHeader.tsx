@@ -29,7 +29,7 @@ export default function MenuHeader({
         aria-label="Закрыть меню"
       >
         {/* Исправлено: text-gray-600 вместо text-white */}
-        <X className="w-6 h-6 text-gray-600 group-hover:text-gray-900 group-hover:rotate-90 transition-all duration-500" />
+        <X className="w-6 h-6 text-gray-100 group-hover:text-gray-300 group-hover:rotate-90 transition-all duration-500" />
       </button>
     </div>
   );

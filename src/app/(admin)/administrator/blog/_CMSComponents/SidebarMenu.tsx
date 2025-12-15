@@ -8,13 +8,17 @@ import MenuHeader from "./MenuHeader";
 import MenuItemsList from "./MenuItemsList";
 import MenuFooter from "./MenuFooter";
 import { menuItems } from "../utils/menuItems";
+import GlobalStyles from "./GlobalStyles";
 
 interface SidebarMenuProps {
   isOpen: boolean;
   onCloseAction: () => void;
 }
 
-export default function SidebarMenu({ isOpen, onCloseAction }: SidebarMenuProps) {
+export default function SidebarMenu({
+  isOpen,
+  onCloseAction,
+}: SidebarMenuProps) {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
@@ -22,7 +26,6 @@ export default function SidebarMenu({ isOpen, onCloseAction }: SidebarMenuProps)
     setMounted(true);
   }, []);
 
-  // Закрытие по ESC
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape" && isOpen) {
@@ -30,24 +33,24 @@ export default function SidebarMenu({ isOpen, onCloseAction }: SidebarMenuProps)
       }
     };
 
-    window.addEventListener("keydown", handleEsc);
-    return () => window.removeEventListener("keydown", handleEsc);
+    document.addEventListener("keydown", handleEsc);
+
+    return () => document.removeEventListener("keydown", handleEsc);
   }, [isOpen, onCloseAction]);
 
-  // Блокировка скролла при открытом меню
   useEffect(() => {
+    if (!mounted) return;
+
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      document.body.classList.add("overflow-hidden");
     } else {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("overflow-hidden");
     }
 
     return () => {
-      document.body.style.overflow = "auto";
+      document.body.classList.remove("overflow-hidden");
     };
-  }, [isOpen]);
-
- 
+  }, [isOpen, mounted]);
 
   const handleItemClick = (path: string) => {
     router.push(path);
@@ -58,78 +61,36 @@ export default function SidebarMenu({ isOpen, onCloseAction }: SidebarMenuProps)
 
   return (
     <>
+      <GlobalStyles />
       <MenuOverlay isOpen={isOpen} onClose={onCloseAction} />
-      
-      {/* Sidebar с улучшенной анимацией */}
+
       <div
-        className={`fixed right-0 top-0 h-full w-96 z-200 ${
-          isOpen 
-            ? "translate-x-0 opacity-100" 
-            : "translate-x-full opacity-0"
+        className={`fixed right-0 top-0 h-full w-96 z-200 shadow-2xl shadow-black/20 ${
+          isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         }`}
         style={{
-          transition: "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out",
+          transition:
+            "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease-out",
         }}
       >
+        <div className="absolute -left-2 top-0 h-full w-2 bg-linear-to-r from-transparent via-blue-500/10 to-transparent blur-sm" />
+        <div className="absolute -left-4 top-4 h-[calc(100%-2rem)] w-1 bg-linear-to-r from-transparent via-purple-500/5 to-transparent blur" />
+
         <div className="relative h-full w-full">
-          {/* Фон сайдбара с градиентом */}
           <div className="absolute inset-0 bg-linear-to-b from-white via-white to-gray-50/95 backdrop-blur-xl" />
-          
-          {/* Декоративные элементы */}
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-purple-500/5" />
-          
-          {/* Контент */}
+          <div className="absolute inset-0 shadow-[inset_0_0_60px_-20px_rgba(59,130,246,0.1)]" />
           <div className="relative h-full flex flex-col p-8">
-            <MenuHeader 
-              isOpen={isOpen} 
-              onCloseAction={onCloseAction} 
+            <MenuHeader
+              isOpen={isOpen}
+              onCloseAction={onCloseAction}
               icon={<Truck className="relative w-7 h-7 text-blue-600" />}
             />
-            
-            <MenuItemsList 
-              items={menuItems} 
-              onItemClick={handleItemClick} 
-            />
-            
+            <MenuItemsList items={menuItems} onItemClick={handleItemClick} />
             <MenuFooter />
           </div>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateX(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-        .animate-slideIn {
-          animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-          opacity: 0;
-        }
-        
-        /* Градиент для каждой кнопки */
-        .group:nth-child(1) {
-          --tw-gradient-from: #3b82f6;
-          --tw-gradient-to: #1d4ed8;
-        }
-        .group:nth-child(2) {
-          --tw-gradient-from: #6366f1;
-          --tw-gradient-to: #4338ca;
-        }
-        .group:nth-child(3) {
-          --tw-gradient-from: #10b981;
-          --tw-gradient-to: #047857;
-        }
-        .group:nth-child(4) {
-          --tw-gradient-from: #8b5cf6;
-          --tw-gradient-to: #7c3aed;
-        }
-      `}</style>
     </>
   );
 }
