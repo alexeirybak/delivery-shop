@@ -2,7 +2,7 @@
 
 import { YMaps, Map, Placemark } from "@iminside/react-yandex-maps";
 import { useState } from "react";
-import { locations } from "@/data/locations";
+import { locations } from "../data/locations";
 
 const Maps = () => {
   const [currentLocation, setCurrentLocation] = useState("archangelsk");

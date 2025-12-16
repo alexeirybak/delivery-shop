@@ -6,21 +6,16 @@ import Footer from "@/components/Footer";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import { RegFormProvider } from "./contexts/RegFormContext";
 import StatesProvider from "@/store/StatesProvider";
-import StoreProvider from "./provider";
-import { ProductProvider } from "./contexts/ProductContext";
+import { generateSiteMetadata } from "../../utils/generateSiteMetadata";
 
 const rubik = Rubik({
   variable: "--font-rubik",
   subsets: ["latin", "cyrillic"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000"
-  ),
-  title: "Северяночка",
-  description: "Доставка и покупка продуктов питания",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateSiteMetadata();
+}
 
 export default function RootLayout({
   children,
@@ -28,20 +23,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="ru">
       <body className={`${rubik.variable} font-sans`}>
-        <StoreProvider>
-          <StatesProvider>
-            <RegFormProvider>
-              <ProductProvider>
-                <Header />
-                <Breadcrumbs />
-                {children}
-                <Footer />
-              </ProductProvider>
-            </RegFormProvider>
-          </StatesProvider>
-        </StoreProvider>
+        <StatesProvider>
+          <RegFormProvider>
+            <Header />
+            <Breadcrumbs />
+            {children}
+            <Footer />
+          </RegFormProvider>
+        </StatesProvider>
       </body>
     </html>
   );
