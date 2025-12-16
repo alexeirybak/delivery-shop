@@ -1,7 +1,4 @@
-import { SiteSettings } from "@/app/(admin)/administrator/blog/types/siteSettings";
-import { getDB } from "./api-routes";
 import { baseUrl } from "./baseUrl";
-
 
 export interface SiteMetadata {
   title: string;
@@ -11,27 +8,37 @@ export interface SiteMetadata {
 }
 
 export async function getSiteMetadata(): Promise<SiteMetadata> {
-  let settings = null;
+  const defaultMetadata: SiteMetadata = {
+    title: "Северяночка",
+    description: "Доставка и покупка продуктов питания",
+    keywords: "доставка, продукты, питание",
+    ogImage: `${baseUrl}/og-image.jpg`,
+  };
 
   try {
-    const db = await getDB();
-    settings = await db.collection<SiteSettings>("site-settings").findOne({});
+    const res = await fetch(`${baseUrl}/api/site-settings`);
+    
+    if (!res.ok) {
+      return defaultMetadata;
+    }
+
+    const result = await res.json();
+    
+    if (!result.success || !result.data) {
+      return defaultMetadata;
+    }
+
+    const settings = result.data;
+    
+    return {
+      title: settings.siteTitle || defaultMetadata.title,
+      description: settings.metaDescription || defaultMetadata.description,
+      keywords: settings.siteKeywords?.join(", ") || defaultMetadata.keywords,
+      ogImage: `${baseUrl}/og-image.jpg`, 
+    };
+    
   } catch (error) {
-    console.error("Ошибка получения настроек из БД:", error);
+    console.error("Ошибка получения настроек через API:", error);
+    return defaultMetadata;
   }
-
-  const title = settings?.siteTitle || "Северяночка";
-  const description =
-    settings?.metaDescription || "Доставка и покупка продуктов питания";
-  const keywords =
-    settings?.siteKeywords?.join(", ") || "доставка, продукты, питание";
-
-  const ogImage = `${baseUrl}/og-image.jpg`;
-
-  return {
-    title,
-    description,
-    keywords,
-    ogImage,
-  };
 }
