@@ -16,7 +16,7 @@ const rubik = Rubik({
 });
 
 export async function generateMetadata(): Promise<Metadata> {
-  return generateSiteMetadata();
+  return await generateSiteMetadata();
 }
 
 export default function RootLayout({

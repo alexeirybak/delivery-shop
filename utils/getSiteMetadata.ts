@@ -1,3 +1,4 @@
+import { getDB } from "./api-routes";
 import { baseUrl } from "./baseUrl";
 
 export interface SiteMetadata {
@@ -16,29 +17,25 @@ export async function getSiteMetadata(): Promise<SiteMetadata> {
   };
 
   try {
-    const res = await fetch(`${baseUrl}/administrator/blog/api/site-settings`);
+    const db = await getDB();
     
-    if (!res.ok) {
+    const settings = await db.collection("site-settings").findOne({});
+
+    if (!settings) {
       return defaultMetadata;
     }
 
-    const result = await res.json();
-    
-    if (!result.success || !result.data) {
-      return defaultMetadata;
-    }
-
-    const settings = result.data;
-    
     return {
       title: settings.siteTitle || defaultMetadata.title,
       description: settings.metaDescription || defaultMetadata.description,
-      keywords: settings.siteKeywords?.join(", ") || defaultMetadata.keywords,
-      ogImage: `${baseUrl}/og-image.jpg`, // или добавьте поле в API если нужно
+      keywords: Array.isArray(settings.siteKeywords) 
+        ? settings.siteKeywords.join(", ") 
+        : defaultMetadata.keywords,
+      ogImage: `${baseUrl}/og-image.jpg`, 
     };
     
   } catch (error) {
-    console.error("Ошибка получения настроек через API:", error);
+    console.error("Ошибка прямого обращения к БД для SEO:", error);
     return defaultMetadata;
   }
 }

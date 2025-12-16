@@ -2,10 +2,9 @@ import { getSiteMetadata } from "./getSiteMetadata";
 import { baseUrl } from "./baseUrl";
 import { Metadata } from "next";
 
-
 export async function generateSiteMetadata(): Promise<Metadata> {
   const metadata = await getSiteMetadata();
-
+  console.log("METADATA FETCHED", metadata);
   return {
     metadataBase: new URL(baseUrl),
     title: {
