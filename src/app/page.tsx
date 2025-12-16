@@ -22,7 +22,7 @@ export default function Home() {
           { component: <Purchases />, text: "Ваших покупок" },
           { component: <SpecialOffers />, text: "специальных предложений" },
           { component: <Maps />, text: "карт" },
-          { component: <Articles />, text: "статей" },
+          // { component: <Articles />, text: "статей" },
         ].map((item, index) => (
           <Suspense key={index} fallback={<Loader text={item.text} />}>
             {item.component}

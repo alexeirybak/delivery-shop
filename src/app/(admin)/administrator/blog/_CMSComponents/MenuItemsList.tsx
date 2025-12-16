@@ -1,4 +1,3 @@
-// components/SidebarMenu/MenuItemsList.tsx
 import { ReactNode } from "react";
 
 interface MenuItem {

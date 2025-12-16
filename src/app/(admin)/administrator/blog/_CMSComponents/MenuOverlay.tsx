@@ -14,7 +14,6 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
       }`}
       onClick={onClose}
     >
-      {/* Анимированные частицы */}
       {isOpen && (
         <>
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl animate-pulse" />
