@@ -16,7 +16,7 @@ export async function getSiteMetadata(): Promise<SiteMetadata> {
   };
 
   try {
-    const res = await fetch(`${baseUrl}/api/site-settings`);
+    const res = await fetch(`${baseUrl}/administrator/blog/api/site-settings`);
     
     if (!res.ok) {
       return defaultMetadata;
@@ -34,7 +34,7 @@ export async function getSiteMetadata(): Promise<SiteMetadata> {
       title: settings.siteTitle || defaultMetadata.title,
       description: settings.metaDescription || defaultMetadata.description,
       keywords: settings.siteKeywords?.join(", ") || defaultMetadata.keywords,
-      ogImage: `${baseUrl}/og-image.jpg`, 
+      ogImage: `${baseUrl}/og-image.jpg`, // или добавьте поле в API если нужно
     };
     
   } catch (error) {
