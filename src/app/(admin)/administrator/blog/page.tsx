@@ -6,7 +6,7 @@ import ArticlesTable from "./_CMSComponents/ArticlesTable";
 import Pagination from "./_CMSComponents/Pagination";
 import { FilterState } from "./types/filterState";
 
-interface Article {
+export interface Article {
   _id: string;
   id: number;
   title: string;

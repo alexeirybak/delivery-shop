@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { SiteSettings, FormData } from "../types/siteSettings";
 
 export const useSiteSettings = () => {
@@ -14,9 +14,9 @@ export const useSiteSettings = () => {
 
   const loadSettings = async () => {
     setLoading(true);
-    
+
     try {
-      const response = await fetch("/administrator/blog/api/site-settings");
+      const response = await fetch(`/administrator/cms/api/site-settings`);
       const data = await response.json();
 
       if (data.success) {
@@ -44,7 +44,7 @@ export const useSiteSettings = () => {
     setSaving(true);
 
     try {
-      const response = await fetch("/administrator/blog/api/site-settings", {
+      const response = await fetch("/administrator/cms/api/site-settings", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -64,7 +64,7 @@ export const useSiteSettings = () => {
       const data = await response.json();
       if (data.success) {
         alert("Настройки сохранены");
-        await loadSettings(); 
+        await loadSettings();
       } else {
         alert("Ошибка сохранения");
       }

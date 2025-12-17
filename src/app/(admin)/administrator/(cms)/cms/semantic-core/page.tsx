@@ -1,12 +1,12 @@
 "use client";
 
 import { Loader, Loader2 } from "lucide-react";
-import { useSiteSettings } from "../../../blog/hooks/useSiteSettings";
-import SEOForm from "../../../blog/_CMSComponents/SEOForm";
-import SEORecommendations from "../../../blog/_CMSComponents/SEORecommendations";
+import { useSiteSettings } from "../hooks/useSiteSettings";
 import Header from "../_components/Header";
+import SEOForm from "./_components/SEOForm";
+import SEORecommendations from "./_components/SEORecommendations";
 
-export default function SemanticCorePage() {
+const SemanticCorePage = () => {
   const { settings, loading, saving, formData, handleSave, setFormData } =
     useSiteSettings();
 
@@ -17,7 +17,6 @@ export default function SemanticCorePage() {
       </div>
     );
   }
-
   return (
     <>
       {saving && (
@@ -28,12 +27,10 @@ export default function SemanticCorePage() {
           </div>
         </div>
       )}
-
       <Header
         title="SEO настройки сайта"
         description="Настройки ключевых слов и семантического ядра для всего сайта"
       />
-
       <SEOForm
         formData={formData}
         setFormData={setFormData}
@@ -41,8 +38,9 @@ export default function SemanticCorePage() {
         saving={saving}
         handleSave={handleSave}
       />
-
       <SEORecommendations />
     </>
   );
-}
+};
+
+export default SemanticCorePage;

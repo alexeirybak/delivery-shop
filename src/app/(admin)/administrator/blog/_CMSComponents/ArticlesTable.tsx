@@ -4,8 +4,8 @@ import Link from "next/link";
 import { Edit2, Eye, Trash2 } from "lucide-react";
 import CategoryDropdown from "./CategoryDropdown";
 import StatusDropdown from "./StatusDropdown";
-import { Article } from "../../../../../types/article";
 import MiniLoader from "@/components/MiniLoader";
+import { Article } from "../page";
 
 interface ArticlesTableProps {
   articles: Article[];

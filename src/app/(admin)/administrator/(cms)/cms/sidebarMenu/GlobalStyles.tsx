@@ -11,12 +11,12 @@ export default function GlobalStyles() {
           transform: translateX(0);
         }
       }
-      
+
       .animate-slideIn {
         animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         opacity: 0;
       }
-      
+
       /* Градиент для каждой кнопки */
       .group:nth-child(1) {
         --tw-gradient-from: #3b82f6;

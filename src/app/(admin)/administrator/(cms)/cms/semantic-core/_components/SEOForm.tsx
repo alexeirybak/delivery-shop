@@ -1,8 +1,8 @@
-import { SiteSettings, FormData } from "../types/siteSettings";
+import { SiteSettings, FormData } from "../../types/siteSettings";
+import { Loader } from "lucide-react";
 import FormField from "./FormField";
 import CurrentSettings from "./CurrentSettings";
 import FormButtons from "./FormButtons";
-import { Loader } from "lucide-react";
 
 interface SEOFormProps {
   formData: FormData;
@@ -22,14 +22,17 @@ export default function SEOForm({
   reloading = false,
 }: SEOFormProps) {
   return (
-    <form onSubmit={handleSave} className="bg-white rounded-lg shadow-sm p-6 relative">
+    <form
+      onSubmit={handleSave}
+      className="bg-white rounded-lg shadow-sm p-6 relative"
+    >
       {/* Индикатор перезагрузки в блоке текущих настроек */}
       {reloading && settings && (
         <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
           <Loader className="animate-spin text-primary" />
         </div>
       )}
-      
+
       <div className="space-y-6">
         <FormField
           label="Заголовок сайта (Title)"
@@ -57,7 +60,9 @@ export default function SEOForm({
         <FormField
           label="Ключевые слова сайта"
           value={formData.siteKeywords}
-          onChange={(value) => setFormData({ ...formData, siteKeywords: value })}
+          onChange={(value) =>
+            setFormData({ ...formData, siteKeywords: value })
+          }
           type="textarea"
           rows={3}
           placeholder="ключевое слово 1, ключевое слово 2, ключевое слово 3"
@@ -69,7 +74,9 @@ export default function SEOForm({
         <FormField
           label="Семантическое ядро"
           value={formData.semanticCore}
-          onChange={(value) => setFormData({ ...formData, semanticCore: value })}
+          onChange={(value) =>
+            setFormData({ ...formData, semanticCore: value })
+          }
           type="textarea"
           rows={4}
           placeholder="тематика 1, тематика 2, тематика 3, тематика 4"
@@ -77,7 +84,7 @@ export default function SEOForm({
           showCommaHint
           disabled={reloading}
         />
-        
+
         {settings && (
           <div className="relative">
             <CurrentSettings settings={settings} />

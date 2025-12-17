@@ -1,15 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
-import { getDB } from "../../../../../../../utils/api-routes";
-
-interface SiteSettings {
-  _id: ObjectId;
-  siteKeywords: string[];
-  semanticCore: string[];
-  metaDescription: string;
-  siteTitle: string;
-  updatedAt: string;
-}
+import { getDB } from "../../../../../../../../utils/api-routes";
+import { SiteSettings } from "../../types/siteSettings";
 
 // GET - Получение настроек (с атомарным созданием если нет)
 export async function GET() {
@@ -105,10 +97,12 @@ export async function PUT(request: Request) {
     return NextResponse.json({
       success: true,
       message: result ? "Настройки обновлены" : "Настройки созданы",
-      data: result ? {
-        ...result,
-        _id: result._id.toString(),
-      } : null,
+      data: result
+        ? {
+            ...result,
+            _id: result._id.toString(),
+          }
+        : null,
     });
   } catch (error) {
     console.error("Ошибка сохранения настроек:", error);
