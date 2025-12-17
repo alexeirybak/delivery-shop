@@ -1,0 +1,44 @@
+import { FileText, FolderTree, Plus, Tags } from "lucide-react";
+
+export const menuItems = [
+  {
+    id: "new-article",
+    title: "Новая статья",
+    description: "Создать статью в редакторе",
+    icon: <Plus className="w-6 h-6" />,
+    color: "from-blue-500 to-blue-600",
+    hoverColor: "hover:from-blue-600 hover:to-blue-700",
+    shadow: "shadow-lg shadow-blue-500/20",
+    path: "/administrator/cms/editor",
+  },
+  {
+    id: "all-articles",
+    title: "Все статьи",
+    description: "Просмотр и управление статьями",
+    icon: <FileText className="w-6 h-6" />,
+    color: "from-indigo-500 to-indigo-600",
+    hoverColor: "hover:from-indigo-600 hover:to-indigo-700",
+    shadow: "shadow-lg shadow-indigo-500/20",
+    path: "/administrator/cms/all-articles",
+  },
+  {
+    id: "categories",
+    title: "Категории",
+    description: "Управление категориями блога",
+    icon: <FolderTree className="w-6 h-6" />,
+    color: "from-green-500 to-green-600",
+    hoverColor: "hover:from-green-600 hover:to-green-700",
+    shadow: "shadow-lg shadow-green-500/20",
+    path: "/administrator/cms/categories",
+  },
+  {
+    id: "semantic-core",
+    title: "Семантическое ядро",
+    description: "Ключевые слова и SEO",
+    icon: <Tags className="w-6 h-6" />,
+    color: "from-purple-500 to-purple-600",
+    hoverColor: "hover:from-purple-600 hover:to-purple-700",
+    shadow: "shadow-lg shadow-purple-500/20",
+    path: "/administrator/cms/semantic-core",
+  },
+];
