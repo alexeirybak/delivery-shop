@@ -1,4 +1,4 @@
-import { FilterType } from "../types/categories";
+import { FilterType } from "../types";
 
 export const buildFilterQuery = (searchQuery: string, filterBy: FilterType) => {
   if (!searchQuery.trim()) return {};

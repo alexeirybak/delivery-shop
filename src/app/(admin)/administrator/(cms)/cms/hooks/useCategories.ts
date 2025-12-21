@@ -5,7 +5,7 @@ import {
   ApiResponse,
   FilterType,
   SortField,
-} from "../types/categories";
+} from "../types";
 
 export const useCategories = () => {
   const [categories, setCategories] = useState<Category[]>([]);

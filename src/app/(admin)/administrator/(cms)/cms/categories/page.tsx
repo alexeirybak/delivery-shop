@@ -6,7 +6,7 @@ import { useCategories } from "../hooks/useCategories";
 import { useCategoryFormState } from "../hooks/useCategoryFormState";
 import { useCategoryFormValidation } from "../hooks/useCategoryFormValidation";
 import { useAuthStore } from "@/store/authStore";
-import { Category } from "../types/categories";
+import { Category } from "../types";
 import { HeaderActions } from "./_components/HeaderActions";
 import { ReorderStatus } from "./_components/ReorderStatus";
 import { WarningAlert } from "./_components/WarningAlert";

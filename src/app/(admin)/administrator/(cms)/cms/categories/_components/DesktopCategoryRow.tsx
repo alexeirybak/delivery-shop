@@ -1,6 +1,6 @@
 import React from "react";
 import { Edit, Trash2 } from "lucide-react";
-import { DesktopCategoryRowProps } from "../../types/categories";
+import { DesktopCategoryRowProps } from "../../types";
 import { DragHandle } from "./DragHandle";
 import Image from "next/image";
 

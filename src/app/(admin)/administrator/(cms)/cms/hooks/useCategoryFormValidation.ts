@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { SEO_LIMITS } from "../utils/seo-limits";
-import { CategoryFormData } from "../types/categories";
+import { CategoryFormData } from "../types";
 
 
 

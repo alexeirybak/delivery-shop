@@ -1,5 +1,5 @@
 import { Filter, X } from "lucide-react";
-import { FilterControlsProps } from "../../types/categories";
+import { FilterControlsProps } from "../../types";
 
 export const FilterControls = ({
   showFilters,

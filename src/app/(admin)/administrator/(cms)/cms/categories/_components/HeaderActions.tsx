@@ -1,11 +1,7 @@
 import { Plus } from "lucide-react";
+import { HeaderActionsProps } from "../../types";
 
-interface HeaderActionsProps {
-  isReordering: boolean;
-  onCreate: () => void;
-}
-
-export function HeaderActions({ isReordering, onCreate}: HeaderActionsProps) {
+export function HeaderActions({ isReordering, onCreate }: HeaderActionsProps) {
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="flex gap-2">
@@ -17,7 +13,6 @@ export function HeaderActions({ isReordering, onCreate}: HeaderActionsProps) {
           <Plus className="w-5 h-5" />
           Новая категория
         </button>
-
       </div>
 
       {isReordering && (

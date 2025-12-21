@@ -1,5 +1,5 @@
 import { ChevronUp, ImageIcon } from "lucide-react";
-import { SortField, TableHeaderProps } from "../../types/categories";
+import { SortField, TableHeaderProps } from "../../types";
 
 export const TableHeader = ({
   sortField,

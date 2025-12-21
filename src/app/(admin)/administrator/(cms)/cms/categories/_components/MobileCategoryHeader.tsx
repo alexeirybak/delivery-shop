@@ -1,5 +1,5 @@
 import React from "react";
-import { MobileCategoryHeaderProps } from "../../types/categories";
+import { MobileCategoryHeaderProps } from "../../types";
 
 export const MobileCategoryHeader: React.FC<MobileCategoryHeaderProps> = ({
   category,

@@ -2,7 +2,7 @@ import {
   AdvancedFiltersProps,
   FilterType,
   SortField,
-} from "../../types/categories";
+} from "../../types";
 
 export const AdvancedFilters = ({
   filterType,

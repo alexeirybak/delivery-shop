@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { Category, FilterType, SortField } from "../../types/categories";
 import { buildFilterQuery } from "../../utils/buildFilterQuery";
 import { buildSortObject } from "../../utils/buildSortObject";
+import { Category, FilterType, SortField } from "../../types";
 
 
 export async function GET(request: Request) {

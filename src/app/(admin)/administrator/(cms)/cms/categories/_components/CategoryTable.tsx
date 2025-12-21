@@ -2,7 +2,7 @@ import {
   Category,
   ExtendedCategoryTableProps,
   SortField,
-} from "../../types/categories";
+} from "../../types";
 import { useState, useEffect, useCallback } from "react";
 import {
   DndContext,

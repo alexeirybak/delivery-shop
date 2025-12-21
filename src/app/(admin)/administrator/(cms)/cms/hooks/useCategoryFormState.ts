@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Category, CategoryFormData, FormField } from "../types/categories";
+import { Category, CategoryFormData, FormField } from "../types";
 import { transliterate } from "../../../../../../../utils/transliterate";
 
 export const useCategoryFormState = () => {

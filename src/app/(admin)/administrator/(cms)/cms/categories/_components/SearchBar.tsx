@@ -1,5 +1,5 @@
 import { Search, X } from "lucide-react";
-import { SearchBarProps } from "../../types/categories";
+import { SearchBarProps } from "../../types";
 
 
 

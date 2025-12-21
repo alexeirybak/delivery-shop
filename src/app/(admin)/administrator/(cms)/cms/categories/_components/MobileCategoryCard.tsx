@@ -1,6 +1,6 @@
 import React from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { MobileCategoryCardProps } from "../../types/categories";
+import { MobileCategoryCardProps } from "../../types";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";

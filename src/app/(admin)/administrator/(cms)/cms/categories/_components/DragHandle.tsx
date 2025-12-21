@@ -1,5 +1,5 @@
 import React from "react";
-import { DragHandleProps } from "../../types/categories";
+import { DragHandleProps } from "../../types";
 
 export const DragHandle = React.forwardRef<HTMLDivElement, Omit<DragHandleProps, "ref">>(
   ({ attributes, listeners, onClick }, ref) => (

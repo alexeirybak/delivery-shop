@@ -1,4 +1,4 @@
-import { ResultsStatsProps } from "../../types/categories";
+import { ResultsStatsProps } from "../../types";
 
 export const ResultsStats = ({
   filteredCount,

@@ -1,7 +1,7 @@
 import React from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { SortableItemProps, Transform } from "../../types/categories";
+import { SortableItemProps, Transform } from "../../types";
 import { MobileCategoryCard } from "./MobileCategoryCard";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
 
