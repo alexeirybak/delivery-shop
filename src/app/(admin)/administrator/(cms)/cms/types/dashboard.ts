@@ -16,3 +16,8 @@ export interface StatItem {
   icon: ReactNode;
   color: string;
 }
+
+export interface StatItemProps {
+  stat: StatItem;
+  statValue: string;
+}

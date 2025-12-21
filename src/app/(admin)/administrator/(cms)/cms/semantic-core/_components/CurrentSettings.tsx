@@ -4,7 +4,7 @@ interface CurrentSettingsProps {
   settings: SiteSettings;
 }
 
-export default function CurrentSettings({ settings }: CurrentSettingsProps) {
+export const CurrentSettings = ({ settings }: CurrentSettingsProps) => {
   return (
     <div className="p-4 bg-gray-50 rounded-lg">
       <h3 className="font-medium text-gray-900 mb-2">Текущие настройки:</h3>
@@ -25,4 +25,5 @@ export default function CurrentSettings({ settings }: CurrentSettingsProps) {
       </div>
     </div>
   );
-}
+};
+

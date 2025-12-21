@@ -1,16 +1,6 @@
-interface FormFieldProps {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  type: "text" | "textarea";
-  placeholder: string;
-  hint: string;
-  rows?: number;
-  showCommaHint?: boolean;
-  disabled?: boolean; 
-}
+import { FormFieldProps } from "../../types/siteSettings";
 
-export default function FormField({
+export const FormField = ({
   label,
   value,
   onChange,
@@ -19,8 +9,8 @@ export default function FormField({
   hint,
   rows = 3,
   showCommaHint = false,
-  disabled = false, 
-}: FormFieldProps) {
+  disabled = false,
+}: FormFieldProps) => {
   const inputClasses = `w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-primary/50 ${
     disabled ? "bg-gray-100 cursor-not-allowed opacity-60" : ""
   }`;
@@ -58,3 +48,4 @@ export default function FormField({
     </div>
   );
 }
+

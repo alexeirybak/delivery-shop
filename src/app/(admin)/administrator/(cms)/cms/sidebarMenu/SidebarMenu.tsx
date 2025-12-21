@@ -3,22 +3,15 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Truck } from "lucide-react";
-import MenuOverlay from "./MenuOverlay";
-import MenuHeader from "./MenuHeader";
-import MenuItemsList from "./MenuItemsList";
-import MenuFooter from "./MenuFooter";
 import { menuItems } from "../utils/menuItems";
 import GlobalStyles from "./GlobalStyles";
+import { SidebarMenuProps } from "../types/sidebar";
+import { MenuOverlay } from "./MenuOverlay";
+import { MenuHeader } from "./MenuHeader";
+import { MenuItemsList } from "./MenuItemsList";
+import { MenuFooter } from "./MenuFooter";
 
-interface SidebarMenuProps {
-  isOpen: boolean;
-  onCloseAction: () => void;
-}
-
-export default function SidebarMenu({
-  isOpen,
-  onCloseAction,
-}: SidebarMenuProps) {
+const SidebarMenu = ({ isOpen, onCloseAction }: SidebarMenuProps) => {
   const router = useRouter();
   const [mounted, setMounted] = useState(false);
 
@@ -93,4 +86,6 @@ export default function SidebarMenu({
       </div>
     </>
   );
-}
+};
+
+export default SidebarMenu;

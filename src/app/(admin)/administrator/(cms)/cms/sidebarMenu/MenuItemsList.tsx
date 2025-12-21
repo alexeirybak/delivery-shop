@@ -1,26 +1,7 @@
-import { ReactNode } from "react";
-import IconArrowAnim from "./IconArrowAnim";
+import { MenuItemsListProps } from "../types/sidebar";
+import { IconArrowAnim } from "./IconArrowAnim";
 
-interface MenuItem {
-  id: string;
-  title: string;
-  description: string;
-  icon: ReactNode;
-  color: string;
-  hoverColor: string;
-  shadow: string;
-  path: string;
-}
-
-interface MenuItemsListProps {
-  items: MenuItem[];
-  onItemClick: (path: string) => void;
-}
-
-export default function MenuItemsList({
-  items,
-  onItemClick,
-}: MenuItemsListProps) {
+export const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
   return (
     <div className="space-y-5 flex-1">
       {items.map((item, index) => (
@@ -62,4 +43,5 @@ export default function MenuItemsList({
       ))}
     </div>
   );
-}
+};
+

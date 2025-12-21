@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Header from "./_components/Header";
 import DashboardCardsGrid from "./_components/DashboardCardsGrid";
-import StatsSection from "./_components/StatsSection";
+import { StatsSection } from "./_components/StatsSection";
 
 export default function AdminDashboardPage() {
   const [mounted, setMounted] = useState(false);

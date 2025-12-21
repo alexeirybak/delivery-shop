@@ -1,20 +1,22 @@
 "use client";
 
-interface PaginationProps {
+export interface PaginationProps {
   currentPage: number;
   totalPages: number;
   totalItems: number;
   itemsPerPage: number;
   onPageChangeAction: (page: number) => void;
+  itemName?: string;
 }
 
-export default function Pagination({
+export const Pagination = ({
   currentPage,
   totalPages,
   totalItems,
   itemsPerPage,
   onPageChangeAction,
-}: PaginationProps) {
+  itemName = "элементов", // Значение по умолчанию
+}: PaginationProps) => {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -59,7 +61,7 @@ export default function Pagination({
     <div className="px-6 py-4 border-t border-gray-200">
       <div className="flex justify-between items-center">
         <div className="text-sm text-gray-700">
-          Показано {startItem}-{endItem} из {totalItems} статей
+          Показано {startItem}-{endItem} из {totalItems} {itemName}
           <span className="mx-2">•</span>
           Страница <span className="font-medium">{currentPage}</span> из{" "}
           <span className="font-medium">{totalPages}</span>
@@ -74,7 +76,9 @@ export default function Pagination({
           </button>
           {renderPageButtons()}
           <button
-            onClick={() => onPageChangeAction(Math.min(totalPages, currentPage + 1))}
+            onClick={() =>
+              onPageChangeAction(Math.min(totalPages, currentPage + 1))
+            }
             disabled={currentPage === totalPages}
             className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 transition-colors"
           >
@@ -84,4 +88,4 @@ export default function Pagination({
       </div>
     </div>
   );
-}
+};

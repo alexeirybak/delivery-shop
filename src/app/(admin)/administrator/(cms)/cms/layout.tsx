@@ -9,7 +9,6 @@ export default function CMSLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  // Не показывать кнопку на главной /cms
   const isCMSRoot = pathname === "/administrator/cms";
 
   return (

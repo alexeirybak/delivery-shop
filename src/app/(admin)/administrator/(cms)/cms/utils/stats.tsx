@@ -1,6 +1,7 @@
 import { FileText, BarChart3, Folder, Search } from "lucide-react";
 
-export const stats = [
+
+const stats = [
   {
     title: "Опубликовано",
     value: "0",
@@ -26,3 +27,5 @@ export const stats = [
     icon: <BarChart3 className="w-5 h-5" />,
   },
 ];
+
+export default stats;

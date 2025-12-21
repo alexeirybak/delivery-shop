@@ -1,11 +1,7 @@
 import Link from "next/link";
+import { FormButtonsProps } from "../../types/siteSettings";
 
-interface FormButtonsProps {
-  saving: boolean;
-  disabled?: boolean;
-}
-
-export default function FormButtons({ saving, disabled = false }: FormButtonsProps) {
+export const FormButtons = ({ saving, disabled = false }: FormButtonsProps) => {
   return (
     <div className="flex gap-3 pt-4 border-t">
       <button
@@ -23,4 +19,4 @@ export default function FormButtons({ saving, disabled = false }: FormButtonsPro
       </Link>
     </div>
   );
-}
+};

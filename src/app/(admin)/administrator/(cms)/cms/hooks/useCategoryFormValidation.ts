@@ -1,0 +1,79 @@
+import { useState } from "react";
+import { SEO_LIMITS } from "../utils/seo-limits";
+import { CategoryFormData } from "../types/categories";
+
+
+
+export const useCategoryFormValidation = () => {
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const validateForm = (formData: CategoryFormData): boolean => {
+    const newErrors: Record<string, string> = {};
+
+    // Валидация названия
+    if (
+      formData.name.length < SEO_LIMITS.name.min ||
+      formData.name.length > SEO_LIMITS.name.max
+    ) {
+      newErrors.name = SEO_LIMITS.name.message;
+    }
+
+    // Валидация slug
+    if (
+      formData.slug.length < SEO_LIMITS.slug.min ||
+      formData.slug.length > SEO_LIMITS.slug.max
+    ) {
+      newErrors.slug = `Slug должен быть от ${SEO_LIMITS.slug.min} до ${SEO_LIMITS.slug.max} символов`;
+    } else if (!SEO_LIMITS.slug.pattern.test(formData.slug)) {
+      newErrors.slug = SEO_LIMITS.slug.message;
+    }
+
+    // Валидация описания
+    if (
+      formData.description &&
+      (formData.description.length < SEO_LIMITS.description.min ||
+        formData.description.length > SEO_LIMITS.description.max)
+    ) {
+      newErrors.description = SEO_LIMITS.description.message;
+    }
+
+    // Валидация ключевых слов
+    if (formData.keywords) {
+      const keywordsArray = formData.keywords
+        .split(",")
+        .map((k) => k.trim())
+        .filter((k) => k.length > 0);
+
+      if (keywordsArray.length > SEO_LIMITS.keywords.maxCount) {
+        newErrors.keywords = `Максимум ${SEO_LIMITS.keywords.maxCount} ключевых слов`;
+      }
+
+      if (formData.keywords.length > SEO_LIMITS.keywords.maxLength) {
+        newErrors.keywords = SEO_LIMITS.keywords.message;
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const clearErrors = () => {
+    setErrors({});
+  };
+
+  const clearError = (field: string) => {
+    setErrors((prev) => {
+      const newErrors = { ...prev };
+      delete newErrors[field];
+      return newErrors;
+    });
+  };
+
+  return {
+    errors,
+    validateForm,
+    clearErrors,
+    clearError,
+    setErrors,
+  };
+}
