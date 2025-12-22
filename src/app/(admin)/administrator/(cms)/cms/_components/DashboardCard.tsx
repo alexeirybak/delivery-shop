@@ -1,18 +1,13 @@
-import { DashboardCard as DashboardCardType } from "../types/dashboard";
+import { DashboardCardProps } from "../types/dashboard";
 import { getBgColor } from "../utils/getBgColor";
 import { getButtonColor } from "../utils/getButtonColor";
 import { getTextColor } from "../utils/getTextColor";
 
-interface DashboardCardProps {
-  card: DashboardCardType;
-  navigateTo: (path: string) => void;
-}
-
-const DashboardCard = ({ card, navigateTo }: DashboardCardProps) => {
+export const DashboardCard = ({ card, navigateTo }: DashboardCardProps) => {
   return (
     <div
       onClick={() => navigateTo(card.path)}
-      className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-200 p-6 group"
+      className="bg-white rounded-xl shadow-md hover:shadow-lg duration-300 cursor-pointer border border-gray-200 p-6 group"
     >
       <div className="flex flex-col h-full">
         <div
@@ -25,7 +20,7 @@ const DashboardCard = ({ card, navigateTo }: DashboardCardProps) => {
         </h3>
         <p className="text-gray-600 text-sm mb-4 grow">{card.description}</p>
         <button
-          className={`w-full py-2 ${getButtonColor(card.color)} text-white rounded-lg hover:opacity-90 transition-opacity duration-300 cursor-pointer mt-auto`}
+          className={`w-full py-2 ${getButtonColor(card.color)} text-white rounded-lg hover:opacity-90 transition-opacity mt-auto duration-300 cursor-pointer `}
         >
           {card.actionText}
         </button>
@@ -33,5 +28,3 @@ const DashboardCard = ({ card, navigateTo }: DashboardCardProps) => {
     </div>
   );
 };
-
-export default DashboardCard;

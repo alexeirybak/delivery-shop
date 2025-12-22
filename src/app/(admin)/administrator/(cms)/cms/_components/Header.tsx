@@ -1,9 +1,7 @@
-interface HeaderProps {
-  title: string;
-  description?: string;
-}
+import { HeaderProps } from "../types/dashboard";
 
-const Header = ({ title, description }: HeaderProps) => {
+
+export const Header = ({ title, description }: HeaderProps) => {
   return (
     <header className="mb-8">
       <h1 className="text-2xl md:text-3xl font-bold text-gray-900">{title}</h1>
@@ -11,5 +9,3 @@ const Header = ({ title, description }: HeaderProps) => {
     </header>
   );
 };
-
-export default Header;

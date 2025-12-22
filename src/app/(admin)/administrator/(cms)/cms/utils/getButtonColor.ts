@@ -1,4 +1,4 @@
-export function getButtonColor(color: string): string {
+export const getButtonColor = (color: string): string => {
   const colors: Record<string, string> = {
     blue: "bg-blue-600",
     green: "bg-green-600",

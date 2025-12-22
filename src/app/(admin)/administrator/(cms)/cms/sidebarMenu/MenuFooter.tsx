@@ -1,4 +1,4 @@
-export default function MenuFooter() {
+export const MenuFooter = () => {
   return (
     <div className="pt-8 mt-8 border-t border-gray-200/50">
       <div className="text-center">
@@ -11,4 +11,4 @@ export default function MenuFooter() {
       </div>
     </div>
   );
-}
+};

@@ -1,9 +1,6 @@
-interface MenuOverlayProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { MenuOverlayProps } from "../types/sidebar";
 
-export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
+export const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
   return (
     <div
       className={`fixed inset-0 bg-linear-to-br from-black/60 via-purple-900/20 to-black/60 backdrop-blur-sm z-40 transition-all duration-700 ease-out ${
@@ -21,4 +18,4 @@ export default function MenuOverlay({ isOpen, onClose }: MenuOverlayProps) {
       )}
     </div>
   );
-}
+};

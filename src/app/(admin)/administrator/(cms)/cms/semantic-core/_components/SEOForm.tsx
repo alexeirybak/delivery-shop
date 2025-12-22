@@ -1,32 +1,22 @@
-import { SiteSettings, FormData } from "../../types/siteSettings";
 import { Loader } from "lucide-react";
-import FormField from "./FormField";
-import CurrentSettings from "./CurrentSettings";
-import FormButtons from "./FormButtons";
+import { FormField } from "./FormField";
+import { CurrentSettings } from "./CurrentSettings";
+import { FormButtons } from "./FormButtons";
+import { SEOFormProps } from "../../types/site-settings";
 
-interface SEOFormProps {
-  formData: FormData;
-  setFormData: (data: FormData) => void;
-  settings: SiteSettings | null;
-  saving: boolean;
-  handleSave: (e: React.FormEvent) => void;
-  reloading?: boolean;
-}
-
-export default function SEOForm({
+export const SEOForm = ({
   formData,
   setFormData,
   settings,
   saving,
   handleSave,
   reloading = false,
-}: SEOFormProps) {
+}: SEOFormProps) => {
   return (
     <form
       onSubmit={handleSave}
       className="bg-white rounded-lg shadow-sm p-6 relative"
     >
-      {/* Индикатор перезагрузки в блоке текущих настроек */}
       {reloading && settings && (
         <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
           <Loader className="animate-spin text-primary" />
@@ -100,4 +90,4 @@ export default function SEOForm({
       </div>
     </form>
   );
-}
+};
