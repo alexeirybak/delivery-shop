@@ -14,7 +14,6 @@ export const FormFields = ({
 }: FormFieldsProps) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {/* Название */}
       <div>
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
