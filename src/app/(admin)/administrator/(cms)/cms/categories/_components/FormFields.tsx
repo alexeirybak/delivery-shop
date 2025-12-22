@@ -1,8 +1,6 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/seo-limits";
-import {
-  FormFieldsProps,
-} from "../../types";
+import { FormFieldsProps } from "../../types";
 
 export const FormFields = ({
   formData,
@@ -71,10 +69,12 @@ export const FormFields = ({
             type="text"
             value={formData.slug}
             onChange={(e) => {
+              // ОСТАВЛЯЕМ КАК БЫЛО - Очистка в onChange
               const value = e.target.value.toLowerCase();
               const cleaned = value
                 .replace(/\s+/g, "-")
-                .replace(/[^a-z0-9-]/g, "");
+                .replace(/[^a-z0-9-]/g, ""); // Это разрешает буквы, цифры и дефисы
+
               onInputChange("slug", cleaned, SEO_LIMITS.slug.max);
             }}
             required

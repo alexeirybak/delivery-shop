@@ -58,7 +58,7 @@ const SidebarMenu = ({ isOpen, onCloseAction }: SidebarMenuProps) => {
       <MenuOverlay isOpen={isOpen} onClose={onCloseAction} />
 
       <div
-        className={`fixed right-0 top-0 h-full w-96 z-200 shadow-2xl shadow-black/20 ${
+        className={`fixed right-0 top-0 h-screen w-96 z-200 shadow-2xl shadow-black/20 ${
           isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
         }`}
         style={{
@@ -73,14 +73,23 @@ const SidebarMenu = ({ isOpen, onCloseAction }: SidebarMenuProps) => {
           <div className="absolute inset-0 bg-linear-to-b from-white via-white to-gray-50/95 backdrop-blur-xl" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,var(--tw-gradient-stops))] from-blue-500/5 via-transparent to-purple-500/5" />
           <div className="absolute inset-0 shadow-[inset_0_0_60px_-20px_rgba(59,130,246,0.1)]" />
-          <div className="relative h-full flex flex-col p-8">
-            <MenuHeader
-              isOpen={isOpen}
-              onCloseAction={onCloseAction}
-              icon={<Truck className="relative w-7 h-7 text-blue-600" />}
-            />
-            <MenuItemsList items={menuItems} onItemClick={handleItemClick} />
-            <MenuFooter />
+          
+          <div className="relative h-full flex flex-col">
+            <div className="shrink-0 px-8 pt-8 pb-4">
+              <MenuHeader
+                isOpen={isOpen}
+                onCloseAction={onCloseAction}
+                icon={<Truck className="relative w-7 h-7 text-blue-600" />}
+              />
+            </div>
+            
+            <div className="flex-1 overflow-y-auto overflow-x-hidden px-8 py-4">
+              <MenuItemsList items={menuItems} onItemClick={handleItemClick} />
+            </div>
+            
+            <div className="shrink-0 px-8 pt-4 pb-8">
+              <MenuFooter />
+            </div>
           </div>
         </div>
       </div>

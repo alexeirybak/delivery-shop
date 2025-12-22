@@ -1,15 +1,8 @@
-import { CategoryFormProps, FormField } from "../../types";
+import { CategoryFormProps, CharCount, FormField } from "../../types";
 import { useState } from "react";
 import { ImageSection } from "./ImageSection";
 import { FormFields } from "./FormFields";
 import { SubmitSection } from "./SubmitSection";
-
-interface CharCount {
-  name: number;
-  description: number;
-  keywords: number;
-  imageAlt: number;
-}
 
 export const CategoryForm = ({
   formData,
@@ -19,7 +12,7 @@ export const CategoryForm = ({
   onFieldChange,
   onGenerateSlug,
   onSaveImageFile,
-  onRemoveImage, 
+  onRemoveImage,
   onSubmit,
   onCancel,
 }: CategoryFormProps) => {
@@ -32,6 +25,7 @@ export const CategoryForm = ({
     imageAlt: (formData.imageAlt || "").length,
   };
 
+  // Исправленный обработчик - убираем очистку здесь
   const handleInputChange = (
     field: FormField,
     value: string,
@@ -42,6 +36,12 @@ export const CategoryForm = ({
     }
   };
 
+  // Генерация slug БЕЗ очистки - оставляем как было
+  const handleGenerateSlug = () => {
+    onGenerateSlug();
+  };
+
+  // Обработчик файлов (без изменений)
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -54,7 +54,9 @@ export const CategoryForm = ({
       "image/webp",
     ];
     if (!validTypes.includes(file.type)) {
-      alert("Пожалуйста, выберите изображение в формате JPG, PNG, GIF или WebP");
+      alert(
+        "Пожалуйста, выберите изображение в формате JPG, PNG, GIF или WebP"
+      );
       return;
     }
 
@@ -98,7 +100,7 @@ export const CategoryForm = ({
           isSubmitting={isSubmitting}
           charCount={charCount}
           onInputChange={handleInputChange}
-          onGenerateSlug={onGenerateSlug}
+          onGenerateSlug={handleGenerateSlug}
         />
 
         <SubmitSection

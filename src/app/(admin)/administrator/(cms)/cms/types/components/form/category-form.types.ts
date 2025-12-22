@@ -1,5 +1,12 @@
 import { CategoryFormData, FormField } from "../../models/category";
 
+export interface CharCount {
+  name: number;
+  description: number;
+  keywords: number;
+  imageAlt: number;
+}
+
 export interface CategoryFormProps {
   formData: CategoryFormData;
   errors: Record<string, string>;

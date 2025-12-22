@@ -107,7 +107,6 @@ export default function CategoriesPage() {
     }
 
     try {
-      // 1. Если есть изображение - загружаем его
       let imageUrl = "";
       if (formData.image && formData.image.startsWith("blob:")) {
         try {
@@ -126,7 +125,6 @@ export default function CategoriesPage() {
         }
       }
 
-      // 2. Создаем categoryData без keywords из formData
       const formDataWithoutKeywords = {
         name: formData.name,
         slug: formData.slug,
@@ -156,7 +154,7 @@ export default function CategoriesPage() {
         });
       }
     } catch (error) {
-      console.error("💥 Неожиданная ошибка:", error);
+      console.error("Неожиданная ошибка:", error);
       setNotification({
         type: "error",
         message: "Произошла непредвиденная ошибка",
@@ -186,9 +184,7 @@ export default function CategoriesPage() {
       let finalImageUrl = formData.image;
       let shouldDeleteOldImage = false;
 
-      // 1. Проверяем, загружено ли новое изображение
       if (formData.image && formData.image.startsWith("blob:")) {
-        // Есть новое изображение - загружаем его
         try {
           const uploadResult = await uploadImageToServer();
 
@@ -211,7 +207,6 @@ export default function CategoriesPage() {
         shouldDeleteOldImage = true;
       }
 
-      // 2. Удаляем старое изображение, если нужно
       if (shouldDeleteOldImage && originalImageUrl) {
         const deleteSuccess = await deleteOldImage(originalImageUrl);
         if (deleteSuccess) {
