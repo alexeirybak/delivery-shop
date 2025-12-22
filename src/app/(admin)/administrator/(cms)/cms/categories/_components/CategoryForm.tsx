@@ -20,9 +20,10 @@ export const CategoryForm = ({
 
   const charCount: CharCount = {
     name: formData.name.length,
+    slug: formData.slug.length,
     description: formData.description.length,
     keywords: formData.keywords.length,
-    imageAlt: (formData.imageAlt || "").length,
+    imageAlt: (formData.imageAlt).length,
   };
 
   // Исправленный обработчик - убираем очистку здесь

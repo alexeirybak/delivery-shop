@@ -56,12 +56,12 @@ export const FormFields = ({
           </label>
           <span
             className={`text-xs ${
-              formData.slug.length > SEO_LIMITS.slug.max
+              charCount.slug > SEO_LIMITS.slug.max // ← МЕНЯЕМ НА charCount.slug
                 ? "text-red-600"
                 : "text-gray-500"
             }`}
           >
-            {formData.slug.length}/{SEO_LIMITS.slug.max}
+            {charCount.slug}/{SEO_LIMITS.slug.max} {/* ← МЕНЯЕМ НА charCount.slug */}
           </span>
         </div>
         <div className="flex gap-2">

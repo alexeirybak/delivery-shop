@@ -3,8 +3,8 @@
 import { useState, useEffect, useCallback } from "react";
 import FilterPanel from "./_CMSComponents/FilterPanel";
 import ArticlesTable from "./_CMSComponents/ArticlesTable";
-import Pagination from "./_CMSComponents/Pagination";
 import { FilterState } from "./types/filterState";
+import { Pagination } from "./_CMSComponents/Pagination";
 
 export interface Article {
   _id: string;
