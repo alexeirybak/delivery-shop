@@ -7,8 +7,7 @@ export const SEO_LIMITS = {
   slug: {
     min: 2,
     max: 60,
-    pattern: /^[a-z0-9-]+$/,
-    message: "Slug должен содержать только латинские буквы, цифры и дефисы",
+    message: "Slug должен быть от 2 до 60 символов",
   },
   description: {
     min: 10,
