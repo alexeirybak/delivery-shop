@@ -23,7 +23,7 @@ export const CategoryForm = ({
     slug: formData.slug.length,
     description: formData.description.length,
     keywords: formData.keywords.length,
-    imageAlt: (formData.imageAlt).length,
+    imageAlt: formData.imageAlt.length,
   };
 
   // Исправленный обработчик - убираем очистку здесь
@@ -85,6 +85,7 @@ export const CategoryForm = ({
 
       <form onSubmit={onSubmit}>
         <ImageSection
+          errors={errors}
           formData={formData}
           isUploading={isUploading}
           isSubmitting={isSubmitting}

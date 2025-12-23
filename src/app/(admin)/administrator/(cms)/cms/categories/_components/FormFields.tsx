@@ -56,12 +56,12 @@ export const FormFields = ({
           </label>
           <span
             className={`text-xs ${
-              charCount.slug > SEO_LIMITS.slug.max // ← МЕНЯЕМ НА charCount.slug
+              charCount.slug > SEO_LIMITS.slug.max 
                 ? "text-red-600"
                 : "text-gray-500"
             }`}
           >
-            {charCount.slug}/{SEO_LIMITS.slug.max} {/* ← МЕНЯЕМ НА charCount.slug */}
+            {charCount.slug}/{SEO_LIMITS.slug.max} 
           </span>
         </div>
         <div className="flex gap-2">
@@ -69,7 +69,6 @@ export const FormFields = ({
             type="text"
             value={formData.slug}
             onChange={(e) => {
-              // ОСТАВЛЯЕМ КАК БЫЛО - Очистка в onChange
               const value = e.target.value.toLowerCase();
               const cleaned = value
                 .replace(/\s+/g, "-")

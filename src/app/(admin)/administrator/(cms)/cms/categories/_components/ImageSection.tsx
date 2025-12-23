@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import { ImageSectionProps } from "../../types";
+import { SEO_LIMITS } from "../../utils/seo-limits";
 
 export const ImageSection = ({
+  errors,
   formData,
   isUploading,
   isSubmitting,
@@ -109,16 +111,32 @@ export const ImageSection = ({
               <label className="block text-sm font-medium">
                 Описание изображения (ALT текст)
               </label>
-              <span className="text-xs text-gray-500">
-                {charCount.imageAlt}/125
+              <span
+                className={`text-xs ${
+                  charCount.slug > SEO_LIMITS.slug.max
+                    ? "text-red-600"
+                    : "text-gray-500"
+                }`}
+              >
+                {charCount.imageAlt}/{SEO_LIMITS.imageAlt.max}
               </span>
             </div>
             <input
               type="text"
               value={formData.imageAlt || ""}
-              onChange={(e) => onInputChange("imageAlt", e.target.value, 125)}
+              onChange={(e) =>
+                onInputChange(
+                  "imageAlt",
+                  e.target.value,
+                  SEO_LIMITS.imageAlt.max
+                )
+              }
               disabled={isSubmitting}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded focus:outline-none focus:border-primary focus:ring-3 focus:ring-primary/20 duration-300 disabled:opacity-50 disabled:bg-gray-100"
+              className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
+                errors.imageAlt
+                  ? "border-red-400 focus:border-red-500 focus:ring-red-100"
+                  : "border-gray-300 focus:border-primary focus:ring-primary/20"
+              } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
               placeholder="Например: Соки и напитки в ассортименте"
             />
           </div>

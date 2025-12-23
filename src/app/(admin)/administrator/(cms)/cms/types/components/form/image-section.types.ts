@@ -2,6 +2,7 @@ import { CategoryFormData, FormField } from "../../models/category";
 import { CharCount } from "./form-fields.types";
 
 export interface ImageSectionProps {
+  errors: Record<string, string>;
   formData: CategoryFormData;
   isUploading: boolean;
   isSubmitting: boolean | undefined;

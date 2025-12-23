@@ -50,6 +50,14 @@ export const useCategoryFormValidation = () => {
       }
     }
 
+    if (
+      formData.imageAlt &&
+      (formData.imageAlt.length < SEO_LIMITS.imageAlt.min ||
+        formData.imageAlt.length > SEO_LIMITS.imageAlt.max)
+    ) {
+      newErrors.imageAlt = SEO_LIMITS.imageAlt.message;
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
