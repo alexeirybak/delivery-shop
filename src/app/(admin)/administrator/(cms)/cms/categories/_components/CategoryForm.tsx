@@ -47,20 +47,7 @@ export const CategoryForm = ({
     const file = e.target.files?.[0];
     if (!file) return;
 
-    const validTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/gif",
-      "image/webp",
-    ];
-    if (!validTypes.includes(file.type)) {
-      alert(
-        "Пожалуйста, выберите изображение в формате JPG, PNG, GIF или WebP"
-      );
-      return;
-    }
-
+    // Убираем проверку типа файла - она теперь на уровне браузера
     if (file.size > 5 * 1024 * 1024) {
       alert("Размер файла не должен превышать 5MB");
       return;

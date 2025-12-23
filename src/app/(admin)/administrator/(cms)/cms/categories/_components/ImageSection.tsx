@@ -70,7 +70,7 @@ export const ImageSection = ({
               <label className="relative cursor-pointer">
                 <input
                   type="file"
-                  accept="image/*"
+                  accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                   onChange={onFileChange}
                   disabled={isUploading || isSubmitting}
                   className="hidden"
