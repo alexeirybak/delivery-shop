@@ -107,12 +107,14 @@ export default function CategoriesPage() {
     }
 
     try {
-      let imageUrl = "";
+      let finalImageUrl = "";
       if (formData.image && formData.image.startsWith("blob:")) {
         try {
           const uploadResult = await uploadImageToServer();
           if (uploadResult) {
-            imageUrl = uploadResult.url;
+            finalImageUrl = uploadResult.url;
+          } else {
+            throw new Error("Не удалось загрузить изображение");
           }
         } catch (uploadError) {
           console.error("Ошибка загрузки изображения:", uploadError);
@@ -125,21 +127,20 @@ export default function CategoriesPage() {
         }
       }
 
-      const formDataWithoutKeywords = {
+      // 2. Создаем данные для API
+      const categoryData = {
         name: formData.name,
         slug: formData.slug,
         description: formData.description,
-        image: formData.image,
+        image: finalImageUrl, // Используем только URL после загрузки
         imageAlt: formData.imageAlt,
-      };
-
-      const createResult = await createCategory({
-        ...formDataWithoutKeywords,
-        image: imageUrl,
         keywords: getKeywordsArray(),
         numericId: null,
         author,
-      });
+      };
+
+      // 3. Отправляем запрос
+      const createResult = await createCategory(categoryData);
 
       if (createResult.success) {
         setNotification({
