@@ -2,6 +2,7 @@ import Image from "next/image";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import { ImageSectionProps } from "../../types";
 import { SEO_LIMITS } from "../../utils/seo-limits";
+import { useRef } from "react";
 
 export const ImageSection = ({
   errors,
@@ -14,6 +15,17 @@ export const ImageSection = ({
   onFileChange,
   onInputChange,
 }: ImageSectionProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null); // Добавляем ref
+
+  // Новая функция для удаления с очисткой input
+  const handleRemoveImage = () => {
+    onRemoveImage();
+    
+    // Очищаем значение input файла
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
       <h3 className="text-lg font-medium mb-4">Изображение категории</h3>
@@ -46,7 +58,7 @@ export const ImageSection = ({
                 )}
                 <button
                   type="button"
-                  onClick={onRemoveImage}
+                  onClick={handleRemoveImage} 
                   disabled={isUploading || isSubmitting}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
                 >
@@ -70,6 +82,7 @@ export const ImageSection = ({
               <label className="relative cursor-pointer">
                 <input
                   type="file"
+                  ref={fileInputRef}
                   accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
                   onChange={onFileChange}
                   disabled={isUploading || isSubmitting}

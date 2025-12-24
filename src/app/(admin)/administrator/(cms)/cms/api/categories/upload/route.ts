@@ -15,32 +15,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Проверка типа файла
-    const validTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/gif",
-      "image/webp",
-    ];
-    if (!validTypes.includes(file.type)) {
-      return NextResponse.json(
-        {
-          error:
-            "Неподдерживаемый формат изображения. Используйте JPG, PNG, GIF или WebP",
-        },
-        { status: 400 }
-      );
-    }
-
-    // Проверка размера (5MB максимум)
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "Размер файла не должен превышать 5MB" },
-        { status: 400 }
-      );
-    }
-
     // Чтение файла
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);

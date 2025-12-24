@@ -5,7 +5,6 @@ export const Notification = ({
   type,
   message,
   onClose,
-  children,
 }: NotificationProps) => {
   const baseClasses =
     "mb-4 p-4 rounded absolute top-10 flex justify-between items-center";
@@ -17,7 +16,6 @@ export const Notification = ({
   return (
     <div className={`${baseClasses} ${typeClasses}`}>
       <div className="flex items-center gap-2">
-        {children}
         <span>{message}</span>
       </div>
       <button
@@ -30,4 +28,3 @@ export const Notification = ({
     </div>
   );
 };
-
