@@ -1,0 +1,99 @@
+import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
+import { getDB } from "../../../../../../../../utils/api-routes";
+
+export async function POST(request: Request) {
+  try {
+    const data: Category = await request.json();
+
+    if (!data.name?.trim()) {
+      return NextResponse.json(
+        { success: false, message: "Название категории обязательно" },
+        { status: 400 }
+      );
+    }
+
+    if (!data.slug?.trim()) {
+      return NextResponse.json(
+        { success: false, message: "Алиас (slug) категории обязателен" },
+        { status: 400 }
+      );
+    }
+
+    const name = data.name.trim();
+    const slug = data.slug.trim().toLowerCase();
+
+    const db = await getDB();
+
+    const existingCategory = await db
+      .collection<Category>("article-category")
+      .findOne({ slug });
+
+    if (existingCategory) {
+      return NextResponse.json(
+        { success: false, message: "Категория с таким алиасом уже существует" },
+        { status: 400 }
+      );
+    }
+
+    const result = await db
+      .collection("article-category")
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            maxNumericId: { $max: "$numericId" },
+          },
+        },
+      ])
+      .toArray();
+
+    let maxNumericId = 0;
+    if (
+      result.length > 0 &&
+      result[0].maxNumericId !== null &&
+      result[0].maxNumericId !== undefined
+    ) {
+      maxNumericId = result[0].maxNumericId;
+    }
+
+    const newNumericId = maxNumericId + 1;
+
+    const newCategory = {
+      _id: new ObjectId(),
+      numericId: newNumericId,
+      name,
+      slug,
+      description: data.description?.trim() || "",
+      keywords: data.keywords || [],
+      image: data.image || "",
+      imageAlt: data.imageAlt || "",
+      author: data.author || "Неизвестен",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await db.collection("article-category").insertOne(newCategory);
+
+    const responseCategory: Category = {
+      ...newCategory,
+      _id: newCategory._id.toString(),
+    };
+
+    return NextResponse.json({
+      success: true,
+      message: "Категория создана",
+      data: responseCategory,
+    });
+  } catch (error) {
+    console.error("Ошибка создания категории:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Ошибка создания категории",
+        error: error instanceof Error ? error.message : "Неизвестная ошибка",
+      },
+      { status: 500 }
+    );
+  }
+}
