@@ -106,13 +106,6 @@ export async function PUT(
     const processKeywords = (keywords: unknown): string[] => {
       if (!keywords) return [];
 
-      if (typeof keywords === "string") {
-        return keywords
-          .split(",")
-          .map((k) => k.trim())
-          .filter((k) => k.length > 0);
-      }
-
       if (Array.isArray(keywords)) {
         return keywords
           .map((k) => (typeof k === "string" ? k.trim() : String(k).trim()))
@@ -123,13 +116,22 @@ export async function PUT(
     };
 
     const updateFields = {
-      name,
+      name, 
       slug,
-      description: rawData.description?.trim() || "",
-      keywords: processKeywords(rawData.keywords),
-      updatedAt: new Date().toISOString(),
-      ...(rawData.image !== undefined && { image: rawData.image }),
-      ...(rawData.imageAlt !== undefined && { imageAlt: rawData.imageAlt }),
+      updatedAt: new Date().toISOString(), 
+
+      ...(rawData.description !== undefined && {
+        description: rawData.description.trim(),
+      }),
+      ...(rawData.keywords !== undefined && {
+        keywords: processKeywords(rawData.keywords),
+      }),
+      ...(rawData.image !== undefined && {
+        image: rawData.image,
+      }),
+      ...(rawData.imageAlt !== undefined && {
+        imageAlt: rawData.imageAlt,
+      }),
     };
 
     const updateFilter = {
