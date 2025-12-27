@@ -38,9 +38,9 @@ export const ImageSection = ({
                 <Image
                   src={formData.image}
                   alt="Предпросмотр"
-                  width={800}
-                  height={450}
-                  className="max-w-[800px] max-h-[450px] w-auto h-auto object-contain rounded shadow-sm"
+                  width={160} // Увеличиваем немного
+                  height={160}
+                  className="w-40 h-40 object-cover rounded shadow-sm" // object-cover заполнит весь контейнер
                   unoptimized={formData.image.startsWith("blob:")}
                 />
               </div>

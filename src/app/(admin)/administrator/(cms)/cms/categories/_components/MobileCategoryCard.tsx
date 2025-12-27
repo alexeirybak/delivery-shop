@@ -5,7 +5,6 @@ import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
 
-// Удаляем isExpanded и onToggle из пропсов
 export const MobileCategoryCard: React.FC<
   Omit<MobileCategoryCardProps, "isExpanded" | "onToggle">
 > = ({

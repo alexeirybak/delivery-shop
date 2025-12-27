@@ -41,4 +41,13 @@ export interface UpdateCategoryInput {
   author?: string;
 }
 
+export interface UpdateCategoryData {
+  name: string;
+  slug: string;
+  description: string;
+  image: string;
+  imageAlt: string;
+  keywords: string[];
+}
+
 export type FormField = keyof CategoryFormData;

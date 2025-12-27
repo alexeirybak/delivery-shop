@@ -5,6 +5,7 @@ import {
   ApiResponse,
   FilterType,
   SortField,
+  UpdateCategoryData,
 } from "../types";
 
 export const useCategories = () => {
@@ -103,14 +104,7 @@ export const useCategories = () => {
 
   const updateCategory = async (
     id: string,
-    categoryData: {
-      name: string;
-      slug: string;
-      description: string;
-      keywords: string[];
-      image: string;
-      imageAlt: string;
-    }
+    categoryData: UpdateCategoryData
   ): Promise<ApiResponse> => {
     try {
       const response = await fetch(`/administrator/cms/api/categories/${id}`, {

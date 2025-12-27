@@ -1,12 +1,5 @@
 import { CategoryFormData, FormField } from "../../models/category";
-
-export interface CharCount {
-  slug: number;
-  name: number;
-  description: number;
-  keywords: number;
-  imageAlt: number;
-}
+import { CharCount } from "./category-form.types";
 
 export interface FormFieldsProps {
   formData: CategoryFormData;

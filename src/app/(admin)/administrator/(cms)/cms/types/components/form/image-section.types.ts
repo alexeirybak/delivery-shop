@@ -1,5 +1,5 @@
 import { CategoryFormData, FormField } from "../../models/category";
-import { CharCount } from "./form-fields.types";
+import { CharCount } from "./category-form.types";
 
 export interface ImageSectionProps {
   errors: Record<string, string>;

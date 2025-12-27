@@ -78,7 +78,6 @@ export const useCategoryFormState = () => {
 
   const deleteOldImage = useCallback(
     async (imageUrl: string): Promise<boolean> => {
-      console.log(imageUrl);
       if (!imageUrl || imageUrl.startsWith("blob:")) {
         return true;
       }
