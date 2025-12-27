@@ -1,5 +1,5 @@
 import React from "react";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { MobileCategoryCardProps } from "../../types";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
@@ -50,11 +50,9 @@ export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
           onClick={handleToggleClick}
           title={isExpanded ? "Свернуть" : "Развернуть"}
         >
-          {isExpanded ? (
-            <ChevronUp className="w-5 h-5" />
-          ) : (
-            <ChevronDown className="w-5 h-5" />
-          )}
+          <ChevronDown
+            className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
+          />
         </button>
       </div>
 

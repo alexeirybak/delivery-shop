@@ -20,8 +20,7 @@ export const SortableItem: React.FC<
   activeId,
 }) => {
   const [isMobileView, setIsMobileView] = useState(false);
-  
-  // Определение мобильной ширины внутри компонента
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobileView(window.innerWidth < 1024);
