@@ -1,15 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { MobileCategoryCardProps } from "../../types";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
 
-export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
+// Удаляем isExpanded и onToggle из пропсов
+export const MobileCategoryCard: React.FC<Omit<MobileCategoryCardProps, 'isExpanded' | 'onToggle'>> = ({
   category,
   displayNumericId,
-  isExpanded,
-  onToggle,
   onEdit,
   onDelete,
   dragHandleProps,
@@ -17,10 +16,13 @@ export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
   isDragging,
   isActiveDragging,
 }) => {
-  const handleCardClick = () => onToggle(category._id.toString());
+  // Добавляем локальное состояние
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const handleCardClick = () => setIsExpanded(!isExpanded);
   const handleToggleClick = (e: React.MouseEvent) => {
     e.stopPropagation();
-    onToggle(category._id.toString());
+    setIsExpanded(!isExpanded);
   };
 
   return (

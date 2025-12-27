@@ -13,8 +13,6 @@ export const SortableItem: React.FC<
   id,
   category,
   displayNumericId,
-  isExpanded,
-  onToggle,
   onEdit,
   onDelete,
   activeId,
@@ -72,8 +70,6 @@ export const SortableItem: React.FC<
         <MobileCategoryCard
           category={category}
           displayNumericId={displayNumericId}
-          isExpanded={isExpanded}
-          onToggle={onToggle}
           onEdit={onEdit}
           onDelete={onDelete}
           dragHandleProps={dragHandleProps}
