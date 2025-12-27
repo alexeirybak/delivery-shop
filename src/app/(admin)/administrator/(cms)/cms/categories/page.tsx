@@ -63,7 +63,7 @@ export default function CategoriesPage() {
 
   const { errors, validateForm } = useCategoryFormValidation();
   const [notification, setNotification] = useState<{
-    type: "success" | "error" | "warning";
+    type: "success" | "error";
     message: string;
   } | null>(null);
   const [isReordering, setIsReordering] = useState(false);

@@ -20,7 +20,7 @@ export const ImageSection = ({
   // Новая функция для удаления с очисткой input
   const handleRemoveImage = () => {
     onRemoveImage();
-    
+
     // Очищаем значение input файла
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -38,9 +38,9 @@ export const ImageSection = ({
                 <Image
                   src={formData.image}
                   alt="Предпросмотр"
-                  width={128}
-                  height={128}
-                  className="w-32 h-32 object-cover rounded shadow-sm"
+                  width={800}
+                  height={450}
+                  className="max-w-[800px] max-h-[450px] w-auto h-auto object-contain rounded shadow-sm"
                   unoptimized={formData.image.startsWith("blob:")}
                 />
               </div>
@@ -58,7 +58,7 @@ export const ImageSection = ({
                 )}
                 <button
                   type="button"
-                  onClick={handleRemoveImage} 
+                  onClick={handleRemoveImage}
                   disabled={isUploading || isSubmitting}
                   className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
                 >

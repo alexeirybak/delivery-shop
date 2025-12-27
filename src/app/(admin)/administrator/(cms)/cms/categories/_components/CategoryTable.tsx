@@ -51,19 +51,7 @@ export const CategoryTable = ({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);
   const [tempOrder, setTempOrder] = useState<Map<string, number>>(new Map());
-  const [isMobileView, setIsMobileView] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobileView(window.innerWidth < 1024);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   useEffect(() => {
     setItems(categories);
@@ -243,7 +231,7 @@ export const CategoryTable = ({
             {items.length === 0 ? (
               <EmptyState searchQuery={searchQuery} />
             ) : (
-              items.map((category, index) => {
+              items.map((category) => {
                 const categoryId = category._id.toString();
                 const isExpanded = expandedRows.has(categoryId);
 
@@ -257,9 +245,7 @@ export const CategoryTable = ({
                     onToggle={toggleRow}
                     onEdit={onEdit}
                     onDelete={onDelete}
-                    isMobile={isMobileView}
                     activeId={activeId}
-                    position={index}
                   />
                 );
               })

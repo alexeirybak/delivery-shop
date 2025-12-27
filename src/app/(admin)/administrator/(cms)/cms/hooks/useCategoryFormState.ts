@@ -21,7 +21,7 @@ export const useCategoryFormState = () => {
     if (formData.image && formData.image.startsWith("blob:")) {
       URL.revokeObjectURL(formData.image);
     }
-    
+
     setFormData({
       name: "",
       slug: "",
@@ -76,31 +76,38 @@ export const useCategoryFormState = () => {
     [formData.name, updateFormField]
   );
 
-  const deleteOldImage = useCallback(async (imageUrl: string): Promise<boolean> => {
-    if (!imageUrl || imageUrl.startsWith("blob:")) {
-      return true;
-    }
+  const deleteOldImage = useCallback(
+    async (imageUrl: string): Promise<boolean> => {
+      console.log(imageUrl);
+      if (!imageUrl || imageUrl.startsWith("blob:")) {
+        return true;
+      }
 
-    try {
-      const fileName = imageUrl.split('/').pop();
-      if (!fileName) return true;
+      try {
+        const fileName = imageUrl.split("/").pop();
+        if (!fileName) return true;
 
-      const response = await fetch(
-        `/administrator/cms/api/categories/upload?file=${encodeURIComponent(fileName)}`,
-        {
-          method: "DELETE",
-        }
-      );
+        const response = await fetch(
+          `/administrator/cms/api/categories/upload?file=${encodeURIComponent(fileName)}`,
+          {
+            method: "DELETE",
+          }
+        );
 
-      const data = await response.json();
-      return data.success === true;
-    } catch (error) {
-      console.error("Ошибка удаления старого изображения:", error);
-      return false;
-    }
-  }, []);
+        const data = await response.json();
+        return data.success === true;
+      } catch (error) {
+        console.error("Ошибка удаления старого изображения:", error);
+        return false;
+      }
+    },
+    []
+  );
 
-  const uploadImageToServer = useCallback(async (): Promise<{url: string, fileName: string} | null> => {
+  const uploadImageToServer = useCallback(async (): Promise<{
+    url: string;
+    fileName: string;
+  } | null> => {
     if (!tempImageFile) {
       return null;
     }
@@ -122,7 +129,7 @@ export const useCategoryFormState = () => {
         }
 
         setTempImageFile(null);
-        
+
         return { url: data.url, fileName: data.fileName };
       } else {
         throw new Error(data.error || "Ошибка загрузки изображения");

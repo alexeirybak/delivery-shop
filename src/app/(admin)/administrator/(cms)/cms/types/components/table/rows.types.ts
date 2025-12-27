@@ -9,7 +9,6 @@ export interface SortableItemProps {
   onToggle: (id: string) => void;
   onEdit: (category: Category) => void;
   onDelete: (id: string) => void;
-  isMobile?: boolean;
 }
 
 export interface DesktopCategoryRowProps {

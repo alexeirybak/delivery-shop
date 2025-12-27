@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { SortableItemProps, Transform } from "../../types";
@@ -8,7 +8,6 @@ import { DesktopCategoryRow } from "./DesktopCategoryRow";
 export const SortableItem: React.FC<
   SortableItemProps & {
     activeId: string | null;
-    position?: number;
   }
 > = ({
   id,
@@ -18,9 +17,22 @@ export const SortableItem: React.FC<
   onToggle,
   onEdit,
   onDelete,
-  isMobile,
   activeId,
 }) => {
+  const [isMobileView, setIsMobileView] = useState(false);
+  
+  // Определение мобильной ширины внутри компонента
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobileView(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const {
     attributes,
     listeners,
@@ -54,7 +66,8 @@ export const SortableItem: React.FC<
     onClick: handleDragHandleClick,
   };
 
-  if (isMobile) {
+  // Используем локальное состояние isMobileView
+  if (isMobileView) {
     return (
       <div ref={setNodeRef}>
         <MobileCategoryCard
