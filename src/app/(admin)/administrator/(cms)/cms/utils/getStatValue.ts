@@ -1,9 +1,13 @@
-export const getStatValue = (statTitle: string, keywordsCount: string) => {
+export const getStatValue = (
+  statTitle: string,
+  categoriesCount: string,
+  keywordsCount: string
+) => {
   switch (statTitle) {
     case "Категорий":
-      return "0";
+      return categoriesCount;
     case "Ключевых слов":
-      return keywordsCount.toString();
+      return keywordsCount;
     case "Опубликовано":
       return "0";
     case "Просмотров":

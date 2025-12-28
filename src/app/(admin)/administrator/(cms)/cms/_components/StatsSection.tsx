@@ -1,3 +1,4 @@
+import { useCategories } from "../hooks/useCategories";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import { useStatsValues } from "../hooks/useStatsValues";
 import { getStatValue } from "../utils/getStatValue";
@@ -6,10 +7,11 @@ import { StatItem } from "./StatItem";
 import { StatsSkeleton } from "./StatsSkeleton";
 
 export const StatsSection = () => {
-  const { keywordsCount } = useStatsValues();
+  const { categoriesCount, keywordsCount } = useStatsValues();
   const { loading: settingsLoading } = useSiteSettings();
+  const { loading: categoriesLoading } = useCategories();
 
-  const loading = settingsLoading;
+  const loading = settingsLoading || categoriesLoading;
 
   if (loading) return <StatsSkeleton />;
   return (
@@ -22,7 +24,11 @@ export const StatsSection = () => {
           <StatItem
             key={index}
             stat={stat}
-            statValue={getStatValue(stat.title, keywordsCount.toString())}
+            statValue={getStatValue(
+              stat.title,
+              categoriesCount.toString(),
+              keywordsCount.toString()
+            )}
           />
         ))}
       </div>

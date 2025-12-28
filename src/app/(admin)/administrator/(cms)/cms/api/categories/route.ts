@@ -1,6 +1,44 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
+import { Category } from "@/types/categories";
+
+export async function GET() {
+  try {
+    const db = await getDB();
+
+    const categories = await db
+      .collection<Category>("article-category")
+      .find()
+      .toArray();
+
+    const totalInDB = await db
+      .collection<Category>("article-category")
+      .countDocuments({});
+
+    const response = {
+      success: true,
+      data: {
+        categories: categories.map((cat) => ({
+          ...cat,
+          _id: cat._id.toString(),
+        })),
+        totalInDB,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error("Ошибка получения категорий:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Ошибка получения категорий",
+      },
+      { status: 500 }
+    );
+  }
+}
 
 export async function POST(request: Request) {
   try {
