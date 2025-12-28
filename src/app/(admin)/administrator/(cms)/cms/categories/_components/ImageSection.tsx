@@ -9,6 +9,7 @@ const ImageSection = ({
   charCount,
   isUploading,
   isSubmitting,
+  editingId,
   onInputChange,
   onFileChange,
   onRemoveImage,
@@ -33,40 +34,40 @@ const ImageSection = ({
                 <Image
                   src={formData.image}
                   alt="Предпросмотр"
-                  width={800}
-                  height={450}
-                  className="w-[800px] h-[450] object-contain rounded shadow-sm"
+                  width={160}
+                  height={160}
+                  className="w-40 h-40 object-cover rounded shadow-sm"
                   unoptimized={formData.image.startsWith("blob:")}
                 />
               </div>
-            </div>
-            <div className="flex-1 mt-8">
-              <p className="text-sm text-gray-600 mb-2">
-                {formData.image.startsWith("blob:")
-                  ? "Новое изображение (будет загружено при сохранении)"
-                  : "Текущее изображение категории"}
-              </p>
-              {formData.image.startsWith("blob:") && (
-                <p className="flex items-center gap-1 text-xs text-green-600 mb-2">
-                  <AlertCircle className="w-3 h-3" />
-                  Старое изображение будет удалено после сохранения
+              <div className="flex-1 mt-8">
+                <p className="text-sm text-gray-600 mb-2">
+                  {formData.image.startsWith("blob:")
+                    ? "Новое изображение (будет загружено при сохранении)"
+                    : "Текущее изображение категории"}
                 </p>
-              )}
-              <button
-                type="button"
-                onClick={handleRemoveImage}
-                disabled={isUploading || isSubmitting}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
-              >
-                <XCircle className="w-4 h-4" />
-                Удалить изображение
-              </button>
+                {formData.image.startsWith("blob:") && (
+                  <p className="flex items-center gap-1 text-xs text-green-600 mb-2">
+                    <AlertCircle className="w-3 h-3" />
+                    Старое изображение будет удалено после сохранения
+                  </p>
+                )}
+                <button
+                  type="button"
+                  onClick={handleRemoveImage}
+                  disabled={isUploading || isSubmitting}
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
+                >
+                  <XCircle className="w-4 h-4" />
+                  Удалить изображение
+                </button>
+              </div>
             </div>
           </div>
         )}
         <div>
           <label className="block text-sm font-medium mb-2">
-            {"Загрузить изображение"}
+            {formData.image ? "Заменить изображение" : "Загрузить изображение"}
             <span className="text-gray-500 text-xs ml-2">
               (рекомендуется 800×450px, максимум 5MB)
             </span>
@@ -100,6 +101,14 @@ const ImageSection = ({
           <p className="text-xs text-gray-500 mt-2">
             Поддерживаемые форматы: JPG, PNG, GIF, WebP. Изображение будет
             загружено на сервер только при сохранении категории.
+            {editingId &&
+              formData.image &&
+              formData.image.startsWith("blob:") && (
+                <span className="flex items-center gap-2 text-base text-red-600 mt-1">
+                  <AlertCircle className="w-5 h-5" />
+                  При сохранении старое изображение будет удалено
+                </span>
+              )}
           </p>
         </div>
         {formData.image && (

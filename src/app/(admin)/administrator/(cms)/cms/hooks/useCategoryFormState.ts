@@ -13,6 +13,9 @@ export const useCategoryFormState = () => {
     imageAlt: "",
   });
   const [tempImageFile, setTempImageFile] = useState<File | null>(null);
+  const [showForm, setShowForm] = useState(false);
+  const [originalImageUrl, setOriginalImageUrl] = useState<string>("");
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   const updateFormField = useCallback((field: FormField, value: string) => {
     setFormData((prev) => ({
@@ -110,10 +113,63 @@ export const useCategoryFormState = () => {
       imageAlt: "",
     });
     setTempImageFile(null);
+    setOriginalImageUrl("");
+    setEditingId(null);
+    setShowForm(false);
   }, [formData.image]);
+
+  const deleteOldImage = useCallback(
+    async (imageUrl: string): Promise<boolean> => {
+      if (!imageUrl || imageUrl.startsWith("blob:")) {
+        return true;
+      }
+
+      try {
+        const fileName = imageUrl.split("/").pop();
+        if (!fileName) return true;
+
+        const response = await fetch(
+          `/administrator/cms/api/categories/upload?file=${encodeURIComponent(fileName)}`,
+          {
+            method: "DELETE",
+          }
+        );
+
+        const data = await response.json();
+        return data.success === true;
+      } catch (error) {
+        console.error("Ошибка удаления старого изображения:", error);
+        return false;
+      }
+    },
+    []
+  );
+
+  const startCreate = useCallback(() => {
+    resetForm();
+    setShowForm(true);
+  }, [resetForm]);
+
+  const startEdit = useCallback((category: Category) => {
+    setEditingId(category._id.toString());
+    setFormData({
+      name: category.name,
+      slug: category.slug,
+      description: category.description,
+      keywords: (category.keywords || []).join(", "),
+      image: category.image || "",
+      imageAlt: category.imageAlt || "",
+    });
+    setOriginalImageUrl(category.image || "");
+    setTempImageFile(null);
+    setShowForm(true);
+  }, []);
 
   return {
     formData,
+    showForm,
+    editingId,
+    originalImageUrl,
     updateFormField,
     generateSlug,
     saveImageFile,
@@ -121,5 +177,8 @@ export const useCategoryFormState = () => {
     uploadImageToServer,
     getKeywordsArray,
     resetForm,
+    deleteOldImage,
+    startCreate,
+    startEdit,
   };
 };

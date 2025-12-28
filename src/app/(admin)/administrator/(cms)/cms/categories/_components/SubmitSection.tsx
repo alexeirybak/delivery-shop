@@ -1,13 +1,13 @@
 import { Loader2, Save } from "lucide-react";
 
-const SubmitSection = ({ isSubmitting, isUploading, onCancel }) => {
+const SubmitSection = ({ isSubmitting, isUploading, editingId, onCancel }) => {
   return (
     <>
       {isSubmitting && (
         <div className="mt-4 p-3 bg-blue-50 text-blue-600 rounded text-sm border border-blue-100">
           <div className="flex items-center gap-2">
             <Loader2 className="w-4 h-4 animate-spin" />
-            {"Создаем категорию..."}
+            {editingId ? "Обновляем категорию" : "Создаем категорию..."}
           </div>
         </div>
       )}
@@ -18,7 +18,11 @@ const SubmitSection = ({ isSubmitting, isUploading, onCancel }) => {
           className="flex items-center gap-1 px-4 py-2.5 bg-primary text-white rounded hover:bg-primary/90 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium focus:outline-none focus:ring-3 focus:ring-primary/30"
         >
           <Save className="w-4 h-4" />
-          Сохранить изменения
+          {isSubmitting
+            ? "Сохранение..."
+            : editingId
+              ? "Сохранить изменения"
+              : "Создать категорию"}
         </button>
         <button
           type="button"

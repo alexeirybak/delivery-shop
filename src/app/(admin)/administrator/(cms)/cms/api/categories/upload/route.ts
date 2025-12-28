@@ -86,3 +86,38 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const fileName = searchParams.get("file");
+
+    if (!fileName) {
+      return NextResponse.json(
+        { error: "Имя файла не указано" },
+        { status: 400 }
+      );
+    }
+
+    const publicDir = path.join(process.cwd(), "public", "blogCategories");
+    const filePath = path.join(publicDir, fileName);
+
+    try {
+      await fs.access(filePath);
+      await fs.unlink(filePath);
+
+      return NextResponse.json({
+        success: true,
+        message: "Изображение успешно удалено",
+      });
+    } catch {
+      return NextResponse.json({ error: "Файл не найден" }, { status: 404 });
+    }
+  } catch (error) {
+    console.error("Ошибка удаления изображения:", error);
+    return NextResponse.json(
+      { error: "Ошибка при удалении изображения" },
+      { status: 500 }
+    );
+  }
+}

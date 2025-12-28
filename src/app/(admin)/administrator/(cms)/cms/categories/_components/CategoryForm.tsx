@@ -7,6 +7,7 @@ const CategoryForm = ({
   formData,
   errors,
   isSubmitting,
+  editingId,
   onFieldChange,
   onGenerateSlug,
   onSaveImageFile,
@@ -69,6 +70,7 @@ const CategoryForm = ({
           charCount={charCount}
           isUploading={isUploading}
           isSubmitting={isSubmitting}
+          editingId={editingId}
           onInputChange={handleInputChange}
           onFileChange={handleFileChange}
           onRemoveImage={onRemoveImage}
@@ -85,6 +87,7 @@ const CategoryForm = ({
           onCancel={onCancel}
           isSubmitting={isSubmitting}
           isUploading={isUploading}
+          editingId={editingId}
         />
       </form>
     </div>
