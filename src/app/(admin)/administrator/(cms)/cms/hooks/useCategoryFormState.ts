@@ -1,10 +1,11 @@
 import { useState, useCallback } from "react";
 import { Category, CategoryFormData, FormField } from "../types";
 import { transliterate } from "../../../../../../../utils/transliterate";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const useCategoryFormState = () => {
+  const { setEditingId, clearEditingId } = useCategoryStore();
   const [showForm, setShowForm] = useState(false);
-  const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<CategoryFormData>({
     name: "",
     slug: "",
@@ -32,9 +33,9 @@ export const useCategoryFormState = () => {
     });
     setTempImageFile(null);
     setOriginalImageUrl("");
-    setEditingId(null);
+    clearEditingId();
     setShowForm(false);
-  }, [formData.image]);
+  }, [clearEditingId, formData.image]);
 
   const startCreate = useCallback(() => {
     resetForm();
@@ -54,7 +55,7 @@ export const useCategoryFormState = () => {
     setOriginalImageUrl(category.image || "");
     setTempImageFile(null);
     setShowForm(true);
-  }, []);
+  }, [setEditingId]);
 
   const updateFormField = useCallback((field: FormField, value: string) => {
     setFormData((prev) => ({
@@ -168,7 +169,6 @@ export const useCategoryFormState = () => {
 
   return {
     showForm,
-    editingId,
     formData,
     tempImageFile,
     originalImageUrl,

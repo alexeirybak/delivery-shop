@@ -3,20 +3,20 @@ import { AlertCircle, Upload, XCircle } from "lucide-react";
 import { ImageSectionProps } from "../../types";
 import { SEO_LIMITS } from "../../utils/seo-limits";
 import { useRef } from "react";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const ImageSection = ({
   errors,
   formData,
   isUploading,
   isSubmitting,
-  editingId,
   charCount,
   onRemoveImage,
   onFileChange,
   onInputChange,
 }: ImageSectionProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null); // Добавляем ref
-
+  const { editingId } = useCategoryStore();
   // Новая функция для удаления с очисткой input
   const handleRemoveImage = () => {
     onRemoveImage();
@@ -110,7 +110,7 @@ export const ImageSection = ({
             {editingId &&
               formData.image &&
               formData.image.startsWith("blob:") && (
-                <span className="items-center gap-1 text-red-600 block mt-1">
+                <span className="flex items-center gap-1 text-red-600 mt-1">
                   <AlertCircle className="w-3 h-3" />
                   При сохранении старое изображение будет удалено
                 </span>

@@ -14,9 +14,17 @@ export interface HeaderActionsProps {
 
 export interface SubmitSectionProps {
   isSubmitting: boolean | undefined;
-  editingId: string | null;
   isUploading: boolean;
   onCancel: () => void;
+}
+
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  totalItems: number;
+  itemsPerPage: number;
+  onPageChangeAction: (page: number) => void;
+  itemName?: string; 
 }
 
 

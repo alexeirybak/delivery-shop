@@ -28,9 +28,9 @@ import { AdvancedFilters } from "./AdvancedFilters";
 import { ResultsStats } from "./ResultsStats";
 import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const CategoryTable = ({
-  categories,
   loading,
   onEdit,
   onDelete,
@@ -45,8 +45,9 @@ export const CategoryTable = ({
   onSortFieldChange,
   onSortDirectionChange,
   isSearching = false,
-  totalItems,
+
 }: ExtendedCategoryTableProps) => {
+  const { categories, totalItems } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);

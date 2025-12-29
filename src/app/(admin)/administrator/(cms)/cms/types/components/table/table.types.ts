@@ -13,7 +13,6 @@ export type FilterType =
   | "imageAlt";
 
 export interface CategoryTableProps {
-  categories: Category[];
   loading: boolean;
   onEdit: (category: Category) => void;
   onDelete: (id: string) => void;
@@ -31,7 +30,6 @@ export interface ExtendedCategoryTableProps extends CategoryTableProps {
   onSortFieldChange: (field: SortField) => void;
   onSortDirectionChange: (direction: SortDirection) => void;
   isSearching?: boolean;
-  totalItems: number;
 }
 
 export interface TableHeaderProps {

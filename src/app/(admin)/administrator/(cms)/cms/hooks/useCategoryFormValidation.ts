@@ -23,7 +23,6 @@ export const useCategoryFormValidation = () => {
     ) {
       newErrors.slug = SEO_LIMITS.slug.message;
     }
-    // УБИРАЕМ проверку pattern - символы уже очищены при вводе
 
     // Валидация описания
     if (

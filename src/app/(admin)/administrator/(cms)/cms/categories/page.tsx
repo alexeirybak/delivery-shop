@@ -15,19 +15,19 @@ import { CategoryTable } from "./_components/CategoryTable";
 import { Notification } from "./_components/Notification";
 import SEORecommendations from "../_components/SEORecommendations";
 import { categorySeoRecommendations } from "../utils/recommendations";
-import { Pagination } from "../../../blog/_CMSComponents/Pagination";
 import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
+import { useCategoryStore } from "@/store/categoryStore";
+import { Pagination } from "../_components/Pagination";
 
 export default function CategoriesPage() {
   const { user } = useAuthStore();
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
+  const { categories, totalItems, totalPages, totalAllItems, editingId } =
+    useCategoryStore();
 
   const {
-    categories,
     loading,
     currentPage,
-    totalPages,
-    totalItems,
     itemsPerPage,
     filterType,
     sortField,
@@ -46,7 +46,6 @@ export default function CategoriesPage() {
 
   const {
     showForm,
-    editingId,
     formData,
     originalImageUrl,
     startCreate,
@@ -127,19 +126,17 @@ export default function CategoriesPage() {
         }
       }
 
-      // 2. Создаем данные для API
       const categoryData = {
         name: formData.name,
         slug: formData.slug,
         description: formData.description,
-        image: finalImageUrl, // Используем только URL после загрузки
+        image: finalImageUrl,
         imageAlt: formData.imageAlt,
         keywords: getKeywordsArray(),
         numericId: null,
         author,
       };
 
-      // 3. Отправляем запрос
       const createResult = await createCategory(categoryData);
 
       if (createResult.success) {
@@ -211,7 +208,7 @@ export default function CategoriesPage() {
       if (shouldDeleteOldImage && originalImageUrl) {
         const deleteSuccess = await deleteOldImage(originalImageUrl);
         if (deleteSuccess) {
-          console.log("Старое изображение удалено");
+          console.warn("Старое изображение удалено");
         } else {
           console.warn("Не удалось удалить старое изображение");
         }
@@ -324,7 +321,7 @@ export default function CategoriesPage() {
     <div className="relative">
       <Header
         title="Управление категориями"
-        description={`Всего категорий: ${totalItems}`}
+        description={`Всего категорий: ${totalAllItems}`}
       />
 
       {notification && (
@@ -355,7 +352,6 @@ export default function CategoriesPage() {
         <CategoryForm
           formData={formData}
           errors={errors}
-          editingId={editingId}
           isSubmitting={isSubmitting}
           onFieldChange={updateFormField}
           onGenerateSlug={generateSlug}
@@ -367,7 +363,6 @@ export default function CategoriesPage() {
       )}
 
       <CategoryTable
-        categories={categories}
         loading={loading || isReordering}
         onEdit={startEdit}
         onDelete={handleDelete}
@@ -378,7 +373,6 @@ export default function CategoriesPage() {
         sortDirection={sortDirection}
         onSearchChange={setSearchQuery}
         onSearch={handleSearch}
-        totalItems={totalItems}
         onFilterTypeChange={setFilterType}
         onSortFieldChange={setSortField}
         onSortDirectionChange={setSortDirection}

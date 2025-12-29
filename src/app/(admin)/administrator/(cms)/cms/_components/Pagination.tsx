@@ -1,13 +1,6 @@
 "use client";
 
-export interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
-  totalItems: number;
-  itemsPerPage: number;
-  onPageChangeAction: (page: number) => void;
-  itemName?: string;
-}
+import { PaginationProps } from "../types/components";
 
 export const Pagination = ({
   currentPage,
@@ -15,7 +8,7 @@ export const Pagination = ({
   totalItems,
   itemsPerPage,
   onPageChangeAction,
-  itemName = "элементов", // Значение по умолчанию
+  itemName = "элементов",
 }: PaginationProps) => {
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
@@ -46,7 +39,7 @@ export const Pagination = ({
       <button
         key={pageNum}
         onClick={() => onPageChangeAction(pageNum)}
-        className={`px-4 py-2 border rounded cursor-pointer transition-colors ${
+        className={`w-11 h-11 px-4 py-2 border rounded cursor-pointer duration-300 ${
           currentPage === pageNum
             ? "bg-primary text-white border-primary hover:bg-primary"
             : "border-gray-300 hover:bg-gray-50"
@@ -70,7 +63,7 @@ export const Pagination = ({
           <button
             onClick={() => onPageChangeAction(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
           >
             Назад
           </button>
@@ -80,7 +73,7 @@ export const Pagination = ({
               onPageChangeAction(Math.min(totalPages, currentPage + 1))
             }
             disabled={currentPage === totalPages}
-            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 transition-colors"
+            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
           >
             Вперед
           </button>

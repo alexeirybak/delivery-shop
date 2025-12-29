@@ -1,23 +1,26 @@
 import { useState, useCallback, useEffect } from "react";
 import {
-  Category,
   CategoryFormData,
   ApiResponse,
   FilterType,
   SortField,
   UpdateCategoryData,
 } from "../types";
+import { useCategoryStore } from "@/store/categoryStore";
+import { CONFIG_BLOG } from "../CONFIG_BLOG";
 
 export const useCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
+  // Получаем только методы для обновления store
+  const { setCategories, setTotalPages, setTotalItems, setTotalAllItems } =
+    useCategoryStore();
+
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
-  const [totalItems, setTotalItems] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(CONFIG_BLOG.ITEMS_PER_PAGE);
   const [filterType, setFilterType] = useState<FilterType>("all");
   const [sortField, setSortField] = useState<SortField>("numericId");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const loadCategories = useCallback(
     async (params?: {
@@ -30,13 +33,24 @@ export const useCategories = () => {
       setLoading(true);
       try {
         const queryParams = new URLSearchParams();
-        queryParams.append("page", (params?.page || currentPage).toString());
+        queryParams.append(
+          "page",
+          (params?.page !== undefined ? params.page : currentPage).toString()
+        );
         queryParams.append("limit", itemsPerPage.toString());
-        if (params?.search) queryParams.append("search", params.search);
-        if (params?.filterBy) queryParams.append("filterBy", params.filterBy);
-        if (params?.sortBy) queryParams.append("sortBy", params.sortBy);
-        if (params?.sortOrder)
-          queryParams.append("sortOrder", params.sortOrder);
+
+        const search =
+          params?.search !== undefined ? params.search : searchQuery;
+        const filterBy =
+          params?.filterBy !== undefined ? params.filterBy : filterType;
+        const sortBy = params?.sortBy !== undefined ? params.sortBy : sortField;
+        const sortOrder =
+          params?.sortOrder !== undefined ? params.sortOrder : sortDirection;
+
+        if (search) queryParams.append("search", search);
+        if (filterBy) queryParams.append("filterBy", filterBy);
+        if (sortBy) queryParams.append("sortBy", sortBy);
+        if (sortOrder) queryParams.append("sortOrder", sortOrder);
 
         const response = await fetch(
           `/administrator/cms/api/categories?${queryParams.toString()}`
@@ -44,10 +58,14 @@ export const useCategories = () => {
         const data = await response.json();
 
         if (data.success) {
+          // ТОЛЬКО обновляем store
           setCategories(data.data.categories);
           setTotalPages(data.data.pagination.totalPages);
           setTotalItems(data.data.pagination.total);
-          if (params?.page) setCurrentPage(params.page);
+          setTotalAllItems(data.data.totalInDB);
+
+          if (params?.page !== undefined) setCurrentPage(params.page);
+          if (params?.search !== undefined) setSearchQuery(params.search);
         }
       } catch (error) {
         console.error("Ошибка загрузки категорий:", error);
@@ -55,7 +73,18 @@ export const useCategories = () => {
         setLoading(false);
       }
     },
-    [currentPage, itemsPerPage]
+    [
+      currentPage,
+      itemsPerPage,
+      searchQuery,
+      filterType,
+      sortField,
+      sortDirection,
+      setCategories,
+      setTotalPages,
+      setTotalItems,
+      setTotalAllItems,
+    ]
   );
 
   const createCategory = async (
@@ -189,7 +218,7 @@ export const useCategories = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(categories), // Отправляем массив напрямую
+          body: JSON.stringify(categories),
         }
       );
 
@@ -224,15 +253,16 @@ export const useCategories = () => {
   }, [loadCategories]);
 
   return {
-    categories,
+    // ТОЛЬКО состояние UI и методы
     loading,
     currentPage,
-    totalPages,
-    totalItems,
     itemsPerPage,
     filterType,
     sortField,
     sortDirection,
+    // totalPages, totalItems, totalAllItems - НЕ возвращаем, они в store
+
+    // Методы
     createCategory,
     updateCategory,
     deleteCategory,

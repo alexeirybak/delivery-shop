@@ -6,7 +6,6 @@ export interface ImageSectionProps {
   formData: CategoryFormData;
   isUploading: boolean;
   isSubmitting: boolean | undefined;
-  editingId: string | null;
   charCount: CharCount;
   onRemoveImage: () => void;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

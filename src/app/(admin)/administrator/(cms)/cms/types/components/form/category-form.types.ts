@@ -11,7 +11,6 @@ export interface CharCount {
 export interface CategoryFormProps {
   formData: CategoryFormData;
   errors: Record<string, string>;
-  editingId: string | null;
   isSubmitting?: boolean;
   onFieldChange: (field: FormField, value: string) => void;
   onGenerateSlug: () => void;

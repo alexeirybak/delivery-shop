@@ -54,6 +54,7 @@ export async function GET(request: Request) {
           ...cat,
           _id: cat._id.toString(),
         })),
+        totalInDB,
         pagination: {
           page: validPage,
           limit: validLimit,
