@@ -1,17 +1,17 @@
 "use client";
 
-import { PaginationProps } from "../types/components";
+import { useCategoryStore } from "@/store/categoryStore";
 
-export const Pagination = ({
-  currentPage,
-  totalPages,
-  totalItems,
-  itemsPerPage,
-  onPageChangeAction,
-  itemName = "элементов",
-}: PaginationProps) => {
+export const Pagination = () => {
+  const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
+    useCategoryStore();
+
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
+
+  const handlePageChange = (pageNum: number) => {
+    setCurrentPage(pageNum);
+  };
 
   const renderPageButtons = () => {
     const buttons = [];
@@ -38,7 +38,7 @@ export const Pagination = ({
     return buttons.map((pageNum) => (
       <button
         key={pageNum}
-        onClick={() => onPageChangeAction(pageNum)}
+        onClick={() => handlePageChange(pageNum)}
         className={`w-11 h-11 px-4 py-2 border rounded cursor-pointer duration-300 ${
           currentPage === pageNum
             ? "bg-primary text-white border-primary hover:bg-primary"
@@ -54,14 +54,14 @@ export const Pagination = ({
     <div className="px-6 py-4 border-t border-gray-200">
       <div className="flex justify-between items-center">
         <div className="text-sm text-gray-700">
-          Показано {startItem}-{endItem} из {totalItems} {itemName}
+          Показано {startItem}-{endItem} из {totalItems} элементов
           <span className="mx-2">•</span>
           Страница <span className="font-medium">{currentPage}</span> из{" "}
           <span className="font-medium">{totalPages}</span>
         </div>
         <div className="flex gap-2">
           <button
-            onClick={() => onPageChangeAction(Math.max(1, currentPage - 1))}
+            onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
             className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
           >
@@ -70,7 +70,7 @@ export const Pagination = ({
           {renderPageButtons()}
           <button
             onClick={() =>
-              onPageChangeAction(Math.min(totalPages, currentPage + 1))
+              handlePageChange(Math.min(totalPages, currentPage + 1))
             }
             disabled={currentPage === totalPages}
             className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"

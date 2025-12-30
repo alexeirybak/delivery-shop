@@ -13,7 +13,7 @@ import { WarningAlert } from "./_components/WarningAlert";
 import { CategoryForm } from "./_components/CategoryForm";
 import { CategoryTable } from "./_components/CategoryTable";
 import { Notification } from "./_components/Notification";
-import SEORecommendations from "../_components/SEORecommendations";
+import { SEORecommendations } from "../_components/SEORecommendations";
 import { categorySeoRecommendations } from "../utils/recommendations";
 import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
 import { useCategoryStore } from "@/store/categoryStore";
@@ -22,13 +22,25 @@ import { Pagination } from "../_components/Pagination";
 export default function CategoriesPage() {
   const { user } = useAuthStore();
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
-  const { categories, totalItems, totalPages, totalAllItems, editingId } =
-    useCategoryStore();
+  const {
+    categories,
+    totalPages,
+    totalAllItems,
+    editingId,
+    itemsPerPage,
+    currentPage,
+    loading,
+    isReordering,
+    isSubmitting,
+    isSearching,
+    setCurrentPage,
+    setItemsPerPage,
+    setIsReordering,
+    setIsSubmitting,
+    setIsSearching,
+  } = useCategoryStore();
 
   const {
-    loading,
-    currentPage,
-    itemsPerPage,
     filterType,
     sortField,
     sortDirection,
@@ -36,8 +48,6 @@ export default function CategoriesPage() {
     updateCategory,
     deleteCategory,
     reorderCategories,
-    setCurrentPage,
-    setItemsPerPage,
     setFilterType,
     setSortField,
     setSortDirection,
@@ -65,10 +75,7 @@ export default function CategoriesPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
-  const [isReordering, setIsReordering] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const [isSearching, setIsSearching] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
     if (notification) {
@@ -309,12 +316,10 @@ export default function CategoriesPage() {
     }
   };
 
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
   const handleItemsPerPageChange = (perPage: number) => {
     setItemsPerPage(perPage);
+    setCurrentPage(1);
+    loadCategories({ page: 1 });
   };
 
   return (
@@ -332,7 +337,7 @@ export default function CategoriesPage() {
         />
       )}
 
-      <HeaderActions isReordering={isReordering} onCreate={startCreate} />
+      <HeaderActions onCreate={startCreate} />
 
       <div className="mb-4">
         <ItemsPerPageSelector
@@ -379,15 +384,7 @@ export default function CategoriesPage() {
         isSearching={isSearching}
       />
 
-      {totalPages > 1 && (
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          totalItems={totalItems}
-          itemsPerPage={itemsPerPage}
-          onPageChangeAction={handlePageChange}
-        />
-      )}
+      {totalPages > 1 && <Pagination />}
 
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>

@@ -1,8 +1,4 @@
-import {
-  Category,
-  ExtendedCategoryTableProps,
-  SortField,
-} from "../../types";
+import { Category, ExtendedCategoryTableProps, SortField } from "../../types";
 import { useState, useEffect, useCallback } from "react";
 import {
   DndContext,
@@ -45,7 +41,6 @@ export const CategoryTable = ({
   onSortFieldChange,
   onSortDirectionChange,
   isSearching = false,
-
 }: ExtendedCategoryTableProps) => {
   const { categories, totalItems } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());

@@ -1,6 +1,6 @@
-// store/categoryStore.ts
 import { create } from "zustand";
 import { Category } from "@/app/(admin)/administrator/(cms)/cms/types";
+import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 
 interface CategoryStore {
   // Данные
@@ -8,7 +8,14 @@ interface CategoryStore {
   totalItems: number;
   totalPages: number;
   totalAllItems: number;
-  editingId: string | null; // ← Тип в интерфейсе
+  editingId: string | null;
+  currentPage: number;
+  itemsPerPage: number;
+  loading: boolean;
+  isReordering: boolean; // Добавляем
+  isSubmitting: boolean; // Добавляем
+  isSearching: boolean; // Добавляем
+  isUploading: boolean; // Добавляем
 
   // Методы
   setCategories: (categories: Category[]) => void;
@@ -17,6 +24,13 @@ interface CategoryStore {
   setTotalAllItems: (totalAllItems: number) => void;
   setEditingId: (editingId: string | null) => void;
   clearEditingId: () => void;
+  setCurrentPage: (currentPage: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
+  setLoading: (loading: boolean) => void;
+  setIsReordering: (isReordering: boolean) => void; // Добавляем
+  setIsSubmitting: (isSubmitting: boolean) => void; // Добавляем
+  setIsSearching: (isSearching: boolean) => void; // Добавляем
+  setIsUploading: (isUploading: boolean) => void; // Добавляем
 }
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
@@ -25,7 +39,14 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   totalItems: 0,
   totalPages: 0,
   totalAllItems: 0,
-  editingId: null, // ← Начальное значение
+  editingId: null,
+  currentPage: 1,
+  itemsPerPage: CONFIG_BLOG.ITEMS_PER_PAGE,
+  loading: false,
+  isReordering: false, // Начальное значение
+  isSubmitting: false, // Начальное значение
+  isSearching: false, // Начальное значение
+  isUploading: false, // Начальное значение
 
   // Реализации методов
   setCategories: (categories) => set({ categories }),
@@ -34,4 +55,11 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   setTotalAllItems: (totalAllItems) => set({ totalAllItems }),
   setEditingId: (editingId) => set({ editingId }),
   clearEditingId: () => set({ editingId: null }),
+  setCurrentPage: (currentPage) => set({ currentPage }),
+  setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
+  setLoading: (loading) => set({ loading }),
+  setIsReordering: (isReordering) => set({ isReordering }), // Добавляем
+  setIsSubmitting: (isSubmitting) => set({ isSubmitting }), // Добавляем
+  setIsSearching: (isSearching) => set({ isSearching }), // Добавляем
+  setIsUploading: (isUploading) => set({ isUploading }), // Добавляем
 }));

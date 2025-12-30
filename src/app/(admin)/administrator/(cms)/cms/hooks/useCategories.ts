@@ -7,16 +7,19 @@ import {
   UpdateCategoryData,
 } from "../types";
 import { useCategoryStore } from "@/store/categoryStore";
-import { CONFIG_BLOG } from "../CONFIG_BLOG";
 
 export const useCategories = () => {
-  // Получаем только методы для обновления store
-  const { setCategories, setTotalPages, setTotalItems, setTotalAllItems } =
-    useCategoryStore();
+  const {
+    setCategories,
+    setTotalPages,
+    setTotalItems,
+    setTotalAllItems,
+    currentPage,
+    itemsPerPage,
+    setCurrentPage,
+    setLoading,
+  } = useCategoryStore();
 
-  const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(CONFIG_BLOG.ITEMS_PER_PAGE);
   const [filterType, setFilterType] = useState<FilterType>("all");
   const [sortField, setSortField] = useState<SortField>("numericId");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
@@ -33,10 +36,8 @@ export const useCategories = () => {
       setLoading(true);
       try {
         const queryParams = new URLSearchParams();
-        queryParams.append(
-          "page",
-          (params?.page !== undefined ? params.page : currentPage).toString()
-        );
+        const page = params?.page !== undefined ? params.page : currentPage;
+        queryParams.append("page", page.toString());
         queryParams.append("limit", itemsPerPage.toString());
 
         const search =
@@ -58,13 +59,16 @@ export const useCategories = () => {
         const data = await response.json();
 
         if (data.success) {
-          // ТОЛЬКО обновляем store
           setCategories(data.data.categories);
           setTotalPages(data.data.pagination.totalPages);
           setTotalItems(data.data.pagination.total);
           setTotalAllItems(data.data.totalInDB);
 
-          if (params?.page !== undefined) setCurrentPage(params.page);
+          // Если передали страницу в params и она отличается от текущей
+          // Обновляем в store (Pagination уже обновил, но для надежности)
+          if (params?.page !== undefined && params.page !== currentPage) {
+            setCurrentPage(params.page);
+          }
           if (params?.search !== undefined) setSearchQuery(params.search);
         }
       } catch (error) {
@@ -73,18 +77,7 @@ export const useCategories = () => {
         setLoading(false);
       }
     },
-    [
-      currentPage,
-      itemsPerPage,
-      searchQuery,
-      filterType,
-      sortField,
-      sortDirection,
-      setCategories,
-      setTotalPages,
-      setTotalItems,
-      setTotalAllItems,
-    ]
+    [setLoading, currentPage, itemsPerPage, searchQuery, filterType, sortField, sortDirection, setCategories, setTotalPages, setTotalItems, setTotalAllItems, setCurrentPage]
   );
 
   const createCategory = async (
@@ -253,22 +246,13 @@ export const useCategories = () => {
   }, [loadCategories]);
 
   return {
-    // ТОЛЬКО состояние UI и методы
-    loading,
-    currentPage,
-    itemsPerPage,
     filterType,
     sortField,
     sortDirection,
-    // totalPages, totalItems, totalAllItems - НЕ возвращаем, они в store
-
-    // Методы
     createCategory,
     updateCategory,
     deleteCategory,
     reorderCategories,
-    setCurrentPage,
-    setItemsPerPage,
     setFilterType,
     setSortField,
     setSortDirection,

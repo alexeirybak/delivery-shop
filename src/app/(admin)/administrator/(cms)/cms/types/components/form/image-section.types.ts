@@ -4,8 +4,6 @@ import { CharCount } from "./category-form.types";
 export interface ImageSectionProps {
   errors: Record<string, string>;
   formData: CategoryFormData;
-  isUploading: boolean;
-  isSubmitting: boolean | undefined;
   charCount: CharCount;
   onRemoveImage: () => void;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

@@ -1,8 +1,8 @@
-import { useCategories } from "./useCategories";
+import { useCategoryStore } from "@/store/categoryStore";
 import { useSiteSettings } from "./useSiteSettings";
 
 export const useStatsValues = () => {
-  const { totalAllItems } = useCategories();
+  const { totalAllItems } = useCategoryStore();
   const { settings } = useSiteSettings();
 
   const keywordsCount = (settings?.siteKeywords?.length || 0) + 

@@ -3,9 +3,9 @@ import { CheckCircle2 } from "lucide-react";
 interface Recommendations {
   recommendations: string[];
 }
-export default function SEORecommendations({
+export const SEORecommendations = ({
   recommendations,
-}: Recommendations) {
+}: Recommendations) => {
   return (
     <div className="mt-6 p-4 bg-blue-50 rounded-lg">
       <h3 className="font-semibold text-blue-800 mb-2">Рекомендации по SEO:</h3>

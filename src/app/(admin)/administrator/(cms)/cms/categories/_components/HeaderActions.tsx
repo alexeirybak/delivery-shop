@@ -1,7 +1,9 @@
 import { Plus } from "lucide-react";
 import { HeaderActionsProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
 
-export function HeaderActions({ isReordering, onCreate }: HeaderActionsProps) {
+export function HeaderActions({ onCreate }: HeaderActionsProps) {
+  const { isReordering } = useCategoryStore();
   return (
     <div className="flex justify-between items-center mb-4">
       <div className="flex gap-2">

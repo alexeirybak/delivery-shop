@@ -1,5 +1,4 @@
 import { CategoryFormProps, CharCount, FormField } from "../../types";
-import { useState } from "react";
 import { ImageSection } from "./ImageSection";
 import { FormFields } from "./FormFields";
 import { SubmitSection } from "./SubmitSection";
@@ -8,7 +7,6 @@ import { useCategoryStore } from "@/store/categoryStore";
 export const CategoryForm = ({
   formData,
   errors,
-  isSubmitting,
   onFieldChange,
   onGenerateSlug,
   onSaveImageFile,
@@ -16,8 +14,8 @@ export const CategoryForm = ({
   onSubmit,
   onCancel,
 }: CategoryFormProps) => {
-  const [isUploading, setIsUploading] = useState(false);
-  const { editingId } = useCategoryStore();
+  const { editingId, isSubmitting, setIsUploading } =
+    useCategoryStore();
 
   const charCount: CharCount = {
     name: formData.name.length,
@@ -75,8 +73,6 @@ export const CategoryForm = ({
         <ImageSection
           errors={errors}
           formData={formData}
-          isUploading={isUploading}
-          isSubmitting={isSubmitting}
           charCount={charCount}
           onRemoveImage={onRemoveImage}
           onFileChange={handleFileChange}
@@ -93,8 +89,6 @@ export const CategoryForm = ({
         />
 
         <SubmitSection
-          isSubmitting={isSubmitting}
-          isUploading={isUploading}
           onCancel={onCancel}
         />
       </form>
