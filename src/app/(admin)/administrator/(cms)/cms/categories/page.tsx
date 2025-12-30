@@ -29,15 +29,17 @@ export default function CategoriesPage() {
     editingId,
     itemsPerPage,
     currentPage,
-    loading,
     isReordering,
-    isSubmitting,
     isSearching,
+    showForm,
+    originalImageUrl,
+    formData,
     setCurrentPage,
     setItemsPerPage,
     setIsReordering,
     setIsSubmitting,
     setIsSearching,
+    updateFormField,
   } = useCategoryStore();
 
   const {
@@ -55,13 +57,9 @@ export default function CategoriesPage() {
   } = useCategories();
 
   const {
-    showForm,
-    formData,
-    originalImageUrl,
     startCreate,
     startEdit,
     resetForm,
-    updateFormField,
     generateSlug,
     getKeywordsArray,
     saveImageFile,
@@ -355,9 +353,7 @@ export default function CategoriesPage() {
 
       {showForm && (
         <CategoryForm
-          formData={formData}
           errors={errors}
-          isSubmitting={isSubmitting}
           onFieldChange={updateFormField}
           onGenerateSlug={generateSlug}
           onSubmit={editingId ? handleUpdate : handleCreate}
@@ -368,7 +364,6 @@ export default function CategoriesPage() {
       )}
 
       <CategoryTable
-        loading={loading || isReordering}
         onEdit={startEdit}
         onDelete={handleDelete}
         onReorder={handleReorder}

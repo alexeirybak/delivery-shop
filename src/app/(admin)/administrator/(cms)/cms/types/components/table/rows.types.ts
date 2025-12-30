@@ -6,6 +6,7 @@ export interface SortableItemProps {
   category: Category;
   displayNumericId: number | null;
   isExpanded: boolean;
+  activeId: string | null;
   onToggle: (id: string) => void;
   onEdit: (category: Category) => void;
   onDelete: (id: string) => void;

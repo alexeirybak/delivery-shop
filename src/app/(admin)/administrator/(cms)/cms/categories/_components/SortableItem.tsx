@@ -5,18 +5,14 @@ import { SortableItemProps, Transform } from "../../types";
 import { MobileCategoryCard } from "./MobileCategoryCard";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
 
-export const SortableItem: React.FC<
-  SortableItemProps & {
-    activeId: string | null;
-  }
-> = ({
+export const SortableItem = ({
   id,
   category,
   displayNumericId,
   onEdit,
   onDelete,
   activeId,
-}) => {
+}: SortableItemProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {

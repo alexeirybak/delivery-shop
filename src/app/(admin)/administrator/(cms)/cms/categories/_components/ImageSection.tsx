@@ -7,14 +7,13 @@ import { useCategoryStore } from "@/store/categoryStore";
 
 export const ImageSection = ({
   errors,
-  formData,
   charCount,
   onRemoveImage,
   onFileChange,
   onInputChange,
 }: ImageSectionProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null); // Добавляем ref
-  const { editingId, isUploading, isSubmitting } = useCategoryStore();
+  const { editingId, isUploading, isSubmitting, formData } = useCategoryStore();
 
   const handleRemoveImage = () => {
     onRemoveImage();

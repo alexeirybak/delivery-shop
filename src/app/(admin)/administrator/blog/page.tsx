@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import FilterPanel from "./_CMSComponents/FilterPanel";
 import ArticlesTable from "./_CMSComponents/ArticlesTable";
 import { FilterState } from "./types/filterState";
-import { Pagination } from "./_CMSComponents/Pagination";
+// import { Pagination } from "../(cms)/cms/_components/Pagination";
 
 export interface Article {
   _id: string;
@@ -30,7 +30,7 @@ export default function CMSPage() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState<string[]>([]);
   const [authors, setAuthors] = useState<string[]>([]);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
   const [totalArticles, setTotalArticles] = useState(0);
 
   const [filters, setFilters] = useState<FilterState>({
@@ -76,7 +76,7 @@ export default function CMSPage() {
 
       if (articlesData.success) {
         setArticles(articlesData.data);
-        setTotalPages(articlesData.pagination.totalPages);
+        // setTotalPages(articlesData.pagination.totalPages);
         setTotalArticles(articlesData.pagination.totalArticles);
       }
 
@@ -205,10 +205,10 @@ export default function CMSPage() {
     }));
   };
 
-  const handlePageChange = (newPage: number) => {
-    setFilters((prev) => ({ ...prev, page: newPage }));
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+  // const handlePageChange = (newPage: number) => {
+  //   setFilters((prev) => ({ ...prev, page: newPage }));
+  //   window.scrollTo({ top: 0, behavior: "smooth" });
+  // };
 
   const categoryOptions = [
     { value: "all", label: "Все категории" },
@@ -254,15 +254,14 @@ export default function CMSPage() {
           />
 
           {/* Пагинация */}
-          {totalPages > 1 && (
+          {/* {totalPages > 1 && (
             <Pagination
-              currentPage={filters.page}
               totalPages={totalPages}
               totalItems={totalArticles}
               itemsPerPage={filters.itemsPerPage}
               onPageChangeAction={handlePageChange}
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>

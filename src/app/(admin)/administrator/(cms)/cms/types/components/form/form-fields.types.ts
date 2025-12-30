@@ -1,11 +1,19 @@
-import { CategoryFormData, FormField } from "../../models/category";
 import { CharCount } from "./category-form.types";
 
 export interface FormFieldsProps {
-  formData: CategoryFormData;
   errors: Record<string, string>;
-  isSubmitting: boolean | undefined;
   charCount: CharCount;
   onInputChange: (field: FormField, value: string, maxLength: number) => void;
   onGenerateSlug: () => void;
 }
+
+export interface CategoryFormData {
+  name: string;
+  slug: string;
+  description: string;
+  keywords: string;
+  image: string;
+  imageAlt: string;
+}
+
+export type FormField = keyof CategoryFormData;

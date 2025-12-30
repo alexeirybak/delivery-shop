@@ -1,15 +1,15 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/seo-limits";
 import { FormFieldsProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const FormFields = ({
-  formData,
   errors,
-  isSubmitting,
   charCount,
   onInputChange,
   onGenerateSlug,
 }: FormFieldsProps) => {
+  const { isSubmitting, formData } = useCategoryStore();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {/* Название */}
@@ -56,12 +56,12 @@ export const FormFields = ({
           </label>
           <span
             className={`text-xs ${
-              charCount.slug > SEO_LIMITS.slug.max 
+              charCount.slug > SEO_LIMITS.slug.max
                 ? "text-red-600"
                 : "text-gray-500"
             }`}
           >
-            {charCount.slug}/{SEO_LIMITS.slug.max} 
+            {charCount.slug}/{SEO_LIMITS.slug.max}
           </span>
         </div>
         <div className="flex gap-2">

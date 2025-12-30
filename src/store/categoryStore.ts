@@ -1,5 +1,8 @@
 import { create } from "zustand";
-import { Category } from "@/app/(admin)/administrator/(cms)/cms/types";
+import {
+  Category,
+  CategoryFormData,
+} from "@/app/(admin)/administrator/(cms)/cms/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 
 interface CategoryStore {
@@ -16,6 +19,9 @@ interface CategoryStore {
   isSubmitting: boolean; // Добавляем
   isSearching: boolean; // Добавляем
   isUploading: boolean; // Добавляем
+  showForm: boolean; // Добавляем
+  originalImageUrl: string; // Добавляем
+  formData: CategoryFormData;
 
   // Методы
   setCategories: (categories: Category[]) => void;
@@ -31,6 +37,11 @@ interface CategoryStore {
   setIsSubmitting: (isSubmitting: boolean) => void; // Добавляем
   setIsSearching: (isSearching: boolean) => void; // Добавляем
   setIsUploading: (isUploading: boolean) => void; // Добавляем
+  setShowForm: (showForm: boolean) => void; // Добавляем
+  setOriginalImageUrl: (originalImageUrl: string) => void;
+  setFormData: (formData: CategoryFormData) => void; // Добавляем
+  updateFormField: (field: keyof CategoryFormData, value: string) => void; // Добавляем
+  resetFormData: () => void; // Добавляем
 }
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
@@ -47,6 +58,17 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   isSubmitting: false, // Начальное значение
   isSearching: false, // Начальное значение
   isUploading: false, // Начальное значение
+  showForm: false, // Начальное значение
+  originalImageUrl: "", // Начальное значение
+  formData: {
+    // Начальное значение для formData
+    name: "",
+    slug: "",
+    description: "",
+    keywords: "",
+    image: "",
+    imageAlt: "",
+  },
 
   // Реализации методов
   setCategories: (categories) => set({ categories }),
@@ -62,4 +84,25 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   setIsSubmitting: (isSubmitting) => set({ isSubmitting }), // Добавляем
   setIsSearching: (isSearching) => set({ isSearching }), // Добавляем
   setIsUploading: (isUploading) => set({ isUploading }), // Добавляем
+  setShowForm: (showForm) => set({ showForm }), // Добавляем
+  setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
+  setFormData: (formData) => set({ formData }),
+  updateFormField: (field, value) =>
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        [field]: value,
+      },
+    })),
+  resetFormData: () =>
+    set({
+      formData: {
+        name: "",
+        slug: "",
+        description: "",
+        keywords: "",
+        image: "",
+        imageAlt: "",
+      },
+    }),
 }));

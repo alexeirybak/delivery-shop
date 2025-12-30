@@ -5,7 +5,6 @@ import { SubmitSection } from "./SubmitSection";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const CategoryForm = ({
-  formData,
   errors,
   onFieldChange,
   onGenerateSlug,
@@ -14,7 +13,7 @@ export const CategoryForm = ({
   onSubmit,
   onCancel,
 }: CategoryFormProps) => {
-  const { editingId, isSubmitting, setIsUploading } =
+  const { editingId, formData, setIsUploading } =
     useCategoryStore();
 
   const charCount: CharCount = {
@@ -72,7 +71,6 @@ export const CategoryForm = ({
       <form onSubmit={onSubmit}>
         <ImageSection
           errors={errors}
-          formData={formData}
           charCount={charCount}
           onRemoveImage={onRemoveImage}
           onFileChange={handleFileChange}
@@ -80,17 +78,13 @@ export const CategoryForm = ({
         />
 
         <FormFields
-          formData={formData}
           errors={errors}
-          isSubmitting={isSubmitting}
           charCount={charCount}
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
 
-        <SubmitSection
-          onCancel={onCancel}
-        />
+        <SubmitSection onCancel={onCancel} />
       </form>
     </div>
   );

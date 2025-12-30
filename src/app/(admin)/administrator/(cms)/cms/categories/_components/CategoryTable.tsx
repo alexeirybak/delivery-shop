@@ -27,7 +27,6 @@ import { EmptyState } from "./EmptyState";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const CategoryTable = ({
-  loading,
   onEdit,
   onDelete,
   onReorder,
@@ -42,7 +41,7 @@ export const CategoryTable = ({
   onSortDirectionChange,
   isSearching = false,
 }: ExtendedCategoryTableProps) => {
-  const { categories, totalItems } = useCategoryStore();
+  const { categories, totalItems, loading } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);

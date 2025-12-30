@@ -1,4 +1,4 @@
-import { CategoryFormData, FormField } from "../../models/category";
+import { FormField } from "./form-fields.types";
 
 export interface CharCount {
   name: number;
@@ -9,9 +9,7 @@ export interface CharCount {
 }
 
 export interface CategoryFormProps {
-  formData: CategoryFormData;
   errors: Record<string, string>;
-  isSubmitting?: boolean;
   onFieldChange: (field: FormField, value: string) => void;
   onGenerateSlug: () => void;
   onSaveImageFile: (file: File) => void;

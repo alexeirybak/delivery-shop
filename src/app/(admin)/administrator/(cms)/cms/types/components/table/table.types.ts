@@ -13,7 +13,6 @@ export type FilterType =
   | "imageAlt";
 
 export interface CategoryTableProps {
-  loading: boolean;
   onEdit: (category: Category) => void;
   onDelete: (id: string) => void;
 }

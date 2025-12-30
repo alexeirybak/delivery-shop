@@ -1,9 +1,8 @@
-import { CategoryFormData, FormField } from "../../models/category";
+import { FormField } from "../../models/category";
 import { CharCount } from "./category-form.types";
 
 export interface ImageSectionProps {
   errors: Record<string, string>;
-  formData: CategoryFormData;
   charCount: CharCount;
   onRemoveImage: () => void;
   onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
