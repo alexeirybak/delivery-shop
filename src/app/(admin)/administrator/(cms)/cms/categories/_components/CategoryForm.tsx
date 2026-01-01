@@ -1,21 +1,19 @@
-import { useState } from "react";
+import { CategoryFormField, CategoryFormProps, CharCount } from "../../types";
 import { FormFields } from "./FormFields";
-import ImageSection from "./ImageSection";
-import SubmitSection from "./SubmitSection";
+import { ImageSection } from "./ImageSection";
+import { SubmitSection } from "./SubmitSection";
+import { useCategoryStore } from "@/store/categoryStore";
 
-const CategoryForm = ({
-  formData,
+export const CategoryForm = ({
   errors,
-  isSubmitting,
-  editingId,
   onFieldChange,
   onGenerateSlug,
   onSaveImageFile,
   onRemoveImage,
   onSubmit,
   onCancel,
-}) => {
-  const [isUploading, setIsUploading] = useState(false);
+}: CategoryFormProps) => {
+  const { setIsUploading, formData } = useCategoryStore();
 
   const charCount: CharCount = {
     name: formData.name.length,
@@ -26,7 +24,7 @@ const CategoryForm = ({
   };
 
   const handleInputChange = (
-    field: FormField,
+    field: CategoryFormField,
     value: string,
     maxLength: number
   ) => {
@@ -65,33 +63,20 @@ const CategoryForm = ({
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <ImageSection
-          formData={formData}
           errors={errors}
           charCount={charCount}
-          isUploading={isUploading}
-          isSubmitting={isSubmitting}
-          editingId={editingId}
           onInputChange={handleInputChange}
           onFileChange={handleFileChange}
           onRemoveImage={onRemoveImage}
         />
         <FormFields
-          formData={formData}
           errors={errors}
-          isSubmitting={isSubmitting}
           charCount={charCount}
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
-        <SubmitSection
-          onCancel={onCancel}
-          isSubmitting={isSubmitting}
-          isUploading={isUploading}
-          editingId={editingId}
-        />
+        <SubmitSection onCancel={onCancel} />
       </form>
     </div>
   );
 };
-
-export default CategoryForm;

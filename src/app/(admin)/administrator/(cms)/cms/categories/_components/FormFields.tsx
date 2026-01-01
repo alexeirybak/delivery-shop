@@ -1,14 +1,15 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
+import { useCategoryStore } from "@/store/categoryStore";
+import { FormFieldsProps } from "../../types";
 
 export const FormFields = ({
-  formData,
   errors,
   charCount,
-  isSubmitting,
   onInputChange,
   onGenerateSlug,
 }: FormFieldsProps) => {
+  const { isSubmitting, formData } = useCategoryStore();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
       {/* Название */}

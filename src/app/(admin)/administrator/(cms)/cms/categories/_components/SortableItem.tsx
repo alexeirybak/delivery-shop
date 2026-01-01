@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
 import { MobileCategoryCard } from "./MobileCategoryCard";
+import { SortableItemProps } from "../../types";
 
-const SortableItem = ({ id, category, displayNumericId, onDelete, onEdit }) => {
+export const SortableItem = ({
+  category,
+  displayNumericId,
+  onDelete,
+  onEdit,
+}: SortableItemProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
@@ -38,5 +44,3 @@ const SortableItem = ({ id, category, displayNumericId, onDelete, onEdit }) => {
     />
   );
 };
-
-export default SortableItem;

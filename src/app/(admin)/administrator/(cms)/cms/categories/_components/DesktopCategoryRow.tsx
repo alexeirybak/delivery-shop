@@ -2,13 +2,14 @@ import React from "react";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { DragHandle } from "./DragHandle";
+import { SortableItemProps } from "../../types";
 
-export const DesktopCategoryRow: React.FC<DesktopCategoryRowProps> = ({
+export const DesktopCategoryRow = ({
   category,
   displayNumericId,
   onDelete,
   onEdit,
-}) => {
+}: SortableItemProps) => {
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit(category);

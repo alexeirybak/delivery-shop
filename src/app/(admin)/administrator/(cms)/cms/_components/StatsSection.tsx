@@ -1,4 +1,4 @@
-import { useCategories } from "../hooks/useCategories";
+import { useCategoryStore } from "@/store/categoryStore";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import { useStatsValues } from "../hooks/useStatsValues";
 import { getStatValue } from "../utils/getStatValue";
@@ -9,7 +9,7 @@ import { StatsSkeleton } from "./StatsSkeleton";
 export const StatsSection = () => {
   const { categoriesCount, keywordsCount } = useStatsValues();
   const { loading: settingsLoading } = useSiteSettings();
-  const { loading: categoriesLoading } = useCategories();
+  const { loading: categoriesLoading } = useCategoryStore();
 
   const loading = settingsLoading || categoriesLoading;
 

@@ -6,47 +6,53 @@ import { SEORecommendations } from "../_components/SEORecommendations";
 import { useCategoryFormState } from "../hooks/useCategoryFormState";
 import { useCategoryFormValidation } from "../hooks/useCategoryFormValidation";
 import { categorySeoRecommendations } from "../utils/recommendations";
-import CategoryForm from "./_components/CategoryForm";
-import CategoryTable from "./_components/CategoryTable";
+import { CategoryForm } from "./_components/CategoryForm";
+import { CategoryTable } from "./_components/CategoryTable";
 import { useEffect, useState } from "react";
 import { useCategories } from "../hooks/useCategories";
 import { Notification } from "./_components/Notification";
 import { WarningAlert } from "./_components/WarningAlert";
 import { HeaderActions } from "./_components/HeaderActions";
+import { useCategoryStore } from "@/store/categoryStore";
+import { Pagination } from "../_components/Pagination";
+import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
 
 const CategoriesPage = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
   const { user } = useAuthStore();
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
-
   const {
     categories,
-    loading,
     totalAllItems,
-    createCategory,
-    deleteCategory,
-    updateCategory,
-  } = useCategories();
+    editingId,
+    showForm,
+    originalImageUrl,
+    formData,
+    setIsSubmitting,
+    updateFormField,
+    totalPages,
+    currentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    setCurrentPage,
+  } = useCategoryStore();
+
+  const { createCategory, deleteCategory, updateCategory, loadCategories } =
+    useCategories();
 
   const {
-    formData,
-    showForm,
-    editingId,
-    originalImageUrl,
-    updateFormField,
     generateSlug,
     saveImageFile,
     removeImage,
     uploadImageToServer,
     getKeywordsArray,
-    resetForm,
     deleteOldImage,
     startCreate,
     startEdit,
+    resetForm,
   } = useCategoryFormState();
 
   useEffect(() => {
@@ -57,6 +63,10 @@ const CategoriesPage = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  useEffect(() => {
+    loadCategories({ page: currentPage });
+  }, [currentPage, loadCategories]);
 
   const { errors, validateForm } = useCategoryFormValidation();
 
@@ -191,7 +201,7 @@ const CategoriesPage = () => {
         keywords: getKeywordsArray(),
       };
 
-      const result = await updateCategory(editingId, updateData);
+      const result = await updateCategory(updateData);
 
       if (result.success) {
         setNotification({
@@ -244,6 +254,12 @@ const CategoriesPage = () => {
     }
   };
 
+  const handleItemsPerPageChange = (perPage: number) => {
+    setItemsPerPage(perPage);
+    setCurrentPage(1);
+    loadCategories({ page: 1 });
+  };
+
   return (
     <div className="relative">
       <Header
@@ -258,13 +274,16 @@ const CategoriesPage = () => {
         />
       )}
       <HeaderActions onCreate={startCreate} />
+      <div className="mb-4">
+        <ItemsPerPageSelector
+          value={itemsPerPage}
+          onChange={handleItemsPerPageChange}
+        />
+      </div>
       <WarningAlert />
       {showForm && (
         <CategoryForm
-          formData={formData}
           errors={errors}
-          isSubmitting={isSubmitting}
-          editingId={editingId}
           onFieldChange={updateFormField}
           onGenerateSlug={generateSlug}
           onSaveImageFile={saveImageFile}
@@ -274,12 +293,8 @@ const CategoriesPage = () => {
         />
       )}
 
-      <CategoryTable
-        categories={categories}
-        loading={loading}
-        onDelete={handleDelete}
-        onEdit={startEdit}
-      />
+      <CategoryTable onDelete={handleDelete} onEdit={startEdit} />
+      {totalPages > 1 && <Pagination />}
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>
   );

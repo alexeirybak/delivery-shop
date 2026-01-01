@@ -2,27 +2,21 @@
 
 import { useCallback, useState } from "react";
 import { transliterate } from "../../../../../../../utils/transliterate";
+import { useCategoryStore } from "@/store/categoryStore";
+import { Category } from "../types";
 
 export const useCategoryFormState = () => {
-  const [formData, setFormData] = useState<CategoryFormData>({
-    name: "",
-    slug: "",
-    description: "",
-    keywords: "",
-    image: "",
-    imageAlt: "",
-  });
+  const {
+    setEditingId,
+    clearEditingId,
+    setShowForm,
+    formData,
+    setFormData,
+    updateFormField,
+    resetFormData,
+    setOriginalImageUrl,
+  } = useCategoryStore();
   const [tempImageFile, setTempImageFile] = useState<File | null>(null);
-  const [showForm, setShowForm] = useState(false);
-  const [originalImageUrl, setOriginalImageUrl] = useState<string>("");
-  const [editingId, setEditingId] = useState<string | null>(null);
-
-  const updateFormField = useCallback((field: FormField, value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }, []);
 
   const generateSlug = useCallback(() => {
     if (!formData.name.trim()) {
@@ -96,27 +90,26 @@ export const useCategoryFormState = () => {
   const getKeywordsArray = useCallback(() => {
     return formData.keywords
       .split(",")
-      .map((k) => k.trim())
-      .filter((k) => k.length > 0);
+      .map((k: string) => k.trim())
+      .filter((k: string) => k.length > 0);
   }, [formData.keywords]);
 
   const resetForm = useCallback(() => {
     if (formData.image && formData.image.startsWith("blob:")) {
       URL.revokeObjectURL(formData.image);
     }
-    setFormData({
-      name: "",
-      slug: "",
-      description: "",
-      keywords: "",
-      image: "",
-      imageAlt: "",
-    });
+    resetFormData();
     setTempImageFile(null);
     setOriginalImageUrl("");
-    setEditingId(null);
+    clearEditingId();
     setShowForm(false);
-  }, [formData.image]);
+  }, [
+    clearEditingId,
+    formData.image,
+    resetFormData,
+    setOriginalImageUrl,
+    setShowForm,
+  ]);
 
   const deleteOldImage = useCallback(
     async (imageUrl: string): Promise<boolean> => {
@@ -148,37 +141,35 @@ export const useCategoryFormState = () => {
   const startCreate = useCallback(() => {
     resetForm();
     setShowForm(true);
-  }, [resetForm]);
+  }, [resetForm, setShowForm]);
 
-  const startEdit = useCallback((category: Category) => {
-    setEditingId(category._id.toString());
-    setFormData({
-      name: category.name,
-      slug: category.slug,
-      description: category.description,
-      keywords: (category.keywords || []).join(", "),
-      image: category.image || "",
-      imageAlt: category.imageAlt || "",
-    });
-    setOriginalImageUrl(category.image || "");
-    setTempImageFile(null);
-    setShowForm(true);
-  }, []);
+  const startEdit = useCallback(
+    (category: Category) => {
+      setEditingId(category._id.toString());
+      setFormData({
+        name: category.name,
+        slug: category.slug,
+        description: category.description,
+        keywords: (category.keywords || []).join(", "),
+        image: category.image || "",
+        imageAlt: category.imageAlt || "",
+      });
+      setOriginalImageUrl(category.image || "");
+      setTempImageFile(null);
+      setShowForm(true);
+    },
+    [setEditingId, setFormData, setOriginalImageUrl, setShowForm]
+  );
 
   return {
-    formData,
-    showForm,
-    editingId,
-    originalImageUrl,
-    updateFormField,
     generateSlug,
     saveImageFile,
     removeImage,
     uploadImageToServer,
     getKeywordsArray,
-    resetForm,
     deleteOldImage,
     startCreate,
     startEdit,
+    resetForm,
   };
 };

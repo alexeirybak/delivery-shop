@@ -1,8 +1,11 @@
 import React from "react";
+import { MobileExpandableContentProps } from "../../types";
 
-export const MobileExpandableContent: React.FC<
-  MobileExpandableContentProps
-> = ({ category, onDelete, onEdit }) => {
+export const MobileExpandableContent = ({
+  category,
+  onDelete,
+  onEdit,
+}: MobileExpandableContentProps) => {
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     onEdit(category);

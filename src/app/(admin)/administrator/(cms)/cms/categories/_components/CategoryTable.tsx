@@ -1,14 +1,12 @@
-import { useEffect, useState } from "react";
 import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
-import SortableItem from "./SortableItem";
+import { SortableItem } from "./SortableItem";
+import { useCategoryStore } from "@/store/categoryStore";
+import { Category, CategoryTableProps } from "../../types";
 
-const CategoryTable = ({ categories, loading, onDelete, onEdit }) => {
-  const [items, setItems] = useState<Category[]>(categories);
+export const CategoryTable = ({ onDelete, onEdit }: CategoryTableProps) => {
+  const { categories, loading } = useCategoryStore();
 
-  useEffect(() => {
-    setItems(categories);
-  }, [categories]);
   const getDisplayNumericId = (category: Category): number | null => {
     return category.numericId;
   };
@@ -22,16 +20,15 @@ const CategoryTable = ({ categories, loading, onDelete, onEdit }) => {
     <>
       <TableHeader />
       <div className="divide-y divide-gray-200">
-        {items.length === 0 ? (
+        {categories.length === 0 ? (
           <EmptyState />
         ) : (
-          items.map((category) => {
+          categories.map((category) => {
             const categoryId = category._id.toString();
 
             return (
               <SortableItem
                 key={categoryId}
-                id={categoryId}
                 category={category}
                 displayNumericId={getDisplayNumericId(category)}
                 onDelete={onDelete}
@@ -44,5 +41,3 @@ const CategoryTable = ({ categories, loading, onDelete, onEdit }) => {
     </>
   );
 };
-
-export default CategoryTable;
