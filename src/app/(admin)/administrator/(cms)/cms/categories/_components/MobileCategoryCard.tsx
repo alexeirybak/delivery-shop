@@ -3,13 +3,14 @@ import { ChevronDown } from "lucide-react";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
+import { SortableItemProps } from "../../types";
 
-export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
+export const MobileCategoryCard = ({
   category,
   displayNumericId,
   onDelete,
-  onEdit
-}) => {
+  onEdit,
+}: SortableItemProps) => {
   const [isExpanded, setIsExpended] = useState(false);
   return (
     <div
@@ -34,7 +35,11 @@ export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
         </button>
       </div>
       {isExpanded && (
-        <MobileExpandableContent category={category} onDelete={onDelete} onEdit={onEdit}  />
+        <MobileExpandableContent
+          category={category}
+          onDelete={onDelete}
+          onEdit={onEdit}
+        />
       )}
     </div>
   );

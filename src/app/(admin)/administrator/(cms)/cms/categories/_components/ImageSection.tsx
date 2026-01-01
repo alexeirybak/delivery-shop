@@ -2,18 +2,17 @@ import Image from "next/image";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
 import { useRef } from "react";
+import { useCategoryStore } from "@/store/categoryStore";
+import { ImageSectionProps } from "../../types";
 
-const ImageSection = ({
+export const ImageSection = ({
   errors,
-  formData,
   charCount,
-  isUploading,
-  isSubmitting,
-  editingId,
   onInputChange,
   onFileChange,
   onRemoveImage,
-}) => {
+}: ImageSectionProps) => {
+  const { editingId, isUploading, isSubmitting, formData } = useCategoryStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleRemoveImage = () => {
@@ -151,5 +150,3 @@ const ImageSection = ({
     </div>
   );
 };
-
-export default ImageSection;

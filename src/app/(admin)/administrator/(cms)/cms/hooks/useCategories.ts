@@ -1,33 +1,65 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCategoryStore } from "@/store/categoryStore";
+import { useCallback, useEffect } from "react";
+import { ApiResponse, CategoryFormData, UpdateCategoryData } from "../types";
 
 export const useCategories = () => {
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [totalAllItems, setTotalAllItems] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const {
+    setCategories,
+    setTotalAllItems,
+    editingId,
+    setLoading,
+    setTotalPages,
+    setTotalItems,
+    setCurrentPage,
+    itemsPerPage,
+    currentPage,
+  } = useCategoryStore();
+  const id = editingId;
 
-  const loadCategories = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await fetch(`/administrator/cms/api/categories`);
-      const data = await response.json();
+  const loadCategories = useCallback(
+    async (params?: { page?: number }) => {
+      setLoading(true);
+      try {
+        const queryParams = new URLSearchParams();
+        const pageToLoad =
+          params?.page !== undefined ? params.page : currentPage;
+        queryParams.append("pageToLoad", pageToLoad.toString());
+        queryParams.append("limit", itemsPerPage.toString());
+        const response = await fetch(
+          `/administrator/cms/api/categories?${queryParams}`
+        );
+        const data = await response.json();
 
-      if (data.success) {
-        setCategories(data.data.categories);
-        setTotalAllItems(data.data.totalInDB);
+        if (data.success) {
+          setCategories(data.data.categories);
+          setTotalAllItems(data.data.totalInDB);
+          setTotalItems(data.data.pagination.total);
+          setTotalPages(data.data.pagination.totalPages);
+
+          if (params?.page !== undefined && params?.page !== currentPage) {
+            setCurrentPage(params.page);
+          }
+        }
+      } catch (error) {
+        console.error("Ошибка загрузки категорий:", error);
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Ошибка загрузки категорий:", error);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    },
+    [
+      currentPage,
+      itemsPerPage,
+      setCategories,
+      setCurrentPage,
+      setLoading,
+      setTotalAllItems,
+      setTotalItems,
+      setTotalPages,
+    ]
+  );
 
   const createCategory = async (
-    categoryData: Omit<CategoryFormData, "keywords"> & {
-      keywords: string[];
-      numericId: number | null;
-      author: string;
-    }
+    categoryData: Omit<CategoryFormData, "keywords">
   ): Promise<ApiResponse> => {
     try {
       const response = await fetch("/administrator/cms/api/categories", {
@@ -99,7 +131,6 @@ export const useCategories = () => {
   };
 
   const updateCategory = async (
-    id: string,
     categoryData: UpdateCategoryData
   ): Promise<ApiResponse> => {
     try {
@@ -141,15 +172,12 @@ export const useCategories = () => {
 
   useEffect(() => {
     loadCategories();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [loadCategories]);
 
   return {
-    categories,
-    loading,
-    totalAllItems,
     createCategory,
     deleteCategory,
     updateCategory,
+    loadCategories,
   };
 };
