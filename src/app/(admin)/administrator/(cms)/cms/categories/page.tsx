@@ -43,9 +43,6 @@ export default function CategoriesPage() {
   } = useCategoryStore();
 
   const {
-    filterType,
-    sortField,
-    sortDirection,
     createCategory,
     updateCategory,
     deleteCategory,
@@ -83,6 +80,10 @@ export default function CategoriesPage() {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  useEffect(() => {
+    loadCategories({ page: currentPage });
+  }, [currentPage, loadCategories]);
 
   const handleSearch = async () => {
     setIsSearching(true);
@@ -368,9 +369,6 @@ export default function CategoriesPage() {
         onDelete={handleDelete}
         onReorder={handleReorder}
         searchQuery={searchQuery}
-        filterType={filterType}
-        sortField={sortField}
-        sortDirection={sortDirection}
         onSearchChange={setSearchQuery}
         onSearch={handleSearch}
         onFilterTypeChange={setFilterType}

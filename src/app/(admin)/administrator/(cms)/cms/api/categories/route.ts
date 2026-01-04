@@ -11,7 +11,7 @@ export async function GET(request: Request) {
     const db = await getDB();
     const { searchParams } = new URL(request.url);
 
-    const page = parseInt(searchParams.get("page") || "1");
+    const page = parseInt(searchParams.get("pageToLoad") || "1");
     const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
     const filterBy: FilterType = (searchParams.get("filterBy") ||
@@ -61,8 +61,6 @@ export async function GET(request: Request) {
           total: totalFiltered,
           totalAll: totalInDB,
           totalPages,
-          hasNextPage: validPage < totalPages,
-          hasPrevPage: validPage > 1,
         },
         filters: {
           search,

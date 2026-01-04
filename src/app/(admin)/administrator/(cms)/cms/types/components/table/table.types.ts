@@ -20,9 +20,6 @@ export interface CategoryTableProps {
 export interface ExtendedCategoryTableProps extends CategoryTableProps {
   onReorder?: (reorderedCategories: Category[]) => void;
   searchQuery: string;
-  filterType: FilterType;
-  sortField: SortField;
-  sortDirection: SortDirection;
   onSearchChange: (query: string) => void;
   onSearch: () => void;
   onFilterTypeChange: (type: FilterType) => void;

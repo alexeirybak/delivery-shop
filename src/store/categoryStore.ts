@@ -2,6 +2,8 @@ import { create } from "zustand";
 import {
   Category,
   CategoryFormData,
+  FilterType,
+  SortField,
 } from "@/app/(admin)/administrator/(cms)/cms/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 
@@ -15,13 +17,17 @@ interface CategoryStore {
   currentPage: number;
   itemsPerPage: number;
   loading: boolean;
-  isReordering: boolean; // Добавляем
-  isSubmitting: boolean; // Добавляем
-  isSearching: boolean; // Добавляем
-  isUploading: boolean; // Добавляем
-  showForm: boolean; // Добавляем
-  originalImageUrl: string; // Добавляем
+  isReordering: boolean;
+  isSubmitting: boolean;
+  isSearching: boolean;
+  isUploading: boolean;
+  showForm: boolean;
+  originalImageUrl: string;
   formData: CategoryFormData;
+  filterType: FilterType;
+  sortField: SortField;
+  sortDirection: "asc" | "desc";
+  searchQuery: string;
 
   // Методы
   setCategories: (categories: Category[]) => void;
@@ -33,15 +39,23 @@ interface CategoryStore {
   setCurrentPage: (currentPage: number) => void;
   setItemsPerPage: (itemsPerPage: number) => void;
   setLoading: (loading: boolean) => void;
-  setIsReordering: (isReordering: boolean) => void; // Добавляем
-  setIsSubmitting: (isSubmitting: boolean) => void; // Добавляем
-  setIsSearching: (isSearching: boolean) => void; // Добавляем
-  setIsUploading: (isUploading: boolean) => void; // Добавляем
-  setShowForm: (showForm: boolean) => void; // Добавляем
+  setIsReordering: (isReordering: boolean) => void;
+  setIsSubmitting: (isSubmitting: boolean) => void;
+  setIsSearching: (isSearching: boolean) => void;
+  setIsUploading: (isUploading: boolean) => void;
+  setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
-  setFormData: (formData: CategoryFormData) => void; // Добавляем
-  updateFormField: (field: keyof CategoryFormData, value: string) => void; // Добавляем
-  resetFormData: () => void; // Добавляем
+  setFormData: (formData: CategoryFormData) => void;
+  updateFormField: (field: keyof CategoryFormData, value: string) => void;
+  resetFormData: () => void;
+
+  setFilterType: (filterType: FilterType) => void;
+  setSortField: (sortField: SortField) => void;
+  setSortDirection: (sortDirection: "asc" | "desc") => void;
+  setSearchQuery: (searchQuery: string) => void;
+
+  // Метод для сброса всех фильтров
+  resetFilters: () => void;
 }
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
@@ -54,14 +68,13 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   currentPage: 1,
   itemsPerPage: CONFIG_BLOG.ITEMS_PER_PAGE,
   loading: false,
-  isReordering: false, // Начальное значение
-  isSubmitting: false, // Начальное значение
-  isSearching: false, // Начальное значение
-  isUploading: false, // Начальное значение
-  showForm: false, // Начальное значение
-  originalImageUrl: "", // Начальное значение
+  isReordering: false,
+  isSubmitting: false,
+  isSearching: false,
+  isUploading: false,
+  showForm: false,
+  originalImageUrl: "",
   formData: {
-    // Начальное значение для formData
     name: "",
     slug: "",
     description: "",
@@ -69,6 +82,10 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     image: "",
     imageAlt: "",
   },
+  filterType: "all",
+  sortField: "numericId",
+  sortDirection: "asc",
+  searchQuery: "",
 
   // Реализации методов
   setCategories: (categories) => set({ categories }),
@@ -80,11 +97,11 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   setCurrentPage: (currentPage) => set({ currentPage }),
   setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
   setLoading: (loading) => set({ loading }),
-  setIsReordering: (isReordering) => set({ isReordering }), // Добавляем
-  setIsSubmitting: (isSubmitting) => set({ isSubmitting }), // Добавляем
-  setIsSearching: (isSearching) => set({ isSearching }), // Добавляем
-  setIsUploading: (isUploading) => set({ isUploading }), // Добавляем
-  setShowForm: (showForm) => set({ showForm }), // Добавляем
+  setIsReordering: (isReordering) => set({ isReordering }),
+  setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
+  setIsSearching: (isSearching) => set({ isSearching }),
+  setIsUploading: (isUploading) => set({ isUploading }),
+  setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
   setFormData: (formData) => set({ formData }),
   updateFormField: (field, value) =>
@@ -104,5 +121,19 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
         image: "",
         imageAlt: "",
       },
+    }),
+
+  setFilterType: (filterType) => set({ filterType }),
+  setSortField: (sortField) => set({ sortField }),
+  setSortDirection: (sortDirection) => set({ sortDirection }),
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
+
+  resetFilters: () =>
+    set({
+      filterType: "all",
+      sortField: "numericId",
+      sortDirection: "asc",
+      searchQuery: "",
+      currentPage: 1,
     }),
 }));

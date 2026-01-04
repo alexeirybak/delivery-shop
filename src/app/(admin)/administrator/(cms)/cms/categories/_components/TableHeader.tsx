@@ -20,7 +20,6 @@ export const TableHeader = ({
 
   return (
     <div className="hidden lg:block border border-gray-200">
-      {/* 10 колонок */}
       <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 p-4 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
         <div></div>
         <div
@@ -30,8 +29,6 @@ export const TableHeader = ({
         >
           ID {renderSortIcon("numericId")}
         </div>
-
-        {/* Колонка для изображений */}
         <div
           className="text-center flex items-center justify-center"
           title="Изображение категории"

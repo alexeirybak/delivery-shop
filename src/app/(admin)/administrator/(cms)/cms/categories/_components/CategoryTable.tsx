@@ -30,18 +30,23 @@ export const CategoryTable = ({
   onEdit,
   onDelete,
   onReorder,
-  searchQuery,
-  filterType,
-  sortField,
-  sortDirection,
-  onSearchChange,
-  onSearch,
-  onFilterTypeChange,
-  onSortFieldChange,
-  onSortDirectionChange,
-  isSearching = false,
 }: ExtendedCategoryTableProps) => {
-  const { categories, totalItems, loading } = useCategoryStore();
+  const {
+    categories,
+    totalItems,
+    loading,
+    isSearching,
+    searchQuery,
+    filterType,
+    sortField,
+    sortDirection,
+    setSearchQuery,
+    setFilterType,
+    setSortField,
+    setSortDirection,
+    resetFilters,
+  } = useCategoryStore();
+  
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);
@@ -132,32 +137,24 @@ export const CategoryTable = ({
     [tempOrder]
   );
 
+  // Сортировка через store
   const handleSort = useCallback(
     (field: SortField) => {
       if (sortField === field) {
-        onSortDirectionChange(sortDirection === "asc" ? "desc" : "asc");
+        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
       } else {
-        onSortFieldChange(field);
-        onSortDirectionChange("asc");
+        setSortField(field);
+        setSortDirection("asc");
       }
     },
-    [sortField, sortDirection, onSortFieldChange, onSortDirectionChange]
+    [sortField, sortDirection, setSortField, setSortDirection]
   );
 
-  const resetFilters = useCallback(() => {
-    onSearchChange("");
-    onFilterTypeChange("all");
-    onSortFieldChange("numericId");
-    onSortDirectionChange("asc");
-  }, [
-    onSearchChange,
-    onFilterTypeChange,
-    onSortFieldChange,
-    onSortDirectionChange,
-  ]);
-
   const hasActiveFilters = Boolean(
-    filterType !== "all" || sortField !== "numericId" || sortDirection !== "asc"
+    searchQuery ||
+    filterType !== "all" ||
+    sortField !== "numericId" ||
+    sortDirection !== "asc"
   );
 
   if (loading) {
@@ -178,14 +175,16 @@ export const CategoryTable = ({
       <div className="bg-white rounded shadow-sm">
         <div className="p-4 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
+            {/* SearchBar использует методы из store */}
             <SearchBar
               value={searchQuery}
-              onChange={onSearchChange}
-              onSearch={onSearch}
+              onChange={setSearchQuery}
+              onSearch={() => {}} // Можно оставить пустым или удалить
               placeholder="Поиск категорий..."
               isSearching={isSearching}
             />
 
+            {/* FilterControls использует resetFilters из store */}
             <FilterControls
               showFilters={showFilters}
               onToggleFilters={() => setShowFilters(!showFilters)}
@@ -199,9 +198,9 @@ export const CategoryTable = ({
               filterType={filterType}
               sortField={sortField}
               sortDirection={sortDirection}
-              onFilterTypeChange={onFilterTypeChange}
-              onSortFieldChange={onSortFieldChange}
-              onSortDirectionChange={onSortDirectionChange}
+              onFilterTypeChange={setFilterType}
+              onSortFieldChange={setSortField}
+              onSortDirectionChange={setSortDirection}
             />
           )}
 

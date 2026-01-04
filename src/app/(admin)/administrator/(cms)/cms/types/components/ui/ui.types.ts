@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 
 export interface NotificationProps {
-  type: "success" | "error" | "warning";
+  type: "success" | "error";
   message: string;
   onClose: () => void;
   children?: ReactNode;
