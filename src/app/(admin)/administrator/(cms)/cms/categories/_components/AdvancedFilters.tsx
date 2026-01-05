@@ -1,17 +1,25 @@
-import {
-  AdvancedFiltersProps,
-  FilterType,
-  SortField,
-} from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
+import { AdvancedFiltersProps, FilterType, SortField } from "../../types";
 
 export const AdvancedFilters = ({
   filterType,
-  sortField,
-  sortDirection,
   onFilterTypeChange,
-  onSortFieldChange,
-  onSortDirectionChange,
 }: AdvancedFiltersProps) => {
+  const { 
+    sortField, 
+    sortDirection, 
+    setSortField, 
+    setSortDirection 
+  } = useCategoryStore();
+  
+  const handleSortFieldChange = (field: SortField) => {
+    setSortField(field);
+  };
+  
+  const handleSortDirectionChange = (direction: "asc" | "desc") => {
+    setSortDirection(direction);
+  };
+  
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -41,7 +49,7 @@ export const AdvancedFilters = ({
           </label>
           <select
             value={sortField}
-            onChange={(e) => onSortFieldChange(e.target.value as SortField)}
+            onChange={(e) => handleSortFieldChange(e.target.value as SortField)}
             className="text-sm w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
           >
             <option value="numericId">ID</option>
@@ -59,7 +67,7 @@ export const AdvancedFilters = ({
           </label>
           <div className="flex gap-2 text-sm">
             <button
-              onClick={() => onSortDirectionChange("asc")}
+              onClick={() => handleSortDirectionChange("asc")}
               className={`flex-1 px-4 py-2 border rounded cursor-pointer duration-300 ${
                 sortDirection === "asc"
                   ? "bg-green-50 border-green-500 text-green-700"
@@ -69,7 +77,7 @@ export const AdvancedFilters = ({
               По возрастанию
             </button>
             <button
-              onClick={() => onSortDirectionChange("desc")}
+              onClick={() => handleSortDirectionChange("desc")}
               className={`flex-1 px-4 py-2 border rounded cursor-pointer duration-300 ${
                 sortDirection === "desc"
                   ? "bg-green-50 border-green-500 text-green-700"

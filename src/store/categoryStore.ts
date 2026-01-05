@@ -2,7 +2,6 @@ import { create } from "zustand";
 import {
   Category,
   CategoryFormData,
-  FilterType,
   SortField,
 } from "@/app/(admin)/administrator/(cms)/cms/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
@@ -23,11 +22,12 @@ interface CategoryStore {
   isUploading: boolean;
   showForm: boolean;
   originalImageUrl: string;
-  formData: CategoryFormData;
-  filterType: FilterType;
+
+  // Состояние сортировки (добавить)
   sortField: SortField;
   sortDirection: "asc" | "desc";
-  searchQuery: string;
+
+  formData: CategoryFormData;
 
   // Методы
   setCategories: (categories: Category[]) => void;
@@ -45,17 +45,13 @@ interface CategoryStore {
   setIsUploading: (isUploading: boolean) => void;
   setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
+
   setFormData: (formData: CategoryFormData) => void;
   updateFormField: (field: keyof CategoryFormData, value: string) => void;
   resetFormData: () => void;
 
-  setFilterType: (filterType: FilterType) => void;
   setSortField: (sortField: SortField) => void;
   setSortDirection: (sortDirection: "asc" | "desc") => void;
-  setSearchQuery: (searchQuery: string) => void;
-
-  // Метод для сброса всех фильтров
-  resetFilters: () => void;
 }
 
 export const useCategoryStore = create<CategoryStore>((set) => ({
@@ -74,6 +70,11 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   isUploading: false,
   showForm: false,
   originalImageUrl: "",
+
+  // Начальные значения сортировки
+  sortField: "numericId" as SortField,
+  sortDirection: "asc" as "asc" | "desc",
+
   formData: {
     name: "",
     slug: "",
@@ -82,10 +83,6 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     image: "",
     imageAlt: "",
   },
-  filterType: "all",
-  sortField: "numericId",
-  sortDirection: "asc",
-  searchQuery: "",
 
   // Реализации методов
   setCategories: (categories) => set({ categories }),
@@ -103,6 +100,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   setIsUploading: (isUploading) => set({ isUploading }),
   setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
+
   setFormData: (formData) => set({ formData }),
   updateFormField: (field, value) =>
     set((state) => ({
@@ -123,17 +121,6 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
       },
     }),
 
-  setFilterType: (filterType) => set({ filterType }),
   setSortField: (sortField) => set({ sortField }),
   setSortDirection: (sortDirection) => set({ sortDirection }),
-  setSearchQuery: (searchQuery) => set({ searchQuery }),
-
-  resetFilters: () =>
-    set({
-      filterType: "all",
-      sortField: "numericId",
-      sortDirection: "asc",
-      searchQuery: "",
-      currentPage: 1,
-    }),
 }));

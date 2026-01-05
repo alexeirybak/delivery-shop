@@ -1,11 +1,19 @@
 import { ChevronUp, ImageIcon } from "lucide-react";
-import { SortField, TableHeaderProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
+import { SortField } from "../../types";
 
-export const TableHeader = ({
-  sortField,
-  sortDirection,
-  onSort,
-}: TableHeaderProps) => {
+export const TableHeader = () => {
+  const { sortField, sortDirection, setSortField, setSortDirection } = useCategoryStore();
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortDirection("asc");
+    }
+  };
+
   const renderSortIcon = (field: SortField) => {
     if (sortField !== field) return null;
 
@@ -24,7 +32,7 @@ export const TableHeader = ({
         <div></div>
         <div
           className="text-center cursor-pointer hover:text-gray-700 flex items-center justify-center"
-          onClick={() => onSort("numericId")}
+          onClick={() => handleSort("numericId")}
           title="Сортировать по ID"
         >
           ID {renderSortIcon("numericId")}
@@ -38,14 +46,14 @@ export const TableHeader = ({
 
         <div
           className="cursor-pointer hover:text-gray-700 flex items-center"
-          onClick={() => onSort("name")}
+          onClick={() => handleSort("name")}
           title="Сортировать по названию"
         >
           Название {renderSortIcon("name")}
         </div>
         <div
-          className="cursor-pointer hover:text-gray-700 flex items-center"
-          onClick={() => onSort("slug")}
+          className="cursor-pointer hover:text-gray700 flex items-center"
+          onClick={() => handleSort("slug")}
           title="Сортировать по алиасу"
         >
           Алиас {renderSortIcon("slug")}
@@ -54,14 +62,14 @@ export const TableHeader = ({
         <div className="text-center">Ключевые слова</div>
         <div
           className="text-center cursor-pointer hover:text-gray-700 flex items-center justify-center"
-          onClick={() => onSort("author")}
+          onClick={() => handleSort("author")}
           title="Сортировать по автору"
         >
           Автор {renderSortIcon("author")}
         </div>
         <div
           className="cursor-pointer hover:text-gray-700 flex items-center"
-          onClick={() => onSort("createdAt")}
+          onClick={() => handleSort("createdAt")}
           title="Сортировать по дате создания"
         >
           Создана {renderSortIcon("createdAt")}

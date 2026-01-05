@@ -1,4 +1,4 @@
-import { Category, ExtendedCategoryTableProps, SortField } from "../../types";
+import { Category, ExtendedCategoryTableProps } from "../../types";
 import { useState, useEffect, useCallback } from "react";
 import {
   DndContext,
@@ -26,27 +26,19 @@ import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
 import { useCategoryStore } from "@/store/categoryStore";
 
+// Убрали ТОЛЬКО пропсы сортировки
 export const CategoryTable = ({
   onEdit,
   onDelete,
   onReorder,
+  searchQuery,
+  filterType,
+  onSearchChange,
+  onSearch,
+  onFilterTypeChange,
+  isSearching = false,
 }: ExtendedCategoryTableProps) => {
-  const {
-    categories,
-    totalItems,
-    loading,
-    isSearching,
-    searchQuery,
-    filterType,
-    sortField,
-    sortDirection,
-    setSearchQuery,
-    setFilterType,
-    setSortField,
-    setSortDirection,
-    resetFilters,
-  } = useCategoryStore();
-  
+  const { categories, totalItems, loading } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);
@@ -137,24 +129,20 @@ export const CategoryTable = ({
     [tempOrder]
   );
 
-  // Сортировка через store
-  const handleSort = useCallback(
-    (field: SortField) => {
-      if (sortField === field) {
-        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-      } else {
-        setSortField(field);
-        setSortDirection("asc");
-      }
-    },
-    [sortField, sortDirection, setSortField, setSortDirection]
-  );
+  // Сброс фильтров (НИЧЕГО НЕ МЕНЯЕМ в части фильтрации)
+  const resetFilters = useCallback(() => {
+    onSearchChange("");
+    onFilterTypeChange("all");
+    // Только сортировку сбрасываем через store
+    const store = useCategoryStore.getState();
+    store.setSortField("numericId");
+    store.setSortDirection("asc");
+  }, [onSearchChange, onFilterTypeChange]);
 
   const hasActiveFilters = Boolean(
-    searchQuery ||
-    filterType !== "all" ||
-    sortField !== "numericId" ||
-    sortDirection !== "asc"
+    filterType !== "all" || // фильтрация
+    useCategoryStore.getState().sortField !== "numericId" || // сортировка из store
+    useCategoryStore.getState().sortDirection !== "asc"
   );
 
   if (loading) {
@@ -175,16 +163,14 @@ export const CategoryTable = ({
       <div className="bg-white rounded shadow-sm">
         <div className="p-4 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* SearchBar использует методы из store */}
             <SearchBar
               value={searchQuery}
-              onChange={setSearchQuery}
-              onSearch={() => {}} // Можно оставить пустым или удалить
+              onChange={onSearchChange}
+              onSearch={onSearch}
               placeholder="Поиск категорий..."
               isSearching={isSearching}
             />
 
-            {/* FilterControls использует resetFilters из store */}
             <FilterControls
               showFilters={showFilters}
               onToggleFilters={() => setShowFilters(!showFilters)}
@@ -196,11 +182,8 @@ export const CategoryTable = ({
           {showFilters && (
             <AdvancedFilters
               filterType={filterType}
-              sortField={sortField}
-              sortDirection={sortDirection}
-              onFilterTypeChange={setFilterType}
-              onSortFieldChange={setSortField}
-              onSortDirectionChange={setSortDirection}
+              onFilterTypeChange={onFilterTypeChange}
+              // Только пропсы фильтрации, без сортировки
             />
           )}
 
@@ -211,11 +194,8 @@ export const CategoryTable = ({
           />
         </div>
 
-        <TableHeader
-          sortField={sortField}
-          sortDirection={sortDirection}
-          onSort={handleSort}
-        />
+        {/* TableHeader теперь без пропсов */}
+        <TableHeader />
 
         <SortableContext
           items={items.map((item) => item._id.toString())}

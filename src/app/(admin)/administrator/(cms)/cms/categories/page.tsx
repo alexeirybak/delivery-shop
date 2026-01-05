@@ -43,13 +43,14 @@ export default function CategoriesPage() {
   } = useCategoryStore();
 
   const {
+    filterType,
+
     createCategory,
     updateCategory,
     deleteCategory,
     reorderCategories,
     setFilterType,
-    setSortField,
-    setSortDirection,
+
     loadCategories,
   } = useCategories();
 
@@ -369,11 +370,10 @@ export default function CategoriesPage() {
         onDelete={handleDelete}
         onReorder={handleReorder}
         searchQuery={searchQuery}
+        filterType={filterType}
         onSearchChange={setSearchQuery}
         onSearch={handleSearch}
         onFilterTypeChange={setFilterType}
-        onSortFieldChange={setSortField}
-        onSortDirectionChange={setSortDirection}
         isSearching={isSearching}
       />
 
