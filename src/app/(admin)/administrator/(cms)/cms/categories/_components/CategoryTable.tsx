@@ -31,12 +31,7 @@ export const CategoryTable = ({
   onDelete,
   onReorder,
 }: ExtendedCategoryTableProps) => {
-  const {
-    categories,
-    totalItems,
-    loading,
-    searchQuery,
-  } = useCategoryStore();
+  const { categories, loading, searchQuery } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);
@@ -152,11 +147,7 @@ export const CategoryTable = ({
 
           {showFilters && <AdvancedFilters />}
 
-          <ResultsStats
-            filteredCount={categories.length}
-            totalItems={totalItems}
-            searchQuery={searchQuery}
-          />
+          <ResultsStats />
         </div>
 
         <TableHeader />

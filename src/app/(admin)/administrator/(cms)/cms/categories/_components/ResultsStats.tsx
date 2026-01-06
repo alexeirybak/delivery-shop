@@ -1,13 +1,10 @@
-import { ResultsStatsProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
 
-export const ResultsStats = ({
-  filteredCount,
-  totalItems,
-  searchQuery,
-}: ResultsStatsProps) => {
+export const ResultsStats = ({}) => {
+  const { categories, totalItems, searchQuery } = useCategoryStore();
   return (
     <div className="mt-3 text-sm text-gray-500">
-      Найдено: <span className="font-medium">{filteredCount}</span> из{" "}
+      Найдено: <span className="font-medium">{categories.length}</span> из{" "}
       <span className="font-medium">{totalItems}</span> категорий
       {searchQuery && (
         <span className="ml-4">
@@ -18,4 +15,3 @@ export const ResultsStats = ({
     </div>
   );
 };
-
