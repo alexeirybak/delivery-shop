@@ -172,14 +172,14 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     try {
       const queryParams = new URLSearchParams();
       const pageToLoad = params?.page ?? state.currentPage;
-      queryParams.append("page", pageToLoad.toString());
+      queryParams.append("pageToLoad", pageToLoad.toString());
       queryParams.append("limit", state.itemsPerPage.toString());
 
       const search = params?.search ?? state.searchQuery;
       const filterBy = params?.filterBy ?? state.filterType;
 
-      if (search) queryParams.append("search", search);
-      if (filterBy) queryParams.append("filterBy", filterBy);
+      queryParams.append("search", search);
+      queryParams.append("filterBy", filterBy);
 
       queryParams.append("sortBy", state.sortField);
       queryParams.append("sortOrder", state.sortDirection);
@@ -188,6 +188,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
         `/administrator/cms/api/categories?${queryParams.toString()}`
       );
       const data = await response.json();
+      console.log(data);
 
       if (data.success) {
         set({

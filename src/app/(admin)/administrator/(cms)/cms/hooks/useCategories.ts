@@ -3,7 +3,7 @@ import { ApiResponse, UpdateCategoryData, CategoryFormData } from "../types";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const useCategories = () => {
-  const { loadCategories, currentPage, loading, totalAllItems } =
+  const { loadCategories, currentPage } =
     useCategoryStore();
 
   useEffect(() => {
@@ -172,8 +172,6 @@ export const useCategories = () => {
   };
 
   return {
-    loading,
-    totalAllItems,
     createCategory,
     updateCategory,
     deleteCategory,

@@ -36,13 +36,6 @@ export const CategoryTable = ({
     totalItems,
     loading,
     searchQuery,
-    filterType,
-    sortField,
-    sortDirection,
-    setFilterType,
-    setSortField,
-    setSortDirection,
-    handleSearchChange,
   } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -134,17 +127,6 @@ export const CategoryTable = ({
     [tempOrder]
   );
 
-  const resetFilters = useCallback(() => {
-    handleSearchChange("");
-    setFilterType("all");
-    setSortField("numericId");
-    setSortDirection("asc");
-  }, [handleSearchChange, setFilterType, setSortField, setSortDirection]);
-
-  const hasActiveFilters = Boolean(
-    filterType !== "all" || sortField !== "numericId" || sortDirection !== "asc"
-  );
-
   if (loading) {
     return (
       <div className="p-8 text-center text-gray-500">Загрузка категорий...</div>
@@ -165,12 +147,7 @@ export const CategoryTable = ({
           <div className="flex flex-col md:flex-row md:items-center gap-4">
             <SearchBar />
 
-            <FilterControls
-              showFilters={showFilters}
-              onToggleFilters={() => setShowFilters(!showFilters)}
-              onResetFilters={resetFilters}
-              hasActiveFilters={hasActiveFilters}
-            />
+            <FilterControls onToggleFilters={setShowFilters} />
           </div>
 
           {showFilters && <AdvancedFilters />}

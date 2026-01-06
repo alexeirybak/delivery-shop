@@ -1,22 +1,57 @@
 import { Filter, X } from "lucide-react";
-import { FilterControlsProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
+import { useState } from "react";
 
-export const FilterControls = ({
-  showFilters,
-  onToggleFilters,
-  onResetFilters,
-  hasActiveFilters,
-}: FilterControlsProps) => {
+interface FilterControlsProps {
+  onToggleFilters?: (show: boolean) => void;
+}
+
+export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
+  const {
+    filterType,
+    sortField,
+    sortDirection,
+    searchQuery,
+    setFilterType,
+    setSortField,
+    setSortDirection,
+    handleSearchChange,
+  } = useCategoryStore();
+
+  const [localShowFilters, setLocalShowFilters] = useState(false);
+
+  const hasActiveFilters = Boolean(
+    filterType !== "all" ||
+    sortField !== "numericId" ||
+    sortDirection !== "asc" ||
+    searchQuery !== ""
+  );
+
+  const resetFilters = () => {
+    handleSearchChange("");
+    setFilterType("all");
+    setSortField("numericId");
+    setSortDirection("asc");
+  };
+
+  const handleToggleFilters = () => {
+    const newValue = !localShowFilters;
+    setLocalShowFilters(newValue);
+    if (onToggleFilters) {
+      onToggleFilters(newValue);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
       <button
-        onClick={onToggleFilters}
+        onClick={handleToggleFilters}
         className={`flex items-center gap-2 px-4 py-2 border rounded cursor-pointer duration-300 ${
-          showFilters
+          localShowFilters
             ? "bg-gray-100 border-gray-300"
             : "border-gray-300 hover:bg-gray-50"
         }`}
-        title={showFilters ? "Скрыть фильтры" : "Показать фильтры"}
+        title={localShowFilters ? "Скрыть фильтры" : "Показать фильтры"}
       >
         <Filter className="w-4 h-4" />
         <span className="hidden sm:inline">Фильтры</span>
@@ -24,7 +59,7 @@ export const FilterControls = ({
 
       {hasActiveFilters && (
         <button
-          onClick={onResetFilters}
+          onClick={resetFilters}
           className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer duration-300"
           title="Сбросить все фильтры"
         >
@@ -35,4 +70,3 @@ export const FilterControls = ({
     </div>
   );
 };
-

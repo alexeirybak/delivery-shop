@@ -62,12 +62,6 @@ export async function GET(request: Request) {
           totalAll: totalInDB,
           totalPages,
         },
-        filters: {
-          search,
-          filterBy,
-          sortBy,
-          sortOrder,
-        },
       },
     };
 
