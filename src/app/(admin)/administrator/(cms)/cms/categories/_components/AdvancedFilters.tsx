@@ -1,25 +1,24 @@
 import { useCategoryStore } from "@/store/categoryStore";
-import { AdvancedFiltersProps, FilterType, SortField } from "../../types";
+import { FilterType, SortField } from "../../types";
 
-export const AdvancedFilters = ({
-  filterType,
-  onFilterTypeChange,
-}: AdvancedFiltersProps) => {
-  const { 
-    sortField, 
-    sortDirection, 
-    setSortField, 
-    setSortDirection 
+export const AdvancedFilters = () => {
+  const {
+    sortField,
+    sortDirection,
+    setSortField,
+    setSortDirection,
+    filterType,
+    setFilterType,
   } = useCategoryStore();
-  
+
   const handleSortFieldChange = (field: SortField) => {
     setSortField(field);
   };
-  
+
   const handleSortDirectionChange = (direction: "asc" | "desc") => {
     setSortDirection(direction);
   };
-  
+
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -30,7 +29,7 @@ export const AdvancedFilters = ({
           </label>
           <select
             value={filterType}
-            onChange={(e) => onFilterTypeChange(e.target.value as FilterType)}
+            onChange={(e) => setFilterType(e.target.value as FilterType)}
             className="text-sm w-full border border-gray-300 rounded px-3 py-2 focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
           >
             <option value="all">Во всех полях</option>

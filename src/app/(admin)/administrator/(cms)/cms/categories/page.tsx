@@ -30,7 +30,6 @@ export default function CategoriesPage() {
     itemsPerPage,
     currentPage,
     isReordering,
-    isSearching,
     showForm,
     originalImageUrl,
     formData,
@@ -38,19 +37,14 @@ export default function CategoriesPage() {
     setItemsPerPage,
     setIsReordering,
     setIsSubmitting,
-    setIsSearching,
     updateFormField,
   } = useCategoryStore();
 
   const {
-    filterType,
-
     createCategory,
     updateCategory,
     deleteCategory,
     reorderCategories,
-    setFilterType,
-
     loadCategories,
   } = useCategories();
 
@@ -71,7 +65,6 @@ export default function CategoriesPage() {
     type: "success" | "error";
     message: string;
   } | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (notification) {
@@ -85,19 +78,6 @@ export default function CategoriesPage() {
   useEffect(() => {
     loadCategories({ page: currentPage });
   }, [currentPage, loadCategories]);
-
-  const handleSearch = async () => {
-    setIsSearching(true);
-    try {
-      await loadCategories({
-        page: 1,
-        search: searchQuery,
-      });
-      setCurrentPage(1);
-    } finally {
-      setIsSearching(false);
-    }
-  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -319,7 +299,6 @@ export default function CategoriesPage() {
   const handleItemsPerPageChange = (perPage: number) => {
     setItemsPerPage(perPage);
     setCurrentPage(1);
-    loadCategories({ page: 1 });
   };
 
   return (
@@ -369,12 +348,6 @@ export default function CategoriesPage() {
         onEdit={startEdit}
         onDelete={handleDelete}
         onReorder={handleReorder}
-        searchQuery={searchQuery}
-        filterType={filterType}
-        onSearchChange={setSearchQuery}
-        onSearch={handleSearch}
-        onFilterTypeChange={setFilterType}
-        isSearching={isSearching}
       />
 
       {totalPages > 1 && <Pagination />}

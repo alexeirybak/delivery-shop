@@ -26,19 +26,24 @@ import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
 import { useCategoryStore } from "@/store/categoryStore";
 
-// Убрали ТОЛЬКО пропсы сортировки
 export const CategoryTable = ({
   onEdit,
   onDelete,
   onReorder,
-  searchQuery,
-  filterType,
-  onSearchChange,
-  onSearch,
-  onFilterTypeChange,
-  isSearching = false,
 }: ExtendedCategoryTableProps) => {
-  const { categories, totalItems, loading } = useCategoryStore();
+  const {
+    categories,
+    totalItems,
+    loading,
+    searchQuery,
+    filterType,
+    sortField,
+    sortDirection,
+    setFilterType,
+    setSortField,
+    setSortDirection,
+    handleSearchChange,
+  } = useCategoryStore();
   const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeId, setActiveId] = useState<string | null>(null);
   const [items, setItems] = useState<Category[]>(categories);
@@ -129,20 +134,15 @@ export const CategoryTable = ({
     [tempOrder]
   );
 
-  // Сброс фильтров (НИЧЕГО НЕ МЕНЯЕМ в части фильтрации)
   const resetFilters = useCallback(() => {
-    onSearchChange("");
-    onFilterTypeChange("all");
-    // Только сортировку сбрасываем через store
-    const store = useCategoryStore.getState();
-    store.setSortField("numericId");
-    store.setSortDirection("asc");
-  }, [onSearchChange, onFilterTypeChange]);
+    handleSearchChange("");
+    setFilterType("all");
+    setSortField("numericId");
+    setSortDirection("asc");
+  }, [handleSearchChange, setFilterType, setSortField, setSortDirection]);
 
   const hasActiveFilters = Boolean(
-    filterType !== "all" || // фильтрация
-    useCategoryStore.getState().sortField !== "numericId" || // сортировка из store
-    useCategoryStore.getState().sortDirection !== "asc"
+    filterType !== "all" || sortField !== "numericId" || sortDirection !== "asc"
   );
 
   if (loading) {
@@ -163,13 +163,7 @@ export const CategoryTable = ({
       <div className="bg-white rounded shadow-sm">
         <div className="p-4 border-b border-gray-200">
           <div className="flex flex-col md:flex-row md:items-center gap-4">
-            <SearchBar
-              value={searchQuery}
-              onChange={onSearchChange}
-              onSearch={onSearch}
-              placeholder="Поиск категорий..."
-              isSearching={isSearching}
-            />
+            <SearchBar />
 
             <FilterControls
               showFilters={showFilters}
@@ -179,13 +173,7 @@ export const CategoryTable = ({
             />
           </div>
 
-          {showFilters && (
-            <AdvancedFilters
-              filterType={filterType}
-              onFilterTypeChange={onFilterTypeChange}
-              // Только пропсы фильтрации, без сортировки
-            />
-          )}
+          {showFilters && <AdvancedFilters />}
 
           <ResultsStats
             filteredCount={categories.length}
@@ -194,7 +182,6 @@ export const CategoryTable = ({
           />
         </div>
 
-        {/* TableHeader теперь без пропсов */}
         <TableHeader />
 
         <SortableContext

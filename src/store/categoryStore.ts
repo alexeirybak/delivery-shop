@@ -3,6 +3,7 @@ import {
   Category,
   CategoryFormData,
   SortField,
+  FilterType,
 } from "@/app/(admin)/administrator/(cms)/cms/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 
@@ -23,13 +24,18 @@ interface CategoryStore {
   showForm: boolean;
   originalImageUrl: string;
 
-  // Состояние сортировки (добавить)
+  // Состояние сортировки
   sortField: SortField;
   sortDirection: "asc" | "desc";
 
+  // Поиск и фильтры
+  searchQuery: string;
+  filterType: FilterType;
+
+  // Данные формы
   formData: CategoryFormData;
 
-  // Методы
+  // Базовые сеттеры
   setCategories: (categories: Category[]) => void;
   setTotalItems: (totalItems: number) => void;
   setTotalPages: (totalPages: number) => void;
@@ -46,15 +52,32 @@ interface CategoryStore {
   setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
 
+  // Работа с формой
   setFormData: (formData: CategoryFormData) => void;
   updateFormField: (field: keyof CategoryFormData, value: string) => void;
   resetFormData: () => void;
 
+  // Сортировка
   setSortField: (sortField: SortField) => void;
   setSortDirection: (sortDirection: "asc" | "desc") => void;
+
+  // Поиск и фильтры
+  setSearchQuery: (searchQuery: string) => void;
+  setFilterType: (filterType: FilterType) => void;
+
+  // Утилиты поиска
+  handleSearchChange: (value: string) => void;
+  handleSearchClear: () => void;
+
+  // ⬇️ ГЛАВНОЕ: loadCategories в store!
+  loadCategories: (params?: {
+    page?: number;
+    search?: string;
+    filterBy?: FilterType;
+  }) => Promise<void>;
 }
 
-export const useCategoryStore = create<CategoryStore>((set) => ({
+export const useCategoryStore = create<CategoryStore>((set, get) => ({
   // Начальные значения
   categories: [],
   totalItems: 0,
@@ -71,9 +94,11 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   showForm: false,
   originalImageUrl: "",
 
-  // Начальные значения сортировки
   sortField: "numericId" as SortField,
   sortDirection: "asc" as "asc" | "desc",
+
+  searchQuery: "",
+  filterType: "all" as FilterType,
 
   formData: {
     name: "",
@@ -84,7 +109,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
     imageAlt: "",
   },
 
-  // Реализации методов
+  // Базовые сеттеры
   setCategories: (categories) => set({ categories }),
   setTotalItems: (totalItems) => set({ totalItems }),
   setTotalPages: (totalPages) => set({ totalPages }),
@@ -101,6 +126,7 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
   setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
 
+  // Работа с формой
   setFormData: (formData) => set({ formData }),
   updateFormField: (field, value) =>
     set((state) => ({
@@ -123,4 +149,61 @@ export const useCategoryStore = create<CategoryStore>((set) => ({
 
   setSortField: (sortField) => set({ sortField }),
   setSortDirection: (sortDirection) => set({ sortDirection }),
+
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
+  setFilterType: (filterType) => set({ filterType }),
+
+  handleSearchChange: (value: string) => {
+    set({ searchQuery: value });
+  },
+
+  handleSearchClear: () => {
+    set({ searchQuery: "" });
+  },
+
+  loadCategories: async (params?: {
+    page?: number;
+    search?: string;
+    filterBy?: FilterType;
+  }) => {
+    const state = get();
+
+    set({ loading: true });
+    try {
+      const queryParams = new URLSearchParams();
+      const pageToLoad = params?.page ?? state.currentPage;
+      queryParams.append("page", pageToLoad.toString());
+      queryParams.append("limit", state.itemsPerPage.toString());
+
+      const search = params?.search ?? state.searchQuery;
+      const filterBy = params?.filterBy ?? state.filterType;
+
+      if (search) queryParams.append("search", search);
+      if (filterBy) queryParams.append("filterBy", filterBy);
+
+      queryParams.append("sortBy", state.sortField);
+      queryParams.append("sortOrder", state.sortDirection);
+
+      const response = await fetch(
+        `/administrator/cms/api/categories?${queryParams.toString()}`
+      );
+      const data = await response.json();
+
+      if (data.success) {
+        set({
+          categories: data.data.categories,
+          totalPages: data.data.pagination.totalPages,
+          totalItems: data.data.pagination.total,
+          totalAllItems: data.data.totalInDB,
+          currentPage: params?.page ?? state.currentPage,
+          searchQuery: params?.search ?? state.searchQuery,
+          filterType: params?.filterBy ?? state.filterType,
+        });
+      }
+    } catch (error) {
+      console.error("Ошибка загрузки категорий:", error);
+    } finally {
+      set({ loading: false });
+    }
+  },
 }));

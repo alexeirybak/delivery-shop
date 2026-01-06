@@ -1,6 +1,6 @@
 import { SortField } from "../types";
 
-export const buildSortObject =(
+export const buildSortObject = (
   sortBy: SortField,
   sortOrder: string
 ): Record<string, 1 | -1> => {
@@ -20,4 +20,4 @@ export const buildSortObject =(
     default:
       return { numericId: sortDirection };
   }
-}
+};

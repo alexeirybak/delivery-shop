@@ -1,90 +1,14 @@
-import { useState, useCallback, useEffect } from "react";
-import {
-  CategoryFormData,
-  ApiResponse,
-  FilterType,
-  UpdateCategoryData,
-} from "../types";
+import { useEffect } from "react";
+import { ApiResponse, UpdateCategoryData, CategoryFormData } from "../types";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const useCategories = () => {
-  const {
-    setCategories,
-    setTotalPages,
-    setTotalItems,
-    setTotalAllItems,
-    currentPage,
-    itemsPerPage,
-    setCurrentPage,
-    setLoading,
-    sortField,
-    sortDirection,
-  } = useCategoryStore();
+  const { loadCategories, currentPage, loading, totalAllItems } =
+    useCategoryStore();
 
-  const [filterType, setFilterType] = useState<FilterType>("all");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const loadCategories = useCallback(
-    async (params?: {
-      page?: number;
-      search?: string;
-      filterBy?: FilterType; // ОСТАВЛЯЕМ
-    }) => {
-      setLoading(true);
-      try {
-        const queryParams = new URLSearchParams();
-        const pageToLoad = params?.page ?? currentPage;
-        queryParams.append("page", pageToLoad.toString());
-        queryParams.append("limit", itemsPerPage.toString());
-
-        const search = params?.search ?? searchQuery;
-        const filterBy = params?.filterBy ?? filterType;
-
-        // Фильтрация (БЕЗ ИЗМЕНЕНИЙ)
-        if (search) queryParams.append("search", search);
-        if (filterBy) queryParams.append("filterBy", filterBy);
-
-        // Сортировка из store (ДОБАВЛЯЕМ)
-        queryParams.append("sortBy", sortField);
-        queryParams.append("sortOrder", sortDirection);
-
-        const response = await fetch(
-          `/administrator/cms/api/categories?${queryParams.toString()}`
-        );
-        const data = await response.json();
-
-        if (data.success) {
-          setCategories(data.data.categories);
-          setTotalPages(data.data.pagination.totalPages);
-          setTotalItems(data.data.pagination.total);
-          setTotalAllItems(data.data.totalInDB);
-
-          if (params?.page !== undefined && params.page !== currentPage) {
-            setCurrentPage(params.page);
-          }
-          if (params?.search !== undefined) setSearchQuery(params.search);
-        }
-      } catch (error) {
-        console.error("Ошибка загрузки категорий:", error);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [
-      setLoading,
-      currentPage,
-      itemsPerPage,
-      searchQuery,
-      filterType,
-      sortField, // из store
-      sortDirection, // из store
-      setCategories,
-      setTotalPages,
-      setTotalItems,
-      setTotalAllItems,
-      setCurrentPage,
-    ]
-  );
+  useEffect(() => {
+    loadCategories({ page: currentPage });
+  }, [currentPage, loadCategories]);
 
   const createCategory = async (
     categoryData: Omit<CategoryFormData, "keywords"> & {
@@ -105,7 +29,7 @@ export const useCategories = () => {
       const data = await response.json();
 
       if (response.ok) {
-        await loadCategories();
+        await loadCategories({ page: 1 });
         return {
           success: true,
           message: data.message || "Категория успешно создана",
@@ -119,7 +43,7 @@ export const useCategories = () => {
         };
       }
     } catch (error) {
-      console.error("🌐 [useCategories] Ошибка сети:", error);
+      console.error("Ошибка сети:", error);
       return {
         success: false,
         message:
@@ -146,7 +70,7 @@ export const useCategories = () => {
       const data = await response.json();
 
       if (response.ok) {
-        await loadCategories();
+        await loadCategories({ page: currentPage });
         return {
           success: true,
           message: data.message,
@@ -180,7 +104,7 @@ export const useCategories = () => {
       const data = await response.json();
 
       if (response.ok) {
-        await loadCategories();
+        await loadCategories({ page: currentPage });
         return {
           success: true,
           message: data.message,
@@ -247,17 +171,13 @@ export const useCategories = () => {
     }
   };
 
-  useEffect(() => {
-    loadCategories();
-  }, [loadCategories]);
-
   return {
-    filterType,
+    loading,
+    totalAllItems,
     createCategory,
     updateCategory,
     deleteCategory,
     reorderCategories,
-    setFilterType,
     loadCategories,
   };
 };
