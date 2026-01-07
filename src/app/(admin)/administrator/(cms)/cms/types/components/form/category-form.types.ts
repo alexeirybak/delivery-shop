@@ -1,4 +1,4 @@
-import { FormField } from "./form-fields.types";
+import { FormField } from "../..";
 
 export interface CharCount {
   name: number;

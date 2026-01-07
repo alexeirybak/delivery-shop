@@ -3,15 +3,29 @@ import { useCategoryStore } from "@/store/categoryStore";
 import { SortField } from "../../types";
 
 export const TableHeader = () => {
-  const { sortField, sortDirection, setSortField, setSortDirection } = useCategoryStore();
+  const {
+    sortField,
+    sortDirection,
+    setSortField,
+    setSortDirection,
+    loadCategories,
+    currentPage,
+    searchQuery,
+    filterType,
+  } = useCategoryStore();
 
-  const handleSort = (field: SortField) => {
+  const handleSort = async (field: SortField) => {
     if (sortField === field) {
       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
     } else {
       setSortField(field);
       setSortDirection("asc");
     }
+    await loadCategories({
+      page: currentPage,
+      search: searchQuery,
+      filterBy: filterType,
+    });
   };
 
   const renderSortIcon = (field: SortField) => {

@@ -1,37 +1,30 @@
-import React, { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { MobileCategoryCardProps } from "../../types";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
+import { useState } from "react";
 
-export const MobileCategoryCard: React.FC<
-  Omit<MobileCategoryCardProps, "isExpanded" | "onToggle">
-> = ({
+export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
   category,
   displayNumericId,
   onEdit,
   onDelete,
-  dragHandleProps,
-  style,
-  isDragging,
-  isActiveDragging,
+  isDragging = false,
 }) => {
-  // Добавляем локальное состояние
   const [isExpanded, setIsExpanded] = useState(false);
-
   return (
     <div
-      style={style}
-      className={`p-4 hover:bg-gray-50 relative cursor-pointer ${
-        isDragging ? "bg-gray-100 shadow-lg border border-green-300" : ""
-      } ${isActiveDragging ? "ring-2 ring-green-500" : ""}`}
+      className={`p-4 hover:bg-gray-50 relative cursor-pointer transition-all duration-200 ${
+        isDragging
+          ? "opacity-70 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400"
+          : ""
+      }`}
       onClick={() => setIsExpanded(!isExpanded)}
     >
       <div className="flex justify-between items-start">
         <div className="flex-1 min-w-0 flex items-start gap-3">
-          <DragHandle {...dragHandleProps} />
-
+          <DragHandle />
           <MobileCategoryHeader
             category={category}
             displayNumericId={displayNumericId}

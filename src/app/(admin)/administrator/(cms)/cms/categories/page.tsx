@@ -299,6 +299,7 @@ export default function CategoriesPage() {
   const handleItemsPerPageChange = (perPage: number) => {
     setItemsPerPage(perPage);
     setCurrentPage(1);
+    loadCategories({ page: 1 });
   };
 
   return (

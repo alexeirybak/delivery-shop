@@ -16,15 +16,16 @@ export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
     setSortField,
     setSortDirection,
     handleSearchChange,
+    loadCategories,
   } = useCategoryStore();
 
   const [localShowFilters, setLocalShowFilters] = useState(false);
 
   const hasActiveFilters = Boolean(
     filterType !== "all" ||
-    sortField !== "numericId" ||
-    sortDirection !== "asc" ||
-    searchQuery !== ""
+      sortField !== "numericId" ||
+      sortDirection !== "asc" ||
+      searchQuery !== ""
   );
 
   const resetFilters = () => {
@@ -32,6 +33,7 @@ export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
     setFilterType("all");
     setSortField("numericId");
     setSortDirection("asc");
+    loadCategories({ page: 1, search: "" });
   };
 
   const handleToggleFilters = () => {

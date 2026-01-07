@@ -24,6 +24,11 @@ interface CategoryStore {
   showForm: boolean;
   originalImageUrl: string;
 
+  // Drag & Drop состояния
+  draggedId: string | null;
+  dragOverId: string | null;
+  tempOrder: Map<string, number>;
+
   // Состояние сортировки
   sortField: SortField;
   sortDirection: "asc" | "desc";
@@ -51,6 +56,14 @@ interface CategoryStore {
   setIsUploading: (isUploading: boolean) => void;
   setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
+
+  // Drag & Drop сеттеры
+  setDraggedId: (draggedId: string | null) => void;
+  setDragOverId: (dragOverId: string | null) => void;
+  setTempOrder: (tempOrder: Map<string, number>) => void;
+  updateTempOrder: (categoryId: string, order: number) => void;
+  clearTempOrder: () => void;
+  resetDragState: () => void;
 
   // Работа с формой
   setFormData: (formData: CategoryFormData) => void;
@@ -94,6 +107,13 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   showForm: false,
   originalImageUrl: "",
 
+  // Drag & Drop начальные значения
+  draggedId: null,
+  dragOverId: null,
+  tempOrder: new Map(),
+  isDragging: false, // Добавляем
+  isActiveDragging: null, // Добавляем
+
   sortField: "numericId" as SortField,
   sortDirection: "asc" as "asc" | "desc",
 
@@ -125,6 +145,23 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   setIsUploading: (isUploading) => set({ isUploading }),
   setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
+
+  // Drag & Drop сеттеры
+  setDraggedId: (draggedId) => set({ draggedId }),
+  setDragOverId: (dragOverId) => set({ dragOverId }),
+  setTempOrder: (tempOrder) => set({ tempOrder }),
+  updateTempOrder: (categoryId, order) => {
+    const newTempOrder = new Map(get().tempOrder);
+    newTempOrder.set(categoryId, order);
+    set({ tempOrder: newTempOrder });
+  },
+  clearTempOrder: () => set({ tempOrder: new Map() }),
+  resetDragState: () =>
+    set({
+      draggedId: null,
+      dragOverId: null,
+      tempOrder: new Map(),
+    }),
 
   // Работа с формой
   setFormData: (formData) => set({ formData }),
@@ -188,7 +225,6 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
         `/administrator/cms/api/categories?${queryParams.toString()}`
       );
       const data = await response.json();
-      console.log(data);
 
       if (data.success) {
         set({
@@ -199,6 +235,12 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
           currentPage: params?.page ?? state.currentPage,
           searchQuery: params?.search ?? state.searchQuery,
           filterType: params?.filterBy ?? state.filterType,
+        });
+        // Сбрасываем drag & drop состояния при новой загрузке
+        set({
+          draggedId: null,
+          dragOverId: null,
+          tempOrder: new Map(),
         });
       }
     } catch (error) {

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
-import { SortableItemProps, Transform } from "../../types";
+import { SortableItemProps } from "../../types";
 import { MobileCategoryCard } from "./MobileCategoryCard";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const SortableItem = ({
   id,
@@ -11,84 +10,40 @@ export const SortableItem = ({
   displayNumericId,
   onEdit,
   onDelete,
-  activeId,
 }: SortableItemProps) => {
   const [isMobileView, setIsMobileView] = useState(false);
+  const { draggedId } = useCategoryStore();
 
   useEffect(() => {
     const checkMobile = () => {
       setIsMobileView(window.innerWidth < 1024);
     };
-
     checkMobile();
     window.addEventListener("resize", checkMobile);
-
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-    setActivatorNodeRef,
-  } = useSortable({
-    id,
-    animateLayoutChanges: () => false,
-  });
+  const isBeingDragged = draggedId === id; // Правильно вычисляем
 
-  const style = {
-    transform: CSS.Transform.toString(transform as Transform),
-    transition: transition as string,
-    opacity: isDragging ? 0.4 : 1,
-  };
-
-  const isActiveDragging = activeId === id;
-
-  const handleDragHandleClick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    e.preventDefault();
-  };
-
-  const dragHandleProps = {
-    ref: setActivatorNodeRef,
-    attributes,
-    listeners: listeners || undefined,
-    onClick: handleDragHandleClick,
-  };
-
-  // Используем локальное состояние isMobileView
   if (isMobileView) {
     return (
-      <div ref={setNodeRef}>
-        <MobileCategoryCard
-          category={category}
-          displayNumericId={displayNumericId}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          dragHandleProps={dragHandleProps}
-          style={style}
-          isDragging={isDragging}
-          isActiveDragging={isActiveDragging}
-        />
-      </div>
-    );
-  }
-
-  return (
-    <div ref={setNodeRef}>
-      <DesktopCategoryRow
+      <MobileCategoryCard
         category={category}
         displayNumericId={displayNumericId}
         onEdit={onEdit}
         onDelete={onDelete}
-        dragHandleProps={dragHandleProps}
-        style={style}
-        isDragging={isDragging}
-        isActiveDragging={isActiveDragging}
+        isDragging={isBeingDragged} // Передаем как пропс
       />
-    </div>
+    );
+  }
+
+  return (
+    <DesktopCategoryRow
+      category={category}
+      displayNumericId={displayNumericId}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      isDragging={isBeingDragged} // Передаем как пропс
+    />
   );
 };
