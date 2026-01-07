@@ -201,7 +201,7 @@ const CategoriesPage = () => {
         keywords: getKeywordsArray(),
       };
 
-      const result = await updateCategory(updateData);
+      const result = await updateCategory(editingId, updateData);
 
       if (result.success) {
         setNotification({
@@ -279,6 +279,9 @@ const CategoriesPage = () => {
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
         />
+        <div className="text-sm text-gray-500 mt-1">
+          Текущие параметры: страница {currentPage}, элементов: {itemsPerPage}
+        </div>
       </div>
       <WarningAlert />
       {showForm && (

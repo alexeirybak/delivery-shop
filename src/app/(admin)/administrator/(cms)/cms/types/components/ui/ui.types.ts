@@ -11,3 +11,7 @@ export interface NotificationProps {
   message: string;
   onClose: () => void;
 }
+
+export interface FilterControlsProps {
+  onToggleFilters?: (show: boolean) => void;
+}

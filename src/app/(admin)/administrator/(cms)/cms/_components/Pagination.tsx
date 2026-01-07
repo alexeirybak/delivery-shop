@@ -53,7 +53,7 @@ export const Pagination = () => {
 
   return (
     <div className="px-6 py-4 border-t border-gray-200">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center gap-3">
         <div className="text-sm text-gray-700">
           Показано {startItem}-{endItem} из {totalItems} элементов
           <span className="mx-2">•</span>

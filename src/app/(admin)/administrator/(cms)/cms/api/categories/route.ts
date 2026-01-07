@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { Category } from "../../types";
+import { Category, FilterType, SortField } from "../../types";
 import { CONFIG_BLOG } from "../../CONFIG_BLOG";
+import { buildSortObject } from "../../utils/buildSortObject";
+import { buildFilterQuery } from "../../utils/buildFilterQuery";
 
 export async function GET(request: Request) {
   try {
@@ -13,15 +15,25 @@ export async function GET(request: Request) {
     const limit = parseInt(
       searchParams.get("limit") || CONFIG_BLOG.ITEMS_PER_PAGE.toString()
     );
+    const sortBy: SortField = (searchParams.get("sortBy") ||
+      "numericId") as SortField;
+    const sortOrder = searchParams.get("sortOrder") || "asc";
+    const search = searchParams.get("search") || "";
+    const filterBy: FilterType = (searchParams.get("filterBy") ||
+      "all") as FilterType;
 
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, Math.min(limit, 100));
+
+    const sortObject = buildSortObject(sortBy, sortOrder);
+    const filterQuery = buildFilterQuery(search, filterBy);
 
     const skip = (validPage - 1) * validLimit;
 
     const categories = await db
       .collection<Category>("article-category")
-      .find()
+      .find(filterQuery)
+      .sort(sortObject)
       .skip(skip)
       .limit(validLimit)
       .toArray();
@@ -30,7 +42,11 @@ export async function GET(request: Request) {
       .collection<Category>("article-category")
       .countDocuments({});
 
-    const totalPages = Math.ceil(totalInDB / validLimit); // !!!
+    const totalFiltered = await db
+      .collection<Category>("article-category")
+      .countDocuments(filterQuery);
+
+    const totalPages = Math.ceil(totalFiltered / validLimit);
 
     const response = {
       success: true,
@@ -43,7 +59,7 @@ export async function GET(request: Request) {
         pagination: {
           page: validPage,
           limit: validLimit,
-          total: totalInDB, // !!!!
+          total: totalFiltered,
           totalAll: totalInDB,
           totalPages,
         },
