@@ -3,7 +3,7 @@ import Articles from "./(articles)/Articles";
 import Maps from "@/components/Maps";
 import NewProducts from "./(products)/NewProducts";
 import Purchases from "./(user)/Purchases";
-import Slider from "@/components/slider/Slider";
+import Slider from "@/components/Slider/Slider";
 import SpecialOffers from "@/components/SpecialOffers";
 import { Suspense } from "react";
 import { Loader } from "@/components/Loader";
@@ -22,7 +22,7 @@ export default function Home() {
           { component: <Purchases />, text: "Ваших покупок" },
           { component: <SpecialOffers />, text: "специальных предложений" },
           { component: <Maps />, text: "карт" },
-          // { component: <Articles />, text: "статей" },
+          { component: <Articles />, text: "статей" },
         ].map((item, index) => (
           <Suspense key={index} fallback={<Loader text={item.text} />}>
             {item.component}

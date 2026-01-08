@@ -1,5 +1,5 @@
 import { Category, ExtendedCategoryTableProps } from "../../types";
-import { useState, useEffect, useCallback } from "react";
+import { useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { FilterControls } from "./FilterControls";
 import { AdvancedFilters } from "./AdvancedFilters";
@@ -20,7 +20,6 @@ export const CategoryTable = ({
     searchQuery,
     draggedId,
     dragOverId,
-    tempOrder,
     setDraggedId,
     setDragOverId,
     setTempOrder,
@@ -28,11 +27,6 @@ export const CategoryTable = ({
   } = useCategoryStore();
 
   const [showFilters, setShowFilters] = useState(false);
-  const [items, setItems] = useState<Category[]>(categories);
-
-  useEffect(() => {
-    setItems(categories);
-  }, [categories]);
 
   // Обработчики drag & drop
   const handleDragStart = (id: string) => {
@@ -50,29 +44,28 @@ export const CategoryTable = ({
     e.preventDefault();
 
     if (draggedId && draggedId !== droppedId) {
-      const oldIndex = items.findIndex(
+      const oldIndex = categories.findIndex(
         (item) => item._id.toString() === draggedId
       );
-      const newIndex = items.findIndex(
+      const newIndex = categories.findIndex(
         (item) => item._id.toString() === droppedId
       );
 
       if (oldIndex !== -1 && newIndex !== -1) {
-        const newItems = [...items];
+        const newItems = [...categories];
         const [movedItem] = newItems.splice(oldIndex, 1);
         newItems.splice(newIndex, 0, movedItem);
 
-        // Обновляем временный порядок в store
+   
         const newTempOrder = new Map();
         newItems.forEach((item, index) => {
           newTempOrder.set(item._id.toString(), index + 1);
         });
 
-        setItems(newItems);
         setTempOrder(newTempOrder);
-        setCategories(newItems); // Обновляем в store
+        setCategories(newItems); 
 
-        // Сохраняем порядок
+
         if (onReorder) {
           const reorderedForSave = newItems.map((item, index) => ({
             ...item,
@@ -87,18 +80,9 @@ export const CategoryTable = ({
     setDragOverId(null);
   };
 
-  const handleDragEnd = () => {
-    setDraggedId(null);
-    setDragOverId(null);
+  const getDisplayNumericId = (category: Category): number | null => {
+    return category.numericId;
   };
-
-  const getDisplayNumericId = useCallback(
-    (category: Category): number | null => {
-      const tempId = tempOrder.get(category._id.toString());
-      return tempId !== undefined ? tempId : category.numericId;
-    },
-    [tempOrder]
-  );
 
   if (loading) {
     return (
@@ -122,10 +106,10 @@ export const CategoryTable = ({
       <TableHeader />
 
       <div className="divide-y divide-gray-200">
-        {items.length === 0 ? (
-          <EmptyState searchQuery={searchQuery} />
+        {categories.length === 0 ? (
+          <EmptyState searchQuery={searchQuery} /> ///////////
         ) : (
-          items.map((category) => {
+          categories.map((category) => {
             const categoryId = category._id.toString();
             const isDragOver = dragOverId === categoryId;
 
@@ -136,7 +120,6 @@ export const CategoryTable = ({
                 onDragStart={() => handleDragStart(categoryId)}
                 onDragOver={(e) => handleDragOver(e, categoryId)}
                 onDrop={(e) => handleDrop(e, categoryId)}
-                onDragEnd={handleDragEnd}
                 className={`${isDragOver ? "bg-blue-50" : ""}`}
               >
                 <SortableItem

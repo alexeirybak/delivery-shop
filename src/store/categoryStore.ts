@@ -61,9 +61,6 @@ interface CategoryStore {
   setDraggedId: (draggedId: string | null) => void;
   setDragOverId: (dragOverId: string | null) => void;
   setTempOrder: (tempOrder: Map<string, number>) => void;
-  updateTempOrder: (categoryId: string, order: number) => void;
-  clearTempOrder: () => void;
-  resetDragState: () => void;
 
   // Работа с формой
   setFormData: (formData: CategoryFormData) => void;
@@ -150,18 +147,6 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   setDraggedId: (draggedId) => set({ draggedId }),
   setDragOverId: (dragOverId) => set({ dragOverId }),
   setTempOrder: (tempOrder) => set({ tempOrder }),
-  updateTempOrder: (categoryId, order) => {
-    const newTempOrder = new Map(get().tempOrder);
-    newTempOrder.set(categoryId, order);
-    set({ tempOrder: newTempOrder });
-  },
-  clearTempOrder: () => set({ tempOrder: new Map() }),
-  resetDragState: () =>
-    set({
-      draggedId: null,
-      dragOverId: null,
-      tempOrder: new Map(),
-    }),
 
   // Работа с формой
   setFormData: (formData) => set({ formData }),

@@ -15,10 +15,10 @@ export const MobileCategoryCard: React.FC<MobileCategoryCardProps> = ({
   const [isExpanded, setIsExpanded] = useState(false);
   return (
     <div
-      className={`p-4 hover:bg-gray-50 relative cursor-pointer transition-all duration-200 ${
+      className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
         isDragging
-          ? "opacity-70 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400"
-          : ""
+          ? "opacity-60 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400 transform scale-[0.995]"
+          : "hover:shadow-sm"
       }`}
       onClick={() => setIsExpanded(!isExpanded)}
     >

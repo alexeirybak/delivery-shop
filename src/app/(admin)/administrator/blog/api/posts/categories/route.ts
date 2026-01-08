@@ -11,7 +11,6 @@ interface ArticleCategory {
   updatedAt: string;
 }
 
-// GET - Получение всех категорий
 export async function GET() {
   try {
     const db = await getDB();
@@ -37,7 +36,6 @@ export async function GET() {
   }
 }
 
-// POST - Создание новой категории
 export async function POST(request: Request) {
   try {
     const db = await getDB();

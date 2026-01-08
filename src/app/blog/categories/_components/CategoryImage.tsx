@@ -1,0 +1,49 @@
+import Image from "next/image";
+import { getImagePath } from "../utils/imageUtils";
+
+interface CategoryImageProps {
+  hasImage: boolean | string;
+  image: string;
+  imageAlt: string;
+  gradientClass: string;
+  name: string;
+  priority: boolean;
+}
+
+export default function CategoryImage({
+  hasImage,
+  image,
+  imageAlt,
+  gradientClass,
+  name,
+  priority,
+}: CategoryImageProps) {
+  const imagePath = getImagePath(hasImage ? image : "");
+
+  return (
+    <div className="relative w-full h-48">
+      {hasImage ? (
+        <Image
+          src={imagePath}
+          alt={imageAlt}
+          fill
+          className="object-cover"
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          priority={priority}
+          quality={85}
+          loading={priority ? "eager" : "lazy"}
+        />
+      ) : (
+        <div
+          className={`w-full h-full flex items-center justify-center bg-linear-to-br ${gradientClass} rounded-t`}
+        >
+          <div className="text-white text-center p-4">
+            <div className="text-white text-xl font-semibold leading-tight px-4">
+              {name}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

@@ -3,9 +3,9 @@
 import { Loader, Loader2 } from "lucide-react";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import Header from "../_components/Header";
-import SEORecommendations from "../_components/SEORecommendations";
 import { commonSeoRecommendations } from "../utils/recommendations";
 import { SEOForm } from "./_components/SEOForm";
+import { SEORecommendations } from "../_components/SEORecommendations";
 
 const SemanticCorePage = () => {
   const { settings, loading, saving, formData, handleSave, setFormData } =
