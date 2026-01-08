@@ -16,6 +16,8 @@ import { HeaderActions } from "./_components/HeaderActions";
 import { useCategoryStore } from "@/store/categoryStore";
 import { Pagination } from "../_components/Pagination";
 import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
+import { Category } from "../types";
+import { ReorderStatus } from "./_components/ReorderStatus";
 
 const CategoriesPage = () => {
   const [notification, setNotification] = useState<{
@@ -38,10 +40,16 @@ const CategoriesPage = () => {
     itemsPerPage,
     setItemsPerPage,
     setCurrentPage,
+    setIsReordering,
   } = useCategoryStore();
 
-  const { createCategory, deleteCategory, updateCategory, loadCategories } =
-    useCategories();
+  const {
+    createCategory,
+    deleteCategory,
+    updateCategory,
+    loadCategories,
+    reorderCategories,
+  } = useCategories();
 
   const {
     generateSlug,
@@ -254,6 +262,39 @@ const CategoriesPage = () => {
     }
   };
 
+  const handleReorder = async (reorderedCategories: Category[]) => {
+    setIsReordering(true);
+
+    try {
+      const dataForApi = reorderedCategories.map((category) => ({
+        _id: category._id.toString(),
+        numericId: category.numericId || 0,
+      }));
+
+      const result = await reorderCategories(dataForApi);
+
+      if (result.success) {
+        setNotification({
+          type: "success",
+          message: "Порядок категорий успешно обновлен",
+        });
+      } else {
+        setNotification({
+          type: "error",
+          message: result.message || "Ошибка обновления порядка",
+        });
+      }
+    } catch (error) {
+      console.error("Ошибка:", error);
+      setNotification({
+        type: "error",
+        message: "Произошла ошибка при обновлении порядка",
+      });
+    } finally {
+      setIsReordering(false);
+    }
+  };
+
   const handleItemsPerPageChange = (perPage: number) => {
     setItemsPerPage(perPage);
     setCurrentPage(1);
@@ -283,6 +324,7 @@ const CategoriesPage = () => {
           Текущие параметры: страница {currentPage}, элементов: {itemsPerPage}
         </div>
       </div>
+      <ReorderStatus />
       <WarningAlert />
       {showForm && (
         <CategoryForm
@@ -296,7 +338,11 @@ const CategoriesPage = () => {
         />
       )}
 
-      <CategoryTable onDelete={handleDelete} onEdit={startEdit} />
+      <CategoryTable
+        onDelete={handleDelete}
+        onEdit={startEdit}
+        onReorder={handleReorder}
+      />
       {totalPages > 1 && <Pagination />}
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>

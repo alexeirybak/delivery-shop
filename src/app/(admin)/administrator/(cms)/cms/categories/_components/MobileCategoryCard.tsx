@@ -10,11 +10,16 @@ export const MobileCategoryCard = ({
   displayNumericId,
   onDelete,
   onEdit,
+  isDragging = false,
 }: SortableItemProps) => {
   const [isExpanded, setIsExpended] = useState(false);
   return (
     <div
-      className={`p-4 hover:bg-gray-50 relative cursor-pointer`}
+      className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
+        isDragging
+          ? "opacity-60 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400 transform scale-[0.995]"
+          : "hover:shadow-sm"
+      }`}
       onClick={() => setIsExpended(!isExpanded)}
     >
       <div className="flex justify-between items-start">
