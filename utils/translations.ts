@@ -33,6 +33,7 @@ export const TRANSLATIONS: Record<string, string> = {
   "admin-orders": "Заказы",
   "cms": "Блог",
   "semantic-core": "Семантическое ядро",
-  "categories": "Категории"
+  "categories": "Категории",
+  "blog": "Блог"
 };
 

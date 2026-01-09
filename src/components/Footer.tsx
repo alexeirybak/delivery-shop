@@ -100,7 +100,7 @@ const Footer = () => {
               <Link href="#">Вакансии</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Статьи</Link>
+              <Link href="/blog">Статьи</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
               Политика обработки персональных данных

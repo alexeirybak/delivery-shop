@@ -38,33 +38,28 @@ export async function POST(request: NextRequest) {
     if (originalExtension === "png") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill" для растягивания
+          withoutEnlargement: false, // Разрешаем увеличение если нужно
         })
         .png({ quality: 80 })
         .toBuffer();
     } else if (originalExtension === "gif") {
       optimizedBuffer = await sharp(buffer, { animated: true })
         .resize(800, 450, {
-          fit: "contain",
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill"
+          withoutEnlargement: false,
         })
         .gif()
         .toBuffer();
     } else {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
-          background: { r: 255, g: 255, b: 255, alpha: 1 },
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill"
+          withoutEnlargement: false,
         })
         .jpeg({ quality: 80 })
         .toBuffer();
     }
-
     const publicDir = path.join(process.cwd(), "public", "blogCategories");
     await fs.mkdir(publicDir, { recursive: true });
 
@@ -87,6 +82,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
