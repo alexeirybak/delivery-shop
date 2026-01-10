@@ -1,42 +1,34 @@
-import { useCategories } from "../hooks/useCategories";
+import { useCategoryStore } from "@/store/categoryStore";
 import { useSiteSettings } from "../hooks/useSiteSettings";
 import { useStatsValues } from "../hooks/useStatsValues";
-import stats from "../utils/stats";
+import { getStatValue } from "../utils/getStatValue";
+import { stats } from "../utils/stats";
 import { StatItem } from "./StatItem";
 import { StatsSkeleton } from "./StatsSkeleton";
 
 export const StatsSection = () => {
   const { categoriesCount, keywordsCount } = useStatsValues();
-  const { loading: categoriesLoading } = useCategories();
   const { loading: settingsLoading } = useSiteSettings();
-  
-  const loading = categoriesLoading || settingsLoading;
+  const { loading: categoriesLoading } = useCategoryStore();
 
-  const getStatValue = (statTitle: string) => {
-    switch(statTitle) {
-      case 'Категорий': return categoriesCount.toString();
-      case 'Ключевых слов': return keywordsCount.toString();
-      case 'Опубликовано': return "0";
-      case 'Просмотров': return "0";
-      default: return "0";
-    }
-  };
+  const loading = settingsLoading || categoriesLoading;
 
-  if (loading) {
-    return <StatsSkeleton />;
-  }
-
+  if (loading) return <StatsSkeleton />;
   return (
     <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-6">
         Общая статистика
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {stats.map((stat) => (
+        {stats.map((stat, index) => (
           <StatItem
-            key={stat.title}
+            key={index}
             stat={stat}
-            statValue={getStatValue(stat.title)}
+            statValue={getStatValue(
+              stat.title,
+              categoriesCount.toString(),
+              keywordsCount.toString()
+            )}
           />
         ))}
       </div>

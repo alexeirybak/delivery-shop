@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SEO_LIMITS } from "../utils/seo-limits";
+import { SEO_LIMITS } from "../utils/SEO_LIMITS";
 import { CategoryFormData } from "../types";
 
 export const useCategoryFormValidation = () => {
@@ -8,7 +8,7 @@ export const useCategoryFormValidation = () => {
   const validateForm = (formData: CategoryFormData): boolean => {
     const newErrors: Record<string, string> = {};
 
-    // Валидация названия (только длина)
+    // Валидация названия
     if (
       formData.name.length < SEO_LIMITS.name.min ||
       formData.name.length > SEO_LIMITS.name.max
@@ -16,7 +16,7 @@ export const useCategoryFormValidation = () => {
       newErrors.name = SEO_LIMITS.name.message;
     }
 
-    // Валидация slug (ТОЛЬКО ДЛИНА, без проверки символов)
+    // Валидация slug
     if (
       formData.slug.length < SEO_LIMITS.slug.min ||
       formData.slug.length > SEO_LIMITS.slug.max

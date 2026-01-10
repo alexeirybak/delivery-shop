@@ -1,14 +1,16 @@
 import React from "react";
 import { MobileExpandableContentProps } from "../../types";
 
-export const MobileExpandableContent: React.FC<
-  MobileExpandableContentProps
-> = ({ category, onEdit, onDelete }) => {
+export const MobileExpandableContent = ({
+  category,
+  onDelete,
+  onEdit,
+}: MobileExpandableContentProps) => {
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
+    window.scrollTo({ top: 0, behavior: "smooth" });
     onEdit(category);
   };
-
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     onDelete(category._id.toString());

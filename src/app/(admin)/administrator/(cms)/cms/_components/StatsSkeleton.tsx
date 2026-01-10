@@ -1,4 +1,4 @@
-import stats from "../utils/stats";
+import { stats } from "../utils/stats";
 
 export const StatsSkeleton = () => (
   <div className="bg-white rounded-xl shadow-md border border-gray-200 p-6">

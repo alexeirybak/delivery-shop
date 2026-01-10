@@ -1,8 +1,4 @@
-import { SiteSettings } from "../../types/siteSettings";
-
-interface CurrentSettingsProps {
-  settings: SiteSettings;
-}
+import { CurrentSettingsProps } from "../../types/site-settings";
 
 export const CurrentSettings = ({ settings }: CurrentSettingsProps) => {
   return (
@@ -25,5 +21,4 @@ export const CurrentSettings = ({ settings }: CurrentSettingsProps) => {
       </div>
     </div>
   );
-};
-
+}

@@ -1,24 +1,17 @@
-import { ReactNode } from "react";
-
-export interface NotificationProps {
-  type: "success" | "error";
-  message: string;
-  onClose: () => void;
-  children?: ReactNode;
+export interface SubmitSectionProps {
+  onCancel: () => void;
 }
 
 export interface HeaderActionsProps {
   onCreate: () => void;
 }
 
-export interface SubmitSectionProps {
-  onCancel: () => void;
+export interface NotificationProps {
+  type: "success" | "error";
+  message: string;
+  onClose: () => void;
 }
 
-export interface PaginationProps {
-  onPageChangeAction: (page: number) => void;
-  itemName?: string; 
+export interface FilterControlsProps {
+  onToggleFilters?: (show: boolean) => void;
 }
-
-
-

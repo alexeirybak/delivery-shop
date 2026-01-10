@@ -1,122 +1,85 @@
-import { create } from "zustand";
+import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 import {
   Category,
   CategoryFormData,
-  SortField,
   FilterType,
+  SortField,
 } from "@/app/(admin)/administrator/(cms)/cms/types";
-import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
+import { SortDirection } from "mongodb";
+import { create } from "zustand";
 
 interface CategoryStore {
-  // Данные
   categories: Category[];
   totalItems: number;
   totalPages: number;
   totalAllItems: number;
   editingId: string | null;
-  currentPage: number;
-  itemsPerPage: number;
   loading: boolean;
-  isReordering: boolean;
   isSubmitting: boolean;
-  isSearching: boolean;
   isUploading: boolean;
+  isReordering: boolean;
   showForm: boolean;
   originalImageUrl: string;
+  formData: CategoryFormData;
+  currentPage: number;
+  itemsPerPage: number;
+  sortField: SortField;
+  sortDirection: SortDirection;
+  searchQuery: string;
+  filterType: FilterType;
 
-  // Drag & Drop состояния
   draggedId: string | null;
   dragOverId: string | null;
   tempOrder: Map<string, number>;
 
-  // Состояние сортировки
-  sortField: SortField;
-  sortDirection: "asc" | "desc";
-
-  // Поиск и фильтры
-  searchQuery: string;
-  filterType: FilterType;
-
-  // Данные формы
-  formData: CategoryFormData;
-
-  // Базовые сеттеры
   setCategories: (categories: Category[]) => void;
   setTotalItems: (totalItems: number) => void;
   setTotalPages: (totalPages: number) => void;
   setTotalAllItems: (totalAllItems: number) => void;
   setEditingId: (editingId: string | null) => void;
   clearEditingId: () => void;
-  setCurrentPage: (currentPage: number) => void;
-  setItemsPerPage: (itemsPerPage: number) => void;
   setLoading: (loading: boolean) => void;
-  setIsReordering: (isReordering: boolean) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
-  setIsSearching: (isSearching: boolean) => void;
   setIsUploading: (isUploading: boolean) => void;
+  setIsReordering: (isReordering: boolean) => void;
   setShowForm: (showForm: boolean) => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
-
-  // Drag & Drop сеттеры
-  setDraggedId: (draggedId: string | null) => void;
-  setDragOverId: (dragOverId: string | null) => void;
-  setTempOrder: (tempOrder: Map<string, number>) => void;
-
-  // Работа с формой
   setFormData: (formData: CategoryFormData) => void;
   updateFormField: (field: keyof CategoryFormData, value: string) => void;
   resetFormData: () => void;
-
-  // Сортировка
+  setCurrentPage: (currentPage: number) => void;
+  setItemsPerPage: (itemsPerPage: number) => void;
   setSortField: (sortField: SortField) => void;
-  setSortDirection: (sortDirection: "asc" | "desc") => void;
-
-  // Поиск и фильтры
-  setSearchQuery: (searchQuery: string) => void;
-  setFilterType: (filterType: FilterType) => void;
-
-  // Утилиты поиска
-  handleSearchChange: (value: string) => void;
-  handleSearchClear: () => void;
-
-  // ⬇️ ГЛАВНОЕ: loadCategories в store!
+  setSortDirection: (sortDirection: SortDirection) => void;
   loadCategories: (params?: {
     page?: number;
     search?: string;
-    filterBy?: FilterType;
+    filterType?: FilterType;
   }) => Promise<void>;
+  setSearchQuery: (searchQuery: string) => void;
+  setFilterType: (filterType: FilterType) => void;
+  handleSearchChange: (value: string) => void;
+  handleSearchClear: () => void;
+
+  setDraggedId: (draggedId: string | null) => void;
+  setDragOverId: (dragOverId: string | null) => void;
+  setTempOrder: (tempOrder: Map<string, number>) => void;
 }
 
 export const useCategoryStore = create<CategoryStore>((set, get) => ({
-  // Начальные значения
   categories: [],
-  totalItems: 0,
-  totalPages: 0,
   totalAllItems: 0,
   editingId: null,
-  currentPage: 1,
-  itemsPerPage: CONFIG_BLOG.ITEMS_PER_PAGE,
+  totalItems: 0,
+  totalPages: 0,
   loading: false,
-  isReordering: false,
   isSubmitting: false,
-  isSearching: false,
   isUploading: false,
+  isReordering: false,
   showForm: false,
   originalImageUrl: "",
-
-  // Drag & Drop начальные значения
-  draggedId: null,
-  dragOverId: null,
-  tempOrder: new Map(),
-  isDragging: false, // Добавляем
-  isActiveDragging: null, // Добавляем
-
-  sortField: "numericId" as SortField,
-  sortDirection: "asc" as "asc" | "desc",
-
-  searchQuery: "",
-  filterType: "all" as FilterType,
-
+  currentPage: 1,
+  itemsPerPage: CONFIG_BLOG.ITEMS_PER_PAGE,
   formData: {
     name: "",
     slug: "",
@@ -125,31 +88,29 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     image: "",
     imageAlt: "",
   },
+  sortField: "numericId" as SortField,
+  sortDirection: "asc" as SortDirection,
+  searchQuery: "",
+  filterType: "all" as FilterType,
+  draggedId: null,
+  dragOverId: null,
+  tempOrder: new Map(),
 
-  // Базовые сеттеры
   setCategories: (categories) => set({ categories }),
-  setTotalItems: (totalItems) => set({ totalItems }),
-  setTotalPages: (totalPages) => set({ totalPages }),
   setTotalAllItems: (totalAllItems) => set({ totalAllItems }),
   setEditingId: (editingId) => set({ editingId }),
   clearEditingId: () => set({ editingId: null }),
-  setCurrentPage: (currentPage) => set({ currentPage }),
-  setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
+  setTotalItems: (totalItems) => set({ totalItems }),
+  setTotalPages: (totalPages) => set({ totalPages }),
   setLoading: (loading) => set({ loading }),
-  setIsReordering: (isReordering) => set({ isReordering }),
   setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
-  setIsSearching: (isSearching) => set({ isSearching }),
   setIsUploading: (isUploading) => set({ isUploading }),
+  setIsReordering: (isReordering) => set({ isReordering }),
   setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
-
-  // Drag & Drop сеттеры
-  setDraggedId: (draggedId) => set({ draggedId }),
-  setDragOverId: (dragOverId) => set({ dragOverId }),
-  setTempOrder: (tempOrder) => set({ tempOrder }),
-
-  // Работа с формой
+  setCurrentPage: (currentPage) => set({ currentPage }),
   setFormData: (formData) => set({ formData }),
+  setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
   updateFormField: (field, value) =>
     set((state) => ({
       formData: {
@@ -168,20 +129,20 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
         imageAlt: "",
       },
     }),
-
   setSortField: (sortField) => set({ sortField }),
   setSortDirection: (sortDirection) => set({ sortDirection }),
-
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   setFilterType: (filterType) => set({ filterType }),
-
   handleSearchChange: (value: string) => {
     set({ searchQuery: value });
   },
-
   handleSearchClear: () => {
     set({ searchQuery: "" });
   },
+
+  setDraggedId: (draggedId) => set({ draggedId }),
+  setDragOverId: (dragOverId) => set({ dragOverId }),
+  setTempOrder: (tempOrder) => set({ tempOrder }),
 
   loadCategories: async (params?: {
     page?: number;
@@ -189,43 +150,33 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     filterBy?: FilterType;
   }) => {
     const state = get();
-
     set({ loading: true });
     try {
       const queryParams = new URLSearchParams();
       const pageToLoad = params?.page ?? state.currentPage;
-      queryParams.append("pageToLoad", pageToLoad.toString());
-      queryParams.append("limit", state.itemsPerPage.toString());
-
       const search = params?.search ?? state.searchQuery;
       const filterBy = params?.filterBy ?? state.filterType;
-
-      queryParams.append("search", search);
-      queryParams.append("filterBy", filterBy);
-
-      queryParams.append("sortBy", state.sortField);
-      queryParams.append("sortOrder", state.sortDirection);
+      queryParams.append("pageToLoad", pageToLoad.toString());
+      queryParams.append("limit", state.itemsPerPage.toString());
+      queryParams.append("sortBy", state.sortField.toString());
+      queryParams.append("sortOrder", state.sortDirection.toString());
+      queryParams.append("search", search.toString());
+      queryParams.append("filterBy", filterBy.toString());
 
       const response = await fetch(
-        `/administrator/cms/api/categories?${queryParams.toString()}`
+        `/administrator/cms/api/categories?${queryParams}`
       );
       const data = await response.json();
 
       if (data.success) {
         set({
           categories: data.data.categories,
-          totalPages: data.data.pagination.totalPages,
-          totalItems: data.data.pagination.total,
           totalAllItems: data.data.totalInDB,
+          totalItems: data.data.pagination.total,
+          totalPages: data.data.pagination.totalPages,
           currentPage: params?.page ?? state.currentPage,
           searchQuery: params?.search ?? state.searchQuery,
           filterType: params?.filterBy ?? state.filterType,
-        });
-        // Сбрасываем drag & drop состояния при новой загрузке
-        set({
-          draggedId: null,
-          dragOverId: null,
-          tempOrder: new Map(),
         });
       }
     } catch (error) {

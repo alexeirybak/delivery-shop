@@ -1,70 +1,67 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Header from "../_components/Header";
-import { useCategories } from "../hooks/useCategories";
+import { useAuthStore } from "@/store/authStore";
+import { Header } from "../_components/Header";
+import { SEORecommendations } from "../_components/SEORecommendations";
 import { useCategoryFormState } from "../hooks/useCategoryFormState";
 import { useCategoryFormValidation } from "../hooks/useCategoryFormValidation";
-import { useAuthStore } from "@/store/authStore";
-import { Category } from "../types";
-import { HeaderActions } from "./_components/HeaderActions";
-import { ReorderStatus } from "./_components/ReorderStatus";
-import { WarningAlert } from "./_components/WarningAlert";
+import { categorySeoRecommendations } from "../utils/recommendations";
 import { CategoryForm } from "./_components/CategoryForm";
 import { CategoryTable } from "./_components/CategoryTable";
+import { useEffect, useState } from "react";
+import { useCategories } from "../hooks/useCategories";
 import { Notification } from "./_components/Notification";
-import { SEORecommendations } from "../_components/SEORecommendations";
-import { categorySeoRecommendations } from "../utils/recommendations";
-import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
+import { WarningAlert } from "./_components/WarningAlert";
+import { HeaderActions } from "./_components/HeaderActions";
 import { useCategoryStore } from "@/store/categoryStore";
 import { Pagination } from "../_components/Pagination";
+import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
+import { Category } from "../types";
+import { ReorderStatus } from "./_components/ReorderStatus";
 
-export default function CategoriesPage() {
-  const { user } = useAuthStore();
-  const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
-  const {
-    categories,
-    totalPages,
-    totalAllItems,
-    editingId,
-    itemsPerPage,
-    currentPage,
-    isReordering,
-    showForm,
-    originalImageUrl,
-    formData,
-    setCurrentPage,
-    setItemsPerPage,
-    setIsReordering,
-    setIsSubmitting,
-    updateFormField,
-  } = useCategoryStore();
-
-  const {
-    createCategory,
-    updateCategory,
-    deleteCategory,
-    reorderCategories,
-    loadCategories,
-  } = useCategories();
-
-  const {
-    startCreate,
-    startEdit,
-    resetForm,
-    generateSlug,
-    getKeywordsArray,
-    saveImageFile,
-    removeImage,
-    uploadImageToServer,
-    deleteOldImage,
-  } = useCategoryFormState();
-
-  const { errors, validateForm } = useCategoryFormValidation();
+const CategoriesPage = () => {
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const { user } = useAuthStore();
+  const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
+  const {
+    categories,
+    totalAllItems,
+    editingId,
+    showForm,
+    originalImageUrl,
+    formData,
+    setIsSubmitting,
+    updateFormField,
+    totalPages,
+    currentPage,
+    itemsPerPage,
+    setItemsPerPage,
+    setCurrentPage,
+    setIsReordering,
+  } = useCategoryStore();
+
+  const {
+    createCategory,
+    deleteCategory,
+    updateCategory,
+    loadCategories,
+    reorderCategories,
+  } = useCategories();
+
+  const {
+    generateSlug,
+    saveImageFile,
+    removeImage,
+    uploadImageToServer,
+    getKeywordsArray,
+    deleteOldImage,
+    startCreate,
+    startEdit,
+    resetForm,
+  } = useCategoryFormState();
 
   useEffect(() => {
     if (notification) {
@@ -78,6 +75,8 @@ export default function CategoriesPage() {
   useEffect(() => {
     loadCategories({ page: currentPage });
   }, [currentPage, loadCategories]);
+
+  const { errors, validateForm } = useCategoryFormValidation();
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,9 +116,9 @@ export default function CategoriesPage() {
         name: formData.name,
         slug: formData.slug,
         description: formData.description,
+        keywords: getKeywordsArray(),
         image: finalImageUrl,
         imageAlt: formData.imageAlt,
-        keywords: getKeywordsArray(),
         numericId: null,
         author,
       };
@@ -308,7 +307,6 @@ export default function CategoriesPage() {
         title="Управление категориями"
         description={`Всего категорий: ${totalAllItems}`}
       />
-
       {notification && (
         <Notification
           type={notification.type}
@@ -316,44 +314,39 @@ export default function CategoriesPage() {
           onClose={() => setNotification(null)}
         />
       )}
-
       <HeaderActions onCreate={startCreate} />
-
       <div className="mb-4">
         <ItemsPerPageSelector
           value={itemsPerPage}
           onChange={handleItemsPerPageChange}
         />
-        <div className="text-xs text-gray-500 mt-1">
+        <div className="text-sm text-gray-500 mt-1">
           Текущие параметры: страница {currentPage}, элементов: {itemsPerPage}
         </div>
       </div>
-
-      <ReorderStatus isReordering={isReordering} />
-
+      <ReorderStatus />
       <WarningAlert />
-
       {showForm && (
         <CategoryForm
           errors={errors}
           onFieldChange={updateFormField}
           onGenerateSlug={generateSlug}
-          onSubmit={editingId ? handleUpdate : handleCreate}
-          onCancel={resetForm}
           onSaveImageFile={saveImageFile}
           onRemoveImage={removeImage}
+          onSubmit={editingId ? handleUpdate : handleCreate}
+          onCancel={resetForm}
         />
       )}
 
       <CategoryTable
-        onEdit={startEdit}
         onDelete={handleDelete}
+        onEdit={startEdit}
         onReorder={handleReorder}
       />
-
       {totalPages > 1 && <Pagination />}
-
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>
   );
-}
+};
+
+export default CategoriesPage;

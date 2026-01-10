@@ -1,9 +1,8 @@
 import { useRouter } from "next/navigation";
-import DashboardCard from "./DashboardCard";
+import { DashboardCard } from "./DashboardCard";
 import { dashboardCards } from "../utils/dashboardCards";
 
-const DashboardCardsGrid = () => {
-    
+export const DashboardCardsGrid = () => {
   const router = useRouter();
   const navigateTo = (path: string) => {
     router.push(path);
@@ -17,4 +16,3 @@ const DashboardCardsGrid = () => {
   );
 };
 
-export default DashboardCardsGrid;

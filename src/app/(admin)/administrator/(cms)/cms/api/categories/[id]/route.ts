@@ -2,57 +2,6 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../../utils/api-routes";
 
-export async function GET(
-  _request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  try {
-    const db = await getDB();
-    const { id } = await params;
-
-    if (!ObjectId.isValid(id)) {
-      return NextResponse.json(
-        { success: false, message: "Неверный ID категории" },
-        { status: 400 }
-      );
-    }
-
-    const category = await db
-      .collection("article-category")
-      .findOne({ _id: new ObjectId(id) });
-
-    if (!category) {
-      return NextResponse.json(
-        { success: false, message: "Категория не найдена" },
-        { status: 404 }
-      );
-    }
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        _id: category._id.toString(),
-        numericId: category.numericId,
-        name: category.name,
-        slug: category.slug,
-        description: category.description,
-        keywords: category.keywords,
-        image: category.image,
-        imageAlt: category.imageAlt,
-        author: category.author,
-        createdAt: category.createdAt,
-        updatedAt: category.updatedAt,
-      },
-    });
-  } catch (error) {
-    console.error("Ошибка получения категории:", error);
-    return NextResponse.json(
-      { success: false, message: "Ошибка получения категории" },
-      { status: 500 }
-    );
-  }
-}
-
 export async function PUT(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -61,7 +10,6 @@ export async function PUT(
     const db = await getDB();
     const { id } = await params;
 
-    // Принимаем сырые данные
     const rawData = await request.json();
 
     if (!ObjectId.isValid(id)) {
@@ -89,7 +37,6 @@ export async function PUT(
     const slug = rawData.slug.trim().toLowerCase();
     const categoryId = new ObjectId(id);
 
-    // Проверка уникальности slug
     const existingCategory = await db.collection("article-category").findOne({
       slug,
       _id: { $ne: categoryId },
@@ -102,7 +49,6 @@ export async function PUT(
       );
     }
 
-    // Преобразование keywords в массив
     const processKeywords = (keywords: unknown): string[] => {
       if (!keywords) return [];
 
@@ -116,9 +62,9 @@ export async function PUT(
     };
 
     const updateFields = {
-      name, 
+      name,
       slug,
-      updatedAt: new Date().toISOString(), 
+      updatedAt: new Date().toISOString(),
 
       ...(rawData.description !== undefined && {
         description: rawData.description.trim(),
@@ -168,7 +114,7 @@ export async function PUT(
 }
 
 export async function DELETE(
-  request: Request,
+  _request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
@@ -184,7 +130,6 @@ export async function DELETE(
 
     const categoryId = new ObjectId(id);
 
-    // Проверяем статьи
     const articlesCount = await db
       .collection("articles")
       .countDocuments({ category: id });

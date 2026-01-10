@@ -1,24 +1,23 @@
 import Image from "next/image";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
-import { ImageSectionProps } from "../../types";
-import { SEO_LIMITS } from "../../utils/seo-limits";
+import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
 import { useRef } from "react";
 import { useCategoryStore } from "@/store/categoryStore";
+import { ImageSectionProps } from "../../types";
 
 export const ImageSection = ({
   errors,
   charCount,
-  onRemoveImage,
-  onFileChange,
   onInputChange,
+  onFileChange,
+  onRemoveImage,
 }: ImageSectionProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null); // Добавляем ref
   const { editingId, isUploading, isSubmitting, formData } = useCategoryStore();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleRemoveImage = () => {
     onRemoveImage();
 
-    // Очищаем значение input файла
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
     }
@@ -26,7 +25,6 @@ export const ImageSection = ({
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
       <h3 className="text-lg font-medium mb-4">Изображение категории</h3>
-
       <div className="space-y-4">
         {formData.image && (
           <div className="bg-white p-4 rounded border border-gray-200">
@@ -35,13 +33,13 @@ export const ImageSection = ({
                 <Image
                   src={formData.image}
                   alt="Предпросмотр"
-                  width={160} // Увеличиваем немного
+                  width={160}
                   height={160}
-                  className="w-40 h-40 object-cover rounded shadow-sm" // object-cover заполнит весь контейнер
+                  className="w-40 h-40 object-cover rounded shadow-sm"
                   unoptimized={formData.image.startsWith("blob:")}
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 mt-8">
                 <p className="text-sm text-gray-600 mb-2">
                   {formData.image.startsWith("blob:")
                     ? "Новое изображение (будет загружено при сохранении)"
@@ -66,7 +64,6 @@ export const ImageSection = ({
             </div>
           </div>
         )}
-
         <div>
           <label className="block text-sm font-medium mb-2">
             {formData.image ? "Заменить изображение" : "Загрузить изображение"}
@@ -93,7 +90,6 @@ export const ImageSection = ({
                 </div>
               </label>
             </div>
-
             {isUploading && (
               <div className="flex items-center gap-2 text-sm text-green-600">
                 <div className="animate-spin rounded-full h-4 w-4 border-2 border-green-600 border-t-transparent"></div>
@@ -107,14 +103,13 @@ export const ImageSection = ({
             {editingId &&
               formData.image &&
               formData.image.startsWith("blob:") && (
-                <span className="flex items-center gap-1 text-red-600 mt-1">
-                  <AlertCircle className="w-3 h-3" />
+                <span className="flex items-center gap-2 text-base text-red-600 mt-1">
+                  <AlertCircle className="w-5 h-5" />
                   При сохранении старое изображение будет удалено
                 </span>
               )}
           </p>
         </div>
-
         {formData.image && (
           <div>
             <div className="flex justify-between items-center mb-1">
@@ -142,7 +137,7 @@ export const ImageSection = ({
                 )
               }
               disabled={isSubmitting}
-              className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
+              className={`w-full px-3 py-2.5 bg-white border rounded focus:outline-none focus:ring-3 duration-300 ${
                 errors.imageAlt
                   ? "border-red-400 focus:border-red-500 focus:ring-red-100"
                   : "border-gray-300 focus:border-primary focus:ring-primary/20"

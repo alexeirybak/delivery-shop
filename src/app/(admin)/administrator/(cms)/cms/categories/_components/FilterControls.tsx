@@ -1,10 +1,7 @@
 import { Filter, X } from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
 import { useState } from "react";
-
-interface FilterControlsProps {
-  onToggleFilters?: (show: boolean) => void;
-}
+import { FilterControlsProps } from "../../types";
 
 export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
   const {

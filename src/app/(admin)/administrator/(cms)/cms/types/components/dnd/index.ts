@@ -1,1 +1,1 @@
-export * from './drag-drop.types';
+export * from "./drag-drop.types";

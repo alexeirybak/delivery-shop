@@ -1,1 +1,0 @@
-export type ArticleStatus = "published" | "draft" | "archived" | "deleted";

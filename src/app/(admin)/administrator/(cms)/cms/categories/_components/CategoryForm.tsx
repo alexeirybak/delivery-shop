@@ -1,6 +1,6 @@
-import { CategoryFormProps, CharCount, FormField } from "../../types";
-import { ImageSection } from "./ImageSection";
+import { CategoryFormField, CategoryFormProps, CharCount } from "../../types";
 import { FormFields } from "./FormFields";
+import { ImageSection } from "./ImageSection";
 import { SubmitSection } from "./SubmitSection";
 import { useCategoryStore } from "@/store/categoryStore";
 
@@ -13,8 +13,7 @@ export const CategoryForm = ({
   onSubmit,
   onCancel,
 }: CategoryFormProps) => {
-  const { editingId, formData, setIsUploading } =
-    useCategoryStore();
+  const { setIsUploading, formData } = useCategoryStore();
 
   const charCount: CharCount = {
     name: formData.name.length,
@@ -24,9 +23,8 @@ export const CategoryForm = ({
     imageAlt: formData.imageAlt.length,
   };
 
-  // Исправленный обработчик - убираем очистку здесь
   const handleInputChange = (
-    field: FormField,
+    field: CategoryFormField,
     value: string,
     maxLength: number
   ) => {
@@ -35,23 +33,21 @@ export const CategoryForm = ({
     }
   };
 
-  // Генерация slug БЕЗ очистки - оставляем как было
   const handleGenerateSlug = () => {
     onGenerateSlug();
   };
 
-  // Обработчик файлов (без изменений)
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
-    // Убираем проверку типа файла - она теперь на уровне браузера
     if (file.size > 5 * 1024 * 1024) {
       alert("Размер файла не должен превышать 5MB");
       return;
     }
 
     setIsUploading(true);
+
     try {
       onSaveImageFile(file);
     } catch (error) {
@@ -64,26 +60,21 @@ export const CategoryForm = ({
 
   return (
     <div className="mb-8 bg-white rounded shadow-sm p-6">
-      <h2 className="text-xl font-semibold mb-4">
-        {editingId ? "Редактирование категории" : "Создание новой категории"}
-      </h2>
-
+      <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <ImageSection
           errors={errors}
           charCount={charCount}
-          onRemoveImage={onRemoveImage}
-          onFileChange={handleFileChange}
           onInputChange={handleInputChange}
+          onFileChange={handleFileChange}
+          onRemoveImage={onRemoveImage}
         />
-
         <FormFields
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
-
         <SubmitSection onCancel={onCancel} />
       </form>
     </div>

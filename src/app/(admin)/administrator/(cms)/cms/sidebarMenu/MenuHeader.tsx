@@ -23,5 +23,4 @@ export const MenuHeader = ({ onCloseAction, icon }: MenuHeaderProps) => {
       </button>
     </div>
   );
-}
-
+};

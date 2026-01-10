@@ -1,4 +1,4 @@
-const GlobalStyles = () => {
+export const GlobalStyles = () => {
   return (
     <style jsx global>{`
       @keyframes slideIn {
@@ -37,5 +37,3 @@ const GlobalStyles = () => {
     `}</style>
   );
 };
-
-export default GlobalStyles;

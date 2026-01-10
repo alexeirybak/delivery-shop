@@ -9,7 +9,7 @@ interface OrderDetailsProps {
 }
 
 const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
-  // Простая функция для форматирования даты из ISO строки в DD.MM.YYYY
+    
   const formatDate = (isoString: string): string => {
     if (!isoString) return "";
 

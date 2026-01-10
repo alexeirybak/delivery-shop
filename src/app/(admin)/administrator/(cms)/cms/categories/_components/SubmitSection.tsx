@@ -1,6 +1,6 @@
+import { useCategoryStore } from "@/store/categoryStore";
 import { Loader2, Save } from "lucide-react";
 import { SubmitSectionProps } from "../../types";
-import { useCategoryStore } from "@/store/categoryStore";
 
 export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
   const { editingId, isSubmitting, isUploading } = useCategoryStore();
@@ -10,11 +10,10 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
         <div className="mt-4 p-3 bg-blue-50 text-blue-600 rounded text-sm border border-blue-100">
           <div className="flex items-center gap-2">
             <Loader2 className="w-4 h-4 animate-spin" />
-            {editingId ? "Обновляем категорию..." : "Создаем категорию..."}
+            {editingId ? "Обновляем категорию" : "Создаем категорию..."}
           </div>
         </div>
       )}
-
       <div className="flex gap-3 mt-6">
         <button
           type="submit"

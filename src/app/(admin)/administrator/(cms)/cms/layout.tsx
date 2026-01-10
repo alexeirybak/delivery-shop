@@ -2,8 +2,8 @@
 
 import { Menu } from "lucide-react";
 import { ReactNode, useState } from "react";
-import SidebarMenu from "./sidebarMenu/SidebarMenu";
 import { usePathname } from "next/navigation";
+import { SidebarMenu } from "./sidebarMenu/SidebarMenu";
 
 export default function CMSLayout({ children }: { children: ReactNode }) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);

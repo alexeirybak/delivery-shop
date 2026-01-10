@@ -15,11 +15,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Чтение файла
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Генерация читаемого имени файла
     const originalName = file.name;
     const baseName = originalName.replace(/\.[^/.]+$/, "");
     const cleanName = baseName
@@ -31,57 +29,43 @@ export async function POST(request: NextRequest) {
     const timestamp = Date.now();
     const safeName = cleanName || "image";
 
-    // Сохраняем оригинальное расширение файла
     const originalExtension =
       originalName.split(".").pop()?.toLowerCase() || "jpg";
     const fileName = `${safeName}_${timestamp}.${originalExtension}`;
 
-    // Оптимизация изображения с белым фоном
     let optimizedBuffer: Buffer;
 
-    // Если хотите сохранить прозрачность для PNG/GIF, но добавить белый фон для остальных:
     if (originalExtension === "png") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
-          // Не добавляем background для PNG, чтобы сохранить прозрачность
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill" для растягивания
+          withoutEnlargement: false, // Разрешаем увеличение если нужно
         })
         .png({ quality: 80 })
         .toBuffer();
     } else if (originalExtension === "gif") {
       optimizedBuffer = await sharp(buffer, { animated: true })
         .resize(800, 450, {
-          fit: "contain",
-          // Не добавляем background для GIF, чтобы сохранить прозрачность
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill"
+          withoutEnlargement: false,
         })
         .gif()
         .toBuffer();
     } else {
-      // Для JPEG, WebP и других - добавляем белый фон
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "contain",
-          background: { r: 255, g: 255, b: 255, alpha: 1 },
-          position: "center",
-          withoutEnlargement: true,
+          fit: "fill", // Изменили с "contain" на "fill"
+          withoutEnlargement: false,
         })
         .jpeg({ quality: 80 })
         .toBuffer();
     }
-
-    // Создание директории
     const publicDir = path.join(process.cwd(), "public", "blogCategories");
     await fs.mkdir(publicDir, { recursive: true });
 
-    // Сохранение файла
     const filePath = path.join(publicDir, fileName);
     await fs.writeFile(filePath, optimizedBuffer);
 
-    // URL для доступа из браузера
     const publicUrl = `/blogCategories/${fileName}`;
 
     return NextResponse.json({
@@ -98,6 +82,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
+// DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

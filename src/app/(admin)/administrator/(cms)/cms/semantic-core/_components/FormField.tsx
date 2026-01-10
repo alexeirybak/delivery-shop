@@ -1,4 +1,4 @@
-import { FormFieldProps } from "../../types/siteSettings";
+import { FormFieldProps } from "../../types/site-settings";
 
 export const FormField = ({
   label,
@@ -47,5 +47,4 @@ export const FormField = ({
       <p className="text-xs text-gray-500 mt-1">{hint}</p>
     </div>
   );
-}
-
+};

@@ -1,12 +1,12 @@
 import Image from "next/image";
-import Calendar from "./Calendar";
-import { useGetAdminOrdersQuery } from "@/store/api/ordersApi";
-import { useEffect, useState } from "react";
+import { getAvailableTimeSlots } from "../../../../../../utils/getAvailableTimeSlots";
+import { useGetAdminOrdersQuery } from "@/store/redux/api/ordersApi";
 import { Schedule } from "@/types/deliverySchedule";
-import { formatDeliveryDateTime } from "../utils/formatDeliveryDateTime";
-import { getAvailableTimeSlots } from "@/app/(user-orders)/user-orders/_components/utils/getAvailableTimeSlots";
+import { useEffect, useState } from "react";
+import { formatDateToLocalYYYYMMDD } from "../../../../../../utils/formatDateToLocalYYYYMMDD";
 import { buttonStyles } from "@/app/styles";
-import { formatDateToLocalYYYYMMDD } from "@/app/(admin)/administrator/admin-orders/utils/formatDateToLocalYYYYMMDD";
+import { formatDeliveryDateTime } from "../utils/formatDeliveryDateTime";
+import Calendar from "./Calendar";
 
 interface CalendarModalProps {
   orderId: string;
@@ -108,7 +108,6 @@ const CalendarOrderModal = ({
   };
 
   if (!isOpen) return null;
-
   return (
     <div className="absolute right-0 z-50 mt-14">
       <div className="px-5 py-5 w-92 bg-white rounded shadow-button-secondary">
@@ -169,7 +168,7 @@ const CalendarOrderModal = ({
                               : "bg-gray-100 hover:bg-primary hover:text-white"
                           }`}
                         >
-                          <span className="hidden xl:block">
+                          <span>
                             {slot.replace(".", ":").split("-")[0]}
                           </span>
                         </button>

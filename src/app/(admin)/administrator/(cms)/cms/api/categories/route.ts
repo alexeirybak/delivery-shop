@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { buildFilterQuery } from "../../utils/buildFilterQuery";
-import { buildSortObject } from "../../utils/buildSortObject";
 import { Category, FilterType, SortField } from "../../types";
-
+import { CONFIG_BLOG } from "../../CONFIG_BLOG";
+import { buildSortObject } from "../../utils/buildSortObject";
+import { buildFilterQuery } from "../../utils/buildFilterQuery";
 
 export async function GET(request: Request) {
   try {
@@ -12,30 +12,23 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const page = parseInt(searchParams.get("pageToLoad") || "1");
-    const limit = parseInt(searchParams.get("limit") || "10");
-    const search = searchParams.get("search") || "";
-    const filterBy: FilterType = (searchParams.get("filterBy") ||
-      "all") as FilterType;
+    const limit = parseInt(
+      searchParams.get("limit") || CONFIG_BLOG.ITEMS_PER_PAGE.toString()
+    );
     const sortBy: SortField = (searchParams.get("sortBy") ||
       "numericId") as SortField;
     const sortOrder = searchParams.get("sortOrder") || "asc";
+    const search = searchParams.get("search") || "";
+    const filterBy: FilterType = (searchParams.get("filterBy") ||
+      "all") as FilterType;
 
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, Math.min(limit, 100));
 
+    const sortObject = buildSortObject(sortBy, sortOrder);
     const filterQuery = buildFilterQuery(search, filterBy);
 
-    const sortObject = buildSortObject(sortBy, sortOrder);
-
     const skip = (validPage - 1) * validLimit;
-
-    const totalInDB = await db
-      .collection<Category>("article-category")
-      .countDocuments({});
-
-    const totalFiltered = await db
-      .collection<Category>("article-category")
-      .countDocuments(filterQuery);
 
     const categories = await db
       .collection<Category>("article-category")
@@ -44,6 +37,14 @@ export async function GET(request: Request) {
       .skip(skip)
       .limit(validLimit)
       .toArray();
+
+    const totalInDB = await db
+      .collection<Category>("article-category")
+      .countDocuments({});
+
+    const totalFiltered = await db
+      .collection<Category>("article-category")
+      .countDocuments(filterQuery);
 
     const totalPages = Math.ceil(totalFiltered / validLimit);
 
@@ -135,7 +136,6 @@ export async function POST(request: Request) {
 
     const newNumericId = maxNumericId + 1;
 
-    // Создаем объект с ObjectId, а потом преобразуем в строку для ответа
     const newCategory = {
       _id: new ObjectId(),
       numericId: newNumericId,
@@ -150,10 +150,8 @@ export async function POST(request: Request) {
       updatedAt: new Date().toISOString(),
     };
 
-    // MongoDB примет ObjectId без проблем
     await db.collection("article-category").insertOne(newCategory);
 
-    // Преобразуем ObjectId в строку для ответа
     const responseCategory: Category = {
       ...newCategory,
       _id: newCategory._id.toString(),

@@ -1,11 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../../utils/api-routes";
-
-interface ReorderRequestItem {
-  _id: string;
-  numericId: number;
-}
+import { ReorderRequestItem } from "../../../types";
 
 export async function PUT(request: Request) {
   try {
@@ -21,7 +17,7 @@ export async function PUT(request: Request) {
 
     // Валидация данных
     for (const item of items) {
-      if (!item._id || typeof item.numericId !== 'number') {
+      if (!item._id || typeof item.numericId !== "number") {
         return NextResponse.json(
           { success: false, message: "Неверные данные категории" },
           { status: 400 }
@@ -43,8 +39,10 @@ export async function PUT(request: Request) {
     }));
 
     if (bulkOperations.length > 0) {
-      const result = await db.collection("article-category").bulkWrite(bulkOperations);
-      
+      const result = await db
+        .collection("article-category")
+        .bulkWrite(bulkOperations);
+
       return NextResponse.json({
         success: true,
         message: "Порядок категорий обновлен",

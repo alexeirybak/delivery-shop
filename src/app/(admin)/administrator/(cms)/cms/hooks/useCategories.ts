@@ -1,21 +1,16 @@
-import { useEffect } from "react";
-import { ApiResponse, UpdateCategoryData, CategoryFormData } from "../types";
 import { useCategoryStore } from "@/store/categoryStore";
+import { useEffect } from "react";
+import { ApiResponse, CategoryFormData, UpdateCategoryData } from "../types";
 
 export const useCategories = () => {
-  const { loadCategories, currentPage } =
-    useCategoryStore();
+  const { loadCategories, currentPage } = useCategoryStore();
 
   useEffect(() => {
     loadCategories({ page: currentPage });
   }, [currentPage, loadCategories]);
 
   const createCategory = async (
-    categoryData: Omit<CategoryFormData, "keywords"> & {
-      keywords: string[];
-      numericId: number | null;
-      author: string;
-    }
+    categoryData: Omit<CategoryFormData, "keywords">
   ): Promise<ApiResponse> => {
     try {
       const response = await fetch("/administrator/cms/api/categories", {
@@ -50,6 +45,38 @@ export const useCategories = () => {
           error instanceof Error
             ? error.message
             : "Ошибка сети при создании категории",
+      };
+    }
+  };
+
+  const deleteCategory = async (id: string): Promise<ApiResponse> => {
+    try {
+      const response = await fetch(`/administrator/cms/api/categories/${id}`, {
+        method: "DELETE",
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        await loadCategories({ page: currentPage });
+        return {
+          success: true,
+          message: data.message,
+        };
+      } else {
+        return {
+          success: false,
+          message: data.message,
+        };
+      }
+    } catch (error) {
+      console.error("Ошибка удаления категории:", error);
+      return {
+        success: false,
+        message:
+          error instanceof Error
+            ? error.message
+            : "Ошибка сети при удалении категории",
       };
     }
   };
@@ -91,38 +118,6 @@ export const useCategories = () => {
           error instanceof Error
             ? error.message
             : "Ошибка сети при обновлении категории",
-      };
-    }
-  };
-
-  const deleteCategory = async (id: string): Promise<ApiResponse> => {
-    try {
-      const response = await fetch(`/administrator/cms/api/categories/${id}`, {
-        method: "DELETE",
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        await loadCategories({ page: currentPage });
-        return {
-          success: true,
-          message: data.message,
-        };
-      } else {
-        return {
-          success: false,
-          message: data.message,
-        };
-      }
-    } catch (error) {
-      console.error("Ошибка удаления категории:", error);
-      return {
-        success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "Ошибка сети при удалении категории",
       };
     }
   };
@@ -173,9 +168,9 @@ export const useCategories = () => {
 
   return {
     createCategory,
-    updateCategory,
     deleteCategory,
-    reorderCategories,
+    updateCategory,
     loadCategories,
+    reorderCategories,
   };
 };

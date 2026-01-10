@@ -2,43 +2,42 @@ import Image from "next/image";
 import { Order } from "@/types/order";
 import DateFilterButtons from "./DateFilterButtons";
 import Calendar from "./Calendar";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface DateSelectorProps {
   customDate: Date | undefined;
-  isCalendarOpen: boolean;
-  toggleCalendar: () => void;
   selectedDate: string;
   dates: string[];
   orders: Order[];
   onDateSelect: (date: string) => void;
+  isCalendarOpen: boolean;
+  toggleCalendar: () => void;
   onCalendarDateSelect: (date: Date | undefined) => void;
 }
 
 const DateSelector = ({
   customDate,
-  isCalendarOpen,
-  toggleCalendar,
   selectedDate,
   dates,
   orders,
   onDateSelect,
+  isCalendarOpen,
+  toggleCalendar,
   onCalendarDateSelect,
 }: DateSelectorProps) => {
-  // Локальное состояние для месяца в календаре
-  const [calendarMonth, setCalendarMonth] = useState<Date | undefined>(customDate || new Date());
+  const [calendarMonth, setCalendarMonth] = useState<Date | undefined>(
+    customDate || new Date()
+  );
 
-  // Синхронизируем calendarMonth с customDate при изменении
   useEffect(() => {
     if (customDate) {
       setCalendarMonth(customDate);
     }
   }, [customDate]);
 
+
   const handleDateSelect = (date: Date | undefined) => {
-    // Выбираем дату и закрываем календарь
     onCalendarDateSelect(date);
-    // Обновляем месяц для календаря
     if (date) {
       setCalendarMonth(date);
     }
@@ -57,21 +56,19 @@ const DateSelector = ({
           width={24}
           height={24}
         />
-        {customDate && (
-          <span className="absolute top-0 text-xs text-main-text">
-            {customDate.toLocaleDateString("ru-RU")}
-          </span>
-        )}
       </button>
-
+      {customDate && (
+        <span className="absolute top-0 text-xs text-main-text">
+          {customDate.toLocaleDateString("ru-RU")}
+        </span>
+      )}
       {isCalendarOpen && (
         <Calendar
           customDate={customDate}
           onDateSelect={handleDateSelect}
-          month={calendarMonth} // ← Передаем текущий месяц
+          month={calendarMonth}
         />
       )}
-
       <DateFilterButtons
         dates={dates}
         orders={orders}

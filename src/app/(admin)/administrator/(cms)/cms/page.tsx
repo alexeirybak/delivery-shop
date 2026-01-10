@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Header from "./_components/Header";
-import DashboardCardsGrid from "./_components/DashboardCardsGrid";
+import { Header } from "./_components/Header";
+import { DashboardCardsGrid } from "./_components/DashboardCardsGrid";
 import { StatsSection } from "./_components/StatsSection";
 
-export default function AdminDashboardPage() {
+const AdminDashboardPage = () => {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,4 +26,6 @@ export default function AdminDashboardPage() {
       </div>
     </div>
   );
-}
+};
+
+export default AdminDashboardPage;

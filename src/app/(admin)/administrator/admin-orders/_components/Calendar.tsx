@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react"; // Добавляем useState
 import { DayPicker } from "react-day-picker";
 import { ru } from "date-fns/locale";
 import "react-day-picker/style.css";
 import "../daypicker.css";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 interface CalendarProps {
   customDate: Date | undefined;
   onDateSelect: (date: Date | undefined) => void;
-  month?: Date; // Добавляем опциональный пропс для управления месяцем
+  month?: Date;
   isOrderDateChange?: boolean;
 }
 
@@ -18,11 +18,9 @@ const Calendar = ({
   month,
   isOrderDateChange = false,
 }: CalendarProps) => {
-
   const [currentMonth, setCurrentMonth] = useState<Date>(
     month || customDate || new Date()
   );
-
   const getMonthName = (date: Date) => {
     const monthName = date.toLocaleDateString("ru-RU", {
       month: "long",
@@ -55,7 +53,6 @@ const Calendar = ({
     <div
       className={`${isOrderDateChange ? "" : "absolute top-17 left-0 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 w-92"}`}
     >
-      {/* Кастомная навигация */}
       <div className="flex justify-between items-center mb-4">
         <span className="text-lg font-bold text-main-text">
           {getMonthName(currentMonth)}
@@ -88,15 +85,14 @@ const Calendar = ({
           </button>
         </div>
       </div>
-
       <div className="full-width-calendar">
         <DayPicker
           mode="single"
           selected={customDate}
           onSelect={onDateSelect}
           locale={ru}
-          month={currentMonth} // ← КЛЮЧЕВОЕ ИЗМЕНЕНИЕ!
-          onMonthChange={setCurrentMonth} // ← Обновляем при ручной смене в DayPicker
+          month={currentMonth}
+          onMonthChange={setCurrentMonth}
           showOutsideDays={true}
           className="p-0"
           classNames={{

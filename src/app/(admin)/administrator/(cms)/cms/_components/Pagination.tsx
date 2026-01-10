@@ -1,6 +1,7 @@
 "use client";
 
 import { useCategoryStore } from "@/store/categoryStore";
+import { CONFIG_BLOG } from "../CONFIG_BLOG";
 
 export const Pagination = () => {
   const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
@@ -15,7 +16,7 @@ export const Pagination = () => {
 
   const renderPageButtons = () => {
     const buttons = [];
-    const maxVisibleButtons = 5;
+    const maxVisibleButtons = CONFIG_BLOG.MAX_VISIBLE_BUTTONS;
 
     if (totalPages <= maxVisibleButtons) {
       for (let i = 1; i <= totalPages; i++) {
@@ -39,7 +40,7 @@ export const Pagination = () => {
       <button
         key={pageNum}
         onClick={() => handlePageChange(pageNum)}
-        className={`w-11 h-11 px-4 py-2 border rounded cursor-pointer duration-300 ${
+        className={`flex items-center justify-center w-11 h-11 px-4 py-2 border rounded cursor-pointer duration-300 ${
           currentPage === pageNum
             ? "bg-primary text-white border-primary hover:bg-primary"
             : "border-gray-300 hover:bg-gray-50"
@@ -52,7 +53,7 @@ export const Pagination = () => {
 
   return (
     <div className="px-6 py-4 border-t border-gray-200">
-      <div className="flex justify-between items-center">
+      <div className="flex flex-wrap justify-between items-center gap-3">
         <div className="text-sm text-gray-700">
           Показано {startItem}-{endItem} из {totalItems} элементов
           <span className="mx-2">•</span>
@@ -63,7 +64,7 @@ export const Pagination = () => {
           <button
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
+            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
           >
             Назад
           </button>
@@ -73,7 +74,7 @@ export const Pagination = () => {
               handlePageChange(Math.min(totalPages, currentPage + 1))
             }
             disabled={currentPage === totalPages}
-            className="px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
+            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
           >
             Вперед
           </button>

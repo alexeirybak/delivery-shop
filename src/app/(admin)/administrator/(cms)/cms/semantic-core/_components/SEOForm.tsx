@@ -1,8 +1,8 @@
-import { SEOFormProps } from "../../types/siteSettings";
 import { Loader } from "lucide-react";
 import { FormField } from "./FormField";
 import { CurrentSettings } from "./CurrentSettings";
 import { FormButtons } from "./FormButtons";
+import { SEOFormProps } from "../../types/site-settings";
 
 export const SEOForm = ({
   formData,
@@ -17,7 +17,6 @@ export const SEOForm = ({
       onSubmit={handleSave}
       className="bg-white rounded-lg shadow-sm p-6 relative"
     >
-      {/* Индикатор перезагрузки в блоке текущих настроек */}
       {reloading && settings && (
         <div className="absolute inset-0 bg-white/50 flex items-center justify-center z-10">
           <Loader className="animate-spin text-primary" />
@@ -91,5 +90,4 @@ export const SEOForm = ({
       </div>
     </form>
   );
-}
-
+};

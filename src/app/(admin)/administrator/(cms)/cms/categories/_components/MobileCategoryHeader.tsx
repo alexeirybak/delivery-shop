@@ -1,10 +1,10 @@
 import React from "react";
 import { MobileCategoryHeaderProps } from "../../types";
 
-export const MobileCategoryHeader: React.FC<MobileCategoryHeaderProps> = ({
+export const MobileCategoryHeader = ({
   category,
   displayNumericId,
-}) => (
+}: MobileCategoryHeaderProps) => (
   <div className="flex-1 min-w-0">
     <div className="flex items-center gap-2 mb-1">
       <span

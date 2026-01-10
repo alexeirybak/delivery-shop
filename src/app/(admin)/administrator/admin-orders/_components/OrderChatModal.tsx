@@ -1,11 +1,9 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  useGetOrderMessagesQuery,
-  ChatMessage,
-} from "@/store/api/chatApi";
+
 import { useAuthStore } from "@/store/authStore";
-import { OrderChatModalProps } from "@/types/chat";
+import { ChatMessage, OrderChatModalProps } from "@/types/chat";
+import { useGetOrderMessagesQuery } from "@/store/redux/api/chatApi";
 import { getRoleDisplayName } from "../utils/getRoleDisplayName";
 
 const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
@@ -105,7 +103,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
                     })}
                   </div>
                 </div>
-                <div className="border-1 border-[#bfbfbf] rounded px-2 py-1">
+                <div className="border border-[#bfbfbf] rounded px-2 py-1">
                   {msg.message}
                 </div>
               </div>
@@ -120,7 +118,7 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               placeholder="Введите сообщение..."
-              className="flex-1 border border-[#bfbfbf] rounded px-2 py-1 h-[102px] focus:outline-none focus:border-[#70c05b] focus:shadow-button-default caret-primary resize-none"
+              className="flex-1 border border-[#bfbfbf] rounded px-2 py-1 h-[102px] focus:outline-none focus:border-primary focus:shadow-button-default caret-primary resize-none"
               disabled={isSending}
               rows={4}
             />

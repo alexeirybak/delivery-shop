@@ -1,4 +1,4 @@
-import { FormField } from "../../models/category";
+import { FormField } from ".";
 import { CharCount } from "./category-form.types";
 
 export interface ImageSectionProps {

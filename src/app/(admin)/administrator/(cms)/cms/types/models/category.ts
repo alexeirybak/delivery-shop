@@ -1,6 +1,3 @@
-import { CategoryFormData } from "../components";
-
-
 export interface Category {
   _id: string;
   numericId: number;
@@ -14,28 +11,6 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
 }
-
-
-export interface CategoryInput {
-  name: string;
-  slug: string;
-  description: string;
-  keywords: string[];
-  image: string;
-  imageAlt: string;
-  author: string;
-}
-
-export interface UpdateCategoryInput {
-  name?: string;
-  slug?: string;
-  description?: string;
-  keywords?: string[];
-  image?: string;
-  imageAlt?: string;
-  author?: string;
-}
-
 export interface UpdateCategoryData {
   name: string;
   slug: string;
@@ -45,4 +20,3 @@ export interface UpdateCategoryData {
   keywords: string[];
 }
 
-export type FormField = keyof CategoryFormData;

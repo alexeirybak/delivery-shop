@@ -1,18 +1,19 @@
 import React from "react";
 import { Edit, Trash2 } from "lucide-react";
-import { DesktopCategoryRowProps } from "../../types";
-import { DragHandle } from "./DragHandle";
 import Image from "next/image";
+import { DragHandle } from "./DragHandle";
+import { SortableItemProps } from "../../types";
 
-export const DesktopCategoryRow: React.FC<DesktopCategoryRowProps> = ({
+export const DesktopCategoryRow = ({
   category,
   displayNumericId,
-  onEdit,
   onDelete,
+  onEdit,
   isDragging = false,
-}) => {
+}: SortableItemProps) => {
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
+    window.scrollTo({ top: 0, behavior: "smooth" });
     onEdit(category);
   };
 
@@ -20,7 +21,6 @@ export const DesktopCategoryRow: React.FC<DesktopCategoryRowProps> = ({
     e.stopPropagation();
     onDelete(category._id.toString());
   };
-
   return (
     <div
       className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
@@ -39,7 +39,7 @@ export const DesktopCategoryRow: React.FC<DesktopCategoryRowProps> = ({
             className="inline-flex items-center justify-center w-8 h-8 bg-gray-100 rounded-full text-xs font-medium shrink-0"
             title="Порядковый номер"
           >
-            {displayNumericId || "—"}
+            {displayNumericId || "-"}
           </span>
         </div>
 
@@ -48,9 +48,10 @@ export const DesktopCategoryRow: React.FC<DesktopCategoryRowProps> = ({
             <Image
               src={category.image}
               alt={category.imageAlt || category.name}
-              width={40}
-              height={40}
+              width={50}
+              height={50}
               className="object-cover rounded border border-gray-200"
+              title={category.imageAlt}
             />
           ) : (
             <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center">

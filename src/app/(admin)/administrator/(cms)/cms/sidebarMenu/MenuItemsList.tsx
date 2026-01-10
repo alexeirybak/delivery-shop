@@ -1,14 +1,14 @@
-import { MenuItemsListProps } from "../types/sidebar";
 import { IconArrowAnim } from "./IconArrowAnim";
+import { MenuItemsListProps } from "../types/sidebar";
 
 export const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
   return (
-    <div className="space-y-5">
+    <div className="space-y-5 flex-1">
       {items.map((item, index) => (
         <button
           key={item.id}
           onClick={() => onItemClick(item.path)}
-          className={`group w-full flex items-center gap-4 p-6 rounded-2xl text-left cursor-pointer duration-500 hover:shadow-2xl ${item.shadow} animate-slideIn`}
+          className={`group w-full flex items-center gap-4 p-6 rounded-2xl text-left cursor-pointer duration-500 transform hover:scale-[1.02] active:scale-[0.99] ${item.shadow} animate-slideIn`}
           style={{
             background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
             animationDelay: `${index * 100}ms`,
@@ -29,18 +29,16 @@ export const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
             </div>
           </div>
 
-          <div className="flex-1 min-w-0"> {/* Добавьте min-w-0 */}
-            <div className="font-bold text-lg text-gray-900 group-hover:text-gray-800 duration-300 truncate">
+          <div className="flex-1">
+            <div className="font-bold text-lg text-gray-900 group-hover:text-gray-800 duration-300">
               {item.title}
             </div>
-            <div className="text-sm text-gray-600 group-hover:text-gray-700 mt-1 duration-300 line-clamp-2">
+            <div className="text-sm text-gray-600 group-hover:text-gray-700 mt-1 duration-300">
               {item.description}
             </div>
           </div>
 
-          <div className="shrink-0"> {/* Оберните стрелку */}
-            <IconArrowAnim />
-          </div>
+          <IconArrowAnim />
         </button>
       ))}
     </div>

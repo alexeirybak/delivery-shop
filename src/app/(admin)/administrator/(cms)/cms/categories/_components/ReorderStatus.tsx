@@ -1,8 +1,7 @@
-interface ReorderStatusProps {
-  isReordering: boolean;
-}
+import { useCategoryStore } from "@/store/categoryStore";
 
-export const ReorderStatus = ({ isReordering }: ReorderStatusProps) => {
+export const ReorderStatus = () => {
+  const { isReordering } = useCategoryStore();
   if (!isReordering) return null;
 
   return (
@@ -12,4 +11,3 @@ export const ReorderStatus = ({ isReordering }: ReorderStatusProps) => {
     </div>
   );
 };
-

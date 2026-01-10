@@ -1,7 +1,4 @@
-interface MenuOverlayProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
+import { MenuOverlayProps } from "../types/sidebar";
 
 export const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
   return (
@@ -22,4 +19,3 @@ export const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
     </div>
   );
 };
-

@@ -1,17 +1,17 @@
-import { ChevronUp, ImageIcon } from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
+import { ChevronUp, ImageIcon } from "lucide-react";
 import { SortField } from "../../types";
 
 export const TableHeader = () => {
   const {
+    currentPage,
     sortField,
     sortDirection,
+    searchQuery,
+    filterType,
     setSortField,
     setSortDirection,
     loadCategories,
-    currentPage,
-    searchQuery,
-    filterType,
   } = useCategoryStore();
 
   const handleSort = async (field: SortField) => {
@@ -24,7 +24,7 @@ export const TableHeader = () => {
     await loadCategories({
       page: currentPage,
       search: searchQuery,
-      filterBy: filterType,
+      filterType,
     });
   };
 
@@ -42,7 +42,7 @@ export const TableHeader = () => {
 
   return (
     <div className="hidden lg:block border border-gray-200">
-      <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 p-4 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
+      <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 px-2 py-4 bg-gray-50 border-b border-gray-200 text-xs font-medium text-gray-500 uppercase tracking-wider">
         <div></div>
         <div
           className="text-center cursor-pointer hover:text-gray-700 flex items-center justify-center"
@@ -66,7 +66,7 @@ export const TableHeader = () => {
           Название {renderSortIcon("name")}
         </div>
         <div
-          className="cursor-pointer hover:text-gray700 flex items-center"
+          className="cursor-pointer hover:text-gray-700 flex items-center"
           onClick={() => handleSort("slug")}
           title="Сортировать по алиасу"
         >
