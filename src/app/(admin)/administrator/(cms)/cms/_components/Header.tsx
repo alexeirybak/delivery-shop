@@ -1,6 +1,5 @@
 import { HeaderProps } from "../types/dashboard";
 
-
 export const Header = ({ title, description }: HeaderProps) => {
   return (
     <header className="mb-8">

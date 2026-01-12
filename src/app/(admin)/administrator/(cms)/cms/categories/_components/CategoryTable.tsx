@@ -2,7 +2,7 @@ import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
 import { SortableItem } from "./SortableItem";
 import { useCategoryStore } from "@/store/categoryStore";
-import { Category, CategoryTableProps } from "../../types";
+import { Category, CategoryTableProps } from "../types";
 import { SearchBar } from "./SearchBar";
 import { AdvancedFilters } from "./AdvancedFilters";
 import { useState } from "react";

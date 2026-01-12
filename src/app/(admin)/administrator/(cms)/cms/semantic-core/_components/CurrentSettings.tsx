@@ -21,4 +21,4 @@ export const CurrentSettings = ({ settings }: CurrentSettingsProps) => {
       </div>
     </div>
   );
-}
+};

@@ -4,9 +4,7 @@ import { getTextColor } from "../utils/getTextColor";
 
 export const StatItem = ({ stat, statValue }: StatItemProps) => {
   return (
-    <div
-      className="p-4 rounded-lg border border-gray-100 hover:border-gray-200 duration-200"
-    >
+    <div className="p-4 rounded-lg border border-gray-100 hover:border-gray-200 duration-200">
       <div className="flex items-center justify-between mb-2">
         <div className={`p-2 ${getBgColor(stat.color)} rounded-lg`}>
           <div className={getTextColor(stat.color)}>{stat.icon}</div>

@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { Category, FilterType, SortField } from "../../types";
+import { Category, FilterType, SortField } from "../../categories/types";
 import { CONFIG_BLOG } from "../../CONFIG_BLOG";
 import { buildSortObject } from "../../utils/buildSortObject";
 import { buildFilterQuery } from "../../utils/buildFilterQuery";

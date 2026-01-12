@@ -1,6 +1,6 @@
 import { useCategoryStore } from "@/store/categoryStore";
 import { ChevronUp, ImageIcon } from "lucide-react";
-import { SortField } from "../../types";
+import { SortField } from "../types";
 
 export const TableHeader = () => {
   const {

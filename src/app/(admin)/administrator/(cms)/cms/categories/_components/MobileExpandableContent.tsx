@@ -1,5 +1,5 @@
 import React from "react";
-import { MobileExpandableContentProps } from "../../types";
+import { MobileExpandableContentProps } from "../types";
 
 export const MobileExpandableContent = ({
   category,

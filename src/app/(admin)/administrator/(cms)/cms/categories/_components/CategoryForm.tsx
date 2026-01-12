@@ -1,6 +1,10 @@
-import { CategoryFormField, CategoryFormProps, CharCount } from "../../types";
-import { FormFields } from "./FormFields";
-import { ImageSection } from "./ImageSection";
+import { ImageSection } from "../../_components/ImageSection";
+import {
+  CategoryCharCount,
+  CategoryFormField,
+  CategoryFormProps,
+} from "../types";
+import { CategoryFormFields } from "./CategoryFormFields";
 import { SubmitSection } from "./SubmitSection";
 import { useCategoryStore } from "@/store/categoryStore";
 
@@ -15,7 +19,7 @@ export const CategoryForm = ({
 }: CategoryFormProps) => {
   const { setIsUploading, formData } = useCategoryStore();
 
-  const charCount: CharCount = {
+  const charCount: CategoryCharCount = {
     name: formData.name.length,
     slug: formData.slug.length,
     description: formData.description.length,
@@ -24,12 +28,12 @@ export const CategoryForm = ({
   };
 
   const handleInputChange = (
-    field: CategoryFormField,
+    field: string,
     value: string,
     maxLength: number
   ) => {
     if (value.length <= maxLength) {
-      onFieldChange(field, value);
+      onFieldChange(field as CategoryFormField, value);
     }
   };
 
@@ -63,13 +67,14 @@ export const CategoryForm = ({
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <ImageSection
+          type="category"
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}
           onFileChange={handleFileChange}
           onRemoveImage={onRemoveImage}
         />
-        <FormFields
+        <CategoryFormFields
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}
