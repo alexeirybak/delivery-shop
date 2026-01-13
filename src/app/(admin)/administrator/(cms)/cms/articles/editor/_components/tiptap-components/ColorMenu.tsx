@@ -2,7 +2,7 @@
 
 import { Editor } from "@tiptap/react";
 import { Palette, Highlighter, Trash2, Check } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 
 interface ColorMenuProps {
   editor: Editor | null;
@@ -87,17 +87,17 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   }, []);
 
   // Получаем текущие цвета через TextStyleKit
-  const getCurrentTextColor = () => {
+  const getCurrentTextColor = useCallback(() => {
     if (!editor) return "#000000";
     const attrs = editor.getAttributes("textStyle");
     return attrs?.color || "#000000";
-  };
+  }, [editor]);
 
-  const getCurrentBgColor = () => {
+  const getCurrentBgColor = useCallback(() => {
     if (!editor) return "transparent";
     const attrs = editor.getAttributes("textStyle");
     return attrs?.backgroundColor || "transparent";
-  };
+  }, [editor]);
 
   // Обновляем пользовательские цвета при изменении в редакторе
   useEffect(() => {
@@ -113,7 +113,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
         setCustomBgColor(bgColor);
       }
     }
-  }, [editor?.getAttributes("textStyle")]);
+  }, [editor, getCurrentBgColor, getCurrentTextColor]);
 
   // Применяем цвет текста
   const applyTextColor = (color: string) => {
@@ -287,7 +287,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
         {isTextColorOpen && (
           <div
             ref={textColorRef}
-            className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-[240px]"
+            className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-60"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3">
@@ -411,7 +411,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
         {isBgColorOpen && (
           <div
             ref={bgColorRef}
-            className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-[240px]"
+            className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-60"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3">
