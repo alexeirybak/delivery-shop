@@ -12,7 +12,6 @@ export const TextFormattingMenu = ({ editor }: TextFormattingMenuProps) => {
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-xs text-gray-500 mr-2">Текст:</span>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}

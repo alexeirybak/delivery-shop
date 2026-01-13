@@ -123,6 +123,8 @@ const EditorPage = () => {
     }
   };
 
+  console.log(formData);
+
   return (
     <div className="relative">
       <Header title="Редактор статей" description="Создание статей" />

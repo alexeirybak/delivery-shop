@@ -22,7 +22,7 @@ export const ConnectionStatus = ({
         <button
           onClick={onTestAPI}
           disabled={isGenerating}
-          className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 flex items-center gap-2 disabled:opacity-50"
+          className="text-sm px-3 py-1 bg-green-100 text-green-700 rounded hover:bg-green-200 flex items-center gap-2 disabled:opacity-50 duration-300 cursor-pointer"
         >
           <AlertCircle className="w-4 h-4" />
           Тест API

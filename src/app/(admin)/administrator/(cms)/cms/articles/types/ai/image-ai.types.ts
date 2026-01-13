@@ -1,24 +1,83 @@
 import { Editor } from "@tiptap/react";
 
+// Базовые типы
+export type AspectRatio = "1:1" | "16:9" | "16:10" | "21:9";
+export type StyleType =
+  | "default"
+  | "realistic"
+  | "artistic"
+  | "sketch"
+  | "cartoon";
+export type GenerationStatusType =
+  | "idle"
+  | "generating"
+  | "processing"
+  | "completed"
+  | "failed";
+
 export interface GenerationStatus {
-  status: "idle" | "generating" | "processing" | "completed" | "failed";
+  status: GenerationStatusType;
   operationId?: string;
   imageUrl?: string;
   error?: string;
 }
 
-export interface ImageAIMenuModalProps {
-  isOpen: boolean;
-  onCloseAction: () => void;
-  editor: Editor | null;
-}
-
-export interface PromptInputProps {
+// Главный интерфейс
+export interface ImageAIModalProps {
+  // Состояние
   prompt: string;
-  onChange: (prompt: string) => void;
-  disabled: boolean;
+  editor: Editor | null;
+  generation: GenerationStatus;
+  selectedAspect: AspectRatio;
+  selectedStyle: StyleType;
+  apiInfo: string;
+  elapsedSeconds: number;
+
+  // Обработчики событий
+  onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onAspectChange: (aspect: AspectRatio) => void;
+  onStyleChange: (style: StyleType) => void;
+  onTestAPI: (e: React.MouseEvent) => void;
+  onDownload: (e: React.MouseEvent) => void;
+  onInsertToEditor: (e: React.MouseEvent) => void;
+  onGenerateImage: (e: React.MouseEvent) => void;
+  onClose: () => void;
+
+  // Дополнительные обработчики
+  onModalClick?: (e: React.MouseEvent) => void;
+  onCloseClick?: (e: React.MouseEvent) => void;
+  onSettingsButtonClick?: (aspect: AspectRatio, e: React.MouseEvent) => void;
+  onStyleButtonClick?: (style: StyleType, e: React.MouseEvent) => void;
 }
 
+// Для вложенных компонентов
+export interface SettingsPanelProps {
+  selectedAspect: AspectRatio;
+  selectedStyle: StyleType;
+  onAspectChange: (aspect: AspectRatio) => void;
+  onStyleChange: (style: StyleType) => void;
+  disabled: boolean;
+  onAspectButtonClick?: (aspect: AspectRatio, e: React.MouseEvent) => void;
+  onStyleButtonClick?: (style: StyleType, e: React.MouseEvent) => void;
+}
+
+export interface StatusPanelProps {
+  status: "generating" | "processing";
+  elapsedSeconds: number;
+  operationId?: string;
+}
+
+export interface ResultPanelProps {
+  imageUrl: string;
+  prompt: string;
+  selectedStyle: StyleType;
+  selectedAspect: AspectRatio;
+  elapsedSeconds: number;
+  onDownload: (e: React.MouseEvent) => void;
+  onInsertToEditor: (e: React.MouseEvent) => void;
+}
+
+// Для опций
 export interface AspectRatioOption {
   id: AspectRatio;
   label: string;
@@ -33,56 +92,29 @@ export interface StyleOption {
   color: string;
 }
 
-export interface SettingsPanelProps {
-  selectedAspect: "1:1" | "4:3" | "3:4" | "16:9" | "9:16";
-  selectedStyle: "default" | "realistic" | "artistic" | "sketch" | "cartoon";
-  onAspectChange: (aspect: "1:1" | "4:3" | "3:4" | "16:9" | "9:16") => void;
-  onStyleChange: (
-    style: "default" | "realistic" | "artistic" | "sketch" | "cartoon"
-  ) => void;
-  disabled: boolean;
-}
-
-export interface StatusPanelProps {
-  status: "generating" | "processing";
-  elapsedSeconds: number;
-  operationId?: string;
-}
-
-export interface ResultPanelProps {
-  imageUrl: string;
-  prompt: string;
-  selectedStyle: string;
-  selectedAspect: string;
-  elapsedSeconds: number;
-  onDownload: () => void;
-  onInsertToEditor: () => void;
-  onOpenInNewTab: () => void;
-}
-
-export interface ErrorPanelProps {
-  error: string;
-}
-
-export type AspectRatio = "1:1" | "4:3" | "3:4" | "16:9" | "9:16";
-
-export type StyleType =
-  | "default"
-  | "realistic"
-  | "artistic"
-  | "sketch"
-  | "cartoon";
-
-export interface SettingsPanelProps {
-  selectedAspect: AspectRatio;
-  selectedStyle: StyleType;
-  onAspectChange: (aspect: AspectRatio) => void;
-  onStyleChange: (style: StyleType) => void;
-  disabled: boolean;
-}
-
-export interface ImageRequest {
+export interface GenerationRequest {
   prompt: string;
   aspect_ratio?: AspectRatio;
   style?: StyleType;
+}
+
+export interface YandexArtRequest {
+  modelUri: string;
+  messages: Array<{ text: string; weight: number }>;
+  generationOptions: {
+    mime_type: "image/png";
+    seed: number;
+    width: number;
+    height: number;
+  };
+}
+
+export interface YandexArtResponse {
+  id?: string;
+  operationId?: string;
+  done?: boolean;
+  response?: {
+    image: string;
+  };
+  error?: string;
 }

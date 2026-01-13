@@ -1,8 +1,9 @@
 import { ArticleCharCount, ArticleFormData } from "./article-form.types";
 
+
 export interface ArticleFormFieldsProps {
   charCount: ArticleCharCount;
-  onInputChange: (field: string, value: string, maxLength: number) => void;
+  onInputChange: (field: keyof ArticleFormData, value: string, maxLength?: number) => void;
   onGenerateSlug: () => void;
 }
 

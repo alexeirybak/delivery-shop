@@ -1,4 +1,4 @@
-import { SettingsPanelProps } from "../../../../types";
+import { AspectRatio, SettingsPanelProps, StyleType } from "../../../../types";
 import { aspectRatios } from "../../../../utils/aspectRatios";
 import { promptStyles } from "../../../../utils/promptStyles";
 
@@ -8,7 +8,34 @@ export const SettingsPanel = ({
   onAspectChange,
   onStyleChange,
   disabled,
+  onAspectButtonClick,
+  onStyleButtonClick,
 }: SettingsPanelProps) => {
+
+  const handleAspectClick = (
+    ratioId: AspectRatio,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onAspectChange(ratioId);
+    if (onAspectButtonClick) {
+      onAspectButtonClick(ratioId, e);
+    }
+  };
+
+  const handleStyleClick = (
+    styleId: StyleType,
+    e: React.MouseEvent
+  ) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onStyleChange(styleId);
+    if (onStyleButtonClick) {
+      onStyleButtonClick(styleId, e);
+    }
+  };
+
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
       {/* Соотношение сторон */}
@@ -20,7 +47,7 @@ export const SettingsPanel = ({
           {aspectRatios.map((ratio) => (
             <button
               key={ratio.id}
-              onClick={() => onAspectChange(ratio.id)}
+              onClick={(e) => handleAspectClick(ratio.id, e)}
               disabled={disabled}
               className={`p-3 rounded-lg border flex flex-col items-center duration-300 cursor-pointer ${
                 selectedAspect === ratio.id
@@ -45,7 +72,7 @@ export const SettingsPanel = ({
           {promptStyles.map((style) => (
             <button
               key={style.id}
-              onClick={() => onStyleChange(style.id)}
+              onClick={(e) => handleStyleClick(style.id, e)}
               disabled={disabled}
               className={`p-3 rounded-lg border flex flex-col items-center gap-1 duration-300 cursor-pointer ${
                 selectedStyle === style.id

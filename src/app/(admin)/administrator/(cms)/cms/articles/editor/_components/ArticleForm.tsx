@@ -5,8 +5,9 @@ import { useArticleStore } from "@/store/articleStore";
 import { CategorySelect } from "./CategorySelect";
 import { ArticleFormFields } from "./ArticleFormFields";
 import { SubmitSection } from "./SubmitSection";
-import { ArticleFormField, ArticleFormProps } from "../../types/form";
+import { ArticleFormProps, ArticleFormField } from "../../types/form";
 import { TiptapEditor } from "./tiptap-components/TiptapEditor";
+import { ArticleFormData } from "@/app/(admin)/administrator/(cms)/cms/articles/types/form/article-form.types";
 
 export const ArticleForm = ({
   onFieldChangeAction,
@@ -27,20 +28,19 @@ export const ArticleForm = ({
     imageAlt: formData.imageAlt.length,
   };
 
-  const handleInputChange = (
-    field: string,
+  // Универсальный обработчик изменения полей
+  const handleFieldChange = (
+    field: keyof ArticleFormData,
     value: string,
-    maxLength: number
+    maxLength?: number
   ) => {
-    if (value.length <= maxLength) {
-      onFieldChangeAction(field as ArticleFormField, value);
+    if (maxLength !== undefined && value.length > maxLength) {
+      return;
     }
+    onFieldChangeAction(field as ArticleFormField, value);
   };
 
-  const handleGenerateSlug = () => {
-    onGenerateSlugAction();
-  };
-
+  // Обработчик для категории
   const handleCategoryChange = (
     categoryId: string,
     categoryName: string,
@@ -72,8 +72,6 @@ export const ArticleForm = ({
     }
   };
 
-  console.log(formData);
-
   return (
     <div className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой статьи</h2>
@@ -94,8 +92,8 @@ export const ArticleForm = ({
         <div className="mb-6">
           <ArticleFormFields
             charCount={charCount}
-            onInputChange={handleInputChange}
-            onGenerateSlug={handleGenerateSlug}
+            onInputChange={handleFieldChange}
+            onGenerateSlug={onGenerateSlugAction}
           />
         </div>
 
@@ -104,7 +102,7 @@ export const ArticleForm = ({
           <ImageSection
             type="article"
             charCount={charCount}
-            onInputChange={handleInputChange}
+            onInputChange={handleFieldChange}
             onFileChange={handleFileChange}
             onRemoveImage={onRemoveImageAction}
           />
@@ -117,7 +115,7 @@ export const ArticleForm = ({
             key={formData._id || "new-article"}
             content={formData.content || ""}
             onContentChangeAction={(content) =>
-              onFieldChangeAction("content", content)
+              handleFieldChange("content", content)
             }
           />
         </div>

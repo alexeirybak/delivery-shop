@@ -65,7 +65,7 @@ export const AIMenuModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-9999 p-4"
+      className="fixed inset-0 bg-blue-950 flex items-center justify-center z-9999 p-4"
       onClick={(e) => {
         e.stopPropagation();
         onCloseAction();
@@ -92,7 +92,7 @@ export const AIMenuModal = ({
           </div>
           <button
             onClick={onCloseAction}
-            className="p-2 hover:bg-white rounded-lg transition-colors"
+            className="p-2 hover:bg-white rounded-lg duration-300 cursor-pointer"
             disabled={isGenerating}
           >
             <X className="w-5 h-5 text-gray-500" />
@@ -115,7 +115,6 @@ export const AIMenuModal = ({
           />
         </div>
 
-        {/* Футер */}
         <FooterStatus
           selectedText={selectedText}
           aiStatus={aiStatus}

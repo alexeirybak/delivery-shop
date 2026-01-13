@@ -54,7 +54,7 @@ export const useArticleFormState = () => {
       const uploadFormData = new FormData();
       uploadFormData.append("image", tempImageFile);
 
-      const response = await fetch("/administrator/cms/api/categories/upload", {
+      const response = await fetch("/administrator/cms/api/articles/upload", {
         method: "POST",
         body: uploadFormData,
       });

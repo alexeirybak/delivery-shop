@@ -17,7 +17,6 @@ export const BlockMenu = ({ editor }: BlockMenuProps) => {
   return (
     <>
       <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500 mr-2">Блоки:</span>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}

@@ -12,7 +12,6 @@ export const AlignmentMenu = ({ editor }: AlignmentMenuProps) => {
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-xs text-gray-500 mr-2">Выравнивание:</span>
       <button
         type="button"
         onClick={() => editor.chain().focus().setTextAlign("left").run()}

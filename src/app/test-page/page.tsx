@@ -99,7 +99,7 @@ export default function TestPage() {
         <button
           onClick={testExistingImage}
           disabled={loading}
-          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 duration-300 cursor-pointer"
         >
           {loading ? "Загрузка..." : "Проверить существующее изображение"}
         </button>
@@ -107,7 +107,7 @@ export default function TestPage() {
         <button
           onClick={testNewImage}
           disabled={loading}
-          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50"
+          className="px-6 py-3 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 duration-300 cursor-pointer"
         >
           Создать новое изображение
         </button>

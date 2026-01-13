@@ -12,7 +12,6 @@ export const ListMenu = ({ editor }: ListMenuProps) => {
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-xs text-gray-500 mr-2">Списки:</span>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBulletList().run()}
