@@ -1,14 +1,9 @@
 "use client";
 
-import { Editor } from "@tiptap/react";
 import { Palette, Highlighter, Trash2, Check } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { EditorProps } from "../../../types";
 
-interface ColorMenuProps {
-  editor: Editor | null;
-}
-
-// Предопределенные цвета
 const TEXT_COLORS = [
   "#000000", // Черный
   "#FFFFFF", // Белый
@@ -49,7 +44,7 @@ const BG_COLORS = [
   "#CC99FF", // Фиолетовый
 ];
 
-export const ColorMenu = ({ editor }: ColorMenuProps) => {
+export const ColorMenu = ({ editor }: EditorProps) => {
   const [isTextColorOpen, setIsTextColorOpen] = useState(false);
   const [isBgColorOpen, setIsBgColorOpen] = useState(false);
   const [customTextColor, setCustomTextColor] = useState("#000000");
@@ -86,7 +81,6 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Получаем текущие цвета через TextStyleKit
   const getCurrentTextColor = useCallback(() => {
     if (!editor) return "#000000";
     const attrs = editor.getAttributes("textStyle");
@@ -99,16 +93,15 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
     return attrs?.backgroundColor || "transparent";
   }, [editor]);
 
-  // Обновляем пользовательские цвета при изменении в редакторе
   useEffect(() => {
     if (editor) {
       const textColor = getCurrentTextColor();
       const bgColor = getCurrentBgColor();
-      
+
       if (textColor !== "#000000" && !TEXT_COLORS.includes(textColor)) {
         setCustomTextColor(textColor);
       }
-      
+
       if (bgColor !== "transparent" && !BG_COLORS.includes(bgColor)) {
         setCustomBgColor(bgColor);
       }
@@ -118,13 +111,9 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   // Применяем цвет текста
   const applyTextColor = (color: string) => {
     if (!editor) return;
-    
-    editor
-      .chain()
-      .focus()
-      .setMark("textStyle", { color })
-      .run();
-    
+
+    editor.chain().focus().setMark("textStyle", { color }).run();
+
     // Если пользовательский цвет, обновляем состояние
     if (!TEXT_COLORS.includes(color)) {
       setCustomTextColor(color);
@@ -134,13 +123,13 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   // Применяем цвет фона
   const applyBgColor = (color: string) => {
     if (!editor) return;
-    
+
     editor
       .chain()
       .focus()
       .setMark("textStyle", { backgroundColor: color })
       .run();
-    
+
     // Если пользовательский цвет, обновляем состояние
     if (color !== "transparent" && !BG_COLORS.includes(color)) {
       setCustomBgColor(color);
@@ -150,39 +139,41 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   // Сброс цвета текста
   const resetTextColor = () => {
     if (!editor) return;
-    
+
     const currentAttributes = editor.getAttributes("textStyle");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { color, ...rest } = currentAttributes;
-    
+
     if (Object.keys(rest).length === 0) {
       editor.chain().focus().unsetMark("textStyle").run();
     } else {
       editor.chain().focus().setMark("textStyle", rest).run();
     }
-    
+
     setIsTextColorOpen(false);
   };
 
   // Сброс цвета фона
   const resetBgColor = () => {
     if (!editor) return;
-    
+
     const currentAttributes = editor.getAttributes("textStyle");
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { backgroundColor, ...rest } = currentAttributes;
-    
+
     if (Object.keys(rest).length === 0) {
       editor.chain().focus().unsetMark("textStyle").run();
     } else {
       editor.chain().focus().setMark("textStyle", rest).run();
     }
-    
+
     setIsBgColorOpen(false);
   };
 
   // Обработчик выбора пользовательского цвета текста
-  const handleCustomTextColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomTextColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const color = e.target.value;
     setCustomTextColor(color);
   };
@@ -192,7 +183,9 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   };
 
   // Обработчик выбора пользовательского цвета фона
-  const handleCustomBgColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCustomBgColorChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const color = e.target.value;
     setCustomBgColor(color);
   };
@@ -204,7 +197,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
   // Очистка пустых стилей
   const cleanEmptyStyles = () => {
     if (!editor) return;
-    
+
     // Получаем все узлы с textStyle
     const { state, dispatch } = editor.view;
     const { tr } = state;
@@ -216,13 +209,15 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
           if (mark.type.name === "textStyle") {
             const attrs = mark.attrs;
             // Проверяем, пустые ли атрибуты
-            const isEmpty = Object.keys(attrs).every(key => {
+            const isEmpty = Object.keys(attrs).every((key) => {
               const value = attrs[key];
-              return value === "" || 
-                     value === null || 
-                     value === undefined || 
-                     (key === "color" && value === "#000000") ||
-                     (key === "backgroundColor" && value === "transparent");
+              return (
+                value === "" ||
+                value === null ||
+                value === undefined ||
+                (key === "color" && value === "#000000") ||
+                (key === "backgroundColor" && value === "transparent")
+              );
             });
 
             if (isEmpty) {
@@ -270,7 +265,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
           }}
           className={`p-2 rounded border flex items-center gap-1 hover:bg-gray-100 transition-colors ${
             currentTextColor !== "#000000"
-              ? "bg-blue-50 border-blue-300"
+              ? "bg-green-50 border-blue-300"
               : "bg-white border-gray-300"
           }`}
           title="Цвет текста"
@@ -294,7 +289,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
               <div className="text-xs font-medium text-gray-700 mb-2">
                 Цвет текста
               </div>
-              
+
               {/* Предопределенные цвета */}
               <div className="grid grid-cols-8 gap-1 mb-3">
                 {TEXT_COLORS.map((color) => (
@@ -315,7 +310,9 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
 
               {/* Пользовательский цвет */}
               <div className="mb-3">
-                <div className="text-xs text-gray-600 mb-1">Пользовательский цвет:</div>
+                <div className="text-xs text-gray-600 mb-1">
+                  Пользовательский цвет:
+                </div>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
@@ -333,7 +330,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
                   />
                   <button
                     onClick={applyCustomTextColor}
-                    className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
                     type="button"
                   >
                     Применить
@@ -388,7 +385,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
           }}
           className={`p-2 rounded border flex items-center gap-1 hover:bg-gray-100 transition-colors ${
             currentBgColor !== "transparent"
-              ? "bg-blue-50 border-blue-300"
+              ? "bg-green-50 border-blue-300"
               : "bg-white border-gray-300"
           }`}
           title="Цвет фона"
@@ -400,10 +397,12 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
             className="w-3 h-3 rounded border border-gray-300"
             style={{
               backgroundColor: currentBgColor,
-              backgroundImage: currentBgColor === "transparent" 
-                ? 'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)'
-                : 'none',
-              backgroundSize: currentBgColor === "transparent" ? '8px 8px' : 'auto',
+              backgroundImage:
+                currentBgColor === "transparent"
+                  ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)"
+                  : "none",
+              backgroundSize:
+                currentBgColor === "transparent" ? "8px 8px" : "auto",
             }}
           />
         </button>
@@ -418,7 +417,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
               <div className="text-xs font-medium text-gray-700 mb-2">
                 Цвет фона
               </div>
-              
+
               {/* Предопределенные цвета */}
               <div className="grid grid-cols-8 gap-1 mb-3">
                 {BG_COLORS.map((color) => (
@@ -428,10 +427,12 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
                     className="w-6 h-6 rounded border border-gray-300 hover:scale-110 transition-transform relative"
                     style={{
                       backgroundColor: color === "transparent" ? "#fff" : color,
-                      backgroundImage: color === "transparent" 
-                        ? 'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)'
-                        : 'none',
-                      backgroundSize: color === "transparent" ? '8px 8px' : 'auto',
+                      backgroundImage:
+                        color === "transparent"
+                          ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)"
+                          : "none",
+                      backgroundSize:
+                        color === "transparent" ? "8px 8px" : "auto",
                     }}
                     title={color === "transparent" ? "Прозрачный" : color}
                     type="button"
@@ -448,7 +449,9 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
 
               {/* Пользовательский цвет */}
               <div className="mb-3">
-                <div className="text-xs text-gray-600 mb-1">Пользовательский цвет:</div>
+                <div className="text-xs text-gray-600 mb-1">
+                  Пользовательский цвет:
+                </div>
                 <div className="flex items-center gap-2">
                   <input
                     type="color"
@@ -466,7 +469,7 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
                   />
                   <button
                     onClick={applyCustomBgColor}
-                    className="px-2 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+                    className="px-2 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600"
                     type="button"
                   >
                     Применить
@@ -482,14 +485,18 @@ export const ColorMenu = ({ editor }: ColorMenuProps) => {
                     className="w-5 h-5 rounded border border-gray-300"
                     style={{
                       backgroundColor: currentBgColor,
-                      backgroundImage: currentBgColor === "transparent" 
-                        ? 'linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)'
-                        : 'none',
-                      backgroundSize: currentBgColor === "transparent" ? '8px 8px' : 'auto',
+                      backgroundImage:
+                        currentBgColor === "transparent"
+                          ? "linear-gradient(45deg, #ccc 25%, transparent 25%), linear-gradient(-45deg, #ccc 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #ccc 75%), linear-gradient(-45deg, transparent 75%, #ccc 75%)"
+                          : "none",
+                      backgroundSize:
+                        currentBgColor === "transparent" ? "8px 8px" : "auto",
                     }}
                   />
                   <span className="text-sm font-mono">
-                    {currentBgColor === "transparent" ? "Прозрачный" : currentBgColor}
+                    {currentBgColor === "transparent"
+                      ? "Прозрачный"
+                      : currentBgColor}
                   </span>
                 </div>
               </div>

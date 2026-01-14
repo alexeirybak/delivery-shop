@@ -13,10 +13,10 @@ import { ImageMenu } from "./ImageMenu";
 import { AIMenu } from "./textAI/AIMenu";
 import { ImageAIMenu } from "./imageAI/ImageAIMenu";
 import { ColorMenu } from "./ColorMenu";
-import { TipTapMenuProps } from "../../../types";
 import { Fragment } from "react";
+import { EditorProps } from "../../../types";
 
-export const MainToolbar = ({ editor }: TipTapMenuProps) => {
+export const MainToolbar = ({ editor }: EditorProps) => {
   if (!editor) {
     return (
       <div className="bg-gray-50 border-b border-gray-200 p-2">
@@ -35,10 +35,10 @@ export const MainToolbar = ({ editor }: TipTapMenuProps) => {
     { component: BlockMenu, key: "block" },
     { component: AlignmentMenu, key: "alignment" },
     { component: LinkMenu, key: "link" },
-    { component: ImageMenu, key: "image" },
-    { component: ImageAIMenu, key: "image-ai" },
     { component: TableMenu, key: "table" },
+    { component: ImageMenu, key: "image" },
     { component: AIMenu, key: "ai" },
+    { component: ImageAIMenu, key: "image-ai" },
   ];
 
   return (

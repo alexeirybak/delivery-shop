@@ -1,14 +1,10 @@
 "use client";
 
 import { ImagePlus, Upload } from "lucide-react";
-import { Editor } from "@tiptap/react";
 import { useRef, useCallback, ChangeEvent } from "react";
+import { EditorProps } from "../../../types";
 
-interface ImageMenuProps {
-  editor: Editor | null;
-}
-
-export const ImageMenu = ({ editor }: ImageMenuProps) => {
+export const ImageMenu = ({ editor }: EditorProps) => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Универсальная функция вставки изображения

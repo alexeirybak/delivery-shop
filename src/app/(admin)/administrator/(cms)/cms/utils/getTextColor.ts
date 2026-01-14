@@ -1,6 +1,6 @@
 export const getTextColor = (color: string): string => {
   const colors: Record<string, string> = {
-    blue: "text-blue-600",
+    blue: "text-green-600",
     green: "text-green-600",
     purple: "text-purple-600",
     indigo: "text-indigo-600",

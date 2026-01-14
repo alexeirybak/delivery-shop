@@ -16,10 +16,8 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
     formData.isFeatured || false
   );
 
-  // Синхронизируем состояние с formData при изменении
   useEffect(() => {
     if (formData.status) {
-      // Безопасное приведение типа
       const safeStatus =
         formData.status === "published" ? "published" : "draft";
       setArticleStatus(safeStatus);
@@ -39,9 +37,7 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
     updateFormField("isFeatured", featured);
   };
 
-  // Функция с confirm перед отменой
   const handleCancelWithConfirm = () => {
-    // Проверяем, есть ли введенные данные
     const hasData =
       formData.name.trim() !== "" ||
       formData.slug.trim() !== "" ||
@@ -137,7 +133,6 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
         </div>
       </div>
 
-      {/* Секция выбора статуса публикации */}
       <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
         <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
           <Globe className="w-5 h-5" />
@@ -151,7 +146,7 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
               disabled={isUploading || isSubmitting}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
                 articleStatus === "draft"
-                  ? "bg-blue-50 text-blue-700 border-blue-300 shadow-sm"
+                  ? "bg-yellow-50 text-yellow-700 border-yellow-300 shadow-sm"
                   : "bg-white border-gray-300 hover:bg-gray-50"
               }`}
             >
@@ -212,7 +207,6 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
         </div>
       </div>
 
-      {/* Кнопки отправки */}
       <div className="flex flex-col sm:flex-row gap-3 mt-6">
         <button
           type="submit"
@@ -222,7 +216,7 @@ export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
               ? isFeatured
                 ? "bg-yellow-600 text-white hover:bg-yellow-700"
                 : "bg-green-600 text-white hover:bg-green-700"
-              : "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-yellow-600 text-white hover:bg-yellow-700"
           }`}
         >
           <Save className="w-5 h-5" />

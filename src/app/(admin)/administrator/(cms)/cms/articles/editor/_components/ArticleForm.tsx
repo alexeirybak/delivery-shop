@@ -28,7 +28,6 @@ export const ArticleForm = ({
     imageAlt: formData.imageAlt.length,
   };
 
-  // Универсальный обработчик изменения полей
   const handleFieldChange = (
     field: keyof ArticleFormData,
     value: string,
@@ -40,7 +39,6 @@ export const ArticleForm = ({
     onFieldChangeAction(field as ArticleFormField, value);
   };
 
-  // Обработчик для категории
   const handleCategoryChange = (
     categoryId: string,
     categoryName: string,
@@ -76,7 +74,6 @@ export const ArticleForm = ({
     <div className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой статьи</h2>
       <form onSubmit={onSubmitAction}>
-        {/* Категория */}
         {categories.length > 0 && (
           <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
             <h3 className="text-lg font-medium mb-4">Категория статьи *</h3>
@@ -88,7 +85,6 @@ export const ArticleForm = ({
           </div>
         )}
 
-        {/* Основные поля */}
         <div className="mb-6">
           <ArticleFormFields
             charCount={charCount}
@@ -97,7 +93,6 @@ export const ArticleForm = ({
           />
         </div>
 
-        {/* Изображение статьи */}
         <div className="mb-6">
           <ImageSection
             type="article"
@@ -108,7 +103,6 @@ export const ArticleForm = ({
           />
         </div>
 
-        {/* Редактор статьи */}
         <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
           <TiptapEditor

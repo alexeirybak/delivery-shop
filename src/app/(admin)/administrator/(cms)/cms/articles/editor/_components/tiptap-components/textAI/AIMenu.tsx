@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
 import { useState } from "react";
-import { Brain, RefreshCw } from "lucide-react";
+import { Brain, CheckCircle, RefreshCw, XCircle } from "lucide-react";
 import { Editor } from "@tiptap/react";
 
 import { AIMenuModal } from "./AIMenuModal";
 import { AIStatus, ApiResponse } from "../../../../types";
-import { 
-  createApiError, 
-  getFullErrorMessage, 
-  isErrorWithStatusCode 
+import {
+  createApiError,
+  getFullErrorMessage,
+  isErrorWithStatusCode,
 } from "../../../../utils/errorUtils";
 
 interface TipTapMenuProps {
@@ -23,8 +23,10 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
   const [aiStatus, setAiStatus] = useState<AIStatus>("idle");
   const [errorDetails, setErrorDetails] = useState<string>("");
 
-  // Основная функция генерации
-  const generateWithYandexGPT = async (action: string, customPromptText?: string) => {
+  const generateWithYandexGPT = async (
+    action: string,
+    customPromptText?: string
+  ) => {
     if (!editor) return;
 
     setIsGenerating(true);
@@ -52,11 +54,14 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
       const prompt = customPromptText || selectedText;
       const finalAction = customPromptText ? "custom" : action;
 
-      const response = await fetch("/api/yandex-gpt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, action: finalAction }),
-      });
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-gpt",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, action: finalAction }),
+        }
+      );
 
       const data: ApiResponse = await response.json();
 
@@ -75,7 +80,11 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
       if (!editor.state.selection.empty) {
         editor.chain().focus().deleteSelection().insertContent(data.text).run();
       } else {
-        editor.chain().focus().insertContent("\n\n" + data.text + "\n\n").run();
+        editor
+          .chain()
+          .focus()
+          .insertContent("\n\n" + data.text + "\n\n")
+          .run();
       }
 
       setAiStatus("success");
@@ -84,7 +93,7 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
       setTimeout(() => setAiStatus("idle"), 2000);
     } catch (error: unknown) {
       setAiStatus("error");
-      
+
       if (isErrorWithStatusCode(error)) {
         setErrorDetails(error.message);
         alert(getFullErrorMessage(error));
@@ -105,20 +114,26 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
       setIsGenerating(true);
       setAiStatus("loading");
 
-      const response = await fetch("/api/yandex-gpt", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
-          action: "custom",
-        }),
-      });
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-gpt",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt:
+              "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
+            action: "custom",
+          }),
+        }
+      );
 
       const data: ApiResponse = await response.json();
 
       if (response.ok && data.text) {
         setAiStatus("success");
-        alert(`YandexGPT API работает!\n\nОтвет: ${data.text}\n\nМодель: ${data.model || "yandexgpt"}`);
+        alert(
+          `YandexGPT API работает!\n\nОтвет: ${data.text}\n\nМодель: ${data.model || "yandexgpt"}`
+        );
       } else {
         throw createApiError(
           data.error || data.details || "Неизвестная ошибка",
@@ -127,7 +142,7 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
       }
     } catch (error: unknown) {
       setAiStatus("error");
-      
+
       if (isErrorWithStatusCode(error)) {
         alert(getFullErrorMessage(error));
       } else if (error instanceof Error) {
@@ -165,9 +180,9 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
           disabled={isGenerating}
           className={`p-2 rounded duration-300 cursor-pointer ${
             isGenerating
-              ? "bg-blue-100 text-blue-600"
+              ? "bg-green-100 text-green-600"
               : showAIModal
-                ? "bg-blue-100 text-blue-600"
+                ? "bg-green-100 text-green-600"
                 : "hover:bg-gray-200 text-gray-600"
           }`}
           title="Открыть AI помощник (YandexGPT)"
@@ -180,13 +195,21 @@ export const AIMenu = ({ editor }: TipTapMenuProps) => {
         </button>
 
         {aiStatus === "loading" && (
-          <span className="text-xs text-blue-600 animate-pulse">YandexGPT...</span>
+          <span className="text-xs text-green-600 animate-pulse">
+            YandexGPT...
+          </span>
         )}
         {aiStatus === "success" && (
-          <span className="text-xs text-green-600">✓ Готово</span>
+          <div className="flex items-center gap-1 text-xs text-green-600">
+            <CheckCircle className="w-3 h-3" />
+            <span>Готово</span>
+          </div>
         )}
         {aiStatus === "error" && (
-          <span className="text-xs text-red-600">✗ Ошибка</span>
+          <div className="flex items-center gap-1 text-xs text-red-600">
+            <XCircle className="w-3 h-3" />
+            <span>Ошибка</span>
+          </div>
         )}
       </div>
 

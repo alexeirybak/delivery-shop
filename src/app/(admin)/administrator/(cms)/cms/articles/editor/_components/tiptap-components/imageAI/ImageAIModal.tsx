@@ -37,7 +37,7 @@ export const ImageAIModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-blue-950 flex items-center justify-center z-10000 p-4"
+      className="fixed inset-0 bg-green-950 flex items-center justify-center z-10000 p-4"
       onClick={onCloseClick}
     >
       <div
@@ -103,7 +103,7 @@ export const ImageAIModal = ({
                       apiInfo.includes("подключен")
                     ? "bg-green-50 border-green-200 text-green-800"
                     : // Синий - для информационных сообщений
-                      "bg-blue-50 border-blue-200 text-blue-800"
+                      "bg-green-50 border-blue-200 text-green-800"
               }`}
             >
               <div className="text-sm whitespace-pre-line">{apiInfo}</div>

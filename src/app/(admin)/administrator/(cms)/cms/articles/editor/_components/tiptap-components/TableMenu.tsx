@@ -20,7 +20,7 @@ import {
 
 import { Node } from "prosemirror-model";
 import "../../css/tableMenu.css";
-import { TipTapMenuProps } from "../../../types";
+import { EditorProps } from "../../../types";
 
 interface NodeInfo {
   node: Node;
@@ -28,7 +28,7 @@ interface NodeInfo {
   type: string;
 }
 
-export const TableMenu = ({ editor }: TipTapMenuProps) => {
+export const TableMenu = ({ editor }: EditorProps) => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);

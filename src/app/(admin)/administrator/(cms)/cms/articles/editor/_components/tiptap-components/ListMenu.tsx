@@ -1,13 +1,9 @@
 "use client";
 
 import { List, ListOrdered } from "lucide-react";
-import { Editor } from "@tiptap/react";
+import { EditorProps } from "../../../types";
 
-interface ListMenuProps {
-  editor: Editor | null;
-}
-
-export const ListMenu = ({ editor }: ListMenuProps) => {
+export const ListMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
 
   return (
@@ -17,7 +13,7 @@ export const ListMenu = ({ editor }: ListMenuProps) => {
         onClick={() => editor.chain().focus().toggleBulletList().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("bulletList")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Маркированный список"
@@ -29,7 +25,7 @@ export const ListMenu = ({ editor }: ListMenuProps) => {
         onClick={() => editor.chain().focus().toggleOrderedList().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("orderedList")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Нумерованный список"

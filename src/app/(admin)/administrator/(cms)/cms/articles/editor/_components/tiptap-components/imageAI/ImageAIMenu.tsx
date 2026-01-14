@@ -4,12 +4,15 @@ import {
   AspectRatio,
   GenerationStatus,
   StyleType,
-  TipTapMenuProps,
+  EditorProps,
 } from "../../../../types";
 import { formatTime } from "../../../../utils/formatTime";
 import { ImageAIModal } from "./ImageAIModal";
+import { useArticleStore } from "@/store/articleStore";
 
-export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
+export const ImageAIMenu = ({ editor }: EditorProps) => {
+  const { formData } = useArticleStore();
+  console.log(formData.categorySlug);
   const [showModal, setShowModal] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [generation, setGeneration] = useState<GenerationStatus>({
@@ -25,60 +28,45 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Таймер для отслеживания времени - ОДИН ЭФФЕКТ!
   useEffect(() => {
-    console.log("Timer effect running, status:", generation.status);
-    
-    // Очищаем предыдущий таймер
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
     }
-    
-    // Если статус generating или processing - запускаем таймер
-    if (generation.status === "generating" || generation.status === "processing") {
-      console.log("Starting timer");
+
+    if (
+      generation.status === "generating" ||
+      generation.status === "processing"
+    ) {
       timerRef.current = setInterval(() => {
         setElapsedSeconds((prev) => {
-          console.log("Timer tick, seconds:", prev + 1);
           return prev + 1;
         });
       }, 1000);
-    } 
-    // Если статус idle - сбрасываем счетчик
-    else if (generation.status === "idle") {
-      console.log("Resetting timer to 0");
+    } else if (generation.status === "idle") {
       setElapsedSeconds(0);
     }
-    // Для completed и failed оставляем текущее значение
-    
+
     return () => {
       if (timerRef.current) {
-        console.log("Cleaning up timer");
         clearInterval(timerRef.current);
         timerRef.current = null;
       }
     };
   }, [generation.status]);
 
-  // Опрос статуса генерации
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
     if (generation.status === "processing" && generation.operationId) {
       const pollStatus = async () => {
         try {
-          console.log("Polling status for operation:", generation.operationId);
-
           const response = await fetch(
-            `/api/yandex-image?operationId=${generation.operationId}`
+            `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`
           );
           const data = await response.json();
 
-          console.log("Polling response:", data);
-
           if (data.done) {
-            // Останавливаем опрос
             if (interval) {
               clearInterval(interval);
               interval = null;
@@ -90,7 +78,6 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
                 operationId: generation.operationId,
                 imageUrl: data.imageUrl,
               });
-              console.log("Image generation completed:", data.imageUrl);
             } else if (data.error) {
               setGeneration({
                 status: "failed",
@@ -105,10 +92,8 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
         }
       };
 
-      // Первый запрос сразу
       pollStatus();
 
-      // Затем каждые 3 секунды
       interval = setInterval(pollStatus, 3000);
     }
 
@@ -120,22 +105,17 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
   }, [generation.status, generation.operationId]);
 
   const closeModal = useCallback(() => {
-    // Останавливаем таймеры и интервалы
     if (pollingInterval) {
       clearInterval(pollingInterval);
       setPollingInterval(null);
     }
-    
-    // Таймер уже остановится сам через эффект при смене статуса на idle
 
     setShowModal(false);
     setPrompt("");
-    setGeneration({ status: "idle" }); // Это запустит эффект таймера и сбросит elapsedSeconds
+    setGeneration({ status: "idle" });
     setApiInfo("");
-    // Убираем setElapsedSeconds(0) здесь - это делает эффект
   }, [pollingInterval]);
 
-  // Хэндлеры для управления состоянием
   const handleOpenModal = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     setShowModal(true);
@@ -165,30 +145,25 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
     setGeneration({
       status: "generating",
     });
-    // Убираем setElapsedSeconds(0) здесь - эффект сам сбросит при смене статуса
     setApiInfo("");
 
     try {
-      console.log("Starting image generation with YandexART:", {
-        prompt,
-        selectedAspect,
-        selectedStyle,
-      });
-
-      const response = await fetch("/api/yandex-image", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: prompt,
-          aspect_ratio: selectedAspect,
-          style: selectedStyle,
-        }),
-      });
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-image",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: prompt,
+            aspect_ratio: selectedAspect,
+            style: selectedStyle,
+          }),
+        }
+      );
 
       const data = await response.json();
-      console.log("YandexART response:", data);
 
       if (!response.ok || !data.success) {
         throw new Error(
@@ -199,7 +174,6 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
       }
 
       if (data.operationId) {
-        // Переходим в режим опроса статуса - таймер продолжит работать!
         setGeneration({
           status: "processing",
           operationId: data.operationId,
@@ -230,21 +204,22 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
       setGeneration({ status: "generating" });
       setApiInfo("Проверка подключения к YandexART API...");
 
-      const response = await fetch("/api/yandex-image", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: "Тестовая генерация: красная панда",
-          aspect_ratio: "1:1",
-          style: "default",
-        }),
-      });
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-image",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: "Тестовая генерация: красная панда",
+            aspect_ratio: "1:1",
+            style: "default",
+          }),
+        }
+      );
 
       const data = await response.json();
-      console.log("YandexART test response:", data);
-
       if (data.success && data.operationId) {
         setApiInfo(
           `YandexART API работает! Operation ID: ${data.operationId}\n\nМодель: ${data.model || "yandexgpt"}`
@@ -346,7 +321,6 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
 
   return (
     <>
-      {/* Кнопка в тулбаре */}
       <div className="flex items-center gap-1">
         <button
           type="button"
@@ -358,9 +332,9 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
           className={`p-2 rounded duration-300 cursor-pointer ${
             generation.status === "generating" ||
             generation.status === "processing"
-              ? "bg-blue-100 text-blue-600"
+              ? "bg-green-100 text-green-600"
               : showModal
-                ? "bg-blue-100 text-blue-600"
+                ? "bg-green-100 text-green-600"
                 : "hover:bg-gray-200 text-gray-600"
           }`}
           title="Генерация изображений с помощью YandexART"
@@ -375,7 +349,7 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
 
         {(generation.status === "generating" ||
           generation.status === "processing") && (
-          <span className="text-xs text-blue-600 animate-pulse">
+          <span className="text-xs text-green-600 animate-pulse">
             {formatTime(elapsedSeconds)}
           </span>
         )}
@@ -389,7 +363,6 @@ export const ImageAIMenu = ({ editor }: TipTapMenuProps) => {
         )}
       </div>
 
-      {/* Модальное окно */}
       {showModal && (
         <ImageAIModal
           prompt={prompt}

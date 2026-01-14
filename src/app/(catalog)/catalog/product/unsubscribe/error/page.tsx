@@ -10,7 +10,7 @@ export default function UnsubscribeError() {
           подписка уже отменена.
         </p>
       </div>
-      <Link href="/" className="text-main-text underline hover:text-blue-800">
+      <Link href="/" className="text-main-text underline hover:text-green-800">
         Вернуться на главную
       </Link>
     </div>

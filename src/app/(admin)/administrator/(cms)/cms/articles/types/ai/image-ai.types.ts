@@ -77,7 +77,6 @@ export interface ResultPanelProps {
   onInsertToEditor: (e: React.MouseEvent) => void;
 }
 
-// Для опций
 export interface AspectRatioOption {
   id: AspectRatio;
   label: string;
@@ -98,23 +97,32 @@ export interface GenerationRequest {
   style?: StyleType;
 }
 
-export interface YandexArtRequest {
+
+export  interface YandexArtGenerationRequest {
   modelUri: string;
   messages: Array<{ text: string; weight: number }>;
   generationOptions: {
-    mime_type: "image/png";
+    mimeType: "image/png"; 
     seed: number;
-    width: number;
-    height: number;
+    aspectRatio?: {      
+      widthRatio: number;
+      heightRatio: number;
+    };
   };
 }
 
 export interface YandexArtResponse {
   id?: string;
   operationId?: string;
-  done?: boolean;
+}
+
+export interface OperationStatus {
+  done: boolean;
   response?: {
     image: string;
   };
   error?: string;
+  createdAt?: string;
+  modifiedAt?: string;
 }
+

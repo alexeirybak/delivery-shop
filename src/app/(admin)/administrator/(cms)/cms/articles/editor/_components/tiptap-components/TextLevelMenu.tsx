@@ -23,7 +23,6 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Текущий выбранный элемент
   const getCurrentLabel = () => {
     if (editor?.isActive("paragraph")) return "Текст";
     for (let i = 1; i <= 6; i++) {

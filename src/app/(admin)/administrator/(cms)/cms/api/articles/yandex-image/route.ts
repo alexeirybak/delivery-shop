@@ -1,64 +1,33 @@
+import {
+  GenerationRequest,
+  StyleType,
+  YandexArtGenerationRequest,
+  YandexArtResponse,
+} from "@/app/(admin)/administrator/(cms)/cms/articles/types";
 import { NextRequest, NextResponse } from "next/server";
+import sharp from "sharp";
+import fs from 'fs/promises';
+import path from 'path';
 
-// Типы для запроса
-type AspectRatio = "1:1" | "16:9" | "16:10" | "21:9";
-type StyleType = "default" | "realistic" | "artistic" | "sketch" | "cartoon";
 
-interface GenerationRequest {
-  prompt: string;
-  aspect_ratio?: AspectRatio;
-  style?: StyleType;
-}
+const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
+const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 
-// Типы для YandexART API - ПРАВИЛЬНАЯ СТРУКТУРА!
-interface YandexArtGenerationRequest {
-  modelUri: string;
-  messages: Array<{ text: string; weight: number }>;
-  generationOptions: {
-    mimeType: "image/png";  // Обратите внимание: mimeType, а не mime_type!
-    seed: number;
-    aspectRatio?: {         // Вот оно! aspectRatio как объект
-      widthRatio: number;
-      heightRatio: number;
-    };
-    width?: number;         // Оставляем для обратной совместимости
-    height?: number;        // Оставляем для обратной совместимости
-  };
-}
-
-interface YandexArtResponse {
-  id?: string;
-  operationId?: string;
-}
-
-interface OperationStatus {
-  done: boolean;
-  response?: {
-    image: string;
-  };
-  error?: string;
-  createdAt?: string;
-  modifiedAt?: string;
-}
-
-// POST - начать генерацию
 export async function POST(request: NextRequest) {
-  console.log("=== YandexART Image Generation ===");
-
   try {
     const body = await request.json();
-    const { prompt, aspect_ratio = "1:1", style = "default" }: GenerationRequest = body;
+    const {
+      prompt,
+      aspect_ratio = "1:1",
+      style = "default",
+    }: GenerationRequest = body;
 
-    // Валидация
     if (!prompt || prompt.trim().length < 3) {
       return NextResponse.json(
         { error: "Описание должно содержать минимум 3 символа" },
         { status: 400 }
       );
     }
-
-    const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
-    const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 
     if (!YANDEX_API_KEY || !YANDEX_FOLDER_ID) {
       console.error("Missing env vars:", {
@@ -71,8 +40,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Парсим соотношения сторон
-    let widthRatio = 1, heightRatio = 1;
+    let widthRatio = 1,
+      heightRatio = 1;
     switch (aspect_ratio) {
       case "16:9":
         widthRatio = 16;
@@ -88,12 +57,10 @@ export async function POST(request: NextRequest) {
         break;
     }
 
-    console.log("Using aspect ratio:", aspect_ratio, "ratios:", widthRatio, ":", heightRatio);
-
-    // Улучшаем промпт в зависимости от стиля
     let enhancedPrompt = prompt;
     const styleMap: Record<StyleType, string> = {
-      realistic: "фотореалистично, высокое качество, детализированно, профессиональная фотография",
+      realistic:
+        "фотореалистично, высокое качество, детализированно, профессиональная фотография",
       artistic: "художественная живопись, шедевр, цифровое искусство, арт",
       sketch: "эскиз, рисунок, карандашный набросок, черно-белое",
       cartoon: "мультяшный стиль, анимация, диснеевский стиль",
@@ -104,31 +71,23 @@ export async function POST(request: NextRequest) {
       enhancedPrompt = `${styleMap[style]}: ${prompt}`;
     }
 
-    // ПРАВИЛЬНАЯ СТРУКТУРА согласно документации!
     const requestBody: YandexArtGenerationRequest = {
       modelUri: `art://${YANDEX_FOLDER_ID}/yandex-art/latest`,
       messages: [
         {
           text: enhancedPrompt,
-          weight: 1,  // Важно: number, а не string!
+          weight: 1,
         },
       ],
       generationOptions: {
-        mimeType: "image/png",  // Правильное поле!
+        mimeType: "image/png",
         seed: Math.floor(Math.random() * 1000000),
-        aspectRatio: {          // Вот правильная структура!
+        aspectRatio: {
           widthRatio: widthRatio,
           heightRatio: heightRatio,
         },
       },
     };
-
-    console.log("Sending to YandexART (correct structure):", {
-      modelUri: requestBody.modelUri,
-      prompt: enhancedPrompt.substring(0, 100),
-      aspectRatio: requestBody.generationOptions.aspectRatio,
-      seed: requestBody.generationOptions.seed,
-    });
 
     const response = await fetch(
       "https://llm.api.cloud.yandex.net/foundationModels/v1/imageGenerationAsync",
@@ -144,105 +103,16 @@ export async function POST(request: NextRequest) {
     );
 
     const responseText = await response.text();
-    console.log("Response status:", response.status);
-    console.log("Response text length:", responseText.length);
-    
-    if (responseText.length > 0) {
-      console.log("Response (first 500 chars):", responseText.substring(0, 500));
-    } else {
-      console.log("Response is empty!");
-    }
 
     if (!response.ok) {
-      // Если не сработало с aspectRatio, пробуем старый вариант
-      console.log("Trying alternative format with width/height...");
-      
-      // Рассчитываем пиксели
-      let width = 1024, height = 1024;
-      switch (aspect_ratio) {
-        case "16:9":
-          width = 1024;
-          height = 576;
-          break;
-        case "16:10":
-          width = 1024;
-          height = 640;
-          break;
-        case "21:9":
-          width = 1024;
-          height = 439;
-          break;
-      }
-
-      const alternativeRequestBody = {
-        modelUri: `art://${YANDEX_FOLDER_ID}/yandex-art/latest`,
-        messages: [
-          {
-            text: enhancedPrompt,
-            weight: 1,
-          },
-        ],
-        generationOptions: {
-          mime_type: "image/png",  // Старый вариант
-          seed: Math.floor(Math.random() * 1000000),
-          width: width,
-          height: height,
-        },
-      };
-
-      const altResponse = await fetch(
-        "https://llm.api.cloud.yandex.net/foundationModels/v1/imageGenerationAsync",
+      return NextResponse.json(
         {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Api-Key ${YANDEX_API_KEY}`,
-            Accept: "application/json",
-          },
-          body: JSON.stringify(alternativeRequestBody),
-        }
+          error: "Ошибка API YandexART",
+          details: `Status: ${response.status}`,
+          response: responseText.substring(0, 500),
+        },
+        { status: response.status }
       );
-
-      const altResponseText = await altResponse.text();
-      console.log("Alternative response status:", altResponse.status);
-      
-      if (!altResponse.ok) {
-        return NextResponse.json(
-          {
-            error: "Ошибка API YandexART",
-            details: `First attempt: ${response.status}, Second attempt: ${altResponse.status}`,
-            firstResponse: responseText.substring(0, 500),
-            secondResponse: altResponseText.substring(0, 500),
-          },
-          { status: altResponse.status }
-        );
-      }
-
-      // Используем альтернативный ответ
-      const altData: YandexArtResponse = JSON.parse(altResponseText);
-      const operationId = altData.id || altData.operationId;
-
-      if (!operationId) {
-        return NextResponse.json(
-          {
-            error: "Не получен ID операции (альтернативный формат)",
-            response: altData,
-          },
-          { status: 500 }
-        );
-      }
-
-      console.log("Operation started with alternative format:", operationId);
-
-      return NextResponse.json({
-        success: true,
-        operationId: operationId,
-        status: "processing",
-        message: "Генерация изображения начата (альтернативный формат)",
-        style: style,
-        aspect_ratio: aspect_ratio,
-        api_format: "width/height_pixels",
-      });
     }
 
     if (!responseText || responseText.trim() === "") {
@@ -281,8 +151,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("Operation started successfully with aspectRatio:", operationId);
-
     return NextResponse.json({
       success: true,
       operationId: operationId,
@@ -304,7 +172,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// GET - проверить статус (без изменений)
+// GET handler - полностью переделываем часть с сохранением
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -317,7 +185,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
     if (!YANDEX_API_KEY) {
       return NextResponse.json(
         { error: "API ключ не настроен" },
@@ -326,7 +193,6 @@ export async function GET(request: NextRequest) {
     }
 
     const statusUrl = `https://operation.api.cloud.yandex.net/operations/${operationId}`;
-
     console.log("Checking operation:", operationId);
 
     const response = await fetch(statusUrl, {
@@ -337,8 +203,6 @@ export async function GET(request: NextRequest) {
     });
 
     const responseText = await response.text();
-    console.log("Status response status:", response.status);
-    console.log("Status response length:", responseText.length);
 
     if (!response.ok) {
       console.error("Status check failed:", responseText.substring(0, 200));
@@ -361,9 +225,9 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    let data: OperationStatus;
+    let data;
     try {
-      data = JSON.parse(responseText) as OperationStatus;
+      data = JSON.parse(responseText);
     } catch (error) {
       console.error("Status JSON parse error:", error);
       return NextResponse.json(
@@ -375,25 +239,91 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log("Operation status data:", {
-      done: data.done,
-      hasResponse: !!data.response,
-      hasImage: !!(data.response?.image),
-    });
-
     if (data.done) {
       if (data.response?.image) {
+        // СОХРАНЯЕМ ИЗОБРАЖЕНИЕ КАК ФАЙЛ (как в вашем примере с загрузкой)
         const base64Image = data.response.image;
-        const imageUrl = `data:image/jpeg;base64,${base64Image}`;
+        const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
+        const buffer = Buffer.from(base64Data, "base64");
 
-        console.log("Image generated successfully");
+        // Создаем уникальное имя файла
+        const timestamp = Date.now();
+        const randomString = Math.random().toString(36).substring(2, 8);
+
+        // Используем PNG как YandexART по умолчанию
+        const originalExtension = "png";
+        const cleanName = "yandex_art";
+        const fileName = `${cleanName}_${timestamp}_${randomString}.${originalExtension}`;
+
+        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP (как в вашем коде)
+        let optimizedBuffer: Buffer;
+
+        if (originalExtension === "png") {
+          // Для AI-изображений делаем больше и лучше качество
+          optimizedBuffer = await sharp(buffer)
+            .resize(1024, 1024, {
+              fit: "inside",
+              withoutEnlargement: false, // Увеличиваем маленькие
+            })
+            .png({
+              quality: 90,
+              compressionLevel: 8,
+            })
+            .toBuffer();
+        } else if (originalExtension === "gif") {
+          optimizedBuffer = await sharp(buffer, { animated: true })
+            .resize(800, 800, {
+              fit: "inside",
+              withoutEnlargement: true,
+            })
+            .gif()
+            .toBuffer();
+        } else {
+          // Для JPG
+          optimizedBuffer = await sharp(buffer)
+            .resize(2048, 2048, {
+              fit: "inside",
+              withoutEnlargement: true,
+            })
+            .jpeg({
+              quality: 90,
+              mozjpeg: true,
+            })
+            .toBuffer();
+        }
+
+        // Сохраняем в папку (аналогично вашему коду для blogCategories)
+        const publicDir = path.join(
+          process.cwd(),
+          "public",
+          "generated-images"
+        );
+        await fs.mkdir(publicDir, { recursive: true });
+
+        const filePath = path.join(publicDir, fileName);
+        await fs.writeFile(filePath, optimizedBuffer);
+
+        // Публичный URL для использования на фронтенде
+        const publicUrl = `/generated-images/${fileName}`;
+
+        console.log("Image saved successfully:", {
+          url: publicUrl,
+          fileName,
+          size: optimizedBuffer.length,
+          originalSize: buffer.length,
+        });
 
         return NextResponse.json({
           success: true,
           done: true,
           status: "completed",
-          imageUrl: imageUrl,
+          imageUrl: publicUrl, // Теперь это URL обычного файла!
+          fileName: fileName,
+          fileSize: optimizedBuffer.length,
+          format: originalExtension,
           operationId: operationId,
+          // Можно добавить base64 для скачивания, если нужно
+          base64Image: base64Image,
         });
       } else if (data.error) {
         console.error("Generation error in status:", data.error);

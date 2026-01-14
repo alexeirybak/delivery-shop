@@ -12,7 +12,7 @@ export const formStyles = {
   loginLink:
     "mb-10 mx-auto h-8 text-primary hover:text-white active:text-white border-1 border-primary bg-white hover:bg-primary active:shadow-(--shadow-button-default) w-30 rounded flex items-center justify-center duration-300",
   radioLabel: "px-4 py-2 border rounded-lg cursor-pointer transition-colors",
-  radioLabelActive: "bg-blue-500 text-white border-blue-500",
+  radioLabelActive: "bg-green-500 text-white border-blue-500",
 };
 
 export const verificationButtonStyles = `

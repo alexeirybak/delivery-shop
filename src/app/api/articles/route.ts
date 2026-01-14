@@ -1,44 +1,34 @@
-import { CONFIG } from "../../../../config/config";
 import { getDB } from "../../../../utils/api-routes";
 import { NextResponse } from "next/server";
-export const dynamic = "force-dynamic";
-export const revalidate = 3600;
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const db = await getDB();
-    const url = new URL(request.url);
-
-    const articlesLimit = url.searchParams.get("articlesLimit");
-    const startIdx = parseInt(url.searchParams.get("startIdx") || "0");
-    const perPage = parseInt(
-      url.searchParams.get("perPage") ||
-        CONFIG.ITEMS_PER_PAGE_MAIN_ARTICLES.toString()
-    );
-
-    if (articlesLimit) {
-      const limit = parseInt(articlesLimit);
-
-      const articles = await db
-        .collection("articles")
-        .find()
-        .sort({ createdAt: -1 })
-        .limit(limit)
-        .toArray();
-      return NextResponse.json(articles);
-    }
-
-    const totalCount = await db.collection("articles").countDocuments();
-
+    
+    // Получаем ВСЕ опубликованные статьи с нужными полями
     const articles = await db
       .collection("articles")
-      .find()
-      .sort({ createdAt: -1 })
-      .skip(startIdx)
-      .limit(perPage)
+      .find(
+        { status: "published" }, // Только опубликованные
+        {
+          projection: {
+            _id: 1,
+            name: 1,
+            slug: 1,
+            description: 1,
+            image: 1,
+            imageAlt: 1,
+            categoryName: 1,
+            categorySlug: 1,
+            createdAt: 1,
+            publishedAt: 1,
+          }
+        }
+      )
+      .sort({ createdAt: -1 }) // Сортировка по дате создания
       .toArray();
 
-    return NextResponse.json({ articles, totalCount });
+    return NextResponse.json(articles);
   } catch (error) {
     console.error("Ошибка сервера:", error);
     return NextResponse.json(

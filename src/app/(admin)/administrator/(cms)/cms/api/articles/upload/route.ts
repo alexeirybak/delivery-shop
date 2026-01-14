@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     const filePath = path.join(publicDir, fileName);
     await fs.writeFile(filePath, optimizedBuffer);
 
-    const publicUrl = `/blogCategories/${category}/${fileName}`;
+    const publicUrl = `/blogCategories/articles/${fileName}`;
 
     return NextResponse.json({
       success: true,

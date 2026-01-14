@@ -13,7 +13,7 @@ interface CategoryStore {
   totalItems: number;
   totalPages: number;
   totalAllItems: number;
-  editingId: string | null;
+  editingId?: string | null;
   loading: boolean;
   isSubmitting: boolean;
   isUploading: boolean;

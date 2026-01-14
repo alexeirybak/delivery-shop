@@ -1,4 +1,3 @@
-// store/articleStore.ts
 import { ArticleFormData } from "@/app/(admin)/administrator/(cms)/cms/articles/types/form/article-form.types";
 import { create } from "zustand";
 
@@ -7,6 +6,7 @@ interface ArticleStore {
   formData: ArticleFormData;
   isSubmitting: boolean;
   originalImageUrl: string;
+  editingId?: string;
 
   setIsUploading: (isUploading: boolean) => void;
   updateFormField: <K extends keyof ArticleFormData>(

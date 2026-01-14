@@ -38,7 +38,6 @@ export const SettingsPanel = ({
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-      {/* Соотношение сторон */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Формат изображения:
@@ -63,7 +62,6 @@ export const SettingsPanel = ({
         </div>
       </div>
 
-      {/* Стиль */}
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Стиль изображения:

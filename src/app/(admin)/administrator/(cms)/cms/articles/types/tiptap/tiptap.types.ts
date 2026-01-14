@@ -5,7 +5,7 @@ export interface TiptapEditorProps {
   onContentChangeAction: (content: string) => void;
 }
 
-export interface TipTapMenuProps {
+export interface EditorProps {
   editor: Editor | null;
 }
 
@@ -15,4 +15,15 @@ export interface ApiResponse {
   details?: string;
   provider?: string;
   model?: string;
+}
+
+export interface CounterProps {
+  wordCount: number;
+  charCount: number;
+}
+
+export interface HtmlEditorModalProps {
+  editor: Editor | null;
+  isOpen: boolean;
+  onCloseAction: () => void;
 }

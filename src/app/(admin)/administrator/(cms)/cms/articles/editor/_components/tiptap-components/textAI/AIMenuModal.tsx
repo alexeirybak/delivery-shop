@@ -65,7 +65,7 @@ export const AIMenuModal = ({
 
   return (
     <div
-      className="fixed inset-0 bg-blue-950 flex items-center justify-center z-9999 p-4"
+      className="fixed inset-0 bg-green-950 flex items-center justify-center z-9999 p-4"
       onClick={(e) => {
         e.stopPropagation();
         onCloseAction();
@@ -101,7 +101,10 @@ export const AIMenuModal = ({
 
         {/* Контент */}
         <div className="p-6 overflow-y-auto max-h-[60vh]">
-          <ConnectionStatus onTestAPI={onTestAPIAction} isGenerating={isGenerating} />
+          <ConnectionStatus
+            onTestAPI={onTestAPIAction}
+            isGenerating={isGenerating}
+          />
 
           <QuickActionsPanel
             onActionClick={onQuickAction}
