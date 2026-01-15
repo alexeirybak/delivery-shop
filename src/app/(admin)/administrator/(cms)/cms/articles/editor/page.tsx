@@ -23,7 +23,7 @@ const EditorPage = () => {
 
   const { updateFormField, setIsSubmitting, formData } = useArticleStore();
   const { createArticle } = useArticles();
-  const { categories, loadCategories } = useCategoryStore();
+  const { loadCategories } = useCategoryStore();
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -136,19 +136,18 @@ const EditorPage = () => {
         />
       )}
       <ArticleForm
-        onFieldChangeAction={updateFormField}
-        onGenerateSlugAction={generateSlug}
-        onSaveImageFileAction={saveImageFile}
-        onRemoveImageAction={removeImage}
-        onSubmitAction={handleCreate}
-        onCancelAction={() => {
+        onFieldChange={updateFormField}
+        onGenerateSlug={generateSlug}
+        onSaveImageFile={saveImageFile}
+        onRemoveImage={removeImage}
+        onSubmit={handleCreate}
+        onCancel={() => {
           if (
             confirm("Вы уверены? Все несохраненные изменения будут потеряны.")
           ) {
             resetForm();
           }
         }}
-        categories={categories}
       />
 
       <SEORecommendations recommendations={articleSeoRecommendations} />

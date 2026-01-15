@@ -1,5 +1,3 @@
-import { Category } from "../../../categories/types";
-
 export interface ArticleFormData {
   _id?: string;
   name: string;
@@ -19,13 +17,12 @@ export interface ArticleFormData {
 }
 
 export interface ArticleFormProps {
-  onFieldChangeAction: (field: ArticleFormField, value: string) => void;
-  onGenerateSlugAction: () => void;
-  onSaveImageFileAction: (file: File) => void;
-  onRemoveImageAction: () => void;
-  onSubmitAction: (e: React.FormEvent) => void;
-  onCancelAction: () => void;
-  categories: Category[];
+  onFieldChange: (field: ArticleFormField, value: string) => void;
+  onGenerateSlug: () => void;
+  onSaveImageFile: (file: File) => void;
+  onRemoveImage: () => void;
+  onSubmit: (e: React.FormEvent) => void;
+  onCancel: () => void;
 }
 
 export interface ArticleCharCount {
@@ -37,13 +34,8 @@ export interface ArticleCharCount {
 }
 
 export interface CategorySelectProps {
-  categories: Array<{
-    _id: string;          
-    name: string;         
-    slug: string;        
-  }>;
   value: string;       
-  onChangeAction: (categoryId: string, categoryName: string, categorySlug: string) => void;
+  onChange: (categoryId: string, categoryName: string, categorySlug: string) => void;
 }
 
 export interface ArticleFormFieldsProps {

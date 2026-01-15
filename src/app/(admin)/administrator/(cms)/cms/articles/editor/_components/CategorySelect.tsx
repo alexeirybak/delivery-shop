@@ -3,18 +3,19 @@
 import { useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
 import { CategorySelectProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const CategorySelect = ({
-  categories,
   value,
-  onChangeAction,
+  onChange,
 }: CategorySelectProps) => {
+  const { categories } = useCategoryStore();
   const [isOpen, setIsOpen] = useState(false);
 
   const selectedCategory = categories.find((cat) => cat._id === value);
 
   const handleSelect = (category: (typeof categories)[0]) => {
-    onChangeAction(category._id, category.name, category.slug);
+    onChange(category._id, category.name, category.slug);
     setIsOpen(false);
   };
 

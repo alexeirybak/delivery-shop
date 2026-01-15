@@ -8,16 +8,17 @@ import { SubmitSection } from "./SubmitSection";
 import { ArticleFormProps, ArticleFormField } from "../../types/form";
 import { TiptapEditor } from "./tiptap-components/TiptapEditor";
 import { ArticleFormData } from "@/app/(admin)/administrator/(cms)/cms/articles/types/form/article-form.types";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const ArticleForm = ({
-  onFieldChangeAction,
-  onGenerateSlugAction,
-  onSaveImageFileAction,
-  onRemoveImageAction,
-  onSubmitAction,
-  onCancelAction,
-  categories = [],
+  onFieldChange,
+  onGenerateSlug,
+  onSaveImageFile,
+  onRemoveImage,
+  onSubmit,
+  onCancel,
 }: ArticleFormProps) => {
+  const { categories } = useCategoryStore();
   const { formData, setIsUploading } = useArticleStore();
 
   const charCount = {
@@ -33,10 +34,9 @@ export const ArticleForm = ({
     value: string,
     maxLength?: number
   ) => {
-    if (maxLength !== undefined && value.length > maxLength) {
-      return;
+    if (value.length <= maxLength!) {
+      onFieldChange(field as ArticleFormField, value);
     }
-    onFieldChangeAction(field as ArticleFormField, value);
   };
 
   const handleCategoryChange = (
@@ -44,9 +44,13 @@ export const ArticleForm = ({
     categoryName: string,
     categorySlug: string
   ) => {
-    onFieldChangeAction("categoryId", categoryId);
-    onFieldChangeAction("categoryName", categoryName);
-    onFieldChangeAction("categorySlug", categorySlug);
+    onFieldChange("categoryId", categoryId);
+    onFieldChange("categoryName", categoryName);
+    onFieldChange("categorySlug", categorySlug);
+  };
+
+  const handleGenerateSlug = () => {
+    onGenerateSlug();
   };
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -61,7 +65,7 @@ export const ArticleForm = ({
     setIsUploading(true);
 
     try {
-      onSaveImageFileAction(file);
+      onSaveImageFile(file);
     } catch (error) {
       console.error("Ошибка при выборе изображения:", error);
       alert("Ошибка при выборе изображения");
@@ -73,14 +77,13 @@ export const ArticleForm = ({
   return (
     <div className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой статьи</h2>
-      <form onSubmit={onSubmitAction}>
+      <form onSubmit={onSubmit}>
         {categories.length > 0 && (
           <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
             <h3 className="text-lg font-medium mb-4">Категория статьи *</h3>
             <CategorySelect
-              categories={categories}
               value={formData.categoryId || ""}
-              onChangeAction={handleCategoryChange}
+              onChange={handleCategoryChange}
             />
           </div>
         )}
@@ -89,7 +92,7 @@ export const ArticleForm = ({
           <ArticleFormFields
             charCount={charCount}
             onInputChange={handleInputChange}
-            onGenerateSlug={onGenerateSlugAction}
+            onGenerateSlug={handleGenerateSlug}
           />
         </div>
 
@@ -99,7 +102,7 @@ export const ArticleForm = ({
             charCount={charCount}
             onInputChange={handleInputChange}
             onFileChange={handleFileChange}
-            onRemoveImage={onRemoveImageAction}
+            onRemoveImage={onRemoveImage}
           />
         </div>
 
@@ -114,7 +117,7 @@ export const ArticleForm = ({
           />
         </div>
 
-        <SubmitSection onCancel={onCancelAction} />
+        <SubmitSection onCancel={onCancel} />
       </form>
     </div>
   );

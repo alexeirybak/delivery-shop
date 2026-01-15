@@ -1,4 +1,4 @@
-import { Category } from "../../models";
+import { Category } from "../..";
 
 export interface MobileCategoryHeaderProps {
   category: Category;
