@@ -6,9 +6,10 @@ interface ArticleStore {
   formData: ArticleFormData;
   isSubmitting: boolean;
   originalImageUrl: string;
+  editingId?: string;
 
   setIsUploading: (isUploading: boolean) => void;
-  updateFormField: (field: keyof ArticleFormData, value: string | boolean) => void;
+  updateFormField: (field: keyof ArticleFormData, value: string) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   resetFormData: () => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
@@ -25,7 +26,7 @@ const initialFormData: ArticleFormData = {
   categoryName: "",
   categorySlug: "",
   status: "draft",
-  content: "", 
+  content: "",
   metaTitle: "",
   metaDescription: "",
   isFeatured: false,
@@ -40,7 +41,7 @@ export const useArticleStore = create<ArticleStore>((set) => ({
   setIsUploading: (isUploading) => set({ isUploading }),
   setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
-  
+
   updateFormField: (field, value) =>
     set((state) => ({
       formData: {
@@ -48,7 +49,7 @@ export const useArticleStore = create<ArticleStore>((set) => ({
         [field]: value,
       },
     })),
-    
+
   resetFormData: () =>
     set({
       formData: initialFormData,

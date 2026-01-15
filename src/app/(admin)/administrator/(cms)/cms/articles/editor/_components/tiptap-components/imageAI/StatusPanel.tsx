@@ -1,12 +1,8 @@
 import { RefreshCw, PlayCircle, Clock } from 'lucide-react';
 import { StatusPanelProps } from '../../../../types';
+import { formatTime } from '../../../../utils/formatTime';
 
 export const StatusPanel = ({ status, elapsedSeconds, operationId }: StatusPanelProps) => {
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins}:${secs.toString().padStart(2, "0")}`;
-  };
 
   return (
     <div className="mb-6 p-6 bg-linear-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">

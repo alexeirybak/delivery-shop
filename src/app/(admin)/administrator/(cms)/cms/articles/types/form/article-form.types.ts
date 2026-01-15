@@ -36,4 +36,20 @@ export interface ArticleCharCount {
   imageAlt: number;
 }
 
+export interface CategorySelectProps {
+  categories: Array<{
+    _id: string;          
+    name: string;         
+    slug: string;        
+  }>;
+  value: string;       
+  onChangeAction: (categoryId: string, categoryName: string, categorySlug: string) => void;
+}
+
+export interface ArticleFormFieldsProps {
+  charCount: ArticleCharCount;
+  onInputChange: (field: keyof ArticleFormData, value: string, maxLength?: number) => void;
+  onGenerateSlug: () => void;
+}
+
 export type ArticleFormField = keyof ArticleFormData;

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Editor } from "@tiptap/react";
 
 import {
   Table,
@@ -21,10 +20,7 @@ import {
 
 import { Node } from "prosemirror-model";
 import "../../css/tableMenu.css";
-
-interface TableMenuProps {
-  editor: Editor | null;
-}
+import { EditorProps } from "../../../types";
 
 interface NodeInfo {
   node: Node;
@@ -32,7 +28,7 @@ interface NodeInfo {
   type: string;
 }
 
-export const TableMenu = ({ editor }: TableMenuProps) => {
+export const TableMenu = ({ editor }: EditorProps) => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);

@@ -1,24 +1,19 @@
 "use client";
 
 import { Bold, Italic, Underline, Strikethrough } from "lucide-react";
-import { Editor } from "@tiptap/react";
+import { EditorProps } from "../../../types";
 
-interface TextFormattingMenuProps {
-  editor: Editor | null;
-}
-
-export const TextFormattingMenu = ({ editor }: TextFormattingMenuProps) => {
+export const TextFormattingMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-xs text-gray-500 mr-2">Текст:</span>
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("bold")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Жирный"
@@ -30,7 +25,7 @@ export const TextFormattingMenu = ({ editor }: TextFormattingMenuProps) => {
         onClick={() => editor.chain().focus().toggleItalic().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("italic")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Курсив"
@@ -42,7 +37,7 @@ export const TextFormattingMenu = ({ editor }: TextFormattingMenuProps) => {
         onClick={() => editor.chain().focus().toggleUnderline().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("underline")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Подчеркнутый"
@@ -54,7 +49,7 @@ export const TextFormattingMenu = ({ editor }: TextFormattingMenuProps) => {
         onClick={() => editor.chain().focus().toggleStrike().run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive("strike")
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="Зачеркнутый"

@@ -117,7 +117,7 @@ export const CategoryTable = ({
                 onDragStart={() => handleDragStart(categoryId)}
                 onDragOver={(e) => handleDragOver(e, categoryId)}
                 onDrop={(e) => handleDrop(e, categoryId)}
-                className={`${isDragOver ? "bg-blue-50" : ""}`}
+                className={`${isDragOver ? "bg-green-50" : ""}`}
               >
                 <SortableItem
                   id={categoryId}

@@ -27,7 +27,7 @@ export const quickActions = [
     label: "Расширить",
     icon: <Zap className="w-5 h-5" />,
     desc: "Добавить детали",
-    color: "text-blue-600 bg-blue-50 hover:bg-blue-100",
+    color: "text-green-600 bg-green-50 hover:bg-green-100",
   },
   {
     id: "simplify",

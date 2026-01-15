@@ -8,7 +8,7 @@ import { articleSeoRecommendations } from "../../utils/recommendations";
 import { SEORecommendations } from "../../_components/SEORecommendations";
 import { useArticleStore } from "@/store/articleStore";
 import { useArticleFormState } from "../hooks/useArticleFormState";
-import { useArticles } from "../hooks/useArticle";
+import { useArticles } from "../hooks/useArticles";
 import { ArticleForm } from "./_components/ArticleForm";
 import { useCategoryStore } from "@/store/categoryStore";
 
@@ -122,6 +122,8 @@ const EditorPage = () => {
       setIsSubmitting(false);
     }
   };
+
+  console.log(formData);
 
   return (
     <div className="relative">

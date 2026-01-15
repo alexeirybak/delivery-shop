@@ -1,7 +1,7 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../../utils/SEO_LIMITS";
-import { ArticleFormFieldsProps } from "../../types/form/form-fields.types";
 import { useArticleStore } from "@/store/articleStore";
+import { ArticleFormFieldsProps } from "../../types";
 
 export const ArticleFormFields = ({
   charCount,

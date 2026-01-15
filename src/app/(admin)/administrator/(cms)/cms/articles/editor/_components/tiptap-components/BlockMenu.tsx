@@ -2,14 +2,10 @@
 
 import { useState } from "react";
 import { Quote, Code, FileCode } from "lucide-react";
-import { Editor } from "@tiptap/react";
 import { HtmlEditorModal } from "./HtmlEditorModal";
+import { EditorProps } from "../../../types";
 
-interface BlockMenuProps {
-  editor: Editor | null;
-}
-
-export const BlockMenu = ({ editor }: BlockMenuProps) => {
+export const BlockMenu = ({ editor }: EditorProps) => {
   const [isHtmlModalOpen, setIsHtmlModalOpen] = useState(false);
 
   if (!editor) return null;
@@ -17,15 +13,14 @@ export const BlockMenu = ({ editor }: BlockMenuProps) => {
   return (
     <>
       <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500 mr-2">Блоки:</span>
         <button
           type="button"
           onClick={() => editor.chain().focus().toggleBlockquote().run()}
           className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
-            editor.isActive("blockquote") 
-              ? "bg-gray-300 text-blue-600" 
+            editor.isActive("blockquote")
+              ? "bg-gray-300 text-green-600"
               : "text-gray-600"
-        }`}
+          }`}
           title="Цитата"
         >
           <Quote className="w-4 h-4" />
@@ -34,8 +29,8 @@ export const BlockMenu = ({ editor }: BlockMenuProps) => {
           type="button"
           onClick={() => editor.chain().focus().toggleCode().run()}
           className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
-            editor.isActive("code") 
-              ? "bg-gray-300 text-blue-600" 
+            editor.isActive("code")
+              ? "bg-gray-300 text-green-600"
               : "text-gray-600"
           }`}
           title="Inline код"

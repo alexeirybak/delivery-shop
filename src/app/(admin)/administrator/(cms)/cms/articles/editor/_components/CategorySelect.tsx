@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import { ChevronDown, Check } from "lucide-react";
-
-interface CategorySelectProps {
-  categories: Array<{
-    _id: string;          
-    name: string;         
-    slug: string;        
-  }>;
-  value: string;       
-  onChangeAction: (categoryId: string, categoryName: string, categorySlug: string) => void;
-}
+import { CategorySelectProps } from "../../types";
 
 export const CategorySelect = ({
   categories,
@@ -19,11 +10,10 @@ export const CategorySelect = ({
   onChangeAction,
 }: CategorySelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const selectedCategory = categories.find((cat) => cat._id === value);
 
-  const handleSelect = (category: typeof categories[0]) => {
-    // Передаем ВСЕ данные категории
+  const handleSelect = (category: (typeof categories)[0]) => {
     onChangeAction(category._id, category.name, category.slug);
     setIsOpen(false);
   };
@@ -40,7 +30,9 @@ export const CategorySelect = ({
           onClick={() => setIsOpen(!isOpen)}
           className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary duration-300 text-left flex justify-between items-center"
         >
-          <span className={selectedCategory ? "text-gray-900" : "text-gray-500"}>
+          <span
+            className={selectedCategory ? "text-gray-900" : "text-gray-500"}
+          >
             {selectedCategory ? selectedCategory.name : "Выберите категорию"}
           </span>
           <ChevronDown
@@ -70,11 +62,16 @@ export const CategorySelect = ({
       {isOpen && (
         <div className="fixed inset-0 z-0" onClick={() => setIsOpen(false)} />
       )}
-      
+
       {/* Показываем дополнительную информацию о выбранной категории */}
       {selectedCategory && (
         <div className="mt-2 text-sm text-gray-600">
-          <p>Slug категории: <code className="bg-gray-100 px-1 rounded">{selectedCategory.slug}</code></p>
+          <p>
+            Slug категории:{" "}
+            <code className="bg-gray-100 px-1 rounded">
+              {selectedCategory.slug}
+            </code>
+          </p>
           <p className="text-xs text-gray-500 mt-1">
             URL статьи будет: /blog/{selectedCategory.slug}/[slug-статьи]
           </p>

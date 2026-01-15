@@ -1,11 +1,10 @@
-import { useCategoryStore } from "@/store/categoryStore";
-import { ApiResponse, CategoryFormData } from "../../categories/types";
+import { ApiResponse } from "../../categories/types";
+import { ArticleFormData } from "../types";
 
 export const useArticles = () => {
-  const { } = useCategoryStore();
 
   const createArticle = async (
-    categoryData: Omit<CategoryFormData, "keywords">
+    articleData: Omit<ArticleFormData, "keywords">
   ): Promise<ApiResponse> => {
     try {
       const response = await fetch("/administrator/cms/api/articles", {
@@ -13,7 +12,7 @@ export const useArticles = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(categoryData),
+        body: JSON.stringify(articleData),
       });
 
       const data = await response.json();

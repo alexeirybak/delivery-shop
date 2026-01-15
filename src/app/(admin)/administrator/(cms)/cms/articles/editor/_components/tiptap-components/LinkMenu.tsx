@@ -1,22 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Editor } from "@tiptap/react";
 import { Link as LinkIcon, Unlink } from "lucide-react";
+import { EditorProps } from "../../../types";
 
-interface LinkMenuProps {
-  editor: Editor | null;
-}
-
-export const LinkMenu = ({ editor }: LinkMenuProps) => {
+export const LinkMenu = ({ editor }: EditorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
 
-  // Получаем текущую ссылку при активации модального окна
   useEffect(() => {
     if (!editor) return;
-    
+
     if (isModalOpen && editor.isActive("link")) {
       const attrs = editor.getAttributes("link");
       setUrl(attrs.href || "");
@@ -49,10 +44,8 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
         .run();
     } else {
       if (text) {
-        // Если есть выделенный текст, добавляем ссылку к нему
         editor.chain().focus().setLink({ href: url }).run();
       } else {
-        // Если текста нет, вставляем ссылку как текст
         editor.chain().focus().setLink({ href: url }).insertContent(url).run();
       }
     }
@@ -77,19 +70,17 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
     setText("");
   };
 
-  // Проверка editor теперь ПОСЛЕ хуков
   if (!editor) return null;
 
   return (
     <>
       <div className="flex items-center gap-1">
-        <span className="text-xs text-gray-500 mr-2">Ссылка:</span>
         <button
           type="button"
           onClick={handleOpenModal}
           className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
             editor.isActive("link")
-              ? "bg-gray-300 text-blue-600"
+              ? "bg-gray-300 text-green-600"
               : "text-gray-600"
           }`}
           title="Добавить ссылку (Ctrl+K)"
@@ -167,7 +158,7 @@ export const LinkMenu = ({ editor }: LinkMenuProps) => {
                   type="button"
                   onClick={handleAddLink}
                   disabled={!url.trim()}
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-300 cursor-pointer disabled:bg-blue-400 disabled:cursor-not-allowed"
+                  className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md duration-300 cursor-pointer disabled:bg-green-400 disabled:cursor-not-allowed"
                 >
                   {editor.isActive("link") ? "Обновить" : "Добавить"}
                 </button>

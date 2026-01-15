@@ -78,7 +78,7 @@ export const SidebarMenu = ({ isOpen, onCloseAction }: SidebarMenuProps) => {
               <MenuHeader
                 isOpen={isOpen}
                 onCloseAction={onCloseAction}
-                icon={<Truck className="relative w-7 h-7 text-blue-600" />}
+                icon={<Truck className="relative w-7 h-7 text-green-600" />}
               />
             </div>
             <div className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4">

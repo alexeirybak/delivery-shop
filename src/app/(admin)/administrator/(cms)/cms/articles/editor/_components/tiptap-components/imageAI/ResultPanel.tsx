@@ -1,18 +1,16 @@
+import { Download } from "lucide-react";
 import Image from "next/image";
-import { Download, ExternalLink } from "lucide-react";
 import { ResultPanelProps } from "../../../../types";
 import { promptStyles } from "../../../../utils/promptStyles";
 import { formatTime } from "../../../../utils/formatTime";
 
-export const ResultPanel = ({
+const ResultPanel = ({
   imageUrl,
   selectedStyle,
   selectedAspect,
   elapsedSeconds,
   onDownload,
-  onOpenInNewTab,
 }: ResultPanelProps) => {
-
   return (
     <div className="mb-6">
       <div className="flex justify-between items-center mb-4">
@@ -25,13 +23,7 @@ export const ResultPanel = ({
             <Download className="w-4 h-4" />
             Скачать
           </button>
-          <button
-            onClick={onOpenInNewTab}
-            className="px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 flex items-center gap-2 duration-300 cursor-pointer"
-          >
-            <ExternalLink className="w-4 h-4" />
-            Открыть
-          </button>
+          
         </div>
       </div>
       <div className="bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-300 p-4">
@@ -53,3 +45,5 @@ export const ResultPanel = ({
     </div>
   );
 };
+
+export default ResultPanel;

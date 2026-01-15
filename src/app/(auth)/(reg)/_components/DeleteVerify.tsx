@@ -63,7 +63,7 @@ const DeleteVerify = (props: DeleteVerifyProps) => {
                 Если кнопка не работает, скопируйте и вставьте эту ссылку в
                 адресную строку браузера:
                 <br />
-                <span className="break-all text-blue-600">{verifyUrl}</span>
+                <span className="break-all text-green-600">{verifyUrl}</span>
               </Text>
 
               <Text className="text-sm text-gray-600 mb-6 mt-0 leading-5">

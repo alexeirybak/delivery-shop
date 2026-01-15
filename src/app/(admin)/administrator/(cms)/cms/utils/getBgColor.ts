@@ -1,6 +1,6 @@
 export const getBgColor = (color: string): string => {
   const colors: Record<string, string> = {
-    blue: "bg-blue-100",
+    blue: "bg-green-100",
     green: "bg-green-100",
     purple: "bg-purple-100",
     indigo: "bg-indigo-100",

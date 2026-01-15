@@ -1,14 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Editor } from "@tiptap/react";
 import { X } from "lucide-react";
-
-interface HtmlEditorModalProps {
-  editor: Editor | null;
-  isOpen: boolean;
-  onCloseAction: () => void;
-}
+import { HtmlEditorModalProps } from "../../../types";
 
 export const HtmlEditorModal = ({
   editor,
@@ -33,7 +27,7 @@ export const HtmlEditorModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div className="fixed inset-0 bg-green-950 bg-opacity-50 flex items-center justify-center z-50 p-4">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-4xl h-[80vh] flex flex-col">
         <div className="p-4 border-b flex justify-between items-center">
           <h3 className="text-lg font-medium text-gray-900">Редактор HTML</h3>
@@ -64,7 +58,7 @@ export const HtmlEditorModal = ({
           </button>
           <button
             onClick={handleApply}
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-300 cursor-pointer"
+            className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-md duration-300 cursor-pointer"
           >
             Применить
           </button>

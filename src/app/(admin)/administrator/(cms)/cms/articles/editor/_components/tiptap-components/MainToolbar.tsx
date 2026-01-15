@@ -1,6 +1,5 @@
 "use client";
 
-import { Editor } from "@tiptap/react";
 import { TextLevelMenu } from "./TextLevelMenu";
 import { TextFormattingMenu } from "./TextFormattingMenu";
 import { ListMenu } from "./ListMenu";
@@ -12,13 +11,12 @@ import { TableMenu } from "./TableMenu";
 import { FontSizeMenu } from "./FontSizeMenu";
 import { ImageMenu } from "./ImageMenu";
 import { AIMenu } from "./textAI/AIMenu";
-import { ImageAIMenu } from "./imageAI/ImageAIMenu"; // Добавляем новый компонент
+import { ImageAIMenu } from "./imageAI/ImageAIMenu";
+import { ColorMenu } from "./ColorMenu";
+import { Fragment } from "react";
+import { EditorProps } from "../../../types";
 
-interface MainToolbarProps {
-  editor: Editor | null;
-}
-
-export const MainToolbar = ({ editor }: MainToolbarProps) => {
+export const MainToolbar = ({ editor }: EditorProps) => {
   if (!editor) {
     return (
       <div className="bg-gray-50 border-b border-gray-200 p-2">
@@ -27,76 +25,32 @@ export const MainToolbar = ({ editor }: MainToolbarProps) => {
     );
   }
 
+  const menuItems = [
+    { component: HistoryMenu, key: "history" },
+    { component: TextLevelMenu, key: "text-level" },
+    { component: TextFormattingMenu, key: "text-formatting" },
+    { component: ColorMenu, key: "color" },
+    { component: FontSizeMenu, key: "font-size" },
+    { component: ListMenu, key: "list" },
+    { component: BlockMenu, key: "block" },
+    { component: AlignmentMenu, key: "alignment" },
+    { component: LinkMenu, key: "link" },
+    { component: TableMenu, key: "table" },
+    { component: ImageMenu, key: "image" },
+    { component: AIMenu, key: "ai" },
+    { component: ImageAIMenu, key: "image-ai" },
+  ];
+
   return (
     <div className="bg-gray-50 border-b border-gray-200 p-2 flex flex-wrap items-center gap-2">
-      {/* История */}
-      <HistoryMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Заголовки */}
-      <TextLevelMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Форматирование текста */}
-      <TextFormattingMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Размер шрифта */}
-      <FontSizeMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Списки */}
-      <ListMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Блоки */}
-      <BlockMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Выравнивание */}
-      <AlignmentMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Ссылки */}
-      <LinkMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Изображения */}
-      <ImageMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* AI Генерация изображений */}
-      <ImageAIMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* Таблицы */}
-      <TableMenu editor={editor} />
-
-      {/* Разделитель */}
-      <div className="w-px h-6 bg-gray-300"></div>
-
-      {/* AI функции (текст) */}
-      <AIMenu editor={editor} />
+      {menuItems.map((item, index) => (
+        <Fragment key={item.key}>
+          <item.component editor={editor} />
+          {index < menuItems.length - 1 && (
+            <div className="w-px h-6 bg-gray-300"></div>
+          )}
+        </Fragment>
+      ))}
     </div>
   );
 };

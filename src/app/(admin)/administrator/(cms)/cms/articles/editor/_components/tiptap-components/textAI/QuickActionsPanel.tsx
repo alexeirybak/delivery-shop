@@ -19,7 +19,7 @@ export const QuickActionsPanel = ({
             key={action.id}
             onClick={() => onActionClick(action.id)}
             disabled={isGenerating}
-            className={`flex items-center gap-3 p-4 rounded-xl border transition-all duration-200 ${action.color} disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`flex items-center gap-3 p-4 rounded-xl border duration-200 ${action.color} disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
             title={action.desc}
           >
             <div className="p-2 bg-white rounded-lg">{action.icon}</div>

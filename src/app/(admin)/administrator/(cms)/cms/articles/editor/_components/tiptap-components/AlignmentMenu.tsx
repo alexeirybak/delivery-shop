@@ -1,24 +1,19 @@
 "use client";
 
 import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
-import { Editor } from "@tiptap/react";
+import { EditorProps } from "../../../types";
 
-interface AlignmentMenuProps {
-  editor: Editor | null;
-}
-
-export const AlignmentMenu = ({ editor }: AlignmentMenuProps) => {
+export const AlignmentMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
 
   return (
     <div className="flex items-center gap-1">
-      <span className="text-xs text-gray-500 mr-2">Выравнивание:</span>
       <button
         type="button"
         onClick={() => editor.chain().focus().setTextAlign("left").run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive({ textAlign: "left" })
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="По левому краю"
@@ -30,7 +25,7 @@ export const AlignmentMenu = ({ editor }: AlignmentMenuProps) => {
         onClick={() => editor.chain().focus().setTextAlign("center").run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive({ textAlign: "center" })
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="По центру"
@@ -42,7 +37,7 @@ export const AlignmentMenu = ({ editor }: AlignmentMenuProps) => {
         onClick={() => editor.chain().focus().setTextAlign("right").run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive({ textAlign: "right" })
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="По правому краю"
@@ -54,7 +49,7 @@ export const AlignmentMenu = ({ editor }: AlignmentMenuProps) => {
         onClick={() => editor.chain().focus().setTextAlign("justify").run()}
         className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
           editor.isActive({ textAlign: "right" })
-            ? "bg-gray-300 text-blue-600"
+            ? "bg-gray-300 text-green-600"
             : "text-gray-600"
         }`}
         title="По правому краю"

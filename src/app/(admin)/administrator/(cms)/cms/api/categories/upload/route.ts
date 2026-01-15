@@ -38,15 +38,15 @@ export async function POST(request: NextRequest) {
     if (originalExtension === "png") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "fill", // Изменили с "contain" на "fill" для растягивания
-          withoutEnlargement: false, // Разрешаем увеличение если нужно
+          fit: "fill", 
+          withoutEnlargement: false, 
         })
         .png({ quality: 80 })
         .toBuffer();
     } else if (originalExtension === "gif") {
       optimizedBuffer = await sharp(buffer, { animated: true })
         .resize(800, 450, {
-          fit: "fill", // Изменили с "contain" на "fill"
+          fit: "fill", 
           withoutEnlargement: false,
         })
         .gif()
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
     } else {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "fill", // Изменили с "contain" на "fill"
+          fit: "fill", 
           withoutEnlargement: false,
         })
         .jpeg({ quality: 80 })

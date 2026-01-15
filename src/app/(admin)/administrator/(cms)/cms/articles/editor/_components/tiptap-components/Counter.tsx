@@ -1,7 +1,4 @@
-interface CounterProps {
-  wordCount: number;
-  charCount: number;
-}
+import { CounterProps } from "../../../types";
 
 export const Counter = ({ wordCount, charCount }: CounterProps) => {
   return (

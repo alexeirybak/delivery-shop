@@ -12,7 +12,7 @@ export const promptStyles: StyleOption[] = [
     id: "realistic",
     label: "Реализм",
     icon: <Camera className="w-4 h-4" />,
-    color: "text-blue-600",
+    color: "text-green-600",
   },
   {
     id: "artistic",

@@ -1,12 +1,8 @@
 "use client";
 
-import { Editor } from "@tiptap/react";
 import { ChevronDown, Check } from "lucide-react";
 import { useState } from "react";
-
-interface FontSizeMenuProps {
-  editor: Editor | null;
-}
+import { EditorProps } from "../../../types";
 
 const FONT_SIZES = [
   { label: "10px", value: "10px" },
@@ -21,19 +17,19 @@ const FONT_SIZES = [
   { label: "Сбросить", value: "unset" },
 ];
 
-export const FontSizeMenu = ({ editor }: FontSizeMenuProps) => {
+export const FontSizeMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   if (!editor) return null;
 
-  const currentSize = editor.getAttributes('textStyle').fontSize || '14px';
+  const currentSize = editor.getAttributes("textStyle").fontSize || "14px";
 
   const handleSizeChange = (size: string, e: React.MouseEvent) => {
-    e.stopPropagation(); // Останавливаем всплытие
-    e.preventDefault(); // Предотвращаем поведение по умолчанию
-    
+    e.stopPropagation();
+    e.preventDefault();
+
     setIsOpen(false);
-    if (size === 'unset') {
+    if (size === "unset") {
       editor.chain().focus().unsetFontSize().run();
     } else {
       editor.chain().focus().setFontSize(size).run();
@@ -41,20 +37,20 @@ export const FontSizeMenu = ({ editor }: FontSizeMenuProps) => {
   };
 
   const handleTriggerClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Останавливаем всплытие
-    e.preventDefault(); // Предотвращаем поведение по умолчанию
+    e.stopPropagation(); 
+    e.preventDefault();
     setIsOpen(!isOpen);
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {
-    e.stopPropagation(); // Останавливаем всплытие
+    e.stopPropagation();
     setIsOpen(false);
   };
 
   return (
-    <div 
+    <div
       className="tiptap-fontsize-dropdown"
-      onClick={(e) => e.stopPropagation()} // Запрещаем всплытие на самом контейнере
+      onClick={(e) => e.stopPropagation()} 
     >
       <button
         onClick={handleTriggerClick}
@@ -64,38 +60,36 @@ export const FontSizeMenu = ({ editor }: FontSizeMenuProps) => {
         title="Размер шрифта"
       >
         <span className="text-xs font-mono">
-          {currentSize === 'unset' ? 'Размер' : currentSize.replace('px', '')}
+          {currentSize === "unset" ? "Размер" : currentSize.replace("px", "")}
         </span>
         <ChevronDown className="w-3 h-3 ml-1" />
       </button>
 
       {isOpen && (
         <>
-          <div 
-            className="tiptap-fontsize-dropdown-overlay" 
+          <div
+            className="tiptap-fontsize-dropdown-overlay"
             onClick={handleOverlayClick}
           />
-          
-          <div 
+
+          <div
             className="tiptap-fontsize-dropdown-content"
-            onClick={(e) => e.stopPropagation()} // Запрещаем всплытие в меню
           >
-            <div className="tiptap-fontsize-header">
-              Размер шрифта
-            </div>
-            
+            <div className="tiptap-fontsize-header">Размер шрифта</div>
+
             {FONT_SIZES.map((size) => {
-              const isActive = size.value === 'unset' 
-                ? !editor.getAttributes('textStyle').fontSize 
-                : currentSize === size.value;
-              
+              const isActive =
+                size.value === "unset"
+                  ? !editor.getAttributes("textStyle").fontSize
+                  : currentSize === size.value;
+
               return (
                 <button
                   key={size.value}
                   onClick={(e) => handleSizeChange(size.value, e)}
-                  className={`tiptap-fontsize-option ${isActive ? 'active' : ''}`}
+                  className={`tiptap-fontsize-option ${isActive ? "active" : ""}`}
                   style={
-                    size.value !== 'unset' 
+                    size.value !== "unset"
                       ? { fontSize: size.value }
                       : undefined
                   }

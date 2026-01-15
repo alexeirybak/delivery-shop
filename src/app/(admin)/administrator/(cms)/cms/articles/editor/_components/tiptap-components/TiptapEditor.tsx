@@ -7,19 +7,17 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TiptapEditorProps } from "../../../types";
 import Placeholder from "@tiptap/extension-placeholder";
 import { TableKit } from "@tiptap/extension-table";
-import { TextStyle, FontSize } from "@tiptap/extension-text-style";
+import { LineHeight, TextStyle, TextStyleKit } from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 import { Counter } from "./Counter";
 import { MainToolbar } from "./MainToolbar";
-import { Dropcursor } from '@tiptap/extensions'
+import { Dropcursor, CharacterCount } from "@tiptap/extensions";
 import "../../css/editor.css";
 
 export const TiptapEditor = ({
   content,
   onContentChangeAction,
 }: TiptapEditorProps) => {
-  const [wordCount, setWordCount] = useState(0);
-  const [charCount, setCharCount] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
 
   const editor = useEditor({
@@ -31,11 +29,17 @@ export const TiptapEditor = ({
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
-      TextStyle,
-      FontSize,
+      TextStyle, 
+      LineHeight, 
+      TextStyleKit.configure({
+        backgroundColor: false,
+        fontSize: {
+          types: ["heading", "paragraph"],
+        },
+      }),
       TableKit,
+      CharacterCount,
       Image.configure({
-        // Включаем изменение размера с ВСЕМИ направлениями
         resize: {
           enabled: true,
           directions: [
@@ -52,9 +56,7 @@ export const TiptapEditor = ({
           minHeight: 50,
           alwaysPreserveAspectRatio: false,
         },
-        // Разрешаем base64
         allowBase64: true,
-        // Стили по умолчанию
         HTMLAttributes: {
           class: "tiptap-image",
           style: "max-width: 100%; height: auto; cursor: pointer;",
@@ -80,21 +82,16 @@ export const TiptapEditor = ({
     return () => setIsMounted(false);
   }, []);
 
-  // 1. Подсчет статистики
-  useEffect(() => {
-    if (editor && isMounted) {
-      const text = editor.getText();
-      setWordCount(text.split(/\s+/).filter((word) => word.length > 0).length);
-      setCharCount(text.length);
-    }
-  }, [editor, isMounted]);
-
-  // 2. Синхронизация внешнего контента
+  // Синхронизация внешнего контента
   useEffect(() => {
     if (editor && content !== editor.getHTML()) {
       editor.commands.setContent(content);
     }
   }, [content, editor]);
+
+  // Получаем статистику из редактора
+  const characters = editor?.storage.characterCount?.characters() || 0;
+  const words = editor?.storage.characterCount?.words() || 0;
 
   // Не рендерить ничего до монтирования на клиенте
   if (!isMounted) {
@@ -122,7 +119,7 @@ export const TiptapEditor = ({
 
       {/* Счетчик */}
       <div className="border-t border-gray-200 bg-gray-50 px-4 py-2">
-        <Counter wordCount={wordCount} charCount={charCount} />
+        <Counter wordCount={words} charCount={characters} />
       </div>
     </div>
   );

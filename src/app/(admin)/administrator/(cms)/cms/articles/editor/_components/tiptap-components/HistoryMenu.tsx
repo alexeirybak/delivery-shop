@@ -1,13 +1,9 @@
 "use client";
 
 import { Undo, Redo } from "lucide-react";
-import { Editor } from "@tiptap/react";
+import { EditorProps } from "../../../types";
 
-interface HistoryMenuProps {
-  editor: Editor | null;
-}
-
-export const HistoryMenu = ({ editor }: HistoryMenuProps) => {
+export const HistoryMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
 
   return (
