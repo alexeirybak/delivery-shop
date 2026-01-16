@@ -1,10 +1,6 @@
+import { Category, CategoryFormData, FilterType, SortField } from "@/app/(admin)/administrator/(cms)/cms/categories/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
-import {
-  Category,
-  CategoryFormData,
-  FilterType,
-  SortField,
-} from "@/app/(admin)/administrator/(cms)/cms/types";
+
 import { SortDirection } from "mongodb";
 import { create } from "zustand";
 

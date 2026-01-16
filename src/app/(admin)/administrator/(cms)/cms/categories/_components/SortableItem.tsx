@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
 import { MobileCategoryCard } from "./MobileCategoryCard";
-import { SortableItemProps } from "../../types";
 import { useCategoryStore } from "@/store/categoryStore";
+import { SortableItemProps } from "../types";
 
 export const SortableItem = ({
   id,

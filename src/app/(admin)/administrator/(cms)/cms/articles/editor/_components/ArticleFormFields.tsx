@@ -1,30 +1,22 @@
 import { RotateCcw } from "lucide-react";
-import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
-import { useCategoryStore } from "@/store/categoryStore";
-import { FormFieldsProps } from "../../types";
+import { useArticleStore } from "@/store/articleStore";
+import { SEO_LIMITS } from "../../../utils/SEO_LIMITS";
+import { ArticleFormFieldsProps } from "../../types/form/form-fields.types";
 
-export const FormFields = ({
-  errors,
+export const ArticleFormFields = ({
   charCount,
   onInputChange,
   onGenerateSlug,
-}: FormFieldsProps) => {
-  const { isSubmitting, formData } = useCategoryStore();
+}: ArticleFormFieldsProps) => {
+  const { isSubmitting, formData } = useArticleStore();
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-      {/* Название */}
       <div>
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
-            Название категории *
+            Название статьи *
           </label>
-          <span
-            className={`text-xs ${
-              charCount.name > SEO_LIMITS.name.max
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.name}/{SEO_LIMITS.name.max}
           </span>
         </div>
@@ -36,31 +28,18 @@ export const FormFields = ({
           }
           required
           disabled={isSubmitting}
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-            errors.name
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300
+           border-gray-300 focus:border-primary focus:ring-primary/20
+          disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="Например: Соки"
         />
-        {errors.name && (
-          <p className="text-red-500 text-xs mt-1">{errors.name}</p>
-        )}
       </div>
-
-      {/* Slug */}
       <div>
         <div className="flex justify-between items-center mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Алиас (slug) *
           </label>
-          <span
-            className={`text-xs ${
-              charCount.slug > SEO_LIMITS.slug.max
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.slug}/{SEO_LIMITS.slug.max}
           </span>
         </div>
@@ -78,11 +57,7 @@ export const FormFields = ({
             }}
             required
             disabled={isSubmitting}
-            className={`flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-              errors.slug
-                ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-                : "border-gray-300 focus:border-primary focus:ring-primary/20"
-            } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+            className="flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
             placeholder="soki"
           />
           <button
@@ -96,13 +71,10 @@ export const FormFields = ({
             Генерировать
           </button>
         </div>
-        {errors.slug ? (
-          <p className="text-red-500 text-xs mt-1">{errors.slug}</p>
-        ) : (
-          <p className="text-xs text-gray-500 mt-1">
-            Только латиница, цифры и дефисы
-          </p>
-        )}
+
+        <p className="text-xs text-gray-500 mt-1">
+          Только латиница, цифры и дефисы
+        </p>
       </div>
 
       {/* Описание */}
@@ -111,16 +83,7 @@ export const FormFields = ({
           <label className="block text-sm font-medium text-gray-700">
             Описание (мета-описание)
           </label>
-          <span
-            className={`text-xs ${
-              charCount.description > SEO_LIMITS.description.max
-                ? "text-red-600"
-                : charCount.description < SEO_LIMITS.description.min &&
-                    charCount.description > 0
-                  ? "text-yellow-600"
-                  : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.description}/{SEO_LIMITS.description.max}
           </span>
         </div>
@@ -135,21 +98,10 @@ export const FormFields = ({
           }
           rows={3}
           disabled={isSubmitting}
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 resize-none ${
-            errors.description
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 resize-none border-gray-300 focus:border-primary focus:ring-primary/20
+          disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="Краткое описание категории для поисковых систем (10-160 символов)"
         />
-        {errors.description ? (
-          <p className="text-red-500 text-xs mt-1">{errors.description}</p>
-        ) : (
-          <p className="text-xs text-gray-500 mt-1">
-            Оптимальная длина для SEO: {SEO_LIMITS.description.min}-
-            {SEO_LIMITS.description.max} символов
-          </p>
-        )}
       </div>
 
       {/* Ключевые слова */}
@@ -159,13 +111,7 @@ export const FormFields = ({
             Ключевые слова
             <span className="text-gray-500 text-xs ml-2">(через запятую)</span>
           </label>
-          <span
-            className={`text-xs ${
-              charCount.keywords > SEO_LIMITS.keywords.maxLength
-                ? "text-red-600"
-                : "text-gray-500"
-            }`}
-          >
+          <span className="text-xs text-gray-500">
             {charCount.keywords}/{SEO_LIMITS.keywords.maxLength}
           </span>
         </div>
@@ -180,16 +126,9 @@ export const FormFields = ({
             )
           }
           disabled={isSubmitting}
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
-            errors.keywords
-              ? "border-red-400 focus:border-red-500 focus:ring-red-100"
-              : "border-gray-300 focus:border-primary focus:ring-primary/20"
-          } disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400`}
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="мясо, напитки, польза и вред"
         />
-        {errors.keywords && (
-          <p className="text-red-500 text-xs mt-1">{errors.keywords}</p>
-        )}
       </div>
     </div>
   );

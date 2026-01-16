@@ -17,12 +17,4 @@ export interface CategoryFormProps {
   onCancel: () => void;
 }
 
-export interface CharCount {
-  name: number;
-  slug: number;
-  description: number;
-  keywords: number;
-  imageAlt: number;
-}
-
 export type CategoryFormField = keyof CategoryFormData;

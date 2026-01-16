@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SEO_LIMITS } from "../utils/SEO_LIMITS";
+import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
 import { CategoryFormData } from "../types";
 
 export const useCategoryFormValidation = () => {

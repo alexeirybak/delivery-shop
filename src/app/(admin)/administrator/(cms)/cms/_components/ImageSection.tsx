@@ -1,18 +1,26 @@
 import Image from "next/image";
 import { AlertCircle, Upload, XCircle } from "lucide-react";
-import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
+import { SEO_LIMITS } from "../utils/SEO_LIMITS";
 import { useRef } from "react";
 import { useCategoryStore } from "@/store/categoryStore";
-import { ImageSectionProps } from "../../types";
+import { ImageSectionProps } from "../categories/types";
+import { useArticleStore } from "@/store/articleStore";
 
 export const ImageSection = ({
-  errors,
+  type,
+  errors = {},
   charCount,
   onInputChange,
   onFileChange,
   onRemoveImage,
 }: ImageSectionProps) => {
-  const { editingId, isUploading, isSubmitting, formData } = useCategoryStore();
+  const categoryData = useCategoryStore();
+  const articleData = useArticleStore();
+
+  const storeData = type === "category" ? categoryData : articleData;
+  const entityName = type === "category" ? "категории" : "статьи";
+
+  const { editingId, isUploading, isSubmitting, formData } = storeData;
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleRemoveImage = () => {
@@ -24,7 +32,7 @@ export const ImageSection = ({
   };
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
-      <h3 className="text-lg font-medium mb-4">Изображение категории</h3>
+      <h3 className="text-lg font-medium mb-4">Изображение {entityName}</h3>
       <div className="space-y-4">
         {formData.image && (
           <div className="bg-white p-4 rounded border border-gray-200">
@@ -42,8 +50,8 @@ export const ImageSection = ({
               <div className="flex-1 mt-8">
                 <p className="text-sm text-gray-600 mb-2">
                   {formData.image.startsWith("blob:")
-                    ? "Новое изображение (будет загружено при сохранении)"
-                    : "Текущее изображение категории"}
+                    ? `Новое изображение (будет загружено при сохранении) ${entityName}`
+                    : `Текущее изображение ${entityName}`}
                 </p>
                 {formData.image.startsWith("blob:") && (
                   <p className="flex items-center gap-1 text-xs text-green-600 mb-2">

@@ -1,7 +1,8 @@
-import { CategoryFormField, CategoryFormProps, CharCount } from "../../types";
-import { FormFields } from "./FormFields";
-import { ImageSection } from "./ImageSection";
-import { SubmitSection } from "./SubmitSection";
+import { CharCount } from "../../types/form/form.types";
+import { CategoryFormField, CategoryFormProps } from "../types";
+import { CategoryFormFields } from "./CategoryFormFields";
+import { ImageSection } from "../../_components/ImageSection";
+import { CategorySubmitSection } from "./CategorySubmitSection";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const CategoryForm = ({
@@ -24,12 +25,12 @@ export const CategoryForm = ({
   };
 
   const handleInputChange = (
-    field: CategoryFormField,
+    field: string,
     value: string,
     maxLength: number
   ) => {
     if (value.length <= maxLength) {
-      onFieldChange(field, value);
+      onFieldChange(field as CategoryFormField, value);
     }
   };
 
@@ -63,19 +64,20 @@ export const CategoryForm = ({
       <h2 className="text-xl font-semibold mb-4">Создание новой категории</h2>
       <form onSubmit={onSubmit}>
         <ImageSection
+          type="category"
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}
           onFileChange={handleFileChange}
           onRemoveImage={onRemoveImage}
         />
-        <FormFields
+        <CategoryFormFields
           errors={errors}
           charCount={charCount}
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
-        <SubmitSection onCancel={onCancel} />
+        <CategorySubmitSection onCancel={onCancel} />
       </form>
     </div>
   );

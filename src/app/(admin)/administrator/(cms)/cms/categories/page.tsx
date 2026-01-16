@@ -3,21 +3,21 @@
 import { useAuthStore } from "@/store/authStore";
 import { Header } from "../_components/Header";
 import { SEORecommendations } from "../_components/SEORecommendations";
-import { useCategoryFormState } from "../hooks/useCategoryFormState";
-import { useCategoryFormValidation } from "../hooks/useCategoryFormValidation";
+import { useCategoryFormState } from "./hooks/useCategoryFormState";
+import { useCategoryFormValidation } from "./hooks/useCategoryFormValidation";
 import { categorySeoRecommendations } from "../utils/recommendations";
-import { CategoryForm } from "./_components/CategoryForm";
 import { CategoryTable } from "./_components/CategoryTable";
 import { useEffect, useState } from "react";
-import { useCategories } from "../hooks/useCategories";
-import { Notification } from "./_components/Notification";
+import { useCategories } from "./hooks/useCategories";
+import { Notification } from "../_components/Notification";
 import { WarningAlert } from "./_components/WarningAlert";
 import { HeaderActions } from "./_components/HeaderActions";
 import { useCategoryStore } from "@/store/categoryStore";
 import { Pagination } from "../_components/Pagination";
 import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
-import { Category } from "../types";
+import { Category } from "./types";
 import { ReorderStatus } from "./_components/ReorderStatus";
+import { CategoryForm } from "./_components/CategoryForm";
 
 const CategoriesPage = () => {
   const [notification, setNotification] = useState<{
@@ -238,7 +238,9 @@ const CategoriesPage = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Вы уверены, что хотите удалить эту категорию?")) return;
 
-    const categoryToDelete = categories.find((c) => c._id.toString() === id);
+    const categoryToDelete = (categories).find(
+      (c) => c._id.toString() === id
+    );
 
     const result = await deleteCategory(id);
     if (result.success) {

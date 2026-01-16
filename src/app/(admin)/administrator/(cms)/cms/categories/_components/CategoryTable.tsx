@@ -2,12 +2,12 @@ import { TableHeader } from "./TableHeader";
 import { EmptyState } from "./EmptyState";
 import { SortableItem } from "./SortableItem";
 import { useCategoryStore } from "@/store/categoryStore";
-import { Category, CategoryTableProps } from "../../types";
 import { SearchBar } from "./SearchBar";
 import { AdvancedFilters } from "./AdvancedFilters";
 import { useState } from "react";
 import { FilterControls } from "./FilterControls";
 import { ResultsStats } from "./ResultsStats";
+import { Category, CategoryTableProps } from "../types";
 
 export const CategoryTable = ({
   onDelete,

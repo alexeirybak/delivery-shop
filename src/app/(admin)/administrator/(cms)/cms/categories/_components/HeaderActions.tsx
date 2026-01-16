@@ -1,5 +1,5 @@
 import { Plus } from "lucide-react";
-import { HeaderActionsProps } from "../../types";
+import { HeaderActionsProps } from "../types";
 
 export function HeaderActions({ onCreate }: HeaderActionsProps) {
   return (

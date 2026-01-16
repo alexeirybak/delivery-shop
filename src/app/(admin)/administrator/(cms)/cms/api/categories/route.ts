@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { Category, FilterType, SortField } from "../../types";
 import { CONFIG_BLOG } from "../../CONFIG_BLOG";
 import { buildSortObject } from "../../utils/buildSortObject";
 import { buildFilterQuery } from "../../utils/buildFilterQuery";
+import { Category, FilterType, SortField } from "../../categories/types";
 
 export async function GET(request: Request) {
   try {
@@ -144,7 +144,7 @@ export async function POST(request: Request) {
       description: data.description?.trim() || "",
       keywords: data.keywords || [],
       image: data.image || "",
-      imageAlt: data.imageAlt || "",
+      imageAlt: data.imageAlt || name,
       author: data.author || "Неизвестен",
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),

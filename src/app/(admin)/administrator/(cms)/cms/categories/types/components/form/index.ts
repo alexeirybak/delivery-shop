@@ -1,3 +1,3 @@
 export * from "./category-form.types";
 export * from "./form-fields.types";
-export * from "./image-section.types";
+export * from "../../../../types/form/image-section.types";

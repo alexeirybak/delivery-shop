@@ -1,8 +1,8 @@
 import { useCategoryStore } from "@/store/categoryStore";
 import { Loader2, Save } from "lucide-react";
-import { SubmitSectionProps } from "../../types";
+import { SubmitSectionProps } from "../types";
 
-export const SubmitSection = ({ onCancel }: SubmitSectionProps) => {
+export const CategorySubmitSection = ({ onCancel }: SubmitSectionProps) => {
   const { editingId, isSubmitting, isUploading } = useCategoryStore();
   return (
     <>

@@ -3,7 +3,7 @@ import { ChevronDown } from "lucide-react";
 import { DragHandle } from "./DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
-import { SortableItemProps } from "../../types";
+import { SortableItemProps } from "../types";
 
 export const MobileCategoryCard = ({
   category,

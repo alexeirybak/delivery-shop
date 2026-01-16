@@ -19,7 +19,7 @@ export const menuItems = [
     color: "from-blue-500 to-blue-600",
     hoverColor: "hover:from-blue-600 hover:to-blue-700",
     shadow: "shadow-lg shadow-blue-500/20",
-    path: "/administrator/cms/editor",
+    path: "/administrator/cms/articles/editor",
   },
   {
     id: "all-articles",

@@ -2,7 +2,7 @@ import React from "react";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { DragHandle } from "./DragHandle";
-import { SortableItemProps } from "../../types";
+import { SortableItemProps } from "../types";
 
 export const DesktopCategoryRow = ({
   category,

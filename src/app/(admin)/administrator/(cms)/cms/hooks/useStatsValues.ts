@@ -8,7 +8,7 @@ export const useStatsValues = () => {
 
   useEffect(() => {
     loadCategories();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const keywordsCount = settings?.semanticCore?.length || 0;

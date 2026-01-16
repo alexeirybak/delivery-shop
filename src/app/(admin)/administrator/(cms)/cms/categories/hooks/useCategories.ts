@@ -1,6 +1,7 @@
 import { useCategoryStore } from "@/store/categoryStore";
 import { useEffect } from "react";
-import { ApiResponse, CategoryFormData, UpdateCategoryData } from "../types";
+import { CategoryFormData, UpdateCategoryData } from "../types";
+import { ApiResponse } from "../../types/entities.types";
 
 export const useCategories = () => {
   const { loadCategories, currentPage } = useCategoryStore();
