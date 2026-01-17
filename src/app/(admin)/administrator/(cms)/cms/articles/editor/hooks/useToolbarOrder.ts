@@ -16,7 +16,12 @@ const DEFAULT_GROUPS = [
   {
     id: "text",
     name: "Текст",
-    items: ["textLevel", "textFormatting", "color", "fontSize"],
+    items: ["textLevel"],
+  },
+    {
+    id: "textStyles",
+    name: "Текст",
+    items: ["textFormatting", "color", "fontSize"],
   },
   {
     id: "list",
@@ -80,13 +85,13 @@ export const useToolbarOrder = () => {
   });
 
   // Сохраняем порядок в localStorage
-  useEffect(() => {
-    try {
-      localStorage.setItem("toolbar-order", JSON.stringify(groups));
-    } catch (error) {
-      console.error("Error saving toolbar order:", error);
-    }
-  }, [groups]);
+  // useEffect(() => {
+  //   try {
+  //     localStorage.setItem("toolbar-order", JSON.stringify(groups));
+  //   } catch (error) {
+  //     console.error("Error saving toolbar order:", error);
+  //   }
+  // }, [groups]);
 
   const moveGroup = (fromIndex: number, toIndex: number) => {
     if (fromIndex === toIndex) return;

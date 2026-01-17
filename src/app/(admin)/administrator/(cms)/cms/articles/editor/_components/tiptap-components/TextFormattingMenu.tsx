@@ -11,10 +11,10 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleBold().run()}
-        className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
+        className={`p-2 rounded duration-300 cursor-pointer ${
           editor.isActive("bold")
-            ? "bg-gray-300 text-green-600"
-            : "text-gray-600"
+            ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+            : "text-gray-700 hover:bg-gray-100"
         }`}
         title="Жирный"
       >
@@ -23,10 +23,10 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleItalic().run()}
-        className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
+        className={`p-2 rounded duration-300 cursor-pointer ${
           editor.isActive("italic")
-            ? "bg-gray-300 text-green-600"
-            : "text-gray-600"
+            ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+            : "text-gray-700 hover:bg-gray-100"
         }`}
         title="Курсив"
       >
@@ -35,10 +35,10 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleUnderline().run()}
-        className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
+        className={`p-2 rounded duration-300 cursor-pointer ${
           editor.isActive("underline")
-            ? "bg-gray-300 text-green-600"
-            : "text-gray-600"
+            ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+            : "text-gray-700 hover:bg-gray-100"
         }`}
         title="Подчеркнутый"
       >
@@ -47,10 +47,10 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => editor.chain().focus().toggleStrike().run()}
-        className={`p-2 rounded hover:bg-gray-200 duration-300 cursor-pointer ${
+        className={`p-2 rounded duration-300 cursor-pointer ${
           editor.isActive("strike")
-            ? "bg-gray-300 text-green-600"
-            : "text-gray-600"
+            ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+            : "text-gray-700 hover:bg-gray-100"
         }`}
         title="Зачеркнутый"
       >

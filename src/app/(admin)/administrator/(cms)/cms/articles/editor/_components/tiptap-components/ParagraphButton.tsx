@@ -19,7 +19,7 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       title="Обычный текст (Ctrl+Alt+0)"
       disabled={!editor.can().setParagraph()}
     >
-      <Type className="w-5 h-5" />
+      <Type className="w-4 h-4" />
     </button>
   );
 };
