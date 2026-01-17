@@ -25,11 +25,11 @@ export const useArticleFormState = () => {
       const tempUrl = URL.createObjectURL(file);
       updateFormField("image", tempUrl);
 
-      if (formData.name) {
+      if (!formData.imageAlt) {
         updateFormField("imageAlt", `${formData.name}`);
       }
     },
-    [formData.name, updateFormField]
+    [formData.imageAlt, formData.name, updateFormField]
   );
 
   const removeImage = useCallback(() => {
@@ -45,6 +45,7 @@ export const useArticleFormState = () => {
   const uploadImageToServer = useCallback(async (): Promise<{
     url: string;
     fileName: string;
+    category: string;
   } | null> => {
     if (!tempImageFile) {
       return null;
@@ -53,6 +54,10 @@ export const useArticleFormState = () => {
     try {
       const uploadFormData = new FormData();
       uploadFormData.append("image", tempImageFile);
+      
+      if (formData.categorySlug) {
+        uploadFormData.append("categorySlug", formData.categorySlug);
+      }
 
       const response = await fetch("/administrator/cms/api/articles/upload", {
         method: "POST",
@@ -68,7 +73,11 @@ export const useArticleFormState = () => {
 
         setTempImageFile(null);
 
-        return { url: data.url, fileName: data.fileName };
+        return { 
+          url: data.url, 
+          fileName: data.fileName,
+          category: data.category 
+        };
       } else {
         throw new Error(data.error || "Ошибка загрузки изображения");
       }
@@ -76,7 +85,7 @@ export const useArticleFormState = () => {
       console.error("Ошибка загрузки изображения:", error);
       throw error;
     }
-  }, [tempImageFile, formData.image]);
+  }, [tempImageFile, formData.image, formData.categorySlug]); 
 
   const getKeywordsArray = useCallback(() => {
     return formData.keywords

@@ -52,9 +52,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className={`flex items-center gap-2 px-3 py-1.5 text-sm border rounded-lg 
-                  focus:outline-none focus:ring-2 focus:ring-gray-500 transition-colors
-                  bg-gray-100 text-gray-700`}
+        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 focus:outline-none duration-300"
       >
         <span className="font-medium">{getCurrentLabel()}</span>
         <ChevronDown
@@ -101,9 +99,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
                       : ""
                   }`}
                 >
-                  <span className="font-medium">
-                    H{level}
-                  </span>
+                  <span className="font-medium">H{level}</span>
                   <span className="text-gray-600 text-xs">
                     Заголовок {level}
                   </span>

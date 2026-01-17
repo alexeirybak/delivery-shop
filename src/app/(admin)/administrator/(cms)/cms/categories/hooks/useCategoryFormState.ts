@@ -34,11 +34,11 @@ export const useCategoryFormState = () => {
       const tempUrl = URL.createObjectURL(file);
       updateFormField("image", tempUrl);
 
-      if (formData.name) {
+      if (!formData.imageAlt) {
         updateFormField("imageAlt", `${formData.name}`);
       }
     },
-    [formData.name, updateFormField]
+    [formData.imageAlt, formData.name, updateFormField]
   );
 
   const removeImage = useCallback(() => {

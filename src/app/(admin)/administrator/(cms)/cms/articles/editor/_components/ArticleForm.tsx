@@ -111,7 +111,7 @@ export const ArticleForm = ({
           <TiptapEditor
             key={formData._id || "new-article"}
             content={formData.content || ""}
-            onContentChangeAction={(content) =>
+            onContentChange={(content) =>
               handleInputChange("content", content)
             }
           />

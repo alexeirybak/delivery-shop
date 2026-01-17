@@ -2,7 +2,7 @@ import { Editor } from "@tiptap/react";
 
 export interface TiptapEditorProps {
   content: string;
-  onContentChangeAction: (content: string) => void;
+  onContentChange: (content: string) => void;
 }
 
 export interface EditorProps {

@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import fs from "fs/promises";
 import path from "path";
-import sharp from "sharp";
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("image") as File;
-    const category = formData.get("categorySlug");
+    const categorySlug = formData.get("categorySlug") as string; // Получаем slug категории
 
     if (!file) {
       return NextResponse.json(
@@ -16,9 +15,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Если категория не указана, используем дефолтную папку
+    const categoryFolder = categorySlug?.trim() || "uncategorized";
+
+    // Читаем файл как буфер без изменения размера
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    // Генерируем безопасное имя файла
     const originalName = file.name;
     const baseName = originalName.replace(/\.[^/.]+$/, "");
     const cleanName = baseName
@@ -29,50 +33,34 @@ export async function POST(request: NextRequest) {
 
     const timestamp = Date.now();
     const safeName = cleanName || "image";
-
     const originalExtension =
       originalName.split(".").pop()?.toLowerCase() || "jpg";
     const fileName = `${safeName}_${timestamp}.${originalExtension}`;
 
-    let optimizedBuffer: Buffer;
+    // Создаем путь с папкой category внутри articles
+    const publicDir = path.join(
+      process.cwd(), 
+      "public", 
+      "articles",        // Основная папка для статей
+      categoryFolder    // Подпапка с названием категории
+    );
 
-    if (originalExtension === "png") {
-      optimizedBuffer = await sharp(buffer)
-        .resize(800, 450, {
-          fit: "fill",
-          withoutEnlargement: false,
-        })
-        .png({ quality: 80 })
-        .toBuffer();
-    } else if (originalExtension === "gif") {
-      optimizedBuffer = await sharp(buffer, { animated: true })
-        .resize(800, 450, {
-          fit: "fill",
-          withoutEnlargement: false,
-        })
-        .gif()
-        .toBuffer();
-    } else {
-      optimizedBuffer = await sharp(buffer)
-        .resize(800, 450, {
-          fit: "fill",
-          withoutEnlargement: false,
-        })
-        .jpeg({ quality: 80 })
-        .toBuffer();
-    }
-    const publicDir = path.join(process.cwd(), "public", "blogCategories", "articles");
+    // Рекурсивно создаем директорию, если ее нет
     await fs.mkdir(publicDir, { recursive: true });
 
     const filePath = path.join(publicDir, fileName);
-    await fs.writeFile(filePath, optimizedBuffer);
+    
+    // Сохраняем оригинальный файл без изменений
+    await fs.writeFile(filePath, buffer);
 
-    const publicUrl = `/blogCategories/articles/${fileName}`;
+    // URL для доступа к файлу
+    const publicUrl = `/articles/${categoryFolder}/${fileName}`;
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
       fileName: fileName,
+      category: categoryFolder,
     });
   } catch (error) {
     console.error("Ошибка загрузки изображения:", error);
@@ -83,11 +71,12 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE функция остается без изменений
+// Обновленная DELETE функция для удаления с учетом категории
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const fileName = searchParams.get("file");
+    const category = searchParams.get("category"); // Добавляем параметр категории
 
     if (!fileName) {
       return NextResponse.json(
@@ -96,7 +85,22 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    const publicDir = path.join(process.cwd(), "public", "blogCategories");
+    // Если категория не указана, ищем файл во всех подпапках
+    if (!category) {
+      return NextResponse.json(
+        { error: "Категория не указана" },
+        { status: 400 }
+      );
+    }
+
+    const categoryFolder = category.trim();
+    const publicDir = path.join(
+      process.cwd(), 
+      "public", 
+      "articles",      
+      categoryFolder 
+    );
+    
     const filePath = path.join(publicDir, fileName);
 
     try {

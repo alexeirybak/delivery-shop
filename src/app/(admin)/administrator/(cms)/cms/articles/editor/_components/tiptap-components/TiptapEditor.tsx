@@ -5,32 +5,50 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { TiptapEditorProps } from "../../../types";
-import Placeholder from "@tiptap/extension-placeholder";
 import { TableKit } from "@tiptap/extension-table";
-import { LineHeight, TextStyle, TextStyleKit } from "@tiptap/extension-text-style";
+import {
+  LineHeight,
+  TextStyle,
+  TextStyleKit,
+} from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
-import { Counter } from "./Counter";
 import { MainToolbar } from "./MainToolbar";
-import { Dropcursor, CharacterCount } from "@tiptap/extensions";
+import {
+  UndoRedo,
+  CharacterCount,
+  Dropcursor,
+  Placeholder,
+} from "@tiptap/extensions"; // CharacterCount уже здесь!
 import "../../css/editor.css";
+import { Counter } from "./Counter";
 
 export const TiptapEditor = ({
   content,
-  onContentChangeAction,
+  onContentChange,
 }: TiptapEditorProps) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [stats, setStats] = useState({ characters: 0, words: 0 });
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        // Отключаем стандартный History из StarterKit
+        undoRedo: false,
+      }),
+      UndoRedo.configure({
+        depth: 500,
+        newGroupDelay: 100,
+      }),
+      // ДОБАВЬТЕ CharacterCount СЮДА
+      CharacterCount,
       Placeholder.configure({
         placeholder: "Начните писать статью здесь...",
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
-      TextStyle, 
-      LineHeight, 
+      TextStyle,
+      LineHeight,
       TextStyleKit.configure({
         backgroundColor: false,
         fontSize: {
@@ -38,7 +56,6 @@ export const TiptapEditor = ({
         },
       }),
       TableKit,
-      CharacterCount,
       Image.configure({
         resize: {
           enabled: true,
@@ -69,11 +86,17 @@ export const TiptapEditor = ({
       }),
     ],
     content,
+    immediatelyRender: false,
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
-      onContentChangeAction(html);
+      onContentChange(html);
+
+      // Обновляем статистику сразу при обновлении
+      const characters = editor.storage.characterCount?.characters() || 0;
+      const words = editor.storage.characterCount.words();
+
+      setStats({ characters, words });
     },
-    immediatelyRender: false,
   });
 
   // Инициализация монтирования
@@ -82,19 +105,8 @@ export const TiptapEditor = ({
     return () => setIsMounted(false);
   }, []);
 
-  // Синхронизация внешнего контента
-  useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
-      editor.commands.setContent(content);
-    }
-  }, [content, editor]);
-
-  // Получаем статистику из редактора
-  const characters = editor?.storage.characterCount?.characters() || 0;
-  const words = editor?.storage.characterCount?.words() || 0;
-
   // Не рендерить ничего до монтирования на клиенте
-  if (!isMounted) {
+  if (!isMounted || !editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-3">
         <div className="min-h-[200px] bg-gray-50 rounded p-3 flex items-center justify-center">
@@ -106,10 +118,8 @@ export const TiptapEditor = ({
 
   return (
     <div className="border border-gray-300 rounded-lg overflow-hidden">
-      {/* Главная панель инструментов */}
       <MainToolbar editor={editor} />
 
-      {/* Область редактора */}
       <div className="relative bg-white">
         <EditorContent
           editor={editor}
@@ -117,9 +127,9 @@ export const TiptapEditor = ({
         />
       </div>
 
-      {/* Счетчик */}
       <div className="border-t border-gray-200 bg-gray-50 px-4 py-2">
-        <Counter wordCount={words} charCount={characters} />
+        {/* Используем stats вместо прямого обращения к storage */}
+        <Counter wordCount={stats.words} charCount={stats.characters} />
       </div>
     </div>
   );

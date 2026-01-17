@@ -1,3 +1,5 @@
+"use client";
+
 import { CounterProps } from "../../../types";
 
 export const Counter = ({ wordCount, charCount }: CounterProps) => {
