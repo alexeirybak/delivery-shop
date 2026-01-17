@@ -21,6 +21,7 @@ import {
 } from "@tiptap/extensions"; // CharacterCount уже здесь!
 import "../../css/editor.css";
 import { Counter } from "./Counter";
+import { Loader2 } from "lucide-react";
 
 export const TiptapEditor = ({
   content,
@@ -102,8 +103,11 @@ export const TiptapEditor = ({
   if (!editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-3">
-        <div className="min-h-[200px] bg-gray-50 rounded p-3 flex items-center justify-center">
-          <div className="text-gray-500">Инициализация редактора...</div>
+        <div className="min-h-[200px] bg-gray-50 rounded p-3 flex flex-col items-center justify-center">
+          <Loader2 className="h-8 w-8 text-gray-400 animate-spin mb-3" />
+          <div className="text-gray-500 text-sm">
+            Инициализация редактора...
+          </div>
         </div>
       </div>
     );
