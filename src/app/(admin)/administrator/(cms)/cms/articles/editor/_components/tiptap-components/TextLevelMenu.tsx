@@ -1,9 +1,10 @@
-import { Editor } from "@tiptap/react";
 import { HeadingButton } from "@/components/tiptap-ui/heading-button";
 import { Type, ChevronDown } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
+import { EditorProps } from "../../../types";
 
-export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
+
+export const TextLevelMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -52,7 +53,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
           e.preventDefault();
           setIsOpen(!isOpen);
         }}
-        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 focus:outline-none duration-300"
+        className="flex items-center gap-2 px-3 py-1.5 text-sm bg-gray-100 text-gray-700 focus:outline-none duration-300 cursor-pointer"
       >
         <span className="font-medium">{getCurrentLabel()}</span>
         <ChevronDown

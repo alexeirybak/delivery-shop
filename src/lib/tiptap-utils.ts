@@ -610,3 +610,24 @@ export function getSelectedNodesOfType(
 
   return results
 }
+
+export function getSelectedBlockNodes(editor: Editor): PMNode[] {
+  const { doc } = editor.state
+  const { from, to } = editor.state.selection
+
+  const blocks: PMNode[] = []
+  const seen = new Set<number>()
+
+  doc.nodesBetween(from, to, (node, pos) => {
+    if (!node.isBlock) return
+
+    if (!seen.has(pos)) {
+      seen.add(pos)
+      blocks.push(node)
+    }
+
+    return false
+  })
+
+  return blocks
+}

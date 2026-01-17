@@ -1,6 +1,5 @@
 "use client";
 
-import { TextLevelMenu } from "./TextLevelMenu";
 import { TextFormattingMenu } from "./TextFormattingMenu";
 import { ListMenu } from "./ListMenu";
 import { BlockMenu } from "./BlockMenu";
@@ -17,10 +16,13 @@ import { useState } from "react";
 import { ImageAIMenu } from "./imageAI/ImageAIMenu";
 import { ColorMenu } from "./ColorMenu";
 import { GripVertical } from "lucide-react";
+import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
+import { ParagraphButton } from "./ParagraphButton";
 
 const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   history: HistoryMenu,
-  textLevel: TextLevelMenu,
+  textLevel: HeadingDropdownMenu,
+  paragraph: ParagraphButton,
   textFormatting: TextFormattingMenu,
   color: ColorMenu,
   fontSize: FontSizeMenu,

@@ -1,20 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import TextAlign from "@tiptap/extension-text-align";
 import { TiptapEditorProps } from "../../../types";
 import { TableKit } from "@tiptap/extension-table";
 import {
-  LineHeight,
   TextStyle,
   TextStyleKit,
 } from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 import { MainToolbar } from "./MainToolbar";
 import {
-  UndoRedo,
   CharacterCount,
   Dropcursor,
   Placeholder,
@@ -32,14 +30,8 @@ export const TiptapEditor = ({
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        // Отключаем стандартный History из StarterKit
-        undoRedo: false,
+        undoRedo: { depth: 500, newGroupDelay: 100 },
       }),
-      UndoRedo.configure({
-        depth: 500,
-        newGroupDelay: 100,
-      }),
-      // ДОБАВЬТЕ CharacterCount СЮДА
       CharacterCount,
       Placeholder.configure({
         placeholder: "Начните писать статью здесь...",
@@ -48,11 +40,10 @@ export const TiptapEditor = ({
         types: ["heading", "paragraph"],
       }),
       TextStyle,
-      LineHeight,
       TextStyleKit.configure({
         backgroundColor: false,
         fontSize: {
-          types: ["heading", "paragraph"],
+          types: ["paragraph"],
         },
       }),
       TableKit,
@@ -91,15 +82,12 @@ export const TiptapEditor = ({
       const html = editor.getHTML();
       onContentChange(html);
 
-      // Обновляем статистику сразу при обновлении
       const characters = editor.storage.characterCount?.characters() || 0;
       const words = editor.storage.characterCount.words();
 
       setStats({ characters, words });
     },
   });
-
-  // Не рендерить ничего до монтирования на клиенте
   if (!editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-3">
@@ -117,7 +105,7 @@ export const TiptapEditor = ({
     <div className="border border-gray-300 rounded-lg overflow-hidden">
       <MainToolbar editor={editor} />
 
-      <div className="relative bg-white">
+      <div className="bg-white">
         <EditorContent
           editor={editor}
           className="min-h-[400px] p-4 focus:outline-none"

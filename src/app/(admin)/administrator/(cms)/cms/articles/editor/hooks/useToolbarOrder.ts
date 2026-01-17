@@ -8,10 +8,15 @@ const DEFAULT_GROUPS = [
     name: "История",
     items: ["history"],
   },
+    {
+    id: "paragraph",
+    name: "Параграф",
+    items: ["paragraph"],
+  },
   {
     id: "text",
     name: "Текст",
-    items: ["text-level", "text-formatting", "color", "font-size"],
+    items: ["textLevel", "textFormatting", "color", "fontSize"],
   },
   {
     id: "list",

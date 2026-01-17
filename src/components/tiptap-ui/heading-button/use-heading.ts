@@ -10,6 +10,7 @@ import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
 // --- Lib ---
 import {
   findNodePosition,
+  getSelectedBlockNodes,
   isNodeInSchema,
   isNodeTypeSelected,
   isValidPosition,
@@ -146,8 +147,27 @@ export function toggleHeading(
     let state = view.state
     let tr = state.tr
 
-    // No selection, find the cursor position
-    if (state.selection.empty || state.selection instanceof TextSelection) {
+    const blocks = getSelectedBlockNodes(editor)
+
+    // In case a selection contains multiple blocks, we only allow
+    // toggling to nide if there's exactly one block selected
+    // we also dont block the canToggle since it will fall back to the bottom logic
+    const isPossibleToTurnInto =
+      selectionWithinConvertibleTypes(editor, [
+        "paragraph",
+        "heading",
+        "bulletList",
+        "orderedList",
+        "taskList",
+        "blockquote",
+        "codeBlock",
+      ]) && blocks.length === 1
+
+    // No selection, find the the cursor position
+    if (
+      (state.selection.empty || state.selection instanceof TextSelection) &&
+      isPossibleToTurnInto
+    ) {
       const pos = findNodePosition({
         editor,
         node: state.selection.$anchor.node(1),
