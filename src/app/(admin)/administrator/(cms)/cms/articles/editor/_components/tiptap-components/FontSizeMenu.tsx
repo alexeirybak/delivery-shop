@@ -1,5 +1,3 @@
-"use client";
-
 import { ChevronDown, Check } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { EditorProps } from "../../../types";
