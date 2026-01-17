@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import TextAlign from "@tiptap/extension-text-align";
 import { TiptapEditorProps } from "../../../types";
 import { TableKit } from "@tiptap/extension-table";
 import {
@@ -34,9 +33,6 @@ export const TiptapEditor = ({
       CharacterCount,
       Placeholder.configure({
         placeholder: "Начните писать статью здесь...",
-      }),
-      TextAlign.configure({
-        types: ["heading", "paragraph"],
       }),
       TextStyleKit.configure({
         backgroundColor: false,
