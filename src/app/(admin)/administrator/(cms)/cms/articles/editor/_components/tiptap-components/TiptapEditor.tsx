@@ -7,7 +7,6 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TiptapEditorProps } from "../../../types";
 import { TableKit } from "@tiptap/extension-table";
 import {
-  TextStyle,
   TextStyleKit,
 } from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
@@ -39,7 +38,6 @@ export const TiptapEditor = ({
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
-      TextStyle,
       TextStyleKit.configure({
         backgroundColor: false,
         fontSize: {
