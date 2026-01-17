@@ -8,7 +8,7 @@ const DEFAULT_GROUPS = [
     name: "История",
     items: ["history"],
   },
-    {
+  {
     id: "paragraph",
     name: "Параграф",
     items: ["paragraph"],
@@ -18,9 +18,9 @@ const DEFAULT_GROUPS = [
     name: "Текст",
     items: ["textLevel"],
   },
-    {
+  {
     id: "textStyles",
-    name: "Текст",
+    name: "Стили текста",
     items: ["textFormatting", "textColor", "bgColor", "fontSize"],
   },
   {
@@ -31,12 +31,12 @@ const DEFAULT_GROUPS = [
   {
     id: "formatting",
     name: "Форматирование",
-    items: ["alignment"],
+    items: ["alignment", "quote"], // Добавили quote сюда
   },
   {
-    id: "block",
-    name: "Цитаты и исходный код",
-    items: ["block"],
+    id: "code",
+    name: "Код", // Переименовали для ясности
+    items: ["codeEditor"], // Изменили с "code" на "codeEditor"
   },
   {
     id: "table",
@@ -56,7 +56,7 @@ const DEFAULT_GROUPS = [
   {
     id: "ai",
     name: "AI",
-    items: ["ai", "image-ai"],
+    items: ["ai", "imageAI"],
   },
 ];
 

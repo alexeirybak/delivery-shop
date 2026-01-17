@@ -2,7 +2,7 @@
 
 import { TextFormattingMenu } from "./TextFormattingMenu";
 import { ListMenu } from "./ListMenu";
-import { BlockMenu } from "./BlockMenu";
+import { CodeEditorButton } from "./CodeEditorButton";
 import { AlignmentMenu } from "./AlignmentMenu";
 import { HistoryMenu } from "./HistoryMenu";
 import { LinkMenu } from "./LinkMenu";
@@ -19,6 +19,7 @@ import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-men
 import { ParagraphButton } from "./ParagraphButton";
 import { TextColorMenu } from "./TextColotMenu";
 import { BgColorMenu } from "./BgColorMenu";
+import { QuoteButton } from "./QuoteButton";
 
 const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   history: HistoryMenu,
@@ -29,13 +30,14 @@ const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   bgColor: BgColorMenu,
   fontSize: FontSizeMenu,
   list: ListMenu,
-  block: BlockMenu,
+  codeEditor: CodeEditorButton,
   alignment: AlignmentMenu,
   link: LinkMenu,
   table: TableMenu,
   image: ImageMenu,
   ai: AIMenu,
   imageAI: ImageAIMenu,
+  quote: QuoteButton, // Добавили отдельный компонент для цитат
 };
 
 export const MainToolbar = ({ editor }: EditorProps) => {

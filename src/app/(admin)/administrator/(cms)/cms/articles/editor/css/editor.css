@@ -1,4 +1,5 @@
-@import "./table.css";
+@import './table.css';
+@import 'prismjs/themes/prism-tomorrow.css';
 
 .ProseMirror {
   min-height: 350px;
@@ -373,4 +374,36 @@
     opacity: 0;
     visibility: hidden;
   }
+}
+
+
+/**/
+/* В ваш editor.css или глобальные стили */
+@import 'prismjs/themes/prism-tomorrow.css';
+
+/* Кастомные стили для редактора */
+.html-editor-overlay {
+  position: relative;
+  background: #1e1e1e;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+}
+
+.html-editor-textarea {
+  caret-color: white;
+  opacity: 0.8;
+}
+
+.html-editor-preview {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Убедитесь, что textarea и pre имеют одинаковые стили */
+.html-editor-textarea,
+.html-editor-preview {
+  font-size: 14px;
+  line-height: 1.5;
+  tab-size: 2;
+  white-space: pre;
+  word-wrap: normal;
 }

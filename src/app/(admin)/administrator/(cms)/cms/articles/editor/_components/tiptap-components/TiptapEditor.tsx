@@ -5,19 +5,14 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { TiptapEditorProps } from "../../../types";
 import { TableKit } from "@tiptap/extension-table";
-import {
-  TextStyleKit,
-} from "@tiptap/extension-text-style";
+import { TextStyleKit } from "@tiptap/extension-text-style";
 import Image from "@tiptap/extension-image";
 import { MainToolbar } from "./MainToolbar";
-import {
-  CharacterCount,
-  Dropcursor,
-  Placeholder,
-} from "@tiptap/extensions"; // CharacterCount уже здесь!
+import { CharacterCount, Dropcursor, Placeholder } from "@tiptap/extensions";
 import "../../css/editor.css";
 import { Counter } from "./Counter";
 import { Loader2 } from "lucide-react";
+
 
 export const TiptapEditor = ({
   content,
@@ -29,6 +24,7 @@ export const TiptapEditor = ({
     extensions: [
       StarterKit.configure({
         undoRedo: { depth: 500, newGroupDelay: 100 },
+        codeBlock: false, // Отключаем стандартный codeBlock
       }),
       CharacterCount,
       Placeholder.configure({
@@ -36,7 +32,10 @@ export const TiptapEditor = ({
       }),
       TextStyleKit.configure({
         fontSize: {
-          types: ['heading', 'paragraph', 'textStyle'],
+          types: ["heading", "paragraph", "textStyle"],
+        },
+        backgroundColor: {
+          types: ["textStyle"],
         },
       }),
       TableKit,
@@ -81,6 +80,7 @@ export const TiptapEditor = ({
       setStats({ characters, words });
     },
   });
+
   if (!editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-3">
@@ -101,12 +101,11 @@ export const TiptapEditor = ({
       <div className="bg-white">
         <EditorContent
           editor={editor}
-          className="min-h-[400px] p-4 focus:outline-none"
+          className="min-h-[400px] p-4 focus:outline-none prose prose-sm max-w-none"
         />
       </div>
 
       <div className="border-t border-gray-200 bg-gray-50 px-4 py-2">
-        {/* Используем stats вместо прямого обращения к storage */}
         <Counter wordCount={stats.words} charCount={stats.characters} />
       </div>
     </div>
