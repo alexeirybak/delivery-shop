@@ -35,9 +35,8 @@ export const TiptapEditor = ({
         placeholder: "Начните писать статью здесь...",
       }),
       TextStyleKit.configure({
-        backgroundColor: false,
         fontSize: {
-          types: ["paragraph"],
+          types: ['heading', 'paragraph', 'textStyle'],
         },
       }),
       TableKit,
