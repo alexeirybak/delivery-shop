@@ -13,7 +13,7 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       onClick={() => editor.chain().focus().setParagraph().run()}
       className={`p-2 rounded duration-300 cursor-pointer ${
         isActive
-          ? "bg-blue-100 text-blue-700 hover:bg-blue-200"
+          ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
           : "text-gray-700 hover:bg-gray-100"
       }`}
       title="Обычный текст (Ctrl+Alt+0)"
