@@ -4,11 +4,9 @@ import { useState, useEffect, useRef } from "react";
 import { X, Copy, Check } from "lucide-react";
 import { Editor } from "@tiptap/react";
 import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-markup"; // Для HTML
-import "prismjs/themes/prism-tomorrow.css"; // Темная тема
 
 interface HtmlEditorModalProps {
-  editor: Editor;
+  editor: Editor | null;
   isOpen: boolean;
   onCloseAction: () => void;
 }
