@@ -26,7 +26,6 @@ export const TiptapEditor = ({
   content,
   onContentChange,
 }: TiptapEditorProps) => {
-  const [isMounted, setIsMounted] = useState(false);
   const [stats, setStats] = useState({ characters: 0, words: 0 });
 
   const editor = useEditor({
@@ -99,14 +98,8 @@ export const TiptapEditor = ({
     },
   });
 
-  // Инициализация монтирования
-  useEffect(() => {
-    setIsMounted(true);
-    return () => setIsMounted(false);
-  }, []);
-
   // Не рендерить ничего до монтирования на клиенте
-  if (!isMounted || !editor) {
+  if (!editor) {
     return (
       <div className="border border-gray-300 rounded-lg p-3">
         <div className="min-h-[200px] bg-gray-50 rounded p-3 flex items-center justify-center">
