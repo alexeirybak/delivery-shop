@@ -1,6 +1,6 @@
 "use client";
 
-import { Palette, Highlighter, Trash2, Check } from "lucide-react";
+import { Palette, Highlighter, Check } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { EditorProps } from "../../../types";
 
@@ -194,58 +194,8 @@ export const ColorMenu = ({ editor }: EditorProps) => {
     applyBgColor(customBgColor);
   };
 
-  // Очистка пустых стилей
-  const cleanEmptyStyles = () => {
-    if (!editor) return;
-
-    // Получаем все узлы с textStyle
-    const { state, dispatch } = editor.view;
-    const { tr } = state;
-    let modified = false;
-
-    state.doc.descendants((node, pos) => {
-      if (node.type.name === "text") {
-        node.marks.forEach((mark) => {
-          if (mark.type.name === "textStyle") {
-            const attrs = mark.attrs;
-            // Проверяем, пустые ли атрибуты
-            const isEmpty = Object.keys(attrs).every((key) => {
-              const value = attrs[key];
-              return (
-                value === "" ||
-                value === null ||
-                value === undefined ||
-                (key === "color" && value === "#000000") ||
-                (key === "backgroundColor" && value === "transparent")
-              );
-            });
-
-            if (isEmpty) {
-              tr.removeMark(pos, pos + node.nodeSize, mark.type);
-              modified = true;
-            }
-          }
-        });
-      }
-    });
-
-    if (modified) {
-      dispatch(tr);
-      editor.chain().focus().run();
-    }
-  };
-
   if (!editor) {
-    return (
-      <div className="flex gap-1">
-        <button disabled className="p-2 rounded border bg-gray-100">
-          <Palette className="w-4 h-4" />
-        </button>
-        <button disabled className="p-2 rounded border bg-gray-100">
-          <Highlighter className="w-4 h-4" />
-        </button>
-      </div>
-    );
+    return null;
   }
 
   const currentTextColor = getCurrentTextColor();
@@ -359,15 +309,6 @@ export const ColorMenu = ({ editor }: EditorProps) => {
               >
                 Сбросить
               </button>
-              <button
-                onClick={cleanEmptyStyles}
-                className="flex items-center gap-1 px-3 py-1.5 text-sm border border-red-300 text-red-600 rounded hover:bg-red-50"
-                type="button"
-                title="Удалить пустые стили"
-              >
-                <Trash2 className="w-4 h-4" />
-                Очистить
-              </button>
             </div>
           </div>
         )}
@@ -417,7 +358,6 @@ export const ColorMenu = ({ editor }: EditorProps) => {
               <div className="text-xs font-medium text-gray-700 mb-2">
                 Цвет фона
               </div>
-
               {/* Предопределенные цвета */}
               <div className="grid grid-cols-8 gap-1 mb-3">
                 {BG_COLORS.map((color) => (
@@ -446,7 +386,6 @@ export const ColorMenu = ({ editor }: EditorProps) => {
                   </button>
                 ))}
               </div>
-
               {/* Пользовательский цвет */}
               <div className="mb-3">
                 <div className="text-xs text-gray-600 mb-1">
@@ -476,8 +415,7 @@ export const ColorMenu = ({ editor }: EditorProps) => {
                   </button>
                 </div>
               </div>
-
-              {/* Текущий цвет */}
+              А{/* Текущий цвет */}
               <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
                 <div className="text-sm text-gray-600">Текущий:</div>
                 <div className="flex items-center gap-2">

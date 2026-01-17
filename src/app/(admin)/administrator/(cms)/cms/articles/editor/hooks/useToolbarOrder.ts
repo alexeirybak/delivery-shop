@@ -21,7 +21,7 @@ const DEFAULT_GROUPS = [
     {
     id: "textStyles",
     name: "Текст",
-    items: ["textFormatting", "color", "fontSize"],
+    items: ["textFormatting", "textColor", "bgColor", "fontSize"],
   },
   {
     id: "list",

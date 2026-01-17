@@ -1,0 +1,245 @@
+"use client";
+
+import { Palette, Check } from "lucide-react";
+import { useState, useRef, useEffect, useCallback } from "react";
+import { EditorProps } from "../../../types";
+
+const TEXT_COLORS = [
+  "#000000", // Черный
+  "#FFFFFF", // Белый
+  "#FF0000", // Красный
+  "#00FF00", // Зеленый
+  "#0000FF", // Синий
+  "#FFFF00", // Желтый
+  "#FF00FF", // Пурпурный
+  "#00FFFF", // Голубой
+  "#FFA500", // Оранжевый
+  "#800080", // Фиолетовый
+  "#008000", // Темно-зеленый
+  "#000080", // Темно-синий
+  "#800000", // Темно-красный
+  "#808000", // Оливковый
+  "#008080", // Бирюзовый
+  "#808080", // Серый
+  "#C0C0C0", // Светло-серый
+];
+
+export const TextColorMenu = ({ editor }: EditorProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [customColor, setCustomColor] = useState("#000000");
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        buttonRef.current &&
+        !buttonRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const getCurrentColor = useCallback(() => {
+    if (!editor) return "#000000";
+    const attrs = editor.getAttributes("textStyle");
+    return attrs?.color || "#000000";
+  }, [editor]);
+
+  useEffect(() => {
+    if (editor) {
+      const currentColor = getCurrentColor();
+      if (currentColor !== "#000000" && !TEXT_COLORS.includes(currentColor)) {
+        setCustomColor(currentColor);
+      }
+    }
+  }, [editor, getCurrentColor]);
+
+  const applyColor = (color: string) => {
+    if (!editor) return;
+    
+    if (color === "#000000") {
+      // Если выбрали черный (по умолчанию) - сбрасываем цвет
+      editor.chain().focus().unsetColor().run();
+    } else {
+      // Иначе устанавливаем выбранный цвет
+      editor.chain().focus().setColor(color).run();
+    }
+    
+    if (!TEXT_COLORS.includes(color)) {
+      setCustomColor(color);
+    }
+  };
+
+  const resetColor = () => {
+    if (!editor) return;
+    // Используем unsetColor как в документации
+    editor.chain().focus().unsetColor().run();
+    setIsOpen(false);
+  };
+
+  const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const color = e.target.value;
+    setCustomColor(color);
+  };
+
+  const applyCustomColor = () => {
+    if (!editor) return;
+    
+    if (customColor === "#000000") {
+      editor.chain().focus().unsetColor().run();
+    } else {
+      editor.chain().focus().setColor(customColor).run();
+    }
+    
+    setIsOpen(false);
+  };
+
+  // Проверяем, поддерживает ли редактор команду unsetColor
+  const canUnsetColor = editor ? editor.can().chain().focus().unsetColor().run() : false;
+
+  if (!editor) return null;
+
+  const currentColor = getCurrentColor();
+  const isActive = currentColor !== "#000000";
+
+  return (
+    <div className="relative inline-block">
+      {/* Кнопка открытия меню */}
+      <button
+        ref={buttonRef}
+        type="button"
+        onClick={() => {
+          setIsOpen(!isOpen);
+        }}
+        className={`
+          p-2 rounded duration-300 border cursor-pointer
+          ${isOpen
+            ? "bg-blue-100 text-[#9674F9] border-blue-300"
+            : isActive
+              ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 border-blue-300"
+              : "text-gray-700 hover:bg-gray-100 border-gray-300"
+          }
+        `}
+        title="Цвет текста"
+      >
+        <div className="flex items-center gap-1">
+          <Palette className="w-4 h-4" />
+          <div
+            className="w-3 h-3 rounded border border-gray-300"
+            style={{ backgroundColor: currentColor }}
+          />
+        </div>
+      </button>
+
+      {/* Выпадающее меню */}
+      {isOpen && (
+        <div
+          ref={dropdownRef}
+          className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-60"
+        >
+          {/* Заголовок */}
+          <div className="mb-3">
+            <div className="text-xs font-medium text-gray-700 mb-2">
+              Цвет текста
+            </div>
+
+            {/* Предопределенные цвета */}
+            <div className="grid grid-cols-8 gap-1 mb-3">
+              {TEXT_COLORS.map((color) => (
+                <button
+                  key={color}
+                  type="button"
+                  onClick={() => {
+                    applyColor(color);
+                    setIsOpen(false);
+                  }}
+                  className={`
+                    w-6 h-6 rounded border border-gray-300 hover:scale-110 transition-transform relative duration-300 cursor-pointer
+                    ${color === "#000000" ? "border-2" : "border"}
+                  `}
+                  style={{ backgroundColor: color }}
+                  title={color}
+                >
+                  {currentColor === color && (
+                    <Check className={`w-3 h-3 mx-auto stroke-2 absolute inset-0 m-auto ${
+                      color === "#000000" || color === "#000080" || color === "#800000" 
+                        ? "text-white" 
+                        : "text-gray-700"
+                    }`} />
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* Пользовательский цвет */}
+            <div className="mb-3">
+              <div className="text-xs text-gray-600 mb-1">
+                Пользовательский цвет:
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="color"
+                  value={customColor}
+                  onChange={handleCustomColorChange}
+                  className="w-8 h-8 cursor-pointer rounded border border-gray-300"
+                  title="Выберите цвет"
+                />
+                <input
+                  type="text"
+                  value={customColor}
+                  onChange={(e) => setCustomColor(e.target.value)}
+                  className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
+                  placeholder="#000000"
+                />
+                <button
+                  type="button"
+                  onClick={applyCustomColor}
+                  className="px-2 py-1 text-sm bg-[#9674F9] text-white rounded hover:bg-[#8563e8] duration-300 cursor-pointer"
+                >
+                  Применить
+                </button>
+              </div>
+            </div>
+
+            {/* Текущий цвет */}
+            <div className="flex items-center justify-between p-2 bg-gray-50 rounded mb-3">
+              <div className="text-sm text-gray-600">Текущий:</div>
+              <div className="flex items-center gap-2">
+                <div
+                  className="w-5 h-5 rounded border border-gray-300"
+                  style={{ backgroundColor: currentColor }}
+                />
+                <span className="text-sm font-mono">
+                  {currentColor === "#000000" ? "По умолчанию" : currentColor}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Кнопка сброса */}
+          <button
+            type="button"
+            onClick={resetColor}
+            disabled={!canUnsetColor}
+            className={`
+              w-full px-3 py-1.5 text-sm rounded duration-300 cursor-pointer
+              ${canUnsetColor
+                ? "bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300 cursor-pointer"
+                : "bg-gray-100 text-gray-400 border border-gray-200 cursor-not-allowed"
+              }
+            `}
+          >
+            Сбросить цвет
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};

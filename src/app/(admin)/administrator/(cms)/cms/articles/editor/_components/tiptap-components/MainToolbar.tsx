@@ -14,17 +14,19 @@ import { EditorProps } from "../../../types";
 import { useToolbarOrder } from "../../hooks/useToolbarOrder";
 import { useState } from "react";
 import { ImageAIMenu } from "./imageAI/ImageAIMenu";
-import { ColorMenu } from "./ColorMenu";
 import { GripVertical } from "lucide-react";
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
 import { ParagraphButton } from "./ParagraphButton";
+import { TextColorMenu } from "./TextColotMenu";
+import { BgColorMenu } from "./BgColorMenu";
 
 const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   history: HistoryMenu,
   textLevel: HeadingDropdownMenu,
   paragraph: ParagraphButton,
   textFormatting: TextFormattingMenu,
-  color: ColorMenu,
+  textColor: TextColorMenu,
+  bgColor: BgColorMenu,
   fontSize: FontSizeMenu,
   list: ListMenu,
   block: BlockMenu,
@@ -56,7 +58,7 @@ export const MainToolbar = ({ editor }: EditorProps) => {
     e.dataTransfer.setData("text/plain", groupId);
     e.dataTransfer.effectAllowed = "move";
     setDraggingGroupId(groupId);
-    
+
     // Для компактного drag image
     const dragImage = document.createElement("div");
     dragImage.style.width = "100px";
@@ -68,7 +70,7 @@ export const MainToolbar = ({ editor }: EditorProps) => {
     dragImage.style.top = "-1000px";
     document.body.appendChild(dragImage);
     e.dataTransfer.setDragImage(dragImage, 10, 16);
-    
+
     setTimeout(() => document.body.removeChild(dragImage), 0);
   };
 
@@ -87,22 +89,25 @@ export const MainToolbar = ({ editor }: EditorProps) => {
     setDragOverGroupId(null);
   };
 
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>, dropGroupId: string) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLDivElement>,
+    dropGroupId: string
+  ) => {
     e.preventDefault();
-    
+
     const draggedGroupId = e.dataTransfer.getData("text/plain");
     if (!draggedGroupId || draggedGroupId === dropGroupId) {
       resetDragState();
       return;
     }
 
-    const fromIndex = groups.findIndex(g => g.id === draggedGroupId);
-    const toIndex = groups.findIndex(g => g.id === dropGroupId);
-    
+    const fromIndex = groups.findIndex((g) => g.id === draggedGroupId);
+    const toIndex = groups.findIndex((g) => g.id === dropGroupId);
+
     if (fromIndex !== -1 && toIndex !== -1 && fromIndex !== toIndex) {
       moveGroup(fromIndex, toIndex);
     }
-    
+
     resetDragState();
   };
 
