@@ -6,19 +6,17 @@
   border-collapse: collapse;
   margin: 1rem 0;
   width: 100%;
-  table-layout: fixed;
   background-color: white;
-  border: 1px solid #d1d5db;
 }
 
-/* Заголовки таблицы - НЕЙТРАЛЬНЫЕ */
+/* Заголовки таблицы */
 .tiptap th {
-  background-color: #f8fafc; /* Светло-серый вместо синего */
+  background-color: #e4ecf4;
   border: 1px solid #d1d5db;
   padding: 0.75rem 1rem;
   text-align: left;
-  font-weight: 600; /* Полужирный, но не слишком */
-  color: #1f2937; /* Темно-серый текст */
+  font-weight: 600; 
+  color: #1f2937; 
   font-size: 0.95rem;
 }
 
@@ -27,7 +25,7 @@
   border: 1px solid #d1d5db;
   padding: 0.75rem 1rem;
   vertical-align: top;
-  color: #374151; /* Средне-серый текст */
+  color: #374151; 
   background-color: white;
   font-size: 0.95rem;
 }
@@ -54,11 +52,6 @@
 .tiptap tr:last-child td {
   border-bottom-width: 2px;
   border-bottom-color: #9ca3af;
-}
-
-/* Чередование строк для лучшей читаемости */
-.tiptap tbody tr:nth-child(even) {
-  background-color: #f9fafb;
 }
 
 /* Эффект при наведении */

@@ -1,3 +1,5 @@
+import { Node } from "prosemirror-model";
+
 import { Editor } from "@tiptap/react";
 
 export interface TiptapEditorProps {
@@ -26,4 +28,10 @@ export interface HtmlEditorModalProps {
   editor: Editor | null;
   isOpen: boolean;
   onCloseAction: () => void;
+}
+
+export interface NodeInfo {
+  node: Node;
+  pos: number;
+  type: string;
 }

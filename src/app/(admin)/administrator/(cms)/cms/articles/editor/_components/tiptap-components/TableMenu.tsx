@@ -16,15 +16,9 @@ import {
   ChevronDown,
 } from "lucide-react";
 
-import { Node } from "prosemirror-model";
 import "../../css/tableMenu.css";
-import { EditorProps } from "../../../types";
+import { EditorProps, NodeInfo } from "../../../types";
 
-interface NodeInfo {
-  node: Node;
-  pos: number;
-  type: string;
-}
 
 export const TableMenu = ({ editor }: EditorProps) => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
@@ -36,6 +30,12 @@ export const TableMenu = ({ editor }: EditorProps) => {
     hasMultipleCellsSelected: false,
     isTableSelected: false,
     selectionRange: { from: 0, to: 0 },
+  });
+
+  const [tableState, setTableState] = useState({
+    hasHeaderRow: false,
+    hasHeaderColumn: false,
+    isHeaderCell: false,
   });
 
   useEffect(() => {
@@ -66,11 +66,22 @@ export const TableMenu = ({ editor }: EditorProps) => {
 
       const canMergeCells = editor.can().mergeCells();
 
+      // Получаем текущее состояние заголовков таблицы
+      const hasHeaderRow = editor.isActive("table", { headerRow: true });
+      const hasHeaderColumn = editor.isActive("table", { headerColumn: true });
+      const isHeaderCell = editor.isActive("tableHeader");
+
       setSelectionState({
         isCellSelected,
         hasMultipleCellsSelected: hasMultipleCellsSelected || canMergeCells,
         isTableSelected,
         selectionRange: { from, to },
+      });
+
+      setTableState({
+        hasHeaderRow,
+        hasHeaderColumn,
+        isHeaderCell,
       });
     };
 
@@ -131,6 +142,8 @@ export const TableMenu = ({ editor }: EditorProps) => {
   };
 
   const toggleHeaderCell = () => {
+    // Важное замечание: toggleHeaderCell в Tiptap переключает ячейку между
+    // tableCell и tableHeader, но только если курсор находится в ячейке
     editor.chain().focus().toggleHeaderCell().run();
   };
 
@@ -149,7 +162,8 @@ export const TableMenu = ({ editor }: EditorProps) => {
     }
   };
 
-  const canModifyTable = selectionState.isTableSelected;
+  // Исправленная логика: показываем меню модификации если выделена ячейка или таблица
+  const canModifyTable = selectionState.isCellSelected || selectionState.isTableSelected;
 
   return (
     <>
@@ -240,7 +254,7 @@ export const TableMenu = ({ editor }: EditorProps) => {
                 type="button"
                 onClick={toggleHeaderRow}
                 className={`table-menu-button ${
-                  editor.isActive("tableHeader") ? "active" : ""
+                  tableState.hasHeaderRow ? "active" : ""
                 }`}
                 title="Строка заголовка"
               >
@@ -250,7 +264,7 @@ export const TableMenu = ({ editor }: EditorProps) => {
                 type="button"
                 onClick={toggleHeaderColumn}
                 className={`table-menu-button ${
-                  editor.isActive("tableCell") ? "active" : ""
+                  tableState.hasHeaderColumn ? "active" : ""
                 }`}
                 title="Столбец заголовка"
               >
@@ -259,10 +273,15 @@ export const TableMenu = ({ editor }: EditorProps) => {
               <button
                 type="button"
                 onClick={toggleHeaderCell}
+                disabled={!selectionState.isCellSelected}
                 className={`table-menu-button ${
-                  editor.isActive("tableCell") ? "active" : ""
-                }`}
-                title="Ячейка заголовка"
+                  tableState.isHeaderCell ? "active" : ""
+                } ${!selectionState.isCellSelected ? "disabled" : ""}`}
+                title={
+                  selectionState.isCellSelected
+                    ? "Сделать ячейку заголовком"
+                    : "Выделите ячейку"
+                }
               >
                 <Square className="w-4 h-4" />
               </button>
