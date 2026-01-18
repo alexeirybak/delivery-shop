@@ -9,7 +9,6 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!event.ctrlKey || !event.shiftKey || !editor) return;
 
-      event.preventDefault(); // Предотвращаем поведение по умолчанию при данном клавише 
 
       switch (event.key.toLowerCase()) {
         case "l":

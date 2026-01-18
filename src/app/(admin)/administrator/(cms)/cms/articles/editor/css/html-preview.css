@@ -1,0 +1,194 @@
+/* Стили для предпросмотра HTML */
+.html-preview * {
+  all: revert;
+  box-sizing: border-box;
+}
+
+.html-preview {
+  min-height: 100%;
+  font-family: system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
+  color: #1f2937;
+  background-color: white;
+}
+
+/* Списки */
+.html-preview ul,
+.html-preview ol {
+  margin: 1rem 0;
+  padding-left: 2rem;
+}
+
+.html-preview li {
+  margin: 0.5rem 0;
+}
+
+.html-preview ul {
+  list-style-type: disc;
+}
+
+.html-preview ol {
+  list-style-type: decimal;
+}
+
+/* Таблицы */
+.html-preview table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  table-layout: fixed;
+}
+
+.html-preview th,
+.html-preview td {
+  border: 1px solid #d1d5db;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+.html-preview th {
+  background-color: #f3f4f6;
+  font-weight: 600;
+}
+
+.html-preview tr:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+/* Заголовки */
+.html-preview h1 { 
+  font-size: 2rem; 
+  margin: 1.5rem 0; 
+  font-weight: 700;
+}
+
+.html-preview h2 { 
+  font-size: 1.5rem; 
+  margin: 1.25rem 0; 
+  font-weight: 600;
+}
+
+.html-preview h3 { 
+  font-size: 1.25rem; 
+  margin: 1rem 0; 
+  font-weight: 600;
+}
+
+.html-preview h4 { 
+  font-size: 1.125rem; 
+  margin: 0.875rem 0; 
+  font-weight: 500;
+}
+
+.html-preview h5 { 
+  font-size: 1rem; 
+  margin: 0.75rem 0; 
+  font-weight: 500;
+}
+
+.html-preview h6 { 
+  font-size: 0.875rem; 
+  margin: 0.625rem 0; 
+  font-weight: 500;
+}
+
+/* Параграфы */
+.html-preview p {
+  margin: 1rem 0;
+}
+
+/* Код */
+.html-preview code {
+  background-color: #f3f4f6;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+  font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+  font-size: 0.875rem;
+}
+
+.html-preview pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.html-preview pre code {
+  background: none;
+  padding: 0;
+  color: inherit;
+  font-size: 0.9rem;
+}
+
+/* Цитаты */
+.html-preview blockquote {
+  border-left: 4px solid #d1d5db;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: #4b5563;
+  font-style: italic;
+}
+
+/* Горизонтальная линия */
+.html-preview hr {
+  border: none;
+  border-top: 1px solid #d1d5db;
+  margin: 1.5rem 0;
+}
+
+/* Ссылки */
+.html-preview a {
+  color: #3b82f6;
+  text-decoration: underline;
+}
+
+.html-preview a:hover {
+  color: #2563eb;
+}
+
+/* Изображения */
+.html-preview img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+  border-radius: 0.375rem;
+}
+
+/* Формы */
+.html-preview input,
+.html-preview textarea,
+.html-preview select,
+.html-preview button {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* Специальные элементы */
+.html-preview mark {
+  background-color: #fef3c7;
+  padding: 0.125rem 0.25rem;
+  border-radius: 0.25rem;
+}
+
+.html-preview sup {
+  vertical-align: super;
+  font-size: 0.75em;
+}
+
+.html-preview sub {
+  vertical-align: sub;
+  font-size: 0.75em;
+}
+
+/* Пустой контейнер */
+.html-preview-empty {
+  color: #6b7280;
+  font-style: italic;
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9fafb;
+  border-radius: 0.5rem;
+  border: 2px dashed #d1d5db;
+}

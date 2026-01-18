@@ -1,17 +1,10 @@
-"use client";
-
 import { useState, useEffect, useRef, useCallback } from "react";
 import { X, Copy, Check, Save } from "lucide-react";
-import { Editor } from "@tiptap/react";
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-tomorrow.css";
-
-interface HtmlEditorModalProps {
-  editor: Editor | null;
-  isOpen: boolean;
-  onCloseAction: () => void;
-}
+import "../../css/html-preview.css"; // Импортируем стили
+import { HtmlEditorModalProps } from "../../../types";
 
 export const HtmlEditorModal = ({
   editor,
@@ -23,6 +16,7 @@ export const HtmlEditorModal = ({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const preRef = useRef<HTMLPreElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
 
   const handleUpdate = useCallback(() => {
     if (!editor || !htmlContent.trim()) return;
@@ -209,7 +203,7 @@ export const HtmlEditorModal = ({
                 (Ctrl+Enter сохранить, Esc отмена)
               </span>
             </div>
-            
+
             {/* Контейнер для синхронизированной прокрутки */}
             <div className="flex-1 overflow-auto relative">
               {/* Подсветка синтаксиса (фон) */}
@@ -225,14 +219,14 @@ export const HtmlEditorModal = ({
                 }}
                 dangerouslySetInnerHTML={{ __html: highlightedHtml }}
               />
-              
+
               {/* Textarea для ввода */}
               <textarea
                 ref={textareaRef}
                 value={htmlContent}
                 onChange={handleTextareaChange}
                 onKeyDown={handleTextareaKeyDown}
-                className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-white font-mono text-sm p-4 resize-none outline-none"
+                className="absolute inset-0 w-full h-full bg-gray-900/10 text-white/30 font-mono text-sm p-4 resize-none outline-none caret-white"
                 spellCheck="false"
                 placeholder="Введите HTML код..."
                 style={{
@@ -252,15 +246,13 @@ export const HtmlEditorModal = ({
                 Предпросмотр HTML
               </span>
             </div>
-            <div className="flex-1 overflow-auto bg-gray-900 p-4">
+            <div className="flex-1 overflow-auto bg-white p-4" ref={previewRef}>
               <div
-                className="text-sm leading-relaxed m-0 prose prose-invert max-w-none bg-white p-2"
-                style={{
-                  fontFamily: "system-ui, -apple-system, sans-serif",
-                  lineHeight: "1.6",
-                }}
-                dangerouslySetInnerHTML={{ 
-                  __html: htmlContent || '<span class="text-gray-500">Введите HTML для предпросмотра...</span>' 
+                className="html-preview"
+                dangerouslySetInnerHTML={{
+                  __html:
+                    htmlContent ||
+                    '<div class="html-preview-empty">Введите HTML для предпросмотра...</div>',
                 }}
               />
             </div>

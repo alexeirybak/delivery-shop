@@ -6,7 +6,7 @@ import { EditorProps } from "../../../types";
 export const TextFormattingMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
 
-  // Определяем, можно ли применить каждое форматирование
+
   const canBold = editor.can().chain().focus().toggleBold().run();
   const canItalic = editor.can().chain().focus().toggleItalic().run();
   const canUnderline = editor.can().chain().focus().toggleUnderline().run();
