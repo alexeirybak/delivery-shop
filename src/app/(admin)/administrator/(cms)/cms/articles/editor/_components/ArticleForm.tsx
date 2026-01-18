@@ -6,6 +6,7 @@ import { useArticleStore } from "@/store/articleStore";
 import { useCategoryStore } from "@/store/categoryStore";
 import { CategorySelect } from "./CategorySelect";
 import { ArticleSubmitSection } from "./ArticleSubmitSection";
+import { TiptapEditor } from "./tiptap-components/TiptapEditor";
 
 export const ArticleForm = ({
   onFieldChange,
@@ -29,9 +30,12 @@ export const ArticleForm = ({
   const handleInputChange = (
     field: string,
     value: string,
-    maxLength: number
+    maxLength?: number,
   ) => {
-    if (value.length <= maxLength) {
+    if (field === "content") {
+      onFieldChange(field as ArticleFormField, value);
+    }
+    if (value.length <= maxLength!) {
       onFieldChange(field as ArticleFormField, value);
     }
   };
@@ -64,7 +68,7 @@ export const ArticleForm = ({
   const handleCategoryChange = (
     categoryId: string,
     categoryName: string,
-    categorySlug: string
+    categorySlug: string,
   ) => {
     onFieldChange("categoryId", categoryId);
     onFieldChange("categoryName", categoryName);
@@ -96,7 +100,15 @@ export const ArticleForm = ({
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
-        <ArticleSubmitSection onCancel={onCancel}/>
+        <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
+          <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
+          <TiptapEditor
+            key={formData._id || "new-article"}
+            content={formData.content || ""}
+            onContentChange={(content) => handleInputChange("content", content)}
+          />
+        </div>
+        <ArticleSubmitSection onCancel={onCancel} />
       </form>
     </div>
   );

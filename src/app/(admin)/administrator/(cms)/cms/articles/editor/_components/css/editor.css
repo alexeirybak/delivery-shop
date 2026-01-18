@@ -1,0 +1,114 @@
+@import './table.css';
+
+/*Общие стили*/ 
+.ProseMirror {
+  min-height: 400px;
+  padding: 1rem;
+  outline: none;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror p {
+  line-height: normal;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Стили для заголовков */
+.ProseMirror h1 {
+  font-size: 2.25rem;
+  font-weight: bold;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ProseMirror h2 {
+  font-size: 1.875rem;
+  font-weight: bold;
+  margin-top: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.ProseMirror h3 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror h4 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-top: 0.75rem;
+  margin-bottom: 0.375rem;
+}
+
+.ProseMirror h5 {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.ProseMirror h6 {
+  font-size: 0.875rem;
+  font-weight: bold;
+  margin-top: 0.25rem;
+  margin-bottom: 0.125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Стили для списков */
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+/* Стили для blockquote */
+.ProseMirror blockquote {
+  border-left: 4px solid #3b82f6;
+  padding-left: 1rem;
+  font-style: italic;
+  margin: 1.5rem 0;
+}
+
+/* Стили для ссылок */
+.ProseMirror a {
+  color: #3b82f6;
+}
+
+.ProseMirror a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+/* Стили для изображений */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+/* Стили для выбранного изображения */
+.ProseMirror-selectednode .editor-image {
+  box-shadow: 0 0 0 3px #3b82f6;
+}
