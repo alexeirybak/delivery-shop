@@ -12,7 +12,7 @@ import { CharacterCount, Dropcursor, Placeholder } from "@tiptap/extensions";
 import "../../css/editor.css";
 import { Counter } from "./Counter";
 import { Loader2 } from "lucide-react";
-
+import { AllowHtmlAttributes } from "../AllowHtmlAttributes";
 
 export const TiptapEditor = ({
   content,
@@ -24,7 +24,33 @@ export const TiptapEditor = ({
     extensions: [
       StarterKit.configure({
         undoRedo: { depth: 500, newGroupDelay: 100 },
-        codeBlock: false, // Отключаем стандартный codeBlock
+        codeBlock: false,
+        // ДОБАВЬТЕ ЭТУ КОНФИГУРАЦИЮ:
+        paragraph: {
+          HTMLAttributes: {
+            class: 'paragraph',
+          },
+        },
+        heading: {
+          HTMLAttributes: {
+            class: 'heading',
+          },
+        },
+        bulletList: {
+          HTMLAttributes: {
+            class: 'bullet-list',
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: 'ordered-list',
+          },
+        },
+        listItem: {
+          HTMLAttributes: {
+            class: 'list-item',
+          },
+        },
       }),
       CharacterCount,
       Placeholder.configure({
@@ -67,9 +93,14 @@ export const TiptapEditor = ({
         class: "dropcursor",
         color: "#000000",
       }),
+      AllowHtmlAttributes, // ДОБАВЬТЕ ЭТО РАСШИРЕНИЕ
     ],
     content,
     immediatelyRender: false,
+    // ДОБАВЬТЕ ЭТУ ОПЦИЮ:
+    parseOptions: {
+      preserveWhitespace: 'full',
+    },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       onContentChange(html);

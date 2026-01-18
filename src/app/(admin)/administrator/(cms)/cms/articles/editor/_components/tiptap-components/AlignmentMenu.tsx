@@ -2,8 +2,35 @@
 
 import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
 import { EditorProps } from "../../../types";
+import { useEffect } from "react";
 
 export const AlignmentMenu = ({ editor }: EditorProps) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (!event.ctrlKey || !event.shiftKey || !editor) return;
+
+      event.preventDefault(); // Предотвращаем поведение по умолчанию при данном клавише 
+
+      switch (event.key.toLowerCase()) {
+        case "l":
+          editor.chain().focus().setTextAlign("left").run();
+          break;
+        case "e":
+          editor.chain().focus().setTextAlign("center").run();
+          break;
+        case "r":
+          editor.chain().focus().setTextAlign("right").run();
+          break;
+        case "j":
+          editor.chain().focus().setTextAlign("justify").run();
+          break;
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [editor]);
+
   if (!editor) return null;
 
   const buttons = [
@@ -12,29 +39,29 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
       title: "По левому краю",
       action: () => editor.chain().focus().setTextAlign("left").run(),
       isActive: editor.isActive({ textAlign: "left" }),
-      shortcut: "Ctrl+Shift+L"
+      shortcut: "Ctrl+Shift+L",
     },
     {
       icon: <AlignCenter className="w-4 h-4" />,
       title: "По центру",
       action: () => editor.chain().focus().setTextAlign("center").run(),
       isActive: editor.isActive({ textAlign: "center" }),
-      shortcut: "Ctrl+Shift+E"
+      shortcut: "Ctrl+Shift+E",
     },
     {
       icon: <AlignRight className="w-4 h-4" />,
       title: "По правому краю",
       action: () => editor.chain().focus().setTextAlign("right").run(),
       isActive: editor.isActive({ textAlign: "right" }),
-      shortcut: "Ctrl+Shift+R"
+      shortcut: "Ctrl+Shift+R",
     },
     {
       icon: <AlignJustify className="w-4 h-4" />,
       title: "По ширине",
       action: () => editor.chain().focus().setTextAlign("justify").run(),
       isActive: editor.isActive({ textAlign: "justify" }),
-      shortcut: "Ctrl+Shift+J"
-    }
+      shortcut: "Ctrl+Shift+J",
+    },
   ];
 
   return (
@@ -46,9 +73,10 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
           onClick={button.action}
           className={`
             p-2 rounded duration-300 cursor-pointer
-            ${button.isActive
-              ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
-              : "text-gray-700 hover:bg-gray-100"
+            ${
+              button.isActive
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+                : "text-gray-700 hover:bg-gray-100"
             }
           `}
           title={`${button.title} (${button.shortcut})`}

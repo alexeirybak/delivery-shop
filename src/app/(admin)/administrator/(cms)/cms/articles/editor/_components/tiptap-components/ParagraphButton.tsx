@@ -1,7 +1,30 @@
 import { Type } from "lucide-react";
+import { useEffect } from "react"; // Добавлен useEffect
 import { EditorProps } from "../../../types";
 
 export const ParagraphButton = ({ editor }: EditorProps) => {
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Проверяем сочетание клавиш Ctrl+Alt+0
+      if (
+        event.ctrlKey &&
+        event.altKey &&
+        (event.key === '0' || event.key === ')') // 0 на основной клавиатуре или на цифровом блоке
+      ) {
+        event.preventDefault();
+        if (editor && editor.can().setParagraph()) {
+          editor.chain().focus().setParagraph().run();
+        }
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
