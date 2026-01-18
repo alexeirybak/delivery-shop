@@ -24,33 +24,6 @@ export const TiptapEditor = ({
     extensions: [
       StarterKit.configure({
         undoRedo: { depth: 500, newGroupDelay: 100 },
-        codeBlock: false,
-        // ДОБАВЬТЕ ЭТУ КОНФИГУРАЦИЮ:
-        paragraph: {
-          HTMLAttributes: {
-            class: 'paragraph',
-          },
-        },
-        heading: {
-          HTMLAttributes: {
-            class: 'heading',
-          },
-        },
-        bulletList: {
-          HTMLAttributes: {
-            class: 'bullet-list',
-          },
-        },
-        orderedList: {
-          HTMLAttributes: {
-            class: 'ordered-list',
-          },
-        },
-        listItem: {
-          HTMLAttributes: {
-            class: 'list-item',
-          },
-        },
       }),
       CharacterCount,
       Placeholder.configure({
@@ -59,9 +32,6 @@ export const TiptapEditor = ({
       TextStyleKit.configure({
         fontSize: {
           types: ["heading", "paragraph", "textStyle"],
-        },
-        backgroundColor: {
-          types: ["textStyle"],
         },
       }),
       TableKit,
@@ -93,14 +63,10 @@ export const TiptapEditor = ({
         class: "dropcursor",
         color: "#000000",
       }),
-      AllowHtmlAttributes, // ДОБАВЬТЕ ЭТО РАСШИРЕНИЕ
+      AllowHtmlAttributes, 
     ],
     content,
     immediatelyRender: false,
-    // ДОБАВЬТЕ ЭТУ ОПЦИЮ:
-    parseOptions: {
-      preserveWhitespace: 'full',
-    },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML();
       onContentChange(html);

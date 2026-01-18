@@ -21,13 +21,11 @@ export const HtmlEditorModal = ({
   const [htmlContent, setHtmlContent] = useState("");
   const [copied, setCopied] = useState(false);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const preRef = useRef<HTMLPreElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
   const handleUpdate = useCallback(() => {
     if (!editor || !htmlContent.trim()) return;
-
-    console.log("Устанавливаем HTML в редактор:", htmlContent);
-
     editor
       .chain()
       .focus()
@@ -41,7 +39,6 @@ export const HtmlEditorModal = ({
     onCloseAction();
   }, [editor, htmlContent, onCloseAction]);
 
-  // Обработчик Esc
   const handleEscape = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -88,6 +85,22 @@ export const HtmlEditorModal = ({
     }
   }, [isOpen, editor]);
 
+  // Синхронизация прокрутки
+  useEffect(() => {
+    const textarea = textareaRef.current;
+    const pre = preRef.current;
+
+    if (!textarea || !pre) return;
+
+    const handleScroll = () => {
+      pre.scrollTop = textarea.scrollTop;
+      pre.scrollLeft = textarea.scrollLeft;
+    };
+
+    textarea.addEventListener("scroll", handleScroll);
+    return () => textarea.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(htmlContent);
@@ -109,6 +122,10 @@ export const HtmlEditorModal = ({
       e.preventDefault();
       handleUpdate();
     }
+  };
+
+  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setHtmlContent(e.target.value);
   };
 
   const getHighlightedHtml = () => {
@@ -137,9 +154,7 @@ export const HtmlEditorModal = ({
         if (e.target === e.currentTarget) onCloseAction();
       }}
     >
-      <div
-        className="bg-gray-900 rounded-xl shadow-2xl w-full max-w-6xl border border-gray-800 overflow-hidden max-h-[90vh] flex flex-col"
-      >
+      <div className="bg-gray-900 rounded-xl shadow-2xl w-full max-w-6xl border border-gray-800 overflow-hidden max-h-[90vh] flex flex-col">
         {/* Заголовок */}
         <div className="px-6 py-4 border-b border-gray-800 bg-gray-900 flex justify-between items-center">
           <div>
@@ -154,7 +169,7 @@ export const HtmlEditorModal = ({
             </div>
             <button
               onClick={handleCopy}
-              className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm duration-300 cursor-pointer ${
                 copied
                   ? "bg-green-600 text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
@@ -174,7 +189,7 @@ export const HtmlEditorModal = ({
             </button>
             <button
               onClick={onCloseAction}
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg"
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg duration-300 cursor-pointer"
               title="Закрыть (Esc)"
             >
               <X className="w-5 h-5" />
@@ -184,8 +199,8 @@ export const HtmlEditorModal = ({
 
         {/* Основной контент */}
         <div className="flex-1 overflow-hidden grid grid-cols-2">
-          {/* Левая часть - редактирование */}
-          <div className="border-r border-gray-800 flex flex-col">
+          {/* Левая часть - редактирование с подсветкой */}
+          <div className="border-r border-gray-800 flex flex-col relative">
             <div className="px-4 py-3 bg-gray-800 border-b border-gray-700">
               <span className="text-sm font-medium text-gray-300">
                 Редактор HTML
@@ -194,36 +209,59 @@ export const HtmlEditorModal = ({
                 (Ctrl+Enter сохранить, Esc отмена)
               </span>
             </div>
-            <textarea
-              ref={textareaRef}
-              value={htmlContent}
-              onChange={(e) => setHtmlContent(e.target.value)}
-              onKeyDown={handleTextareaKeyDown}
-              className="flex-1 bg-gray-900 text-white font-mono text-sm p-4 resize-none outline-none"
-              spellCheck="false"
-              placeholder="Введите HTML код..."
-              style={{
-                fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
-                lineHeight: "1.5",
-              }}
-            />
-          </div>
-
-          {/* Правая часть - предпросмотр с подсветкой */}
-          <div className="flex flex-col">
-            <div className="px-4 py-3 bg-gray-800 border-b border-gray-700">
-              <span className="text-sm font-medium text-gray-300">
-                Подсветка синтаксиса
-              </span>
-            </div>
-            <div className="flex-1 overflow-auto bg-gray-900 p-4">
+            
+            {/* Контейнер для синхронизированной прокрутки */}
+            <div className="flex-1 overflow-auto relative">
+              {/* Подсветка синтаксиса (фон) */}
               <pre
-                className="text-sm font-mono text-gray-100 leading-relaxed m-0"
+                ref={preRef}
+                className="absolute inset-0 m-0 p-4 font-mono text-sm text-gray-100 leading-relaxed pointer-events-none overflow-hidden"
                 style={{
                   fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
                   lineHeight: "1.5",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                  overflow: "hidden",
                 }}
                 dangerouslySetInnerHTML={{ __html: highlightedHtml }}
+              />
+              
+              {/* Textarea для ввода */}
+              <textarea
+                ref={textareaRef}
+                value={htmlContent}
+                onChange={handleTextareaChange}
+                onKeyDown={handleTextareaKeyDown}
+                className="absolute inset-0 w-full h-full bg-transparent text-transparent caret-white font-mono text-sm p-4 resize-none outline-none"
+                spellCheck="false"
+                placeholder="Введите HTML код..."
+                style={{
+                  fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
+                  lineHeight: "1.5",
+                  whiteSpace: "pre-wrap",
+                  wordBreak: "break-word",
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Правая часть - предпросмотр */}
+          <div className="flex flex-col">
+            <div className="px-4 py-3 bg-gray-800 border-b border-gray-700">
+              <span className="text-sm font-medium text-gray-300">
+                Предпросмотр HTML
+              </span>
+            </div>
+            <div className="flex-1 overflow-auto bg-gray-900 p-4">
+              <div
+                className="text-sm leading-relaxed m-0 prose prose-invert max-w-none bg-white p-2"
+                style={{
+                  fontFamily: "system-ui, -apple-system, sans-serif",
+                  lineHeight: "1.6",
+                }}
+                dangerouslySetInnerHTML={{ 
+                  __html: htmlContent || '<span class="text-gray-500">Введите HTML для предпросмотра...</span>' 
+                }}
               />
             </div>
           </div>
@@ -250,14 +288,14 @@ export const HtmlEditorModal = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={onCloseAction}
-                className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg"
+                className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg duration-300 cursor-pointer"
               >
                 Отмена (Esc)
               </button>
               <button
                 onClick={handleUpdate}
                 disabled={!htmlContent.trim()}
-                className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 duration-300 cursor-pointer ${
                   htmlContent.trim()
                     ? "bg-[#9674F9] text-white hover:bg-[#8563e8]"
                     : "bg-gray-800 text-gray-400 cursor-not-allowed"

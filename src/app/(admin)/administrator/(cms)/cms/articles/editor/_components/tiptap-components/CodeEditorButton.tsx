@@ -8,25 +8,16 @@ export const CodeEditorButton = ({ editor }: EditorProps) => {
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // Проверяем сочетание клавиш Ctrl+Shift+H
-      if (
-        event.ctrlKey &&
-        event.shiftKey &&
-        (event.key.toLowerCase() === 'h' || event.key.toLowerCase() === 'р') // h в английской, р в русской раскладке
-      ) {
-        event.preventDefault(); // Предотвращаем стандартное поведение браузера
+      if (event.ctrlKey && event.shiftKey && event.code === "KeyH") {
+        event.preventDefault();
         setIsHtmlModalOpen(true);
       }
     };
-
-    // Добавляем обработчик событий
-    window.addEventListener('keydown', handleKeyDown);
-
-    // Убираем обработчик при размонтировании компонента
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, []); // Пустой массив зависимостей - эффект выполняется один раз
+  }, []);
 
   if (!editor) return null;
 
