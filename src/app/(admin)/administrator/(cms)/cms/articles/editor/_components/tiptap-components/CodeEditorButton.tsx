@@ -1,5 +1,5 @@
 import { FileCode } from "lucide-react";
-import { useState, useEffect } from "react"; // Добавлен useEffect
+import { useState, useEffect } from "react";
 import { EditorProps } from "../../../types";
 import { HtmlEditorModal } from "./HtmlEditorModal";
 
