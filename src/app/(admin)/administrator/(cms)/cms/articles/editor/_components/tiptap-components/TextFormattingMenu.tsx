@@ -47,7 +47,7 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
     },
   ];
 
-  return (
+  return ( 
     <div className="flex items-center gap-1">
       {buttons.map((button, index) => (
         <button

@@ -13,7 +13,7 @@
 .table-menu-divider {
   width: 1px;
   height: 1.5rem;
-  background-color: #d1d5db;
+  background-color: #e5e7eb;
   margin: 0 0.25rem;
 }
 
@@ -27,7 +27,7 @@
 /* Метки групп */
 .table-group-label {
   font-size: 0.75rem;
-  color: #4b5563;
+  color: #6b7280;
   margin-right: 0.25rem;
   white-space: nowrap;
   font-weight: 500;
@@ -40,50 +40,33 @@
   justify-content: center;
   padding: 0.5rem;
   border-radius: 0.375rem;
-  border: none;
-  background: none;
+  border: 1px solid transparent;
+  background: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s;
   color: #4b5563;
 }
 
-.table-menu-button:hover {
+.table-menu-button:hover:not(.disabled) {
   background-color: #f3f4f6;
-  color: #111827;
 }
 
-.table-menu-button:active {
-  background-color: #e5e7eb;
-  transform: scale(0.95);
-}
-
-/* Активная кнопка */
 .table-menu-button.active {
   background-color: #3b82f6;
   color: white;
 }
 
-/* Неактивная кнопка */
 .table-menu-button.disabled {
-  color: #9ca3af;
-  cursor: not-allowed;
-  background: none;
   opacity: 0.5;
+  cursor: not-allowed;
 }
 
-.table-menu-button.disabled:hover {
-  background: none;
-  transform: none;
-}
-
-/* Кнопка удаления */
 .table-menu-button.delete {
-  color: #dc2626;
+  color: #ef4444;
 }
 
 .table-menu-button.delete:hover {
   background-color: #fee2e2;
-  color: #b91c1c;
 }
 
 /* Модальное окно */
@@ -101,7 +84,7 @@
 .table-modal-content {
   background-color: white;
   border-radius: 0.5rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 24rem;
   overflow: hidden;
@@ -124,8 +107,8 @@
 }
 
 /* Элементы формы */
-.table-form-group {
-  margin-bottom: 1rem;
+.table-form-group:not(:last-child) {
+  margin-bottom: 1.25rem;
 }
 
 .table-form-label {
@@ -139,46 +122,42 @@
 .table-range-container {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.75rem;
 }
 
 .table-range-input {
   flex: 1;
-  height: 0.5rem;
+  height: 0.375rem;
   -webkit-appearance: none;
   appearance: none;
   background-color: #e5e7eb;
-  border-radius: 0.25rem;
-  outline: none;
+  border-radius: 9999px;
+  cursor: pointer;
 }
 
 .table-range-input::-webkit-slider-thumb {
   -webkit-appearance: none;
-  appearance: none;
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   background-color: #3b82f6;
   border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid white;
+  border: 3px solid white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .table-range-input::-moz-range-thumb {
-  width: 1rem;
-  height: 1rem;
+  width: 1.25rem;
+  height: 1.25rem;
   background-color: #3b82f6;
   border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid white;
+  border: 3px solid white;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .table-range-value {
   font-size: 0.875rem;
   font-weight: 600;
-  min-width: 2rem;
-  text-align: center;
+  min-width: 1.5rem;
   color: #374151;
 }
 
@@ -211,10 +190,10 @@
 
 /* Предпросмотр таблицы */
 .table-preview-container {
-  margin-top: 1rem;
-  padding: 0.75rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
   background-color: #f9fafb;
-  border-radius: 0.375rem;
+  border-radius: 0.5rem;
   border: 1px solid #e5e7eb;
 }
 
@@ -227,6 +206,8 @@
 .table-preview-grid {
   display: inline-block;
   border: 1px solid #d1d5db;
+  border-radius: 0.25rem;
+  overflow: hidden;
   margin-bottom: 0.5rem;
 }
 
@@ -235,8 +216,8 @@
 }
 
 .table-preview-cell {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border: 1px solid #d1d5db;
   display: flex;
   align-items: center;
@@ -247,14 +228,13 @@
 }
 
 .table-preview-cell.header {
-  background-color: #f3f4f6;
+  background-color: #e5e7eb;
   font-weight: 600;
 }
 
 .table-preview-hint {
   font-size: 0.75rem;
   color: #6b7280;
-  margin-top: 0.5rem;
 }
 
 /* Футер модального окна */
@@ -267,12 +247,12 @@
 }
 
 .table-modal-button {
-  padding: 0.5rem 1rem;
-  border-radius: 0.375rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.5rem;
   font-size: 0.875rem;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: background-color 0.2s;
   border: none;
 }
 
@@ -305,30 +285,15 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #374151;
+  background-color: #1f2937;
   color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
   font-size: 0.75rem;
   white-space: nowrap;
-  z-index: 10;
+  z-index: 100;
   margin-bottom: 0.5rem;
-}
-
-/* Анимации */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.table-modal-content {
-  animation: fadeIn 0.3s ease-out;
+  pointer-events: none;
 }
 
 /* Адаптивность */
@@ -346,37 +311,13 @@
     padding: 0.375rem;
   }
   
-  .table-button-group {
-    gap: 0.125rem;
-  }
-  
-  .table-modal-overlay {
-    padding: 0.5rem;
-  }
-  
   .table-modal-content {
-    max-width: calc(100% - 1rem);
-  }
-  
-  .table-modal-header,
-  .table-modal-body,
-  .table-modal-footer {
-    padding: 1rem;
+    max-width: calc(100% - 2rem);
   }
 }
 
 @media (max-width: 640px) {
   .table-menu-button[title]:hover::after {
     display: none;
-  }
-  
-  .table-range-container {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
-  }
-  
-  .table-range-value {
-    text-align: right;
   }
 }

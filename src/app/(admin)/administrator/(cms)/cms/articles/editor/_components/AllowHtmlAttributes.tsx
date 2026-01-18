@@ -37,6 +37,11 @@ export const AllowHtmlAttributes = Extension.create({
               };
             },
           },
+          class: {
+            default: null,
+            parseHTML: element => element.getAttribute('class'),
+            renderHTML: attributes => attributes.class ? { class: attributes.class } : {},
+          },  
         },
       },
     ];

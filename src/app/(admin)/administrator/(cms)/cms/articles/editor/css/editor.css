@@ -1,5 +1,4 @@
 @import './table.css';
-@import 'prismjs/themes/prism-tomorrow.css';
 
 .ProseMirror {
   min-height: 350px;
