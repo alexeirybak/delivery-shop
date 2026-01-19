@@ -1,5 +1,3 @@
-"use client";
-
 import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
 import { EditorProps } from "../../../types";
 import { useEffect } from "react";
@@ -7,27 +5,36 @@ import { useEffect } from "react";
 export const AlignmentMenu = ({ editor }: EditorProps) => {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (!event.ctrlKey || !event.shiftKey || !editor) return;
+      if (!editor) return;
 
+      if (event.ctrlKey && event.shiftKey) {
+        event.preventDefault();
 
-      switch (event.key.toLowerCase()) {
-        case "l":
-          editor.chain().focus().setTextAlign("left").run();
-          break;
-        case "e":
-          editor.chain().focus().setTextAlign("center").run();
-          break;
-        case "r":
-          editor.chain().focus().setTextAlign("right").run();
-          break;
-        case "j":
-          editor.chain().focus().setTextAlign("justify").run();
-          break;
+        switch (event.code) {
+          case "KeyL":
+            editor.chain().focus().setTextAlign("left").run();
+            break;
+
+          case "KeyC":
+            editor.chain().focus().setTextAlign("center").run();
+            break;
+
+          case "KeyR":
+            editor.chain().focus().setTextAlign("right").run();
+            break;
+
+          case "KeyJ":
+            editor.chain().focus().setTextAlign("justify").run();
+            break;
+
+          default:
+            return;
+        }
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown, true);
+    return () => window.removeEventListener("keydown", handleKeyDown, true);
   }, [editor]);
 
   if (!editor) return null;
@@ -45,7 +52,7 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
       title: "По центру",
       action: () => editor.chain().focus().setTextAlign("center").run(),
       isActive: editor.isActive({ textAlign: "center" }),
-      shortcut: "Ctrl+Shift+E",
+      shortcut: "Ctrl+Shift+C",
     },
     {
       icon: <AlignRight className="w-4 h-4" />,

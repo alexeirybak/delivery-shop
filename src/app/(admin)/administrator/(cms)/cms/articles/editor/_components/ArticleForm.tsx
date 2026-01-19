@@ -32,8 +32,12 @@ export const ArticleForm = ({
   const handleInputChange = (
     field: keyof ArticleFormData,
     value: string,
-    maxLength?: number
+    maxLength?: number,
   ) => {
+    if (field === "content") {
+      onFieldChange(field as ArticleFormField, value);
+      return;
+    }
     if (value.length <= maxLength!) {
       onFieldChange(field as ArticleFormField, value);
     }
@@ -42,7 +46,7 @@ export const ArticleForm = ({
   const handleCategoryChange = (
     categoryId: string,
     categoryName: string,
-    categorySlug: string
+    categorySlug: string,
   ) => {
     onFieldChange("categoryId", categoryId);
     onFieldChange("categoryName", categoryName);
@@ -111,9 +115,7 @@ export const ArticleForm = ({
           <TiptapEditor
             key={formData._id || "new-article"}
             content={formData.content || ""}
-            onContentChange={(content) =>
-              handleInputChange("content", content)
-            }
+            onContentChange={(content) => handleInputChange("content", content)}
           />
         </div>
 

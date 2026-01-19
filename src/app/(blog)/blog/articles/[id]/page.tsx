@@ -1,67 +1,79 @@
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../utils/api-routes";
 import Image from "next/image";
+import { sanitizeArticleHTML } from "../../utils/sanitize-html";
 
 export default async function ArticlePage({
   params,
 }: {
-  params: Promise<{ id: string }>; // ← params это Promise!
+  params: Promise<{ id: string }>;
 }) {
   try {
     const { id } = await params;
-
-    console.log("Получен ID из URL:", id);
 
     const db = await getDB();
     let article;
 
     // Пробуем найти как ObjectId
-    try {
+    if (ObjectId.isValid(id)) {
       const objectId = new ObjectId(id);
-
-      article = await db.collection("articles").findOne({
-        _id: objectId,
-      });
-    } catch {
-      article = await db.collection("articles").findOne({
-        _id: id,
-      });
+      article = await db.collection("articles").findOne({ _id: objectId });
+    }
+    
+    // Если не нашли по ObjectId, ищем по slug
+    if (!article) {
+      article = await db.collection("articles").findOne({ slug: id });
     }
 
     if (!article) {
       return (
-        <div>
-          <h1>Статья не найдена</h1>
-          <p>ID: {id}</p>
+        <div className="p-8 text-center">
+          <h1 className="text-2xl font-bold mb-4">Статья не найдена</h1>
+          <p className="text-gray-600">ID: {id}</p>
         </div>
       );
     }
-    console.log(article);
-    console.log(article.image);
+
+    // БЕЗОПАСНО очищаем контент
+    const safeContent = sanitizeArticleHTML(article.content || "");
+
+    // Проверка основного изображения
+    const hasMainImage = article.image && 
+                        article.image.trim() !== "" && 
+                        article.image.startsWith('/');
+
     return (
       <div className="p-4 max-w-4xl mx-auto">
         <h1 className="text-3xl font-bold mb-4">{article.name}</h1>
 
         <div className="flex gap-4 mb-6 text-gray-600">
-          <span>Категория: {article.categoryName}</span>
-          <span>
-            Дата: {new Date(article.createdAt).toLocaleDateString("ru-RU")}
-          </span>
+          {article.categoryName && (
+            <span>Категория: {article.categoryName}</span>
+          )}
+          {article.createdAt && (
+            <span>
+              Дата: {new Date(article.createdAt).toLocaleDateString("ru-RU")}
+            </span>
+          )}
         </div>
 
-        <div className="mb-6">
-          <Image
-            width={200}
-            height={150}
-            src={article.image}
-            alt={article.imageAlt}
-            className="w-full max-h-96 object-cover rounded"
-          />
-        </div>
+        {hasMainImage && (
+          <div className="mb-6">
+            <Image
+              width={800}
+              height={450}
+              src={article.image}
+              alt={article.imageAlt || article.name}
+              className="w-full max-h-96 object-cover rounded"
+              priority
+            />
+          </div>
+        )}
 
+        {/* БЕЗОПАСНЫЙ вывод контента */}
         <div
-          className="prose max-w-none"
-          dangerouslySetInnerHTML={{ __html: article.content }}
+          className="prose max-w-none article-content"
+          dangerouslySetInnerHTML={{ __html: safeContent }}
         />
       </div>
     );

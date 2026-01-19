@@ -37,7 +37,7 @@ const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   image: ImageMenu,
   ai: AIMenu,
   imageAI: ImageAIMenu,
-  quote: QuoteButton, // Добавили отдельный компонент для цитат
+  quote: QuoteButton, 
 };
 
 export const MainToolbar = ({ editor }: EditorProps) => {
