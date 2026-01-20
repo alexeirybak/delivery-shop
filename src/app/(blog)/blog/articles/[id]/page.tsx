@@ -34,7 +34,6 @@ export default async function ArticlePage({
       );
     }
 
-    // БЕЗОПАСНО очищаем контент
     const safeContent = sanitizeArticleHTML(article.content || "");
 
     // Проверка основного изображения
@@ -50,9 +49,9 @@ export default async function ArticlePage({
           {article.categoryName && (
             <span>Категория: {article.categoryName}</span>
           )}
-          {article.createdAt && (
+          {article.published && (
             <span>
-              Дата: {new Date(article.createdAt).toLocaleDateString("ru-RU")}
+              Дата: {new Date(article.published).toLocaleDateString("ru-RU")}
             </span>
           )}
         </div>
@@ -69,12 +68,15 @@ export default async function ArticlePage({
             />
           </div>
         )}
-
-        {/* БЕЗОПАСНЫЙ вывод контента */}
         <div
-          className="prose max-w-none article-content"
+          className="prose max-w-none article-content mb-8"
           dangerouslySetInnerHTML={{ __html: safeContent }}
         />
+        {article.author && (
+            <span className="italic">
+              Автор: {article.author}
+            </span>
+          )}
       </div>
     );
   } catch (error) {

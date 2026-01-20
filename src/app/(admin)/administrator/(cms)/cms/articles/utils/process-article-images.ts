@@ -5,46 +5,57 @@ export async function processArticleImages(
   content: string,
   articleId: string,
 ): Promise<string> {
-  // Ищем временные изображения
-  const match = content.match(/\/temp\/([^/]+)\//);
-  if (!match) return content; // Нет временных изображений
+  // Ищем все временные изображения из контента
+  const tempImages = content.match(/\/temp\/temp_[^"']+\.(jpg|jpeg|png|webp)/gi) || [];
+  
+  if (tempImages.length === 0) return content;
 
-  const tempArticleId = match[1];
-  let updatedContent = content;
-
-  const tempDir = path.join(process.cwd(), "public", "temp", tempArticleId);
-  const uploadsDir = path.join(
-    process.cwd(),
-    "public",
-    "uploads",
-    "articles",
-    articleId,
-  );
-
+  const tempDir = path.join(process.cwd(), "public", "temp");
+  const uploadsDir = path.join(process.cwd(), "public", "uploads", "articles", articleId);
+  
   try {
     await fs.mkdir(uploadsDir, { recursive: true });
-    const files = await fs.readdir(tempDir);
-
-    for (const file of files) {
-      const oldPath = path.join(tempDir, file);
-      const newPath = path.join(uploadsDir, file);
-
-      await fs.rename(oldPath, newPath);
-
-      // Обновляем все ссылки на этот файл
-      const tempPattern = `/temp/${tempArticleId}/${file}`;
-      const permanentUrl = `/uploads/articles/${articleId}/${file}`;
-      updatedContent = updatedContent.replace(
-        new RegExp(tempPattern, "g"),
-        permanentUrl,
-      );
+    
+    // Собираем уникальные имена файлов (на случай дублирования ссылок)
+    const uniqueTempFiles = [...new Set(tempImages.map(url => url.split('/').pop()!))];
+    
+    console.log(`Обработка ${uniqueTempFiles.length} временных файлов для статьи ${articleId}:`, uniqueTempFiles);
+    
+    for (const tempFilename of uniqueTempFiles) {
+      const oldPath = path.join(tempDir, tempFilename);
+      const permanentFilename = tempFilename.replace('temp_', '');
+      const newPath = path.join(uploadsDir, permanentFilename);
+      
+      try {
+        // Проверяем, существует ли временный файл
+        try {
+          await fs.access(oldPath);
+        } catch {
+          console.warn(`Временный файл не найден, пропускаем: ${tempFilename}`);
+          continue;
+        }
+        
+        // КОПИРУЕМ файл в постоянную папку
+        await fs.copyFile(oldPath, newPath);
+        
+        // УДАЛЯЕМ исходный временный файл
+        await fs.unlink(oldPath);
+        
+        console.log(`Файл перемещен: ${tempFilename} -> ${permanentFilename}`);
+        
+        // Обновляем ВСЕ ссылки на этот файл в контенте
+        const tempUrlPattern = `/temp/${tempFilename}`;
+        const permanentUrl = `/uploads/articles/${articleId}/${permanentFilename}`;
+        content = content.replace(new RegExp(tempUrlPattern, "gi"), permanentUrl);
+        
+      } catch (error) {
+        console.error(`Ошибка обработки файла ${tempFilename}:`, error);
+      }
     }
-
-    // Удаляем временную папку
-    await fs.rm(tempDir, { recursive: true, force: true });
+    
   } catch (error) {
-    console.error("Ошибка обработки изображений:", error);
+    console.error("Общая ошибка обработки изображений:", error);
   }
 
-  return updatedContent;
+  return content;
 }

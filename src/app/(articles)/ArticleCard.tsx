@@ -12,7 +12,7 @@ interface ArticleCardProps {
 }
 
 const ArticleCard = ({
-  _id, // Используем _id вместо slug
+  _id,
   name,
   image,
   imageAlt,
@@ -20,20 +20,21 @@ const ArticleCard = ({
   description,
   createdAt,
 }: ArticleCardProps) => {
-  // Ссылка на статью по _id
   const articleUrl = `/blog/articles/${_id}`;
-  console.log("ArticleCard _id:", _id);
+
   return (
     <Link href={articleUrl} className="block h-full">
       <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-(--shadow-card) hover:shadow-(--shadow-article) duration-300">
         <div className="relative h-48 w-full">
-          <Image
-            src={image}
-            alt={imageAlt || name}
-            fill
-            className="object-cover"
-            sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
-          />
+          {image && (
+            <Image
+              src={image}
+              alt={imageAlt || name}
+              fill
+              className="object-cover"
+              sizes="(max-width: 640px) 100vw, (max-width: 768px) 50vw, 33vw"
+            />
+          )}
         </div>
 
         <div className="p-4 flex-1 flex flex-col">

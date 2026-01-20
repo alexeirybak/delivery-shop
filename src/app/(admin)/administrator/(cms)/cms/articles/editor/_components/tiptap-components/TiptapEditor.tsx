@@ -6,7 +6,6 @@ import { CharacterCount, Placeholder } from "@tiptap/extensions";
 import TextAlign from "@tiptap/extension-text-align";
 import { TextStyleKit } from "@tiptap/extension-text-style";
 import { TableKit } from "@tiptap/extension-table";
-import Image from "@tiptap/extension-image";
 import { Loader2 } from "lucide-react";
 import { Counter } from "./Counter";
 import { useState } from "react";
@@ -14,6 +13,7 @@ import { MainToolbar } from "./MainToolbar";
 import { TiptapEditorProps } from "../../../types";
 import "../../css/editor.css";
 import { AllowHtmlAttributes } from "./AllowHtmlAttributes";
+import { CustomImage } from "../../../utils/custom-image";
 
 export const TiptapEditor = ({
   content,
@@ -43,117 +43,7 @@ export const TiptapEditor = ({
       }),
       AllowHtmlAttributes,
       TableKit,
-      Image.extend({
-        addAttributes() {
-          return {
-            ...this.parent?.(),
-            src: {
-              default: null,
-            },
-            alt: {
-              default: null,
-            },
-            title: {
-              default: null,
-            },
-            width: {
-              default: null,
-              parseHTML: (element) => {
-                // Получаем ширину из атрибута или стиля
-                const widthAttr = element.getAttribute("width");
-                if (widthAttr) return widthAttr.replace("px", "");
-
-                const styleWidth = element.style.width;
-                if (styleWidth) {
-                  const match = styleWidth.match(/(\d+)px/);
-                  return match ? match[1] : null;
-                }
-
-                return null;
-              },
-              renderHTML: (attributes) => {
-                if (attributes.width) {
-                  return {
-                    width: attributes.width,
-                    style: `width: ${attributes.width}px;`,
-                  };
-                }
-                return {};
-              },
-            },
-            height: {
-              default: null,
-              parseHTML: (element) => {
-                // Получаем высоту из атрибута или стиля
-                const heightAttr = element.getAttribute("height");
-                if (heightAttr) return heightAttr.replace("px", "");
-
-                const styleHeight = element.style.height;
-                if (styleHeight) {
-                  const match = styleHeight.match(/(\d+)px/);
-                  return match ? match[1] : null;
-                }
-
-                return null;
-              },
-              renderHTML: (attributes) => {
-                if (attributes.height) {
-                  return {
-                    height: attributes.height,
-                    style: `height: ${attributes.height}px;`,
-                  };
-                }
-                return {};
-              },
-            },
-          };
-        },
-
-        renderHTML({ HTMLAttributes }) {
-          const attrs = { ...HTMLAttributes };
-
-          // Собираем стили
-          const styles = ["max-width: 100%", "cursor: pointer"];
-
-          if (attrs.width) {
-            attrs.width = attrs.width.toString();
-            styles.push(`width: ${attrs.width}px`);
-          }
-
-          if (attrs.height) {
-            attrs.height = attrs.height.toString();
-            styles.push(`height: ${attrs.height}px`);
-          } else {
-            styles.push("height: auto");
-          }
-
-          attrs.style = styles.join("; ");
-          attrs.class = "tiptap-image";
-
-          return ["img", attrs];
-        },
-      }).configure({
-        resize: {
-          enabled: true,
-          directions: [
-            "top",
-            "bottom",
-            "left",
-            "right",
-            "top-left",
-            "top-right",
-            "bottom-left",
-            "bottom-right",
-          ],
-          minWidth: 50,
-          minHeight: 50,
-          alwaysPreserveAspectRatio: false, // Разрешаем менять пропорции
-        },
-        allowBase64: true,
-        HTMLAttributes: {
-          class: "tiptap-image",
-        },
-      }),
+      CustomImage,
     ],
     content,
     immediatelyRender: false,

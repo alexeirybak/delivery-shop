@@ -1,7 +1,13 @@
 /* ===== СТИЛИ ДЛЯ ВЫБРАННОГО ИЗОБРАЖЕНИЯ ===== */
 
+/* Базовые стили для всех изображений */
+img {
+  border-radius: 4px;
+}
 
-/* Маркеры изменения размера - ТОЧНО КАК В ДОКУМЕНТАЦИИ */
+/* ===== СТИЛИ ДЛЯ РЕДАКТОРА ===== */
+
+/* Маркеры изменения размера */
 [data-resize-handle] {
   position: absolute;
   background: rgba(59, 130, 246, 0.8);
@@ -9,81 +15,81 @@
   border-radius: 2px;
   z-index: 10;
   box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
 
-  &:hover {
-    background: rgba(59, 130, 246, 1);
-  }
+[data-resize-handle]:hover {
+  background: rgba(59, 130, 246, 1);
+}
 
-  /* Угловые маркеры */
-  &[data-resize-handle="top-left"],
-  &[data-resize-handle="top-right"],
-  &[data-resize-handle="bottom-left"],
-  &[data-resize-handle="bottom-right"] {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-  }
+/* Угловые маркеры */
+[data-resize-handle="top-left"],
+[data-resize-handle="top-right"],
+[data-resize-handle="bottom-left"],
+[data-resize-handle="bottom-right"] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
 
-  &[data-resize-handle="top-left"] {
-    top: -6px;
-    left: -6px;
-    cursor: nwse-resize;
-  }
+[data-resize-handle="top-left"] {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
 
-  &[data-resize-handle="top-right"] {
-    top: -6px;
-    right: -6px;
-    cursor: nesw-resize;
-  }
+[data-resize-handle="top-right"] {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
 
-  &[data-resize-handle="bottom-left"] {
-    bottom: -6px;
-    left: -6px;
-    cursor: nesw-resize;
-  }
+[data-resize-handle="bottom-left"] {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
 
-  &[data-resize-handle="bottom-right"] {
-    bottom: -6px;
-    right: -6px;
-    cursor: nwse-resize;
-  }
+[data-resize-handle="bottom-right"] {
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize;
+}
 
-  /* Боковые маркеры */
-  &[data-resize-handle="top"],
-  &[data-resize-handle="bottom"] {
-    height: 8px;
-    left: 12px;
-    right: 12px;
-    border-radius: 4px;
-  }
+/* Боковые маркеры */
+[data-resize-handle="top"],
+[data-resize-handle="bottom"] {
+  height: 8px;
+  left: 12px;
+  right: 12px;
+  border-radius: 4px;
+}
 
-  &[data-resize-handle="top"] {
-    top: -4px;
-    cursor: ns-resize;
-  }
+[data-resize-handle="top"] {
+  top: -4px;
+  cursor: ns-resize;
+}
 
-  &[data-resize-handle="bottom"] {
-    bottom: -4px;
-    cursor: ns-resize;
-  }
+[data-resize-handle="bottom"] {
+  bottom: -4px;
+  cursor: ns-resize;
+}
 
-  &[data-resize-handle="left"],
-  &[data-resize-handle="right"] {
-    width: 8px;
-    top: 12px;
-    bottom: 12px;
-    border-radius: 4px;
-  }
+[data-resize-handle="left"],
+[data-resize-handle="right"] {
+  width: 8px;
+  top: 12px;
+  bottom: 12px;
+  border-radius: 4px;
+}
 
-  &[data-resize-handle="left"] {
-    left: -4px;
-    cursor: ew-resize;
-  }
+[data-resize-handle="left"] {
+  left: -4px;
+  cursor: ew-resize;
+}
 
-  &[data-resize-handle="right"] {
-    right: -4px;
-    cursor: ew-resize;
-  }
+[data-resize-handle="right"] {
+  right: -4px;
+  cursor: ew-resize;
 }
 
 /* Состояние изменения размера */
@@ -91,6 +97,49 @@
   outline: 2px dashed #3b82f6;
   border-radius: 4px;
 }
+
+/* Стили для редактора */
+.tiptap-editor .tiptap-image,
+.editor-container .tiptap-image,
+.ProseMirror .tiptap-image {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tiptap-editor .tiptap-image:hover,
+.editor-container .tiptap-image:hover,
+.ProseMirror .tiptap-image:hover {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.tiptap-editor .tiptap-image.resizing,
+.editor-container .tiptap-image.resizing,
+.ProseMirror .tiptap-image.resizing {
+  opacity: 0.9;
+}
+
+/* ===== СТИЛИ ДЛЯ ПРЕВЬЮ ===== */
+
+/* ГЛАВНОЕ: сохраняем ТОЧНЫЕ размеры из редактора */
+.article-content img.tiptap-image,
+.prose img.tiptap-image {
+  display: block;
+  margin: 1rem auto;
+}
+
+/* Убираем интерактивность в превью */
+.article-content .tiptap-image:hover,
+.prose .tiptap-image:hover {
+  outline: none !important;
+}
+
+.article-content [data-resize-handle],
+.prose [data-resize-handle] {
+  display: none !important;
+}
+
+/* ===== ОБЩИЕ СТИЛИ ===== */
 
 /* Обтекание текстом */
 img[style*="float: left"] {
@@ -101,31 +150,4 @@ img[style*="float: left"] {
 img[style*="float: right"] {
   float: right;
   margin: 0.5rem 0 0.5rem 1rem;
-}
-
-.tiptap-image {
-  max-width: 100% !important;
-  height: auto !important;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tiptap-image:hover {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-.tiptap-image.resizing {
-  opacity: 0.9;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  img {
-    float: none !important;
-    display: block !important;
-    margin: 1rem auto !important;
-    max-width: 100% !important;
-    height: auto !important;
-  }
 }

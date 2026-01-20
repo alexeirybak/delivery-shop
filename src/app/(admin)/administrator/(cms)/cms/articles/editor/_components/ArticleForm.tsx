@@ -1,13 +1,13 @@
 "use client";
 
+import { useState } from "react"; // Импортируем useState
 import { ImageSection } from "../../../_components/ImageSection";
 import { useArticleStore } from "@/store/articleStore";
 import { CategorySelect } from "./CategorySelect";
 import { ArticleFormFields } from "./ArticleFormFields";
-import { SubmitSection } from "./SubmitSection";
-import { ArticleFormProps, ArticleFormField } from "../../types/form";
+import { ArticleSubmitSection } from "./ArticleSubmitSection";
+import { ArticleFormProps, ArticleFormField, ArticleFormData } from "../../types";
 import { TiptapEditor } from "./tiptap-components/TiptapEditor";
-import { ArticleFormData } from "@/app/(admin)/administrator/(cms)/cms/articles/types/form/article-form.types";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const ArticleForm = ({
@@ -19,7 +19,8 @@ export const ArticleForm = ({
   onCancel,
 }: ArticleFormProps) => {
   const { categories } = useCategoryStore();
-  const { formData, setIsUploading } = useArticleStore();
+  const { formData, setIsUploading, resetFormData } = useArticleStore(); // Добавляем resetFormData
+  const [editorKey, setEditorKey] = useState(0); // Добавляем состояние для ключа
 
   const charCount = {
     name: formData.name.length,
@@ -78,10 +79,28 @@ export const ArticleForm = ({
     }
   };
 
+  // Новая функция для обработки успешной отправки
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    try {
+      onSubmit(e);
+      
+      // Если onSubmit успешен, сбрасываем форму
+      resetFormData();
+      setEditorKey(prev => prev + 1); // Увеличиваем ключ - редактор пересоздастся
+      
+      // Опционально: показываем уведомление
+      // alert("Статья успешно создана!");
+    } catch (error) {
+      console.error("Ошибка при создании статьи:", error);
+    }
+  };
+
   return (
     <div className="mb-8 bg-white rounded shadow-sm p-6">
       <h2 className="text-xl font-semibold mb-4">Создание новой статьи</h2>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleFormSubmit}> {/* Используем новую обработку */}
         {categories.length > 0 && (
           <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
             <h3 className="text-lg font-medium mb-4">Категория статьи *</h3>
@@ -113,13 +132,13 @@ export const ArticleForm = ({
         <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
           <TiptapEditor
-            key={formData._id || "new-article"}
+            key={`editor-${editorKey}`} // Используем ключ для управления ререндером
             content={formData.content || ""}
             onContentChange={(content) => handleInputChange("content", content)}
           />
         </div>
 
-        <SubmitSection onCancel={onCancel} />
+        <ArticleSubmitSection onCancel={onCancel} />
       </form>
     </div>
   );

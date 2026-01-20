@@ -1,12 +1,7 @@
 @import "tailwindcss";
-/* globals.css */
 @import './../styles/_variables.scss';
 @import './../styles/_keyframe-animations.scss';
-
-:root {
-  /* --background: #ffffff;
-  --foreground: #171717; */
-}
+@import './styles/articles.css';
 
 @theme inline {
   --font-sans: var(--font-rubik);
@@ -42,8 +37,6 @@ body {
 .no-ymaps-copyright [class*="copyrights-pane"] {
   visibility: hidden;
 }
-
-/* className="no-ymaps-copyright w-full h-[354px]" */
 
 @keyframes spin {
   to {
@@ -93,3 +86,6 @@ body {
     width: 100%;
   }
 }
+
+
+

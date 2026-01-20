@@ -1,0 +1,64 @@
+/* ===== СТИЛИ ДЛЯ ТАБЛИЦ НА САЙТЕ ===== */
+
+/* Основная таблица */
+table {
+  color: #131313;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+  background-color: white;
+}
+
+/* Заголовки таблицы */
+th {
+  background-color: #e4ecf4;
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600; 
+  color: #1f2937; 
+  font-size: 0.95rem;
+}
+
+/* Ячейки таблицы */
+td {
+  border: 1px solid #d1d5db;
+  padding: 0.75rem 1rem;
+  vertical-align: top;
+  color: #374151; 
+  background-color: white;
+  font-size: 0.95rem;
+}
+
+/* Внешние границы для крайних ячеек */
+th:first-child,
+td:first-child {
+  border-left-width: 2px;
+  border-left-color: #9ca3af;
+}
+
+th:last-child,
+td:last-child {
+  border-right-width: 2px;
+  border-right-color: #9ca3af;
+}
+
+tr:first-child th,
+tr:first-child td {
+  border-top-width: 2px;
+  border-top-color: #9ca3af;
+}
+
+tr:last-child td {
+  border-bottom-width: 2px;
+  border-bottom-color: #9ca3af;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  th,
+  td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}

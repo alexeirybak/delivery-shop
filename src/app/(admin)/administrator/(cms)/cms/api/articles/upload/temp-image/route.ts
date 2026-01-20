@@ -1,14 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get('image') as File;
-    const articleId = formData.get('articleId') as string;
-    const isTemp = formData.get('isTemp') as string;
     
     // Валидация файла
     if (!file) {
@@ -26,23 +23,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Проверка размера файла (макс 5MB)
-    const maxSize = 5 * 1024 * 1024;
-    if (file.size > maxSize) {
-      return NextResponse.json(
-        { error: 'Файл слишком большой. Максимальный размер: 5MB' },
-        { status: 400 }
-      );
-    }
-
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
     
-    // Сохраняем оригинальное имя файла
-    const originalName = file.name.replace(/\.[^/.]+$/, ""); // Без расширения
+    const originalName = file.name.replace(/\.[^/.]+$/, "");
     const extension = path.extname(file.name).toLowerCase();
     
-    // Проверка допустимых расширений
+    // Проверка расширения
     const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     if (!allowedExtensions.includes(extension)) {
       return NextResponse.json(
@@ -51,18 +38,14 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Генерируем уникальное имя файла
-    const uniqueFilename = `${uuidv4()}${extension}`;
+    // Генерируем уникальное имя с префиксом temp
+    const timestamp = Date.now();
+    const random = Math.random().toString(36).substring(2, 9);
+    const filename = `temp_${timestamp}_${random}${extension}`;
     
-    // Определяем папку для сохранения
-    const baseFolder = isTemp === 'true' ? 'temp' : 'uploads/articles';
-    
-    // Для временных файлов используем articleId из запроса
-    // Для постоянных файлов articleId должен быть ID статьи из БД
-    const folderId = isTemp === 'true' ? articleId : (articleId || 'general');
-    
-    const uploadDir = path.join(process.cwd(), 'public', baseFolder, folderId);
-    const filepath = path.join(uploadDir, uniqueFilename);
+    // СОХРАНЯЕМ В ПАПКУ temp (без вложенности)
+    const uploadDir = path.join(process.cwd(), 'public', 'temp');
+    const filepath = path.join(uploadDir, filename);
     
     // Создаем папку если не существует
     await mkdir(uploadDir, { recursive: true });
@@ -71,26 +54,14 @@ export async function POST(request: NextRequest) {
     await writeFile(filepath, buffer);
     
     // URL для доступа к файлу
-    const url = `/${baseFolder}/${folderId}/${uniqueFilename}`;
-    
-    console.log('📁 Изображение сохранено:', {
-      url,
-      folder: baseFolder,
-      folderId,
-      filename: uniqueFilename,
-      originalName: file.name,
-      size: file.size,
-      isTemp: isTemp === 'true'
-    });
+    const url = `/temp/${filename}`;
     
     return NextResponse.json({ 
       success: true,
       url, 
-      filename: uniqueFilename,
+      filename: filename,
       originalName: originalName,
       fullOriginalName: file.name,
-      articleId: folderId,
-      isTemp: isTemp === 'true',
       size: file.size
     });
     

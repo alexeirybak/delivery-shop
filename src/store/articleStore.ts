@@ -9,7 +9,7 @@ interface ArticleStore {
   editingId?: string;
 
   setIsUploading: (isUploading: boolean) => void;
-  updateFormField: (field: keyof ArticleFormData, value: string) => void;
+  updateFormField: (field: keyof ArticleFormData, value: string | boolean) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   resetFormData: () => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
