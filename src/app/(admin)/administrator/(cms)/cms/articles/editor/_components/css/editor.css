@@ -1,8 +1,8 @@
-@import './table.css';
+@import "./table.css";
+@import './images.css';
 
-/*Общие стили*/ 
 .ProseMirror {
-  min-height: 400px;
+  min-height: 350px;
   padding: 1rem;
   outline: none;
 }
@@ -24,6 +24,7 @@
 }
 
 /* Стили для заголовков */
+
 .ProseMirror h1 {
   font-size: 2.25rem;
   font-weight: bold;
@@ -101,14 +102,3 @@
   text-decoration: underline;
 }
 
-/* Стили для изображений */
-.ProseMirror img {
-  max-width: 100%;
-  height: auto;
-  margin: 1rem 0;
-}
-
-/* Стили для выбранного изображения */
-.ProseMirror-selectednode .editor-image {
-  box-shadow: 0 0 0 3px #3b82f6;
-}

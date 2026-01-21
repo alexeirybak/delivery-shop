@@ -12,6 +12,8 @@ import { BgColorMenu } from "./BgColorMenu";
 import { QuoteButton } from "./QuoteButton";
 import { CodeEditorButton } from "./CodeEditorButton";
 import { TableMenu } from "./TableMenu";
+import { ImageMenu } from "./ImageMenu";
+import { ImageAttributesModal } from "./ImageAttributesModal";
 
 const MainToolbar = ({ editor }: EditorProps) => {
   return (
@@ -35,6 +37,8 @@ const MainToolbar = ({ editor }: EditorProps) => {
       <ListMenu editor={editor} />
       <LinkMenu editor={editor} />
       <TableMenu editor={editor}/>
+      <ImageMenu editor={editor}/>
+      <ImageAttributesModal editor={editor}/>
     </div>
   );
 };

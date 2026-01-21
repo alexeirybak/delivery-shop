@@ -4,6 +4,21 @@ export const AllowHtmlAttributes = Extension.create({
   name: "allowHtmlAttributes",
 
   addGlobalAttributes() {
+    const commonAttributes = {
+      style: {
+        default: null,
+        parseHTML: (element: HTMLElement) => element.getAttribute("style"),
+        renderHTML: (attributes: { style?: string }) =>
+          attributes.style ? { style: attributes.style } : {},
+      },
+      class: {
+        default: null,
+        parseHTML: (element: HTMLElement) => element.getAttribute("class"),
+        renderHTML: (attributes: { class?: string }) =>
+          attributes.class ? { class: attributes.class } : {},
+      },
+    };
+
     return [
       {
         types: [
@@ -23,33 +38,13 @@ export const AllowHtmlAttributes = Extension.create({
           "codeBlock",
           "horizontalRule",
           "hardBreak",
+          "table",
+          "tableRow",
+          "tableCell",
+          "tableHeader",
+          "image"
         ],
-        attributes: {
-          style: {
-            default: null,
-            parseHTML: (element) => element.getAttribute("style"),
-            renderHTML: (attributes) => {
-              if (!attributes.style) {
-                return {};
-              }
-              return {
-                style: attributes.style,
-              };
-            },
-          },
-          class: {
-            default: null,
-            parseHTML: (element) => element.getAttribute("class"),
-            renderHTML: (attributes) => {
-              if (!attributes.class) {
-                return {};
-              }
-              return {
-                class: attributes.class,
-              };
-            },
-          },
-        },
+        attributes: commonAttributes,
       },
     ];
   },

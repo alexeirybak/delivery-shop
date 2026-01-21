@@ -151,7 +151,6 @@
 /* Изображения */
 .html-preview img {
   max-width: 100%;
-  height: auto;
   margin: 1rem 0;
   border-radius: 0.375rem;
 }

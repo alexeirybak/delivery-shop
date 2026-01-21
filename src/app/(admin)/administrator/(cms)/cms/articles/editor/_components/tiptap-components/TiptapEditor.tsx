@@ -1,3 +1,4 @@
+// TiptapEditor.tsx
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -11,8 +12,11 @@ import { Counter } from "./Counter";
 import { useState } from "react";
 import MainToolbar from "./MainToolbar";
 import { TiptapEditorProps } from "../../../types";
-import "../css/editor.css";
+import "./../css/editor.css";
 import { AllowHtmlAttributes } from "./AllowHtmlAttributes";
+import FileHandler from "@tiptap/extension-file-handler";
+import Image from "@tiptap/extension-image";
+import { handleImageUpload } from "../../../utils/upload-image";
 
 export const TiptapEditor = ({
   content,
@@ -42,15 +46,74 @@ export const TiptapEditor = ({
       }),
       AllowHtmlAttributes,
       TableKit,
+      Image.configure({
+        resize: {
+          enabled: true,
+          directions: [
+            "top",
+            "bottom",
+            "left",
+            "right",
+            "top-left",
+            "top-right",
+            "bottom-left",
+            "bottom-right",
+          ],
+          minWidth: 50,
+          minHeight: 50,
+          alwaysPreserveAspectRatio: false,
+        },
+        allowBase64: true,
+        HTMLAttributes: {
+          class: "tiptap-image"
+        },
+      }),
+      FileHandler.configure({
+        allowedMimeTypes: [
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "image/gif",
+        ],
+
+        onDrop: async (currentEditor, files, pos) => {
+          if (!currentEditor) return;
+
+          for (const file of files) {
+            await handleImageUpload(file, currentEditor, pos);
+          }
+        },
+
+        onPaste: (currentEditor, files, htmlContent) => {
+          if (!currentEditor) return;
+
+          if (htmlContent && htmlContent.includes("<img")) {
+            return false;
+          }
+
+          if (htmlContent && htmlContent.includes("<img")) {
+            return false;
+          }
+
+          if (files.length > 0) {
+            files.forEach(async (file) => {
+              await handleImageUpload(file, currentEditor, undefined);
+            });
+            return true;
+          }
+
+          return false;
+        },
+      }),
     ],
     content,
     immediatelyRender: false,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
+    onUpdate: ({ editor: currentEditor }) => {
+      const html = currentEditor.getHTML();
       onContentChange(html);
 
-      const characters = editor.storage.characterCount.characters();
-      const words = editor.storage.characterCount.words();
+      const characters = currentEditor.storage.characterCount.characters();
+      const words = currentEditor.storage.characterCount.words();
 
       setStats({ characters, words });
     },

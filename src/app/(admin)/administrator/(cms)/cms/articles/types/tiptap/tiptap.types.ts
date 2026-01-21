@@ -32,3 +32,9 @@ export interface NodeInfo {
   pos: number;
   type: string;
 }
+
+export interface UploadResult {
+  url: string;
+  filename: string;
+  originalName: string;
+}
