@@ -1,0 +1,93 @@
+/* Стили для списков */
+.preview-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin: 1rem 0;
+}
+
+.preview-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+}
+
+/* Стили для заголовков */
+.preview-content h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 2rem 0 1rem;
+}
+
+.preview-content h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin: 1.5rem 0 1rem;
+}
+
+.preview-content h3 {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin: 1.25rem 0 1rem;
+}
+
+/* Стили для параграфов */
+.preview-content p {
+  margin: 1rem 0;
+}
+
+/* Стили для изображений */
+.preview-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1rem 0;
+}
+
+/* Стили для таблиц */
+.preview-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.preview-content th,
+.preview-content td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.preview-content th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+/* Стили для цитат */
+.preview-content blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 1rem;
+  margin: 1rem 0;
+  font-style: italic;
+  color: #666;
+}
+
+/* Стили для кода */
+.preview-content code {
+  background-color: #f5f5f5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-family: monospace;
+}
+
+.preview-content pre {
+  background-color: #1e1e1e;
+  color: #fff;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.preview-content pre code {
+  background-color: transparent;
+  padding: 0;
+}

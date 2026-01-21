@@ -68,7 +68,7 @@ export const ArticlePreviewModal = ({
               </div>
             )}
             <div
-              className="prose prose-lg max-w-none article-content prose-headings:text-gray-900 prose-p:text-gray-700 prose-li:text-gray-700"
+              className="article-content preview-content"
               dangerouslySetInnerHTML={{ __html: renderArticleContent() }}
             />
           </div>

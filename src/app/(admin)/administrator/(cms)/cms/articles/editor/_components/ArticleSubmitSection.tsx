@@ -2,7 +2,7 @@ import { useArticleStore } from "@/store/articleStore";
 import { Save, Eye, EyeOff, Star, FileText, Globe } from "lucide-react";
 import { SubmitSectionProps } from "../../../categories/types";
 import { useState, useEffect } from "react";
-import { ArticlePreviewModal } from "./ArticlePreviewModal"; 
+import { ArticlePreviewModal } from "./tiptap-components/ArticlePreviewModal"; 
 import './../css/modal-preview.css'
 
 export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
@@ -106,7 +106,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         {!canPreview && (
           <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-yellow-700 text-sm">
-              Для предпросмотра необходимо заполнить название и текст статьи
+              Для предпросмотра необходимо заполнить текст статьи
             </p>
           </div>
         )}

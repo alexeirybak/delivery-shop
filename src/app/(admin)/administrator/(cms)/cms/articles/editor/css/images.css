@@ -1,11 +1,4 @@
-/* ===== СТИЛИ ДЛЯ ВЫБРАННОГО ИЗОБРАЖЕНИЯ ===== */
-
-/* Базовые стили для всех изображений */
-img {
-  border-radius: 4px;
-}
-
-/* ===== СТИЛИ ДЛЯ РЕДАКТОРА ===== */
+/* ===== СТИЛИ ДЛЯ ИЗОБРАЖЕНИЯ В РЕДАКТОРЕ ===== */
 
 /* Маркеры изменения размера */
 [data-resize-handle] {
@@ -119,13 +112,55 @@ img {
   opacity: 0.9;
 }
 
+/* Стили для изображений в редакторе */
+.ProseMirror .tiptap-image {
+  border-radius: 4px;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Стили при наведении */
+.ProseMirror .tiptap-image:hover {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
 /* ===== СТИЛИ ДЛЯ ПРЕВЬЮ ===== */
 
-/* ГЛАВНОЕ: сохраняем ТОЧНЫЕ размеры из редактора */
+/*Сохраняем ТОЧНЫЕ размеры из редактора */
 .article-content img.tiptap-image,
 .prose img.tiptap-image {
-  display: block;
-  margin: 1rem auto;
+  display: block !important; 
+  margin: 1rem 0 !important; 
+  max-width: none !important; 
+}
+
+/* Убираем центрирование из Tailwind prose */
+.prose :where(img):not(:where([class~="not-prose"] *)) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+}
+
+/* Стили для выравнивания изображений */
+.article-content img[data-align="left"],
+.prose img[data-align="left"] {
+  float: left !important;
+  margin: 0.5rem 1rem 0.5rem 0 !important;
+}
+
+.article-content img[data-align="center"],
+.prose img[data-align="center"] {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.article-content img[data-align="right"],
+.prose img[data-align="right"] {
+  float: right !important;
+  margin: 0.5rem 0 0.5rem 1rem !important;
 }
 
 /* Убираем интерактивность в превью */
@@ -139,15 +174,4 @@ img {
   display: none !important;
 }
 
-/* ===== ОБЩИЕ СТИЛИ ===== */
 
-/* Обтекание текстом */
-img[style*="float: left"] {
-  float: left;
-  margin: 0.5rem 1rem 0.5rem 0;
-}
-
-img[style*="float: right"] {
-  float: right;
-  margin: 0.5rem 0 0.5rem 1rem;
-}

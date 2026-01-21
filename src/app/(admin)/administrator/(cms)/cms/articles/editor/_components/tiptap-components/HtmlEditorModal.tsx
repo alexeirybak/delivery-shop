@@ -3,7 +3,7 @@ import { X, Copy, Check, Save } from "lucide-react";
 import { highlight, languages } from "prismjs";
 import "prismjs/components/prism-markup";
 import "prismjs/themes/prism-tomorrow.css";
-import "../../css/html-preview.css"; // Импортируем стили
+import "../../css/preview.css"; // Импортируем стили
 import { HtmlEditorModalProps } from "../../../types";
 
 export const HtmlEditorModal = ({

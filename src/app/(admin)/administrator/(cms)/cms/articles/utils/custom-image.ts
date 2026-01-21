@@ -28,7 +28,7 @@ export const CustomImage = Image.extend({
 
   renderHTML({ HTMLAttributes }) {
     const attrs = { ...HTMLAttributes };
-    const styles = [];
+    const styles = ["max-width: 100%"];
 
     if (attrs.width) {
       attrs.width = attrs.width.toString();
@@ -38,10 +38,8 @@ export const CustomImage = Image.extend({
     if (attrs.height) {
       attrs.height = attrs.height.toString();
       styles.push(`height: ${attrs.height}px`);
-    }
-
-    if (attrs.width) {
-      styles.push(`--image-width: ${attrs.width}px`);
+    } else {
+      styles.push("height: auto");
     }
 
     attrs.style = styles.join("; ");
@@ -71,6 +69,7 @@ export const CustomImage = Image.extend({
     class: "tiptap-image",
   },
 });
+
 
 function getDimensionParser(dimension: "width" | "height") {
   return (element: HTMLElement) => {

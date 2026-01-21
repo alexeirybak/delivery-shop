@@ -1,3 +1,4 @@
+// TiptapEditor.tsx
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -13,7 +14,9 @@ import { MainToolbar } from "./MainToolbar";
 import { TiptapEditorProps } from "../../../types";
 import "../../css/editor.css";
 import { AllowHtmlAttributes } from "./AllowHtmlAttributes";
+import FileHandler from "@tiptap/extension-file-handler";
 import { CustomImage } from "../../../utils/custom-image";
+import { handleImageUpload } from "../../../utils/upload-image";
 
 export const TiptapEditor = ({
   content,
@@ -44,16 +47,55 @@ export const TiptapEditor = ({
       AllowHtmlAttributes,
       TableKit,
       CustomImage,
+      FileHandler.configure({
+        allowedMimeTypes: [
+          "image/jpeg",
+          "image/png",
+          "image/webp",
+          "image/gif",
+        ],
+
+        onDrop: async (currentEditor, files, pos) => {
+          // Обработка drag&drop файлов
+          if (!currentEditor) return;
+
+          for (const file of files) {
+            await handleImageUpload(file, currentEditor, pos);
+          }
+        },
+
+        onPaste: (currentEditor, files, htmlContent) => {
+          if (!currentEditor) return;
+
+          // Если копируем из браузера (содержит HTML)
+          if (htmlContent && htmlContent.includes("<img")) {
+            // Даем возможность другим расширениям обработать
+            return false;
+          }
+
+          if (files.length > 0) {
+            files.forEach(async (file) => {
+              await handleImageUpload(
+                file,
+                currentEditor,
+                currentEditor.state.selection.anchor,
+              );
+            });
+            return true; 
+          }
+
+          return false; 
+        },
+      }),
     ],
     content,
     immediatelyRender: false,
-    onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-
+    onUpdate: ({ editor: currentEditor }) => {
+      const html = currentEditor.getHTML();
       onContentChange(html);
 
-      const characters = editor.storage.characterCount.characters();
-      const words = editor.storage.characterCount.words();
+      const characters = currentEditor.storage.characterCount.characters();
+      const words = currentEditor.storage.characterCount.words();
 
       setStats({ characters, words });
     },
@@ -74,7 +116,7 @@ export const TiptapEditor = ({
 
   return (
     <div className="border border-gray-300 rounded-lg">
-      <MainToolbar editor={editor} />
+      <MainToolbar editor={editor}/>
       <div className="bg-white">
         <EditorContent
           editor={editor}

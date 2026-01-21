@@ -1,3 +1,4 @@
+// MainToolbar.tsx - не меняем, он уже готов
 "use client";
 
 import { TextFormattingMenu } from "./TextFormattingMenu";
@@ -17,18 +18,20 @@ import { ImageAIMenu } from "./imageAI/ImageAIMenu";
 import { GripVertical } from "lucide-react";
 import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
 import { ParagraphButton } from "./ParagraphButton";
-import { TextColorMenu } from "./TextColotMenu";
+import { TextColorMenu } from "./TextColorMenu";
 import { BgColorMenu } from "./BgColorMenu";
 import { QuoteButton } from "./QuoteButton";
+import { ImageAttributesModal } from "./ImageAttributesModal"; 
 
+// Карта компонентов уже содержит все нужные компоненты
 const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   history: HistoryMenu,
   textLevel: HeadingDropdownMenu,
   paragraph: ParagraphButton,
-  textFormatting: TextFormattingMenu,
-  textColor: TextColorMenu,
-  bgColor: BgColorMenu,
-  fontSize: FontSizeMenu,
+  textFormatting: TextFormattingMenu, // ✅
+  textColor: TextColorMenu,           // ✅
+  bgColor: BgColorMenu,               // ✅
+  fontSize: FontSizeMenu,             // ✅
   list: ListMenu,
   codeEditor: CodeEditorButton,
   alignment: AlignmentMenu,
@@ -37,7 +40,8 @@ const COMPONENT_MAP: Record<string, React.ComponentType<EditorProps>> = {
   image: ImageMenu,
   ai: AIMenu,
   imageAI: ImageAIMenu,
-  quote: QuoteButton, 
+  quote: QuoteButton,
+  imageAttributes: ImageAttributesModal,
 };
 
 export const MainToolbar = ({ editor }: EditorProps) => {
@@ -61,7 +65,6 @@ export const MainToolbar = ({ editor }: EditorProps) => {
     e.dataTransfer.effectAllowed = "move";
     setDraggingGroupId(groupId);
 
-    // Для компактного drag image
     const dragImage = document.createElement("div");
     dragImage.style.width = "100px";
     dragImage.style.height = "32px";

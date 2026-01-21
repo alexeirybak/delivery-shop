@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const DEFAULT_GROUPS = [
   {
@@ -11,7 +11,7 @@ const DEFAULT_GROUPS = [
   {
     id: "paragraph",
     name: "Параграф",
-    items: ["paragraph"],
+    items: ["paragraph", "quote"],
   },
   {
     id: "text",
@@ -19,9 +19,19 @@ const DEFAULT_GROUPS = [
     items: ["textLevel"],
   },
   {
-    id: "textStyles",
-    name: "Стили текста",
-    items: ["textFormatting", "textColor", "bgColor", "fontSize"],
+    id: "textFormatting",
+    name: "Форматирование",
+    items: ["textFormatting"],
+  },
+  {
+    id: "color",
+    name: "Цвет текста и фона",
+    items: ["textColor", "bgColor"],
+  },
+  {
+    id: "fontSize",
+    name: "Размер шрифта",
+    items: ["fontSize"],
   },
   {
     id: "list",
@@ -31,12 +41,12 @@ const DEFAULT_GROUPS = [
   {
     id: "formatting",
     name: "Форматирование",
-    items: ["alignment", "quote"], // Добавили quote сюда
+    items: ["alignment"],
   },
   {
     id: "code",
-    name: "Код", // Переименовали для ясности
-    items: ["codeEditor"], // Изменили с "code" на "codeEditor"
+    name: "Код",
+    items: ["codeEditor"],
   },
   {
     id: "table",
@@ -52,6 +62,11 @@ const DEFAULT_GROUPS = [
     id: "images",
     name: "Изображения",
     items: ["image"],
+  },
+  {
+    id: "imageAttributes",
+    name: "Атрибуты изображения",
+    items: ["imageAttributes"],
   },
   {
     id: "ai",
