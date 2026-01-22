@@ -1,5 +1,7 @@
 import { Editor } from "@tiptap/react";
 import { Node } from "prosemirror-model";
+import { Node as ProseMirrorNode } from "prosemirror-model";
+
 
 export interface TiptapEditorProps {
   content: string;
@@ -37,4 +39,20 @@ export interface UploadResult {
   url: string;
   filename: string;
   originalName: string;
+}
+
+export interface ImageAttributesState {
+  src: string;
+  alt: string;
+  title: string;
+  width?: string;
+  height?: string;
+  align?: "left" | "right" | "center" | "none";
+  style?: string;
+}
+
+export interface SelectedImage {
+  node: ProseMirrorNode;
+  pos: number;
+  attrs: ImageAttributesState;
 }

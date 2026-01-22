@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("image") as File;
-    const categorySlug = formData.get("categorySlug") as string;
+    const categorySlug = formData.get("categorySlug") as string; // Получаем slug категории
 
     if (!file) {
       return NextResponse.json(
@@ -15,11 +15,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const categoryFolder = categorySlug.trim() || "uncategorized";
+    // Если категория не указана, используем дефолтную папку
+    const categoryFolder = categorySlug?.trim() || "uncategorized";
 
+    // Читаем файл как буфер без изменения размера
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
+    // Генерируем безопасное имя файла
     const originalName = file.name;
     const baseName = originalName.replace(/\.[^/.]+$/, "");
     const cleanName = baseName
@@ -30,23 +33,27 @@ export async function POST(request: NextRequest) {
 
     const timestamp = Date.now();
     const safeName = cleanName || "image";
-
     const originalExtension =
       originalName.split(".").pop()?.toLowerCase() || "jpg";
     const fileName = `${safeName}_${timestamp}.${originalExtension}`;
 
+    // Создаем путь с папкой category внутри articles
     const publicDir = path.join(
-      process.cwd(),
-      "public",
-      "articles",
-      categoryFolder
+      process.cwd(), 
+      "public", 
+      "articles",        // Основная папка для статей
+      categoryFolder    // Подпапка с названием категории
     );
 
+    // Рекурсивно создаем директорию, если ее нет
     await fs.mkdir(publicDir, { recursive: true });
 
     const filePath = path.join(publicDir, fileName);
+    
+    // Сохраняем оригинальный файл без изменений
     await fs.writeFile(filePath, buffer);
 
+    // URL для доступа к файлу
     const publicUrl = `/articles/${categoryFolder}/${fileName}`;
 
     return NextResponse.json({
@@ -63,6 +70,7 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
 
 // DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {

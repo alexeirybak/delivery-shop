@@ -74,7 +74,9 @@ export const TiptapEditor = ({
           "image/jpeg",
           "image/png",
           "image/webp",
-          "image/gif",
+          "image/jpg",
+          "application/pdf", // можно и PDF
+          "text/plain", // и текстовые файлы
         ],
 
         onDrop: async (currentEditor, files) => {
@@ -135,10 +137,7 @@ export const TiptapEditor = ({
 
   return (
     <div className="border border-gray-300 rounded-lg">
-      <MainToolbar
-        editor={editor}
-        onImageDragOverChange={setShowDragIcon} 
-      />
+      <MainToolbar editor={editor} onImageDragOverChange={setShowDragIcon} />
 
       <div className="bg-white relative">
         <EditorContent

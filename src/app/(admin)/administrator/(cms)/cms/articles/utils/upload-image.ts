@@ -54,12 +54,9 @@ export const validateImageFile = (file: File): string | null => {
 /**
  * Получение позиции для вставки изображения
  */
-const getInsertPosition = (editor: Editor, specifiedPosition?: number): number => {
-  if (specifiedPosition !== undefined) {
-    return specifiedPosition;
-  }
+const getInsertPosition = (editor: Editor): number => {
   
-  // Если позиция не указана, вставляем в конец выделения или текущую позицию курсора
+  // Вставляем в конец выделения или текущую позицию курсора
   const { from, to } = editor.state.selection;
   
   // Если есть выделение, вставляем после выделения
@@ -79,9 +76,8 @@ export const insertImageToEditor = (
   src: string,
   alt: string,
   title?: string,
-  position?: number
 ) => {
-  const insertPos = getInsertPosition(editor, position);
+  const insertPos = getInsertPosition(editor);
   
   const imageNode = {
     type: 'image' as const,

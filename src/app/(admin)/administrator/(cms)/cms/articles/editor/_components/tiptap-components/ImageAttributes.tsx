@@ -1,24 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
-import { EditorProps } from "../../../types";
-import { Node as ProseMirrorNode } from "prosemirror-model";
+import { EditorProps, ImageAttributesState, SelectedImage } from "../../../types";
 import { Crop } from "lucide-react";
 import { ImageAttributesModal } from "./ImageAttributesModal";
 
-interface ImageAttributes {
-  src: string;
-  alt: string;
-  title: string;
-  width?: string;
-  height?: string;
-  align?: "left" | "right" | "center" | "none";
-  style?: string;
-}
 
-interface SelectedImage {
-  node: ProseMirrorNode;
-  pos: number;
-  attrs: ImageAttributes;
-}
 
 // Функция для извлечения значения из style
 const extractStyleValue = (style: string, property: string): string | null => {
@@ -106,7 +91,7 @@ const parseStyles = (styleString: string): Record<string, string> => {
 
 export const ImageAttributes = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [currentImage, setCurrentImage] = useState<ImageAttributes | null>(
+  const [currentImage, setCurrentImage] = useState<ImageAttributesState | null>(
     null,
   );
   const [attributes, setAttributes] = useState({
