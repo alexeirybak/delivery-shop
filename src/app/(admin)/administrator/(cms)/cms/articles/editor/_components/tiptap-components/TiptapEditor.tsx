@@ -10,7 +10,7 @@ import { TableKit } from "@tiptap/extension-table";
 import { Loader2, Upload } from "lucide-react";
 import { Counter } from "./Counter";
 import { useState } from "react";
-import MainToolbar from "./MainToolbar";
+import { MainToolbar } from "./MainToolbar";
 import { TiptapEditorProps } from "../../../types";
 import "./../css/editor.css";
 import { AllowHtmlAttributes } from "./AllowHtmlAttributes";
