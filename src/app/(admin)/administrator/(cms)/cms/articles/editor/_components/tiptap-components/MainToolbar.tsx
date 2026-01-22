@@ -7,7 +7,6 @@ import { LinkMenu } from "./LinkMenu";
 import { TableMenu } from "./TableMenu";
 import { FontSizeMenu } from "./FontSizeMenu";
 import { ImageMenu } from "./ImageMenu";
-import { EditorProps } from "../../../types";
 import { useState } from "react";
 import { GripVertical } from "lucide-react";
 import { TextColorMenu } from "./TextColorMenu";
@@ -16,18 +15,9 @@ import { QuoteButton } from "./QuoteButton";
 import { ImageAttributes } from "./ImageAttributes";
 import { useToolbarOrder } from "../../../hooks/useToolbarOrders";
 import { TextLevelMenu } from "./TextLevelMenu";
+import { MainToolbarProps } from "../../../types";
 
-// Создаем интерфейс для ImageMenu с дополнительным пропсом
-interface ImageMenuProps extends EditorProps {
-  onImageDragOverChange?: (isDragOver: boolean) => void;
-}
-
-// Расширяем EditorProps для MainToolbar
-interface MainToolbarProps extends EditorProps {
-  onImageDragOverChange?: (isDragOver: boolean) => void;
-}
-
-const TOOLBAR_COMPONENTS_CONFIG = {
+const CONFIG_TOOLBAR_COMPONENTS = {
   history: { component: HistoryMenu },
   textLevel: { component: TextLevelMenu },
   fontSize: { component: FontSizeMenu },
@@ -45,7 +35,7 @@ const TOOLBAR_COMPONENTS_CONFIG = {
 } as const;
 
 // Тип для идентификаторов компонентов
-type ToolbarComponentId = keyof typeof TOOLBAR_COMPONENTS_CONFIG;
+type ToolbarComponentId = keyof typeof CONFIG_TOOLBAR_COMPONENTS;
 
 export const MainToolbar = ({
   editor,
@@ -127,7 +117,7 @@ export const MainToolbar = ({
   const renderToolbarComponent = (itemId: string) => {
     // Приводим itemId к правильному типу
     const componentId = itemId as ToolbarComponentId;
-    const config = TOOLBAR_COMPONENTS_CONFIG[componentId];
+    const config = CONFIG_TOOLBAR_COMPONENTS[componentId];
 
     if (!config) {
       console.warn(`Компонент с ID "${itemId}" не найден в конфигурации`);
@@ -140,7 +130,7 @@ export const MainToolbar = ({
     // Особый случай для ImageMenu - передаем дополнительный пропс
     if (componentId === "image" && onImageDragOverChange) {
       // Приводим Component к типу, который принимает onImageDragOverChange
-      const ImageComponent = Component as React.ComponentType<ImageMenuProps>;
+      const ImageComponent = Component as React.ComponentType<MainToolbarProps>;
       return (
         <div
           key={itemId}

@@ -2,7 +2,6 @@ import { Editor } from "@tiptap/react";
 import { Node } from "prosemirror-model";
 import { Node as ProseMirrorNode } from "prosemirror-model";
 
-
 export interface TiptapEditorProps {
   content: string;
   onContentChange: (content: string) => void;
@@ -55,4 +54,8 @@ export interface SelectedImage {
   node: ProseMirrorNode;
   pos: number;
   attrs: ImageAttributesState;
+}
+
+export interface MainToolbarProps extends EditorProps {
+  onImageDragOverChange?: (isDragOver: boolean) => void;
 }
