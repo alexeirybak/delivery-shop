@@ -111,7 +111,7 @@ export const AllowHtmlAttributes = Extension.create({
         attributes: imageAttributes,
       },
       {
-        types: ["tableRow", "text", "doc"],
+        types: ["tableRow"],
         attributes: commonAttributes,
       },
     ];
