@@ -1,11 +1,15 @@
 import { ImagePlus, Upload } from "lucide-react";
-import { useRef, useCallback, ChangeEvent } from "react";
+import { useRef, useCallback, ChangeEvent } from "react"; // Добавим useState
 import { EditorProps } from "../../../types";
 import { useImageUpload } from "../../../hooks/useImageUpload";
 
-export const ImageMenu = ({ editor }: EditorProps) => {
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  
+// Добавляем пропс для передачи состояния
+interface ImageMenuProps extends EditorProps {
+  onDragOverChange?: (isDragging: boolean) => void;
+}
+
+export const ImageMenu = ({ editor, onDragOverChange }: ImageMenuProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);  
   const { isUploading, uploadFile, insertByUrl } = useImageUpload(editor);
 
   const handleFileUpload = useCallback(
@@ -22,11 +26,27 @@ export const ImageMenu = ({ editor }: EditorProps) => {
     [uploadFile]
   );
 
+  const handleButtonMouseEnter = () => {
+    if (onDragOverChange) {
+      onDragOverChange(true);
+    }
+  };
+
+  const handleButtonMouseLeave = () => {
+    if (onDragOverChange) {
+      onDragOverChange(false);
+    }
+  };
+
   return (
     <div className="flex items-center gap-2">
       <span className="text-xs text-gray-500 mr-1">Изображения:</span>
 
-      <div className="relative">
+      <div 
+        className="relative group"
+        onMouseEnter={handleButtonMouseEnter}
+        onMouseLeave={handleButtonMouseLeave}
+      >
         <input
           type="file"
           ref={fileInputRef}
@@ -38,7 +58,7 @@ export const ImageMenu = ({ editor }: EditorProps) => {
         <button
           type="button"
           onClick={() => fileInputRef.current?.click()}
-          className={`px-1 py-2 rounded duration-300 cursor-pointer flex items-center gap-1 ${
+          className={`px-1 py-2 rounded duration-300 cursor-pointer flex items-center gap-1 relative ${
             isUploading
               ? "bg-gray-100 text-gray-400 cursor-not-allowed"
               : "hover:bg-gray-200 text-gray-600"
@@ -48,7 +68,13 @@ export const ImageMenu = ({ editor }: EditorProps) => {
         >
           <Upload className={`w-4 h-4 ${isUploading ? "animate-pulse" : ""}`} />
           {isUploading && <span className="text-xs">...</span>}
+        
         </button>
+        
+        {/* Подсказка при наведении */}
+        <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+          Кликните или перетащите файл
+        </div>
       </div>
 
       <button

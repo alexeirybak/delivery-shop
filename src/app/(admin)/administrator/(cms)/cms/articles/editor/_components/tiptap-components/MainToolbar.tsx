@@ -1,7 +1,5 @@
-import { HeadingDropdownMenu } from "@/components/tiptap-ui/heading-dropdown-menu";
 import { EditorProps } from "../../../types";
 import { HistoryMenu } from "./HistoryMenu";
-import { ParagraphButton } from "./ParagraphButton";
 import { TextFormattingMenu } from "./TextFormattingMenu";
 import { AlignmentMenu } from "./AlignmentMenu";
 import { ListMenu } from "./ListMenu";
@@ -13,20 +11,27 @@ import { QuoteButton } from "./QuoteButton";
 import { CodeEditorButton } from "./CodeEditorButton";
 import { TableMenu } from "./TableMenu";
 import { ImageMenu } from "./ImageMenu";
-import { ImageAttributesModal } from "./ImageAttributesModal";
+import { ImageAttributes } from "./ImageAttributes";
+import { TextLevelMenu } from "./TextLevelMenu";
 
-const MainToolbar = ({ editor }: EditorProps) => {
+// Добавляем пропс для передачи состояния дальше
+interface MainToolbarProps extends EditorProps {
+  onImageDragOverChange?: (isDragging: boolean) => void;
+}
+
+const MainToolbar = ({ editor, onImageDragOverChange }: MainToolbarProps) => {
   return (
     <div className="flex flex-row flex-wrap py-2">
       <HistoryMenu editor={editor} />
-      <HeadingDropdownMenu
+      {/* <HeadingDropdownMenu
         editor={editor}
         levels={[1, 2, 3, 4, 5, 6]}
         hideWhenUnavailable={true}
         portal={false}
         className="cursor-pointer duration-300"
-      />
-      <ParagraphButton editor={editor} />
+      /> */}
+      <TextLevelMenu editor={editor} />
+      {/* <ParagraphButton editor={editor} /> */}
       <FontSizeMenu editor={editor} />
       <TextFormattingMenu editor={editor} />
       <QuoteButton editor={editor} />
@@ -36,9 +41,9 @@ const MainToolbar = ({ editor }: EditorProps) => {
       <BgColorMenu editor={editor} />
       <ListMenu editor={editor} />
       <LinkMenu editor={editor} />
-      <TableMenu editor={editor}/>
-      <ImageMenu editor={editor}/>
-      <ImageAttributesModal editor={editor}/>
+      <TableMenu editor={editor} />
+      <ImageMenu editor={editor} onDragOverChange={onImageDragOverChange} />
+      <ImageAttributes editor={editor} />
     </div>
   );
 };
