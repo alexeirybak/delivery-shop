@@ -112,7 +112,6 @@ export const insertImageToEditor = (
 export const handleImageUpload = async (
   file: File,
   editor: Editor,
-  position?: number
 ): Promise<void> => {
   // Валидация
   const validationError = validateImageFile(file);
@@ -131,7 +130,6 @@ export const handleImageUpload = async (
       serverResult.url,
       serverResult.originalName,
       serverResult.filename,
-      position
     );
   } catch (error) {
     console.error('Upload error:', error);
@@ -145,7 +143,6 @@ export const handleImageUpload = async (
         e.target?.result as string,
         file.name,
         file.name,
-        position
       );
     };
     reader.readAsDataURL(file);

@@ -8,7 +8,7 @@ import {
 
 interface UseImageUploadReturn {
   isUploading: boolean;
-  uploadFile: (file: File, position?: number) => Promise<void>;
+  uploadFile: (file: File) => Promise<void>;
   insertByUrl: () => void;
   validateImageFile: (file: File) => string | null;
 }
@@ -17,12 +17,12 @@ export const useImageUpload = (editor: Editor | null): UseImageUploadReturn => {
   const [isUploading, setIsUploading] = useState(false);
 
   const uploadFile = useCallback(
-    async (file: File, position?: number) => {
+    async (file: File) => {
       if (!editor) return;
 
       setIsUploading(true);
       try {
-        await handleImageUpload(file, editor, position); 
+        await handleImageUpload(file, editor); 
       } finally {
         setIsUploading(false);
       }

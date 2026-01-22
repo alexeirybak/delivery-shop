@@ -77,11 +77,11 @@ export const TiptapEditor = ({
           "image/gif",
         ],
 
-        onDrop: async (currentEditor, files, pos) => {
+        onDrop: async (currentEditor, files) => {
           if (!currentEditor) return;
 
           for (const file of files) {
-            await handleImageUpload(file, currentEditor, pos);
+            await handleImageUpload(file, currentEditor);
           }
         },
 
@@ -98,7 +98,7 @@ export const TiptapEditor = ({
 
           if (files.length > 0) {
             files.forEach(async (file) => {
-              await handleImageUpload(file, currentEditor, undefined);
+              await handleImageUpload(file, currentEditor);
             });
             return true;
           }
