@@ -6,7 +6,7 @@ export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
     const file = formData.get("image") as File;
-    const categorySlug = formData.get("categorySlug") as string; // Получаем slug категории
+    // categorySlug больше не нужен, если все в одной папке
 
     if (!file) {
       return NextResponse.json(
@@ -15,52 +15,42 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Если категория не указана, используем дефолтную папку
-    const categoryFolder = categorySlug?.trim() || "uncategorized";
-
-    // Читаем файл как буфер без изменения размера
+    // Читаем файл как буфер
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
-    // Генерируем безопасное имя файла
+    // Генерируем безопасное короткое имя файла
     const originalName = file.name;
-    const baseName = originalName.replace(/\.[^/.]+$/, "");
-    const cleanName = baseName
-      .toLowerCase()
-      .replace(/[^a-zа-яё0-9]/g, "_")
-      .replace(/_+/g, "_")
-      .replace(/^_+|_+$/g, "");
-
+    const originalExtension = originalName.split(".").pop()?.toLowerCase() || "jpg";
+    
+    // Короткое уникальное имя (timestamp + 4 случайных цифр)
     const timestamp = Date.now();
-    const safeName = cleanName || "image";
-    const originalExtension =
-      originalName.split(".").pop()?.toLowerCase() || "jpg";
-    const fileName = `${safeName}_${timestamp}.${originalExtension}`;
+    const random = Math.floor(Math.random() * 10000);
+    const fileName = `${timestamp}_${random}.${originalExtension}`;
 
-    // Создаем путь с папкой category внутри articles
-    const publicDir = path.join(
+    // Сохраняем в uploads/articles/ (без подпапок по категориям)
+    const uploadsDir = path.join(
       process.cwd(), 
       "public", 
-      "articles",        // Основная папка для статей
-      categoryFolder    // Подпапка с названием категории
+      "uploads", 
+      "articles"
     );
 
     // Рекурсивно создаем директорию, если ее нет
-    await fs.mkdir(publicDir, { recursive: true });
+    await fs.mkdir(uploadsDir, { recursive: true });
 
-    const filePath = path.join(publicDir, fileName);
+    const filePath = path.join(uploadsDir, fileName);
     
-    // Сохраняем оригинальный файл без изменений
+    // Сохраняем файл
     await fs.writeFile(filePath, buffer);
 
     // URL для доступа к файлу
-    const publicUrl = `/articles/${categoryFolder}/${fileName}`;
+    const publicUrl = `/uploads/articles/${fileName}`;
 
     return NextResponse.json({
       success: true,
       url: publicUrl,
       fileName: fileName,
-      category: categoryFolder,
     });
   } catch (error) {
     console.error("Ошибка загрузки изображения:", error);
@@ -71,13 +61,10 @@ export async function POST(request: NextRequest) {
   }
 }
 
-
-// DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const fileName = searchParams.get("file");
-    const category = searchParams.get("categorySlug");
 
     if (!fileName) {
       return NextResponse.json(
@@ -86,22 +73,14 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    if (!category) {
-      return NextResponse.json(
-        { error: "Категория не указана" },
-        { status: 400 }
-      );
-    }
-
-    const categoryFolder = category.trim();
-
-    const publicDir = path.join(
+    // Удаляем из uploads/articles/
+    const uploadsDir = path.join(
       process.cwd(),
       "public",
-      "articles",
-      categoryFolder
+      "uploads",
+      "articles"
     );
-    const filePath = path.join(publicDir, fileName);
+    const filePath = path.join(uploadsDir, fileName);
 
     try {
       await fs.access(filePath);
