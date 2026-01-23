@@ -113,7 +113,7 @@ const MainToolbar = ({ editor, onImageDragOverChange }: MainToolbarProps) => {
             onDragEnd={resetDragState}
             className={`
               flex items-center gap-1 px-2 py-1.5 rounded-lg border transition-all duration-150
-              min-h-9 max-h-10 box-content
+              min-h-9 box-content
               ${
                 draggingGroupId === group.id
                   ? "border-blue-400 bg-blue-50 opacity-60 cursor-grabbing scale-95"
