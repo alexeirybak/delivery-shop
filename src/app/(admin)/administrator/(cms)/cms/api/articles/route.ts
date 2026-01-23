@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
+import { sanitizeArticleHTML } from "../../../../../../../../utils/sanitizeArticleHTML";
+import { processArticleImages } from "../../articles/utils/processArticleImages";
 
 export async function POST(request: Request) {
   try {
@@ -9,58 +11,58 @@ export async function POST(request: Request) {
     if (!data.name?.trim()) {
       return NextResponse.json(
         { success: false, message: "Название статьи обязательно" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!data.slug?.trim()) {
       return NextResponse.json(
         { success: false, message: "Алиас (slug) статьи обязателен" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!data.author?.trim()) {
       return NextResponse.json(
         { success: false, message: "Автор статьи обязателен" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!data.categoryId?.trim()) {
       return NextResponse.json(
         { success: false, message: "Категория статьи обязательна" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const name = data.name.trim();
     const slug = data.slug.trim().toLowerCase();
     const description = data.description?.trim() || "";
-    const keywords = Array.isArray(data.keywords) 
-      ? data.keywords 
-      : (data.keywords || "").split(",").map((k: string) => k.trim()).filter(Boolean);
+    const keywords = Array.isArray(data.keywords)
+      ? data.keywords
+      : (data.keywords || "")
+          .split(",")
+          .map((k: string) => k.trim())
+          .filter(Boolean);
     const image = data.image || "";
     const imageAlt = data.imageAlt || name;
     const author = data.author.trim();
     const categoryId = data.categoryId.trim();
     const categoryName = data.categoryName?.trim() || "";
     const categorySlug = data.categorySlug?.trim() || "";
-    const content = data.content || "";
     const isFeatured = data.isFeatured || false;
     const status = data.status || "draft";
 
     const db = await getDB();
 
     // Проверка уникальности slug
-    const existingArticle = await db
-      .collection("articles")
-      .findOne({ slug });
+    const existingArticle = await db.collection("articles").findOne({ slug });
 
     if (existingArticle) {
       return NextResponse.json(
         { success: false, message: "Статья с таким алиасом уже существует" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -73,10 +75,25 @@ export async function POST(request: Request) {
       if (!categoryExists) {
         return NextResponse.json(
           { success: false, message: "Указанная категория не найдена" },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
+
+    const sanitizedContent = sanitizeArticleHTML(data.content || "");
+
+    if (
+      !sanitizedContent ||
+      sanitizedContent.trim() === "" ||
+      sanitizedContent === "<p></p>"
+    ) {
+      return NextResponse.json(
+        { success: false, message: "Текст статьи не может быть пустым" },
+        { status: 400 },
+      );
+    }
+
+    const finalContent = await processArticleImages(sanitizedContent);
 
     // Получение максимального numericId
     const result = await db
@@ -116,7 +133,7 @@ export async function POST(request: Request) {
       categoryId,
       categoryName,
       categorySlug,
-      content,
+      content: finalContent,
       isFeatured,
       status,
       views: 0,
@@ -134,12 +151,14 @@ export async function POST(request: Request) {
       _id: newArticle._id.toString(),
     };
 
-    return NextResponse.json({
-      success: true,
-      message: "Статья успешно создана",
-      data: responseArticle,
-    }, { status: 201 });
-
+    return NextResponse.json(
+      {
+        success: true,
+        message: "Статья успешно создана",
+        data: responseArticle,
+      },
+      { status: 201 },
+    );
   } catch (error) {
     console.error("Ошибка создания статьи:", error);
     return NextResponse.json(
@@ -148,7 +167,7 @@ export async function POST(request: Request) {
         message: "Ошибка создания статьи",
         error: error instanceof Error ? error.message : "Неизвестная ошибка",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

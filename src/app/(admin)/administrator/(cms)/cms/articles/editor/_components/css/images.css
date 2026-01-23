@@ -1,0 +1,129 @@
+/* ===== МАРКЕРЫ РЕСАЙЗА ===== */
+[data-resize-handle] {
+  position: absolute;
+  background: rgba(59, 130, 246, 0.8);
+  border: 2px solid white;
+  border-radius: 2px;
+  z-index: 10;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.3);
+}
+
+[data-resize-handle]:hover {
+  background: rgba(59, 130, 246, 1);
+}
+
+[data-resize-handle="top-left"],
+[data-resize-handle="top-right"],
+[data-resize-handle="bottom-left"],
+[data-resize-handle="bottom-right"] {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+[data-resize-handle="top-left"] {
+  top: -6px;
+  left: -6px;
+  cursor: nwse-resize;
+}
+
+[data-resize-handle="top-right"] {
+  top: -6px;
+  right: -6px;
+  cursor: nesw-resize;
+}
+
+[data-resize-handle="bottom-left"] {
+  bottom: -6px;
+  left: -6px;
+  cursor: nesw-resize;
+}
+
+[data-resize-handle="bottom-right"] {
+  bottom: -6px;
+  right: -6px;
+  cursor: nwse-resize;
+}
+
+[data-resize-handle="top"],
+[data-resize-handle="bottom"] {
+  height: 8px;
+  left: 12px;
+  right: 12px;
+  border-radius: 4px;
+}
+
+[data-resize-handle="top"] {
+  top: -4px;
+  cursor: ns-resize;
+}
+
+[data-resize-handle="bottom"] {
+  bottom: -4px;
+  cursor: ns-resize;
+}
+
+[data-resize-handle="left"],
+[data-resize-handle="right"] {
+  width: 8px;
+  top: 12px;
+  bottom: 12px;
+  border-radius: 4px;
+}
+
+[data-resize-handle="left"] {
+  left: -4px;
+  cursor: ew-resize;
+}
+
+[data-resize-handle="right"] {
+  right: -4px;
+  cursor: ew-resize;
+}
+
+[data-resize-state="resizing"] [data-resize-wrapper] {
+  outline: 2px dashed #3b82f6;
+  border-radius: 4px;
+}
+
+/* ===== СТИЛИ ДЛЯ ИЗОБРАЖЕНИЙ ===== */
+
+.ProseMirror img.tiptap-image[width] {
+  width: var(--img-width, attr(width)) !important;
+}
+
+.ProseMirror img.tiptap-image[height] {
+  height: var(--img-height, attr(height)) !important;
+}
+
+.ProseMirror img.tiptap-image {
+  width: auto;
+}
+
+/* ===== ВЫРАВНИВАНИЕ ===== */
+
+/* Выравнивание влево */
+.ProseMirror img.tiptap-image[style*="float: left"],
+.ProseMirror img.tiptap-image[style*="float:left"] {
+  float: left;
+  margin: 0 15px 15px 0;
+}
+
+/* Выравнивание вправо */
+.ProseMirror img.tiptap-image[style*="float: right"],
+.ProseMirror img.tiptap-image[style*="float:right"] {
+  float: right;
+  margin: 0 0 15px 15px;
+}
+
+/* По центру */
+.ProseMirror img.tiptap-image[style*="display: block"][style*="margin"][style*="auto"] {
+  display: block;
+  margin: 15px auto;
+  float: none;
+}
+
+/* ===== ОЧИСТКА ОБТЕКАНИЯ ===== */
+.ProseMirror p {
+  clear: both;
+}

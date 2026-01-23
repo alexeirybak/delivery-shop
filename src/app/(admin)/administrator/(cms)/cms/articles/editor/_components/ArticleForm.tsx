@@ -87,7 +87,7 @@ export const ArticleForm = ({
       />
       <form onSubmit={onSubmit}>
         {categories.length > 0 && (
-          <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
+          <div className="m-6 bg-gray-50 p-4 rounded border border-gray-200">
             <h3 className="text-lg font-medium mb-4">Категория статьи *</h3>
             <CategorySelect
               value={formData.categoryId || ""}
@@ -100,7 +100,7 @@ export const ArticleForm = ({
           onInputChange={handleInputChange}
           onGenerateSlug={handleGenerateSlug}
         />
-        <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
+        <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
           <TiptapEditor
             key={formData._id || "new-article"}

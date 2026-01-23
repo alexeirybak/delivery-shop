@@ -1,6 +1,7 @@
-@import './table.css';
+@import "./table.css";
+@import "./images.css";
 
-/*Общие стили*/ 
+/*Общие стили*/
 .ProseMirror {
   min-height: 400px;
   padding: 1rem;
