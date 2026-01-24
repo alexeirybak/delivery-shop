@@ -16,7 +16,7 @@ export const CustomPromptInput = ({
         value={prompt}
         onChange={(e) => onChange(e.target.value)}
         placeholder="Например: 'Напиши статью о пользе свежих овощей', 'Создай рецепт быстрого ужина', 'Опиши преимущества разных сортов сыра', 'Составь гид по выбору качественных продуктов'"
-        className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none"
+        className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
         rows={4}
         disabled={disabled}
       />

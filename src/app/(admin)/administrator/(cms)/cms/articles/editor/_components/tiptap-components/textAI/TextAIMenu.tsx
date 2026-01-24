@@ -7,6 +7,7 @@ import {
   isErrorWithStatusCode,
 } from "../../../../utils/errorUtils";
 import { Editor } from "@tiptap/react";
+import { formatAIResponse } from "../../../../utils/formatAIResponse";
 
 export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -70,13 +71,24 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
         throw new Error("Пустой ответ от YandexGPT");
       }
 
+      const formattedText = formatAIResponse(data.text);
+
       if (!editor.state.selection.empty) {
-        editor.chain().focus().deleteSelection().insertContent(data.text).run();
+        editor
+          .chain()
+          .focus()
+          .deleteSelection()
+          .insertContent(formattedText, {
+            parseOptions: { preserveWhitespace: "full" },
+          })
+          .run();
       } else {
         editor
           .chain()
           .focus()
-          .insertContent("\n\n" + data.text + "\n\n")
+          .insertContent("\n\n" + formattedText + "\n\n", {
+            parseOptions: { preserveWhitespace: "full" },
+          })
           .run();
       }
 
@@ -168,7 +180,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
       <button
         type="button"
         onClick={() => setShowAITextModal(true)}
-        className="px-3 py-1.5 rounded-md bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm shadow-purple-500/20 hover:shadow-md hover:shadow-purple-500/30 cursor-pointer duration-200 flex items-center gap-2 min-w-[85px] h-8 text-xs"
+        className="px-3 py-1.5 rounded-md bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm shadow-purple-500/20 hover:shadow-md hover:shadow-purple-500/30 cursor-pointer duration-300 flex items-center gap-2 h-8 text-xs"
         title="Открыть AI помощник (YandexGPT)"
       >
         <Brain className="w-3.5 h-3.5" />

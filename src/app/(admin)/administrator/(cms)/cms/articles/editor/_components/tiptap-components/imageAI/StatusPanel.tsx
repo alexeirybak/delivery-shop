@@ -27,7 +27,7 @@ export const StatusPanel = ({ status, elapsedSeconds, operationId }: StatusPanel
       <div className="space-y-3">
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-linear-to-r from-yellow-500 to-orange-500 transition-all duration-300"
+            className="h-full bg-linear-to-r from-yellow-500 to-orange-500 duration-300 cursor-pointer"
             style={{
               width: `${Math.min(elapsedSeconds * 3, 100)}%`,
             }}

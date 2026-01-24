@@ -170,7 +170,7 @@ const Profile = () => {
           isMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"
-        } transition-all duration-300 min-w-[200px] ${
+        } duration-300 cursor-pointer min-w-50 ${
           isMobile ? "bottom-full top-auto mb-6" : "top-full mt-6"
         }`}
       >

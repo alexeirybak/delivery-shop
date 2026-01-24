@@ -134,7 +134,7 @@ export const MainToolbar = ({
             onDrop={(e) => handleDrop(e, group.id)}
             onDragEnd={resetDragState}
             className={`
-              flex items-center gap-1 px-2 py-1.5 rounded-lg border transition-all duration-150
+              flex items-center gap-1 px-2 py-1.5 rounded-lg border duration-300 cursor-pointer
               min-h-9 box-content
               ${
                 draggingGroupId === group.id

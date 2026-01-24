@@ -35,10 +35,8 @@ export const ImageAIModal = ({
   if (!isOpen) return null;
 
   return (
-    <div
-      className="fixed inset-0 bg-green-950 flex items-center justify-center z-10000 p-4"
-    >
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col">
+    <div className="fixed inset-0 bg-linear-to-br from-cyan-700 to-blue-700 flex items-center justify-center z-100 p-4 backdrop-blur-sm">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[90vh] overflow-hidden flex flex-col cursor-default select-text">
         {/* Заголовок */}
         <div className="flex justify-between items-center p-6 border-b bg-linear-to-r from-red-50 to-yellow-50">
           <div className="flex-1">
@@ -109,7 +107,7 @@ export const ImageAIModal = ({
               value={prompt}
               onChange={onPromptChange}
               placeholder="Детально опишите изображение..."
-              className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none"
+              className="w-full px-4 py-3 text-base border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent resize-none"
               rows={3}
               disabled={
                 generation.status === "generating" ||
