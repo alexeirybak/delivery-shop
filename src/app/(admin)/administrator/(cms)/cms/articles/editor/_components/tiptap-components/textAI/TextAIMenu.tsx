@@ -130,7 +130,6 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
       
       if (isErrorWithStatusCode(error)) {
         setErrorDetails(getErrorMessage(error.statusCode));
-        // Показываем alert только для серьезных ошибок
         if (error.statusCode && error.statusCode >= 500) {
           alert(getFullErrorMessage(error));
         }
