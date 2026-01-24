@@ -9,6 +9,7 @@ import { LinkMenu } from "../editor/_components/tiptap-components/LinkMenu";
 import { ListMenu } from "../editor/_components/tiptap-components/ListMenu";
 import { QuoteButton } from "../editor/_components/tiptap-components/QuoteButton";
 import { TableMenu } from "../editor/_components/tiptap-components/TableMenu";
+import { TextAIMenu } from "../editor/_components/tiptap-components/textAI/TextAIMenu";
 import { TextColorMenu } from "../editor/_components/tiptap-components/TextColorMenu";
 import { TextFormattingMenu } from "../editor/_components/tiptap-components/TextFormattingMenu";
 import { TextLevelMenu } from "../editor/_components/tiptap-components/TextLevelMenu";
@@ -69,6 +70,11 @@ export const CONFIG_GROUPS = [
     name: "Атрибуты изображения",
     items: ["imageAttributes"],
   },
+  {
+    id: "textAI",
+    name: "Генерация текста",
+    items: ["textAI"],
+  },
 ];
 
 export const CONFIG_TOOLBAR_COMPONENTS = {
@@ -86,4 +92,5 @@ export const CONFIG_TOOLBAR_COMPONENTS = {
   table: { component: TableMenu },
   image: { component: ImageMenu },
   imageAttributes: { component: ImageAttributes },
+  textAI: { component: TextAIMenu },
 } as const;

@@ -138,16 +138,21 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
       {isOpen && (
         <div
           ref={dropdownRef}
-          className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-3 min-w-60"
+          className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 max-w-[calc(100vw-20px)]"
+          style={{
+            left: "50%",
+            transform: "translateX(-50%)",
+            maxHeight: "calc(100vh - 100px)",
+            overflowY: "auto",
+          }}
         >
           {/* Заголовок */}
-          <div className="mb-3">
-            <div className="text-xs font-medium text-gray-700 mb-2">
+          <div className="mb-2">
+            <div className="text-xs font-medium text-gray-700 mb-1">
               Цвет текста
             </div>
 
-            {/* Предопределенные цвета */}
-            <div className="grid grid-cols-8 gap-1 mb-3">
+            <div className="grid grid-cols-6 gap-1 mb-2">
               {TEXT_COLORS.map((color) => (
                 <button
                   key={color}
@@ -157,15 +162,15 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
                     setIsOpen(false);
                   }}
                   className={`
-                    w-6 h-6 rounded border border-gray-300 hover:scale-110 transition-transform relative duration-300 cursor-pointer
-                    ${color === "#000000" ? "border-2" : "border"}
-                  `}
+              w-5 h-5 rounded border hover:scale-110 transition-transform relative duration-300 cursor-pointer
+              ${color === "#000000" ? "border-2" : "border border-gray-300"}
+            `}
                   style={{ backgroundColor: color }}
                   title={color}
                 >
                   {currentColor === color && (
                     <Check
-                      className={`w-3 h-3 mx-auto stroke-2 absolute inset-0 m-auto ${
+                      className={`w-2.5 h-2.5 mx-auto stroke-2 absolute inset-0 m-auto ${
                         color === "#000000" ||
                         color === "#000080" ||
                         color === "#800000"
@@ -178,57 +183,53 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
               ))}
             </div>
 
-            {/* Пользовательский цвет */}
-            <div className="mb-3">
-              <div className="text-xs text-gray-600 mb-1">
-                Пользовательский цвет:
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  type="color"
-                  value={customColor}
-                  onChange={handleCustomColorChange}
-                  className="w-8 h-8 cursor-pointer rounded border border-gray-300"
-                  title="Выберите цвет"
-                />
-                <input
-                  type="text"
-                  value={customColor}
-                  onChange={(e) => setCustomColor(e.target.value)}
-                  className="flex-1 px-2 py-1 text-sm border border-gray-300 rounded"
-                  placeholder="#000000"
-                />
+            <div className="mb-2">
+              <div className="text-xs text-gray-600 mb-1">Свой цвет:</div>
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center gap-1">
+                  <input
+                    type="color"
+                    value={customColor}
+                    onChange={handleCustomColorChange}
+                    className="w-6 h-6 cursor-pointer rounded border border-gray-300"
+                    title="Выберите цвет"
+                  />
+                  <input
+                    type="text"
+                    value={customColor}
+                    onChange={(e) => setCustomColor(e.target.value)}
+                    className="flex-1 px-1.5 py-0.5 text-xs border border-gray-300 rounded"
+                    placeholder="#000000"
+                  />
+                </div>
                 <button
                   type="button"
                   onClick={applyCustomColor}
-                  className="px-2 py-1 text-sm bg-[#9674F9] text-white rounded hover:bg-[#8563e8] duration-300 cursor-pointer"
+                  className="w-full px-2 py-1 text-xs bg-[#9674F9] text-white rounded hover:bg-[#8563e8] duration-300 cursor-pointer"
                 >
-                  Применить
+                  Применить цвет
                 </button>
               </div>
             </div>
 
-            {/* Текущий цвет */}
-            <div className="flex items-center justify-between p-2 bg-gray-50 rounded mb-3">
-              <div className="text-sm text-gray-600">Текущий:</div>
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between p-1 bg-gray-50 rounded text-xs mb-2">
+              <div className="text-gray-600">Текущий:</div>
+              <div className="flex items-center gap-1">
                 <div
-                  className="w-5 h-5 rounded border border-gray-300"
+                  className="w-4 h-4 rounded border border-gray-300"
                   style={{ backgroundColor: currentColor }}
                 />
-                <span className="text-sm font-mono">
+                <span className="font-mono truncate max-w-[100px]">
                   {currentColor === "#000000" ? "По умолчанию" : currentColor}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Кнопка сброса */}
           <button
             type="button"
             onClick={resetColor}
-            className="
-              w-full px-3 py-1.5 text-sm rounded duration-300 cursor-pointer  bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300"
+            className="w-full px-2 py-1 text-xs rounded duration-300 cursor-pointer bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300"
           >
             Сбросить цвет
           </button>

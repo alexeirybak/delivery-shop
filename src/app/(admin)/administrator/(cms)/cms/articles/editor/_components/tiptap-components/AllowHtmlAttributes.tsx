@@ -19,7 +19,6 @@ export const AllowHtmlAttributes = Extension.create({
       },
     };
 
-    // Специфичные атрибуты для таблиц
     const tableAttributes = {
       ...commonAttributes,
       border: {
@@ -42,7 +41,6 @@ export const AllowHtmlAttributes = Extension.create({
       },
     };
 
-    // Специфичные атрибуты для ячеек таблицы
     const tableCellAttributes = {
       ...commonAttributes,
       colspan: {
@@ -59,7 +57,6 @@ export const AllowHtmlAttributes = Extension.create({
       },
     };
 
-    // Специфичные атрибуты для изображений
     const imageAttributes = {
       ...commonAttributes,
       width: {

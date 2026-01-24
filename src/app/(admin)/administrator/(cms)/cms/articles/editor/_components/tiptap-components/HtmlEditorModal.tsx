@@ -1,10 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { X, Copy, Check, Save } from "lucide-react";
-import { highlight, languages } from "prismjs";
-import "prismjs/components/prism-markup";
-import "prismjs/themes/prism-tomorrow.css";
+import Editor from "@monaco-editor/react";
+import type * as monaco from "monaco-editor";
 import { HtmlEditorModalProps } from "../../../types";
-import "./../css/html-preview.css";
 
 export const HtmlEditorModal = ({
   editor,
@@ -13,13 +11,14 @@ export const HtmlEditorModal = ({
 }: HtmlEditorModalProps) => {
   const [htmlContent, setHtmlContent] = useState("");
   const [copied, setCopied] = useState(false);
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const preRef = useRef<HTMLPreElement>(null);
+  const editorRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
+  // Обработчик сохранения
   const handleUpdate = useCallback(() => {
     if (!editor || !htmlContent.trim()) return;
+
     editor
       .chain()
       .focus()
@@ -33,28 +32,21 @@ export const HtmlEditorModal = ({
     onCloseAction();
   }, [editor, htmlContent, onCloseAction]);
 
-  const handleEscape = useCallback(
-    (e: KeyboardEvent) => {
+  // Глобальные обработчики клавиш
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         onCloseAction();
       }
-    },
-    [onCloseAction],
-  );
+    };
 
-  // Обработчик Ctrl+Enter
-  const handleSave = useCallback(
-    (e: KeyboardEvent) => {
+    const handleSave = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
         e.preventDefault();
         handleUpdate();
       }
-    },
-    [handleUpdate],
-  );
+    };
 
-  // Глобальные обработчики клавиш
-  useEffect(() => {
     if (isOpen) {
       window.addEventListener("keydown", handleEscape);
       window.addEventListener("keydown", handleSave);
@@ -64,37 +56,17 @@ export const HtmlEditorModal = ({
         window.removeEventListener("keydown", handleSave);
       };
     }
-  }, [isOpen, handleEscape, handleSave]);
+  }, [isOpen, onCloseAction, handleUpdate]);
 
-  // Фокус на textarea при открытии
+  // Инициализация содержимого
   useEffect(() => {
     if (isOpen && editor) {
       const html = editor.getHTML();
       setHtmlContent(html);
-
-      setTimeout(() => {
-        textareaRef.current?.focus();
-        textareaRef.current?.select();
-      }, 100);
     }
   }, [isOpen, editor]);
 
-  // Синхронизация прокрутки
-  useEffect(() => {
-    const textarea = textareaRef.current;
-    const pre = preRef.current;
-
-    if (!textarea || !pre) return;
-
-    const handleScroll = () => {
-      pre.scrollTop = textarea.scrollTop;
-      pre.scrollLeft = textarea.scrollLeft;
-    };
-
-    textarea.addEventListener("scroll", handleScroll);
-    return () => textarea.removeEventListener("scroll", handleScroll);
-  }, []);
-
+  // Копирование
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(htmlContent);
@@ -105,40 +77,61 @@ export const HtmlEditorModal = ({
     }
   };
 
-  // Локальный обработчик клавиш для textarea
-  const handleTextareaKeyDown = (
-    e: React.KeyboardEvent<HTMLTextAreaElement>,
+  // Обработчик изменения
+  const handleEditorChange = (value: string | undefined) => {
+    setHtmlContent(value || "");
+  };
+
+  // Обработчик монтирования
+  const handleEditorDidMount = (
+    editorInstance: monaco.editor.IStandaloneCodeEditor,
   ) => {
-    if (e.key === "Escape") {
-      onCloseAction();
-    }
-    if ((e.ctrlKey || e.metaKey) && e.key === "Enter") {
-      e.preventDefault();
-      handleUpdate();
-    }
+    editorRef.current = editorInstance;
+    
+    // Фокус и выделение
+    setTimeout(() => {
+      editorInstance.focus();
+      const model = editorInstance.getModel();
+      if (model) {
+        const lastLine = model.getLineCount();
+        const lastColumn = model.getLineLength(lastLine) + 1;
+        editorInstance.setSelection({
+          startLineNumber: 1,
+          startColumn: 1,
+          endLineNumber: lastLine,
+          endColumn: lastColumn,
+        });
+      }
+    }, 100);
   };
 
-  const handleTextareaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setHtmlContent(e.target.value);
-  };
-
-  const getHighlightedHtml = () => {
-    if (!htmlContent) return "";
-
-    try {
-      return highlight(htmlContent, languages.markup, "html");
-    } catch (error) {
-      console.error("Ошибка подсветки:", error);
-      return htmlContent
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
-    }
+  // Обработчик beforeMount для установки темы
+  const handleBeforeMount = (monacoInstance: typeof monaco) => {
+    // Определяем темную тему
+    monacoInstance.editor.defineTheme("dark-theme", {
+      base: "vs-dark",
+      inherit: true,
+      rules: [
+        { token: "tag", foreground: "569cd6" },
+        { token: "attribute.name", foreground: "9cdcfe" },
+        { token: "attribute.value", foreground: "ce9178" },
+      ],
+      colors: {
+        "editor.background": "#111827",
+        "editor.foreground": "#e5e7eb",
+        "editor.lineHighlightBackground": "#1f2937",
+        "editorLineNumber.foreground": "#6b7280",
+        "editorLineNumber.activeForeground": "#9ca3af",
+        "editorCursor.foreground": "#ffffff",
+        "editor.selectionBackground": "#374151",
+        "editor.selectionHighlightBackground": "#1e3a8a",
+        "editorIndentGuide.background": "#374151",
+        "editorIndentGuide.activeBackground": "#4b5563",
+      },
+    });
   };
 
   if (!isOpen) return null;
-
-  const highlightedHtml = getHighlightedHtml();
 
   return (
     <div
@@ -154,7 +147,7 @@ export const HtmlEditorModal = ({
           <div>
             <h3 className="text-lg font-semibold text-white">HTML редактор</h3>
             <p className="text-sm text-gray-400 mt-1">
-              Редактирование с поддержкой инлайн-стилей
+              Редактирование с поддержкой инлайн-стилей и подсветкой синтаксиса
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -192,69 +185,68 @@ export const HtmlEditorModal = ({
         </div>
 
         {/* Основной контент */}
-        <div className="flex-1 overflow-hidden grid grid-cols-2">
-          {/* Левая часть - редактирование с подсветкой */}
-          <div className="border-r border-gray-800 flex flex-col relative">
-            <div className="px-4 py-3 bg-gray-800 border-b border-gray-700">
-              <span className="text-sm font-medium text-gray-300">
-                Редактор HTML
-              </span>
-              <span className="text-xs text-gray-400 ml-2">
-                (Ctrl+Enter сохранить, Esc отмена)
-              </span>
+        <div className="overflow-hidden flex flex-col h-[calc(90vh-120px)]">
+          <div className="grid grid-cols-2 flex-1 min-h-0">
+            {/* Левая часть - редактор */}
+            <div className="border-r border-gray-800 flex flex-col min-h-0">
+              <div className="px-4 py-3 bg-gray-800 border-b border-gray-700 shrink-0">
+                <span className="text-sm font-medium text-gray-300">
+                  Редактор HTML
+                </span>
+              </div>
+              <div className="flex-1 overflow-hidden">
+                <Editor
+                  height="100%"
+                  language="html"
+                  value={htmlContent}
+                  theme="dark-theme"
+                  onChange={handleEditorChange}
+                  onMount={handleEditorDidMount}
+                  loading={
+                    <div className="text-white font-mono text-sm p-4 bg-gray-900 h-full flex items-center justify-center">
+                      Загрузка редактора...
+                    </div>
+                  }
+                  beforeMount={handleBeforeMount}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    fontFamily:
+                      "'Consolas', 'Monaco', 'Courier New', monospace",
+                    lineNumbers: "on",
+                    scrollBeyondLastLine: false,
+                    wordWrap: "on",
+                    automaticLayout: true,
+                    tabSize: 2,
+                    insertSpaces: true,
+                    autoClosingBrackets: "always",
+                    autoClosingQuotes: "always",
+                    formatOnPaste: true,
+                    formatOnType: true,
+                  }}
+                />
+              </div>
             </div>
 
-            {/* Контейнер для синхронизированной прокрутки */}
-            <div className="flex-1 overflow-auto relative">
-              {/* Подсветка синтаксиса (фон) */}
-              <pre
-                ref={preRef}
-                className="absolute inset-0 m-0 p-4 font-mono text-sm text-gray-100 leading-relaxed pointer-events-none overflow-hidden"
-                style={{
-                  fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
-                  lineHeight: "1.5",
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                  overflow: "hidden",
-                }}
-                dangerouslySetInnerHTML={{ __html: highlightedHtml }}
-              />
-
-              {/* Textarea для ввода */}
-              <textarea
-                ref={textareaRef}
-                value={htmlContent}
-                onChange={handleTextareaChange}
-                onKeyDown={handleTextareaKeyDown}
-                className="absolute inset-0 w-full h-full bg-gray-900/10 text-white/0 font-mono text-sm p-4 resize-none outline-none caret-white"
-                spellCheck="false"
-                placeholder="Введите HTML код..."
-                style={{
-                  fontFamily: "'Consolas', 'Monaco', 'Courier New', monospace",
-                  lineHeight: "1.5",
-                  whiteSpace: "pre-wrap",
-                  wordBreak: "break-word",
-                }}
-              />
-            </div>
-          </div>
-
-          {/* Правая часть - предпросмотр */}
-          <div className="flex flex-col">
-            <div className="px-4 py-3 bg-gray-800 border-b border-gray-700">
-              <span className="text-sm font-medium text-gray-300">
-                Предпросмотр HTML
-              </span>
-            </div>
-            <div className="flex-1 overflow-auto bg-white p-4" ref={previewRef}>
+            {/* Правая часть - предпросмотр */}
+            <div className="flex flex-col min-h-0">
+              <div className="border-l border-l-gray-700 px-4 py-3 bg-gray-800 border-b border-gray-700 shrink-0">
+                <span className="text-sm font-medium text-gray-300">
+                  Предпросмотр HTML
+                </span>
+              </div>
               <div
-                className="html-preview"
-                dangerouslySetInnerHTML={{
-                  __html:
-                    htmlContent ||
-                    '<div class="html-preview-empty">Введите HTML для предпросмотра...</div>',
-                }}
-              />
+                className="flex-1 overflow-auto bg-white p-4"
+                ref={previewRef}
+              >
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html:
+                      htmlContent ||
+                      '<div class="text-gray-400 italic">Введите HTML для предпросмотра...</div>',
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -292,7 +284,6 @@ export const HtmlEditorModal = ({
                     ? "bg-[#9674F9] text-white hover:bg-[#8563e8]"
                     : "bg-gray-800 text-gray-400 cursor-not-allowed"
                 }`}
-                title="Ctrl+Enter"
               >
                 <Save className="w-4 h-4" />
                 Сохранить (Ctrl+Enter)

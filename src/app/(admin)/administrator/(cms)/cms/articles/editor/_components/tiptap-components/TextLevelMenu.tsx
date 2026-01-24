@@ -42,7 +42,6 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
 
   return (
     <div className="relative inline-block">
-      {/* Кнопка открытия меню */}
       <button
         ref={buttonRef}
         type="button"
@@ -62,7 +61,6 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
         />
       </button>
 
-      {/* Выпадающее меню */}
       {isOpen && (
         <div
           ref={dropdownRef}
@@ -70,14 +68,12 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
           onClick={(e) => e.stopPropagation()}
         >
           <div className="py-1">
-            {/* Заголовок меню */}
             <div className="px-3 py-2 border-b border-gray-100">
               <span className="text-xs font-medium text-gray-500">
                 ТИП ТЕКСТА
               </span>
             </div>
 
-            {/* Обычный текст */}
             <button
               type="button"
               onClick={(e) => {
@@ -100,10 +96,8 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
               {editor.isActive("paragraph") && <Check className="w-3 h-3" />}
             </button>
 
-            {/* Разделитель */}
             <div className="border-t border-gray-100 my-1"></div>
 
-            {/* Заголовки */}
             {[1, 2, 3, 4, 5, 6].map((level) => {
               const isActive = editor.isActive("heading", { 
                 level: level as 1 | 2 | 3 | 4 | 5 | 6 

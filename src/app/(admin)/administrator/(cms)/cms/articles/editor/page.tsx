@@ -23,7 +23,6 @@ const EditorPage = () => {
 
   const { formData, setIsSubmitting, updateFormField } = useArticleStore();
 
-  console.log(formData);
   const { createArticle } = useArticles();
   const {
     generateSlug,

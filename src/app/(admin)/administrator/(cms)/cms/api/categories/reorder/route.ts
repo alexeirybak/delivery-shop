@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../../utils/api-routes";
-import { ReorderRequestItem } from "../../../types";
+import { ReorderRequestItem } from "../../../categories/types";
 
 export async function PUT(request: Request) {
   try {
@@ -15,7 +15,6 @@ export async function PUT(request: Request) {
       );
     }
 
-    // Валидация данных
     for (const item of items) {
       if (!item._id || typeof item.numericId !== "number") {
         return NextResponse.json(
@@ -25,7 +24,6 @@ export async function PUT(request: Request) {
       }
     }
 
-    // Обновляем numericId для всех категорий
     const bulkOperations = items.map((item) => ({
       updateOne: {
         filter: { _id: new ObjectId(item._id) },
