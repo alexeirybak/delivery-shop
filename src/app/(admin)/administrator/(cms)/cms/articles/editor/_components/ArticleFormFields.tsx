@@ -43,7 +43,7 @@ export const ArticleFormFields = ({
             {charCount.slug}/{SEO_LIMITS.slug.max}
           </span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap">
           <input
             type="text"
             value={formData.slug}

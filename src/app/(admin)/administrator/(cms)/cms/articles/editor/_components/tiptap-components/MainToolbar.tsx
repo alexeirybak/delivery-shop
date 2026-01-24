@@ -1,40 +1,9 @@
-import { TextFormattingMenu } from "./TextFormattingMenu";
-import { ListMenu } from "./ListMenu";
-import { CodeEditorButton } from "./CodeEditorButton";
-import { AlignmentMenu } from "./AlignmentMenu";
-import { HistoryMenu } from "./HistoryMenu";
-import { LinkMenu } from "./LinkMenu";
-import { TableMenu } from "./TableMenu";
-import { FontSizeMenu } from "./FontSizeMenu";
-import { ImageMenu } from "./ImageMenu";
 import { useState } from "react";
 import { GripVertical } from "lucide-react";
-import { TextColorMenu } from "./TextColorMenu";
-import { BgColorMenu } from "./BgColorMenu";
-import { QuoteButton } from "./QuoteButton";
-import { ImageAttributes } from "./ImageAttributes";
 import { useToolbarOrder } from "../../../hooks/useToolbarOrders";
-import { TextLevelMenu } from "./TextLevelMenu";
 import { MainToolbarProps } from "../../../types";
+import { CONFIG_TOOLBAR_COMPONENTS } from "../../../utils/CONFIG_TOOLBAR";
 
-const CONFIG_TOOLBAR_COMPONENTS = {
-  history: { component: HistoryMenu },
-  textLevel: { component: TextLevelMenu },
-  fontSize: { component: FontSizeMenu },
-  textFormatting: { component: TextFormattingMenu },
-  quote: { component: QuoteButton },
-  codeEditor: { component: CodeEditorButton },
-  alignment: { component: AlignmentMenu },
-  textColor: { component: TextColorMenu },
-  bgColor: { component: BgColorMenu },
-  list: { component: ListMenu },
-  link: { component: LinkMenu },
-  table: { component: TableMenu },
-  image: { component: ImageMenu },
-  imageAttributes: { component: ImageAttributes },
-} as const;
-
-// Тип для идентификаторов компонентов
 type ToolbarComponentId = keyof typeof CONFIG_TOOLBAR_COMPONENTS;
 
 export const MainToolbar = ({
@@ -119,27 +88,23 @@ export const MainToolbar = ({
     const componentId = itemId as ToolbarComponentId;
     const config = CONFIG_TOOLBAR_COMPONENTS[componentId];
 
-    if (!config) {
-      console.warn(`Компонент с ID "${itemId}" не найден в конфигурации`);
-      return null;
-    }
-
     const Component = config.component;
     const baseProps = { editor };
 
-    // Особый случай для ImageMenu - передаем дополнительный пропс
+    // Особый случай для ImageMenu - передаем onDragOverChange вместо onImageDragOverChange
     if (componentId === "image" && onImageDragOverChange) {
-      // Приводим Component к типу, который принимает onImageDragOverChange
-      const ImageComponent = Component as React.ComponentType<MainToolbarProps>;
+      // Создаем пропсы для ImageMenu
+      const imageProps = {
+        editor,
+        onDragOverChange: onImageDragOverChange // Переименовываем пропс
+      };
+      
       return (
         <div
           key={itemId}
           className="p-0.5 rounded hover:bg-gray-100 transition-colors"
         >
-          <ImageComponent
-            {...baseProps}
-            onImageDragOverChange={onImageDragOverChange}
-          />
+          <Component {...imageProps} />
         </div>
       );
     }
@@ -170,7 +135,7 @@ export const MainToolbar = ({
             onDragEnd={resetDragState}
             className={`
               flex items-center gap-1 px-2 py-1.5 rounded-lg border transition-all duration-150
-              min-h-9 max-h-10 box-content
+              min-h-9 box-content
               ${
                 draggingGroupId === group.id
                   ? "border-blue-400 bg-blue-50 opacity-60 cursor-grabbing scale-95"
@@ -183,7 +148,6 @@ export const MainToolbar = ({
               }
             `}
           >
-            {/* Индикатор перетаскивания в левой части */}
             <div className="text-gray-400 opacity-60 hover:opacity-100 transition-opacity -ml-1 mr-0.5">
               <GripVertical className="w-3.5 h-3.5" />
             </div>
