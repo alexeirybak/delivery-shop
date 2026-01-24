@@ -14,6 +14,7 @@ export interface AIMenuModalProps {
   errorDetails: string;
   customPrompt: string;
   onCustomPromptChange: (prompt: string) => void;
+  selectedText: string;
 }
 
 export interface ConnectionStatusProps {

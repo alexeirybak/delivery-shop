@@ -9,7 +9,6 @@ import { AIMenuModalProps } from "../../../../types";
 export const TextAIMenuModal = ({
   isOpen,
   onClose,
-  editor,
   onTestAPIAction,
   onQuickAction,
   onCustomPromptAction,
@@ -18,17 +17,9 @@ export const TextAIMenuModal = ({
   errorDetails,
   customPrompt,
   onCustomPromptChange,
+  selectedText,
 }: AIMenuModalProps) => {
   if (!isOpen) return null;
-
-  const selectedText =
-    editor && !editor.state.selection.empty
-      ? editor.state.doc.textBetween(
-          editor.state.selection.from,
-          editor.state.selection.to,
-          " ",
-        )
-      : "";
 
   return (
     <div className="fixed inset-0 bg-linear-to-br from-purple-700 to-pink-700 flex items-center justify-center z-100 p-4 backdrop-blur-sm">

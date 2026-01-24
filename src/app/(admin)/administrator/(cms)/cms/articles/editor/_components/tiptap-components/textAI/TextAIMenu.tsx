@@ -18,6 +18,15 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
   >("idle");
   const [errorDetails, setErrorDetails] = useState<string>("");
 
+  const getSelectedText = (): string => {
+    if (!editor || editor.state.selection.empty) return "";
+    return editor.state.doc.textBetween(
+      editor.state.selection.from,
+      editor.state.selection.to,
+      " ",
+    );
+  };
+
   const generateWithYandexGPT = async (
     action: string,
     customPromptText?: string,
@@ -29,15 +38,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
     setErrorDetails("");
 
     try {
-      let selectedText = "";
-
-      if (!editor.state.selection.empty) {
-        selectedText = editor.state.doc.textBetween(
-          editor.state.selection.from,
-          editor.state.selection.to,
-          " ",
-        );
-      }
+      const selectedText = getSelectedText();
 
       if (!selectedText.trim() && !customPromptText) {
         alert("Выделите текст для работы с AI или введите запрос");
@@ -172,6 +173,8 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
       alert("Введите запрос для AI");
     }
   };
+  const selectedText = getSelectedText();
+
 
   if (!editor) return null;
 
@@ -199,6 +202,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
         errorDetails={errorDetails}
         customPrompt={customPrompt}
         onCustomPromptChange={setCustomPrompt}
+        selectedText={selectedText}
       />
     </div>
   );
