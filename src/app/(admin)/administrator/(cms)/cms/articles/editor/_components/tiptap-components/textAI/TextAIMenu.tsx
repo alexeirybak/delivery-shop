@@ -62,28 +62,27 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
 
       let response: Response;
       try {
-        response = await fetch(
-          "/administrator/cms/api/articles/yandex-gpt",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ prompt, action }),
-          },
-        );
+        response = await fetch("/administrator/cms/api/articles/yandex-gpt", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ prompt, action }),
+        });
       } catch (fetchError) {
-        const errorMessage = fetchError instanceof Error 
-          ? fetchError.message 
-          : "Неизвестная сетевая ошибка";
+        const errorMessage =
+          fetchError instanceof Error
+            ? fetchError.message
+            : "Неизвестная сетевая ошибка";
         throw new Error(`Сетевая ошибка: ${errorMessage}`);
       }
 
       let data: YandexGPTResponse;
       try {
-        data = await response.json() as YandexGPTResponse;
+        data = (await response.json()) as YandexGPTResponse;
       } catch (jsonError) {
-        const errorMessage = jsonError instanceof Error 
-          ? jsonError.message 
-          : "Не удалось разобрать ответ";
+        const errorMessage =
+          jsonError instanceof Error
+            ? jsonError.message
+            : "Не удалось разобрать ответ";
         throw new Error(`Неверный ответ от сервера: ${errorMessage}`);
       }
 
@@ -127,7 +126,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
       setAiStatus("error");
 
       console.error("YandexGPT error:", error);
-      
+
       if (isErrorWithStatusCode(error)) {
         setErrorDetails(getErrorMessage(error.statusCode));
         if (error.statusCode && error.statusCode >= 500) {
@@ -144,7 +143,52 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
   };
 
   const testYandexAPI = async () => {
-    await generateWithYandexGPT("custom", "Привет! Это тестовый запрос. Ответь коротко, работает ли API.");
+    try {
+      setIsGenerating(true);
+      setAiStatus("loading");
+
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-gpt",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            prompt:
+              "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
+            action: "custom",
+          }),
+        },
+      );
+
+      const data = (await response.json()) as YandexGPTResponse;
+
+      if (response.ok && data.text) {
+        setAiStatus("success");
+        alert(
+          `YandexGPT API работает!\n\nОтвет: ${data.text}\n\nМодель: ${
+            data.model || "yandexgpt"
+          }`,
+        );
+      } else {
+        throw createApiError(
+          data.error || data.details || "Неизвестная ошибка",
+          response.status,
+        );
+      }
+    } catch (error: unknown) {
+      setAiStatus("error");
+
+      if (isErrorWithStatusCode(error)) {
+        alert(getFullErrorMessage(error));
+      } else if (error instanceof Error) {
+        alert(`Ошибка подключения: ${error.message}`);
+      } else {
+        alert("Неизвестная ошибка подключения");
+      }
+    } finally {
+      setIsGenerating(false);
+      setTimeout(() => setAiStatus("idle"), 2000);
+    }
   };
 
   const handleQuickAction = (actionId: string) => {

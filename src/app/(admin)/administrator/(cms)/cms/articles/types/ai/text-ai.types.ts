@@ -1,5 +1,3 @@
-import { Editor } from "@tiptap/react";
-
 export type AIStatus = "idle" | "loading" | "success" | "error";
 
 export interface AIMenuModalProps {
