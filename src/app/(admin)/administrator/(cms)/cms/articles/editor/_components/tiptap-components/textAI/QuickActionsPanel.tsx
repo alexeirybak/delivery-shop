@@ -2,7 +2,6 @@ import { Sparkles } from "lucide-react";
 import { QuickActionsPanelProps } from "../../../../types";
 import { quickActions } from "../../../../utils/quickActions";
 
-
 export const QuickActionsPanel = ({
   onActionClick,
   isGenerating,
@@ -16,6 +15,7 @@ export const QuickActionsPanel = ({
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {quickActions.map((action) => (
           <button
+            type="button"
             key={action.id}
             onClick={() => onActionClick(action.id)}
             disabled={isGenerating}

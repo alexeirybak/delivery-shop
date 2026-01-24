@@ -4,10 +4,19 @@ import { TextAIMenuModal } from "./TextAIMenuModal";
 import {
   createApiError,
   getFullErrorMessage,
+  getErrorMessage,
   isErrorWithStatusCode,
 } from "../../../../utils/errorUtils";
 import { Editor } from "@tiptap/react";
 import { formatAIResponse } from "../../../../utils/formatAIResponse";
+
+// Интерфейс для ответа от API
+interface YandexGPTResponse {
+  text?: string;
+  model?: string;
+  error?: string;
+  details?: string;
+}
 
 export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
   const [isGenerating, setIsGenerating] = useState(false);
@@ -40,26 +49,43 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
     try {
       const selectedText = getSelectedText();
 
-      if (!selectedText.trim() && !customPromptText) {
-        alert("Выделите текст для работы с AI или введите запрос");
-        setIsGenerating(false);
-        setAiStatus("idle");
+      let prompt = "";
+      if (customPromptText?.trim()) {
+        prompt = customPromptText.trim();
+      } else if (selectedText.trim()) {
+        prompt = selectedText;
+      } else {
+        setAiStatus("error");
+        setErrorDetails("Выделите текст или введите запрос");
         return;
       }
 
-      const prompt = customPromptText || selectedText;
-      const finalAction = customPromptText ? "custom" : action;
+      let response: Response;
+      try {
+        response = await fetch(
+          "/administrator/cms/api/articles/yandex-gpt",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ prompt, action }),
+          },
+        );
+      } catch (fetchError) {
+        const errorMessage = fetchError instanceof Error 
+          ? fetchError.message 
+          : "Неизвестная сетевая ошибка";
+        throw new Error(`Сетевая ошибка: ${errorMessage}`);
+      }
 
-      const response = await fetch(
-        "/administrator/cms/api/articles/yandex-gpt",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt, action: finalAction }),
-        },
-      );
-
-      const data = await response.json();
+      let data: YandexGPTResponse;
+      try {
+        data = await response.json() as YandexGPTResponse;
+      } catch (jsonError) {
+        const errorMessage = jsonError instanceof Error 
+          ? jsonError.message 
+          : "Не удалось разобрать ответ";
+        throw new Error(`Неверный ответ от сервера: ${errorMessage}`);
+      }
 
       if (!response.ok) {
         throw createApiError(
@@ -100,15 +126,18 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
     } catch (error: unknown) {
       setAiStatus("error");
 
+      console.error("YandexGPT error:", error);
+      
       if (isErrorWithStatusCode(error)) {
-        setErrorDetails(error.message);
-        alert(getFullErrorMessage(error));
+        setErrorDetails(getErrorMessage(error.statusCode));
+        // Показываем alert только для серьезных ошибок
+        if (error.statusCode && error.statusCode >= 500) {
+          alert(getFullErrorMessage(error));
+        }
       } else if (error instanceof Error) {
         setErrorDetails(error.message);
-        alert(`Ошибка: ${error.message}`);
       } else {
         setErrorDetails("Неизвестная ошибка");
-        alert("Произошла неизвестная ошибка");
       }
     } finally {
       setIsGenerating(false);
@@ -116,50 +145,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
   };
 
   const testYandexAPI = async () => {
-    try {
-      setIsGenerating(true);
-      setAiStatus("loading");
-
-      const response = await fetch(
-        "/administrator/cms/api/articles/yandex-gpt",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            prompt:
-              "Привет! Это тестовый запрос. Ответь коротко, работает ли API.",
-            action: "custom",
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      if (response.ok && data.text) {
-        setAiStatus("success");
-        alert(
-          `YandexGPT API работает!\n\nОтвет: ${data.text}\n\nМодель: ${data.model || "yandexgpt"}`,
-        );
-      } else {
-        throw createApiError(
-          data.error || data.details || "Неизвестная ошибка",
-          response.status,
-        );
-      }
-    } catch (error: unknown) {
-      setAiStatus("error");
-
-      if (isErrorWithStatusCode(error)) {
-        alert(getFullErrorMessage(error));
-      } else if (error instanceof Error) {
-        alert(`Ошибка подключения: ${error.message}`);
-      } else {
-        alert("Неизвестная ошибка подключения");
-      }
-    } finally {
-      setIsGenerating(false);
-      setTimeout(() => setAiStatus("idle"), 2000);
-    }
+    await generateWithYandexGPT("custom", "Привет! Это тестовый запрос. Ответь коротко, работает ли API.");
   };
 
   const handleQuickAction = (actionId: string) => {
@@ -170,11 +156,13 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
     if (customPrompt.trim()) {
       generateWithYandexGPT("custom", customPrompt);
     } else {
-      alert("Введите запрос для AI");
+      setAiStatus("error");
+      setErrorDetails("Введите запрос для AI");
+      setTimeout(() => setAiStatus("idle"), 3000);
     }
   };
-  const selectedText = getSelectedText();
 
+  const selectedText = getSelectedText();
 
   if (!editor) return null;
 
@@ -192,8 +180,11 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
 
       <TextAIMenuModal
         isOpen={showAITextModal}
-        onClose={() => setShowAITextModal(false)}
-        editor={editor}
+        onClose={() => {
+          setShowAITextModal(false);
+          setAiStatus("idle");
+          setErrorDetails("");
+        }}
         onTestAPIAction={testYandexAPI}
         onQuickAction={handleQuickAction}
         onCustomPromptAction={handleCustomPrompt}

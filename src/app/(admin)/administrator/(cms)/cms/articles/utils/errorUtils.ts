@@ -1,3 +1,4 @@
+// errorUtils.ts
 export interface APIError {
   message: string;
   statusCode?: number;

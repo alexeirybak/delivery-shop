@@ -5,7 +5,6 @@ export type AIStatus = "idle" | "loading" | "success" | "error";
 export interface AIMenuModalProps {
   isOpen: boolean;
   onClose: () => void;
-  editor: Editor | null;
   onTestAPIAction: () => void;
   onQuickAction: (actionId: string) => void;
   onCustomPromptAction: (prompt: string) => void;
