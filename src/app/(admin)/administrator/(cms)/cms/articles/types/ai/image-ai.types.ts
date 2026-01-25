@@ -169,3 +169,13 @@ export interface OperationStatus {
   createdAt?: string;
   modifiedAt?: string;
 }
+
+export interface ApiResponse {
+  success: boolean;
+  operationId?: string;
+  details?: string;
+  error?: string;
+  model?: string;
+  done?: boolean;
+  imageUrl?: string;
+}

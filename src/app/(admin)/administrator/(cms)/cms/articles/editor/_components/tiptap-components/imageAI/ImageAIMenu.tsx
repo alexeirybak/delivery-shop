@@ -5,6 +5,8 @@ import {
   GenerationStatus,
   StyleType,
   EditorProps,
+  GenerationRequest,
+  ApiResponse,
 } from "../../../../types";
 import { ImageAIMenuModal } from "./ImageAIMenuModal";
 
@@ -16,14 +18,12 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   });
   const [selectedAspect, setSelectedAspect] = useState<AspectRatio>("1:1");
   const [selectedStyle, setSelectedStyle] = useState<StyleType>("default");
-  const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(
-    null,
-  );
   const [elapsedSeconds, setElapsedSeconds] = useState(0);
   const [apiInfo, setApiInfo] = useState<string>("");
 
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Таймер
   useEffect(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
@@ -32,133 +32,122 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
 
     if (generation.status === "generating" || generation.status === "loading") {
       timerRef.current = setInterval(() => {
-        setElapsedSeconds((prev) => {
-          return prev + 1;
-        });
+        setElapsedSeconds((prev) => prev + 1);
       }, 1000);
     } else if (generation.status === "idle") {
       setElapsedSeconds(0);
     }
 
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
   }, [generation.status]);
 
+  // Опрос статуса
   useEffect(() => {
+    if (generation.status !== "loading" || !generation.operationId) return;
+
     let interval: NodeJS.Timeout | null = null;
 
-    if (generation.status === "loading" && generation.operationId) {
-      const pollStatus = async () => {
-        try {
-          const response = await fetch(
-            `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`,
-          );
-          const data = await response.json();
+    const pollStatus = async () => {
+      try {
+        const response = await fetch(
+          `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`,
+        );
+        const data: ApiResponse = await response.json();
 
-          if (data.done) {
-            if (interval) {
-              clearInterval(interval);
-              interval = null;
-            }
-
-            if (data.imageUrl) {
-              setGeneration({
-                status: "success",
-                operationId: generation.operationId,
-                imageUrl: data.imageUrl,
-              });
-            } else if (data.error) {
-              setGeneration({
-                status: "error",
-                operationId: generation.operationId,
-                error: data.error,
-              });
-              console.error("Генерация изображения не удалась:", data.error);
-            }
+        if (data.done) {
+          if (interval) {
+            clearInterval(interval);
+            interval = null;
           }
-        } catch (error) {
-          console.error("Polling error:", error);
+
+          if (data.imageUrl) {
+            setGeneration({
+              status: "success",
+              operationId: generation.operationId,
+              imageUrl: data.imageUrl,
+            });
+          } else if (data.error) {
+            setGeneration({
+              status: "error",
+              operationId: generation.operationId,
+              error: data.error,
+            });
+          }
         }
-      };
+      } catch (error) {
+        console.error("Polling error:", error);
+      }
+    };
 
-      pollStatus();
-
-      interval = setInterval(pollStatus, 3000);
-    }
+    pollStatus();
+    interval = setInterval(pollStatus, 3000);
 
     return () => {
-      if (interval) {
-        clearInterval(interval);
-      }
+      if (interval) clearInterval(interval);
     };
   }, [generation.status, generation.operationId]);
 
+  // Базовые функции
   const closeModal = useCallback(() => {
-    if (pollingInterval) {
-      clearInterval(pollingInterval);
-      setPollingInterval(null);
-    }
-
     setShowAIImageModal(false);
     setPrompt("");
     setGeneration({ status: "idle" });
     setApiInfo("");
-  }, [pollingInterval]);
+    setElapsedSeconds(0);
+  }, []);
 
   const handlePromptChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setPrompt(e.target.value);
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => setPrompt(e.target.value),
+    [],
+  );
+
+  const handleAspectChange = useCallback(
+    (aspect: AspectRatio) => setSelectedAspect(aspect),
+    [],
+  );
+
+  const handleStyleChange = useCallback(
+    (style: StyleType) => setSelectedStyle(style),
+    [],
+  );
+
+  // API функция с типами
+  const callYandexAPI = useCallback(
+    async (requestData: GenerationRequest): Promise<ApiResponse> => {
+      const response = await fetch(
+        "/administrator/cms/api/articles/yandex-image",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(requestData),
+        },
+      );
+      return await response.json();
     },
     [],
   );
 
-  const handleAspectChange = useCallback((aspect: AspectRatio) => {
-    setSelectedAspect(aspect);
-  }, []);
-
-  const handleStyleChange = useCallback((style: StyleType) => {
-    setSelectedStyle(style);
-  }, []);
-
+  // Генерация изображения
   const generateImage = useCallback(async () => {
     if (!prompt.trim()) {
       alert("Введите описание изображения");
       return;
     }
 
-    setGeneration({
-      status: "generating",
-    });
+    setGeneration({ status: "generating" });
     setApiInfo("");
 
     try {
-      const response = await fetch(
-        "/administrator/cms/api/articles/yandex-image",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prompt: prompt,
-            aspect_ratio: selectedAspect,
-            style: selectedStyle,
-          }),
-        },
-      );
+      const data = await callYandexAPI({
+        prompt,
+        aspect_ratio: selectedAspect,
+        style: selectedStyle,
+      });
 
-      const data = await response.json();
-
-      if (!response.ok || !data.success) {
-        throw new Error(
-          data.details ||
-            data.error ||
-            `HTTP ${response.status}: Ошибка генерации`,
-        );
+      if (!data.success) {
+        throw new Error(data.details || data.error || "Ошибка генерации");
       }
 
       if (data.operationId) {
@@ -166,77 +155,66 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
           status: "loading",
           operationId: data.operationId,
         });
-
         setApiInfo(
-          `Запрос принят YandexART. Operation ID: ${data.operationId.substring(0, 20)}...`,
+          `Запрос принят. ID: ${data.operationId.substring(0, 20)}...`,
         );
       } else {
-        throw new Error("Не получен ID операции от YandexART");
+        throw new Error("Не получен ID операции");
       }
     } catch (err) {
-      console.error("YandexART generation error:", err);
       const errorMsg =
         err instanceof Error ? err.message : "Неизвестная ошибка";
-      setGeneration({
-        status: "error",
-        error: errorMsg,
-      });
-
+      setGeneration({ status: "error", error: errorMsg });
       alert(`Ошибка YandexART: ${errorMsg}`);
     }
-  }, [prompt, selectedAspect, selectedStyle]);
+  }, [prompt, selectedAspect, selectedStyle, callYandexAPI]);
 
-  const handleTestAPI = useCallback(async (e: React.MouseEvent) => {
-    e.stopPropagation();
-    try {
-      setApiInfo("Проверка подключения к YandexART API...");
+  // Тест API
+  const handleTestAPI = useCallback(
+    async (e: React.MouseEvent) => {
+      e.stopPropagation();
+      setApiInfo("Проверка подключения...");
 
-      const response = await fetch(
-        "/administrator/cms/api/articles/yandex-image",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            prompt: "Тестовая генерация: красная панда",
-            aspect_ratio: "1:1",
-            style: "default",
-          }),
-        },
-      );
+      try {
+        const data = await callYandexAPI({
+          prompt: "Тестовая генерация: красная панда",
+          aspect_ratio: "1:1",
+          style: "default",
+        });
 
-      const data = await response.json();
-      if (data.success && data.operationId) {
-        setApiInfo(
-          `YandexART API работает! Operation ID: ${data.operationId}\n\nМодель: ${data.model || "yandexgpt"}`,
-        );
-        alert(
-          `YandexART API подключен!\n\nID операции: ${data.operationId}\n\nМодель: ${data.model || "yandexgpt"}`,
-        );
-      } else {
-        setApiInfo(
-          `Ошибка YandexART: ${data.details || data.error || "Неизвестная ошибка"}`,
-        );
-        alert(
-          `Ошибка YandexART API:\n\n${data.details || data.error || "Неизвестная ошибка"}`,
-        );
+        if (data.success && data.operationId) {
+          setApiInfo(
+            `API работает! ID: ${data.operationId}\nМодель: ${data.model || "yandexgpt"}`,
+          );
+          alert(
+            `API подключен!\nID: ${data.operationId}\nМодель: ${data.model || "yandexgpt"}`,
+          );
+        } else {
+          setApiInfo(
+            `Ошибка: ${data.details || data.error || "Неизвестная ошибка"}`,
+          );
+          alert(
+            `Ошибка API: ${data.details || data.error || "Неизвестная ошибка"}`,
+          );
+        }
+      } catch (err) {
+        const errorMsg =
+          err instanceof Error ? err.message : "Неизвестная ошибка";
+        setApiInfo(`Ошибка подключения: ${errorMsg}`);
+        alert(`Ошибка подключения: ${errorMsg}`);
       }
-    } catch (err) {
-      console.error("YandexART API test error:", err);
-      const errorMsg =
-        err instanceof Error ? err.message : "Неизвестная ошибка";
-      setApiInfo(`Ошибка подключения к YandexART: ${errorMsg}`);
-      alert(`Ошибка подключения к YandexART:\n\n${errorMsg}`);
-    }
-  }, []);
+    },
+    [callYandexAPI],
+  );
 
+  // Обработчики событий
   const handleDownload = useCallback(
     (e: React.MouseEvent) => {
       e.stopPropagation();
       e.preventDefault();
 
       if (!generation.imageUrl) return;
+
       const link = document.createElement("a");
       link.href = generation.imageUrl;
       link.download = `yandex-art-${Date.now()}.png`;
@@ -276,23 +254,15 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
     [generateImage],
   );
 
-  const handleCloseClick = () => {
-    closeModal();
-  };
+  const handleCloseClick = useCallback(() => closeModal(), [closeModal]);
 
-  const handleSettingsButtonClick = useCallback(
-    (aspect: AspectRatio) => {
-      handleAspectChange(aspect);
-    },
-    [handleAspectChange],
-  );
+  const handleSettingsButtonClick = useCallback((aspect: AspectRatio) => {
+    setSelectedAspect(aspect);
+  }, []);
 
-  const handleStyleButtonClick = useCallback(
-    (style: StyleType) => {
-      handleStyleChange(style);
-    },
-    [handleStyleChange],
-  );
+  const handleStyleButtonClick = useCallback((style: StyleType) => {
+    setSelectedStyle(style);
+  }, []);
 
   return (
     <div className="relative">
