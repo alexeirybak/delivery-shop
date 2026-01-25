@@ -239,6 +239,13 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    console.log("Checking status for operationId:", operationId);
+    console.log("Response from Yandex:", {
+      done: data.done,
+      hasImage: !!data.response?.image,
+      operationId: data.id || data.operationId,
+    });
+
     if (data.done) {
       if (data.response?.image) {
         // Сохраняем изображение как файл
@@ -255,7 +262,7 @@ export async function GET(request: NextRequest) {
         const cleanName = "yandex_art";
         const fileName = `${cleanName}_${timestamp}_${randomString}.${originalExtension}`;
 
-        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP (как в вашем коде)
+        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP
         let optimizedBuffer: Buffer;
 
         if (originalExtension === "png") {
@@ -263,7 +270,7 @@ export async function GET(request: NextRequest) {
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
-              withoutEnlargement: false, // Увеличиваем маленькие
+              withoutEnlargement: false,
             })
             .png({
               quality: 90,
@@ -284,30 +291,33 @@ export async function GET(request: NextRequest) {
             .toBuffer();
         }
 
+        // Сохраняем в указанную папку
         const publicDir = path.join(
           process.cwd(),
           "public",
-          "generated-images",
+          "uploads",
+          "articles",
+          "yandex-art",
         );
         await fs.mkdir(publicDir, { recursive: true });
 
         const filePath = path.join(publicDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
 
+        console.log("File saved:", fileName);
+
         // Публичный URL для использования на фронтенде
-        const publicUrl = `/generated-images/${fileName}`;
+        const publicUrl = `/uploads/articles/yandex-art/${fileName}`;
 
         return NextResponse.json({
           success: true,
           done: true,
-          status: "success", 
+          status: "success",
           imageUrl: publicUrl,
           fileName: fileName,
           fileSize: optimizedBuffer.length,
           format: originalExtension,
           operationId: operationId,
-          // Можно добавить base64 для скачивания, если нужно
-          base64Image: base64Image,
         });
       } else if (data.error) {
         console.error("Ошибка генерации статуса:", data.error);

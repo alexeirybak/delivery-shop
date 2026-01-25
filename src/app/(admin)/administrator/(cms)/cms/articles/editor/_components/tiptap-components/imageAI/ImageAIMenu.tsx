@@ -44,50 +44,66 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   }, [generation.status]);
 
   // Опрос статуса
-  useEffect(() => {
-    if (generation.status !== "loading" || !generation.operationId) return;
+useEffect(() => {
+  if (generation.status !== "loading" || !generation.operationId) return;
 
-    let interval: NodeJS.Timeout | null = null;
+  let timeoutId: NodeJS.Timeout | null = null;
+  let isMounted = true;
 
-    const pollStatus = async () => {
-      try {
-        const response = await fetch(
-          `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`,
-        );
-        const data: ApiResponse = await response.json();
+  const pollStatus = async () => {
+    if (!isMounted) return;
+    
+    try {
+      console.log("Polling status for:", generation.operationId);
+      const response = await fetch(
+        `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`,
+      );
+      const data: ApiResponse = await response.json();
+      
+      console.log("Polling response:", data.done, data.status);
 
-        if (data.done) {
-          if (interval) {
-            clearInterval(interval);
-            interval = null;
-          }
-
-          if (data.imageUrl) {
-            setGeneration({
-              status: "success",
-              operationId: generation.operationId,
-              imageUrl: data.imageUrl,
-            });
-          } else if (data.error) {
-            setGeneration({
-              status: "error",
-              operationId: generation.operationId,
-              error: data.error,
-            });
-          }
+      if (data.done) {
+        if (data.imageUrl) {
+          setGeneration({
+            status: "success",
+            operationId: generation.operationId,
+            imageUrl: data.imageUrl,
+          });
+        } else if (data.error) {
+          setGeneration({
+            status: "error",
+            operationId: generation.operationId,
+            error: data.error,
+          });
         }
-      } catch (error) {
-        console.error("Polling error:", error);
+      } else {
+        // Если еще не готово, опрашиваем снова через 3 секунды
+        if (isMounted) {
+          timeoutId = setTimeout(pollStatus, 3000);
+        }
       }
-    };
+    } catch (error) {
+      console.error("Polling error:", error);
+      if (isMounted) {
+        setGeneration({
+          status: "error",
+          operationId: generation.operationId,
+          error: "Ошибка при опросе статуса",
+        });
+      }
+    }
+  };
 
-    pollStatus();
-    interval = setInterval(pollStatus, 3000);
+  // Начинаем первый опрос
+  pollStatus();
 
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [generation.status, generation.operationId]);
+  return () => {
+    isMounted = false;
+    if (timeoutId) {
+      clearTimeout(timeoutId);
+    }
+  };
+}, [generation.status, generation.operationId]);
 
   // Базовые функции
   const closeModal = useCallback(() => {
