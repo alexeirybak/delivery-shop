@@ -300,7 +300,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
           success: true,
           done: true,
-          status: "success", // ← ИЗМЕНИТЬ С "completed" НА "success"
+          status: "success", 
           imageUrl: publicUrl,
           fileName: fileName,
           fileSize: optimizedBuffer.length,
