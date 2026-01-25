@@ -30,10 +30,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
       timerRef.current = null;
     }
 
-    if (
-      generation.status === "generating" ||
-      generation.status === "loading"
-    ) {
+    if (generation.status === "generating" || generation.status === "loading") {
       timerRef.current = setInterval(() => {
         setElapsedSeconds((prev) => {
           return prev + 1;
@@ -231,7 +228,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
         err instanceof Error ? err.message : "Неизвестная ошибка";
       setApiInfo(`Ошибка подключения к YandexART: ${errorMsg}`);
       alert(`Ошибка подключения к YandexART:\n\n${errorMsg}`);
-    } 
+    }
   }, []);
 
   const handleDownload = useCallback(
@@ -279,9 +276,9 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
     [generateImage],
   );
 
-  const handleCloseClick = useCallback(() => {
+  const handleCloseClick = () => {
     closeModal();
-  }, [closeModal]);
+  };
 
   const handleSettingsButtonClick = useCallback(
     (aspect: AspectRatio) => {
