@@ -18,12 +18,12 @@ export const MainContent = ({
   onAspectButtonClick,
   onStyleButtonClick,
   generation,
+  isGenerating,
   elapsedSeconds,
   onDownload,
   onInsertToEditor,
 }: MainContentProps) => {
-  const isGenerating =
-    generation.status === "generating" || generation.status === "loading";
+  
 
   return (
     <div className="flex-1 overflow-y-auto px-6 py-4">

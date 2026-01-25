@@ -63,6 +63,7 @@ export interface MainContentProps {
   selectedStyle: StyleType;
   onAspectChange: (aspect: AspectRatio) => void;
   onStyleChange: (style: StyleType) => void;
+  isGenerating: boolean;
   disabled: boolean;
   onAspectButtonClick?: (aspect: AspectRatio, e: React.MouseEvent) => void;
   onStyleButtonClick?: (style: StyleType, e: React.MouseEvent) => void;

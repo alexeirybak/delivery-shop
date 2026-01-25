@@ -43,6 +43,7 @@ export const ImageAIMenuModal = ({
           selectedStyle={selectedStyle}
           onAspectChange={onAspectChange}
           onStyleChange={onStyleChange}
+          isGenerating={isGenerating}
           disabled={isGenerating}
           onAspectButtonClick={onSettingsButtonClick}
           onStyleButtonClick={onStyleButtonClick}
