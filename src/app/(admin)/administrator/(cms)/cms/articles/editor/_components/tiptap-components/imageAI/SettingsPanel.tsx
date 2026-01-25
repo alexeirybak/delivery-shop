@@ -11,9 +11,8 @@ export const SettingsPanel = ({
   onAspectButtonClick,
   onStyleButtonClick,
 }: SettingsPanelProps) => {
+  
   const handleAspectClick = (ratioId: AspectRatio, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     onAspectChange(ratioId);
     if (onAspectButtonClick) {
       onAspectButtonClick(ratioId, e);
@@ -21,8 +20,6 @@ export const SettingsPanel = ({
   };
 
   const handleStyleClick = (styleId: StyleType, e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
     onStyleChange(styleId);
     if (onStyleButtonClick) {
       onStyleButtonClick(styleId, e);
@@ -62,6 +59,7 @@ export const SettingsPanel = ({
         <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
           {promptStyles.map((style) => (
             <button
+              type="button"
               key={style.id}
               onClick={(e) => handleStyleClick(style.id, e)}
               disabled={disabled}

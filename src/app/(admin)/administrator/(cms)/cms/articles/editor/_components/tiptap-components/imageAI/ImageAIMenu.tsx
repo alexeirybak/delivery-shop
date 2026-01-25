@@ -208,22 +208,16 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   );
 
   // Обработчики событий
-  const handleDownload = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
+  const handleDownload = useCallback(() => {
+    if (!generation.imageUrl) return;
 
-      if (!generation.imageUrl) return;
-
-      const link = document.createElement("a");
-      link.href = generation.imageUrl;
-      link.download = `yandex-art-${Date.now()}.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    },
-    [generation.imageUrl],
-  );
+    const link = document.createElement("a");
+    link.href = generation.imageUrl;
+    link.download = `yandex-art-${Date.now()}.png`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, [generation.imageUrl]);
 
   const handleInsertToEditor = useCallback(
     (e: React.MouseEvent) => {
