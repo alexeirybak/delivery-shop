@@ -3,7 +3,7 @@ import { Header } from "./Header";
 import { MainContent } from "./MainContent";
 import { Footer } from "./Footer";
 
-export const ImageAIModal = ({
+export const ImageAIMenuModal = ({
   isOpen,
   prompt,
   generation,

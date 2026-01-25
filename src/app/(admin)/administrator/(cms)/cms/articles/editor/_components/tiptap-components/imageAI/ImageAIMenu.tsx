@@ -6,7 +6,7 @@ import {
   StyleType,
   EditorProps,
 } from "../../../../types";
-import { ImageAIModal } from "./ImageAIModal";
+import { ImageAIMenuModal } from "./ImageAIMenuModal";
 
 export const ImageAIMenu = ({ editor }: EditorProps) => {
   const [showAIImageModal, setShowAIImageModal] = useState(false);
@@ -309,7 +309,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
         <span>ИИ Изо</span>
       </button>
 
-      <ImageAIModal
+      <ImageAIMenuModal
         isOpen={showAIImageModal}
         prompt={prompt}
         generation={generation}
