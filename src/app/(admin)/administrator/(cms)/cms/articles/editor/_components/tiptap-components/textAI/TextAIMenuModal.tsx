@@ -44,7 +44,7 @@ export const TextAIMenuModal = ({
           </button>
         </div>
 
-        <div className="p-6 overflow-y-auto max-h-[60vh]">
+        <div className="p-3 md:p-6 overflow-y-auto max-h-[60vh]">
           <ConnectionStatus
             onTestAPI={onTestAPIAction}
             isGenerating={isGenerating}

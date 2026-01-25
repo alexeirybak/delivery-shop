@@ -12,20 +12,20 @@ export const QuickActionsPanel = ({
         <Sparkles className="w-4 h-4" />
         Быстрые действия:
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
         {quickActions.map((action) => (
           <button
             type="button"
             key={action.id}
             onClick={() => onActionClick(action.id)}
             disabled={isGenerating}
-            className={`flex items-center gap-3 p-4 rounded-xl border duration-200 ${action.color} disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
+            className={`flex items-center gap-1 md:gap-3 p-1 md:p-4 rounded-xl border duration-300 ${action.color} disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
             title={action.desc}
           >
-            <div className="p-2 bg-white rounded-lg">{action.icon}</div>
+            <div className="p-1 md:p-2 bg-white rounded-lg">{action.icon}</div>
             <div className="text-left">
-              <div className="font-semibold text-gray-900">{action.label}</div>
-              <div className="text-xs text-gray-600 mt-1">{action.desc}</div>
+              <div className="text-xs md:text-sm md:font-semibold text-gray-900">{action.label}</div>
+              <div className="hidden md:block text-xs text-gray-600 mt-1">{action.desc}</div>
             </div>
           </button>
         ))}

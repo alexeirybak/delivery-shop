@@ -86,7 +86,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
             type="button"
             onClick={() => setShowPreview(true)}
             disabled={!canPreview || isUploading || isSubmitting}
-            className={`flex items-center justify-center gap-2 px-6 py-3 rounded-lg cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium whitespace-nowrap shadow-lg ${
+            className={`flex items-center justify-center gap-2 px-2 md:px-6 py-3 rounded-lg cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium whitespace-nowrap shadow-lg ${
               canPreview
                 ? "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all"
                 : "bg-gray-200 text-gray-500"
