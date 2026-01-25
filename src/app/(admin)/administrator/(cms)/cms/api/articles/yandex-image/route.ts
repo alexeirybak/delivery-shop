@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       operationId: operationId,
-      status: "processing",
+      status: "loading",
       message: "Генерация изображения начата",
       style: style,
       aspect_ratio: aspect_ratio,
@@ -202,7 +202,10 @@ export async function GET(request: NextRequest) {
     const responseText = await response.text();
 
     if (!response.ok) {
-      console.error("Не получилось установить статус:", responseText.substring(0, 200));
+      console.error(
+        "Не получилось установить статус:",
+        responseText.substring(0, 200),
+      );
       return NextResponse.json(
         {
           error: "Ошибка проверки статуса",
@@ -297,7 +300,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
           success: true,
           done: true,
-          status: "completed",
+          status: "success", // ← ИЗМЕНИТЬ С "completed" НА "success"
           imageUrl: publicUrl,
           fileName: fileName,
           fileSize: optimizedBuffer.length,
@@ -330,7 +333,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       done: false,
-      status: "processing",
+      status: "loading",
       operationId: operationId,
       message: "Генерация все еще выполняется",
     });
