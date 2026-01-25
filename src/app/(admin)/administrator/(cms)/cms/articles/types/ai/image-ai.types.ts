@@ -114,7 +114,7 @@ export interface StatusPanelProps {
 }
 
 export interface ResultPanelProps {
-  imageUrl: string | undefined;
+  imageUrl: string;
   prompt: string;
   selectedStyle: StyleType;
   selectedAspect: AspectRatio;

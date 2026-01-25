@@ -210,7 +210,6 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   // Обработчики событий
   const handleDownload = useCallback(() => {
     if (!generation.imageUrl) return;
-
     const link = document.createElement("a");
     link.href = generation.imageUrl;
     link.download = `yandex-art-${Date.now()}.png`;
@@ -219,34 +218,24 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
     document.body.removeChild(link);
   }, [generation.imageUrl]);
 
-  const handleInsertToEditor = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      e.preventDefault();
+  const handleInsertToEditor = useCallback(() => {
+    if (generation.imageUrl && editor) {
+      editor
+        .chain()
+        .focus()
+        .setImage({
+          src: generation.imageUrl,
+          alt: prompt,
+          title: `Сгенерировано YandexART: ${prompt}`,
+        })
+        .run();
+      closeModal();
+    }
+  }, [generation.imageUrl, editor, prompt, closeModal]);
 
-      if (generation.imageUrl && editor) {
-        editor
-          .chain()
-          .focus()
-          .setImage({
-            src: generation.imageUrl,
-            alt: prompt,
-            title: `Сгенерировано YandexART: ${prompt}`,
-          })
-          .run();
-        closeModal();
-      }
-    },
-    [generation.imageUrl, editor, prompt, closeModal],
-  );
-
-  const handleGenerateImage = useCallback(
-    async (e: React.MouseEvent) => {
-      e.stopPropagation();
-      await generateImage();
-    },
-    [generateImage],
-  );
+  const handleGenerateImage = useCallback(async () => {
+    await generateImage();
+  }, [generateImage]);
 
   const handleCloseClick = useCallback(() => closeModal(), [closeModal]);
 
