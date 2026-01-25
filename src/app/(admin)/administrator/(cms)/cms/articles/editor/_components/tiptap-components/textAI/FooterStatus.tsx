@@ -12,7 +12,7 @@ export const FooterStatus = ({
 }: FooterStatusProps) => {
   return (
     <div className="border-t p-6 bg-gray-50">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col md:flex-row flex-wrap justify-center items-center mb-4 gap-4">
         <div className="text-sm text-gray-500">
           <span className="font-medium">Выделенный текст:</span>
           <span className="ml-2">
@@ -22,11 +22,11 @@ export const FooterStatus = ({
           </span>
         </div>
 
-        <div className="flex gap-3">
+        <div className="flex flex-col md:flex-row flex-wrap gap-3">
           <button
             onClick={onCancel}
             disabled={isGenerating}
-            className="px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium duration-300 cursor-pointer"
+            className="flex-1 px-5 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium duration-300 cursor-pointer"
           >
             Отмена
           </button>
@@ -35,7 +35,7 @@ export const FooterStatus = ({
             type="button"
             onClick={onSubmit}
             disabled={isGenerating || isSubmitDisabled}
-            className="px-5 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-md hover:shadow-lg flex items-center gap-2 duration-300 cursor-pointer"
+            className="flex-1 px-5 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium shadow-md hover:shadow-lg flex items-center gap-2 duration-300 cursor-pointer"
           >
             {isGenerating ? (
               <>
@@ -44,7 +44,7 @@ export const FooterStatus = ({
               </>
             ) : (
               <>
-                <Send className="w-4 h-4" />
+                <Send className="w-4 h-4 shrink-0" />
                 Запросить у YandexGPT
               </>
             )}
