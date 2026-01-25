@@ -30,18 +30,18 @@ export const SettingsPanel = ({
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
       <div>
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Формат изображения:
         </label>
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-4 gap-2 align-middle">
           {aspectRatios.map((ratio) => (
             <button
               key={ratio.id}
               onClick={(e) => handleAspectClick(ratio.id, e)}
               disabled={disabled}
-              className={`p-3 rounded-lg border flex flex-col items-center duration-300 cursor-pointer ${
+              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center duration-300 gap-1 cursor-pointer ${
                 selectedAspect === ratio.id
                   ? "bg-red-50 border-red-300 text-red-700"
                   : "hover:bg-gray-50 border-gray-200 text-gray-700"
@@ -59,13 +59,13 @@ export const SettingsPanel = ({
         <label className="block text-sm font-semibold text-gray-700 mb-2">
           Стиль изображения:
         </label>
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-2">
           {promptStyles.map((style) => (
             <button
               key={style.id}
               onClick={(e) => handleStyleClick(style.id, e)}
               disabled={disabled}
-              className={`p-3 rounded-lg border flex flex-col items-center gap-1 duration-300 cursor-pointer ${
+              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center gap-1 duration-300 cursor-pointer ${
                 selectedStyle === style.id
                   ? "bg-yellow-50 border-yellow-300 text-yellow-700"
                   : "hover:bg-gray-50 border-gray-200 text-gray-700"

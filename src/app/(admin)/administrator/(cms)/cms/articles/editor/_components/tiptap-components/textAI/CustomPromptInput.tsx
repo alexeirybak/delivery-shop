@@ -21,7 +21,7 @@ export const CustomPromptInput = ({
         disabled={disabled}
       />
 
-      <div className="mt-3 p-3 bg-gray-50 rounded-lg">
+      <div className="hidden md:block mt-3 p-3 bg-gray-50 rounded-lg">
         <p className="text-xs font-medium text-gray-700 mb-1">
           Примеры запросов для блога о продуктах питания:
         </p>

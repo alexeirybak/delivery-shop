@@ -8,12 +8,13 @@ export type StyleType =
   | "artistic"
   | "sketch"
   | "cartoon";
+
 export type GenerationStatusType =
   | "idle"
   | "generating"
-  | "processing"
-  | "completed"
-  | "failed";
+  | "loading"
+  | "success"
+  | "error";
 
 export interface GenerationStatus {
   status: GenerationStatusType;
@@ -32,7 +33,6 @@ export interface ImageAIModalProps {
   selectedStyle: StyleType;
   apiInfo: string;
   elapsedSeconds: number;
-
   // Обработчики событий
   onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onAspectChange: (aspect: AspectRatio) => void;
@@ -42,7 +42,6 @@ export interface ImageAIModalProps {
   onInsertToEditor: (e: React.MouseEvent) => void;
   onGenerateImage: (e: React.MouseEvent) => void;
   onClose: () => void;
-
   // Дополнительные обработчики
   onModalClick?: (e: React.MouseEvent) => void;
   onCloseClick?: (e: React.MouseEvent) => void;
@@ -50,7 +49,53 @@ export interface ImageAIModalProps {
   onStyleButtonClick?: (style: StyleType, e: React.MouseEvent) => void;
 }
 
+export interface HeaderProps {
+  onTestAPI: (e: React.MouseEvent) => void;
+  onCloseClick?: (e: React.MouseEvent) => void;
+  isGenerating: boolean;
+}
+
+export interface MainContentProps {
+  apiInfo?: string;
+  prompt: string;
+  onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  selectedAspect: AspectRatio;
+  selectedStyle: StyleType;
+  onAspectChange: (aspect: AspectRatio) => void;
+  onStyleChange: (style: StyleType) => void;
+  disabled: boolean;
+  onAspectButtonClick?: (aspect: AspectRatio, e: React.MouseEvent) => void;
+  onStyleButtonClick?: (style: StyleType, e: React.MouseEvent) => void;
+  generation: GenerationStatus;
+  elapsedSeconds: number;
+  onDownload: (e: React.MouseEvent) => void;
+  onInsertToEditor: (e: React.MouseEvent) => void;
+}
+
+export interface FooterProps {
+  generationStatus: string;
+  elapsedSeconds: number;
+  prompt: string;
+  onCloseClick?: (e: React.MouseEvent) => void; 
+  onInsertToEditor: (e: React.MouseEvent) => void;
+  onGenerateImage: (e: React.MouseEvent) => void; 
+}
+
 // Для вложенных компонентов
+export interface PromptSectionProps {
+  prompt: string;
+  onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  disabled: boolean;
+}
+
+export interface ApiInfoAlertProps {
+  apiInfo?: string;
+}
+
+export interface ErrorPanelProps {
+  error: string;
+}
+
 export interface SettingsPanelProps {
   selectedAspect: AspectRatio;
   selectedStyle: StyleType;
@@ -62,13 +107,13 @@ export interface SettingsPanelProps {
 }
 
 export interface StatusPanelProps {
-  status: "generating" | "processing";
+  status: "generating" | "loading" | "idle" | "success" | "error";
   elapsedSeconds: number;
   operationId?: string;
 }
 
 export interface ResultPanelProps {
-  imageUrl: string;
+  imageUrl: string | undefined;
   prompt: string;
   selectedStyle: StyleType;
   selectedAspect: AspectRatio;
@@ -97,14 +142,13 @@ export interface GenerationRequest {
   style?: StyleType;
 }
 
-
-export  interface YandexArtGenerationRequest {
+export interface YandexArtGenerationRequest {
   modelUri: string;
   messages: Array<{ text: string; weight: number }>;
   generationOptions: {
-    mimeType: "image/png"; 
+    mimeType: "image/png";
     seed: number;
-    aspectRatio?: {      
+    aspectRatio?: {
       widthRatio: number;
       heightRatio: number;
     };

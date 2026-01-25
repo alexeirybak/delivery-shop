@@ -32,7 +32,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
 
     if (
       generation.status === "generating" ||
-      generation.status === "processing"
+      generation.status === "loading"
     ) {
       timerRef.current = setInterval(() => {
         setElapsedSeconds((prev) => {
@@ -54,7 +54,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
 
-    if (generation.status === "processing" && generation.operationId) {
+    if (generation.status === "loading" && generation.operationId) {
       const pollStatus = async () => {
         try {
           const response = await fetch(
@@ -70,17 +70,17 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
 
             if (data.imageUrl) {
               setGeneration({
-                status: "completed",
+                status: "success",
                 operationId: generation.operationId,
                 imageUrl: data.imageUrl,
               });
             } else if (data.error) {
               setGeneration({
-                status: "failed",
+                status: "error",
                 operationId: generation.operationId,
                 error: data.error,
               });
-              console.error("Image generation failed:", data.error);
+              console.error("Генерация изображения не удалась:", data.error);
             }
           }
         } catch (error) {
@@ -166,7 +166,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
 
       if (data.operationId) {
         setGeneration({
-          status: "processing",
+          status: "loading",
           operationId: data.operationId,
         });
 
@@ -181,7 +181,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
       const errorMsg =
         err instanceof Error ? err.message : "Неизвестная ошибка";
       setGeneration({
-        status: "failed",
+        status: "error",
         error: errorMsg,
       });
 
@@ -192,7 +192,6 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   const handleTestAPI = useCallback(async (e: React.MouseEvent) => {
     e.stopPropagation();
     try {
-      setGeneration({ status: "generating" });
       setApiInfo("Проверка подключения к YandexART API...");
 
       const response = await fetch(
@@ -232,9 +231,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
         err instanceof Error ? err.message : "Неизвестная ошибка";
       setApiInfo(`Ошибка подключения к YandexART: ${errorMsg}`);
       alert(`Ошибка подключения к YandexART:\n\n${errorMsg}`);
-    } finally {
-      setGeneration({ status: "idle" });
-    }
+    } 
   }, []);
 
   const handleDownload = useCallback(
@@ -305,7 +302,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => setShowAIImageModal(true)}
-        className="px-3 py-1.5 rounded-md bg-linear-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 text-white shadow-sm shadow-cyan-500/20 hover:shadow-md hover:shadow-cyan-500/30 cursor-pointer duration-200 flex items-center gap-2 min-w-[85px] h-8 text-xs"
+        className="px-3 py-1.5 rounded-md bg-linear-to-r from-cyan-500 to-blue-700 hover:from-cyan-600 hover:to-blue-800 text-white shadow-sm shadow-cyan-500/20 hover:shadow-md hover:shadow-cyan-500/30 cursor-pointer duration-200 flex items-center gap-2 min-w-[85px] h-8 text-xs"
         title="Сгенерировать изображение с помощью ИИ"
       >
         <ImageIcon className="w-3.5 h-3.5" />
