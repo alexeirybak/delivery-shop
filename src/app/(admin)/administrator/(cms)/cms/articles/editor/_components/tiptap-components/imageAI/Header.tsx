@@ -7,7 +7,7 @@ export const Header = ({
   isGenerating,
 }: HeaderProps) => {
   return (
-    <div className="flex flex-wrap gap-2 justify-center items-center md:justify-between items-center px-6 py-4 border-b bg-linear-to-r from-red-50 to-yellow-50">
+    <div className="flex flex-wrap gap-2 justify-center items-center md:justify-between px-6 py-4 border-b bg-linear-to-r from-red-50 to-yellow-50">
       <div className="flex flex-wrap gap-3 justify-center md:justify-between">
         <div className="flex gap-2 justify-center md:justify-between items-center">
           <Palette className="w-7 h-7 text-red-600 animate-spin" />
