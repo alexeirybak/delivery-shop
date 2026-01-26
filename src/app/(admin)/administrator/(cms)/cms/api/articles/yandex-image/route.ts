@@ -9,7 +9,7 @@ import sharp from "sharp";
 import fs from "fs/promises";
 import path from "path";
 
-const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
+const YANDEX_IMAGE_API_KEY = process.env.YANDEX_IMAGE_API_KEY;
 const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 
 export async function POST(request: NextRequest) {
@@ -28,9 +28,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!YANDEX_API_KEY || !YANDEX_FOLDER_ID) {
+    if (!YANDEX_IMAGE_API_KEY || !YANDEX_FOLDER_ID) {
       console.error("Отсутствуют API-ключи:", {
-        hasApiKey: !!YANDEX_API_KEY,
+        hasApiKey: !!YANDEX_IMAGE_API_KEY,
         hasFolderId: !!YANDEX_FOLDER_ID,
       });
       return NextResponse.json(
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Api-Key ${YANDEX_API_KEY}`,
+          Authorization: `Api-Key ${YANDEX_IMAGE_API_KEY}`,
           Accept: "application/json",
         },
         body: JSON.stringify(requestBody),
@@ -183,7 +183,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!YANDEX_API_KEY) {
+    if (!YANDEX_IMAGE_API_KEY) {
       return NextResponse.json(
         { error: "API ключ не настроен" },
         { status: 500 },
@@ -194,7 +194,7 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(statusUrl, {
       headers: {
-        Authorization: `Api-Key ${YANDEX_API_KEY}`,
+        Authorization: `Api-Key ${YANDEX_IMAGE_API_KEY}`,
         Accept: "application/json",
       },
     });
@@ -323,7 +323,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
           success: false,
           done: true,
-          status: "failed",
+          status: "error",
           error: "Неожиданный формат ответа от YandexART",
           operationId: operationId,
         });
