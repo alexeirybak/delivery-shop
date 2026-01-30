@@ -4,10 +4,8 @@ import CategoryStats from "./_components/CategoryStats";
 import EmptyCategory from "./_components/EmptyCategory";
 import Pagination from "@/components/Pagination";
 import { ArticlesList } from "./_components/ArticlesList";
-
 import { CONFIG } from "../../../../../config/config";
 import { getColorFromName } from "../categories/utils/getColorFromName";
-
 import { Metadata } from "next";
 import { baseUrl } from "../../../../../utils/baseUrl";
 import { fetchCategoryPageData } from "./[slug]/utils/fetchCategory";
@@ -67,7 +65,11 @@ export default async function CategoryPage({
   const itemsPerPage = CONFIG.ARTICLES_PER_BLOG_PAGE;
   const currentPage = parseInt(page) || 1;
 
-  const result = await fetchCategoryPageData(category, currentPage, itemsPerPage);
+  const result = await fetchCategoryPageData(
+    category,
+    currentPage,
+    itemsPerPage,
+  );
 
   if ("error" in result) {
     return (
@@ -132,7 +134,7 @@ export default async function CategoryPage({
           />
         </>
       ) : (
-        <EmptyCategory hasImage={hasImage} />
+        <EmptyCategory />
       )}
     </div>
   );
