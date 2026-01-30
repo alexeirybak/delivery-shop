@@ -11,7 +11,6 @@ export const SettingsPanel = ({
   onAspectButtonClick,
   onStyleButtonClick,
 }: SettingsPanelProps) => {
-  
   const handleAspectClick = (ratioId: AspectRatio, e: React.MouseEvent) => {
     onAspectChange(ratioId);
     if (onAspectButtonClick) {
@@ -35,6 +34,7 @@ export const SettingsPanel = ({
         <div className="grid grid-cols-4 gap-2 align-middle">
           {aspectRatios.map((ratio) => (
             <button
+              type="button"
               key={ratio.id}
               onClick={(e) => handleAspectClick(ratio.id, e)}
               disabled={disabled}

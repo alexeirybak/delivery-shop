@@ -6,9 +6,57 @@ export const LinkMenu = ({ editor }: EditorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
-  const [openInNewTab, setOpenInNewTab] = useState(true); // По умолчанию _blank
+  const [openInNewTab, setOpenInNewTab] = useState(true);
+  const [isLinkActive, setIsLinkActive] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
+
+  // Подписываемся на изменения редактора для определения активности ссылки
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateLinkActive = () => {
+      const active = editor.isActive("link");
+      setIsLinkActive(active);
+    };
+
+    editor.on("selectionUpdate", updateLinkActive);
+    editor.on("transaction", updateLinkActive);
+    
+    // Инициализация
+    updateLinkActive();
+
+    return () => {
+      editor.off("selectionUpdate", updateLinkActive);
+      editor.off("transaction", updateLinkActive);
+    };
+  }, [editor]);
+
+  // Обработчик для предотвращения перехода по ссылкам в редакторе
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'A' && editor.view.dom.contains(target)) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Устанавливаем курсор на ссылку
+        const pos = editor.view.posAtDOM(target, 0);
+        if (pos >= 0) {
+          editor.chain().focus().setTextSelection(pos).run();
+        }
+      }
+    };
+
+    const editorDom = editor.view.dom;
+    editorDom.addEventListener('click', handleClick);
+
+    return () => {
+      editorDom.removeEventListener('click', handleClick);
+    };
+  }, [editor]);
 
   useEffect(() => {
     if (!editor) return;
@@ -31,7 +79,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
         ) || ""
       );
       setUrl("");
-      setOpenInNewTab(true); // По умолчанию новая вкладка
+      setOpenInNewTab(true); 
     }
   }, [isModalOpen, editor]);
 
@@ -110,7 +158,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
 
   if (!editor) return null;
 
-  const canRemoveLink = editor.isActive("link");
+  const canRemoveLink = isLinkActive;
 
   return (
     <>
@@ -121,7 +169,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           onClick={handleOpenModal}
           className={`
             p-2 rounded duration-300 cursor-pointer
-            ${editor.isActive("link")
+            ${isLinkActive
               ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
               : "text-gray-700 hover:bg-gray-100"
             }
@@ -158,7 +206,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           >
             <div className="p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
-                {editor.isActive("link")
+                {isLinkActive
                   ? "Редактировать ссылку"
                   : "Добавить ссылку"}
               </h3>
@@ -269,7 +317,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     }
                   `}
                 >
-                  {editor.isActive("link") ? "Обновить" : "Добавить"}
+                  {isLinkActive ? "Обновить" : "Добавить"}
                 </button>
               </div>
             </div>

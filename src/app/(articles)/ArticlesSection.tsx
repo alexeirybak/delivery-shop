@@ -15,14 +15,14 @@ const ArticleSection = ({
           {viewAllButton && (
             <ViewAllButton
               btnText={viewAllButton.text}
-              href="/blog"
+              href={viewAllButton.href}
             />
           )}
         </div>
         <ul className="grid grid-cols-1 sm:grid-cols-3 gap-6">
           {articles.map((article) => (
             <li
-              key={article._id}
+              key={article.slug}
               className="h-75 md:h-105"
             >
               <ArticleCard {...article} />

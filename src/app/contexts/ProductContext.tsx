@@ -9,7 +9,7 @@ interface ProductContextType {
 
 const ProductContext = createContext<ProductContextType>({
   title: null,
-  setTitle: () => {}, // Пустая функция по умолчанию
+  setTitle: () => {}, 
 });
 
 export function ProductProvider({ children }: { children: ReactNode }) {

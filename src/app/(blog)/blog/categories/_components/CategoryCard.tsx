@@ -1,15 +1,23 @@
 import { BlogCategoryCardProps } from "../types/categories.types";
 import { getColorFromName } from "../utils/getColorFromName";
+import { checkImageExists } from "../utils/imageExists";
 import CategoryContent from "./CategoryContent";
 import CategoryHoverEffect from "./CategoryHoverEffect";
 import CategoryImage from "./CategoryImage";
 import CategoryNewBadge from "./CategoryNewBadge";
 
-export default function CategoryCard({
+export default async function CategoryCard({  
   category,
   priority = false,
 }: BlogCategoryCardProps) {
-  const hasImage = category.image && category.image.trim() !== "";
+
+  const imageExists = category.image 
+    ? await checkImageExists(category.image) 
+    : false;
+
+  const hasImage =
+    category.image && category.image.trim() !== "" && imageExists;
+
   const gradientClass = getColorFromName(category.name);
   const description =
     category.description || "Исследуйте материалы по этой теме";

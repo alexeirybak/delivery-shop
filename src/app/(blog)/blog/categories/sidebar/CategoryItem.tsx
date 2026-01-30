@@ -8,7 +8,7 @@ export default function CategoryItem({
   onClick,
 }: BlogCategoryItemProps) {
   return (
-    <Link href={`/blog/categories/${category.slug}`} onClick={onClick}>
+    <Link href={`/blog/${category.slug}`} onClick={onClick}>
       <div
         className="group p-4 my-1 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 duration-300 hover:shadow-md animate-slide-in"
         style={{ animationDelay: `${index * 0.03}s` }}

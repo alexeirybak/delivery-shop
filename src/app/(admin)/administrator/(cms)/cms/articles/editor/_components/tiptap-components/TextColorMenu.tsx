@@ -25,9 +25,57 @@ const TEXT_COLORS = [
 export const TextColorMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState("#000000");
+  const [currentColor, setCurrentColor] = useState("#000000"); // Добавлено состояние для текущего цвета
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Функция для получения текущего цвета текста
+  const getCurrentColor = useCallback(() => {
+    if (!editor) return "#000000";
+    const attrs = editor.getAttributes("textStyle");
+    return attrs?.color || "#000000";
+  }, [editor]);
+
+  // Функция для обновления состояния
+  const updateColor = useCallback(() => {
+    const color = getCurrentColor();
+    setCurrentColor(color);
+    
+    // Если цвет не из предопределенных и не черный (по умолчанию), обновляем customColor
+    if (color !== "#000000" && !TEXT_COLORS.includes(color)) {
+      setCustomColor(color);
+    }
+  }, [getCurrentColor]);
+
+  // Подписка на события редактора
+  useEffect(() => {
+    if (!editor) return;
+
+    // Подписываемся на изменения редактора
+    const handleUpdate = () => {
+      updateColor();
+    };
+
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
+
+    // Инициализация при монтировании
+    updateColor();
+
+    // Отписываемся при размонтировании
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor, updateColor]);
+
+  // Также обновляем при открытии меню
+  useEffect(() => {
+    if (isOpen && editor) {
+      updateColor();
+    }
+  }, [isOpen, editor, updateColor]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,18 +92,13 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const getCurrentColor = useCallback(() => {
-    if (!editor) return "#000000";
-    const attrs = editor.getAttributes("textStyle");
-    return attrs?.color || "#000000";
-  }, [editor]);
-
   useEffect(() => {
     if (editor) {
-      const currentColor = getCurrentColor();
-      if (currentColor !== "#000000" && !TEXT_COLORS.includes(currentColor)) {
-        setCustomColor(currentColor);
+      const color = getCurrentColor();
+      if (color !== "#000000" && !TEXT_COLORS.includes(color)) {
+        setCustomColor(color);
       }
+      setCurrentColor(color); // Инициализируем currentColor
     }
   }, [editor, getCurrentColor]);
 
@@ -73,6 +116,9 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
     if (!TEXT_COLORS.includes(color)) {
       setCustomColor(color);
     }
+    
+    // Обновляем состояние после изменения
+    setTimeout(updateColor, 10);
   };
 
   const resetColor = () => {
@@ -80,6 +126,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
     // Используем unsetColor как в документации
     editor.chain().focus().unsetColor().run();
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
 
   const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -97,11 +144,11 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
     }
 
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
 
   if (!editor) return null;
 
-  const currentColor = getCurrentColor();
   const isActive = currentColor !== "#000000";
 
   return (
@@ -145,6 +192,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
             maxHeight: "calc(100vh - 100px)",
             overflowY: "auto",
           }}
+          onClick={(e) => e.stopPropagation()}
         >
           {/* Заголовок */}
           <div className="mb-2">
@@ -162,9 +210,9 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
                     setIsOpen(false);
                   }}
                   className={`
-              w-5 h-5 rounded border hover:scale-110 transition-transform relative duration-300 cursor-pointer
-              ${color === "#000000" ? "border-2" : "border border-gray-300"}
-            `}
+                    w-5 h-5 rounded border hover:scale-110 transition-transform relative duration-300 cursor-pointer
+                    ${color === "#000000" ? "border-2" : "border border-gray-300"}
+                  `}
                   style={{ backgroundColor: color }}
                   title={color}
                 >
@@ -173,7 +221,8 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
                       className={`w-2.5 h-2.5 mx-auto stroke-2 absolute inset-0 m-auto ${
                         color === "#000000" ||
                         color === "#000080" ||
-                        color === "#800000"
+                        color === "#800000" ||
+                        color === "#008000"
                           ? "text-white"
                           : "text-gray-700"
                       }`}

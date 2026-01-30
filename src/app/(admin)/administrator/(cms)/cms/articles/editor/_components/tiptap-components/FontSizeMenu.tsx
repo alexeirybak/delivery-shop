@@ -1,5 +1,5 @@
 import { ChevronDown, Check } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { EditorProps } from "../../../types";
 
 const FONT_SIZES = [
@@ -15,10 +15,69 @@ const FONT_SIZES = [
   { label: "Сбросить", value: "unset" },
 ];
 
+const DEFAULT_SIZE = "14px";
+
 export const FontSizeMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [displaySize, setDisplaySize] = useState("14");
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Функция для обновления состояния
+  const updateSize = useCallback(() => {
+    if (!editor) return;
+    
+    const attrs = editor.getAttributes("textStyle");
+    const size = attrs?.fontSize || DEFAULT_SIZE;
+    
+    // Если размер не найден или пустой, используем 14px
+    const finalSize = (!size || size === "unset") ? DEFAULT_SIZE : size;
+    
+    // Обновляем отображаемый размер
+    if (finalSize === "unset" || !finalSize) {
+      setDisplaySize("14"); // По умолчанию показываем 14
+    } else {
+      setDisplaySize(finalSize.replace("px", ""));
+    }
+  }, [editor]);
+
+  // Подписка на события редактора
+  useEffect(() => {
+    if (!editor) return;
+
+    // Подписываемся на изменения редактора
+    const handleUpdate = () => {
+      updateSize();
+    };
+
+    editor.on("selectionUpdate", handleUpdate);
+    
+    // Используем requestAnimationFrame для оптимизации
+    editor.on("transaction", ({ transaction }) => {
+      if (transaction.selectionSet || transaction.docChanged) {
+        requestAnimationFrame(() => {
+          handleUpdate();
+        });
+      }
+    });
+
+    // Инициализация при монтировании
+    updateSize();
+
+    // Отписываемся при размонтировании
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor, updateSize]);
+
+  // Также обновляем при открытии меню
+  useEffect(() => {
+    if (isOpen && editor) {
+      updateSize();
+    }
+  }, [isOpen, editor, updateSize]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -35,27 +94,43 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!editor) return null;
-
-  const currentSize = editor.getAttributes("textStyle").fontSize || "14px";
-  const displaySize = currentSize === "unset" ? "Размер" : currentSize.replace("px", "");
-
   const handleSizeChange = (size: string) => {
+    if (!editor) return;
+    
+    // Сначала фокусируем редактор
+    editor.chain().focus();
+    
     if (size === "unset") {
-      editor.chain().focus().unsetFontSize().run();
+      editor.chain().unsetFontSize().run();
     } else {
-      editor.chain().focus().setFontSize(size).run();
+      editor.chain().setFontSize(size).run();
     }
+    
     setIsOpen(false);
+    // Обновляем состояние сразу
+    updateSize();
   };
 
   const handleButtonClick = () => {
     setIsOpen(!isOpen);
   };
 
+  if (!editor) return null;
+
+  // Проверяем активность для пунктов меню
+  const checkIsActive = (sizeValue: string) => {
+    const attrs = editor.getAttributes("textStyle");
+    const current = attrs?.fontSize || DEFAULT_SIZE;
+    
+    if (sizeValue === "unset") {
+      return !attrs?.fontSize || current === DEFAULT_SIZE;
+    }
+    
+    return current === sizeValue;
+  };
+
   return (
     <div className="relative inline-block">
-
       <button
         ref={buttonRef}
         type="button" 
@@ -90,12 +165,9 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
               </span>
             </div>
 
-            {/* Варианты размеров - ЯВНО указываем type="button" */}
+            {/* Варианты размеров */}
             {FONT_SIZES.map((size) => {
-              const isActive =
-                size.value === "unset"
-                  ? !editor.getAttributes("textStyle").fontSize
-                  : currentSize === size.value;
+              const isActive = checkIsActive(size.value);
 
               return (
                 <button

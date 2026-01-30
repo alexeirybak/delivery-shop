@@ -1,16 +1,38 @@
 import { Quote } from "lucide-react";
 import { EditorProps } from "../../../types";
-import { useEffect } from "react"; // Добавлен useEffect
+import { useEffect, useState } from "react";
 
 export const QuoteButton = ({ editor }: EditorProps) => {
+  const [isActive, setIsActive] = useState(false);
+
+  // Подписываемся на изменения редактора для определения активности
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateActiveState = () => {
+      // Проверяем, активен ли блок цитаты
+      const active = editor.isActive("blockquote");
+      setIsActive(active);
+    };
+
+    // Подписываемся на события редактора
+    editor.on("selectionUpdate", updateActiveState);
+    editor.on("transaction", updateActiveState);
+    
+    // Инициализация
+    updateActiveState();
+
+    return () => {
+      editor.off("selectionUpdate", updateActiveState);
+      editor.off("transaction", updateActiveState);
+    };
+  }, [editor]);
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!editor) return;
-      if (
-        event.ctrlKey &&
-        event.shiftKey &&
-        event.code === 'KeyB' 
-      ) {
+      
+      if (event.ctrlKey && event.shiftKey && event.code === 'KeyB') {
         event.preventDefault();
         event.stopPropagation();
         editor.chain().focus().toggleBlockquote().run();
@@ -26,8 +48,6 @@ export const QuoteButton = ({ editor }: EditorProps) => {
   const handleQuoteToggle = () => {
     editor.chain().focus().toggleBlockquote().run();
   };
-
-  const isActive = editor.isActive("blockquote");
 
   return (
     <button

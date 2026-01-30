@@ -1,5 +1,6 @@
 export interface ArticleFormData {
-  _id?: string;
+  _id: string | null | undefined;
+
   name: string;
   slug: string;
   description: string;
@@ -30,7 +31,7 @@ export interface CategorySelectProps {
   onChange: (
     categoryId: string,
     categoryName: string,
-    categorySlug: string
+    categorySlug: string,
   ) => void;
 }
 

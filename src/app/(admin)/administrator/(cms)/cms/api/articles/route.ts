@@ -2,11 +2,13 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
 import { processArticleImages } from "../../articles/utils/processArticleImages";
-import { sanitizeArticleHTML } from "@/app/(blog)/blog/articles/[id]/utils/sanitize-html";
+import { sanitizeArticleHTML } from "@/app/(blog)/blog/[category]/[slug]/utils/sanitize-html";
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+
+    console.log("Полученные данные:", data);
 
     // Валидация обязательных полей
     if (!data.name?.trim()) {
@@ -58,8 +60,15 @@ export async function POST(request: Request) {
 
     const db = await getDB();
 
-    // Проверка уникальности slug
-    const existingArticle = await db.collection("articles").findOne({ slug });
+    // ПРОВЕРКА УНИКАЛЬНОСТИ SLUG С УЧЕТОМ _id
+    const query: Record<string, unknown> = { slug };
+
+    // Если есть _id в данных, исключаем эту статью из проверки
+    if (data._id && data._id.trim()) {
+      query._id = { $ne: ObjectId.createFromHexString(data._id) };
+    }
+
+    const existingArticle = await db.collection("articles").findOne(query);
 
     if (existingArticle) {
       return NextResponse.json(
@@ -82,21 +91,68 @@ export async function POST(request: Request) {
       }
     }
 
-    // ОЧИЩАЕМ И ОБРАБАТЫВАЕМ КОНТЕНТ
+
     const sanitizedContent = sanitizeArticleHTML(data.content || "");
-    
-    if (!sanitizedContent || sanitizedContent.trim() === '' || sanitizedContent === '<p></p>') {
-      return NextResponse.json(
-        { success: false, message: "Текст статьи не может быть пустым" },
-        { status: 400 },
-      );
-    }
 
     const finalContent = await processArticleImages(sanitizedContent);
 
+    // ЕСЛИ ЕСТЬ _id - ОБНОВЛЯЕМ СУЩЕСТВУЮЩУЮ СТАТЬЮ
+    if (data._id && data._id.trim()) {
+      try {
+        const objectId = ObjectId.createFromHexString(data._id);
+
+        const updateData = {
+          name,
+          slug,
+          description,
+          keywords,
+          image,
+          imageAlt,
+          author,
+          categoryId,
+          categoryName,
+          categorySlug,
+          content: finalContent,
+          isFeatured,
+          status,
+          updatedAt: new Date().toISOString(),
+          ...(status === "published" && {
+            publishedAt: new Date().toISOString(),
+          }),
+        };
+
+        const result = await db
+          .collection("articles")
+          .updateOne({ _id: objectId }, { $set: updateData });
+
+        if (result.matchedCount === 0) {
+          return NextResponse.json(
+            { success: false, message: "Статья не найдена" },
+            { status: 404 },
+          );
+        }
+
+        return NextResponse.json(
+          {
+            success: true,
+            message: "Статья успешно обновлена",
+            data: { _id: data._id },
+          },
+          { status: 200 },
+        );
+      } catch (error) {
+        console.error("Ошибка обновления статьи:", error);
+        return NextResponse.json(
+          { success: false, message: "Ошибка обновления статьи" },
+          { status: 500 },
+        );
+      }
+    }
+
+    // ЕСЛИ НЕТ _id - СОЗДАЕМ НОВУЮ СТАТЬЮ
     const result = await db
       .collection("articles")
-      .aggregate([
+      .aggregate<{ maxNumericId?: number }>([
         {
           $group: {
             _id: null,
@@ -131,7 +187,7 @@ export async function POST(request: Request) {
       categoryId,
       categoryName,
       categorySlug,
-      content: finalContent, // Используем очищенный и обработанный контент
+      content: finalContent,
       isFeatured,
       status,
       views: 0,
@@ -141,8 +197,6 @@ export async function POST(request: Request) {
     };
 
     await db.collection("articles").insertOne(newArticle);
-
-
 
     const responseArticle = {
       ...newArticle,
@@ -162,7 +216,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Ошибка создания статьи",
+        message: "Ошибка сохранения статьи",
         error: error instanceof Error ? error.message : "Неизвестная ошибка",
       },
       { status: 500 },

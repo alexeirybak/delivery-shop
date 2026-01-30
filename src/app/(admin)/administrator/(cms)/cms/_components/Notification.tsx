@@ -1,5 +1,5 @@
 import { X } from "lucide-react";
-import { NotificationProps } from "../../types";
+import { NotificationProps } from "../categories/types";
 
 export const Notification = ({
   type,

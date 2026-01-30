@@ -242,7 +242,7 @@ useEffect(() => {
         .setImage({
           src: generation.imageUrl,
           alt: prompt,
-          title: `Сгенерировано YandexART: ${prompt}`,
+          title: `${prompt}`,
         })
         .run();
       closeModal();

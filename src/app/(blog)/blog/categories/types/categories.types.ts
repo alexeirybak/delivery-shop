@@ -40,7 +40,7 @@ export interface BlogCategoryCardProps {
   priority?: boolean;
 }
 
-export interface BlogCategoriesListProps {
+export interface BlogCategoriesForListProps {
   categories: BlogCategory[];
 }
 
@@ -49,7 +49,7 @@ export interface CategoriesSidebarProps {
 }
 
 export interface CategoryImageProps {
-  hasImage: boolean | string;
+  hasImage: boolean | string | Promise<boolean>;
   image: string;
   imageAlt: string;
   gradientClass: string;

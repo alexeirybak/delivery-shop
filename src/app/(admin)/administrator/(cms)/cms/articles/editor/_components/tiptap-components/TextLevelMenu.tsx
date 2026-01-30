@@ -7,6 +7,51 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [currentLabel, setCurrentLabel] = useState("Текст");
+
+  // Используем useEffect для обновления метки без debounce
+  useEffect(() => {
+    if (!editor) return;
+
+    const handleUpdate = () => {
+      let newLabel = "Текст";
+      
+      // Проверяем заголовки
+      for (let i = 1; i <= 6; i++) {
+        if (editor.isActive("heading", { level: i as 1 | 2 | 3 | 4 | 5 | 6 })) {
+          newLabel = `H${i}`;
+          break;
+        }
+      }
+      
+      // Если не нашли заголовок, проверяем параграф
+      if (newLabel === "Текст" && editor.isActive("paragraph")) {
+        newLabel = "Текст";
+      }
+      
+      setCurrentLabel(newLabel);
+    };
+
+    // Подписываемся на события БЕЗ debounce
+    editor.on("selectionUpdate", handleUpdate);
+    
+    // Используем requestAnimationFrame для оптимизации вместо setTimeout
+    editor.on("transaction", ({ transaction }) => {
+      if (transaction.selectionSet || transaction.docChanged) {
+        requestAnimationFrame(() => {
+          handleUpdate();
+        });
+      }
+    });
+
+    // Инициализация
+    handleUpdate();
+
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -23,15 +68,6 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const getCurrentLabel = () => {
-    if (editor?.isActive("paragraph")) return "Текст";
-    for (let i = 1; i <= 6; i++) {
-      if (editor?.isActive("heading", { level: i as 1 | 2 | 3 | 4 | 5 | 6 }))
-        return `H${i}`;
-    }
-    return "Текст";
-  };
-
   const handleButtonClick = () => {
     setIsOpen(!isOpen);
   };
@@ -39,6 +75,13 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
   if (!editor) {
     return null;
   }
+
+  // Функция проверки активности для меню
+  const isActiveHeading = (level: number) => {
+    return editor.isActive("heading", { level: level as 1 | 2 | 3 | 4 | 5 | 6 });
+  };
+
+  const isActiveParagraph = editor.isActive("paragraph");
 
   return (
     <div className="relative inline-block">
@@ -49,16 +92,19 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
         onClick={handleButtonClick}
         className={`
           flex items-center gap-1 px-3 py-1.5 text-sm border rounded-md duration-300 cursor-pointer
-          ${isOpen
-            ? "bg-blue-100 text-[#9674F9] border-blue-300"
-            : "text-gray-700 hover:bg-gray-100 border-gray-300"
+          ${
+            isOpen
+              ? "bg-blue-100 text-[#9674F9] border-blue-300"
+              : "text-gray-700 hover:bg-gray-100 border-gray-300"
           }
         `}
         title="Тип текста"
       >
-        <span className="text-xs font-medium">{getCurrentLabel()}</span>
+        <span className="text-xs font-medium">{currentLabel}</span>
         <ChevronDown
-          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 transition-transform duration-200 ${
+            isOpen ? "rotate-180" : ""
+          }`}
         />
       </button>
 
@@ -87,9 +133,10 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
               }}
               className={`
                 w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center duration-300 cursor-pointer
-                ${editor.isActive("paragraph")
-                  ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
-                  : "text-gray-700"
+                ${
+                  isActiveParagraph
+                    ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
+                    : "text-gray-700"
                 }
               `}
             >
@@ -97,7 +144,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
                 <Type className="w-4 h-4" />
                 <span>Текст</span>
               </div>
-              {editor.isActive("paragraph") && <Check className="w-3 h-3" />}
+              {isActiveParagraph && <Check className="w-3 h-3" />}
             </button>
 
             {/* Разделитель */}
@@ -105,9 +152,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
 
             {/* Заголовки */}
             {[1, 2, 3, 4, 5, 6].map((level) => {
-              const isActive = editor.isActive("heading", { 
-                level: level as 1 | 2 | 3 | 4 | 5 | 6 
-              });
+              const isActive = isActiveHeading(level);
               
               return (
                 <div key={level} className="px-1">
@@ -116,9 +161,10 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
                     editor={editor}
                     className={`
                       w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center duration-300 cursor-pointer
-                      ${isActive
-                        ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
-                        : "text-gray-700"
+                      ${
+                        isActive
+                          ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
+                          : "text-gray-700"
                       }
                     `}
                     onClick={() => setIsOpen(false)}

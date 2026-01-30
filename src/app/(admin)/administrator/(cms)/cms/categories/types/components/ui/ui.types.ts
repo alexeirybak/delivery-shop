@@ -1,5 +1,7 @@
 export interface SubmitSectionProps {
   onCancel: () => void;
+  onSaveAndContinue?: () => void;
+  isSaveAndContinueMode?: boolean;
 }
 
 export interface HeaderActionsProps {

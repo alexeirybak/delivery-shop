@@ -10,12 +10,16 @@ interface ArticleStore {
 
   setIsSubmitting: (isSubmitting: boolean) => void;
   setIsUploading: (isUploading: boolean) => void;
-  updateFormField: (field: keyof ArticleFormData, value: string | boolean) => void;
+  updateFormField: (
+    field: keyof ArticleFormData,
+    value: string | boolean,
+  ) => void;
   resetFormData: () => void;
   setOriginalImageUrl: (originalImageUrl: string) => void;
 }
 
 const initialFormData: ArticleFormData = {
+  _id: null,
   name: "",
   slug: "",
   description: "",
@@ -42,6 +46,8 @@ export const useArticleStore = create<ArticleStore>((set) => ({
   setIsUploading: (isUploading) => set({ isUploading }),
 
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
+
+  // Обновленная функция с правильной типизацией
   updateFormField: (field, value) =>
     set((state) => ({
       formData: {
@@ -49,6 +55,7 @@ export const useArticleStore = create<ArticleStore>((set) => ({
         [field]: value,
       },
     })),
+
   resetFormData: () =>
     set({
       formData: initialFormData,

@@ -1,4 +1,3 @@
-// TiptapEditor.tsx
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
@@ -31,6 +30,9 @@ export const TiptapEditor = ({
         undoRedo: {
           depth: 500,
           newGroupDelay: 100,
+        },
+        link: {
+          openOnClick: false,
         },
       }),
       TextAlign.configure({

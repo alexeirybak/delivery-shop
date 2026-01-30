@@ -3,7 +3,7 @@ import { Save, Eye, EyeOff, Star, FileText, Globe } from "lucide-react";
 import { SubmitSectionProps } from "../../../categories/types";
 import { useState, useEffect } from "react";
 import { ArticlePreviewModal } from "./tiptap-components/ArticlePreviewModal";
-import './css/modal-preview.css'
+import "./css/modal-preview.css";
 
 export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
   const { updateFormField, isSubmitting, isUploading, formData } =
@@ -45,7 +45,9 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
       formData.name.trim() !== "" ||
       formData.slug.trim() !== "" ||
       formData.description.trim() !== "" ||
-      formData.keywords.trim() !== "" ||
+      (Array.isArray(formData.keywords)
+        ? formData.keywords.length > 0
+        : formData.keywords.trim() !== "") ||
       formData.image.trim() !== "" ||
       formData.content?.trim() !== "";
 
@@ -71,7 +73,6 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         onClose={() => setShowPreview(false)}
       />
 
-      {/* Кнопка предпросмотра (выше всех остальных секций) */}
       <div className="mb-6 bg-linear-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex-1">

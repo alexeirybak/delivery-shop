@@ -7,21 +7,29 @@ import { TRANSLATIONS } from "../../utils/translations";
 import { Suspense } from "react";
 import MiniLoader from "./MiniLoader";
 import { useProduct } from "@/app/contexts/ProductContext";
+import { useArticle } from "@/app/contexts/ArticleContext";
+import { useCategory } from "@/app/contexts/CategoryContext";
 
 function BreadcrumbsContent() {
   const pathname = usePathname();
   const { title } = useProduct();
+  const { articleTitle } = useArticle();
+  const { categoryTitle } = useCategory();
 
   if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
   const productDesc = title;
 
+  const isArticlePage = pathSegments[0] === "blog" && pathSegments.length >= 3;
+  const isCategoryPage = pathSegments[0] === "blog" && pathSegments.length === 2;
+
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
 
     let label = TRANSLATIONS[segment] || segment;
 
+    // Если это страница товара
     if (
       index === pathSegments.length - 1 &&
       productDesc &&
@@ -31,11 +39,41 @@ function BreadcrumbsContent() {
       label = productDesc;
     }
 
+    // Если это страница категории блога (последний элемент)
+    if (
+      isCategoryPage &&
+      index === pathSegments.length - 1 &&
+      categoryTitle
+    ) {
+      label = categoryTitle;
+    }
+
+    // Если это категория в пути статьи (предпоследний элемент)
+    // Например: /blog/technology/article-slug, где technology - это категория
+    if (
+      isArticlePage &&
+      index === pathSegments.length - 2 && // Предпоследний элемент - категория
+      categoryTitle
+    ) {
+      label = categoryTitle;
+    }
+
+    // Если это страница статьи (последний элемент)
+    if (
+      isArticlePage &&
+      index === pathSegments.length - 1 && // Последний элемент - статья
+      articleTitle
+    ) {
+      label = articleTitle;
+    }
+
     return {
       label,
       href:
         index === pathSegments.length - 1
-          ? `${href}?desc=${productDesc}`
+          ? isArticlePage || isCategoryPage
+            ? href
+            : `${href}?desc=${productDesc}`
           : href,
       isLast: index === pathSegments.length - 1,
     };
@@ -60,9 +98,15 @@ function BreadcrumbsContent() {
               }
             >
               {item.isLast ? (
-                item.label
+                <span title={item.label} className="line-clamp-1">
+                  {item.label}
+                </span>
               ) : (
-                <Link href={item.href}>{item.label}</Link>
+                <Link href={item.href}>
+                  <span title={item.label} className="line-clamp-1">
+                    {item.label}
+                  </span>
+                </Link>
               )}
             </div>
             {!item.isLast && (

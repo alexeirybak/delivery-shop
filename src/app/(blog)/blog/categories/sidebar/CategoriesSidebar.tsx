@@ -5,7 +5,7 @@ import { CategoriesSidebarProps } from "../types/categories.types";
 import FloatingMenuButton from "./FloatingMenuButton";
 import SidebarOverlay from "./SidebarOverlay";
 import SidebarContent from "./SidebarContent";
-import "../css/sidebar-animations.css";
+import "../../../blog/css/animations.css";
 
 export default function CategoriesSidebar({
   categories,

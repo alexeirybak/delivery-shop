@@ -1,102 +1,184 @@
 import { Bold, Italic, Underline, Strikethrough } from "lucide-react";
 import { EditorProps } from "../../../types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const TextFormattingMenu = ({ editor }: EditorProps) => {
+  const [isBold, setIsBold] = useState(false);
+  const [isItalic, setIsItalic] = useState(false);
+  const [isUnderline, setIsUnderline] = useState(false);
+  const [isStrike, setIsStrike] = useState(false);
+
+  // Хук useEffect должен вызываться безусловно
   useEffect(() => {
     if (!editor) return;
 
+    // Обновляем состояния при изменении редактора
+    const updateStates = () => {
+      setIsBold(editor.isActive("bold"));
+      setIsItalic(editor.isActive("italic"));
+      setIsUnderline(editor.isActive("underline"));
+      setIsStrike(editor.isActive("strike"));
+    };
+
+    // Подписываемся на события редактора
+    editor.on('selectionUpdate', updateStates);
+    editor.on('transaction', updateStates);
+
+    // Инициализация
+    updateStates();
+
+    // Обработчик горячих клавиш
     const handleKeyDown = (event: KeyboardEvent) => {
-      
       if (event.ctrlKey && event.shiftKey && event.code === "KeyS") {
         event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-
-        // Небольшая задержка для гарантии перехвата
-        setTimeout(() => {
-          if (editor.can().chain().focus().toggleStrike().run()) {
-            editor.chain().focus().toggleStrike().run();
-          }
-        }, 0);
-
-        return false;
+        if (editor.can().chain().focus().toggleStrike().run()) {
+          editor.chain().focus().toggleStrike().run();
+          updateStates();
+        }
+      }
+      
+      if (event.ctrlKey && event.code === "KeyB") {
+        event.preventDefault();
+        if (editor.can().chain().focus().toggleBold().run()) {
+          editor.chain().focus().toggleBold().run();
+          updateStates();
+        }
+      }
+      
+      if (event.ctrlKey && event.code === "KeyI") {
+        event.preventDefault();
+        if (editor.can().chain().focus().toggleItalic().run()) {
+          editor.chain().focus().toggleItalic().run();
+          updateStates();
+        }
+      }
+      
+      if (event.ctrlKey && event.code === "KeyU") {
+        event.preventDefault();
+        if (editor.can().chain().focus().toggleUnderline().run()) {
+          editor.chain().focus().toggleUnderline().run();
+          updateStates();
+        }
       }
     };
 
-    // Используем capture phase для перехвата раньше браузера
-    window.addEventListener("keydown", handleKeyDown, { capture: true });
-
+    window.addEventListener("keydown", handleKeyDown);
+    
     return () => {
-      window.removeEventListener("keydown", handleKeyDown, { capture: true });
+      editor.off('selectionUpdate', updateStates);
+      editor.off('transaction', updateStates);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [editor]);
+  }, [editor]); 
 
   if (!editor) return null;
+
+  const handleBold = () => {
+    editor.chain().focus().toggleBold().run();
+    setIsBold(editor.isActive("bold"));
+  };
+
+  const handleItalic = () => {
+    editor.chain().focus().toggleItalic().run();
+    setIsItalic(editor.isActive("italic"));
+  };
+
+  const handleUnderline = () => {
+    editor.chain().focus().toggleUnderline().run();
+    setIsUnderline(editor.isActive("underline"));
+  };
+
+  const handleStrike = () => {
+    editor.chain().focus().toggleStrike().run();
+    setIsStrike(editor.isActive("strike"));
+  };
 
   const canBold = editor.can().chain().focus().toggleBold().run();
   const canItalic = editor.can().chain().focus().toggleItalic().run();
   const canUnderline = editor.can().chain().focus().toggleUnderline().run();
   const canStrike = editor.can().chain().focus().toggleStrike().run();
 
-  const buttons = [
-    {
-      icon: <Bold className="w-4 h-4" />,
-      title: "Жирный",
-      action: () => editor.chain().focus().toggleBold().run(),
-      isActive: editor.isActive("bold"),
-      canDo: canBold,
-      shortcut: "Ctrl+B",
-    },
-    {
-      icon: <Italic className="w-4 h-4" />,
-      title: "Курсив",
-      action: () => editor.chain().focus().toggleItalic().run(),
-      isActive: editor.isActive("italic"),
-      canDo: canItalic,
-      shortcut: "Ctrl+I",
-    },
-    {
-      icon: <Underline className="w-4 h-4" />,
-      title: "Подчеркнутый",
-      action: () => editor.chain().focus().toggleUnderline().run(),
-      isActive: editor.isActive("underline"),
-      canDo: canUnderline,
-      shortcut: "Ctrl+U",
-    },
-    {
-      icon: <Strikethrough className="w-4 h-4" />,
-      title: "Зачеркнутый",
-      action: () => editor.chain().focus().toggleStrike().run(),
-      isActive: editor.isActive("strike"),
-      canDo: canStrike,
-      shortcut: "Ctrl+Shift+S",
-    },
-  ];
-
   return (
     <div className="flex items-center gap-1">
-      {buttons.map((button, index) => (
-        <button
-          key={index}
-          type="button"
-          onClick={button.action}
-          disabled={!button.canDo}
-          className={`
-            p-2 rounded duration-300 
-            ${
-              !button.canDo
-                ? "opacity-40 cursor-not-allowed text-gray-400"
-                : button.isActive
-                  ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 cursor-pointer"
-                  : "text-gray-700 hover:bg-gray-100 cursor-pointer"
-            }
-          `}
-          title={`${button.title} (${button.shortcut})${!button.canDo ? " - недоступно" : ""}`}
-        >
-          {button.icon}
-        </button>
-      ))}
+      {/* Bold */}
+      <button
+        type="button"
+        onClick={handleBold}
+        disabled={!canBold}
+        className={`
+          p-2 rounded duration-300 
+          ${
+            !canBold
+              ? "opacity-40 cursor-not-allowed text-gray-400"
+              : isBold
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 cursor-pointer"
+                : "text-gray-700 hover:bg-gray-100 cursor-pointer"
+          }
+        `}
+        title={`Жирный (Ctrl+B)${!canBold ? " - недоступно" : ""}`}
+      >
+        <Bold className="w-4 h-4" />
+      </button>
+
+      {/* Italic */}
+      <button
+        type="button"
+        onClick={handleItalic}
+        disabled={!canItalic}
+        className={`
+          p-2 rounded duration-300 
+          ${
+            !canItalic
+              ? "opacity-40 cursor-not-allowed text-gray-400"
+              : isItalic
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 cursor-pointer"
+                : "text-gray-700 hover:bg-gray-100 cursor-pointer"
+          }
+        `}
+        title={`Курсив (Ctrl+I)${!canItalic ? " - недоступно" : ""}`}
+      >
+        <Italic className="w-4 h-4" />
+      </button>
+
+      {/* Underline */}
+      <button
+        type="button"
+        onClick={handleUnderline}
+        disabled={!canUnderline}
+        className={`
+          p-2 rounded duration-300 
+          ${
+            !canUnderline
+              ? "opacity-40 cursor-not-allowed text-gray-400"
+              : isUnderline
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 cursor-pointer"
+                : "text-gray-700 hover:bg-gray-100 cursor-pointer"
+          }
+        `}
+        title={`Подчеркнутый (Ctrl+U)${!canUnderline ? " - недоступно" : ""}`}
+      >
+        <Underline className="w-4 h-4" />
+      </button>
+
+      {/* Strike */}
+      <button
+        type="button"
+        onClick={handleStrike}
+        disabled={!canStrike}
+        className={`
+          p-2 rounded duration-300 
+          ${
+            !canStrike
+              ? "opacity-40 cursor-not-allowed text-gray-400"
+              : isStrike
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200 cursor-pointer"
+                : "text-gray-700 hover:bg-gray-100 cursor-pointer"
+          }
+        `}
+        title={`Зачеркнутый (Ctrl+Shift+S)${!canStrike ? " - недоступно" : ""}`}
+      >
+        <Strikethrough className="w-4 h-4" />
+      </button>
     </div>
   );
 };

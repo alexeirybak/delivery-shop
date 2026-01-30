@@ -25,9 +25,67 @@ const BG_COLORS = [
 export const BgColorMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState("#FFFFFF");
+  const [currentColor, setCurrentColor] = useState("transparent"); 
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Функция для получения текущего цвета фона
+  const getCurrentColor = useCallback(() => {
+    if (!editor) return "transparent";
+    const attrs = editor.getAttributes("textStyle");
+    return attrs?.backgroundColor || "transparent";
+  }, [editor]);
+
+  // Функция для обновления состояния
+  const updateColor = useCallback(() => {
+    const color = getCurrentColor();
+    setCurrentColor(color);
+    
+    // Если цвет не из предопределенных и не прозрачный, обновляем customColor
+    if (color !== "transparent" && !BG_COLORS.includes(color)) {
+      setCustomColor(color);
+    }
+  }, [editor, getCurrentColor]);
+
+  // Подписка на события редактора
+  useEffect(() => {
+    if (!editor) return;
+
+    // Подписываемся на изменения редактора
+    const handleUpdate = () => {
+      updateColor();
+    };
+
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
+
+    // Инициализация при монтировании
+    updateColor();
+
+    // Отписываемся при размонтировании
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor, updateColor]);
+
+  // Также обновляем при открытии меню
+  useEffect(() => {
+    if (isOpen && editor) {
+      updateColor();
+    }
+  }, [isOpen, editor, updateColor]);
+
+  useEffect(() => {
+    if (editor) {
+      const color = getCurrentColor();
+      if (color !== "transparent" && !BG_COLORS.includes(color)) {
+        setCustomColor(color);
+      }
+      setCurrentColor(color); // Инициализируем currentColor
+    }
+  }, [editor, getCurrentColor]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -44,21 +102,6 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const getCurrentColor = useCallback(() => {
-    if (!editor) return "transparent";
-    const attrs = editor.getAttributes("textStyle");
-    return attrs?.backgroundColor || "transparent";
-  }, [editor]);
-
-  useEffect(() => {
-    if (editor) {
-      const currentColor = getCurrentColor();
-      if (currentColor !== "transparent" && !BG_COLORS.includes(currentColor)) {
-        setCustomColor(currentColor);
-      }
-    }
-  }, [editor, getCurrentColor]);
-
   const applyColor = (color: string) => {
     if (!editor) return;
 
@@ -73,6 +116,9 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     if (color !== "transparent" && !BG_COLORS.includes(color)) {
       setCustomColor(color);
     }
+    
+    // Обновляем состояние после изменения
+    setTimeout(updateColor, 10);
   };
 
   const resetColor = () => {
@@ -80,6 +126,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     // Используем unsetBackgroundColor как в документации
     editor.chain().focus().unsetBackgroundColor().run();
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
 
   const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -98,11 +145,11 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     }
 
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
 
   if (!editor) return null;
 
-  const currentColor = getCurrentColor();
   const isActive = currentColor !== "transparent";
 
   return (

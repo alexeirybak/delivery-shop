@@ -1,4 +1,9 @@
-import { Category, CategoryFormData, FilterType, SortField } from "@/app/(admin)/administrator/(cms)/cms/categories/types";
+import {
+  Category,
+  CategoryFormData,
+  FilterType,
+  SortField,
+} from "@/app/(admin)/administrator/(cms)/cms/categories/types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 
 import { SortDirection } from "mongodb";
@@ -51,7 +56,9 @@ interface CategoryStore {
     page?: number;
     search?: string;
     filterType?: FilterType;
+    unlimited?: boolean; // ← ДОБАВИТЬ СЮДА
   }) => Promise<void>;
+
   setSearchQuery: (searchQuery: string) => void;
   setFilterType: (filterType: FilterType) => void;
   handleSearchChange: (value: string) => void;
@@ -144,6 +151,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     page?: number;
     search?: string;
     filterBy?: FilterType;
+    unlimited?: boolean; // ← ДОБАВИТЬ параметр для снятия лимита
   }) => {
     const state = get();
     set({ loading: true });
@@ -152,15 +160,24 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
       const pageToLoad = params?.page ?? state.currentPage;
       const search = params?.search ?? state.searchQuery;
       const filterBy = params?.filterBy ?? state.filterType;
+      const unlimited = params?.unlimited ?? false; // ← Получаем значение
+
       queryParams.append("pageToLoad", pageToLoad.toString());
-      queryParams.append("limit", state.itemsPerPage.toString());
+
+      // Если unlimited=true, не добавляем limit или ставим большое значение
+      if (unlimited) {
+        queryParams.append("limit", ""); // Или совсем не добавлять limit
+      } else {
+        queryParams.append("limit", state.itemsPerPage.toString());
+      }
+
       queryParams.append("sortBy", state.sortField.toString());
       queryParams.append("sortOrder", state.sortDirection.toString());
       queryParams.append("search", search.toString());
       queryParams.append("filterBy", filterBy.toString());
 
       const response = await fetch(
-        `/administrator/cms/api/categories?${queryParams}`
+        `/administrator/cms/api/categories?${queryParams}`,
       );
       const data = await response.json();
 

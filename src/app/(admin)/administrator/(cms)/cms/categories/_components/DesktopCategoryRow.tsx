@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { DragHandle } from "./DragHandle";
@@ -11,6 +11,9 @@ export const DesktopCategoryRow = ({
   onEdit,
   isDragging = false,
 }: SortableItemProps) => {
+  const [imageError, setImageError] = useState(false);
+  const showImage = category.image && !imageError;
+
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -21,6 +24,7 @@ export const DesktopCategoryRow = ({
     e.stopPropagation();
     onDelete(category._id.toString());
   };
+
   return (
     <div
       className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
@@ -44,14 +48,16 @@ export const DesktopCategoryRow = ({
         </div>
 
         <div className="flex items-center justify-center">
-          {category.image ? (
+          {showImage ? (
             <Image
               src={category.image}
               alt={category.imageAlt || category.name}
               width={50}
               height={50}
-              className="object-cover rounded border border-gray-200"
+              className="object-cover rounded border border-gray-200 "
               title={category.imageAlt}
+              onError={() => setImageError(true)}
+              loading="lazy"
             />
           ) : (
             <div className="w-10 h-10 bg-gray-100 rounded flex items-center justify-center">
