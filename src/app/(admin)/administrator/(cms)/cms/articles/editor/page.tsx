@@ -11,6 +11,7 @@ import { useCategoryStore } from "@/store/categoryStore";
 import { useArticles } from "../hooks/useArticles";
 import { useArticleFormState } from "../hooks/useArticleFormState";
 import { ArticleForm } from "./_components/ArticleForm";
+import { ChevronUp } from "lucide-react"; // Или используйте свою иконку
 
 const EditorPage = () => {
   const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
@@ -18,6 +19,7 @@ const EditorPage = () => {
     type: "success" | "error";
     message: string;
   } | null>(null);
+  const [showScrollButton, setShowScrollButton] = useState(false);
   const { user } = useAuthStore();
 
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
@@ -55,6 +57,19 @@ const EditorPage = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
+
+  // Эффект для отслеживания скролла
+  useEffect(() => {
+    const handleScroll = () => {
+      // Показываем кнопку, когда прокрутка больше 500px
+      setShowScrollButton(window.scrollY > 500);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    
+    // Очистка события при размонтировании
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,6 +152,14 @@ const EditorPage = () => {
     resetForm();
   };
 
+  // Функция для скролла до 500px
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 800,
+      behavior: "smooth"
+    });
+  };
+
   return (
     <div className="relative">
       <Header title="Текстовый редактор" description="Создание статей" />
@@ -158,6 +181,15 @@ const EditorPage = () => {
       />
 
       <SEORecommendations recommendations={articleSeoRecommendations} />
+
+      {showScrollButton && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 p-3 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 cursor-pointer duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+        >
+          <ChevronUp className="w-6 h-6" />
+        </button>
+      )}
     </div>
   );
 };

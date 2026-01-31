@@ -113,6 +113,8 @@ const PriceFilter = ({
 
     if (fromValue > toValue) [fromValue, toValue] = [toValue, fromValue];
 
+    params.delete("page");
+
     params.set("priceFrom", fromValue.toString());
     params.set("priceTo", toValue.toString());
     params.set("inStock", inStock.toString());
