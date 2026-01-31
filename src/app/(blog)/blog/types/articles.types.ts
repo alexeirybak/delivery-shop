@@ -60,5 +60,4 @@ export interface ArticleImageProps {
   image?: string;
   imageAlt?: string;
   articleName: string;
-  hasImage: boolean;
 }

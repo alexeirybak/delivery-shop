@@ -53,7 +53,6 @@ export default async function ArticlePage({
 }) {
   const { category, slug } = await params;
 
-  // Один запрос - получаем статью и увеличиваем просмотры
   const result = await fetchArticlePageData(category, slug);
 
   if ("error" in result) {
@@ -92,7 +91,6 @@ export default async function ArticlePage({
 
   const safeContent = sanitizeArticleHTML(article.content || "");
   const publishedDate = article.publishedAt;
-  const hasImage = Boolean(article.image && article.image.startsWith("/"));
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
@@ -111,7 +109,6 @@ export default async function ArticlePage({
         image={article.image}
         imageAlt={article.imageAlt}
         articleName={article.name}
-        hasImage={hasImage}
       />
 
       <ArticleContent html={safeContent} />

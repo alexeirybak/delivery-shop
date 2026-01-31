@@ -52,7 +52,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({
+export default async function BlogCategoryPage({
   params,
   searchParams,
 }: {

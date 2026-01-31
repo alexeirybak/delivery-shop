@@ -5,9 +5,9 @@ const ArticleImage = ({
   image,
   imageAlt,
   articleName,
-  hasImage,
 }: ArticleImageProps) => {
-  if (!hasImage || !image) {
+  
+  if (!image) { 
     return null;
   }
 
