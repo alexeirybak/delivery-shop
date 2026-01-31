@@ -1,7 +1,7 @@
 import { Highlighter, Check } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { EditorProps } from "../../../types";
-
+ 
 const BG_COLORS = [
   "transparent", // Прозрачный
   "#FFFFFF", // Белый
@@ -21,14 +21,72 @@ const BG_COLORS = [
   "#FFCC99", // Оранжевый
   "#CC99FF", // Фиолетовый
 ];
-
+ 
 export const BgColorMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState("#FFFFFF");
-
+  const [currentColor, setCurrentColor] = useState("transparent"); 
+ 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-
+ 
+  // Функция для получения текущего цвета фона
+  const getCurrentColor = useCallback(() => {
+    if (!editor) return "transparent";
+    const attrs = editor.getAttributes("textStyle");
+    return attrs?.backgroundColor || "transparent";
+  }, [editor]);
+ 
+  // Функция для обновления состояния
+  const updateColor = useCallback(() => {
+    const color = getCurrentColor();
+    setCurrentColor(color);
+    
+    // Если цвет не из предопределенных и не прозрачный, обновляем customColor
+    if (color !== "transparent" && !BG_COLORS.includes(color)) {
+      setCustomColor(color);
+    }
+  }, [getCurrentColor]);
+ 
+  // Подписка на события редактора
+  useEffect(() => {
+    if (!editor) return;
+ 
+    // Подписываемся на изменения редактора
+    const handleUpdate = () => {
+      updateColor();
+    };
+ 
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
+ 
+    // Инициализация при монтировании
+    updateColor();
+ 
+    // Отписываемся при размонтировании
+    return () => {
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
+    };
+  }, [editor, updateColor]);
+ 
+  // Также обновляем при открытии меню
+  useEffect(() => {
+    if (isOpen && editor) {
+      updateColor();
+    }
+  }, [isOpen, editor, updateColor]);
+ 
+  useEffect(() => {
+    if (editor) {
+      const color = getCurrentColor();
+      if (color !== "transparent" && !BG_COLORS.includes(color)) {
+        setCustomColor(color);
+      }
+      setCurrentColor(color); // Инициализируем currentColor
+    }
+  }, [editor, getCurrentColor]);
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -43,25 +101,10 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const getCurrentColor = useCallback(() => {
-    if (!editor) return "transparent";
-    const attrs = editor.getAttributes("textStyle");
-    return attrs?.backgroundColor || "transparent";
-  }, [editor]);
-
-  useEffect(() => {
-    if (editor) {
-      const currentColor = getCurrentColor();
-      if (currentColor !== "transparent" && !BG_COLORS.includes(currentColor)) {
-        setCustomColor(currentColor);
-      }
-    }
-  }, [editor, getCurrentColor]);
-
+ 
   const applyColor = (color: string) => {
     if (!editor) return;
-
+ 
     if (color === "transparent") {
       // Если выбрали прозрачный - сбрасываем цвет фона
       editor.chain().focus().unsetBackgroundColor().run();
@@ -69,42 +112,46 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
       // Иначе устанавливаем выбранный цвет фона
       editor.chain().focus().setBackgroundColor(color).run();
     }
-
+ 
     if (color !== "transparent" && !BG_COLORS.includes(color)) {
       setCustomColor(color);
     }
+    
+    // Обновляем состояние после изменения
+    setTimeout(updateColor, 10);
   };
-
+ 
   const resetColor = () => {
     if (!editor) return;
     // Используем unsetBackgroundColor как в документации
     editor.chain().focus().unsetBackgroundColor().run();
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
-
+ 
   const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const color = e.target.value;
     setCustomColor(color);
   };
-
+ 
   const applyCustomColor = () => {
     if (!editor) return;
-
+ 
     // Если выбрали прозрачный или белый, сбрасываем
     if (customColor === "transparent" || customColor === "#FFFFFF") {
       editor.chain().focus().unsetBackgroundColor().run();
     } else {
       editor.chain().focus().setBackgroundColor(customColor).run();
     }
-
+ 
     setIsOpen(false);
+    setTimeout(updateColor, 10);
   };
-
+ 
   if (!editor) return null;
-
-  const currentColor = getCurrentColor();
+ 
   const isActive = currentColor !== "transparent";
-
+ 
   return (
     <div className="relative inline-block">
       {/* Кнопка открытия меню */}
@@ -143,7 +190,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
           />
         </div>
       </button>
-
+ 
       {/* Выпадающее меню - уменьшенная версия */}
       {isOpen && (
         <div
@@ -162,7 +209,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
             <div className="text-xs font-medium text-gray-700 mb-1">
               Цвет фона
             </div>
-
+ 
             {/* Предопределенные цвета */}
             <div className="grid grid-cols-6 gap-1 mb-2">
               {BG_COLORS.map((color) => (
@@ -197,7 +244,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
                 </button>
               ))}
             </div>
-
+ 
             {/* Пользовательский цвет */}
             <div className="mb-2">
               <div className="text-xs text-gray-600 mb-1">
@@ -229,7 +276,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
                 </button>
               </div>
             </div>
-
+ 
             {/* Текущий цвет */}
             <div className="flex items-center justify-between p-1 bg-gray-50 rounded text-xs mb-2">
               <div className="text-gray-600">Текущий:</div>
@@ -253,7 +300,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
               </div>
             </div>
           </div>
-
+ 
           {/* Кнопка сброса */}
           <button
             type="button"

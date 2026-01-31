@@ -16,7 +16,7 @@ const PriceFilter = ({
   category,
   setIsFilterOpenAction,
   apiEndpoint = "/category",
-  userId, 
+  userId,
 }: PriceFilterProps & { apiEndpoint?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ const PriceFilter = ({
     to: urlPriceTo,
   });
   const [priceRange, setPriceRange] = useState<PriceRange>(
-    CONFIG.FALLBACK_PRICE_RANGE
+    CONFIG.FALLBACK_PRICE_RANGE,
   );
   const [inStock, setInStock] = useState(urlInStock);
   const [error, setError] = useState<{
@@ -103,15 +103,17 @@ const PriceFilter = ({
 
     let fromValue = Math.max(
       priceRange.min,
-      parseInt(inputValues.from) || priceRange.min
+      parseInt(inputValues.from) || priceRange.min,
     );
 
     let toValue = Math.min(
       priceRange.max,
-      parseInt(inputValues.to) || priceRange.max
+      parseInt(inputValues.to) || priceRange.max,
     );
 
     if (fromValue > toValue) [fromValue, toValue] = [toValue, fromValue];
+
+    params.delete("page");
 
     params.set("priceFrom", fromValue.toString());
     params.set("priceTo", toValue.toString());

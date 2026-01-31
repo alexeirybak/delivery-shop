@@ -13,6 +13,7 @@ import { useArticleFormState } from "../hooks/useArticleFormState";
 import { ArticleForm } from "./_components/ArticleForm";
 
 const EditorPage = () => {
+  const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
@@ -32,12 +33,13 @@ const EditorPage = () => {
     getKeywordsArray,
     resetForm,
   } = useArticleFormState();
+
   const { loadCategories } = useCategoryStore();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        await loadCategories();
+        await loadCategories({ unlimited: true });
       } catch (error) {
         console.error("Ошибка загрузки категорий:", error);
       }
@@ -79,6 +81,8 @@ const EditorPage = () => {
         }
       }
 
+      const articleId = currentArticleId || undefined;
+
       const articleData = {
         name: formData.name,
         slug: formData.slug,
@@ -95,16 +99,21 @@ const EditorPage = () => {
         status: formData.status || "draft",
         isFeatured: formData.isFeatured || false,
         views: 0,
+        _id: articleId,
       };
 
       const createResult = await createArticle(articleData);
 
       if (createResult.success) {
+        if (createResult.data?._id && !currentArticleId) {
+          setCurrentArticleId(createResult.data?._id);
+        }
         setNotification({
           type: "success",
-          message: "Статья успешно создана",
+          message: currentArticleId
+            ? "Изменения сохранены"
+            : "Статья успешно создана",
         });
-        resetForm();
       } else {
         setNotification({
           type: "error",
@@ -119,6 +128,7 @@ const EditorPage = () => {
       });
     } finally {
       setIsSubmitting(false);
+      window.scroll({ top: 0, behavior: "smooth" });
     }
   };
 

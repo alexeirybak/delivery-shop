@@ -1,18 +1,66 @@
 import { useState, useEffect, useRef } from "react";
 import { Link as LinkIcon, Unlink, ExternalLink } from "lucide-react";
 import { EditorProps } from "../../../types";
-
+ 
 export const LinkMenu = ({ editor }: EditorProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [url, setUrl] = useState("");
   const [text, setText] = useState("");
-  const [openInNewTab, setOpenInNewTab] = useState(true); // По умолчанию _blank
+  const [openInNewTab, setOpenInNewTab] = useState(true);
+  const [isLinkActive, setIsLinkActive] = useState(false);
   const modalRef = useRef<HTMLDivElement>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
-
+ 
+  // Подписываемся на изменения редактора для определения активности ссылки
   useEffect(() => {
     if (!editor) return;
-
+ 
+    const updateLinkActive = () => {
+      const active = editor.isActive("link");
+      setIsLinkActive(active);
+    };
+ 
+    editor.on("selectionUpdate", updateLinkActive);
+    editor.on("transaction", updateLinkActive);
+    
+    // Инициализация
+    updateLinkActive();
+ 
+    return () => {
+      editor.off("selectionUpdate", updateLinkActive);
+      editor.off("transaction", updateLinkActive);
+    };
+  }, [editor]);
+ 
+  // Обработчик для предотвращения перехода по ссылкам в редакторе
+  useEffect(() => {
+    if (!editor) return;
+ 
+    const handleClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (target.tagName === 'A' && editor.view.dom.contains(target)) {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        // Устанавливаем курсор на ссылку
+        const pos = editor.view.posAtDOM(target, 0);
+        if (pos >= 0) {
+          editor.chain().focus().setTextSelection(pos).run();
+        }
+      }
+    };
+ 
+    const editorDom = editor.view.dom;
+    editorDom.addEventListener('click', handleClick);
+ 
+    return () => {
+      editorDom.removeEventListener('click', handleClick);
+    };
+  }, [editor]);
+ 
+  useEffect(() => {
+    if (!editor) return;
+ 
     if (isModalOpen && editor.isActive("link")) {
       const attrs = editor.getAttributes("link");
       setUrl(attrs.href || "");
@@ -31,38 +79,38 @@ export const LinkMenu = ({ editor }: EditorProps) => {
         ) || ""
       );
       setUrl("");
-      setOpenInNewTab(true); // По умолчанию новая вкладка
+      setOpenInNewTab(true); 
     }
   }, [isModalOpen, editor]);
-
+ 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         handleCloseModal();
       }
     };
-
+ 
     if (isModalOpen) {
       document.addEventListener("mousedown", handleClickOutside);
       setTimeout(() => {
         urlInputRef.current?.focus();
       }, 100);
     }
-
+ 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [isModalOpen]);
-
+ 
   const handleAddLink = () => {
     if (!editor || !url.trim()) return;
-
+ 
     const linkAttributes = {
       href: url,
       target: openInNewTab ? "_blank" : null,
       rel: openInNewTab ? "noopener noreferrer" : null,
     };
-
+ 
     if (editor.isActive("link")) {
       editor
         .chain()
@@ -77,29 +125,29 @@ export const LinkMenu = ({ editor }: EditorProps) => {
         editor.chain().focus().setLink(linkAttributes).insertContent(url).run();
       }
     }
-
+ 
     setIsModalOpen(false);
     setUrl("");
     setText("");
     setOpenInNewTab(true);
   };
-
+ 
   const handleRemoveLink = () => {
     if (!editor) return;
     editor.chain().focus().unsetLink().run();
   };
-
+ 
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
-
+ 
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setUrl("");
     setText("");
     setOpenInNewTab(true);
   };
-
+ 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" && url.trim()) {
       handleAddLink();
@@ -107,11 +155,11 @@ export const LinkMenu = ({ editor }: EditorProps) => {
       handleCloseModal();
     }
   };
-
+ 
   if (!editor) return null;
-
-  const canRemoveLink = editor.isActive("link");
-
+ 
+  const canRemoveLink = isLinkActive;
+ 
   return (
     <>
       <div className="flex items-center gap-1">
@@ -121,7 +169,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           onClick={handleOpenModal}
           className={`
             p-2 rounded duration-300 cursor-pointer
-            ${editor.isActive("link")
+            ${isLinkActive
               ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
               : "text-gray-700 hover:bg-gray-100"
             }
@@ -130,7 +178,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
         >
           <LinkIcon className="w-4 h-4" />
         </button>
-
+ 
         {/* Кнопка удаления ссылки */}
         <button
           type="button"
@@ -148,7 +196,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           <Unlink className="w-4 h-4" />
         </button>
       </div>
-
+ 
       {/* Модальное окно */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -158,11 +206,11 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           >
             <div className="p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
-                {editor.isActive("link")
+                {isLinkActive
                   ? "Редактировать ссылку"
                   : "Добавить ссылку"}
               </h3>
-
+ 
               <div className="space-y-4">
                 <div>
                   <label
@@ -181,7 +229,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
-
+ 
                 <div>
                   <label
                     htmlFor="link-url"
@@ -201,7 +249,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     onKeyDown={handleKeyDown}
                   />
                 </div>
-
+ 
                 {/* Переключатель для target="_blank" */}
                 <div className="flex items-center justify-between pt-2">
                   <div className="flex items-center">
@@ -240,7 +288,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     className="sr-only"
                   />
                 </div>
-
+ 
                 {/* Подсказка */}
                 <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
                   {openInNewTab 
@@ -248,7 +296,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     : "Ссылка будет открываться в текущей вкладке (рекомендуется для навигации по Вашему сайту)"}
                 </div>
               </div>
-
+ 
               <div className="mt-6 flex justify-end gap-3">
                 <button
                   type="button"
@@ -269,7 +317,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     }
                   `}
                 >
-                  {editor.isActive("link") ? "Обновить" : "Добавить"}
+                  {isLinkActive ? "Обновить" : "Добавить"}
                 </button>
               </div>
             </div>

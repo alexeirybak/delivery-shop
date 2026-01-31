@@ -1,32 +1,33 @@
-import { ApiResponse } from "../../types/entities.types";
+import { ArticleApiResponse } from "../../types/entities.types";
 import { ArticleFormData } from "../types";
 
 export const useArticles = () => {
   const createArticle = async (
-    categoryData: Omit<ArticleFormData, "keywords">
-  ): Promise<ApiResponse> => {
+    articleData: Omit<ArticleFormData, "keywords"> 
+  ): Promise<ArticleApiResponse> => {
     try {
       const response = await fetch("/administrator/cms/api/articles", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(categoryData),
+        body: JSON.stringify(articleData),
       });
 
-      const data = await response.json();
+      const responseData = await response.json();
 
       if (response.ok) {
         return {
           success: true,
-          message: data.message || "Статья успешно создана",
+          message: responseData.message || "Статья успешно создана",
+          data: responseData.data
         };
       } else {
-        console.error("Ошибка от сервера:", data);
+        console.error("Ошибка от сервера:", responseData);
         return {
           success: false,
           message:
-            data.message || `Ошибка ${response.status}: ${response.statusText}`,
+            responseData.message || `Ошибка ${response.status}: ${response.statusText}`,
         };
       }
     } catch (error) {

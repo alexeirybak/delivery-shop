@@ -15,7 +15,7 @@ const ArticleSection = ({
           {viewAllButton && (
             <ViewAllButton
               btnText={viewAllButton.text}
-              href="/blog"
+              href={viewAllButton.href}
             />
           )}
         </div>
