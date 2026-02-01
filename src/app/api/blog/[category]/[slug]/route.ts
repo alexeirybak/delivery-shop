@@ -49,6 +49,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
           image: 1,
           imageAlt: 1,
           description: 1,
+          keywords: 1,
           content: 1,
           publishedAt: 1,
           author: 1,
@@ -79,6 +80,7 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
       _id: updatedArticle._id.toString(),
       slug: updatedArticle.slug,
       name: updatedArticle.name,
+      keywords: updatedArticle.keywords,
       image: updatedArticle.image,
       imageAlt: updatedArticle.imageAlt,
       description: updatedArticle.description,
@@ -102,5 +104,3 @@ export async function GET(_request: NextRequest, { params }: RouteParams) {
     );
   }
 }
-
-//src\app\api\blog\[category]\route.ts

@@ -2,8 +2,8 @@ import { BlogCategory, CategoriesSidebarProps } from "./categories.types";
 
 export interface BlogCategoriesListProps {
   categories: BlogCategory[];
-  searchQuery: string;
-  onItemClick: () => void;
+  searchQuery?: string;
+  onItemClick?: () => void;
 }
 
 export interface BlogCategoryItemProps {

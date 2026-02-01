@@ -47,30 +47,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const data = await getSitemapData();
 
-  // Добавляем категории статей (с проверкой на существование)
-  const articleCategories = data.articleCategories || [];
-  const articleCategoryPages: MetadataRoute.Sitemap = articleCategories.map(
-    (category) => ({
+  // Добавляем категории статей
+  const articleCategoryPages: MetadataRoute.Sitemap =
+    data.articleCategories.map((category) => ({
       url: `${baseUrl}/blog/${category.slug}`,
-      lastModified: category.updatedAt
-        ? new Date(category.updatedAt).toISOString().split("T")[0]
-        : currentDate,
+      lastModified: currentDate,
       changeFrequency: "weekly" as const,
-      priority: 0.6,
-    }),
-  );
+      priority: 0.5,
+    }));
 
-  // Добавляем статьи (с проверкой на существование)
-  const articles = data.articles || [];
-  const articlePages: MetadataRoute.Sitemap = articles.map((article) => ({
+  // Добавляем статьи
+  const articlePages: MetadataRoute.Sitemap = data.articles.map((article) => ({
     url: `${baseUrl}/blog/${article.categorySlug}/${article.slug}`,
-    lastModified: article.updatedAt
-      ? new Date(article.updatedAt).toISOString().split("T")[0]
-      : article.publishedAt
-        ? new Date(article.publishedAt).toISOString().split("T")[0]
-        : currentDate,
+    lastModified: currentDate,
     changeFrequency: "weekly" as const,
-    priority: 0.7,
+    priority: 0.5,
   }));
 
   // Существующие категории продуктов

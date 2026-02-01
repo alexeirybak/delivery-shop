@@ -7,6 +7,9 @@ import ArticleMeta from "./_components/ArticleMeta";
 import ArticleImage from "./_components/ArticleImage";
 import ArticleAuthor from "./_components/ArticleAuthor";
 import { fetchArticlePageData } from "./utils/fetchArticle";
+import { cache } from "react";
+
+const cachedFetchArticleData = cache(fetchArticlePageData);
 
 export async function generateMetadata({
   params,
@@ -15,7 +18,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { category, slug } = await params;
 
-  const result = await fetchArticlePageData(category, slug);
+  const result = await cachedFetchArticleData(category, slug);
 
   if ("error" in result) {
     return {
@@ -28,6 +31,8 @@ export async function generateMetadata({
 
   const title = `${article.name}`;
   const description = article.description || article.name;
+  const keywords =
+    (article.keywords as string[])?.map((k) => k.toLowerCase()) || [];
   const canonicalUrl = `${baseUrl}/blog/${categoryData.slug}/${article.slug}`;
 
   return {
@@ -37,6 +42,7 @@ export async function generateMetadata({
     alternates: {
       canonical: canonicalUrl,
     },
+    keywords,
     openGraph: {
       title: article.name,
       description,
@@ -53,7 +59,7 @@ export default async function ArticlePage({
 }) {
   const { category, slug } = await params;
 
-  const result = await fetchArticlePageData(category, slug);
+  const result = await cachedFetchArticleData(category, slug);
 
   if ("error" in result) {
     const error = result.error;

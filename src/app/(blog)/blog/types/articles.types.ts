@@ -22,6 +22,7 @@ export interface ArticleTitleProps {
 }
 
 export interface ArticleData {
+  keywords: any;
   _id: string | undefined;
   slug: string;
   name: string;
