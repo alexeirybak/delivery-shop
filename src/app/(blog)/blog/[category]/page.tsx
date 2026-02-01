@@ -1,4 +1,4 @@
-import { getColorFromName } from "../categories/utils/getColorFromName";
+import { getColorFromName } from "../../../../../utils/getColorFromName";
 import { Metadata } from "next";
 import { baseUrl } from "../../../../../utils/baseUrl";
 import EmptyCategory from "./_components/EmptyCategory";
@@ -6,6 +6,9 @@ import { fetchCategoryPageData } from "./utils/fetchCategory";
 import CategoryHeader from "./_components/CategoryHeader";
 import CategoryImage from "./_components/CategoryImage";
 import { ArticlesList } from "./_components/ArticlesList";
+import CategoryStats from "./_components/CategoryStats";
+import { CONFIG } from "../../../../../config/config";
+import Pagination from "@/components/Pagination";
 
 export async function generateMetadata({
   params,
@@ -30,7 +33,7 @@ export async function generateMetadata({
     ? `${categoryData.description} ${totalArticles > 0 ? `Читайте ${totalArticles} статей по теме.` : "Статьи по данной теме."}`
     : `Читайте "${categoryData.name}". ${totalArticles > 0 ? `Доступно ${totalArticles} статей.` : ""}`;
 
-  const keywords = [...(categoryData.keywords || []), "статьи", "блог"];
+  const keywords = [...(categoryData.keywords || [])];
 
   return {
     metadataBase: new URL(`${baseUrl}/blog`),
@@ -49,14 +52,24 @@ export async function generateMetadata({
   };
 }
 
-export default async function CategoryPage({
+export default async function BlogCategoryPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ category: string }>;
   searchParams: Promise<{ page?: string }>;
 }) {
   const { category } = await params;
-  const result = await fetchCategoryPageData(category, 1, 1);
+  const { page = "1" } = await searchParams;
+
+  const itemsPerPage = CONFIG.ARTICLES_PER_BLOG_PAGE;
+  const currentPage = parseInt(page) || 1;
+
+  const result = await fetchCategoryPageData(
+    category,
+    currentPage,
+    itemsPerPage,
+  );
 
   if ("error" in result) {
     return (
@@ -71,12 +84,16 @@ export default async function CategoryPage({
     category: categoryData,
     articles: articlesData,
     totalArticles,
+    totalPages,
   } = result;
 
   const gradientColor = getColorFromName(categoryData.name);
   const hasImage = Boolean(
     categoryData.image && categoryData.image.startsWith("/"),
   );
+
+  const basePath = `/blog/${categoryData.slug}`;
+  const searchQuery = `itemsPerPage=${itemsPerPage}&page=${currentPage}`;
 
   return (
     <div className="p-4 max-w-6xl mx-auto">
@@ -98,6 +115,21 @@ export default async function CategoryPage({
             articles={articlesData}
             categorySlug={categoryData.slug}
             categoryName={categoryData.name}
+          />
+          {totalPages > 1 && (
+            <Pagination
+              totalItems={totalArticles}
+              currentPage={currentPage}
+              basePath={basePath}
+              itemsPerPage={itemsPerPage}
+              searchQuery={searchQuery}
+            />
+          )}
+          <CategoryStats
+            totalArticles={totalArticles}
+            currentPage={currentPage}
+            totalPages={totalPages}
+            articlesCount={articlesData.length}
           />
         </>
       ) : (

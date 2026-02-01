@@ -22,6 +22,6 @@ export function CategoryProvider({ children }: { children: ReactNode }) {
   );
 }
 
-export function useCategory() {
+export function useCategoryTitles() {
   return useContext(CategoryContext);
 }

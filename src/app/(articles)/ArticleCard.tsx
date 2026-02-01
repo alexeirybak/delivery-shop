@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getColorFromName } from "../(blog)/blog/categories/utils/getColorFromName";
+import { getColorFromName } from "../../../utils/getColorFromName";
 import { ArticleCardProps } from "@/types/articles";
 
 const ArticleCard = ({
@@ -51,7 +51,9 @@ const ArticleCard = ({
             </time>
           </div>
 
-          <h3 className="text-lg text-main-text font-bold mb-2 line-clamp-2">{name}</h3>
+          <h3 className="text-lg text-main-text font-bold mb-2 line-clamp-2">
+            {name}
+          </h3>
 
           <p className="text-main-text text-sm line-clamp-3 mb-4 flex-1">
             {description}

@@ -1,19 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
-
 import { Article, Category } from "@/app/(blog)/blog/types";
-import { getDB } from "../../../../../../utils/api-routes";
+import { getDB } from "../../../../../utils/api-routes";
 
 interface RouteParams {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ category: string }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { slug } = await params;
+    const { category: categorySlug } = await params;
     const searchParams = request.nextUrl.searchParams;
+    const slug = categorySlug;
 
     const page = parseInt(searchParams.get("page") || "1");
-    const itemsPerPage = parseInt(searchParams.get("itemsPerPage") || "10");
+    const itemsPerPage = parseInt(searchParams.get("itemsPerPage")!);
     const skip = (page - 1) * itemsPerPage;
 
     const db = await getDB();
@@ -48,14 +48,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
             _id: 1,
             slug: 1,
             name: 1,
+            
             image: 1,
             imageAlt: 1,
             description: 1,
             publishedAt: 1,
+            isFeatured: 1,
           },
         },
       )
-      .sort({ publishedAt: -1 })
+      .sort({ isFeatured: -1, publishedAt: -1 })
       .skip(skip)
       .limit(itemsPerPage)
       .toArray();
@@ -80,6 +82,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       imageAlt: article.imageAlt,
       description: article.description,
       publishedAt: article.publishedAt,
+      isFeatured: article.isFeatured
     }));
 
     return NextResponse.json({
