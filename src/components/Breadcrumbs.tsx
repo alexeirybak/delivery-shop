@@ -22,7 +22,8 @@ function BreadcrumbsContent() {
   const productDesc = title;
 
   const isArticlePage = pathSegments[0] === "blog" && pathSegments.length >= 3;
-  const isCategoryPage = pathSegments[0] === "blog" && pathSegments.length === 2;
+  const isCategoryPage =
+    pathSegments[0] === "blog" && pathSegments.length === 2;
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
@@ -39,43 +40,31 @@ function BreadcrumbsContent() {
       label = productDesc;
     }
 
-    // Если это страница категории блога (последний элемент)
-    if (
-      isCategoryPage &&
-      index === pathSegments.length - 1 &&
-      categoryTitle
-    ) {
+    if (isCategoryPage && index === pathSegments.length - 1 && categoryTitle) {
       label = categoryTitle;
     }
 
-    // Если это категория в пути статьи (предпоследний элемент)
-    // Например: /blog/technology/article-slug, где technology - это категория
-    if (
-      isArticlePage &&
-      index === pathSegments.length - 2 && // Предпоследний элемент - категория
-      categoryTitle
-    ) {
+    if (isArticlePage && index === pathSegments.length - 2 && categoryTitle) {
       label = categoryTitle;
     }
 
-    // Если это страница статьи (последний элемент)
-    if (
-      isArticlePage &&
-      index === pathSegments.length - 1 && // Последний элемент - статья
-      articleTitle
-    ) {
+    if (isArticlePage && index === pathSegments.length - 1 && articleTitle) {
       label = articleTitle;
+    }
+
+    let finalHref = href;
+
+    const isLastItem = index === pathSegments.length - 1;
+    const isBlogPage = isArticlePage || isCategoryPage;
+
+    if (isLastItem && !isBlogPage) {
+      finalHref = `${href}?desc=${productDesc}`;
     }
 
     return {
       label,
-      href:
-        index === pathSegments.length - 1
-          ? isArticlePage || isCategoryPage
-            ? href
-            : `${href}?desc=${productDesc}`
-          : href,
-      isLast: index === pathSegments.length - 1,
+      href: finalHref,
+      isLast: isLastItem,
     };
   });
 

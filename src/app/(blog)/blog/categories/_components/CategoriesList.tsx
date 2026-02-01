@@ -1,5 +1,6 @@
-import { BlogCategoriesListProps } from "../types/categories.types";
+
 import "../../../blog/css/animations.css";
+import { BlogCategoriesListProps } from "../types";
 import CategoryCard from "./CategoryCard";
 
 export default async function CategoriesList({

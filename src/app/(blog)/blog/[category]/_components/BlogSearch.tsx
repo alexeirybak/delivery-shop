@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Search, X } from "lucide-react";
 import Link from "next/link";
 import { SearchResult } from "../../categories/types/search.types";
+import { getColorFromName } from "../../categories/utils/getColorFromName";
 
 export default function BlogSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,11 +18,6 @@ export default function BlogSearch() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (searchTerm.trim().length < 2) {
-      setError("Введите минимум 2 символа");
-      return;
-    }
 
     setIsSearching(true);
     setError("");
@@ -117,9 +113,9 @@ export default function BlogSearch() {
 
           {error && <p className="mt-2 text-red-600 text-sm">{error}</p>}
 
-          {searchTerm.trim().length > 0 && searchTerm.trim().length < 2 && (
+          {searchTerm.trim().length > 0 && searchTerm.trim().length < 3 && (
             <p className="mt-2 text-yellow-600 text-sm">
-              Введите минимум 2 символа для поиска
+              Введите минимум 3 символа для поиска
             </p>
           )}
         </form>
@@ -135,7 +131,7 @@ export default function BlogSearch() {
                     ? "Ошибка поиска"
                     : searchResults.articles.length === 0
                       ? `По запросу "${searchResults.searchTerm}" ничего не найдено`
-                      : `Найдено ${searchResults.articles.length} статей по запросу "${searchResults.searchTerm}"`}
+                      : `Найдено статей ${searchResults.articles.length} по запросу "${searchResults.searchTerm}"`}
                 </h3>
                 <button
                   onClick={closeResults}
@@ -152,21 +148,25 @@ export default function BlogSearch() {
                   {searchResults.articles.map((article) => (
                     <Link
                       key={article._id}
-                      href={`/blog/${article.category?.slug || "uncategorized"}/${article.slug}`}
+                      href={`/blog/${article.category?.slug}/${article.slug}`}
                       className="block p-4 hover:bg-gray-50 duration-300"
                       onClick={closeResults}
                     >
                       <div className="flex items-start gap-3">
-                        {article.image && (
+                        {article.image ? (
                           <div className="shrink-0 w-16 h-16">
                             <Image
                               src={article.image}
                               alt={article.imageAlt || article.name}
-                              width={200}
-                              height={200}
+                              width={64}
+                              height={64}
                               className="w-full h-full object-cover rounded"
                             />
                           </div>
+                        ) : (
+                          <div
+                            className={`shrink-0 w-16 h-11 flex items-center justify-center rounded bg-linear-to-br ${getColorFromName(article.name)}`}
+                          ></div>
                         )}
 
                         <div className="flex-1 min-w-0">

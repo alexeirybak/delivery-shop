@@ -5,7 +5,7 @@ interface RouteParams {
   params: Promise<{ category: string; slug: string }>;
 }
 
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(_request: NextRequest, { params }: RouteParams) {
   try {
     const { category, slug } = await params;
 
@@ -73,9 +73,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       name: categoryDoc.name,
       slug: categoryDoc.slug,
       description: categoryDoc.description,
-      image: categoryDoc.image,
-      imageAlt: categoryDoc.imageAlt,
-      keywords: categoryDoc.keywords,
     };
 
     const article = {
@@ -96,11 +93,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         category: categoryData,
         article: article,
       },
-      {
-        headers: {
-          'Cache-Control': 'no-store, max-age=0', // Отключаем кэширование
-        },
-      },
     );
   } catch (error) {
     console.error("Ошибка в API статьи:", error);
@@ -110,3 +102,5 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     );
   }
 }
+
+//src\app\api\blog\[category]\route.ts

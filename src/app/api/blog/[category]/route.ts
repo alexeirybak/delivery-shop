@@ -1,15 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
 import { Article, Category } from "@/app/(blog)/blog/types";
-import { getDB } from "../../../../../../utils/api-routes";
+import { getDB } from "../../../../../utils/api-routes";
 
 interface RouteParams {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ category: string }>;
 }
 
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { slug } = await params;
+    const { category: categorySlug } = await params;
+    const slug = categorySlug;
     const searchParams = request.nextUrl.searchParams;
 
     const page = parseInt(searchParams.get("page") || "1");

@@ -1,23 +1,22 @@
 import { baseUrl } from "../../../../../../../utils/baseUrl";
 import { ApiError, CategoryPageResponse } from "../../../types";
 
-
-
 export async function fetchCategoryPageData(
   categorySlug: string,
   page: number = 1,
-  itemsPerPage: number = 3
+  itemsPerPage: number = 3,
 ): Promise<CategoryPageResponse | ApiError> {
   try {
     const response = await fetch(
-      `${baseUrl}/api/blog/category/${encodeURIComponent(categorySlug)}?page=${page}&itemsPerPage=${itemsPerPage}`,
+      `${baseUrl}/api/blog/${encodeURIComponent(categorySlug)}?page=${page}&itemsPerPage=${itemsPerPage}`,
       {
         next: {
           revalidate: 3600,
-          tags: [`category-${categorySlug}`, `page-${page}`],
         },
-      }
+      },
     );
+
+    console.log(`${baseUrl}/api/blog/${encodeURIComponent(categorySlug)}?page=${page}&itemsPerPage=${itemsPerPage}`);
 
     if (!response.ok) {
       if (response.status === 404) {
