@@ -1,4 +1,4 @@
-import { SortField } from "../categories/types";
+import { SortField } from "../types";
 
 export const buildSortObject = (
   sortBy: SortField,

@@ -36,8 +36,8 @@ export const StatsSection = () => {
               stat.title,
               categoriesCount.toString(),
               keywordsCount.toString(),
-              publishedCount,
-              viewsCount
+              publishedCount.toString(),
+              viewsCount.toString()
             )}
           />
         ))}

@@ -2,13 +2,11 @@ import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
 import { processArticleImages } from "../../articles/utils/processArticleImages";
-import { sanitizeArticleHTML } from "@/app/(blog)/blog/[slug]/[slug]/utils/sanitize-html";
+import { sanitizeArticleHTML } from "@/app/(blog)/blog/[category]/[slug]/utils/sanitize-html";
 
 export async function POST(request: Request) {
   try {
     const data = await request.json();
-
-    console.log("Полученные данные:", data);
 
     // Валидация обязательных полей
     if (!data.name?.trim()) {

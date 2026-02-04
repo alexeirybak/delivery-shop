@@ -27,7 +27,8 @@ export const useArticles = () => {
         return {
           success: false,
           message:
-            responseData.message || `Ошибка ${response.status}: ${response.statusText}`,
+            responseData.message ||
+            `Ошибка ${response.status}: ${response.statusText}`,
         };
       }
     } catch (error) {
@@ -42,67 +43,40 @@ export const useArticles = () => {
     }
   };
 
-  // const updateArticle = async (
-  //   articleData: Omit<ArticleFormData, "keywords"> & {
-  //     keywords?: string | string[];
-  //     _id?: string;
-  //   }
-  // ): Promise<ArticleApiResponse> => { // Используем ArticleApiResponse
-  //   try {
-  //     const response = await fetch("/administrator/cms/api/articles", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(articleData),
-  //     });
+  const getArticle = async (id: string): Promise<ArticleApiResponse> => {
+    try {
+      const response = await fetch(
+        `/administrator/cms/api/articles/articles-management/${id}`,
+        {
+          method: "GET",
+        }
+      );
 
-  //     const data = await response.json();
+      const data = await response.json();
 
-  //     if (response.ok) {
-  //       return {
-  //         success: true,
-  //         message: data.message || "Статья успешно обновлена",
-  //         data: data.data,
-  //       };
-  //     } else {
-  //       console.error("Ошибка от сервера:", data);
-  //       return {
-  //         success: false,
-  //         message:
-  //           data.message || `Ошибка ${response.status}: ${response.statusText}`,
-  //         field: data.field, // Добавляем поле ошибки
-  //       };
-  //     }
-  //   } catch (error) {
-  //     console.error("Ошибка сети:", error);
-  //     return {
-  //       success: false,
-  //       message:
-  //         error instanceof Error
-  //           ? error.message
-  //           : "Ошибка сети при обновлении статьи",
-  //     };
-  //   }
-  // };
-
-  // const fetchArticleForEdit = async (articleId: string): Promise<ArticleFormData | null> => {
-  //   try {
-  //     const response = await fetch(`/administrator/cms/api/articles/${articleId}`);
-
-  //     if (!response.ok) return null;
-
-  //     const data = await response.json();
-  //     return data.data;
-  //   } catch (error) {
-  //     console.error("Ошибка загрузки статьи:", error);
-  //     return null;
-  //   }
-  // };
+      if (response.ok) {
+        return {
+          success: true,
+          message: data.message || "Статья загружена",
+          data: data.data,
+        };
+      } else {
+        return {
+          success: false,
+          message: data.message || "Ошибка загрузки статьи",
+        };
+      }
+    } catch (error) {
+      console.error("Ошибка загрузки статьи:", error);
+      return {
+        success: false,
+        message: "Ошибка сети при загрузке статьи",
+      };
+    }
+  };
 
   return {
     createArticle,
-    // updateArticle,
-    // fetchArticleForEdit,
+    getArticle,
   };
 };

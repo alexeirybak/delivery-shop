@@ -56,7 +56,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           },
         },
       )
-      .sort({ publishedAt: -1 })
+      .sort({ isFeatured: -1, publishedAt: -1 })
       .skip(skip)
       .limit(itemsPerPage)
       .toArray();

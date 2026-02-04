@@ -105,6 +105,11 @@
   display: list-item;
 }
 
+.ProseMirror li p {
+  display: inline !important;
+  margin: 0 !important;
+}
+
 /* Цитаты */
 .ProseMirror blockquote {
   border-left: 4px solid #3b82f6;

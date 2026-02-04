@@ -56,7 +56,7 @@ interface CategoryStore {
     page?: number;
     search?: string;
     filterType?: FilterType;
-    unlimited?: boolean; // ← ДОБАВИТЬ СЮДА
+    unlimited?: boolean;
   }) => Promise<void>;
 
   setSearchQuery: (searchQuery: string) => void;
@@ -151,7 +151,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     page?: number;
     search?: string;
     filterBy?: FilterType;
-    unlimited?: boolean; // ← ДОБАВИТЬ параметр для снятия лимита
+    unlimited?: boolean;
   }) => {
     const state = get();
     set({ loading: true });

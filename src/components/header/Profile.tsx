@@ -46,7 +46,7 @@ const Profile = () => {
           const exists = await checkAvatarExists(user.id);
 
           if (exists) {
-            setAvatarSrc(`/api/auth/avatar/${user.id}?t=${lastUpdate}`);
+            setAvatarSrc(`/api/auth/avatar/${user.id}`);
           } else {
             setAvatarSrc(getAvatarByGender(user.gender));
           }

@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "../../../../../../utils/api-routes";
+import { getServerUserId } from "../../../../../../utils/getServerUserId";
 
 interface RouteParams {
   params: Promise<{ category: string; slug: string }>;
 }
 
-export async function GET(_request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { category, slug } = await params;
 
     const db = await getDB();
+    const userId = await getServerUserId();
+    console.log(userId)
 
     // 1. Находим категорию
     const categoryDoc = await db.collection("article-category").findOne({

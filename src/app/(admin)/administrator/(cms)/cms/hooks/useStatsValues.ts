@@ -15,7 +15,6 @@ export const useStatsValues = () => {
         // Загружаем категории
         await loadCategories();
         
-        // Получаем статистику из API
         const response = await fetch('/administrator/cms/api/stats');
         
         if (!response.ok) {
@@ -43,8 +42,8 @@ export const useStatsValues = () => {
   return {
     categoriesCount: totalAllItems,
     keywordsCount,
-    publishedCount: publishedCount.toLocaleString('ru-RU'), 
-    viewsCount: viewsCount.toLocaleString('ru-RU'), 
+    publishedCount: publishedCount, 
+    viewsCount: viewsCount, 
     loading
   };
 };

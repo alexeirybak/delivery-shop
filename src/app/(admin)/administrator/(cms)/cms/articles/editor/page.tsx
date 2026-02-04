@@ -11,22 +11,70 @@ import { useCategoryStore } from "@/store/categoryStore";
 import { useArticles } from "../hooks/useArticles";
 import { useArticleFormState } from "../hooks/useArticleFormState";
 import { ArticleForm } from "./_components/ArticleForm";
-import { ChevronUp } from "lucide-react"; // Или используйте свою иконку
+import { useSearchParams } from "next/navigation";
+import { Loader } from "@/components/Loader";
 
 const EditorPage = () => {
   const [currentArticleId, setCurrentArticleId] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [notification, setNotification] = useState<{
     type: "success" | "error";
     message: string;
   } | null>(null);
-  const [showScrollButton, setShowScrollButton] = useState(false);
   const { user } = useAuthStore();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const articleId = searchParams?.get("id");
+    if (articleId) {
+      setCurrentArticleId(articleId);
+    }
+  }, [searchParams]);
 
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
 
-  const { formData, setIsSubmitting, updateFormField } = useArticleStore();
+  const { formData, setIsSubmitting, updateFormField, resetFormData, setArticleData } =
+    useArticleStore();
 
-  const { createArticle } = useArticles();
+  const { createArticle, getArticle } = useArticles();
+
+  useEffect(() => {
+    const loadArticle = async () => {
+      const articleId = searchParams?.get("id");
+
+      if (articleId) {
+        setIsLoading(true);
+        setCurrentArticleId(articleId);
+
+        try {
+          const result = await getArticle(articleId);
+
+          if (result.success && result.data) {
+            // Просто передаем данные в store
+            setArticleData(result.data);
+          } else {
+            setNotification({
+              type: "error",
+              message: result.message || "Не удалось загрузить статью",
+            });
+          }
+        } catch (error) {
+          console.error("Ошибка загрузки статьи:", error);
+          setNotification({
+            type: "error",
+            message: "Ошибка загрузки статьи",
+          });
+        } finally {
+          setIsLoading(false);
+        }
+      } else {
+        resetFormData();
+      }
+    };
+
+    loadArticle();
+  }, [searchParams]);
+
   const {
     generateSlug,
     saveImageFile,
@@ -57,19 +105,6 @@ const EditorPage = () => {
       return () => clearTimeout(timer);
     }
   }, [notification]);
-
-  // Эффект для отслеживания скролла
-  useEffect(() => {
-    const handleScroll = () => {
-      // Показываем кнопку, когда прокрутка больше 500px
-      setShowScrollButton(window.scrollY > 500);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    
-    // Очистка события при размонтировании
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,13 +187,9 @@ const EditorPage = () => {
     resetForm();
   };
 
-  // Функция для скролла до 500px
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 800,
-      behavior: "smooth"
-    });
-  };
+  if (isLoading) {
+    <Loader />;
+  }
 
   return (
     <div className="relative">
@@ -181,15 +212,6 @@ const EditorPage = () => {
       />
 
       <SEORecommendations recommendations={articleSeoRecommendations} />
-
-      {showScrollButton && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 p-3 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 cursor-pointer duration-300 hover:scale-110 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-        >
-          <ChevronUp className="w-6 h-6" />
-        </button>
-      )}
     </div>
   );
 };

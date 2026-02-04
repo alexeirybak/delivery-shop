@@ -15,7 +15,10 @@ const ArticleMeta = ({
 
       <div className="flex items-center gap-1">
         <Eye className="w-4 h-4" />
-        <span>Просмотров: {views?.toLocaleString("ru-RU")}</span>
+        <span>
+          <span className="hidden md:block">Просмотров: </span>
+          {views?.toLocaleString("ru-RU")}
+        </span>
       </div>
     </div>
   );

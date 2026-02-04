@@ -14,10 +14,10 @@ import { WarningAlert } from "./_components/WarningAlert";
 import { HeaderActions } from "./_components/HeaderActions";
 import { useCategoryStore } from "@/store/categoryStore";
 import { Pagination } from "../_components/Pagination";
-import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
 import { Category } from "./types";
 import { ReorderStatus } from "./_components/ReorderStatus";
 import { CategoryForm } from "./_components/CategoryForm";
+import { ItemsPerPageSelector } from "../_components/ItemsPerPageSelector";
 
 const CategoriesPage = () => {
   const [notification, setNotification] = useState<{
@@ -345,7 +345,7 @@ const CategoriesPage = () => {
         onEdit={startEdit}
         onReorder={handleReorder}
       />
-      {totalPages > 1 && <Pagination />}
+      {totalPages > 1 && <Pagination type="categories" />}
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>
   );

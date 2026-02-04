@@ -11,6 +11,7 @@ export interface Category {
   createdAt: string;
   updatedAt: string;
 }
+
 export interface UpdateCategoryData {
   name: string;
   slug: string;
