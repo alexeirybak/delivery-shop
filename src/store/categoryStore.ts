@@ -154,25 +154,27 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     unlimited?: boolean;
   }) => {
     const state = get();
+
     set({ loading: true });
     try {
       const queryParams = new URLSearchParams();
+
       const pageToLoad = params?.page ?? state.currentPage;
       const search = params?.search ?? state.searchQuery;
       const filterBy = params?.filterBy ?? state.filterType;
-      const unlimited = params?.unlimited ?? false; // ← Получаем значение
+      const unlimited = params?.unlimited ?? false;
 
       queryParams.append("pageToLoad", pageToLoad.toString());
 
-      // Если unlimited=true, не добавляем limit или ставим большое значение
       if (unlimited) {
-        queryParams.append("limit", ""); // Или совсем не добавлять limit
+        queryParams.append("limit", "");
       } else {
         queryParams.append("limit", state.itemsPerPage.toString());
       }
 
       queryParams.append("sortBy", state.sortField.toString());
       queryParams.append("sortOrder", state.sortDirection.toString());
+
       queryParams.append("search", search.toString());
       queryParams.append("filterBy", filterBy.toString());
 

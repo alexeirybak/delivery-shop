@@ -22,10 +22,12 @@ export async function GET(request: Request) {
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, Math.min(limit, 100));
 
-    const sortObject = buildSortObject(sortBy, sortOrder);
     const filterQuery = buildFilterQuery(search, filterBy);
+    const sortObject = buildSortObject(sortBy, sortOrder);
 
     const skip = (validPage - 1) * validLimit;
+
+    console.log("Фильтр", filterQuery, "Сортировка", sortObject);
 
     const categories = await db
       .collection<Category>("article-category")
