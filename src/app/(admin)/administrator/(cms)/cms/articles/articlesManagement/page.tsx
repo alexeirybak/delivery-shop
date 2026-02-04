@@ -98,10 +98,6 @@ const ArticlesManagementPage = () => {
     loadArticles({ page: 1 });
   };
 
-  const startEdit = () => {
-    //
-  };
-
   return (
     <div className="relative">
       <Header
@@ -128,7 +124,6 @@ const ArticlesManagementPage = () => {
 
       <ArticlesTable
         onDelete={handleDelete}
-        onEdit={startEdit}
         onReorder={handleReorder}
       />
 

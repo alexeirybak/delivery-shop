@@ -1,7 +1,6 @@
 import { Article } from "../../models";
 
 export interface ArticleTableProps {
-  onEdit: (article: Article) => void;
   onDelete: (id: string) => void;
   onReorder?: (reorderedArticles: Article[]) => void;
 }
