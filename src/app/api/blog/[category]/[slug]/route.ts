@@ -35,6 +35,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     }
 
     // 3. Увеличиваем счетчик просмотров (атомарная операция)
+
+    
     const result = await db.collection("articles").findOneAndUpdate(
       { _id: articleDoc._id },
       {
