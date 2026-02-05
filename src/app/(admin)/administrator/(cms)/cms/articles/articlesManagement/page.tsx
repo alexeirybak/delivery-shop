@@ -49,12 +49,12 @@ const ArticlesManagementPage = () => {
     if (result.success) {
       setNotification({
         type: "success",
-        message: "Категория успешно удалена",
+        message: "Статья успешно удалена",
       });
     } else {
       setNotification({
         type: "error",
-        message: result.message || "Ошибка удаления категории",
+        message: result.message || "Ошибка удаления статьи",
       });
     }
   };

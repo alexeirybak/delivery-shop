@@ -2,6 +2,7 @@
 
 import { ReactNode } from "react";
 import BlogSearch from "./[category]/_components/BlogSearch";
+import ScrollToTopButton from "@/components/ScrollToTopButton";
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
       </div>
 
       {children}
+      <ScrollToTopButton appearPos={300} finishPos={800}/>
     </div>
   );
 }

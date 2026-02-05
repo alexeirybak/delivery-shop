@@ -3,12 +3,12 @@
 import { ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 
-export default function ScrollTopButton() {
+export default function ScrollToTopButton({appearPos = 0, finishPos = 0}) {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      setShowScrollTop(window.scrollY > 300);
+      setShowScrollTop(window.scrollY > appearPos);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -17,7 +17,7 @@ export default function ScrollTopButton() {
 
   const scrollToTop = () => {
     window.scrollTo({
-      top: 0,
+      top: finishPos,
       behavior: "smooth"
     });
   };

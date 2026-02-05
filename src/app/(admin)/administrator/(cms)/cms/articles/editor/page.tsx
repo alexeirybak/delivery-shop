@@ -33,8 +33,13 @@ const EditorPage = () => {
 
   const author = `${user?.surname} ${user?.name}`.trim() || "Неизвестен";
 
-  const { formData, setIsSubmitting, updateFormField, resetFormData, setArticleData } =
-    useArticleStore();
+  const {
+    formData,
+    setIsSubmitting,
+    updateFormField,
+    resetFormData,
+    setArticleData,
+  } = useArticleStore();
 
   const { createArticle, getArticle } = useArticles();
 
@@ -50,7 +55,6 @@ const EditorPage = () => {
           const result = await getArticle(articleId);
 
           if (result.success && result.data) {
-            // Просто передаем данные в store
             setArticleData(result.data);
           } else {
             setNotification({
