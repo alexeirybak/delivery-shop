@@ -22,7 +22,7 @@ export interface ArticleTitleProps {
 }
 
 export interface ArticleData {
-  keywords: any;
+  keywords: string | string[];
   _id: string | undefined;
   slug: string;
   name: string;
@@ -30,6 +30,7 @@ export interface ArticleData {
   description?: string;
   image?: string;
   imageAlt?: string;
+  status: string;
   publishedAt?: Date;
   author: string;
   views: number;

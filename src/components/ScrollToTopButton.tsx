@@ -13,7 +13,7 @@ export default function ScrollToTopButton({appearPos = 0, finishPos = 0}) {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [appearPos]);
 
   const scrollToTop = () => {
     window.scrollTo({

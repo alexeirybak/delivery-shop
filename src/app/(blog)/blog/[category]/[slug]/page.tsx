@@ -8,6 +8,7 @@ import ArticleImage from "./_components/ArticleImage";
 import ArticleAuthor from "./_components/ArticleAuthor";
 import { fetchArticlePageData } from "./utils/fetchArticle";
 import { cache } from "react";
+import { AlertCircle } from "lucide-react";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -35,6 +36,7 @@ export async function generateMetadata({
     (article.keywords as string[])?.map((k) => k.toLowerCase()) || [];
   const canonicalUrl = `${baseUrl}/blog/${categoryData.slug}/${article.slug}`;
 
+  // Возвращаем метаданные с добавлением robots для архивных статей
   return {
     metadataBase: new URL(baseUrl),
     title,
@@ -49,9 +51,17 @@ export async function generateMetadata({
       type: "article",
       url: canonicalUrl,
     },
+    // ТОЛЬКО ЭТА СТРОКА ДОБАВЛЕНА - robots для архивных статей
+    ...(article.status === "archived" && {
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }),
   };
 }
 
+// ArticlePage остается полностью без изменений
 export default async function ArticlePage({
   params,
 }: {
@@ -97,9 +107,18 @@ export default async function ArticlePage({
 
   const safeContent = sanitizeArticleHTML(article.content || "");
   const publishedDate = article.publishedAt;
+  const isArchived = article.status === "archived";
+
+  console.log(article.status);
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
+      {isArchived && (
+        <div className="flex gap-x-2 items-center mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
+          <AlertCircle />
+          Статья находится в архиве. Информация может быть устаревшей.
+        </div>
+      )}
       <ArticleHeader
         articleTitle={article.name}
         categoryName={categoryData.name}

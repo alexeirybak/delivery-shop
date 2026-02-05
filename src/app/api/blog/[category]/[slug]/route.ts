@@ -30,7 +30,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const articleDoc = await db.collection("articles").findOne({
       categoryId: categoryDoc._id.toString(),
       slug: slug,
-      status: "published",
+      status: { $in: ["published", "archived"] }
     });
 
     if (!articleDoc) {
@@ -58,7 +58,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           author: 1,
           views: 1,
           categoryName: 1,
-          categorySlug: 1
+          categorySlug: 1,
+          status: 1
         }
       }
     );
@@ -91,6 +92,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       publishedAt: updatedArticle.publishedAt,
       author: updatedArticle.author,
       views: updatedArticle.views || 0,
+      status: updatedArticle.status,
     };
 
     return NextResponse.json(

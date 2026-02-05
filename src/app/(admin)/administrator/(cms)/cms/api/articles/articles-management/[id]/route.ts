@@ -4,13 +4,11 @@ import { getDB } from "../../../../../../../../../../utils/api-routes";
 
 export async function GET(
   request: Request,
-  { params }: { params: Promise<{ id: string }> } // Добавьте Promise!
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    const { id } = await params; // Дождитесь params
+    const { id } = await params; 
     const db = await getDB();
-
-    console.log("Получен запрос статьи с ID:", id);
 
     if (!ObjectId.isValid(id)) {
       console.error("Неверный ID:", id);
