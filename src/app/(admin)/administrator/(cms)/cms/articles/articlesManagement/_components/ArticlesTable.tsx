@@ -10,7 +10,6 @@ import { AdvancedFilters } from "./AdvancedFilters";
 import { SortableItem } from "./SortableItem";
 
 export const ArticlesTable = ({
-  onDelete,
   onReorder,
 }: ArticleTableProps) => {
   const { articles, loading } = useArticlesManagementStore();
@@ -123,7 +122,6 @@ export const ArticlesTable = ({
                   id={articleId}
                   article={article}
                   displayNumericId={getDisplayNumericId(article)}
-                  onDelete={onDelete}
                 />
               </div>
             );

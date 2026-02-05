@@ -9,41 +9,6 @@ export const useArticlesManagement = () => {
     loadArticles({ page: currentPage });
   }, [currentPage, loadArticles]);
 
-  const deleteArticle = async (id: string): Promise<ApiResponse> => {
-    try {
-      const response = await fetch(
-        `/administrator/cms/api/articles/articles-management/${id}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      const data = await response.json();
-
-      if (response.ok) {
-        await loadArticles({ page: currentPage });
-        return {
-          success: true,
-          message: data.message,
-        };
-      } else {
-        return {
-          success: false,
-          message: data.message,
-        };
-      }
-    } catch (error) {
-      console.error("Ошибка удаления статьи:", error);
-      return {
-        success: false,
-        message:
-          error instanceof Error
-            ? error.message
-            : "Ошибка сети при удалении статьи",
-      };
-    }
-  };
-
   const updateArticle = async (
     id: string,
     articleData: UpdateArticleData,
@@ -132,5 +97,5 @@ export const useArticlesManagement = () => {
     }
   };
 
-  return { deleteArticle, updateArticle, loadArticles, reorderArticles };
+  return { updateArticle, loadArticles, reorderArticles };
 };

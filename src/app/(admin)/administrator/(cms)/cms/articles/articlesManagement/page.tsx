@@ -26,7 +26,7 @@ const ArticlesManagementPage = () => {
     setIsReordering,
   } = useArticlesManagementStore();
 
-  const { deleteArticle, loadArticles, reorderArticles } =
+  const { loadArticles, reorderArticles } =
     useArticlesManagement();
 
   useEffect(() => {
@@ -41,23 +41,6 @@ const ArticlesManagementPage = () => {
   useEffect(() => {
     loadArticles({ page: currentPage });
   }, [currentPage, loadArticles]);
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("Вы уверены, что хотите удалить эту статью?")) return;
-
-    const result = await deleteArticle(id);
-    if (result.success) {
-      setNotification({
-        type: "success",
-        message: "Статья успешно удалена",
-      });
-    } else {
-      setNotification({
-        type: "error",
-        message: result.message || "Ошибка удаления статьи",
-      });
-    }
-  };
 
   const handleReorder = async (reorderedArticles: Article[]) => {
     setIsReordering(true);
@@ -123,7 +106,6 @@ const ArticlesManagementPage = () => {
       <div className="mb-4"></div>
 
       <ArticlesTable
-        onDelete={handleDelete}
         onReorder={handleReorder}
       />
 

@@ -8,7 +8,6 @@ export const SortableItem = ({
   id,
   article,
   displayNumericId,
-  onDelete,
 }: SortableItemProps) => {
   const { draggedId } = useArticlesManagementStore();
   const [isMobileView, setIsMobileView] = useState(false);
@@ -32,7 +31,6 @@ export const SortableItem = ({
         <MobileArticleCard
           article={article}
           displayNumericId={displayNumericId}
-          onDelete={onDelete}
           isDragging={isBeingDragged}
         />
       </div>
@@ -43,7 +41,6 @@ export const SortableItem = ({
     <DesktopArticleRow
       article={article}
       displayNumericId={displayNumericId}
-      onDelete={onDelete}
       isDragging={isBeingDragged}
     />
   );
