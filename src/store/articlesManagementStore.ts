@@ -13,7 +13,6 @@ interface ArticlesManagementStore {
   totalItems: number;
   totalPages: number;
   totalAllItems: number;
-  editingId: string | null;
   loading: boolean;
   isSubmitting: boolean;
   isUploading: boolean;
@@ -33,8 +32,6 @@ interface ArticlesManagementStore {
   setTotalItems: (totalItems: number) => void;
   setTotalPages: (totalPages: number) => void;
   setTotalAllItems: (totalAllItems: number) => void;
-  setEditingId: (editingId: string | null) => void;
-  clearEditingId: () => void;
   setLoading: (loading: boolean) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
   setIsUploading: (isUploading: boolean) => void;
@@ -93,8 +90,6 @@ export const useArticlesManagementStore = create<ArticlesManagementStore>(
 
     setArticles: (articles) => set({ articles }),
     setTotalAllItems: (totalAllItems) => set({ totalAllItems }),
-    setEditingId: (editingId) => set({ editingId }),
-    clearEditingId: () => set({ editingId: null }),
     setTotalItems: (totalItems) => set({ totalItems }),
     setTotalPages: (totalPages) => set({ totalPages }),
     setLoading: (loading) => set({ loading }),

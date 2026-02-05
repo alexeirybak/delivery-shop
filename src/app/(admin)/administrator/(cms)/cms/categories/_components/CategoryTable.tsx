@@ -99,7 +99,6 @@ export const CategoryTable = ({
     );
   }
 
-
   return (
     <div className="bg-white rounded shadow-sm">
       <div className="p-4 border-b border-gray-200">

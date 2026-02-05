@@ -38,7 +38,7 @@ export async function PUT(request: Request) {
 
     if (bulkOperations.length > 0) {
       const result = await db
-        .collection("article")
+        .collection("articles")
         .bulkWrite(bulkOperations);
 
       return NextResponse.json({

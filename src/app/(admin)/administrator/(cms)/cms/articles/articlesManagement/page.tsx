@@ -7,8 +7,8 @@ import { ItemsPerPageSelector } from "../../_components/ItemsPerPageSelector";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 import { useArticlesManagement } from "./hooks/useArticlesManagement";
 import { Pagination } from "../../_components/Pagination";
-import { ArticlesTable } from "./_components/ArticlesTable";
 import { Article } from "./types";
+import { ArticlesTable } from "./_components/ArticlesTable";
 
 const ArticlesManagementPage = () => {
   const [notification, setNotification] = useState<{
@@ -26,8 +26,7 @@ const ArticlesManagementPage = () => {
     setIsReordering,
   } = useArticlesManagementStore();
 
-  const { loadArticles, reorderArticles } =
-    useArticlesManagement();
+  const { loadArticles, reorderArticles } = useArticlesManagement();
 
   useEffect(() => {
     if (notification) {
@@ -63,6 +62,7 @@ const ArticlesManagementPage = () => {
           type: "error",
           message: result.message || "Ошибка обновления порядка",
         });
+        throw new Error(result.message); // Пробрасываем для useOptimistic
       }
     } catch (error) {
       console.error("Ошибка:", error);
@@ -70,6 +70,7 @@ const ArticlesManagementPage = () => {
         type: "error",
         message: "Произошла ошибка при обновлении порядка",
       });
+      throw error; // Пробрасываем для useOptimistic// Пробрасываем ошибку для useOptimistic
     } finally {
       setIsReordering(false);
     }
@@ -105,9 +106,7 @@ const ArticlesManagementPage = () => {
       </div>
       <div className="mb-4"></div>
 
-      <ArticlesTable
-        onReorder={handleReorder}
-      />
+      <ArticlesTable onReorder={handleReorder} />
 
       {totalPages > 1 && <Pagination type="articles" />}
     </div>

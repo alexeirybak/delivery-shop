@@ -1,28 +1,53 @@
-import { useArticlesManagementStore } from "@/store/articlesManagementStore";
+"use client";
+
+import { useState, useOptimistic, useTransition } from "react";
 import { Article, ArticleTableProps } from "../types";
-import { useState } from "react";
-import { EmptyState } from "./EmptyState";
-import { TableHeader } from "./TableHeader";
+import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 import { SearchBar } from "./SearchBar";
 import { FilterControls } from "./FilterControls";
 import { ResultsStats } from "./ResultsStats";
 import { AdvancedFilters } from "./AdvancedFilters";
+import { TableHeader } from "./TableHeader";
+import { EmptyState } from "./EmptyState";
 import { SortableItem } from "./SortableItem";
 
-export const ArticlesTable = ({
-  onReorder,
-}: ArticleTableProps) => {
-  const { articles, loading } = useArticlesManagementStore();
-  const [showFilters, setShowFilters] = useState(false);
-
+export const ArticlesTable = ({ onReorder }: ArticleTableProps) => {
   const {
+    articles,
+    loading,
     draggedId,
     setDraggedId,
     dragOverId,
     setDragOverId,
-    setTempOrder,
-    setArticles,
   } = useArticlesManagementStore();
+  
+  const [showFilters, setShowFilters] = useState(false);
+  const [isPending, startTransition] = useTransition();
+  
+  // Просто useOptimistic
+  const [optimisticArticles, setOptimisticArticles] = useOptimistic(
+    articles,
+    (currentArticles, { draggedId, droppedId }: { draggedId: string; droppedId: string }) => {
+      const draggedArticle = currentArticles.find(a => a._id.toString() === draggedId);
+      const droppedArticle = currentArticles.find(a => a._id.toString() === droppedId);
+      
+      if (!draggedArticle || !droppedArticle) return currentArticles;
+      
+      return currentArticles.map(article => {
+        if (article._id.toString() === draggedId) {
+          return { ...article, numericId: droppedArticle.numericId };
+        }
+        if (article._id.toString() === droppedId) {
+          return { ...article, numericId: draggedArticle.numericId };
+        }
+        return article;
+      }).sort((a, b) => a.numericId - b.numericId);
+    }
+  );
+
+  const getDisplayNumericId = (article: Article): number | null => {
+    return article.numericId;
+  };
 
   const handleDragStart = (id: string) => {
     setDraggedId(id);
@@ -35,56 +60,44 @@ export const ArticlesTable = ({
     }
   };
 
-  const handleDrop = (e: React.DragEvent, droppedId: string) => {
+  const handleDrop = async (e: React.DragEvent, droppedId: string) => {
     e.preventDefault();
-    if (draggedId && draggedId !== droppedId) {
-      const oldIndex = articles.findIndex(
-        (item) => item._id.toString() === draggedId,
-      );
 
-      const newIndex = articles.findIndex(
-        (item) => item._id.toString() === droppedId,
-      );
-
-      if (oldIndex !== -1 && newIndex !== -1) {
-        const newItems = [...articles];
-        const [movedItem] = newItems.splice(oldIndex, 1);
-
-        newItems.splice(newIndex, 0, movedItem);
-
-        const newTempOrder = new Map();
-
-        newItems.forEach((item, index) => {
-          newTempOrder.set(item._id.toString(), index + 1);
-        });
-
-        setTempOrder(newTempOrder);
-
-        setArticles(newItems);
-
-        if (onReorder) {
-          const reorderedForSave = newItems.map((item, index) => ({
-            ...item,
-            numericId: index + 1,
-          }));
-          onReorder(reorderedForSave);
-        }
-      }
+    if (!draggedId || draggedId === droppedId) {
+      setDraggedId(null);
+      setDragOverId(null);
+      return;
     }
 
-    setDraggedId(null);
-    setDragOverId(null);
-    setTempOrder(new Map());
-  };
+    // Оптимистичное обновление
+    startTransition(() => {
+      setOptimisticArticles({ draggedId, droppedId });
+    });
 
-  const getDisplayNumericId = (article: Article): number | null => {
-    return article.numericId;
+    try {
+      const draggedArticle = articles.find(a => a._id.toString() === draggedId);
+      const droppedArticle = articles.find(a => a._id.toString() === droppedId);
+      
+      if (!draggedArticle || !droppedArticle) return;
+      
+      const updatedDraggedArticle = { ...draggedArticle, numericId: droppedArticle.numericId };
+      const updatedDroppedArticle = { ...droppedArticle, numericId: draggedArticle.numericId };
+      
+      // Вызываем API
+      if (onReorder) {
+        await onReorder([updatedDraggedArticle, updatedDroppedArticle]);
+      }
+    } catch (error) {
+      console.error("Ошибка:", error);
+      // useOptimistic сам откатит
+    } finally {
+      setDraggedId(null);
+      setDragOverId(null);
+    }
   };
 
   if (loading) {
-    return (
-      <div className="p-8 text-center text-gray-500">Загрузка статей...</div>
-    );
+    return <div className="p-8 text-center text-gray-500">Загрузка категорий...</div>;
   }
 
   return (
@@ -101,11 +114,11 @@ export const ArticlesTable = ({
       </div>
 
       <TableHeader />
-      <div className="divide-y divide-yellow-600">
-        {articles.length === 0 ? (
+      <div className="divide-y divide-gray-200">
+        {optimisticArticles.length === 0 ? (
           <EmptyState />
         ) : (
-          articles.map((article) => {
+          optimisticArticles.map((article) => {
             const articleId = article._id.toString();
             const isDragOver = dragOverId === articleId;
 
@@ -116,7 +129,7 @@ export const ArticlesTable = ({
                 onDragStart={() => handleDragStart(articleId)}
                 onDragOver={(e) => handleDragOver(e, articleId)}
                 onDrop={(e) => handleDrop(e, articleId)}
-                className={`${isDragOver ? "bg-blue-50" : ""}`}
+                className={`${isDragOver ? "bg-blue-50" : ""} ${isPending ? "opacity-50" : ""}`}
               >
                 <SortableItem
                   id={articleId}

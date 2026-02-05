@@ -5,6 +5,7 @@ import { UpdateArticleData } from "../types";
 
 export const useArticlesManagement = () => {
   const { loadArticles, currentPage } = useArticlesManagementStore();
+  
   useEffect(() => {
     loadArticles({ page: currentPage });
   }, [currentPage, loadArticles]);
@@ -61,7 +62,7 @@ export const useArticlesManagement = () => {
   ): Promise<ApiResponse> => {
     try {
       const response = await fetch(
-        "/administrator/cms/api/articles/articles-management/reorder",
+        "/administrator/cms/api/articles/articles-management/reorder1",
         {
           method: "PUT",
           headers: {
@@ -74,6 +75,7 @@ export const useArticlesManagement = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Обновляем данные с сервера
         await loadArticles();
         return {
           success: true,
