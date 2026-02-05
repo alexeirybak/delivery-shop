@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { DesktopCategoryRow } from "./DesktopCategoryRow";
 import { MobileCategoryCard } from "./MobileCategoryCard";
 import { SortableItemProps } from "../../types";
+import { useCategoryStore } from "@/store/categoryStore";
 
 export const SortableItem = ({
+  id,
   category,
   displayNumericId,
   onDelete,
   onEdit,
 }: SortableItemProps) => {
+  const { draggedId } = useCategoryStore();
   const [isMobileView, setIsMobileView] = useState(false);
 
   useEffect(() => {
@@ -22,6 +25,8 @@ export const SortableItem = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
+  const isBeingDragged = draggedId === id;
+
   if (isMobileView) {
     return (
       <div>
@@ -30,6 +35,7 @@ export const SortableItem = ({
           displayNumericId={displayNumericId}
           onDelete={onDelete}
           onEdit={onEdit}
+          isDragging={isBeingDragged}
         />
       </div>
     );
@@ -41,6 +47,7 @@ export const SortableItem = ({
       displayNumericId={displayNumericId}
       onDelete={onDelete}
       onEdit={onEdit}
+      isDragging={isBeingDragged}
     />
   );
 };
