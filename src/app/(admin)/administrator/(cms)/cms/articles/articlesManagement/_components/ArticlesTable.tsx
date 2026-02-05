@@ -20,34 +20,38 @@ export const ArticlesTable = ({ onReorder }: ArticleTableProps) => {
     dragOverId,
     setDragOverId,
   } = useArticlesManagementStore();
-  
+
   const [showFilters, setShowFilters] = useState(false);
   const [isPending, startTransition] = useTransition();
-  
-  // Просто useOptimistic
+
   const [optimisticArticles, setOptimisticArticles] = useOptimistic(
     articles,
-    (currentArticles, { draggedId, droppedId }: { draggedId: string; droppedId: string }) => {
-      const draggedArticle = currentArticles.find(a => a._id.toString() === draggedId);
-      const droppedArticle = currentArticles.find(a => a._id.toString() === droppedId);
-      
-      if (!draggedArticle || !droppedArticle) return currentArticles;
-      
-      return currentArticles.map(article => {
-        if (article._id.toString() === draggedId) {
-          return { ...article, numericId: droppedArticle.numericId };
-        }
-        if (article._id.toString() === droppedId) {
-          return { ...article, numericId: draggedArticle.numericId };
-        }
-        return article;
-      }).sort((a, b) => a.numericId - b.numericId);
-    }
-  );
+    (
+      currentArticles,
+      { draggedId, droppedId }: { draggedId: string; droppedId: string },
+    ) => {
+      const draggedArticle = currentArticles.find(
+        (a) => a._id.toString() === draggedId,
+      );
+      const droppedArticle = currentArticles.find(
+        (a) => a._id.toString() === droppedId,
+      );
 
-  const getDisplayNumericId = (article: Article): number | null => {
-    return article.numericId;
-  };
+      if (!draggedArticle || !droppedArticle) return currentArticles;
+
+      return currentArticles
+        .map((article) => {
+          if (article._id.toString() === draggedId) {
+            return { ...article, numericId: droppedArticle.numericId };
+          }
+          if (article._id.toString() === droppedId) {
+            return { ...article, numericId: draggedArticle.numericId };
+          }
+          return article;
+        })
+        .sort((a, b) => a.numericId - b.numericId);
+    },
+  );
 
   const handleDragStart = (id: string) => {
     setDraggedId(id);
@@ -75,17 +79,27 @@ export const ArticlesTable = ({ onReorder }: ArticleTableProps) => {
     });
 
     try {
-      const draggedArticle = articles.find(a => a._id.toString() === draggedId);
-      const droppedArticle = articles.find(a => a._id.toString() === droppedId);
-      
+      const draggedArticle = articles.find(
+        (a) => a._id.toString() === draggedId,
+      );
+      const droppedArticle = articles.find(
+        (a) => a._id.toString() === droppedId,
+      );
+
       if (!draggedArticle || !droppedArticle) return;
-      
-      const updatedDraggedArticle = { ...draggedArticle, numericId: droppedArticle.numericId };
-      const updatedDroppedArticle = { ...droppedArticle, numericId: draggedArticle.numericId };
-      
+
+      const updatedDraggedArticle = {
+        ...draggedArticle,
+        numericId: droppedArticle.numericId,
+      };
+      const updatedDroppedArticle = {
+        ...droppedArticle,
+        numericId: draggedArticle.numericId,
+      };
+
       // Вызываем API
       if (onReorder) {
-        await onReorder([updatedDraggedArticle, updatedDroppedArticle]);
+        onReorder([updatedDraggedArticle, updatedDroppedArticle]);
       }
     } catch (error) {
       console.error("Ошибка:", error);
@@ -96,8 +110,14 @@ export const ArticlesTable = ({ onReorder }: ArticleTableProps) => {
     }
   };
 
+  const getDisplayNumericId = (article: Article): number | null => {
+    return article.numericId;
+  };
+
   if (loading) {
-    return <div className="p-8 text-center text-gray-500">Загрузка категорий...</div>;
+    return (
+      <div className="p-8 text-center text-gray-500">Загрузка категорий...</div>
+    );
   }
 
   return (

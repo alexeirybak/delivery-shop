@@ -9,7 +9,6 @@ import { MobileExpandableContent } from "./MobileExpandableContent";
 export const MobileArticleCard = ({
   article,
   displayNumericId,
-  onDelete,
   isDragging = false,
 }: SortableItemProps) => {
   const [isExpanded, setIsExpended] = useState(false);
@@ -42,7 +41,6 @@ export const MobileArticleCard = ({
       {isExpanded && (
         <MobileExpandableContent
           article={article}
-          onDelete={onDelete}
         />
       )}
     </div>
