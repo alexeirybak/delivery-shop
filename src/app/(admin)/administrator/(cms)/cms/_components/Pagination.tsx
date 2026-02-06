@@ -2,10 +2,14 @@
 
 import { useCategoryStore } from "@/store/categoryStore";
 import { CONFIG_BLOG } from "../CONFIG_BLOG";
+import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 
-export const Pagination = () => {
+export const Pagination = ({ type = "categories" }) => {
+  const categoryStore = useCategoryStore();
+  const articlesManagementStore = useArticlesManagementStore();
+
   const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
-    useCategoryStore();
+    type === "articles" ? articlesManagementStore : categoryStore;
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);

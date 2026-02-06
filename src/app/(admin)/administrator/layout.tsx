@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/store/authStore";
 import { Loader } from "@/components/Loader";
+import ScrollTopButton from "@/components/ScrollToTopButton";
 
 export default function AdminLayout({
   children,
@@ -40,5 +41,10 @@ export default function AdminLayout({
     return null;
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {children}
+      <ScrollTopButton appearPos={300} finishPos={600} />
+    </>
+  );
 }

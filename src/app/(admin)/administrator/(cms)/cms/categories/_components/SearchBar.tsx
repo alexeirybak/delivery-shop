@@ -2,8 +2,8 @@ import { Search, X } from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
 
 export const SearchBar = () => {
-  const { 
-    searchQuery, 
+  const {
+    searchQuery,
     handleSearchChange,
     handleSearchClear,
     loadCategories,
@@ -21,10 +21,8 @@ export const SearchBar = () => {
   };
 
   const handleSearchClick = async () => {
-    if (searchQuery.trim() !== "") {
-      setCurrentPage(1);
-      await loadCategories({ page: 1, search: searchQuery });
-    }
+    setCurrentPage(1);
+    await loadCategories({ page: 1, search: searchQuery });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {

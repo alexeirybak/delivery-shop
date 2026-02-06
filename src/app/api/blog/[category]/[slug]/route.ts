@@ -27,7 +27,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const articleDoc = await db.collection("articles").findOne({
       categoryId: categoryDoc._id.toString(),
       slug: slug,
-      status: "published",
+      status: { $in: ["published", "archived"] },
     });
 
     if (!articleDoc) {
@@ -36,7 +36,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // 3. Увеличиваем счетчик просмотров (атомарная операция)
 
-    
     const result = await db.collection("articles").findOneAndUpdate(
       { _id: articleDoc._id },
       {
@@ -95,12 +94,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       views: updatedArticle.views || 0,
     };
 
-    return NextResponse.json(
-      {
-        category: categoryData,
-        article: article,
-      },
-    );
+    return NextResponse.json({
+      category: categoryData,
+      article: article,
+    });
   } catch (error) {
     console.error("Ошибка в API статьи:", error);
     return NextResponse.json(

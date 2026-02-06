@@ -29,7 +29,7 @@ export const menuItems = [
     color: "from-indigo-500 to-indigo-600",
     hoverColor: "hover:from-indigo-600 hover:to-indigo-700",
     shadow: "shadow-lg shadow-indigo-500/20",
-    path: "/administrator/cms/all-articles",
+    path: "/administrator/cms/articles/articlesManagement",
   },
   {
     id: "categories",

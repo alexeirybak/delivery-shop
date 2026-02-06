@@ -14,7 +14,7 @@ import { WarningAlert } from "./_components/WarningAlert";
 import { HeaderActions } from "./_components/HeaderActions";
 import { useCategoryStore } from "@/store/categoryStore";
 import { Pagination } from "../_components/Pagination";
-import { ItemsPerPageSelector } from "./_components/ItemsPerPageSelector";
+import { ItemsPerPageSelector } from "../_components/ItemsPerPageSelector";
 import { Category } from "./types";
 import { ReorderStatus } from "./_components/ReorderStatus";
 import { CategoryForm } from "./_components/CategoryForm";
@@ -238,9 +238,7 @@ const CategoriesPage = () => {
   const handleDelete = async (id: string) => {
     if (!confirm("Вы уверены, что хотите удалить эту категорию?")) return;
 
-    const categoryToDelete = (categories).find(
-      (c) => c._id.toString() === id
-    );
+    const categoryToDelete = categories.find((c) => c._id.toString() === id);
 
     const result = await deleteCategory(id);
     if (result.success) {
@@ -345,7 +343,7 @@ const CategoriesPage = () => {
         onEdit={startEdit}
         onReorder={handleReorder}
       />
-      {totalPages > 1 && <Pagination />}
+      {totalPages > 1 && <Pagination type="categories" />}
       <SEORecommendations recommendations={categorySeoRecommendations} />
     </div>
   );

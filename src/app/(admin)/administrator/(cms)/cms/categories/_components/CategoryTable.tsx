@@ -14,11 +14,8 @@ export const CategoryTable = ({
   onEdit,
   onReorder,
 }: CategoryTableProps) => {
-  const { categories, loading } = useCategoryStore();
+  const { categories, loading, draggedId, setDraggedId, dragOverId, setDragOverId, setCategories } = useCategoryStore();
   const [showFilters, setShowFilters] = useState(false);
-
-  const { draggedId, setDraggedId, dragOverId, setDragOverId, setCategories } =
-    useCategoryStore();
 
   const handleDragStart = (id: string) => {
     setDraggedId(id);
@@ -99,11 +96,6 @@ export const CategoryTable = ({
     );
   }
 
-  // Сортируем категории по numericId для отображения
-  const sortedCategories = [...categories].sort(
-    (a, b) => (a.numericId || 0) - (b.numericId || 0),
-  );
-
   return (
     <div className="bg-white rounded shadow-sm">
       <div className="p-4 border-b border-gray-200">
@@ -119,10 +111,10 @@ export const CategoryTable = ({
 
       <TableHeader />
       <div className="divide-y divide-gray-200">
-        {sortedCategories.length === 0 ? (
+        {categories.length === 0 ? (
           <EmptyState />
         ) : (
-          sortedCategories.map((category) => {
+          categories.map((category) => {
             const categoryId = category._id.toString();
             const isDragOver = dragOverId === categoryId;
 

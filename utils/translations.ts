@@ -35,6 +35,7 @@ export const TRANSLATIONS: Record<string, string> = {
   "semantic-core": "Семантическое ядро",
   "categories": "Категории",
   "blog": "Блог",
-  "editor": "Редактор"
+  "editor": "Редактор",
+  "articlesManagement": "Управление статьями"
 };
 
