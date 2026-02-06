@@ -103,7 +103,7 @@ export const ArticleForm = ({
         <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
           <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
           <TiptapEditor
-            key={`editor-${formData.content?.length || 0}-${formData.slug}`}
+            key={`editor-${formData.slug}`}
             content={formData.content || ""}
             onContentChange={(content) => handleInputChange("content", content)}
           />

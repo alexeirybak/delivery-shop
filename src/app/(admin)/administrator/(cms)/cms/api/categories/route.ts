@@ -23,11 +23,97 @@ export async function GET(request: Request) {
     const validLimit = Math.max(1, Math.min(limit, 100));
 
     const filterQuery = buildFilterQuery(search, filterBy);
-    const sortObject = buildSortObject(sortBy, sortOrder);
-
     const skip = (validPage - 1) * validLimit;
 
-    console.log("Фильтр", filterQuery, "Сортировка", sortObject);
+    console.log("Фильтр", filterQuery, "Сортировка", sortBy, sortOrder);
+
+    // Если сортировка по статьям, используем агрегацию
+    if (sortBy === "articles") {
+      const order = sortOrder === "asc" ? 1 : -1;
+
+      // Типизированный пайплайн агрегации
+      type AggregationStage =
+        | { $match: object }
+        | { $lookup: object }
+        | { $addFields: object }
+        | { $sort: object }
+        | { $skip: number }
+        | { $limit: number }
+        | { $project: object };
+
+      const aggregationPipeline: AggregationStage[] = [
+        { $match: filterQuery },
+        {
+          $lookup: {
+            from: "articles",
+            let: { categoryId: { $toString: "$_id" } },
+            pipeline: [
+              {
+                $match: {
+                  $expr: {
+                    $eq: ["$categoryId", "$$categoryId"],
+                  },
+                },
+              },
+            ],
+            as: "categoryArticles",
+          },
+        },
+        {
+          $addFields: {
+            articlesCount: { $size: "$categoryArticles" },
+          },
+        },
+        { $sort: { articlesCount: order } },
+        { $skip: skip },
+        { $limit: validLimit },
+        {
+          $project: {
+            categoryArticles: 0,
+          },
+        },
+      ];
+
+      const categories = await db
+        .collection<Category>("article-category")
+        .aggregate(aggregationPipeline)
+        .toArray();
+
+      const totalInDB = await db
+        .collection<Category>("article-category")
+        .countDocuments({});
+
+      const totalFiltered = await db
+        .collection<Category>("article-category")
+        .countDocuments(filterQuery);
+
+      const totalPages = Math.ceil(totalFiltered / validLimit);
+
+      const response = {
+        success: true,
+        data: {
+          categories: categories.map((cat) => ({
+            ...cat,
+            _id: cat._id.toString(),
+            articlesCount:
+              (cat as Category & { articlesCount: number }).articlesCount || 0,
+          })),
+          totalInDB,
+          pagination: {
+            page: validPage,
+            limit: validLimit,
+            total: totalFiltered,
+            totalAll: totalInDB,
+            totalPages,
+          },
+        },
+      };
+
+      return NextResponse.json(response);
+    }
+
+    // Для остальных видов сортировки
+    const sortObject = buildSortObject(sortBy, sortOrder);
 
     const categories = await db
       .collection<Category>("article-category")
@@ -36,6 +122,42 @@ export async function GET(request: Request) {
       .skip(skip)
       .limit(validLimit)
       .toArray();
+
+    // Получаем ID категорий для подсчета статей
+    const categoryIds = categories.map((cat) => cat._id.toString());
+
+    // Считаем статьи для каждой категории
+    const articlesCounts: Record<string, number> = {};
+
+    if (categoryIds.length > 0) {
+      const counts = await db
+        .collection("articles")
+        .aggregate<{ _id: string; count: number }>([
+          {
+            $match: {
+              categoryId: { $in: categoryIds },
+            },
+          },
+          {
+            $group: {
+              _id: "$categoryId",
+              count: { $sum: 1 },
+            },
+          },
+        ])
+        .toArray();
+
+      counts.forEach((item) => {
+        articlesCounts[item._id] = item.count;
+      });
+    }
+
+    // Добавляем articlesCount к каждой категории
+    const categoriesWithCounts = categories.map((cat) => ({
+      ...cat,
+      _id: cat._id.toString(),
+      articlesCount: articlesCounts[cat._id.toString()] || 0,
+    }));
 
     const totalInDB = await db
       .collection<Category>("article-category")
@@ -50,10 +172,7 @@ export async function GET(request: Request) {
     const response = {
       success: true,
       data: {
-        categories: categories.map((cat) => ({
-          ...cat,
-          _id: cat._id.toString(),
-        })),
+        categories: categoriesWithCounts,
         totalInDB,
         pagination: {
           page: validPage,

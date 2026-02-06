@@ -44,6 +44,14 @@ export async function generateMetadata(): Promise<Metadata> {
       description: description.substring(0, 200),
       type: 'website',
       url: `${baseUrl}/blog/`,
+      images: [
+        {
+          url: `${baseUrl}/images/articles/article-1.jpeg`, 
+          width: 1200,
+          height: 630,
+          alt: 'Блог Северяночка - полезные статьи',
+        },
+      ],
     },
   };
 }

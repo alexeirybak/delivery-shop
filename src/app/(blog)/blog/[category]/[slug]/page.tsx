@@ -9,6 +9,7 @@ import ArticleAuthor from "./_components/ArticleAuthor";
 import { fetchArticlePageData } from "./utils/fetchArticle";
 import { cache } from "react";
 import { AlertCircle } from "lucide-react";
+import EditLink from "./_components/EditLink";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -109,8 +110,6 @@ export default async function ArticlePage({
   const publishedDate = article.publishedAt;
   const isArchived = article.status === "archived";
 
-  console.log(article.status);
-
   return (
     <div className="p-4 max-w-4xl mx-auto">
       {isArchived && (
@@ -135,8 +134,10 @@ export default async function ArticlePage({
         imageAlt={article.imageAlt}
         articleName={article.name}
       />
-
-      <ArticleContent html={safeContent} />
+      <div className="relative">
+        {article._id && <EditLink articleId={article._id} />}
+        <ArticleContent html={safeContent} />
+      </div>
 
       <ArticleAuthor author={article.author!} />
     </div>

@@ -15,7 +15,7 @@ interface ArticlesManagementStore {
   totalAllItems: number;
   loading: boolean;
   isSubmitting: boolean;
-  isUploading: boolean;
+  // isUploading: boolean;
   isReordering: boolean;
   currentPage: number;
   itemsPerPage: number;
@@ -26,7 +26,7 @@ interface ArticlesManagementStore {
 
   draggedId: string | null;
   dragOverId: string | null;
-  tempOrder: Map<string, number>;
+  //tempOrder: Map<string, number>;
 
   setArticles: (categories: Article[]) => void;
   setTotalItems: (totalItems: number) => void;
@@ -34,7 +34,7 @@ interface ArticlesManagementStore {
   setTotalAllItems: (totalAllItems: number) => void;
   setLoading: (loading: boolean) => void;
   setIsSubmitting: (isSubmitting: boolean) => void;
-  setIsUploading: (isUploading: boolean) => void;
+  // setIsUploading: (isUploading: boolean) => void;
   setIsReordering: (isReordering: boolean) => void;
   setCurrentPage: (currentPage: number) => void;
   setItemsPerPage: (itemsPerPage: number) => void;
@@ -54,7 +54,7 @@ interface ArticlesManagementStore {
 
   setDraggedId: (draggedId: string | null) => void;
   setDragOverId: (dragOverId: string | null) => void;
-  setTempOrder: (tempOrder: Map<string, number>) => void;
+  //setTempOrder: (tempOrder: Map<string, number>) => void;
 
   updateArticleStatus: (
     articleId: string,
@@ -94,7 +94,7 @@ export const useArticlesManagementStore = create<ArticlesManagementStore>(
     setTotalPages: (totalPages) => set({ totalPages }),
     setLoading: (loading) => set({ loading }),
     setIsSubmitting: (isSubmitting) => set({ isSubmitting }),
-    setIsUploading: (isUploading) => set({ isUploading }),
+    // setIsUploading: (isUploading) => set({ isUploading }),
     setIsReordering: (isReordering) => set({ isReordering }),
     setCurrentPage: (currentPage) => set({ currentPage }),
     setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
@@ -111,7 +111,7 @@ export const useArticlesManagementStore = create<ArticlesManagementStore>(
 
     setDraggedId: (draggedId) => set({ draggedId }),
     setDragOverId: (dragOverId) => set({ dragOverId }),
-    setTempOrder: (tempOrder) => set({ tempOrder }),
+    //setTempOrder: (tempOrder) => set({ tempOrder }),
 
     loadArticles: async (params?: {
       page?: number;

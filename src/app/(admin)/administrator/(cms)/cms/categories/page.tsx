@@ -262,6 +262,7 @@ const CategoriesPage = () => {
         message: result.message || "Ошибка удаления категории",
       });
     }
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const handleReorder = async (reorderedCategories: Category[]) => {

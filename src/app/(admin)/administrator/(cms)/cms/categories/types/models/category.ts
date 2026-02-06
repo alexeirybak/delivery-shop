@@ -8,6 +8,7 @@ export interface Category {
   image: string;
   imageAlt: string;
   author: string;
+  articlesCount?: string;
   createdAt: string;
   updatedAt: string;
 }

@@ -6,7 +6,7 @@ export interface CategoryTableProps {
   onReorder?: (reorderedCategories: Category[]) => void;
 }
 
-export type SortField = "numericId" | "name" | "slug" | "createdAt" | "author";
+export type SortField = "numericId" | "name" | "slug" | "createdAt" | "author" | "articles";
 export type SortDirection = "asc" | "desc";
 
 export type FilterType =

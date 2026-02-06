@@ -214,7 +214,7 @@ export const DesktopArticleRow = ({
               </button>
             )}
 
-            {article.status === "published" && (
+            {(article.status === "published" || article.status === "archived") && (
               <Link
                 href={`/blog/${article.categorySlug}/${article.slug}`}
                 target="_blank"

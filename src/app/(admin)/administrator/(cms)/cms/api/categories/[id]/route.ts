@@ -132,7 +132,7 @@ export async function DELETE(
 
     const articlesCount = await db
       .collection("articles")
-      .countDocuments({ category: id });
+      .countDocuments({ categoryId: id });
 
     if (articlesCount > 0) {
       return NextResponse.json(

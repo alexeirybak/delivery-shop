@@ -1,4 +1,3 @@
-import React from "react";
 import { MobileArticleHeaderProps } from "../types";
 
 export const MobileArticleHeader = ({
