@@ -3,7 +3,7 @@ import { ArticleFormData } from "../types";
 
 export const useArticles = () => {
   const createArticle = async (
-    articleData: Omit<ArticleFormData, "keywords"> 
+    articleData: Omit<ArticleFormData, "keywords">,
   ): Promise<ArticleApiResponse> => {
     try {
       const response = await fetch("/administrator/cms/api/articles", {
@@ -20,14 +20,15 @@ export const useArticles = () => {
         return {
           success: true,
           message: responseData.message || "Статья успешно создана",
-          data: responseData.data
+          data: responseData.data,
         };
       } else {
         console.error("Ошибка от сервера:", responseData);
         return {
           success: false,
           message:
-            responseData.message || `Ошибка ${response.status}: ${response.statusText}`,
+            responseData.message ||
+            `Ошибка ${response.status}: ${response.statusText}`,
         };
       }
     } catch (error) {
@@ -42,7 +43,40 @@ export const useArticles = () => {
     }
   };
 
+  const getArticle = async (id: string): Promise<ArticleApiResponse> => {
+    try {
+      const response = await fetch(
+        `/administrator/cms/api/articles/articles-management/${id}`,
+        {
+          method: "GET",
+        },
+      );
+
+      const data = await response.json();
+
+      if (response.ok) {
+        return {
+          success: true,
+          message: data.message || "Статья загружена",
+          data: data.data,
+        };
+      } else {
+        return {
+          success: false,
+          message: data.message || "Ошибка загрузки статьи",
+        };
+      }
+    } catch (error) {
+      console.error("Ошибка загрузки статьи:", error);
+      return {
+        success: false,
+        message: "Ошибка сети при загрузке статьи",
+      };
+    }
+  };
+
   return {
     createArticle,
+    getArticle
   };
 };

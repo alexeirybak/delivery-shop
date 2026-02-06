@@ -1,5 +1,5 @@
 export interface ArticleFormData {
-  _id?: string;
+  _id?: string | null | undefined;
   name: string;
   slug: string;
   description: string;

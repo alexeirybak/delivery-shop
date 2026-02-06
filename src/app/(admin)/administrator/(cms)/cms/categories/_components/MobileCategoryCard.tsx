@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import { DragHandle } from "./DragHandle";
+import { DragHandle } from "../../_components/DragHandle";
 import { MobileCategoryHeader } from "./MobileCategoryHeader";
 import { MobileExpandableContent } from "./MobileExpandableContent";
 import { SortableItemProps } from "../types";

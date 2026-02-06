@@ -167,6 +167,7 @@ export interface OperationStatus {
 }
 
 export interface ApiResponse {
+  message: string | undefined;
   success: boolean;
   operationId?: string;
   details?: string;
