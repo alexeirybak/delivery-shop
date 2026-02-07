@@ -3,15 +3,7 @@ import BlogSearch from "./[category]/_components/BlogSearch";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
 import ShareButtons from "./ShareButtons";
 
-
-interface BlogLayoutProps {
-  children: ReactNode;
-}
-
-export default function BlogLayout({ children }: BlogLayoutProps) {
-  // В серверном компоненте мы не можем использовать usePathname
-  // Это ограничение Next.js
-  
+export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
     <div className="container mx-auto px-4 py-8 relative">
       <div className="mb-8">
@@ -19,14 +11,13 @@ export default function BlogLayout({ children }: BlogLayoutProps) {
       </div>
 
       {children}
-      
-      {/* Компонент шаринга будет рендериться только на клиенте */}
+
       <div className="mt-12 pt-8 border-t">
         <div className="max-w-2xl mx-auto text-center">
           <ShareButtons />
         </div>
       </div>
-      
+
       <ScrollToTopButton appearPos={300} finishPos={800} />
     </div>
   );
