@@ -102,10 +102,9 @@ export async function GET(request: Request) {
         data: {
           // Преобразование категорий с конвертацией _id в строку
           categories: categories.map((cat) => ({
-            ...cat,
-            _id: cat._id.toString(),
-            articlesCount:
-              (cat as Category & { articlesCount: number }).articlesCount || 0,
+            ...cat, // 1. Берем ВСЕ поля категории
+            _id: cat._id.toString(), // 2. Конвертируем ID в строку
+            articlesCount: cat.articlesCount || 0, // 3. Добавляем счетчик статей
           })),
           totalInDB,
           pagination: {
