@@ -23,10 +23,8 @@ export interface Article {
 }
 
 export interface UpdateArticleData {
-isFeatured: boolean;
-status: string;
-updatedAt: string;
-publishedAt: string;
+  isFeatured: boolean;
+  status: string;
+  updatedAt: string;
+  publishedAt: string;
 }
-
-
