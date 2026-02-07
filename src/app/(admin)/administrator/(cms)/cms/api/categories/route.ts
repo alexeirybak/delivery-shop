@@ -1,202 +1,169 @@
-import { NextResponse } from "next/server"; // Для создания HTTP-ответов в Next.js
-import { getDB } from "../../../../../../../../utils/api-routes"; // Утилита для подключения к MongoDB
-import { buildSortObject } from "../../categories/utils/buildSortObject"; // Функция для построения объекта сортировки
-import { buildFilterQuery } from "../../categories/utils/buildFilterQuery"; // Функция для построения запроса фильтрации
-import { Category, FilterType, SortField } from "../../categories/types"; // TypeScript типы
+import { NextResponse } from "next/server";
+import { ObjectId } from "mongodb";
+import { getDB } from "../../../../../../../../utils/api-routes";
+import { buildSortObject } from "../../categories/utils/buildSortObject";
+import { buildFilterQuery } from "../../categories/utils/buildFilterQuery";
+import { Category, FilterType, SortField } from "../../categories/types";
 
 export async function GET(request: Request) {
   try {
     const db = await getDB();
-    
     const { searchParams } = new URL(request.url);
 
     const page = parseInt(searchParams.get("pageToLoad") || "1");
     const limit = parseInt(searchParams.get("limit")!);
-    const sortBy: SortField = (searchParams.get("sortBy") || "numericId") as SortField;
+    const sortBy: SortField = (searchParams.get("sortBy") ||
+      "numericId") as SortField;
     const sortOrder = searchParams.get("sortOrder") || "asc";
     const search = searchParams.get("search") || "";
-    const filterBy: FilterType = (searchParams.get("filterBy") || "all") as FilterType;
+    const filterBy: FilterType = (searchParams.get("filterBy") ||
+      "all") as FilterType;
 
     const validPage = Math.max(1, page);
     const validLimit = Math.max(1, Math.min(limit, 100));
-    const skip = (validPage - 1) * validLimit;
 
     const filterQuery = buildFilterQuery(search, filterBy);
+    const skip = (validPage - 1) * validLimit;
 
+    console.log("Фильтр", filterQuery, "Сортировка", sortBy, sortOrder);
+
+    // Если сортировка по статьям, используем агрегацию
     if (sortBy === "articles") {
       const order = sortOrder === "asc" ? 1 : -1;
 
-      const allCategoriesAggregation = [
+      const aggregationPipeline = [
         { $match: filterQuery },
         {
           $lookup: {
-            from: "articles", 
-            let: { categoryId: { $toString: "$_id" } }, 
-            pipeline: [ 
+            from: "articles",
+            let: { categoryId: { $toString: "$_id" } },
+            pipeline: [
               {
-                $match: { // Фильтруем статьи по categoryId
-                  $expr: { $eq: ["$categoryId", "$$categoryId"] },
+                $match: {
+                  $expr: {
+                    $eq: ["$categoryId", "$$categoryId"],
+                  },
                 },
               },
             ],
-            as: "categoryArticles", // Сохраняем результат в это поле
+            as: "categoryArticles",
           },
         },
-        // 3. Этап добавления полей: подсчитываем количество статей
         {
           $addFields: {
-            // $size считает количество элементов в массиве categoryArticles
             articlesCount: { $size: "$categoryArticles" },
           },
         },
-        // 4. Этап проекции: выбираем только нужные поля
+        { $sort: { articlesCount: order } },
+        { $skip: skip },
+        { $limit: validLimit },
         {
           $project: {
-            _id: 1, // Включаем поле _id
-            numericId: 1, // Включаем numericId
-            name: 1, // Включаем название
-            slug: 1, // Включаем slug
-            description: 1, // Включаем описание
-            keywords: 1, // Включаем ключевые слова
-            image: 1, // Включаем изображение
-            imageAlt: 1, // Включаем alt для изображения
-            author: 1, // Включаем автора
-            createdAt: 1, // Включаем дату создания
-            updatedAt: 1, // Включаем дату обновления
-            articlesCount: 1, // Включаем подсчитанное количество статей
-            // Неявно исключаем categoryArticles (массив статей больше не нужен)
+            categoryArticles: 0,
           },
         },
       ];
 
-      // Выполняем агрегацию для получения ВСЕХ категорий с подсчитанными статьями
-      const allCategories = await db
-        .collection<Category>("article-category") // Указываем коллекцию и тип
-        .aggregate(allCategoriesAggregation) // Применяем агрегационный конвейер
-        .toArray(); // Преобразуем результат в массив
+      const categories = await db
+        .collection<Category>("article-category")
+        .aggregate(aggregationPipeline)
+        .toArray();
 
-      // Сортируем категории в JavaScript по количеству статей
-      const sortedCategories = allCategories.sort((a, b) => {
-        // Получаем количество статей у каждой категории (по умолчанию 0)
-        const countA = a.articlesCount || 0;
-        const countB = b.articlesCount || 0;
-        // Сортируем в зависимости от направления
-        return order === 1 ? countA - countB : countB - countA;
-      });
-
-      // Подсчитываем общее количество отфильтрованных категорий
-      const totalFiltered = sortedCategories.length;
-      // Рассчитываем общее количество страниц
-      const totalPages = Math.ceil(totalFiltered / validLimit);
-
-      // Применяем пагинацию: берем только нужную часть массива
-      const paginatedCategories = sortedCategories.slice(skip, skip + validLimit);
-
-      // Получаем общее количество категорий в базе данных (без фильтров)
       const totalInDB = await db
         .collection<Category>("article-category")
         .countDocuments({});
 
-      // Формируем структуру ответа
+      const totalFiltered = await db
+        .collection<Category>("article-category")
+        .countDocuments(filterQuery);
+
+      const totalPages = Math.ceil(totalFiltered / validLimit);
+
       const response = {
-        success: true, // Флаг успешного выполнения
+        success: true,
         data: {
-          // Преобразуем категории: конвертируем ObjectId в строку
-          categories: paginatedCategories.map((cat) => ({
-            ...cat, // Копируем все свойства категории
-            _id: cat._id.toString(), // Конвертируем ObjectId в строку
+          categories: categories.map((cat) => ({
+            ...cat,
+            _id: cat._id.toString(),
+            articlesCount:
+              (cat as Category & { articlesCount: number }).articlesCount || 0,
           })),
-          totalInDB, // Общее количество категорий в БД
-          pagination: { // Информация о пагинации
-            page: validPage, // Текущая страница
-            limit: validLimit, // Лимит на страницу
-            total: totalFiltered, // Количество отфильтрованных записей
-            totalAll: totalInDB, // Общее количество записей в БД
-            totalPages, // Общее количество страниц
+          totalInDB,
+          pagination: {
+            page: validPage,
+            limit: validLimit,
+            total: totalFiltered,
+            totalAll: totalInDB,
+            totalPages,
           },
         },
       };
 
-      // Возвращаем успешный ответ в формате JSON
       return NextResponse.json(response);
     }
 
-    // Если сортировка НЕ по количеству статей:
-    
-    // Строим объект сортировки для MongoDB
     const sortObject = buildSortObject(sortBy, sortOrder);
 
-    // Получаем категории с пагинацией (обычный запрос, без агрегации)
     const categories = await db
       .collection<Category>("article-category")
-      .find(filterQuery) // Применяем фильтр
-      .sort(sortObject) // Применяем сортировку
-      .skip(skip) // Пропускаем записи для пагинации
-      .limit(validLimit) // Ограничиваем количество результатов
-      .toArray(); // Преобразуем в массив
+      .find(filterQuery)
+      .sort(sortObject)
+      .skip(skip)
+      .limit(validLimit)
+      .toArray();
 
-    // Собираем ID всех полученных категорий для подсчета статей
+    // Получаем ID категорий для подсчета статей
     const categoryIds = categories.map((cat) => cat._id.toString());
-    
-    // Создаем объект для хранения количества статей по categoryId
+
+    // Считаем статьи для каждой категории
     const articlesCounts: Record<string, number> = {};
 
-    // Если есть категории, подсчитываем статьи для них
     if (categoryIds.length > 0) {
-      // Используем агрегацию для подсчета статей в каждой категории
       const counts = await db
         .collection("articles")
         .aggregate<{ _id: string; count: number }>([
-          // Фильтруем статьи по ID категорий
           {
             $match: {
-              categoryId: { $in: categoryIds }, // Статьи, относящиеся к нашим категориям
+              categoryId: { $in: categoryIds },
             },
           },
-          // Группируем по categoryId и подсчитываем количество
           {
             $group: {
-              _id: "$categoryId", // Группируем по полю categoryId
-              count: { $sum: 1 }, // Считаем количество статей в каждой группе
+              _id: "$categoryId",
+              count: { $sum: 1 },
             },
           },
         ])
         .toArray();
 
-      // Преобразуем результат агрегации в объект для быстрого доступа
       counts.forEach((item) => {
-        articlesCounts[item._id] = item.count; // Сохраняем количество по ID категории
+        articlesCounts[item._id] = item.count;
       });
     }
 
-    // Объединяем данные категорий с количеством статей
+    // Добавляем articlesCount к каждой категории
     const categoriesWithCounts = categories.map((cat) => ({
-      ...cat, // Копируем все свойства категории
-      _id: cat._id.toString(), // Конвертируем ObjectId в строку
-      // Добавляем количество статей (0 если категория не найдена в articlesCounts)
+      ...cat,
+      _id: cat._id.toString(),
       articlesCount: articlesCounts[cat._id.toString()] || 0,
     }));
 
-    // Подсчитываем общее количество категорий в базе данных
     const totalInDB = await db
       .collection<Category>("article-category")
       .countDocuments({});
 
-    // Подсчитываем количество отфильтрованных категорий
     const totalFiltered = await db
       .collection<Category>("article-category")
       .countDocuments(filterQuery);
 
-    // Рассчитываем общее количество страниц
     const totalPages = Math.ceil(totalFiltered / validLimit);
 
-    // Формируем финальный ответ
     const response = {
       success: true,
       data: {
-        categories: categoriesWithCounts, // Категории с количеством статей
-        totalInDB, // Общее количество категорий в БД
-        pagination: { // Информация о пагинации
+        categories: categoriesWithCounts,
+        totalInDB,
+        pagination: {
           page: validPage,
           limit: validLimit,
           total: totalFiltered,
@@ -206,19 +173,111 @@ export async function GET(request: Request) {
       },
     };
 
-    // Возвращаем успешный ответ
     return NextResponse.json(response);
   } catch (error) {
-    // Обработка ошибок
     console.error("Ошибка получения категорий:", error);
-    
-    // Возвращаем ошибку сервера
     return NextResponse.json(
       {
         success: false,
         message: "Ошибка получения категорий",
       },
-      { status: 500 }, // HTTP статус 500 - Internal Server Error
+      { status: 500 },
+    );
+  }
+}
+
+export async function POST(request: Request) {
+  try {
+    const data: Category = await request.json();
+
+    if (!data.name?.trim()) {
+      return NextResponse.json(
+        { success: false, message: "Название категории обязательно" },
+        { status: 400 },
+      );
+    }
+
+    if (!data.slug?.trim()) {
+      return NextResponse.json(
+        { success: false, message: "Алиас (slug) категории обязателен" },
+        { status: 400 },
+      );
+    }
+
+    const name = data.name.trim();
+    const slug = data.slug.trim().toLowerCase();
+
+    const db = await getDB();
+
+    const existingCategory = await db
+      .collection<Category>("article-category")
+      .findOne({ slug });
+
+    if (existingCategory) {
+      return NextResponse.json(
+        { success: false, message: "Категория с таким алиасом уже существует" },
+        { status: 400 },
+      );
+    }
+
+    const result = await db
+      .collection("article-category")
+      .aggregate([
+        {
+          $group: {
+            _id: null,
+            maxNumericId: { $max: "$numericId" },
+          },
+        },
+      ])
+      .toArray();
+
+    let maxNumericId = 0;
+    if (
+      result.length > 0 &&
+      result[0].maxNumericId !== null &&
+      result[0].maxNumericId !== undefined
+    ) {
+      maxNumericId = result[0].maxNumericId;
+    }
+
+    const newNumericId = maxNumericId + 1;
+
+    const newCategory = {
+      _id: new ObjectId(),
+      numericId: newNumericId,
+      name,
+      slug,
+      description: data.description?.trim() || "",
+      keywords: data.keywords || [],
+      image: data.image || "",
+      imageAlt: data.imageAlt || name,
+      author: data.author || "Неизвестен",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+
+    await db.collection("article-category").insertOne(newCategory);
+
+    const responseCategory: Category = {
+      ...newCategory,
+      _id: newCategory._id.toString(),
+    };
+
+    return NextResponse.json({
+      success: true,
+      message: "Категория создана",
+      data: responseCategory,
+    });
+  } catch (error) {
+    console.error("Ошибка создания категории:", error);
+    return NextResponse.json(
+      {
+        success: false,
+        message: "Ошибка создания категории",
+        error: error instanceof Error ? error.message : "Неизвестная ошибка",
+      },
+      { status: 500 },
     );
   }
 }
