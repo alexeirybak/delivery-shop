@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import BlogSearch from "./[category]/_components/BlogSearch";
 import ScrollToTopButton from "@/components/ScrollToTopButton";
-import ShareButtons from "./ShareButtons";
+import BlogShareButtons from "./BlogShareButtons";
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
@@ -14,7 +14,7 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
 
       <div className="mt-12 pt-8 border-t">
         <div className="max-w-2xl mx-auto text-center">
-          <ShareButtons />
+          <BlogShareButtons />
         </div>
       </div>
 
