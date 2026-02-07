@@ -12,7 +12,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     const db = await getDB();
     const userId = await getServerUserId();
-    console.log(userId)
+    console.log(userId);
 
     // 1. Находим категорию
     const categoryDoc = await db.collection("article-category").findOne({
@@ -30,7 +30,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const articleDoc = await db.collection("articles").findOne({
       categoryId: categoryDoc._id.toString(),
       slug: slug,
-      status: { $in: ["published", "archived"] }
+      status: { $in: ["published", "archived"] },
     });
 
     if (!articleDoc) {
@@ -40,11 +40,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     // 3. Увеличиваем счетчик просмотров (атомарная операция)
     const result = await db.collection("articles").findOneAndUpdate(
       { _id: articleDoc._id },
-      { 
-        $inc: { views: 1 }
+      {
+        $inc: { views: 1 },
       },
-      { 
-        returnDocument: 'after',
+      {
+        returnDocument: "after",
         projection: {
           _id: 1,
           slug: 1,
@@ -55,19 +55,21 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           keywords: 1,
           content: 1,
           publishedAt: 1,
+          updatedAt: 1,
+          createdAt: 1,
           author: 1,
           views: 1,
           categoryName: 1,
           categorySlug: 1,
-          status: 1
-        }
-      }
+          status: 1,
+        },
+      },
     );
 
     if (!result) {
       return NextResponse.json(
         { error: "Не удалось обновить счетчик просмотров" },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -90,17 +92,17 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       description: updatedArticle.description,
       content: updatedArticle.content,
       publishedAt: updatedArticle.publishedAt,
+      createdAt: updatedArticle.createdAt, // ДОБАВЬТЕ ЭТО
+      updatedAt: updatedArticle.updatedAt, // ДОБАВЬТЕ ЭТО
       author: updatedArticle.author,
       views: updatedArticle.views || 0,
       status: updatedArticle.status,
     };
 
-    return NextResponse.json(
-      {
-        category: categoryData,
-        article: article,
-      },
-    );
+    return NextResponse.json({
+      category: categoryData,
+      article: article,
+    });
   } catch (error) {
     console.error("Ошибка в API статьи:", error);
     return NextResponse.json(

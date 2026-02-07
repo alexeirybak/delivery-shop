@@ -34,6 +34,8 @@ export interface ArticleData {
   publishedAt?: Date;
   author: string;
   views: number;
+  updatedAt: string;
+  createdAt: string;
 }
 
 export interface ArticleCategory {

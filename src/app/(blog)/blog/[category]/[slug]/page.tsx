@@ -8,8 +8,8 @@ import ArticleImage from "./_components/ArticleImage";
 import ArticleAuthor from "./_components/ArticleAuthor";
 import { fetchArticlePageData } from "./utils/fetchArticle";
 import { cache } from "react";
-import { AlertCircle } from "lucide-react";
 import EditLink from "./_components/EditLink";
+import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -108,15 +108,11 @@ export default async function ArticlePage({
   const safeContent = sanitizeArticleHTML(article.content || "");
   const publishedDate = article.publishedAt;
   const isArchived = article.status === "archived";
+  const updatedAt = article.updatedAt || article.createdAt;
 
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      {isArchived && (
-        <div className="flex gap-x-2 items-center mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded text-sm text-yellow-800">
-          <AlertCircle />
-          Статья находится в архиве. Информация может быть устаревшей.
-        </div>
-      )}
+      {isArchived && <ArticleArchiveNotice updatedAt={updatedAt}/>}
       <div className="relative">
         <ArticleHeader
           articleTitle={article.name}
