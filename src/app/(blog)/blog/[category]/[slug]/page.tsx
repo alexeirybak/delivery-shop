@@ -10,6 +10,8 @@ import { fetchArticlePageData } from "./utils/fetchArticle";
 import { cache } from "react";
 import EditLink from "./_components/EditLink";
 import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
+import ArticleCard from "@/app/(articles)/ArticleCard";
+import { getRelatedArticles } from "./utils/getRelatedArticles";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -37,7 +39,6 @@ export async function generateMetadata({
     (article.keywords as string[])?.map((k) => k.toLowerCase()) || [];
   const canonicalUrl = `${baseUrl}/blog/${categoryData.slug}/${article.slug}`;
 
-  // Возвращаем метаданные с добавлением robots для архивных статей
   return {
     metadataBase: new URL(baseUrl),
     title,
@@ -52,7 +53,6 @@ export async function generateMetadata({
       type: "article",
       url: canonicalUrl,
     },
-    // ТОЛЬКО ЭТА СТРОКА ДОБАВЛЕНА - robots для архивных статей
     ...(article.status === "archived" && {
       robots: {
         index: false,
@@ -110,9 +110,15 @@ export default async function ArticlePage({
   const isArchived = article.status === "archived";
   const updatedAt = article.updatedAt || article.createdAt;
 
+  const otherArticles = await getRelatedArticles(
+    categoryData._id,
+    article.slug,
+    3,
+  );
+
   return (
     <div className="p-4 max-w-4xl mx-auto">
-      {isArchived && <ArticleArchiveNotice updatedAt={updatedAt}/>}
+      {isArchived && <ArticleArchiveNotice updatedAt={updatedAt} />}
       <div className="relative">
         <ArticleHeader
           articleTitle={article.name}
@@ -136,6 +142,32 @@ export default async function ArticlePage({
       <ArticleContent html={safeContent} />
 
       <ArticleAuthor author={article.author!} />
+      {otherArticles.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
+            Читайте также
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {otherArticles.map((related) => (
+              <ArticleCard
+                key={related._id}
+                slug={related.slug}
+                categorySlug={categoryData.slug}
+                categoryName={categoryData.name}
+                image={related.image}
+                imageAlt={related.imageAlt}
+                name={related.name}
+                description={related.description}
+                publishedAt={
+                  typeof related.publishedAt === "string"
+                    ? related.publishedAt
+                    : related.publishedAt
+                }
+              />
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
