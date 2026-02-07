@@ -5,54 +5,56 @@ import {
   TelegramShareButton,
   VKShareButton,
   WhatsappShareButton,
-  EmailShareButton,
   TelegramIcon,
   VKIcon,
   WhatsappIcon,
-  EmailIcon,
 } from "react-share";
 
-const ShareButtons = () => {
+const ShareButton = () => {
   const [url, setUrl] = useState("");
   const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
+    setMounted(true);
+
+    if (typeof window !== "undefined") {
       setUrl(window.location.href);
       setTitle(document.title);
-      
-      // Получаем изображение из OpenGraph метатегов
-      const ogImage = document.querySelector('meta[property="og:image"]');
-      if (ogImage) {
-        setImage(ogImage.getAttribute('content') || '');
-      }
     }
   }, []);
 
+  if (!mounted) return null;
+
   return (
-    <div className="flex gap-2">
-      {/* Telegram */}
-      <TelegramShareButton url={url} title={title}>
-        <TelegramIcon size={32} round />
-      </TelegramShareButton>
-      
-      {/* VK - добавляем image если есть */}
-      <VKShareButton url={url} title={title} image={image}>
-        <VKIcon size={32} round />
-      </VKShareButton>
-      
-      {/* WhatsApp */}
-      <WhatsappShareButton url={url} title={title} separator=" :: ">
-        <WhatsappIcon size={32} round />
-      </WhatsappShareButton>
-      
-      {/* Email */}
-      <EmailShareButton url={url} subject={title} body={`Посмотрите эту статью: ${url}`}>
-        <EmailIcon size={32} round />
-      </EmailShareButton>
+    <div className="fixed top-50 right-0 pr-1.5 z-50">
+      <div className="flex flex-col gap-3">
+        <TelegramShareButton
+          url={url}
+          title={title}
+          className="hover:opacity-70 transition-opacity"
+        >
+          <TelegramIcon size={24} round />
+        </TelegramShareButton>
+
+        <VKShareButton
+          url={url}
+          title={title}
+          className="hover:opacity-70 transition-opacity"
+        >
+          <VKIcon size={24} round />
+        </VKShareButton>
+
+        <WhatsappShareButton
+          url={url}
+          title={title}
+          className="hover:opacity-70 transition-opacity"
+        >
+          <WhatsappIcon size={24} round />
+        </WhatsappShareButton>
+      </div>
     </div>
   );
 };
 
-export default ShareButtons;
+export default ShareButton;

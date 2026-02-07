@@ -25,23 +25,11 @@ export async function GET(request: Request) {
     const filterQuery = buildFilterQuery(search, filterBy);
     const skip = (validPage - 1) * validLimit;
 
-    console.log("Фильтр", filterQuery, "Сортировка", sortBy, sortOrder);
-
     // Если сортировка по статьям, используем агрегацию
     if (sortBy === "articles") {
       const order = sortOrder === "asc" ? 1 : -1;
 
-      // Типизированный пайплайн агрегации
-      type AggregationStage =
-        | { $match: object }
-        | { $lookup: object }
-        | { $addFields: object }
-        | { $sort: object }
-        | { $skip: number }
-        | { $limit: number }
-        | { $project: object };
-
-      const aggregationPipeline: AggregationStage[] = [
+      const aggregationPipeline = [
         { $match: filterQuery },
         {
           $lookup: {
@@ -112,7 +100,6 @@ export async function GET(request: Request) {
       return NextResponse.json(response);
     }
 
-    // Для остальных видов сортировки
     const sortObject = buildSortObject(sortBy, sortOrder);
 
     const categories = await db

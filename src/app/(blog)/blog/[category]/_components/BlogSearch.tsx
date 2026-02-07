@@ -67,7 +67,7 @@ export default function BlogSearch() {
     <div className="relative mb-8">
       <div className="max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="relative">
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-main-text w-5 h-5" />
               <input
@@ -95,7 +95,7 @@ export default function BlogSearch() {
             <button
               type="submit"
               disabled={isSearching || searchTerm.trim().length < 2}
-              className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 duration-300 cursor-pointer"
+              className="text-center px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 duration-300 cursor-pointer"
             >
               {isSearching ? (
                 <>

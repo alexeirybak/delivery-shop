@@ -62,7 +62,6 @@ export async function generateMetadata({
   };
 }
 
-// ArticlePage остается полностью без изменений
 export default async function ArticlePage({
   params,
 }: {
@@ -118,10 +117,13 @@ export default async function ArticlePage({
           Статья находится в архиве. Информация может быть устаревшей.
         </div>
       )}
-      <ArticleHeader
-        articleTitle={article.name}
-        categoryName={categoryData.name}
-      />
+      <div className="relative">
+        <ArticleHeader
+          articleTitle={article.name}
+          categoryName={categoryData.name}
+        />
+        {article._id && <EditLink articleId={article._id} />}
+      </div>
 
       <ArticleMeta
         categoryName={categoryData.name}
@@ -134,10 +136,8 @@ export default async function ArticlePage({
         imageAlt={article.imageAlt}
         articleName={article.name}
       />
-      <div className="relative">
-        {article._id && <EditLink articleId={article._id} />}
-        <ArticleContent html={safeContent} />
-      </div>
+
+      <ArticleContent html={safeContent} />
 
       <ArticleAuthor author={article.author!} />
     </div>
