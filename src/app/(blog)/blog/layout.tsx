@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import BlogSearch from "./BlogSearch";
 import ScrollTopButton from "@/components/ScrollToTopButton";
+import BlogShareButtons from "./BlogShareButtons";
 
 export default function BlogLayout({ children }: { children: ReactNode }) {
   return (
@@ -10,7 +11,8 @@ export default function BlogLayout({ children }: { children: ReactNode }) {
       </div>
 
       {children}
-      <ScrollTopButton appearPos={300}/>
+      <BlogShareButtons />
+      <ScrollTopButton appearPos={300} />
     </div>
   );
 }

@@ -132,13 +132,13 @@ export async function DELETE(
 
     const articlesCount = await db
       .collection("articles")
-      .countDocuments({ category: id });
+      .countDocuments({ categoryId: id });
 
     if (articlesCount > 0) {
       return NextResponse.json(
         {
           success: false,
-          message: `Невозможно удалить категорию. В ней ${articlesCount} статей.`,
+          message: `Невозможно удалить категорию. В ней статьи в количестве ${articlesCount} шт.`,
         },
         { status: 400 }
       );

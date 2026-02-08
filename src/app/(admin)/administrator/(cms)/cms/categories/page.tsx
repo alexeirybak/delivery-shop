@@ -67,7 +67,7 @@ const CategoriesPage = () => {
     if (notification) {
       const timer = setTimeout(() => {
         setNotification(null);
-      }, 5000);
+      }, 10000);
       return () => clearTimeout(timer);
     }
   }, [notification]);
@@ -260,6 +260,10 @@ const CategoriesPage = () => {
         message: result.message || "Ошибка удаления категории",
       });
     }
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const handleReorder = async (reorderedCategories: Category[]) => {

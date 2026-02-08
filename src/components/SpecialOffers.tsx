@@ -10,7 +10,7 @@ const SpecialOffers = () => {
           </h2>
           <div className="flex flex-col md:flex-row gap-4 items-center xl:w-auto ">
             {/* Баннер с картой - всегда видим */}
-            <button className="text-left flex flex-row pt-5 pl-5 rounded bg-[#FCD5BA] w-full max-w-[336px] md:max-w-[352px] xl:max-w-[584px] h-[170px] xl:h-50 hover:shadow-(--shadow-card-shop) duration-300 relative overflow-hidden cursor-pointer">
+            <button className="text-left flex flex-row pt-5 pl-5 rounded bg-[#FCD5BA] w-full max-w-[336px] md:max-w-[352px] xl:max-w-[584px] h-[170px] xl:h-50 hover:shadow-card-shop duration-300 relative overflow-hidden cursor-pointer">
               <div className="flex flex-col gap-1.5 w-[174px] xl:w-[258px] ">
                 <p className="text-xl xl:text-2xl font-bold">
                   Оформите карту «Северяночка»
@@ -27,28 +27,28 @@ const SpecialOffers = () => {
                 className="absolute w-auto h-auto -top-3 -right-18.5 xl:-right-4 xl:-top-8 xl:w-[330px] xl:h-auto"
               />
             </button>
-            <button className="relative w-full md:w-[353px] xl:w-[584px] h-[170px] xl:h-[200px] rounded overflow-hidden cursor-pointer hover:shadow-(--shadow-button-default) duration-300">
+            <button className="relative w-full md:w-[353px] xl:w-[584px] h-[170px] xl:h-[200px] rounded overflow-hidden cursor-pointer hover:shadow-button-default duration-300">
               {/* Баннер акций - мобильная/планшетная версия */}
-              <div className="xl:hidden w-full h-full">
+              <div className="relative xl:hidden w-full h-full">
                 <Image
                   src="/images/banners/banner-action-mob-tab.jpeg"
                   alt="Акционные товары"
-                  width={353}
-                  height={170}
+                  fill
                   className="w-full h-full object-cover rounded"
                   priority
+                  sizes="(max-width: 767px) 100vw, 353px"
                 />
               </div>
 
               {/* Баннер акций - десктопная версия */}
-              <div className="hidden xl:block w-full h-full">
+              <div className="relative hidden xl:block w-full h-full">
                 <Image
                   src="/images/banners/banner-action-desk.jpeg"
                   alt="Акционные товары"
-                  width={584}
-                  height={200}
+                  fill
                   className="w-full h-full object-cover rounded"
                   priority
+                  sizes="(max-width: 767px) 100vw, 353px"
                 />
               </div>
             </button>

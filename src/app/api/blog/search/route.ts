@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const articles = await db.collection("articles")
       .find({
         $and: [
-          { status: "published" },
+          { status: {$in: ["published", "archived"]}},
           {
             $or: [
               { name: { $regex: query, $options: "i" } },

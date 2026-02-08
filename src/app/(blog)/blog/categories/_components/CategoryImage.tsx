@@ -23,7 +23,7 @@ export default function CategoryImage({
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={priority}
-          quality={70}
+          quality={75}
           loading={priority ? "eager" : "lazy"}
         />
       ) : (

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
-import { DragHandle } from "../../_components/DragHandle";
 import { SortableItemProps } from "../types";
+import { DragHandle } from "../../_components/DragHandle";
 
 export const DesktopCategoryRow = ({
   category,
@@ -26,13 +26,13 @@ export const DesktopCategoryRow = ({
   };
   return (
     <div
-      className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
+      className={`p-4 hover:bg-gray-50 text-xs xl:text-sm duration-200 ${
         isDragging
           ? "opacity-60 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400 transform scale-[0.995]"
           : "hover:shadow-sm"
       }`}
     >
-      <div className="grid grid-cols-[0.3fr_0.5fr_1fr_2fr_2fr_2fr_2fr_1fr_1fr_2fr] gap-2 items-center">
+      <div className="grid lg:grid-cols-[32px_40px_50px_100px_80px_120px_120px_80px_80px_80px_100px]  xl:grid-cols-[32px_40px_50px_120px_80px_160px_160px_80px_80px_80px_100px] gap-2 items-center justify-between">
         <div>
           <DragHandle />
         </div>
@@ -121,6 +121,15 @@ export const DesktopCategoryRow = ({
             title={category.author || "Автор неизвестен"}
           >
             {category.author || <span className="text-gray-400">—</span>}
+          </div>
+        </div>
+
+        <div className="min-w-0 flex justify-center">
+          <div
+            className="text-gray-600 text-xs wrap-break-word text-center"
+            title={category.articlesCount || "Нет"}
+          >
+            {category.articlesCount || <span className="text-gray-400">—</span>}
           </div>
         </div>
 

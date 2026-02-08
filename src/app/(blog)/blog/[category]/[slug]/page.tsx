@@ -8,6 +8,11 @@ import ArticleAuthor from "./_components/ArticleAuthor";
 import ArticleContent from "./_components/ArticleContent";
 import { fetchArticlePageData } from "../utils/fetchArticle";
 import { cache } from "react";
+import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
+import EditLink from "./_components/EditLink";
+import ArticleCard from "@/app/(articles)/ArticleCard";
+import { CONFIG } from "../../../../../../config/config";
+import { getRelatedArticles } from "../utils/getRelatedArticles";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -50,6 +55,12 @@ export async function generateMetadata({
       type: "article",
       url: canonicalUrl,
     },
+    ...(article.status === "archived" && {
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }),
   };
 }
 
@@ -98,13 +109,23 @@ export default async function ArticlePage({
 
   const safeContent = sanitizeArticleHTML(article.content || "");
   const publishedDate = article.publishedAt;
+  const isArchived = article.status === "archived";
+  const updatedAt = article.updatedAt || article.createdAt;
+
+  const otherArticles = await getRelatedArticles(
+    categoryData._id,
+    article.slug,
+    CONFIG.ARTICLES_PER_ARTICLE_PAGE,
+  );
 
   return (
-    <div className="p-4 max-w-4xl mx-auto">
+    <article className="p-4 max-w-4xl mx-auto">
+      {isArchived && <ArticleArchiveNotice updatedAt={updatedAt} />}
       <ArticleHeader
         articleTitle={article.name}
         categoryName={categoryData.name}
       />
+      {article._id && <EditLink articleId={article._id} />}
 
       <ArticleMeta
         categoryName={categoryData.name}
@@ -121,6 +142,32 @@ export default async function ArticlePage({
       <ArticleContent html={safeContent} />
 
       <ArticleAuthor author={article.author!} />
-    </div>
+      {otherArticles.length > 0 && (
+        <div className="mt-12 pt-8 border-t border-gray-200">
+          <h2 className="text-2xl font-bold mb-6 text-gray-800">
+            Читайте также
+          </h2>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {otherArticles.map((related) => (
+              <ArticleCard
+                key={related._id}
+                slug={related.slug}
+                categorySlug={categoryData.slug}
+                categoryName={categoryData.name}
+                image={related.image}
+                imageAlt={related.imageAlt}
+                name={related.name}
+                description={related.description}
+                publishedAt={
+                  typeof related.publishedAt === "string"
+                    ? related.publishedAt
+                    : related.publishedAt
+                }
+              />
+            ))}
+          </div>
+        </div>
+      )}
+    </article>
   );
 }

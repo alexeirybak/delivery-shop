@@ -31,6 +31,9 @@ export interface ArticleData {
   image?: string;
   imageAlt?: string;
   publishedAt?: Date;
+  createdAt: string;
+  updatedAt?: string;
+  status: string;
   author: string;
   views: number;
 }
@@ -61,4 +64,18 @@ export interface ArticleImageProps {
   image?: string;
   imageAlt?: string;
   articleName: string;
+}
+
+export interface RelatedArticle {
+  _id: string;
+  slug: string;
+  name: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  views: number;
+  publishedAt: string;
+  createdAt: string;
+  author?: string;
+  keywords?: string[];
 }

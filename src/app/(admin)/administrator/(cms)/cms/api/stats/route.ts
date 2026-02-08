@@ -7,13 +7,13 @@ export async function GET() {
 
     // Считаем опубликованные статьи
     const publishedCount = await db.collection("articles").countDocuments({
-      status: "published",
+      status: { $in: ["published", "archived"] },
     });
 
     // Считаем общее количество просмотров
     const articles = await db
       .collection("articles")
-      .find({ status: "published" }, { projection: { views: 1 } })
+      .find({}, { projection: { views: 1 } })
       .toArray();
 
     let totalViews = 0;

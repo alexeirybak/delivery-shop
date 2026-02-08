@@ -7,7 +7,6 @@ import Link from "next/link";
 import { getColorFromName } from "../../../../utils/getColorFromName";
 import { SearchResult } from "./types";
 
-
 export default function BlogSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -68,7 +67,7 @@ export default function BlogSearch() {
     <div className="relative mb-8">
       <div className="max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="relative">
-          <div className="flex gap-2">
+          <div className="flex flex-col md:flex-row gap-2">
             <div className="flex-1 relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-main-text w-5 h-5" />
               <input
@@ -79,7 +78,7 @@ export default function BlogSearch() {
                   setError("");
                 }}
                 placeholder="Название или описание статьи"
-                className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+                className="w-full text-xs md:text-base pl-10 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
                 disabled={isSearching}
               />
               {searchTerm && (
@@ -96,7 +95,7 @@ export default function BlogSearch() {
             <button
               type="submit"
               disabled={isSearching || searchTerm.trim().length < 3}
-              className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 duration-300 cursor-pointer"
+              className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 duration-300 cursor-pointer"
             >
               {isSearching ? (
                 <>

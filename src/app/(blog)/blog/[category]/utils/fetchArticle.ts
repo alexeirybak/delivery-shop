@@ -1,18 +1,31 @@
+import { getUserById } from "../../../../../../utils/auth-helpers";
 import { baseUrl } from "../../../../../../utils/baseUrl";
+import { getServerUserId } from "../../../../../../utils/getServerUserId";
 import { ArticlePageData } from "../../types";
 
 export async function fetchArticlePageData(
   categorySlug: string,
   articleSlug: string,
 ): Promise<ArticlePageData | { error: string }> {
+  const currentUserId = await getServerUserId();
+  let currentUserData = null;
+  if (currentUserId) {
+    try {
+      currentUserData = await getUserById(currentUserId);
+    } catch (error) {
+      console.error("Не удалось получить данные пользователя", error);
+    }
+  }
+
+  const currentUserRole = currentUserData?.role || "user";
+
+  console.log(currentUserRole);
+
   try {
     const response = await fetch(
-      `${baseUrl}/api/blog/${categorySlug}/${articleSlug}`,
+      `${baseUrl}/api/blog/${categorySlug}/${articleSlug}?role=${currentUserRole}`,
       {
-        cache: "no-store", // Отключаем кэширование
-        headers: {
-          "Cache-Control": "no-cache",
-        },
+        next: { revalidate: 3600 },
       },
     );
 
