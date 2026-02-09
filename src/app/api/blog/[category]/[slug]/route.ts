@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "../../../../../../utils/api-routes";
-import { getServerUserId } from "../../../../../../utils/getServerUserId";
 
 interface RouteParams {
   params: Promise<{ category: string; slug: string }>;
@@ -10,9 +9,22 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { category, slug } = await params;
 
+    // Читаем роль из query-параметров
+    const url = new URL(request.url);
+    const currentUserRole = url.searchParams.get('role');
+    
+    // ДЕБАГ ЛОГИ
+    console.log('=== API CALL ===');
+    console.log('URL:', request.url);
+    console.log('Role from query:', currentUserRole);
+    console.log('Category:', category, 'Slug:', slug);
+
+    const canCount =
+      currentUserRole !== "admin" && currentUserRole !== "manager";
+    
+    console.log('canCount:', canCount);
+
     const db = await getDB();
-    const userId = await getServerUserId();
-    console.log(userId);
 
     // 1. Находим категорию
     const categoryDoc = await db.collection("article-category").findOne({
@@ -37,43 +49,51 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: "Статья не найдена" }, { status: 404 });
     }
 
-    // 3. Увеличиваем счетчик просмотров (атомарная операция)
-    const result = await db.collection("articles").findOneAndUpdate(
-      { _id: articleDoc._id },
-      {
-        $inc: { views: 1 },
-      },
-      {
-        returnDocument: "after",
-        projection: {
-          _id: 1,
-          slug: 1,
-          name: 1,
-          image: 1,
-          imageAlt: 1,
-          description: 1,
-          keywords: 1,
-          content: 1,
-          publishedAt: 1,
-          updatedAt: 1,
-          createdAt: 1,
-          author: 1,
-          views: 1,
-          categoryName: 1,
-          categorySlug: 1,
-          status: 1,
+    console.log('Current views before update:', articleDoc.views);
+
+    let updatedArticle = articleDoc;
+
+    // 3. Увеличиваем счетчик просмотров только если canCount = true
+    if (canCount) {
+      console.log('Increasing view counter...');
+      
+      const result = await db.collection("articles").findOneAndUpdate(
+        { _id: articleDoc._id },
+        {
+          $inc: { views: 1 },
         },
-      },
-    );
-
-    if (!result) {
-      return NextResponse.json(
-        { error: "Не удалось обновить счетчик просмотров" },
-        { status: 500 },
+        {
+          returnDocument: "after",
+          projection: {
+            _id: 1,
+            slug: 1,
+            name: 1,
+            image: 1,
+            imageAlt: 1,
+            description: 1,
+            keywords: 1,
+            content: 1,
+            publishedAt: 1,
+            updatedAt: 1,
+            createdAt: 1,
+            author: 1,
+            views: 1,
+            categoryName: 1,
+            categorySlug: 1,
+            status: 1,
+          },
+        },
       );
-    }
 
-    const updatedArticle = result;
+      if (result) {
+        updatedArticle = result;
+        console.log('Views after update:', updatedArticle.views);
+      } else {
+        console.log('Update failed!');
+      }
+    } else {
+      console.log('View counter NOT increased (admin/manager)');
+    }
 
     const categoryData = {
       _id: categoryDoc._id.toString(),
@@ -92,8 +112,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       description: updatedArticle.description,
       content: updatedArticle.content,
       publishedAt: updatedArticle.publishedAt,
-      createdAt: updatedArticle.createdAt, // ДОБАВЬТЕ ЭТО
-      updatedAt: updatedArticle.updatedAt, // ДОБАВЬТЕ ЭТО
+      createdAt: updatedArticle.createdAt,
+      updatedAt: updatedArticle.updatedAt,
       author: updatedArticle.author,
       views: updatedArticle.views || 0,
       status: updatedArticle.status,

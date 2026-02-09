@@ -12,6 +12,8 @@ import EditLink from "./_components/EditLink";
 import ArticleArchiveNotice from "./_components/ArticleArchiveNotice";
 import ArticleCard from "@/app/(articles)/ArticleCard";
 import { getRelatedArticles } from "./utils/getRelatedArticles";
+import { getUserById } from "../../../../../../utils/auth-helpers";
+import { getServerUserId } from "../../../../../../utils/getServerUserId";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -69,7 +71,19 @@ export default async function ArticlePage({
 }) {
   const { category, slug } = await params;
 
-  const result = await cachedFetchArticleData(category, slug);
+  const currentUserId = await getServerUserId();
+  let currentUserData = null;
+  if (currentUserId) {
+    try {
+      currentUserData = await getUserById(currentUserId);
+    } catch (error) {
+      console.error("Не удалось получить данные пользователя:", error);
+    }
+  }
+
+  const currentUserRole = currentUserData?.role || "user";
+
+  const result = await cachedFetchArticleData(category, slug, currentUserRole);
 
   if ("error" in result) {
     const error = result.error;
