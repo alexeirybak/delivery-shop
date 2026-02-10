@@ -1,7 +1,6 @@
 @import "./table.css";
 @import "./images.css";
 
-/*Общие стили*/
 /* Стили для редактора (ProseMirror) */
 .ProseMirror {
   min-height: 350px;
@@ -19,8 +18,8 @@
 
 /* Абзацы */
 .ProseMirror p {
-  line-height: normal;
-  font-size: 16px;
+  line-height: 1.5;
+  font-size: 14px;
   margin-bottom: 1.2rem;
 }
 
@@ -87,6 +86,7 @@
 .ProseMirror ul,
 .ProseMirror ol {
   padding-left: 1.5rem;
+  margin-left: 1rem;
   margin-bottom: 1rem;
 }
 
@@ -103,6 +103,7 @@
 }
 
 .ProseMirror li {
+  list-style-position: inside;
   margin-bottom: 0.9rem;
   display: list-item;
 }
@@ -131,7 +132,57 @@
   border-radius: 4px;
 }
 
-/* Стили для выбранного изображения */
-.ProseMirror-selectednode .editor-image {
-  box-shadow: 0 0 0 3px #3b82f6;
+/* Стили для таблиц (если используется table.css) */
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+.ProseMirror th,
+.ProseMirror td {
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.ProseMirror th {
+  background-color: #f9fafb;
+  font-weight: 600;
+}
+
+/* Стили для изображений с плавающей обтеканием */
+.ProseMirror img[style*="float: left"] {
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+
+.ProseMirror img[style*="float: right"] {
+  margin-left: 15px;
+  margin-bottom: 15px;
+}
+
+/* Стили для inline-кода */
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+}
+
+/* Стили для выделения */
+.ProseMirror mark {
+  background-color: #fef3c7;
+  padding: 0.1em 0.3em;
+  border-radius: 0.25em;
+}
+
+.editor-link {
+  cursor: text !important;
+  pointer-events: none !important;
+}
+
+.editor-link:hover {
+  text-decoration: underline;
 }

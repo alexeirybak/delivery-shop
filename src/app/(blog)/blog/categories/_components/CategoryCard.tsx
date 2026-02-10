@@ -1,5 +1,5 @@
 import { BlogCategoryCardProps } from "../types/categories.types";
-import { getColorFromName } from "../utils/getColorFromName";
+import { getColorFromName } from "../../../../../../utils/getColorFromName";
 import CategoryContent from "./CategoryContent";
 import CategoryHoverEffect from "./CategoryHoverEffect";
 import CategoryImage from "./CategoryImage";

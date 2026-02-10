@@ -1,10 +1,10 @@
 "use client";
 
-import { useCategory } from "@/app/contexts/CategoryContext";
+import { useCategoryTitles } from "@/app/contexts/CategoryContext";
 import { useEffect } from "react";
 
 const CategoryTitle = ({ categoryTitle }: { categoryTitle: string }) => {
-  const { setCategoryTitle } = useCategory();
+  const { setCategoryTitle } = useCategoryTitles();
   useEffect(() => {
     setCategoryTitle(categoryTitle);
 

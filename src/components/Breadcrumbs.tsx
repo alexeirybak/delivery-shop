@@ -7,15 +7,22 @@ import { TRANSLATIONS } from "../../utils/translations";
 import { Suspense } from "react";
 import MiniLoader from "./MiniLoader";
 import { useProduct } from "@/app/contexts/ProductContext";
+import { useArticleTitles } from "@/app/contexts/ArticleContext";
+import { useCategoryTitles } from "@/app/contexts/CategoryContext";
 
 function BreadcrumbsContent() {
   const pathname = usePathname();
   const { title } = useProduct();
+  const { articleTitle } = useArticleTitles();
+  const { categoryTitle } = useCategoryTitles();
 
   if (pathname === "/" || pathname === "/search") return null;
 
   const pathSegments = pathname.split("/").filter((segment) => segment !== "");
   const productDesc = title;
+
+  const isArticlePage = pathSegments[0] === "blog" && pathSegments.length >= 3;
+  const isCategoryPage = pathSegments[0] === "blog" && pathSegments.length >= 2;
 
   const breadcrumbs = pathSegments.map((segment, index) => {
     const href = "/" + pathSegments.slice(0, index + 1).join("/");
@@ -31,13 +38,32 @@ function BreadcrumbsContent() {
       label = productDesc;
     }
 
+    if (isCategoryPage && index === pathSegments.length - 1 && categoryTitle) {
+      label = categoryTitle;
+    }
+
+    if (isArticlePage && index === pathSegments.length - 2 && categoryTitle) {
+      label = categoryTitle;
+    }
+
+    if (isArticlePage && index === pathSegments.length - 1 && articleTitle) {
+      label = articleTitle;
+    }
+
+    let finalHref = href;
+
+    const isLastItem = index === pathSegments.length - 1;
+
+    const isBlogPage = isArticlePage || isCategoryPage;
+
+    if (isLastItem && !isBlogPage) {
+      finalHref = `${href}?desc=${productDesc}`;
+    }
+
     return {
       label,
-      href:
-        index === pathSegments.length - 1
-          ? `${href}?desc=${productDesc}`
-          : href,
-      isLast: index === pathSegments.length - 1,
+      href: finalHref,
+      isLast: isLastItem,
     };
   });
 
@@ -60,9 +86,11 @@ function BreadcrumbsContent() {
               }
             >
               {item.isLast ? (
-                item.label
+                <span title={item.label}>{item.label}</span>
               ) : (
-                <Link href={item.href}>{item.label}</Link>
+                <Link href={item.href}>
+                  <span title={item.label}>{item.label}</span>
+                </Link>
               )}
             </div>
             {!item.isLast && (

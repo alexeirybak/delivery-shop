@@ -25,7 +25,7 @@ export async function generateMetadata(): Promise<Metadata> {
     categoryNames.length > 0
       ? truncate(
           `Исследуйте статьи по категориям: ${categoryNames.slice(0, 8).join(", ")}.`,
-          160
+          160,
         )
       : truncate("Блог с полезными статьями.", 160);
 
@@ -39,6 +39,12 @@ export async function generateMetadata(): Promise<Metadata> {
       canonical: `${baseUrl}/blog`,
     },
     keywords: [...new Set(keywords)],
+    openGraph: {
+      title: 'Блог "Северяночка"',
+      description,
+      type: "website",
+      url: `${baseUrl}/blog`,
+    },
   };
 }
 

@@ -1,5 +1,5 @@
 export interface ArticleCardProps {
-  _id: string;
+  _id?: string;
   slug: string;
   categorySlug: string;
   categoryName: string;

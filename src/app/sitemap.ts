@@ -47,13 +47,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const data = await getSitemapData();
 
+  // Добавляем категории статей
+  const articleCategoryPages: MetadataRoute.Sitemap =
+    data.articleCategories.map((category) => ({
+      url: `${baseUrl}/blog/${category.slug}`,
+      lastModified: currentDate,
+      changeFrequency: "weekly" as const,
+      priority: 0.5,
+    }));
+
+  // Добавляем статьи
+  const articlePages: MetadataRoute.Sitemap = data.articles.map((article) => ({
+    url: `${baseUrl}/blog/${article.categorySlug}/${article.slug}`,
+    lastModified: currentDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.5,
+  }));
+
   const categoryPages: MetadataRoute.Sitemap = data.categories.map(
     (category) => ({
       url: `${baseUrl}/catalog/${category.slug}`,
       lastModified: currentDate,
       changeFrequency: "weekly" as const,
       priority: 0.5,
-    })
+    }),
   );
 
   const productPages: MetadataRoute.Sitemap = data.products.map((product) => {
@@ -69,5 +86,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     };
   });
 
-  return [...staticPages, ...categoryPages, ...productPages];
+  return [
+    ...staticPages,
+    ...categoryPages,
+    ...productPages,
+    ...articleCategoryPages,
+    ...articlePages,
+  ];
 }

@@ -10,6 +10,7 @@ Disallow: /user-profile/
 Disallow: /user-orders/
 Disallow: /favorites/
 Disallow: /user/
+Disallow: /articles/
 Disallow: /*?*
 Disallow: /_next/
 Disallow: /*.json

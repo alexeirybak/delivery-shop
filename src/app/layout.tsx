@@ -10,6 +10,7 @@ import StoreProvider from "./provider";
 import { ProductProvider } from "./contexts/ProductContext";
 import { generateSiteMetadata } from "../../utils/generateSiteMetadata";
 import { CategoryProvider } from "./contexts/CategoryContext";
+import { ArticleProvider } from "./contexts/ArticleContext";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -33,10 +34,12 @@ export default function RootLayout({
             <RegFormProvider>
               <ProductProvider>
                 <CategoryProvider>
-                  <Header />
-                  <Breadcrumbs />
-                  {children}
-                  <Footer />
+                  <ArticleProvider>
+                    <Header />
+                    <Breadcrumbs />
+                    {children}
+                    <Footer />
+                  </ArticleProvider>
                 </CategoryProvider>
               </ProductProvider>
             </RegFormProvider>

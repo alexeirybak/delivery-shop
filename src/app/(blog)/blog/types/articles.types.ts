@@ -22,6 +22,7 @@ export interface ArticleTitleProps {
 }
 
 export interface ArticleData {
+  keywords: string[];
   _id: string | undefined;
   slug: string;
   name: string;
@@ -60,5 +61,4 @@ export interface ArticleImageProps {
   image?: string;
   imageAlt?: string;
   articleName: string;
-  hasImage: boolean;
 }

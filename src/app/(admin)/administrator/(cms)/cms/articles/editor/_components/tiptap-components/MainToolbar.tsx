@@ -85,7 +85,7 @@ const MainToolbar = ({ editor, onImageDragOverChange }: MainToolbarProps) => {
 
       const props = {
         editor,
-        ...(onImageDragOverChange && {onImageDragOverChange}),
+        ...(onImageDragOverChange && {onDragOverChange: onImageDragOverChange}),
       };
 
       return (
