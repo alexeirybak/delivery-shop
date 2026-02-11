@@ -56,8 +56,13 @@ export async function POST(request: Request) {
 
     const db = await getDB();
 
-    // Проверка уникальности slug
-    const existingArticle = await db.collection("articles").findOne({ slug });
+    const query: Record<string, unknown> = { slug };
+
+    if (data._id && data._id.trim()) {
+      query._id = { $ne: ObjectId.createFromHexString(data._id) };
+    }
+
+    const existingArticle = await db.collection("articles").findOne(query);
 
     if (existingArticle) {
       return NextResponse.json(
@@ -82,20 +87,64 @@ export async function POST(request: Request) {
 
     const sanitizedContent = sanitizeArticleHTML(data.content || "");
 
-    if (
-      !sanitizedContent ||
-      sanitizedContent.trim() === "" ||
-      sanitizedContent === "<p></p>"
-    ) {
-      return NextResponse.json(
-        { success: false, message: "Текст статьи не может быть пустым" },
-        { status: 400 },
-      );
-    }
-
     const finalContent = await processArticleImages(sanitizedContent);
 
-    // Получение максимального numericId
+    if (data._id && data._id.trim()) {
+      try {
+        const objectId = ObjectId.createFromHexString(data._id);
+
+        const updateData = {
+          name,
+          slug,
+          description,
+          keywords,
+          image,
+          imageAlt,
+          author,
+          categoryId,
+          categoryName,
+          categorySlug,
+          content: finalContent,
+          isFeatured,
+          status,
+          updatedAt: new Date().toISOString(),
+          ...(status === "published" && {
+            publishedAt: new Date().toISOString(),
+          }),
+        };
+
+        const result = await db
+          .collection("articles")
+          .updateOne({ _id: objectId }, { $set: updateData });
+
+        if (result.matchedCount === 0) {
+          return NextResponse.json(
+            {
+              success: false,
+              message: "Статья не найдена",
+            },
+            { status: 404 },
+          );
+        }
+        return NextResponse.json(
+          {
+            success: true,
+            message: "Статья успешно обновлена",
+          },
+          { status: 200 },
+        );
+      } catch (error) {
+        console.error("Ошибка обновления статьи:", error);
+        return NextResponse.json(
+          {
+            success: false,
+            message: "Ошибка обновления статьи",
+          },
+          { status: 500 },
+        );
+      }
+    }
+
     const result = await db
       .collection("articles")
       .aggregate([

@@ -101,7 +101,7 @@ export const ArticleForm = ({
           onGenerateSlug={handleGenerateSlug}
         />
         <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
-          <h3 className="text-lg font-medium mb-4">Текст статьи *</h3>
+          <h3 className="text-lg font-medium mb-4">Текст статьи</h3>
           <TiptapEditor
             key={formData._id || "new-article"}
             content={formData.content || ""}

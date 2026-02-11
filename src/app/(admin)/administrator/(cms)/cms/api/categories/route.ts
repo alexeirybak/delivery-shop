@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../../../../utils/api-routes";
-import { CONFIG_BLOG } from "../../CONFIG_BLOG";
 import { buildSortObject } from "../../utils/buildSortObject";
 import { buildFilterQuery } from "../../utils/buildFilterQuery";
 import { Category, FilterType, SortField } from "../../categories/types";
@@ -12,9 +11,7 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const page = parseInt(searchParams.get("pageToLoad") || "1");
-    const limit = parseInt(
-      searchParams.get("limit") || CONFIG_BLOG.ITEMS_PER_PAGE.toString()
-    );
+    const limit = parseInt(searchParams.get("limit")!);
     const sortBy: SortField = (searchParams.get("sortBy") ||
       "numericId") as SortField;
     const sortOrder = searchParams.get("sortOrder") || "asc";
@@ -74,7 +71,7 @@ export async function GET(request: Request) {
         success: false,
         message: "Ошибка получения категорий",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -86,14 +83,14 @@ export async function POST(request: Request) {
     if (!data.name?.trim()) {
       return NextResponse.json(
         { success: false, message: "Название категории обязательно" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!data.slug?.trim()) {
       return NextResponse.json(
         { success: false, message: "Алиас (slug) категории обязателен" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -109,7 +106,7 @@ export async function POST(request: Request) {
     if (existingCategory) {
       return NextResponse.json(
         { success: false, message: "Категория с таким алиасом уже существует" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -170,7 +167,7 @@ export async function POST(request: Request) {
         message: "Ошибка создания категории",
         error: error instanceof Error ? error.message : "Неизвестная ошибка",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

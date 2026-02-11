@@ -31,6 +31,9 @@ export const TiptapEditor = ({
           depth: 500,
           newGroupDelay: 100,
         },
+        link: {
+          openOnClick: false,
+        }
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
