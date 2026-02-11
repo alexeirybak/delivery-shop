@@ -241,7 +241,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
   }, [generateImage]);
 
   return (
-    <>
+    <div className="relative" onClick={(e) => e.stopPropagation()}>
       <button
         type="button"
         onClick={() => setShowAIImageModal(true)}
@@ -268,6 +268,6 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
         onGenerateImage={handleGenerateImage}
         onTestAPI={handleTestAPI}
       />
-    </>
+    </div>
   );
 };
