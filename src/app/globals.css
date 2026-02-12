@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "../styles/_variables.scss";
+@import "../styles/_keyframe-animations.scss";
 
 :root {
   /* --background: #ffffff;
@@ -89,4 +91,9 @@ body {
   100% {
     width: 100%;
   }
+}
+
+img:not(.tiptap-image) {
+    max-width: 100%;
+    height: auto;
 }
