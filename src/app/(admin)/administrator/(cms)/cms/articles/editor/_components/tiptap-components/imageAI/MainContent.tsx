@@ -1,4 +1,3 @@
-// MainContent.tsx
 import { ApiInfoAlert } from "./ApiInfoAlert";
 import { PromptSection } from "./PromptSection";
 import { SettingsPanel } from "./SettingsPanel";

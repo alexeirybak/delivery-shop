@@ -59,8 +59,6 @@ useEffect(() => {
         `/administrator/cms/api/articles/yandex-image?operationId=${generation.operationId}`,
       );
       const data: ApiResponse = await response.json();
-      
-      console.log("Polling response:", data.done, data.status);
 
       if (data.done) {
         if (data.imageUrl) {

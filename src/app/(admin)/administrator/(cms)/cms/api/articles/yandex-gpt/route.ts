@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: "YandexGPT API не настроен",
-          details: "Проверьте YANDEX_API_KEY и YANDEX_FOLDER_ID в .env.local",
+          details: "Проверьте YANDEX_API_KEY и YANDEX_FOLDER_ID в .env",
         },
         { status: 500 },
       );

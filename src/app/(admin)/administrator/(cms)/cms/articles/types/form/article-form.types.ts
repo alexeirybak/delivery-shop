@@ -1,10 +1,10 @@
 export interface ArticleFormData {
-  _id: string | null | undefined;
-
+  _id?: string | null | undefined;
   name: string;
   slug: string;
   description: string;
-  keywords: string;
+  keywords?: string | string[];
+  author?: string;
   image: string;
   imageAlt: string;
   categoryId: string;

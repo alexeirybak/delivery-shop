@@ -115,23 +115,25 @@ const EditorPage = () => {
     setIsSubmitting(true);
 
     try {
-      let finalImageUrl = "";
+      let finalImageUrl = formData.image;
       if (formData.image && formData.image.startsWith("blob:")) {
         try {
           const uploadResult = await uploadImageToServer();
           if (uploadResult) {
-            finalImageUrl = uploadResult.url;
+            finalImageUrl = uploadResult.url; // Заменяем только если есть новое
           } else {
-            throw new Error("Не удалось загрузить изображение");
+            // Если не удалось загрузить новое, оставляем старое
+            console.warn(
+              "Не удалось загрузить новое изображение, оставляем старое",
+            );
           }
         } catch (uploadError) {
           console.error("Ошибка загрузки изображения:", uploadError);
           setNotification({
             type: "error",
-            message: "Не удалось загрузить изображение",
+            message: "Не удалось загрузить новое изображение, старое сохранено",
           });
-          setIsSubmitting(false);
-          return;
+          // Не прерываем сохранение, оставляем старое изображение
         }
       }
 

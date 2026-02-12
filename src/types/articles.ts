@@ -8,3 +8,5 @@ export interface ArticleCardProps {
   description?: string;
   publishedAt: string;
 }
+
+// http://localhost:3000/administrator/cms/api/articles/yandex-image

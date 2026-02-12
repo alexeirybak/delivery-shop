@@ -58,7 +58,6 @@ export async function POST(request: Request) {
 
     const db = await getDB();
 
-    // ПРОВЕРКА УНИКАЛЬНОСТИ SLUG С УЧЕТОМ _id
     const query: Record<string, unknown> = { slug };
 
     // Если есть _id в данных, исключаем эту статью из проверки

@@ -14,6 +14,7 @@ import ArticleCard from "@/app/(articles)/ArticleCard";
 import { getRelatedArticles } from "./utils/getRelatedArticles";
 import { getUserById } from "../../../../../../utils/auth-helpers";
 import { getServerUserId } from "../../../../../../utils/getServerUserId";
+import Comments from "./_components/Comments";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -156,6 +157,9 @@ export default async function ArticlePage({
       <ArticleContent html={safeContent} />
 
       <ArticleAuthor author={article.author!} />
+
+      <Comments articleId={article._id!} />
+
       {otherArticles.length > 0 && (
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">

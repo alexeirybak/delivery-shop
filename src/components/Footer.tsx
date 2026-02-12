@@ -91,7 +91,7 @@ const Footer = () => {
         <nav className="nav">
           <ul className="flex flex-wrap gap-x-8 text-xs gap-4 xl:gap-y-2 md:gap-x-10">
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">О компании</Link>
+              <Link href="/about-us">О компании</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
               <Link href="#">Контакты</Link>
