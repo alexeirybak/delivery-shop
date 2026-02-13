@@ -1,6 +1,5 @@
 import TopicInput from "./TopicInput";
 import CategorySelect from "./CategorySelect";
-import GenerateParameters from "./GenerateParameters";
 import ErrorMessage from "./ErrorMessage";
 import SuccessMessage from "./SuccessMessage";
 import GenerateButton from "./GenerateButton";
@@ -43,8 +42,6 @@ const ArticleForm = ({
           onCategorySelect={onCategorySelect}
           onToggleOpen={onToggleCategoryOpen}
         />
-
-        <GenerateParameters />
 
         {error && <ErrorMessage error={error} />}
         {success && <SuccessMessage success={success} />}
