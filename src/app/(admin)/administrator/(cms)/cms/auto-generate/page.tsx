@@ -70,11 +70,11 @@ const AutoGeneratePage = () => {
   }, [loadCategories]);
 
   const handleCategorySelect = (categoryId: string) => {
-    const selectedCategory = categories.find((cat) => cat._id === categoryId);
-    if (selectedCategory) {
-      setCategoryId(selectedCategory._id);
-      setCategoryName(selectedCategory.name);
-      setCategorySlug(selectedCategory.slug);
+    const selected = categories.find((cat) => cat._id === categoryId);
+    if (selected) {
+      setCategoryId(selected._id);
+      setCategoryName(selected.name);
+      setCategorySlug(selected.slug);
       setIsCategoryOpen(false);
     }
   };
@@ -264,7 +264,6 @@ const AutoGeneratePage = () => {
             isGenerating={isGenerating}
             error={error}
             success={success}
-            author={author}
             progress={progress}
             onTopicChange={setTopic}
             onCategorySelect={handleCategorySelect}

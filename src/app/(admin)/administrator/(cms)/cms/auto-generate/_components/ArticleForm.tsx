@@ -16,14 +16,13 @@ const ArticleForm = ({
   isGenerating,
   error,
   success,
-  author,
   onTopicChange,
   onCategorySelect,
   onToggleCategoryOpen,
   onGenerate,
 }: ArticleFormProps) => {
   const isDisabled =
-    isGenerating || !topic.trim() || !selectedCategoryId || !author.trim();
+    isGenerating || !topic.trim() || !selectedCategoryId;
 
   return (
     <div className="bg-white rounded-xl shadow p-6">

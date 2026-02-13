@@ -8,7 +8,6 @@ export interface ArticleFormProps {
   isGenerating: boolean;
   error: string | null;
   success: string | null;
-  author: string;
   progress: string; 
   onTopicChange: (value: string) => void;
   onCategorySelect: (categoryId: string) => void;
