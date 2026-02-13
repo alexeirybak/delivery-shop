@@ -34,7 +34,7 @@ const AutoGeneratePage = () => {
   const [success, setSuccess] = useState<string | null>(null);
   const [progress, setProgress] = useState<string>("");
 
-  // Новые состояния для панели статуса
+  // Состояния для панели статуса
   const [generationStatus, setGenerationStatus] = useState<
     "idle" | "generating" | "loading" | "success" | "error"
   >("idle");
@@ -92,6 +92,7 @@ const AutoGeneratePage = () => {
           topic,
           articleData,
           (step: number, stepName: string) => {
+            setGenerationStatus("loading");
             setCurrentStep(step.toString());
             setCurrentStepName(stepName);
           },
