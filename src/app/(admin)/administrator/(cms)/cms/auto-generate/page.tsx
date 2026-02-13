@@ -256,7 +256,6 @@ const AutoGeneratePage = () => {
         ) : (
           <ArticleForm
             topic={topic}
-            categories={categories}
             selectedCategoryId={categoryId}
             selectedCategorySlug={selectedCategory?.slug}
             categorySlug={categorySlug}

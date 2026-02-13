@@ -1,6 +1,5 @@
 export interface ArticleFormProps {
   topic: string;
-  categories: Array<{ _id: string; name: string; slug: string }>;
   selectedCategoryId: string;
   selectedCategorySlug?: string;
   categorySlug?: string;
@@ -22,7 +21,6 @@ export interface Category {
 }
 
 export interface CategorySelectProps {
-  categories: Category[];
   selectedCategoryId: string;
   isOpen: boolean;
   onCategorySelect: (categoryId: string) => void;

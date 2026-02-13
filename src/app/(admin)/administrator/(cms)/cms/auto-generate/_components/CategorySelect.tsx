@@ -2,14 +2,15 @@
 
 import { ChevronDown, Check } from "lucide-react";
 import { CategorySelectProps } from "../types/auto-generate.types";
+import { useCategoryStore } from "@/store/categoryStore";
 
 const CategorySelect = ({
-  categories,
   selectedCategoryId,
   isOpen,
   onCategorySelect,
   onToggleOpen,
 }: CategorySelectProps) => {
+  const { categories } = useCategoryStore();
   const selectedCategory = categories.find(
     (cat) => cat._id === selectedCategoryId,
   );

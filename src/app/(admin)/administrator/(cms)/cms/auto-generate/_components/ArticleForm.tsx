@@ -8,7 +8,6 @@ import { ArticleFormProps } from "../types/auto-generate.types";
 
 const ArticleForm = ({
   topic,
-  categories,
   selectedCategoryId,
   selectedCategorySlug,
   categorySlug,
@@ -39,7 +38,6 @@ const ArticleForm = ({
         />
 
         <CategorySelect
-          categories={categories}
           selectedCategoryId={selectedCategoryId}
           isOpen={isCategoryOpen}
           onCategorySelect={onCategorySelect}
