@@ -212,10 +212,10 @@ const AutoGeneratePage = () => {
       const fullArticleData: ArticleData = {
         ...articleData,
         _id: articleId,
-        content: content,
-        categoryId: categoryId,
-        categoryName: categoryName,
-        categorySlug: categorySlug,
+        content,
+        categoryId,
+        categoryName,
+        categorySlug,
       };
 
       // Запускаем фоновую генерацию изображений
