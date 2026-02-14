@@ -77,7 +77,7 @@ const EditorPage = () => {
     };
 
     loadArticle();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
   const {
@@ -116,14 +116,16 @@ const EditorPage = () => {
     setIsSubmitting(true);
 
     try {
-      let finalImageUrl = "";
+      let finalImageUrl = formData.image;
       if (formData.image && formData.image.startsWith("blob:")) {
         try {
           const uploadResult = await uploadImageToServer();
           if (uploadResult) {
             finalImageUrl = uploadResult.url;
           } else {
-            throw new Error("Не удалось загрузить изображение");
+            console.warn(
+              "Не удалось загрузить новое изображение, соатвляем старое",
+            );
           }
         } catch (uploadError) {
           console.error("Ошибка загрузки изображения:", uploadError);
@@ -131,8 +133,6 @@ const EditorPage = () => {
             type: "error",
             message: "Не удалось загрузить изображение",
           });
-          setIsSubmitting(false);
-          return;
         }
       }
 

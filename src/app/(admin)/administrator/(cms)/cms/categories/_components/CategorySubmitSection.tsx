@@ -14,13 +14,13 @@ export const CategorySubmitSection = ({ onCancel }: SubmitSectionProps) => {
           </div>
         </div>
       )}
-      <div className="flex gap-3 mt-6">
+      <div className="flex flex-wrap gap-3 mt-6">
         <button
           type="submit"
           disabled={isUploading || isSubmitting}
-          className="flex items-center gap-1 px-4 py-2.5 bg-primary text-white rounded hover:bg-primary/90 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium focus:outline-none focus:ring-3 focus:ring-primary/30"
+          className="w-full flex items-center gap-1 px-4 py-2.5 bg-primary text-white rounded hover:bg-primary/90 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium focus:outline-none focus:ring-3 focus:ring-primary/30"
         >
-          <Save className="w-4 h-4" />
+          <Save className="w-4 h-4 shrink-0" />
           {isSubmitting
             ? "Сохранение..."
             : editingId
@@ -31,7 +31,7 @@ export const CategorySubmitSection = ({ onCancel }: SubmitSectionProps) => {
           type="button"
           onClick={onCancel}
           disabled={isUploading || isSubmitting}
-          className="px-4 py-2.5 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium focus:outline-none focus:ring-3 focus:ring-gray-200"
+          className="w-full px-4 py-2.5 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium focus:outline-none focus:ring-3 focus:ring-gray-200"
         >
           Отмена
         </button>
