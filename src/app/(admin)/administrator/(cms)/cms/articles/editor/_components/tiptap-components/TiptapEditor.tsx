@@ -141,7 +141,7 @@ export const TiptapEditor = ({
       <div className="bg-white relative">
         <EditorContent
           editor={editor}
-          className="min-h-[400px] p-4 focus:outline-none"
+          className="min-h-[400px] md:p-4 focus:outline-none"
         />
         {showDragIcon && (
           <div

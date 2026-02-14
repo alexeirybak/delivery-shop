@@ -3,12 +3,12 @@ import { MenuItemsListProps } from "../types/sidebar";
 
 export const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
   return (
-    <div className="space-y-5 flex-1">
+    <div className="space-y-4 flex-1">
       {items.map((item, index) => (
         <button
           key={item.id}
           onClick={() => onItemClick(item.path)}
-          className={`group w-full flex items-center gap-4 p-6 rounded-2xl text-left cursor-pointer duration-500 transform hover:scale-[1.02] active:scale-[0.99] ${item.shadow} animate-slideIn`}
+          className={`group w-full flex items-center gap-3 px-3 py-2 rounded-2xl text-left cursor-pointer duration-500 transform hover:scale-[1.02] active:scale-[0.99] ${item.shadow} animate-slideIn`}
           style={{
             background: `linear-gradient(135deg, var(--tw-gradient-stops))`,
             animationDelay: `${index * 100}ms`,

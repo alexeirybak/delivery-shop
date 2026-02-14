@@ -1,4 +1,4 @@
-import { Plus, FolderTree, Tags, FileText } from "lucide-react";
+import { Plus, FolderTree, Tags, FileText, Brain } from "lucide-react";
 import { DashboardCard } from "../types/dashboard";
 
 export const dashboardCards: DashboardCard[] = [
@@ -37,5 +37,14 @@ export const dashboardCards: DashboardCard[] = [
     color: "purple",
     path: "/administrator/cms/semantic-core",
     actionText: "Настроить",
+  },
+  {
+    id: "auto-generate",
+    title: "Автогенерация",
+    description: "Автоматическая генерация статей",
+    icon: <Brain className="w-6 h-6" />,
+    color: "orange",
+    path: "/administrator/cms/auto-generate",
+    actionText: "Генерировать",
   },
 ];
