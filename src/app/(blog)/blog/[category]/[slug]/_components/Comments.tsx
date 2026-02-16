@@ -139,18 +139,57 @@ export default function Comments({ articleId }: { articleId: string }) {
     }
   };
 
-  const handleCommentDeleted = (commentId: string) => {
-    const removeComment = (commentList: IComment[]): IComment[] => {
-      return commentList
-        .filter((comment) => comment._id !== commentId)
-        .map((comment) => ({
-          ...comment,
-          replies: removeComment(comment.replies),
-        }));
-    };
-    setComments((prev) => removeComment(prev));
-  };
+const handleCommentDeleted = async (commentId: string) => {
+  try {
+    const response = await fetch(`/api/comments/${commentId}`, {
+      method: "DELETE",
+    });
 
+    if (!response.ok) {
+      throw new Error("Ошибка удаления");
+    }
+
+    const data = await response.json();
+
+    if (data.success) {
+      // Обновляем состояние, чтобы вызвать перерендер всего списка
+      setComments((prevComments) => {
+        // Создаем глубокую копию всего дерева
+        const updateCommentInTree = (comments: IComment[]): IComment[] => {
+          return comments.map((comment) => {
+            if (comment._id === commentId) {
+              // Возвращаем НОВЫЙ объект для измененного комментария
+              return {
+                ...comment,
+                content: "[Комментарий удален]",
+                isDeleted: true,
+                deletedAt: new Date().toISOString(),
+              };
+            }
+            
+            // Рекурсивно обрабатываем ответы
+            if (comment.replies && comment.replies.length > 0) {
+              return {
+                ...comment,
+                replies: updateCommentInTree(comment.replies),
+              };
+            }
+            
+            // Для неизмененных комментариев возвращаем тот же объект
+            return comment;
+          });
+        };
+
+        const updatedComments = updateCommentInTree(prevComments);
+        console.log("До:", prevComments);
+        console.log("После:", updatedComments);
+        return updatedComments;
+      });
+    }
+  } catch (error) {
+    console.error("Ошибка при удалении комментария:", error);
+  }
+};
   if (loading) return <Loader />;
 
   return (

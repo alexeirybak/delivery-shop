@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import CommentEditForm from "./CommentEditForm";
 import { CommentItemProps, IComment, UserRole } from "../../../types";
@@ -26,6 +26,10 @@ export default function CommentItem({
   const [liking, setLiking] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [currentContent, setCurrentContent] = useState(comment.content);
+
+  useEffect(() => {
+    setCurrentContent(comment.content);
+  }, [comment.content]);
 
   const [isLiked, setIsLiked] = useState(
     currentUserId ? comment.likes.includes(currentUserId) : false,

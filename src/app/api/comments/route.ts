@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       content: content.trim(),
       authorId,
       authorName,
-      authorRole, // Сохраняем роль автора
+      authorRole, 
       likes: [],
       isEdited: false,
       createdAt: new Date(),

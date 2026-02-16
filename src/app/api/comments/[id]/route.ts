@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { ObjectId } from "mongodb";
 import { getDB } from "../../../../../utils/api-routes";
 
-// DELETE - удаление комментария
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -11,18 +10,48 @@ export async function DELETE(
     const { id } = await params;
     const db = await getDB();
 
-    const result = await db.collection("comments").deleteOne({
-      _id: new ObjectId(id),
-    });
+    // Обновляем комментарий
+    const result = await db.collection("comments").updateOne(
+      { _id: new ObjectId(id) },
+      { 
+        $set: {
+          content: '[Комментарий удален]',
+          isDeleted: true,
+          deletedAt: new Date(),
+          updatedAt: new Date()
+        }
+      }
+    );
 
-    if (result.deletedCount === 0) {
+    if (result.matchedCount === 0) {
       return NextResponse.json(
         { error: "Комментарий не найден" },
         { status: 404 }
       );
     }
 
-    return NextResponse.json({ success: true });
+    // Получаем обновленный комментарий
+    const updatedComment = await db.collection("comments").findOne({
+      _id: new ObjectId(id)
+    });
+
+    // Проверяем, что комментарий существует
+    if (!updatedComment) {
+      return NextResponse.json(
+        { error: "Комментарий не найден после обновления" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ 
+      success: true,
+      comment: {
+        _id: updatedComment._id.toString(),
+        content: updatedComment.content,
+        isDeleted: updatedComment.isDeleted,
+        deletedAt: updatedComment.deletedAt.toISOString()
+      }
+    });
   } catch (error) {
     console.error("Ошибка удаления комментария:", error);
     return NextResponse.json(
@@ -32,7 +61,7 @@ export async function DELETE(
   }
 }
 
-// PATCH - редактирование комментария
+// PATCH - редактирование комментария (без изменений)
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -70,6 +99,14 @@ export async function PATCH(
       );
     }
 
+    // Не даем редактировать удаленные комментарии
+    if (comment.isDeleted) {
+      return NextResponse.json(
+        { error: "Нельзя редактировать удаленный комментарий" },
+        { status: 400 }
+      );
+    }
+
     // Обновляем комментарий
     const now = new Date();
     await db.collection("comments").updateOne(
@@ -78,7 +115,7 @@ export async function PATCH(
         $set: {
           content: content.trim(),
           isEdited: true,
-          editedAt: now.toISOString(),
+          editedAt: now,
           updatedAt: now,
         },
       }
