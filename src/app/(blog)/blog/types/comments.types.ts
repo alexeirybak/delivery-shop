@@ -23,10 +23,6 @@ export interface IComment {
 
 export type CommentData = IComment;
 
-export interface CommentsProps {
-  articleId: string;
-}
-
 export interface CommentItemProps {
   comment: IComment;
   articleId: string;
