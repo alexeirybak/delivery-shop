@@ -18,6 +18,7 @@ export default function Comments({ articleId }: CommentsProps) {
   );
 
   const buildCommentTree = (flatComments: IComment[]): IComment[] => {
+    console.log(flatComments);
     const commentMap = new Map<string, IComment>();
     const rootComments: IComment[] = [];
 

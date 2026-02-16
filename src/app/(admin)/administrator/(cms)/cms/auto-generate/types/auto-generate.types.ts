@@ -7,7 +7,6 @@ export interface ArticleFormProps {
   isGenerating: boolean;
   error: string | null;
   success: string | null;
-  progress: string; 
   onTopicChange: (value: string) => void;
   onCategorySelect: (categoryId: string) => void;
   onToggleCategoryOpen: () => void;
@@ -71,4 +70,14 @@ export interface ApiResponse {
   model?: string;
 }
 
+export interface GenerationStatusPanelProps {
+  status: "generating" | "loading" | "success" | "error" | "idle";
+  elapsedSeconds: number;
+  operationId?: string;
+  currentStep?: string;
+  totalSteps?: string;
+  currentStepName?: string;
+}
+
 export type ProgressCallback = (step: number, stepName: string) => void;
+

@@ -32,7 +32,6 @@ const AutoGeneratePage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
-  const [progress, setProgress] = useState<string>("");
 
   // Состояния для панели статуса
   const [generationStatus, setGenerationStatus] = useState<
@@ -180,12 +179,18 @@ const AutoGeneratePage = () => {
       const content = cleanGeneratedHtml(data.text);
       const slug = transliterate(topic, true);
 
-      setProgress("Сохранение статьи...");
+      const stripHtmlTags = (html: string): string => {
+        return html.replace(/<[^>]*>/g, " "); // заменяем теги на пробелы
+      };
+
+      // Очищаем от HTML и берем первые 160 символов
+      const plainText = stripHtmlTags(content);
+      const description = plainText.substring(0, 160).trim();
 
       const articleData: ArticleFormData = {
         name: topic,
         slug: slug,
-        description: "",
+        description,
         keywords: [],
         image: "",
         imageAlt: topic,
@@ -227,7 +232,6 @@ const AutoGeneratePage = () => {
       setError(err instanceof Error ? err.message : "Неизвестная ошибка");
       setIsGenerating(false);
       setGenerationStatus("error");
-      setProgress("");
     }
   };
 
@@ -263,7 +267,6 @@ const AutoGeneratePage = () => {
             isGenerating={isGenerating}
             error={error}
             success={success}
-            progress={progress}
             onTopicChange={setTopic}
             onCategorySelect={handleCategorySelect}
             onToggleCategoryOpen={() => setIsCategoryOpen(!isCategoryOpen)}
@@ -272,22 +275,6 @@ const AutoGeneratePage = () => {
         )}
 
         <ProcessInfo />
-
-        {error && (
-          <div className="mt-4 p-4 bg-red-50 rounded-lg">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-red-700">{error}</span>
-            </div>
-          </div>
-        )}
-
-        {success && generationStatus === "idle" && (
-          <div className="mt-4 p-4 bg-green-50 rounded-lg">
-            <div className="flex items-center space-x-2">
-              <span className="text-sm text-green-700">{success}</span>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );

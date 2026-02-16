@@ -2,17 +2,9 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { IComment } from "../../../types";
+import { CommentRepliesProps, IComment } from "../../../types";
 import { getReplyWord } from "../utils/getReplayWord";
 import CommentItem from "./CommentItem";
-
-interface CommentRepliesProps {
-  replies: IComment[];
-  articleId: string;
-  depth: number;
-  onReply: (comment: IComment) => void;
-  onDelete: (commentId: string) => void;
-}
 
 export default function CommentReplies({
   replies,

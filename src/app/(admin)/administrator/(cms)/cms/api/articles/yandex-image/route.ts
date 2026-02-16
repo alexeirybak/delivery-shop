@@ -239,13 +239,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    console.log("Checking status for operationId:", operationId);
-    console.log("Response from Yandex:", {
-      done: data.done,
-      hasImage: !!data.response?.image,
-      operationId: data.id || data.operationId,
-    });
-
     if (data.done) {
       if (data.response?.image) {
         // Сохраняем изображение как файл

@@ -4,12 +4,12 @@ import { useState } from "react";
 import { Send, Loader2 } from "lucide-react";
 import { CommentFormProps, UserRole } from "../../../types";
 import { useAuthStore } from "@/store/authStore";
+import Link from "next/link";
 
 export default function CommentForm({
   articleId,
   parentId,
   onSuccess,
-  placeholder = "Напишите комментарий...",
 }: CommentFormProps) {
   const { user } = useAuthStore();
   const [content, setContent] = useState("");
@@ -70,12 +70,12 @@ export default function CommentForm({
   if (!userId) {
     return (
       <div className="text-center py-4 text-gray-600">
-        <a
-          href="/auth/login"
+        <Link
+          href="/login"
           className="text-green-600 hover:text-green-800 font-medium"
         >
           Войдите
-        </a>{" "}
+        </Link>{" "}
         в систему, чтобы оставлять комментарии
       </div>
     );
@@ -92,16 +92,16 @@ export default function CommentForm({
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder={placeholder}
+        placeholder="Напишите комметарий..."
         className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all resize-none"
         rows={3}
-        maxLength={1000}
+        maxLength={2000}
         disabled={submitting}
       />
 
       <div className="flex justify-between items-center">
         <div className="text-sm text-gray-500">
-          {content.length}/1000 символов
+          {content.length}/2000 символов
         </div>
         <button
           type="submit"

@@ -3,19 +3,8 @@
 import { Edit, Trash2 } from "lucide-react";
 import CommentAvatar from "./CommentAvatar";
 import { formatDate } from "../../../../../../../utils/formatDate";
-import { IComment } from "../../../types";
+import { CommentHeaderProps } from "../../../types";
 import { getAuthorBadges } from "../utils/getAuthorBadges";
-
-interface CommentHeaderProps {
-  comment: IComment;
-  canEdit: boolean;
-  canDelete: boolean;
-  isEditing: boolean;
-  onEdit: () => void;
-  onDelete: () => void;
-  deleting: boolean;
-  deleteButtonTitle: string;
-}
 
 export default function CommentHeader({
   comment,

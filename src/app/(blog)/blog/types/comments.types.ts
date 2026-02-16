@@ -14,8 +14,8 @@ export interface IComment {
   createdAt: string;
   updatedAt: string;
   likes: string[];
-  isEdited: boolean; 
-  editedAt?: string; 
+  isEdited: boolean;
+  editedAt?: string;
   articleName?: string;
   articleSlug?: string;
   categorySlug?: string;
@@ -40,6 +40,40 @@ export interface CommentFormProps {
   parentId: string | null;
   onSuccess: (comment: IComment) => void;
   placeholder?: string;
+}
+
+export interface CommentHeaderProps {
+  comment: IComment;
+  canEdit: boolean;
+  canDelete: boolean;
+  isEditing: boolean;
+  onEdit: () => void;
+  onDelete: () => void;
+  deleting: boolean;
+  deleteButtonTitle: string;
+}
+
+export interface CommentAvatarProps {
+  authorId: string;
+  authorName: string;
+}
+
+export interface CommentRepliesProps {
+  replies: IComment[];
+  articleId: string;
+  depth: number;
+  onReply: (comment: IComment) => void;
+  onDelete: (commentId: string) => void;
+}
+
+export interface CommentActionsProps {
+  isLiked: boolean;
+  likeCount: number;
+  canReply: boolean;
+  onLike: () => void;
+  onReply: () => void;
+  liking: boolean;
+  currentUserId?: string;
 }
 
 export interface CommentEditFormProps {

@@ -4,13 +4,12 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import { checkAvatarExists } from "../../../../../../../utils/avatarUtils";
 import { getAvatarByGender } from "../../../../../../../utils/getAvatarByGender";
+import { CommentAvatarProps } from "../../../types";
 
-interface CommentAvatarProps {
-  authorId: string;
-  authorName: string;
-}
-
-export default function CommentAvatar({ authorId, authorName }: CommentAvatarProps) {
+export default function CommentAvatar({
+  authorId,
+  authorName,
+}: CommentAvatarProps) {
   const [avatarSrc, setAvatarSrc] = useState<string>("");
   const [authorGender, setAuthorGender] = useState<string>("");
   const [avatarLoading, setAvatarLoading] = useState(true);

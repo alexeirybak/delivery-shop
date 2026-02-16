@@ -108,11 +108,6 @@ const generateSingleImage = async (
   }
 };
 
-// Вместо заглушек выбрасываем ошибку
-export const getFallbackImages = (topic: string): never => {
-  throw new Error("Не удалось сгенерировать изображения для статьи: " + topic);
-};
-
 export const generateArticleImages = async (
   topic: string,
   articleData: ArticleData,

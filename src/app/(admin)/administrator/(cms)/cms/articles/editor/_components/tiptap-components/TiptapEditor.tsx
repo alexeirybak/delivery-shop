@@ -69,6 +69,7 @@ export const TiptapEditor = ({
         allowBase64: true,
         HTMLAttributes: {
           class: "tiptap-image",
+          loading: "lazy", 
         },
       }),
       FileHandler.configure({

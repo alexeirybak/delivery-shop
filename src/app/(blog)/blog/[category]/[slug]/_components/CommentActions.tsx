@@ -1,16 +1,7 @@
 "use client";
 
 import { Heart, Reply } from "lucide-react";
-
-interface CommentActionsProps {
-  isLiked: boolean;
-  likeCount: number;
-  canReply: boolean;
-  onLike: () => void;
-  onReply: () => void;
-  liking: boolean;
-  currentUserId?: string;
-}
+import { CommentActionsProps } from "../../../types";
 
 export default function CommentActions({
   isLiked,
