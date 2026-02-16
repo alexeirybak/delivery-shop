@@ -1,4 +1,4 @@
-export type UserRole = "user" | "admin" | "manager" | "author";
+export type UserRole = "user" | "admin" | "manager";
 
 export type SortOrder = "newest" | "oldest";
 

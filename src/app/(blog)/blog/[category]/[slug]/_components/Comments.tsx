@@ -4,11 +4,11 @@ import { useState, useEffect, useMemo, useCallback } from "react";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
 import { CONFIG } from "../../../../../../../config/config";
-import { IComment, CommentsProps, SortOrder } from "../../../types";
+import { IComment, SortOrder } from "../../../types";
 import { Loader } from "@/components/Loader";
 import { Eye } from "lucide-react";
 
-export default function Comments({ articleId }: CommentsProps) {
+export default function Comments({ articleId }: { articleId: string }) {
   const [comments, setComments] = useState<IComment[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
