@@ -139,57 +139,38 @@ export default function Comments({ articleId }: { articleId: string }) {
     }
   };
 
-const handleCommentDeleted = async (commentId: string) => {
-  try {
-    const response = await fetch(`/api/comments/${commentId}`, {
-      method: "DELETE",
+  const handleCommentDeleted = (commentId: string) => {
+    // Убираем fetch - запрос уже сделан в дочернем компоненте!
+
+    // Просто обновляем состояние
+    setComments((prevComments) => {
+      const updateCommentInTree = (comments: IComment[]): IComment[] => {
+        return comments.map((comment) => {
+          if (comment._id === commentId) {
+            // Помечаем комментарий как удаленный
+            return {
+              ...comment,
+              content: "[Комментарий удален]",
+              isDeleted: true,
+              deletedAt: new Date().toISOString(),
+            };
+          }
+
+          // Рекурсивно обрабатываем ответы
+          if (comment.replies && comment.replies.length > 0) {
+            return {
+              ...comment,
+              replies: updateCommentInTree(comment.replies),
+            };
+          }
+
+          return comment;
+        });
+      };
+
+      return updateCommentInTree(prevComments);
     });
-
-    if (!response.ok) {
-      throw new Error("Ошибка удаления");
-    }
-
-    const data = await response.json();
-
-    if (data.success) {
-      // Обновляем состояние, чтобы вызвать перерендер всего списка
-      setComments((prevComments) => {
-        // Создаем глубокую копию всего дерева
-        const updateCommentInTree = (comments: IComment[]): IComment[] => {
-          return comments.map((comment) => {
-            if (comment._id === commentId) {
-              // Возвращаем НОВЫЙ объект для измененного комментария
-              return {
-                ...comment,
-                content: "[Комментарий удален]",
-                isDeleted: true,
-                deletedAt: new Date().toISOString(),
-              };
-            }
-            
-            // Рекурсивно обрабатываем ответы
-            if (comment.replies && comment.replies.length > 0) {
-              return {
-                ...comment,
-                replies: updateCommentInTree(comment.replies),
-              };
-            }
-            
-            // Для неизмененных комментариев возвращаем тот же объект
-            return comment;
-          });
-        };
-
-        const updatedComments = updateCommentInTree(prevComments);
-        console.log("До:", prevComments);
-        console.log("После:", updatedComments);
-        return updatedComments;
-      });
-    }
-  } catch (error) {
-    console.error("Ошибка при удалении комментария:", error);
-  }
-};
+  };
   if (loading) return <Loader />;
 
   return (
