@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
+import { CommentSortButtons } from "./CommentSortButtons"; // Импортируем новый компонент
 import { CONFIG } from "../../../../../../../config/config";
 import { IComment, SortOrder } from "../../../types";
 import { Loader } from "@/components/Loader";
@@ -39,7 +40,6 @@ export default function Comments({ articleId }: { articleId: string }) {
       }
     });
 
-    // Сортируем только при построении дерева, без учета порядка сортировки
     return rootComments.sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
@@ -73,7 +73,6 @@ export default function Comments({ articleId }: { articleId: string }) {
     }
   }, [articleId, fetchComments]);
 
-  // Сортируем корневые комментарии в зависимости от выбранного порядка
   const sortedComments = useMemo(() => {
     const sorted = [...comments];
 
@@ -92,23 +91,16 @@ export default function Comments({ articleId }: { articleId: string }) {
     return sorted;
   }, [comments, sortOrder]);
 
-  // Получаем видимые комментарии (первые N)
   const visibleComments = useMemo(() => {
     return sortedComments.slice(0, visibleCommentsCount);
   }, [sortedComments, visibleCommentsCount]);
 
-  // Общее количество корневых комментариев
   const totalRootComments = comments.length;
-
-  // Можно ли загрузить еще
   const hasMoreComments = visibleCommentsCount < totalRootComments;
-
-  // Оставшееся количество комментариев
   const remainingComments = totalRootComments - visibleCommentsCount;
 
   const handleSortChange = (order: SortOrder) => {
     setSortOrder(order);
-    // Сбрасываем количество видимых комментариев при смене сортировки
     setVisibleCommentsCount(CONFIG.COMMENTS_PER_ARTICLE_PAGE);
   };
 
@@ -116,31 +108,10 @@ export default function Comments({ articleId }: { articleId: string }) {
     setVisibleCommentsCount((prev) => prev + CONFIG.COMMENTS_PER_ARTICLE_PAGE);
   };
 
-  const handleCommentAdded = (newComment: IComment) => {
-    if (newComment.parentId) {
-      const updateComments = (commentList: IComment[]): IComment[] => {
-        return commentList.map((comment) => {
-          if (comment._id === newComment.parentId) {
-            return {
-              ...comment,
-              replies: [...comment.replies, newComment],
-            };
-          }
-          return {
-            ...comment,
-            replies: updateComments(comment.replies),
-          };
-        });
-      };
-      setComments((prev) => updateComments(prev));
-    } else {
-      setComments((prev) => [newComment, ...prev]);
-    }
-  };
-
-  const handleCommentDeleted = () => {
+  const handleCommentChange = () => {
     fetchComments();
   };
+
   if (loading) return <Loader />;
 
   return (
@@ -151,30 +122,10 @@ export default function Comments({ articleId }: { articleId: string }) {
         </h2>
 
         {comments.length > 0 && (
-          <div className="flex items-center gap-2">
-            <div className="flex rounded-full shadow-sm">
-              <button
-                onClick={() => handleSortChange("newest")}
-                className={`px-4 py-2 text-sm font-medium rounded-l-full border cursor-pointer duration-300 ${
-                  sortOrder === "newest"
-                    ? "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                }`}
-              >
-                Сначала новые
-              </button>
-              <button
-                onClick={() => handleSortChange("oldest")}
-                className={`px-4 py-2 text-sm font-medium rounded-r-full border-t border-b border-r cursor-pointer duration-30 ${
-                  sortOrder === "oldest"
-                    ? "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
-                    : "bg-white text-gray-700 border-gray-300 hover:bg-gray-50"
-                }`}
-              >
-                Сначала старые
-              </button>
-            </div>
-          </div>
+          <CommentSortButtons 
+            sortOrder={sortOrder} 
+            onSortChange={handleSortChange} 
+          />
         )}
       </div>
 
@@ -188,7 +139,7 @@ export default function Comments({ articleId }: { articleId: string }) {
         <CommentForm
           articleId={articleId}
           parentId={null}
-          onSuccess={handleCommentAdded}
+          onSuccess={handleCommentChange}
         />
       </div>
 
@@ -204,8 +155,7 @@ export default function Comments({ articleId }: { articleId: string }) {
                 key={comment._id}
                 comment={comment}
                 articleId={articleId}
-                onReply={handleCommentAdded}
-                onDelete={handleCommentDeleted}
+                onCommentChange={handleCommentChange}
                 depth={0}
               />
             ))}

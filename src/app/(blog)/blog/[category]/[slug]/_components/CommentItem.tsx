@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import CommentForm from "./CommentForm";
 import CommentEditForm from "./CommentEditForm";
-import { CommentItemProps, IComment, UserRole } from "../../../types";
+import { CommentItemProps, UserRole } from "../../../types";
 import { useAuthStore } from "@/store/authStore";
 import { getDeleteButtonTitle } from "../utils/getDeleteButtonTitle";
 import CommentHeader from "./CommentHeader";
@@ -13,8 +13,7 @@ import CommentReplies from "./CommentReplies";
 export default function CommentItem({
   comment,
   articleId,
-  onReply,
-  onDelete,
+  onCommentChange,
   depth,
 }: CommentItemProps) {
   const { user } = useAuthStore();
@@ -81,7 +80,7 @@ export default function CommentItem({
         method: "DELETE",
       });
       if (response.ok) {
-        onDelete(comment._id);
+        onCommentChange();
       }
     } catch (error) {
       console.error("Ошибка при удалении:", error);
@@ -90,8 +89,8 @@ export default function CommentItem({
     }
   };
 
-  const handleReplySuccess = (newComment: IComment) => {
-    onReply(newComment);
+  const handleReplySuccess = () => {
+    onCommentChange();
     setShowReplyForm(false);
   };
 
@@ -165,8 +164,7 @@ export default function CommentItem({
         replies={comment.replies}
         articleId={articleId}
         depth={depth}
-        onReply={onReply}
-        onDelete={onDelete}
+        onCommentChange={onCommentChange}
       />
     </div>
   );

@@ -26,8 +26,7 @@ export type CommentData = IComment;
 export interface CommentItemProps {
   comment: IComment;
   articleId: string;
-  onReply: (comment: IComment) => void;
-  onDelete: (commentId: string) => void;
+  onCommentChange: () => void;
   depth: number;
 }
 
@@ -58,8 +57,7 @@ export interface CommentRepliesProps {
   replies: IComment[];
   articleId: string;
   depth: number;
-  onReply: (comment: IComment) => void;
-  onDelete: (commentId: string) => void;
+  onCommentChange: () => void;
 }
 
 export interface CommentActionsProps {

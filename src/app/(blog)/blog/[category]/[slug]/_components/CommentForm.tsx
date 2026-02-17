@@ -10,6 +10,7 @@ export default function CommentForm({
   articleId,
   parentId,
   onSuccess,
+  placeholder="Напишите комментарий"
 }: CommentFormProps) {
   const { user } = useAuthStore();
   const [content, setContent] = useState("");
@@ -92,7 +93,7 @@ export default function CommentForm({
       <textarea
         value={content}
         onChange={(e) => setContent(e.target.value)}
-        placeholder="Напишите комметарий..."
+        placeholder={placeholder}
         className="w-full px-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all resize-none"
         rows={3}
         maxLength={2000}

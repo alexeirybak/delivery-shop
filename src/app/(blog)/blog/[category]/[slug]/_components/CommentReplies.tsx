@@ -10,8 +10,7 @@ export default function CommentReplies({
   replies,
   articleId,
   depth,
-  onReply,
-  onDelete,
+  onCommentChange,
 }: CommentRepliesProps) {
   const [showReplies, setShowReplies] = useState(false);
 
@@ -40,8 +39,7 @@ export default function CommentReplies({
               key={reply._id}
               comment={reply}
               articleId={articleId}
-              onReply={onReply}
-              onDelete={onDelete}
+              onCommentChange={onCommentChange}
               depth={depth + 1}
             />
           ))}
