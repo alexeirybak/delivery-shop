@@ -13,7 +13,7 @@ export default function CommentReplies({
   onReply,
   onDelete,
 }: CommentRepliesProps) {
-  const [showReplies, setShowReplies] = useState(true);
+  const [showReplies, setShowReplies] = useState(false);
 
   if (!replies.length) return null;
 

@@ -18,7 +18,6 @@ export default function Comments({ articleId }: { articleId: string }) {
   );
 
   const buildCommentTree = (flatComments: IComment[]): IComment[] => {
-    console.log(flatComments);
     const commentMap = new Map<string, IComment>();
     const rootComments: IComment[] = [];
 
@@ -139,37 +138,8 @@ export default function Comments({ articleId }: { articleId: string }) {
     }
   };
 
-  const handleCommentDeleted = (commentId: string) => {
-    // Убираем fetch - запрос уже сделан в дочернем компоненте!
-
-    // Просто обновляем состояние
-    setComments((prevComments) => {
-      const updateCommentInTree = (comments: IComment[]): IComment[] => {
-        return comments.map((comment) => {
-          if (comment._id === commentId) {
-            // Помечаем комментарий как удаленный
-            return {
-              ...comment,
-              content: "[Комментарий удален]",
-              isDeleted: true,
-              deletedAt: new Date().toISOString(),
-            };
-          }
-
-          // Рекурсивно обрабатываем ответы
-          if (comment.replies && comment.replies.length > 0) {
-            return {
-              ...comment,
-              replies: updateCommentInTree(comment.replies),
-            };
-          }
-
-          return comment;
-        });
-      };
-
-      return updateCommentInTree(prevComments);
-    });
+  const handleCommentDeleted = () => {
+    fetchComments();
   };
   if (loading) return <Loader />;
 
