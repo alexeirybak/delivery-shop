@@ -12,6 +12,7 @@ export default function CommentActions({
   liking,
   currentUserId,
 }: CommentActionsProps) {
+  console.log(isLiked);
   return (
     <div className="flex items-center gap-4 text-sm">
       <button

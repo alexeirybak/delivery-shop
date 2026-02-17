@@ -27,14 +27,19 @@ export default function CommentItem({
   const [deleting, setDeleting] = useState(false);
   const [currentContent, setCurrentContent] = useState(comment.content);
 
-  useEffect(() => {
-    setCurrentContent(comment.content);
-  }, [comment.content]);
-
   const [isLiked, setIsLiked] = useState(
     currentUserId ? comment.likes.includes(currentUserId) : false,
   );
   const [likeCount, setLikeCount] = useState(comment.likes.length);
+
+    useEffect(() => {
+    // Обновляем контент
+    setCurrentContent(comment.content);
+
+    // Обновляем лайки
+    setIsLiked(currentUserId ? comment.likes.includes(currentUserId) : false);
+    setLikeCount(comment.likes.length);
+  }, [comment, currentUserId]);
 
   const isAdminOrManager =
     currentUserRole === "admin" || currentUserRole === "manager";
@@ -111,7 +116,11 @@ export default function CommentItem({
           onEdit={() => setIsEditing(true)}
           onDelete={handleDelete}
           deleting={deleting}
-          deleteButtonTitle={getDeleteButtonTitle(currentUserId!, currentUserRole, comment.authorId)}
+          deleteButtonTitle={getDeleteButtonTitle(
+            currentUserId!,
+            currentUserRole,
+            comment.authorId,
+          )}
         />
 
         <div className="mb-3">
