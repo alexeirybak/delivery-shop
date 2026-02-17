@@ -3,11 +3,11 @@
 import { useState, useEffect, useMemo, useCallback } from "react";
 import CommentForm from "./CommentForm";
 import CommentItem from "./CommentItem";
-import { CommentSortButtons } from "./CommentSortButtons"; // Импортируем новый компонент
+import { CommentSortButtons } from "./CommentSortButtons";
+import { LoadMoreComments } from "./LoadMoreComments"; // Импортируем
 import { CONFIG } from "../../../../../../../config/config";
 import { IComment, SortOrder } from "../../../types";
 import { Loader } from "@/components/Loader";
-import { Eye } from "lucide-react";
 
 export default function Comments({ articleId }: { articleId: string }) {
   const [comments, setComments] = useState<IComment[]>([]);
@@ -160,28 +160,12 @@ export default function Comments({ articleId }: { articleId: string }) {
               />
             ))}
 
-            {hasMoreComments && (
-              <div className="flex justify-center pt-4">
-                <button
-                  onClick={handleLoadMore}
-                  className="px-6 py-2.5 bg-orange-100 hover:bg-orange-200 text-gray-800 font-medium rounded-lg cursor-pointer duration-300 flex items-center gap-2"
-                >
-                  <Eye className="md:hidden w-6 h-6 text-orange-700" />
-                  <span className="hidden md:inline-block text-orange-700">
-                    Посмотреть еще
-                  </span>
-                  <span className="bg-orange-200 px-2 py-0.5 rounded-full text-xs text-orange-700">
-                    {remainingComments}
-                  </span>
-                </button>
-              </div>
-            )}
-
-            {!hasMoreComments && totalRootComments > 5 && (
-              <div className="text-center pt-4 text-sm text-gray-500">
-                Загружены все комментарии
-              </div>
-            )}
+            <LoadMoreComments
+              hasMore={hasMoreComments}
+              remainingCount={remainingComments}
+              onLoadMore={handleLoadMore}
+              totalRootComments={totalRootComments}
+            />
           </>
         )}
       </div>
