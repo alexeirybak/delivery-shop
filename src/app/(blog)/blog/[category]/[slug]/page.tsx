@@ -13,6 +13,7 @@ import EditLink from "./_components/EditLink";
 import ArticleCard from "@/app/(articles)/ArticleCard";
 import { CONFIG } from "../../../../../../config/config";
 import { getRelatedArticles } from "../utils/getRelatedArticles";
+import { Comments } from "./_components/comments/_components/Comments";
 
 const cachedFetchArticleData = cache(fetchArticlePageData);
 
@@ -142,6 +143,8 @@ export default async function ArticlePage({
       <ArticleContent html={safeContent} />
 
       <ArticleAuthor author={article.author!} />
+
+      <Comments articleId={article._id!} />
       {otherArticles.length > 0 && (
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h2 className="text-2xl font-bold mb-6 text-gray-800">

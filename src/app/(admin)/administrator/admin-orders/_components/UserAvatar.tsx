@@ -18,7 +18,7 @@ const UserAvatar = ({ userId, gender, name }: UserAvatarProps) => {
         try {
           const exists = await checkAvatarExists(userId);
           if (exists) {
-            setAvatarSrc(`/api/auth/avatar/${userId}?t=${Date.now()}`);
+            setAvatarSrc(`/api/auth/avatar/${userId}`);
           } else {
             setAvatarSrc(getAvatarByGender(gender));
           }

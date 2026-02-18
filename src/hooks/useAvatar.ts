@@ -28,7 +28,7 @@ const useAvatar = ({ userId, gender = "male" }: UseAvatarProps) => {
 
     try {
       const response = await fetch(
-        `/api/auth/avatar/${userId}?t=${Date.now()}`
+        `/api/auth/avatar/${userId}`
       );
 
       if (response.ok) {
