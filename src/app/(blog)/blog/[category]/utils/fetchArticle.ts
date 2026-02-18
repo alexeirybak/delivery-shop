@@ -19,8 +19,6 @@ export async function fetchArticlePageData(
 
   const currentUserRole = currentUserData?.role || "user";
 
-  console.log(currentUserRole);
-
   try {
     const response = await fetch(
       `${baseUrl}/api/blog/${categorySlug}/${articleSlug}?role=${currentUserRole}`,
