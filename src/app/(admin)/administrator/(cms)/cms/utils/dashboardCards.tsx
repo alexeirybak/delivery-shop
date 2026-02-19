@@ -1,4 +1,4 @@
-import { Plus, FolderTree, Tags, FileText, Brain } from "lucide-react";
+import { Plus, FolderTree, Tags, FileText, Brain, MessageSquare } from "lucide-react";
 import { DashboardCard } from "../types/dashboard";
 
 export const dashboardCards: DashboardCard[] = [
@@ -46,5 +46,14 @@ export const dashboardCards: DashboardCard[] = [
     color: "orange",
     path: "/administrator/cms/auto-generate",
     actionText: "Генерировать",
+  },
+  {
+    id: "comments",
+    title: "Управление комментариями",
+    description: "Проверка комментариев и управление пользователями",
+    icon: <MessageSquare className="w-6 h-6" />,
+    color: "gray",
+    path: "/administrator/cms/comments",
+    actionText: "Проверить",
   },
 ];

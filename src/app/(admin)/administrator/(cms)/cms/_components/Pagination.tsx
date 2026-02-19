@@ -1,16 +1,27 @@
 "use client";
 
 import { useCategoryStore } from "@/store/categoryStore";
-import { CONFIG_BLOG } from "../CONFIG_BLOG";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
+import { useCommentsStore } from "@/store/commentsStore";
+import { CONFIG_BLOG } from "../CONFIG_BLOG";
+import { StoreType } from "../comments/types/comments.types";
 
 export const Pagination = ({ type = "categories" }) => {
-  const categoryStore = useCategoryStore();
-  const articlesManagementStore = useArticlesManagementStore();
+  const stores: Record<string, StoreType> = {
+    articles: useArticlesManagementStore(),
+    categories: useCategoryStore(),
+    comments: useCommentsStore(),
+  };
+
+  const store = stores[type];
+
+  if (!store) {
+    console.error(`Неизвестный тип для пагинации: ${type}`);
+    return null;
+  }
 
   const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
-    type === "articles" ? articlesManagementStore : categoryStore;
-
+    store;
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
 
@@ -64,7 +75,7 @@ export const Pagination = ({ type = "categories" }) => {
           Страница <span className="font-medium">{currentPage}</span> из{" "}
           <span className="font-medium">{totalPages}</span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}

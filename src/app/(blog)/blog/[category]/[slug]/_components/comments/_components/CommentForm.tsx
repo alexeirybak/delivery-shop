@@ -1,15 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Send, Loader2, AlertCircle, Shield } from "lucide-react";
+import { Send, Loader2, AlertCircle, Shield, Ban } from "lucide-react";
 import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import {
+  BanInfo,
   CommentFormProps,
   UserRole,
 } from "@/app/(blog)/blog/types/comments.types";
 import { acceptRules, checkRulesAccepted } from "@/actions/acceptRules";
 import { RulesModal } from "./RulesModal";
+import { checkBanStatus } from "@/actions/userBanActions";
+import { formatBanDate } from "../../../../../../../../../utils/formatBanDate";
 
 export default function CommentForm({
   articleId,
@@ -24,10 +27,33 @@ export default function CommentForm({
   const [submitting, setSubmitting] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [banInfo, setBanInfo] = useState<BanInfo>({
+    isBanned: false,
+    bannedUntil: null,
+  });
   const userId = user?.id || user?._id;
   const userName = `${user?.surname} ${user?.name}`;
   const userRole = (user?.role as UserRole) || "user";
+
+  useEffect(() => {
+    async function checkBanStatusAction() {
+      if (!userId) return;
+
+      try {
+        const result = await checkBanStatus(userId);
+        if (result.success) {
+          setBanInfo({
+            isBanned: result.isBanned ?? false,
+            bannedUntil: result.bannedUntil || null,
+          });
+        }
+      } catch (error) {
+        console.error("Ошибка проверки статуса бана:", error);
+      }
+    }
+
+    checkBanStatusAction();
+  }, [userId]);
 
   useEffect(() => {
     async function checkRules() {
@@ -58,6 +84,15 @@ export default function CommentForm({
 
     if (!userId || !userName) {
       setError("Войдите в систему, чтобы оставить комментарий");
+      return;
+    }
+
+    if (banInfo.isBanned) {
+      if (banInfo.bannedUntil) {
+        setError(`Вы заблокированы до ${formatBanDate(banInfo.bannedUntil)}`);
+      } else {
+        setError("Вы заблокированы навсегда");
+      }
       return;
     }
 
@@ -121,6 +156,25 @@ export default function CommentForm({
 
   if (loading) {
     return <div className="text-center py-4 text-gray-600">Загрузка...</div>;
+  }
+
+  if (banInfo.isBanned) {
+    return (
+      <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+        <Ban className="w-12 h-12 text-red-500 mx-auto mb-3" />
+        <h3 className="text-lg font-semibold text-red-700 mb-2">
+          Вы заблокированы
+        </h3>
+        <p className="text-red-600">
+          {banInfo.bannedUntil
+            ? `До ${formatBanDate(banInfo.bannedUntil)}`
+            : "Навсегда"}
+        </p>
+        <p className="text-sm text-gray-600 mt-4">
+          По всем вопросам обращайтесь к администрации
+        </p>
+      </div>
+    );
   }
 
   return (

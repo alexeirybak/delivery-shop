@@ -1,4 +1,4 @@
-import { Brain, FileText, FolderTree, Home, Plus, Tags } from "lucide-react";
+import { Brain, FileText, FolderTree, Home, MessageSquare, Plus, Tags } from "lucide-react";
 
 export const menuItems = [
   {
@@ -60,5 +60,15 @@ export const menuItems = [
     hoverColor: "hover:from-orange-600 hover:to-orange-700",
     shadow: "shadow-lg shadow-orange-500/20",
     path: "/administrator/cms/auto-generate",
+  },
+  {
+    id: "comments",
+    title: "Комментарии",
+    description: "Управление комментариями",
+    icon: <MessageSquare className="w-6 h-6" />,
+    color: "from-gray-500 to-gray-600",
+    hoverColor: "hover:from-gray-600 hover:to-gray-700",
+    shadow: "shadow-lg shadow-gray-500/20",
+    path: "/administrator/cms/comments",
   },
 ];
