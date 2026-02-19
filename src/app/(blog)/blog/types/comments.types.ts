@@ -89,3 +89,8 @@ export interface LoadMoreCommentsProps {
   onLoadMore: () => void;
   totalRootComments: number;
 }
+
+export interface BanInfo {
+  isBanned: boolean;
+  bannedUntil: string | null;
+}
