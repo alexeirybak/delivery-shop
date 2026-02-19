@@ -46,7 +46,6 @@ export const CommentRow = ({
     fetchAuthorGender();
   }, [comment.authorId]);
 
-  // Проверяем, забанен ли пользователь (только при первой загрузке)
   useEffect(() => {
     const checkBanStatusAction = async () => {
       if (!comment.authorId) return;
@@ -55,7 +54,6 @@ export const CommentRow = ({
       try {
         const result = await checkBanStatus(comment.authorId);
         if (result.success) {
-          // Явно указываем, что isBanned должен быть boolean, и если undefined - то false
           setUserBanned(
             comment.authorId, 
             result.isBanned ?? false, 

@@ -7,6 +7,7 @@ import { useAuthStore } from "@/store/authStore";
 import Link from "next/link";
 import { RulesModal } from "./RulesModal";
 import { acceptRules, checkRulesAccepted } from "@/actions/acceptRules";
+import { checkBanStatus } from "@/actions/userBanActions"; // Импортируем server action
 
 interface BanInfo {
   isBanned: boolean;
@@ -32,20 +33,17 @@ export default function CommentForm({
   const userName = `${user?.surname} ${user?.name}`;
   const userRole = (user?.role as UserRole) || "user";
 
-  // Проверяем, забанен ли пользователь
+  // Проверяем, забанен ли пользователь через server action
   useEffect(() => {
-    async function checkBanStatus() {
+    async function checkBanStatusAction() {
       if (!userId) return;
 
       try {
-        const response = await fetch(
-          `/administrator/cms/api/comments/user/ban/status?userId=${userId}`
-        );
-        if (response.ok) {
-          const data = await response.json();
+        const result = await checkBanStatus(userId);
+        if (result.success) {
           setBanInfo({
-            isBanned: data.isBanned,
-            bannedUntil: data.bannedUntil || null
+            isBanned: result.isBanned ?? false,
+            bannedUntil: result.bannedUntil || null
           });
         }
       } catch (error) {
@@ -53,7 +51,7 @@ export default function CommentForm({
       }
     }
 
-    checkBanStatus();
+    checkBanStatusAction();
   }, [userId]);
 
   // Проверяем, ознакомлен ли пользователь с правилами

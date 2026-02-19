@@ -12,17 +12,10 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     // Читаем роль из query-параметров
     const url = new URL(request.url);
     const currentUserRole = url.searchParams.get('role');
-    
-    // ДЕБАГ ЛОГИ
-    console.log('=== API CALL ===');
-    console.log('URL:', request.url);
-    console.log('Role from query:', currentUserRole);
-    console.log('Category:', category, 'Slug:', slug);
-
+ 
     const canCount =
       currentUserRole !== "admin" && currentUserRole !== "manager";
-    
-    console.log('canCount:', canCount);
+ 
 
     const db = await getDB();
 
@@ -87,7 +80,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
       if (result) {
         updatedArticle = result;
-        console.log('Views after update:', updatedArticle.views);
+        
       } else {
         console.log('Update failed!');
       }
