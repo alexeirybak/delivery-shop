@@ -76,7 +76,7 @@ function BreadcrumbsContent() {
 
   return (
     <nav className="px-[max(12px,calc((100%-1208px)/2))] my-6">
-      <ol className="flex items-center gap-4 text-[8px] md:text-xs">
+      <ol className="flex items-center gap-4 text-[8px] md:text-xs flex-wrap">
         {breadcrumbs.map((item, index) => (
           <li key={index} className="flex items-center gap-4">
             <div

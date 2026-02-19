@@ -3,13 +3,31 @@
 import { useCategoryStore } from "@/store/categoryStore";
 import { CONFIG_BLOG } from "../CONFIG_BLOG";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
+import { useCommentsStore } from "@/store/commentsStore";
+
+type StoreType = {
+  totalPages: number;
+  totalItems: number;
+  currentPage: number;
+  itemsPerPage: number;
+  setCurrentPage: (page: number) => void;
+};
 
 export const Pagination = ({ type }: { type: string }) => {
-  const categoryStore = useCategoryStore();
-  const articlesStore = useArticlesManagementStore();
+  const stores: Record<string, StoreType> = {
+    articles: useArticlesManagementStore(),
+    categories: useCategoryStore(),
+    comments: useCommentsStore(),
+  };
 
-  const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
-    type === "articles" ? articlesStore : categoryStore;
+  const store = stores[type];
+
+  if (!store) {
+    console.error(`Неизвестный тип для пагинации: ${type}`);
+    return null;
+  }
+
+  const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } = store;
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
@@ -64,7 +82,7 @@ export const Pagination = ({ type }: { type: string }) => {
           Страница <span className="font-medium">{currentPage}</span> из{" "}
           <span className="font-medium">{totalPages}</span>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}

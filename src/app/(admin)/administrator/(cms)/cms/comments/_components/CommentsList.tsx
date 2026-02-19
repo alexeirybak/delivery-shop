@@ -1,5 +1,3 @@
-"use client";
-
 import { CommentsListProps } from "../types/comments.types";
 import { CommentRow } from "./CommentRow";
 import { Loader } from "@/components/Loader";

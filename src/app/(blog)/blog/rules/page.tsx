@@ -1,5 +1,3 @@
-// app/rules/page.tsx
-import Link from "next/link";
 import {
   Shield,
   AlertTriangle,
