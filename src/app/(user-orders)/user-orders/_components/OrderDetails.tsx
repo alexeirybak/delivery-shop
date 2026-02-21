@@ -5,7 +5,7 @@ const OrderDetails: React.FC<{ order: Order }> = ({ order }) => {
     <>
       <div className="mb-4 grid grid-cols-1 lg:grid-cols-[auto_1fr] gap-3 lg:gap-6 text-sm mt-10">
         <p className="text-main-text lg:text-base">Адрес доставки:</p>
-        <p className="font-medium lg:text-base break-words">
+        <p className="font-medium lg:text-base wrap-break-word">
           {order.deliveryAddress.city}, {order.deliveryAddress.street},
           {order.deliveryAddress.house}
           {order.deliveryAddress.apartment &&

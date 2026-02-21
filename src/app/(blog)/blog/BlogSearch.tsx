@@ -120,11 +120,9 @@ export default function BlogSearch() {
           )}
         </form>
 
-        {/* Результаты поиска */}
         {showResults && searchResults.searchTerm && (
           <div className="mt-4">
             <div className="bg-white rounded shadow-lg border border-gray-200 overflow-hidden">
-              {/* Заголовок результатов */}
               <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
                 <h3 className="font-semibold text-main-text">
                   {searchResults.articles === null
@@ -142,7 +140,6 @@ export default function BlogSearch() {
                 </button>
               </div>
 
-              {/* Список результатов */}
               {searchResults.articles && searchResults.articles.length > 0 && (
                 <div className="divide-y divide-gray-100 max-h-96 overflow-y-auto">
                   {searchResults.articles.map((article) => (
@@ -202,7 +199,6 @@ export default function BlogSearch() {
                 </div>
               )}
 
-              {/* Сообщение "ничего не найдено" */}
               {searchResults.articles &&
                 searchResults.articles.length === 0 && (
                   <div className="p-6 text-center">

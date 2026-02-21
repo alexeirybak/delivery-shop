@@ -2,7 +2,6 @@
 @import "../styles/_variables.scss";
 @import "../styles/_keyframe-animations.scss";
 
-
 @theme inline {
   --font-sans: var(--font-rubik);
   --color-primary: #70c05b;
@@ -17,7 +16,6 @@
   --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
 }
 
-
 body {
   background-color: #fbf8ec;
   color: var(--foreground);
@@ -31,8 +29,6 @@ body {
 .no-ymaps-copyright [class*="copyrights-pane"] {
   visibility: hidden;
 }
-
-/* className="no-ymaps-copyright w-full h-[354px]" */
 
 @keyframes spin {
   to {

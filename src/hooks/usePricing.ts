@@ -19,7 +19,6 @@ export const usePricing = ({
 
   const { updatePricing } = useCartStore();
 
-  // Вычисляем все данные для каждого товара один раз
   const calculatedItems = useMemo(() => {
     return availableCartItems.map(item => {
       const product = productsData[item.productId];
@@ -48,7 +47,6 @@ export const usePricing = ({
     }).filter(Boolean) as (CalculatedItem & { quantity: number })[];
   }, [availableCartItems, productsData, hasLoyaltyCard]);
 
-  // Вычисляем итоговые суммы на основе подготовленных данных
   const {
     totalPrice,
     totalMaxPrice,

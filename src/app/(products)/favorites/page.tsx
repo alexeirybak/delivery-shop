@@ -11,8 +11,7 @@ import { headers } from "next/headers";
 import {
   getCustomSessionToken,
   getValidCustomSession,
-} from "../../../../utils/auth-helpers"; // Укажите правильный путь
-
+} from "../../../../utils/auth-helpers"; 
 async function getServerUserId() {
   try {
     const headersList = await headers();

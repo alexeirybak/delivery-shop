@@ -53,7 +53,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);

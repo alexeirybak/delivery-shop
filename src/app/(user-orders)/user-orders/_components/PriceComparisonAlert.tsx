@@ -76,7 +76,7 @@ export const PriceComparisonAlert: React.FC<PriceComparisonAlertProps> = ({
         </div>
         <button
           onClick={onClose}
-          className="text-yellow-600 hover:text-yellow-800 text-lg font-bold ml-4 flex-shrink-0"
+          className="text-yellow-600 hover:text-yellow-800 text-lg font-bold ml-4 shrink-0"
         >
           ×
         </button>

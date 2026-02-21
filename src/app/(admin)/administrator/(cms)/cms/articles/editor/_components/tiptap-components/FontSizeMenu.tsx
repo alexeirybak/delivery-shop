@@ -1,19 +1,9 @@
 import { ChevronDown, Check } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { EditorProps } from "../../../types";
+import { FONT_SIZES } from "../../../utils/fontSizes";
 
-const FONT_SIZES = [
-  { label: "10px", value: "10px" },
-  { label: "12px", value: "12px" },
-  { label: "14px", value: "14px" },
-  { label: "16px", value: "16px" },
-  { label: "18px", value: "18px" },
-  { label: "20px", value: "20px" },
-  { label: "24px", value: "24px" },
-  { label: "28px", value: "28px" },
-  { label: "32px", value: "32px" },
-  { label: "Сбросить", value: "unset" },
-];
+
 
 const DEFAULT_SIZE = "16px";
 
@@ -24,35 +14,29 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // Функция для извлечения размера шрифта из inline-стилей
   const extractFontSizeFromStyle = useCallback((style: string): string | null => {
     const match = style.match(/font-size:\s*([^;]+)/i);
     return match ? match[1].trim() : null;
   }, []);
 
-  // Функция для поиска размера шрифта в текущем выделении
   const findFontSizeInSelection = useCallback(() => {
     if (!editor) return DEFAULT_SIZE;
     
     const { state, view } = editor;
-    const { from } = state.selection; // Убрали неиспользуемую переменную 'to'
+    const { from } = state.selection;
     
     let foundSize = null;
     
-    // Сначала пробуем получить через атрибуты Tiпtаp
     const textStyleAttrs = editor.getAttributes("textStyle");
     foundSize = textStyleAttrs?.fontSize;
     
-    // Если не нашли, ищем в DOM через inline-стили
     if (!foundSize) {
       try {
-        // Получаем DOM-элемент для текущей позиции
         const pos = Math.min(from, state.doc.content.size - 1);
         const domPos = view.domAtPos(pos);
         const node = domPos.node as HTMLElement;
         
         if (node) {
-          // Проверяем текущий элемент и его родители
           let currentElement: HTMLElement | null = node.nodeType === 3 ? node.parentElement : node;
           
           while (currentElement && !foundSize) {
@@ -75,19 +59,15 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     return foundSize || DEFAULT_SIZE;
   }, [editor, extractFontSizeFromStyle]);
 
-  // Функция для обновления состояния
   const updateSize = useCallback(() => {
     if (!editor) return;
     
     const size = findFontSizeInSelection();
     
-    // Если размер не найден или пустой, используем 16px
     const finalSize = (!size || size === "unset") ? DEFAULT_SIZE : size;
     
-    // Нормализуем размер (добавляем px если нет)
     const normalizedSize = finalSize.includes('px') ? finalSize : `${finalSize}px`;
     
-    // Обновляем отображаемый размер
     if (finalSize === "unset" || !finalSize) {
       setDisplaySize("16");
     } else {
@@ -95,18 +75,15 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     }
   }, [editor, findFontSizeInSelection]);
 
-  // Подписка на события редактора
   useEffect(() => {
     if (!editor) return;
 
-    // Подписываемся на изменения редактора
     const handleUpdate = () => {
       updateSize();
     };
 
     editor.on("selectionUpdate", handleUpdate);
     
-    // Используем requestAnimationFrame для оптимизации
     editor.on("transaction", ({ transaction }) => {
       if (transaction.selectionSet || transaction.docChanged) {
         requestAnimationFrame(() => {
@@ -115,17 +92,14 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
       }
     });
 
-    // Инициализация при монтировании
     updateSize();
 
-    // Отписываемся при размонтировании
     return () => {
       editor.off("selectionUpdate", handleUpdate);
       editor.off("transaction", handleUpdate);
     };
   }, [editor, updateSize]);
 
-  // Также обновляем при открытии меню
   useEffect(() => {
     if (isOpen && editor) {
       updateSize();
@@ -150,7 +124,6 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
   const handleSizeChange = (size: string) => {
     if (!editor) return;
     
-    // Сначала фокусируем редактор
     editor.chain().focus();
     
     if (size === "unset") {
@@ -160,7 +133,6 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     }
     
     setIsOpen(false);
-    // Обновляем состояние сразу
     updateSize();
   };
 
@@ -170,7 +142,6 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
 
   if (!editor) return null;
 
-  // Проверяем активность для пунктов меню
   const checkIsActive = (sizeValue: string) => {
     const currentSize = findFontSizeInSelection();
     
@@ -179,7 +150,6 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
       return !currentSize || normalizedCurrent === DEFAULT_SIZE;
     }
     
-    // Нормализуем оба размера для сравнения
     const normalizedCurrent = currentSize.includes('px') ? currentSize : `${currentSize}px`;
     const normalizedTarget = sizeValue.includes('px') ? sizeValue : `${sizeValue}px`;
     
@@ -207,7 +177,6 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
         />
       </button>
 
-      {/* Выпадающее меню */}
       {isOpen && (
         <div
           ref={dropdownRef}
@@ -215,14 +184,12 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
           onClick={(e) => e.stopPropagation()} 
         >
           <div className="py-1">
-            {/* Заголовок меню */}
             <div className="px-3 py-2 border-b border-gray-100">
               <span className="text-xs font-medium text-gray-500">
                 РАЗМЕР ШРИФТА
               </span>
             </div>
 
-            {/* Варианты размеров */}
             {FONT_SIZES.map((size) => {
               const isActive = checkIsActive(size.value);
 

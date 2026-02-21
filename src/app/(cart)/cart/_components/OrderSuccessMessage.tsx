@@ -36,13 +36,13 @@ const OrderSuccessMessage = ({
       </div>
       {useBonuses && (
         <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-          <CreditCard size={16} className="flex-shrink-0" />
+          <CreditCard size={16} className="shrink-0" />
           {usedBonuses} бонус
           {getFullEnding(usedBonuses)} будет списано после подтверждения оплаты
         </div>
       )}
       <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-        <CreditCard size={16} className="flex-shrink-0" />
+        <CreditCard size={16} className="shrink-0" />
         После доставки вам будет начислено {totalBonuses} бонус
         {getFullEnding(totalBonuses)}
       </div>

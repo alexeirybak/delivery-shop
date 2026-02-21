@@ -1,7 +1,7 @@
 const fetchPurchases = async (options?: {
   userPurchasesLimit?: number;
   pagination?: { startIdx: number; perPage: number };
-  userId?: string; // Добавляем параметр userId
+  userId?: string; 
 }) => {
   try {
     const url = new URL(
@@ -21,7 +21,6 @@ const fetchPurchases = async (options?: {
       url.searchParams.append("perPage", options.pagination.perPage.toString());
     }
 
-    // Добавляем userId в параметры запроса
     if (options?.userId) {
       url.searchParams.append("userId", options.userId);
     }

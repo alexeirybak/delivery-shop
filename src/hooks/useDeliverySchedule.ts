@@ -40,11 +40,6 @@ export function useDeliverySchedule() {
       if (data.schedule && Object.keys(data.schedule).length > 0) {
         const loadedSchedule = data.schedule as Schedule;
 
-        // const updatedSchedule = dates.reduce<Schedule>((acc, date) => {
-        //   acc[date] = loadedSchedule[date] ? { ...loadedSchedule[date] } : {};
-        //   return acc;
-        // }, {});
-
         const updatedSchedule: Schedule = {};
 
         dates.forEach((date) => {

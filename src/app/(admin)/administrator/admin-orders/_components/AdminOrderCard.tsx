@@ -247,7 +247,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           )}
         </div>
       </div>
-      {/* Товары показываем когда showOrderDetails = true */}
       {showOrderDetails && (
         <>
           <OrderProductsLoader
@@ -257,14 +256,12 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             showFullOrder={showFullOrder}
           />
 
-          {/* Полные детали заказа показываем когда showFullOrder = true */}
           {showFullOrder && (
             <OrderDetails order={order} totalWeight={totalOrderWeight} />
           )}
         </>
       )}
 
-      {/* Нижняя кнопка Показать заказ/Скрыть */}
       {showOrderDetails && !showFullOrder && (
         <div className="flex justify-center mt-10">
           <button

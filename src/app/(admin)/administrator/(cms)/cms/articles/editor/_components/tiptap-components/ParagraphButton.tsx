@@ -8,7 +8,7 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       if (
         event.ctrlKey &&
         event.altKey &&
-        (event.code === 'Digit0' || event.code === 'Numpad0') // 0 на основной клавиатуре или на цифровом блоке
+        (event.code === "Digit0" || event.code === "Numpad0")
       ) {
         if (editor && editor.can().setParagraph()) {
           editor.chain().focus().setParagraph().run();
@@ -16,12 +16,12 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [editor]); 
+  }, [editor]);
 
   if (!editor) {
     return null;

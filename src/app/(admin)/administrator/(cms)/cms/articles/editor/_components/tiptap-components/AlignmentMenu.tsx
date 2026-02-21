@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 export const AlignmentMenu = ({ editor }: EditorProps) => {
   const [, setUpdate] = useState(0);
  
-  // Перерисовываем компонент при изменениях
   useEffect(() => {
     if (!editor) return;
  
@@ -31,7 +30,6 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
       if (event.ctrlKey && event.shiftKey) {
         event.preventDefault();
  
-        // Сначала фокусируем редактор
         editor.commands.focus();
  
         switch (event.code) {
@@ -64,9 +62,7 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
   if (!editor) return null;
  
   const setAlignment = (align: "left" | "center" | "right" | "justify") => {
-    // Сначала фокусируем редактор
     editor.commands.focus();
-    // Затем устанавливаем выравнивание
     editor.commands.setTextAlign(align);
   };
  

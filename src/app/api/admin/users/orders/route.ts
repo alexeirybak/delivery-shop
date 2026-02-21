@@ -7,7 +7,6 @@ export async function GET() {
   try {
     const db = await getDB();
 
-    // Получаем даты: месяц назад и послезавтра (включительно)
     const today = new Date();
 
     const todayStart = new Date(
@@ -19,9 +18,8 @@ export async function GET() {
     oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
     const dayAfterTomorrow = new Date(todayStart);
-    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2); // +2 дня = послезавтра
+    dayAfterTomorrow.setDate(dayAfterTomorrow.getDate() + 2); 
 
-    // Форматируем даты в строки YYYY-MM-DD
     const formatDate = (date: Date) => {
       const year = date.getFullYear();
       const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -33,7 +31,6 @@ export async function GET() {
     const dayAfterTomorrowStr = formatDate(dayAfterTomorrow);
     const todayStr = formatDate(todayStart);
 
-    // Получаем заказы за период от месяца назад до послезавтра
     const orders = await db
       .collection("orders")
       .find({
@@ -45,7 +42,6 @@ export async function GET() {
       .sort({ deliveryDate: -1, deliveryTimeSlot: 1 })
       .toArray();
 
-    // Статистика - заказы на сегодня, завтра и послезавтра
     const nextThreeDaysOrders = orders.filter(
       (order) =>
         order.deliveryDate >= todayStr &&
@@ -53,7 +49,7 @@ export async function GET() {
     ).length;
 
     const stats = {
-      nextThreeDaysOrders, // заказы на: сегодня + завтра + послезавтра
+      nextThreeDaysOrders, 
     };
 
     return NextResponse.json({ orders, stats });

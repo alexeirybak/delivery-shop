@@ -23,23 +23,17 @@ export async function processArticleImages(
       const fileExtension = path.extname(originalName);
       const baseName = path.parse(originalName).name;
       
-      // Ограничиваем длину имени (макс 20 символов)
       const shortBaseName = baseName.length > 20 ? baseName.substring(0, 20) : baseName;
       
-      // Добавляем короткий уникальный суффикс (4 символа)
       const suffix = Math.random().toString(36).substring(2, 6);
       
-      // Формат: короткое_имя_суффикс.расширение
       const permanentFilename = `${shortBaseName}_${suffix}${fileExtension}`;
       const newPath = path.join(articlesDir, permanentFilename);
       
-      // Копируем файл
       await fs.copyFile(oldPath, newPath);
       
-      // Удаляем временный файл
       await fs.unlink(oldPath);
       
-      // Обновляем ссылки
       const tempUrlPattern = `/temp/${tempFilename}`;
       const permanentUrl = `/uploads/articles/${permanentFilename}`;
       content = content.replace(new RegExp(tempUrlPattern, "gi"), permanentUrl);

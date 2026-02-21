@@ -7,7 +7,7 @@ const CartSkeletons = () => {
         <div className="flex flex-row flex-wrap md:flex-nowrap">
           <div className="w-24 h-24 bg-gray-200 rounded m-2.5"></div>
 
-          <div className="flex-1 flex min-w-[224px] md:flex-initial flex-col gap-y-2.5 p-2.5">
+          <div className="flex-1 flex min-w-56 md:flex-initial flex-col gap-y-2.5 p-2.5">
             <div className="h-6 bg-gray-200 rounded w-3/4 mb-2"></div>
             
             <div className="flex flex-row gap-x-2 items-center">

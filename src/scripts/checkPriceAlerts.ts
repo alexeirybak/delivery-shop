@@ -1,7 +1,7 @@
-import { ObjectId } from 'mongodb';
-import { sendPriceAlertEmail } from '@/lib/priceDiscountEmail';
-import { getDB } from '../../utils/api-routes';
-import dotenv from 'dotenv';
+import { ObjectId } from "mongodb";
+import { sendPriceAlertEmail } from "@/lib/priceDiscountEmail";
+import { getDB } from "../../utils/api-routes";
+import dotenv from "dotenv";
 
 dotenv.config();
 
@@ -10,9 +10,9 @@ interface PriceAlert {
   productId: string;
   email: string;
   productTitle: string;
-  currentPrice: number; 
-  unsubscribeToken: string; 
-  createdAt: Date; 
+  currentPrice: number;
+  unsubscribeToken: string;
+  createdAt: Date;
   lastNotified?: Date;
 }
 
@@ -27,15 +27,16 @@ interface Product {
 export async function checkPriceAlerts(): Promise<void> {
   try {
     const db = await getDB();
-    
-    const activeAlerts = await db.collection<PriceAlert>('priceAlerts')
+
+    const activeAlerts = await db
+      .collection<PriceAlert>("priceAlerts")
       .find({})
       .toArray();
 
     console.log(`Найдено подписок: ${activeAlerts.length}`);
 
     if (activeAlerts.length === 0) {
-      console.log('Нет активных подписок для проверки');
+      console.log("Нет активных подписок для проверки");
       return;
     }
 
@@ -43,7 +44,8 @@ export async function checkPriceAlerts(): Promise<void> {
 
     for (const alert of activeAlerts) {
       try {
-        const product = await db.collection<Product>('products')
+        const product = await db
+          .collection<Product>("products")
           .findOne({ id: parseInt(alert.productId) });
 
         if (!product) {
@@ -51,8 +53,8 @@ export async function checkPriceAlerts(): Promise<void> {
           continue;
         }
 
-        const currentPrice = product.discountPercent 
-          ? Math.round(product.basePrice * (1 - (product.discountPercent / 100)))
+        const currentPrice = product.discountPercent
+          ? Math.round(product.basePrice * (1 - product.discountPercent / 100))
           : product.basePrice;
 
         if (currentPrice < alert.currentPrice) {
@@ -62,32 +64,32 @@ export async function checkPriceAlerts(): Promise<void> {
             oldPrice: alert.currentPrice,
             newPrice: currentPrice,
             productId: alert.productId,
-            unsubscribeToken: alert.unsubscribeToken
+            unsubscribeToken: alert.unsubscribeToken,
           });
 
           if (emailSent) {
-            await db.collection<PriceAlert>('priceAlerts').updateOne(
+            await db.collection<PriceAlert>("priceAlerts").updateOne(
               { _id: alert._id },
-              { 
-                $set: { 
+              {
+                $set: {
                   currentPrice: currentPrice,
-                  lastNotified: new Date()
-                }
-              }
+                  lastNotified: new Date(),
+                },
+              },
             );
             notificationsSent++;
           }
         }
-
       } catch (error) {
-        console.error('Ошибка обработки подписки:', error);
+        console.error("Ошибка обработки подписки:", error);
       }
     }
 
-    console.log(`Проверка завершена. Отправлено уведомлений: ${notificationsSent}`);
-
+    console.log(
+      `Проверка завершена. Отправлено уведомлений: ${notificationsSent}`,
+    );
   } catch (error) {
-    console.error('Критическая ошибка:', error);
+    console.error("Критическая ошибка:", error);
     throw error;
   }
 }

@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { ArrowLeft, Plus } from "lucide-react";
 
-
-
 const SearchHeader = () => {
   return (
     <>

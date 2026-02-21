@@ -166,7 +166,7 @@ export const PhonePasswordResetVerify = ({
                 autoComplete="one-time-code"
                 value={otp}
                 onChange={handleOtpChange}
-                className="flex justify-center w-27.5 h-15 mx-auto text-center px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+                className="flex justify-center w-27.5 h-15 mx-auto text-center px-4 py-3 border border-[#bfbfbf] rounded focus:border-primary focus:shadow-button-default focus:bg-white focus:outline-none"
                 required
               />
             </div>

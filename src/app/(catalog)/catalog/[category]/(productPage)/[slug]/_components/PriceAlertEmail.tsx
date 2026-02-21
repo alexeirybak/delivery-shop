@@ -43,19 +43,19 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
 
             <Section className="px-8 py-8">
               <Section className="border border-[#e0e0e0] rounded-lg p-6 mb-8 bg-[#fafafa]">
-                <Text className="text-xl font-semibold text-[#414141] mb-6 text-center">
+                <Text className="text-xl font-semibold text-main-text mb-6 text-center">
                   {productTitle}
                 </Text>
 
                 <Section className="space-y-3">
                   <Row>
                     <Column className="w-1/2">
-                      <Text className="text-[#414141] text-base mb-0">
+                      <Text className="text-main-text text-base mb-0">
                         Старая цена:
                       </Text>
                     </Column>
                     <Column className="w-1/2 text-right">
-                      <Text className="text-[#414141] text-base line-through mb-0">
+                      <Text className="text-main-text text-base line-through mb-0">
                         {oldPrice.toLocaleString("ru-RU")} ₽
                       </Text>
                     </Column>
@@ -63,7 +63,7 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
 
                   <Row>
                     <Column className="w-1/2">
-                      <Text className="text-[#414141] text-base mb-0">
+                      <Text className="text-main-text text-base mb-0">
                         Новая цена:
                       </Text>
                     </Column>
@@ -76,19 +76,19 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
 
                   <Row>
                     <Column className="w-1/2">
-                      <Text className="text-[#414141] text-base mb-0">
+                      <Text className="text-main-text text-base mb-0">
                         Ваша экономия:
                       </Text>
                     </Column>
                     <Column className="w-1/2 text-right">
-                      <Text className="text-[#70c05b] text-lg font-bold mb-0">
+                      <Text className="text-primary text-lg font-bold mb-0">
                         {savings.toLocaleString("ru-RU")} ₽
                       </Text>
                     </Column>
                   </Row>
                 </Section>
               </Section>
-              <Text className="text-[#414141] text-base mb-6 text-center leading-6">
+              <Text className="text-main-text text-base mb-6 text-center leading-6">
                 Не упустите возможность купить товар по выгодной цене!
               </Text>
 
@@ -103,7 +103,6 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
 
               <Hr className="border-[#e0e0e0] my-8" />
 
-              {/* Footer */}
               <Section className="text-center">
                 <Text className="text-[#666666] text-sm mb-4 leading-5">
                   Это письмо отправлено автоматически, потому что Вы подписались
@@ -125,7 +124,6 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
               </Section>
             </Section>
 
-            {/* Company Info */}
             <Section className="bg-[#f8f8f8] py-6 px-8 border-t border-[#e0e0e0]">
               <Text className="text-[#999999] text-xs text-center leading-4 mb-2">
                 Северяночка

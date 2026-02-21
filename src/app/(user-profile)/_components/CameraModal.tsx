@@ -48,7 +48,6 @@ const CameraModal = ({
           )}
         </div>
 
-        {/* canvas используется для "фотографирования" текущего кадра видео */}
         <canvas ref={canvasRef} className="hidden" />
 
         <div className="flex gap-3 w-full text-xs md:text-sm">

@@ -15,10 +15,8 @@ export const GenerationStatusPanel = ({
     if (status === "success") return 100;
     if (status === "error") return 0;
 
-    // Базовый прогресс на основе времени
     const baseProgress = Math.min(elapsedSeconds * 2, 70);
 
-    // Добавляем прогресс за текущий шаг
     const stepProgress =
       (parseInt(currentStep) - 1) * (100 / parseInt(totalSteps));
 
@@ -46,7 +44,6 @@ export const GenerationStatusPanel = ({
       </div>
 
       <div className="space-y-3">
-        {/* Прогресс-бар */}
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
           <div
             className="h-full bg-linear-to-r from-blue-500 to-cyan-500 duration-300 transition-all"
@@ -56,7 +53,6 @@ export const GenerationStatusPanel = ({
           />
         </div>
 
-        {/* Информация о шагах */}
         <div className="flex justify-between items-center text-sm">
           <span className="text-gray-600">
             Шаг {currentStep} из {totalSteps}
@@ -64,14 +60,12 @@ export const GenerationStatusPanel = ({
           <span className="font-medium text-blue-700">{currentStepName}</span>
         </div>
 
-        {/* ID операции */}
         {operationId && (
           <div className="text-xs text-blue-600 text-center mt-2 bg-blue-100 px-3 py-1 rounded-full">
             ID операции: {operationId.substring(0, 20)}...
           </div>
         )}
 
-        {/* Сообщение о времени */}
         <p className="text-sm text-gray-600 text-center">
           {status === "loading" || status === "generating"
             ? `Генерация изображений может занять до 2-3 минут`

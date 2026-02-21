@@ -1,9 +1,12 @@
 import { useState, useCallback, useEffect } from "react";
-import { EditorProps, ImageAttributesState, SelectedImage } from "../../../types";
+import {
+  EditorProps,
+  ImageAttributesState,
+  SelectedImage,
+} from "../../../types";
 import { Crop } from "lucide-react";
 import { ImageAttributesModal } from "./ImageAttributesModal";
 
-// Функция для извлечения значения из style
 const extractStyleValue = (style: string, property: string): string | null => {
   if (!style) return null;
 
@@ -13,7 +16,6 @@ const extractStyleValue = (style: string, property: string): string | null => {
   return match ? match[1].trim() : null;
 };
 
-// Функция для определения выравнивания из стилей
 const getAlignFromStyle = (
   style: string,
 ): "left" | "right" | "center" | "none" => {
@@ -69,7 +71,6 @@ const getAlignFromStyle = (
   return "none";
 };
 
-// Функция для парсинга всех стилей в объект
 const parseStyles = (styleString: string): Record<string, string> => {
   const styles: Record<string, string> = {};
 
@@ -101,7 +102,6 @@ export const ImageAttributes = ({ editor }: EditorProps) => {
   });
   const [isImageSelected, setIsImageSelected] = useState(false);
 
-  // Постоянно отслеживаем, выбрано ли изображение
   useEffect(() => {
     if (!editor) return;
 

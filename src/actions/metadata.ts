@@ -5,7 +5,6 @@ import { baseUrl } from "../../utils/baseUrl";
 
 
 export async function getHomeMetadata() {
-  // В dev-режиме возвращаем статику
   if (process.env.NODE_ENV === 'development') {
     return {
       title: "Северяночка - Главная-преглавная",

@@ -63,7 +63,7 @@ const SecuritySection: React.FC = () => {
           </button>
           <button
             onClick={handleAppLogout}
-            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary px-4 py-2 justify-center items-center active:shadow-(--shadow-button-active) disabled:opacity-50 disabled:cursor-not-allowed h-12 text-[#606060] font-medium  duration-300 cursor-pointer"
+            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary px-4 py-2 justify-center items-center active:shadow-button-active disabled:opacity-50 disabled:cursor-not-allowed h-12 text-[#606060] font-medium  duration-300 cursor-pointer"
           >
             Выйти из приложения
           </button>

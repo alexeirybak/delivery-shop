@@ -50,22 +50,6 @@ export const TiptapEditor = ({
       AllowHtmlAttributes,
       TableKit,
       Image.configure({
-        // resize: {
-        //   enabled: true,
-        //   directions: [
-        //     "top",
-        //     "bottom",
-        //     "left",
-        //     "right",
-        //     "top-left",
-        //     "top-right",
-        //     "bottom-left",
-        //     "bottom-right",
-        //   ],
-        //   minWidth: 50,
-        //   minHeight: 50,
-        //   alwaysPreserveAspectRatio: false,
-        // },
         allowBase64: true,
         HTMLAttributes: {
           class: "tiptap-image",

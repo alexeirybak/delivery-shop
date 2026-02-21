@@ -51,7 +51,6 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
 
   useEffect(() => {
     fetchReviews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, refreshKey]);
 
   if (loading) {

@@ -37,7 +37,7 @@ const VerifyEmail = (props: VerifyEmailProps) => {
               <Section className="text-center mb-6">
                 <Button
                   href={verifyUrl}
-                  className="bg-[#70C05B] hover: text-white px-6 py-2 rounded text-base font-medium no-underline"
+                  className="bg-primary hover:text-white px-6 py-2 rounded text-base font-medium no-underline"
                 >
                   Подтвердить Email
                 </Button>

@@ -49,7 +49,7 @@ export async function POST(request: NextRequest) {
     }
 
     const db = await getDB();
-    const userObjectId = new ObjectId(userId);
+    const userObjectId = ObjectId.createFromHexString(userId);
 
     if (action === "add") {
       const result = await db.collection<UserDocument>('user').updateOne(

@@ -3,13 +3,14 @@ import { EditorProps } from "../../../types";
 import { useEditorState } from "@tiptap/react";
 
 export const HistoryMenu = ({ editor }: EditorProps) => {
-  const { canUndo = false, canRedo = false } = useEditorState({
-    editor,
-    selector: (ctx) => ({
-      canUndo: ctx.editor?.can().undo() ?? false,
-      canRedo: ctx.editor?.can().redo() ?? false,
-    }),
-  }) ?? {};
+  const { canUndo = false, canRedo = false } =
+    useEditorState({
+      editor,
+      selector: (ctx) => ({
+        canUndo: ctx.editor?.can().undo() ?? false,
+        canRedo: ctx.editor?.can().redo() ?? false,
+      }),
+    }) ?? {};
 
   if (!editor) return null;
 

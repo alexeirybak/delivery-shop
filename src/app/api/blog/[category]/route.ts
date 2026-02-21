@@ -29,13 +29,11 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    // Получаем общее количество статей
     const totalArticles = await db.collection("articles").countDocuments({
       categoryId: categoryDoc._id.toString(),
       status: "published",
     });
 
-    // Получаем статьи с пагинацией
     const articles = await db
       .collection("articles")
       .find(

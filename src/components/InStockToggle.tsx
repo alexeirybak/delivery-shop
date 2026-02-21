@@ -17,7 +17,7 @@ const InStockToggle = ({ checked, onChangeAction, labelText }: InStockToggleProp
           onChange={(e) => onChangeAction(e.target.checked)}
           className="sr-only peer"
         />
-        <div className="w-[46px] h-6 bg-gray-200 rounded-full peer peer-checked:bg-[#70c05b] transition-colors duration-200">
+        <div className="w-[46px] h-6 bg-gray-200 rounded-full peer peer-checked:bg-primary transition-colors duration-200">
           <div
             className={`
                 absolute top-0.5 left-0

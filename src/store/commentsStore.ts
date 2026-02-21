@@ -1,4 +1,3 @@
-
 import { LoadCommentsParams } from "@/app/(admin)/administrator/(cms)/cms/comments/types/comments.types";
 import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 import { IComment } from "@/app/(blog)/blog/types/comments.types";
@@ -17,7 +16,7 @@ interface CommentsStore {
   loading: boolean;
   currentPage: number;
   itemsPerPage: number;
-  bannedUsers: Record<string, BannedUserInfo>; 
+  bannedUsers: Record<string, BannedUserInfo>;
   setComments: (comments: IComment[]) => void;
   setTotalItems: (totalItems: number) => void;
   setTotalPages: (totalPages: number) => void;
@@ -26,7 +25,11 @@ interface CommentsStore {
   setCurrentPage: (currentPage: number) => void;
   setItemsPerPage: (itemsPerPage: number) => void;
   loadComments: (params?: LoadCommentsParams) => Promise<void>;
-  setUserBanned: (userId: string, isBanned: boolean, bannedUntil?: string | null) => void;
+  setUserBanned: (
+    userId: string,
+    isBanned: boolean,
+    bannedUntil?: string | null,
+  ) => void;
 }
 
 export const useCommentsStore = create<CommentsStore>((set, get) => ({
@@ -46,16 +49,20 @@ export const useCommentsStore = create<CommentsStore>((set, get) => ({
   setLoading: (loading) => set({ loading }),
   setCurrentPage: (currentPage) => set({ currentPage }),
   setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
-  
-  setUserBanned: (userId: string, isBanned: boolean, bannedUntil?: string | null) => {
+
+  setUserBanned: (
+    userId: string,
+    isBanned: boolean,
+    bannedUntil?: string | null,
+  ) => {
     set((state) => ({
       bannedUsers: {
         ...state.bannedUsers,
-        [userId]: { 
-          isBanned, 
-          bannedUntil: bannedUntil || null 
-        }
-      }
+        [userId]: {
+          isBanned,
+          bannedUntil: bannedUntil || null,
+        },
+      },
     }));
   },
 
@@ -69,7 +76,7 @@ export const useCommentsStore = create<CommentsStore>((set, get) => ({
       const pageToLoad = params?.page ?? state.currentPage;
       const dateFrom = params?.dateFrom ?? "";
       const dateTo = params?.dateTo ?? "";
-      const author = params?.author ?? ""; 
+      const author = params?.author ?? "";
       const article = params?.article ?? "";
 
       queryParams.append("page", pageToLoad.toString());
@@ -77,8 +84,8 @@ export const useCommentsStore = create<CommentsStore>((set, get) => ({
 
       if (dateFrom) queryParams.append("dateFrom", dateFrom);
       if (dateTo) queryParams.append("dateTo", dateTo);
-      if (author) queryParams.append("author", author); 
-      if (article) queryParams.append("article", article); 
+      if (author) queryParams.append("author", author);
+      if (article) queryParams.append("article", article);
 
       const response = await fetch(
         `/administrator/cms/api/comments?${queryParams}`,

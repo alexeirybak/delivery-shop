@@ -22,7 +22,6 @@ export const Comments = ({ articleId }: { articleId: string }) => {
     const commentMap = new Map<string, IComment>();
     const rootComments: IComment[] = [];
 
-    // Если был комментарий {_id: "123", text: "Привет"}, после этой операции в Map будет: "123" => {_id: "123", text: "Привет", replies: []}
     flatComments.forEach((comment) => {
       commentMap.set(comment._id, { ...comment, replies: [] });
     });

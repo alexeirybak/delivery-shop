@@ -28,7 +28,7 @@ const CatalogMenu = ({
       {isCatalogOpen && (
         <div
           ref={menuRef}
-          className="hidden md:block absolute top-full left-0 w-full bg-white shadow-(--shadow-catalog-menu) z-50"
+          className="hidden md:block absolute top-full left-0 w-full bg-white shadow-catalog-menu z-50"
         >
           <div className="mx-auto px-4 py-3">
             {error && (

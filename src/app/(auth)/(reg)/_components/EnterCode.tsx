@@ -23,7 +23,6 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
   useEffect(() => {
     startTimer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -137,7 +136,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
                 setCode(e.target.value);
                 setError("");
               }}
-              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-primary focus:shadow-button-default focus:bg-white focus:outline-none"
               autoComplete="one-time-code"
               required
             />

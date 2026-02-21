@@ -1,82 +1,55 @@
 import { Palette, Check } from "lucide-react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { EditorProps } from "../../../types";
- 
-const TEXT_COLORS = [
-  "#000000", // Черный
-  "#FFFFFF", // Белый
-  "#FF0000", // Красный
-  "#00FF00", // Зеленый
-  "#0000FF", // Синий
-  "#FFFF00", // Желтый
-  "#FF00FF", // Пурпурный
-  "#00FFFF", // Голубой
-  "#FFA500", // Оранжевый
-  "#800080", // Фиолетовый
-  "#008000", // Темно-зеленый
-  "#000080", // Темно-синий
-  "#800000", // Темно-красный
-  "#808000", // Оливковый
-  "#008080", // Бирюзовый
-  "#808080", // Серый
-  "#C0C0C0", // Светло-серый
-];
- 
+import { TEXT_COLORS } from "../../../utils/textColors";
+
 export const TextColorMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState("#000000");
-  const [currentColor, setCurrentColor] = useState("#000000"); // Добавлено состояние для текущего цвета
- 
+  const [currentColor, setCurrentColor] = useState("#000000"); 
+
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
- 
-  // Функция для получения текущего цвета текста
+
   const getCurrentColor = useCallback(() => {
     if (!editor) return "#000000";
     const attrs = editor.getAttributes("textStyle");
     return attrs?.color || "#000000";
   }, [editor]);
- 
-  // Функция для обновления состояния
+
   const updateColor = useCallback(() => {
     const color = getCurrentColor();
     setCurrentColor(color);
-    
-    // Если цвет не из предопределенных и не черный (по умолчанию), обновляем customColor
+
     if (color !== "#000000" && !TEXT_COLORS.includes(color)) {
       setCustomColor(color);
     }
   }, [getCurrentColor]);
- 
-  // Подписка на события редактора
+
   useEffect(() => {
     if (!editor) return;
- 
-    // Подписываемся на изменения редактора
+
     const handleUpdate = () => {
       updateColor();
     };
- 
+
     editor.on("selectionUpdate", handleUpdate);
     editor.on("transaction", handleUpdate);
- 
-    // Инициализация при монтировании
+
     updateColor();
- 
-    // Отписываемся при размонтировании
+
     return () => {
       editor.off("selectionUpdate", handleUpdate);
       editor.off("transaction", handleUpdate);
     };
   }, [editor, updateColor]);
- 
-  // Также обновляем при открытии меню
+
   useEffect(() => {
     if (isOpen && editor) {
       updateColor();
     }
   }, [isOpen, editor, updateColor]);
- 
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -91,69 +64,64 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
- 
+
   useEffect(() => {
     if (editor) {
       const color = getCurrentColor();
       if (color !== "#000000" && !TEXT_COLORS.includes(color)) {
         setCustomColor(color);
       }
-      setCurrentColor(color); // Инициализируем currentColor
+      setCurrentColor(color); 
     }
   }, [editor, getCurrentColor]);
- 
+
   const applyColor = (color: string) => {
     if (!editor) return;
- 
+
     if (color === "#000000") {
-      // Если выбрали черный (по умолчанию) - сбрасываем цвет
       editor.chain().focus().unsetColor().run();
     } else {
-      // Иначе устанавливаем выбранный цвет
       editor.chain().focus().setColor(color).run();
     }
- 
+
     if (!TEXT_COLORS.includes(color)) {
       setCustomColor(color);
     }
-    
-    // Обновляем состояние после изменения
+
     setTimeout(updateColor, 10);
   };
- 
+
   const resetColor = () => {
     if (!editor) return;
-    // Используем unsetColor как в документации
     editor.chain().focus().unsetColor().run();
     setIsOpen(false);
     setTimeout(updateColor, 10);
   };
- 
+
   const handleCustomColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const color = e.target.value;
     setCustomColor(color);
   };
- 
+
   const applyCustomColor = () => {
     if (!editor) return;
- 
+
     if (customColor === "#000000") {
       editor.chain().focus().unsetColor().run();
     } else {
       editor.chain().focus().setColor(customColor).run();
     }
- 
+
     setIsOpen(false);
     setTimeout(updateColor, 10);
   };
- 
+
   if (!editor) return null;
- 
+
   const isActive = currentColor !== "#000000";
- 
+
   return (
     <div className="relative inline-block">
-      {/* Кнопка открытия меню */}
       <button
         ref={buttonRef}
         type="button"
@@ -180,8 +148,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
           />
         </div>
       </button>
- 
-      {/* Выпадающее меню */}
+
       {isOpen && (
         <div
           ref={dropdownRef}
@@ -194,12 +161,11 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
           }}
           onClick={(e) => e.stopPropagation()}
         >
-          {/* Заголовок */}
           <div className="mb-2">
             <div className="text-xs font-medium text-gray-700 mb-1">
               Цвет текста
             </div>
- 
+
             <div className="grid grid-cols-6 gap-1 mb-2">
               {TEXT_COLORS.map((color) => (
                 <button
@@ -231,7 +197,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
                 </button>
               ))}
             </div>
- 
+
             <div className="mb-2">
               <div className="text-xs text-gray-600 mb-1">Свой цвет:</div>
               <div className="flex flex-col gap-1">
@@ -260,7 +226,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
                 </button>
               </div>
             </div>
- 
+
             <div className="flex items-center justify-between p-1 bg-gray-50 rounded text-xs mb-2">
               <div className="text-gray-600">Текущий:</div>
               <div className="flex items-center gap-1">
@@ -274,7 +240,7 @@ export const TextColorMenu = ({ editor }: EditorProps) => {
               </div>
             </div>
           </div>
- 
+
           <button
             type="button"
             onClick={resetColor}

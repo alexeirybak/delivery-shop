@@ -28,7 +28,7 @@ const QuantitySelector = memo(function QuantitySelector({
         disabled={quantity < 0 || isUpdating || isOutOfStock}
         className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
       >
-        <div className="w-[15px] h-[1px] bg-white"></div>
+        <div className="w-[15px] h-px bg-white"></div>
       </button>
 
       <span className="w-12 text-center text-base">
@@ -41,8 +41,8 @@ const QuantitySelector = memo(function QuantitySelector({
         className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
       >
         <div className="relative w-[15px] h-[15px]">
-          <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -translate-y-1/2"></div>
-          <div className="absolute left-1/2 top-0 w-[1px] h-full bg-white transform -translate-x-1/2"></div>
+          <div className="absolute top-1/2 left-0 w-full h-px bg-white transform -translate-y-1/2"></div>
+          <div className="absolute left-1/2 top-0 w-px h-full bg-white transform -translate-x-1/2"></div>
         </div>
       </button>
     </div>

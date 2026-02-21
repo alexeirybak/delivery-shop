@@ -241,25 +241,20 @@ export async function GET(request: NextRequest) {
 
     if (data.done) {
       if (data.response?.image) {
-        // Сохраняем изображение как файл
         const base64Image = data.response.image;
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, "base64");
 
-        // Создаем уникальное имя файла
         const timestamp = Date.now();
         const randomString = Math.random().toString(36).substring(2, 8);
 
-        // Используем PNG как YandexART по умолчанию
         const originalExtension = "png";
         const cleanName = "yandex_art";
         const fileName = `${cleanName}_${timestamp}_${randomString}.${originalExtension}`;
 
-        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP
         let optimizedBuffer: Buffer;
 
         if (originalExtension === "png") {
-          // Для AI-изображений делаем больше и лучше качество
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -271,7 +266,6 @@ export async function GET(request: NextRequest) {
             })
             .toBuffer();
         } else {
-          // Для JPG
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -284,7 +278,6 @@ export async function GET(request: NextRequest) {
             .toBuffer();
         }
 
-        // Сохраняем в указанную папку
         const publicDir = path.join(
           process.cwd(),
           "public",
@@ -297,7 +290,6 @@ export async function GET(request: NextRequest) {
         const filePath = path.join(publicDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
 
-        // Публичный URL для использования на фронтенде
         const publicUrl = `/uploads/articles/yandex-art/${fileName}`;
 
         return NextResponse.json({
@@ -330,7 +322,6 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Операция еще выполняется
     return NextResponse.json({
       success: true,
       done: false,

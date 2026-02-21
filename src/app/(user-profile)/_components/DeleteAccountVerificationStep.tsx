@@ -76,7 +76,7 @@ export const DeleteAccountVerificationStep = ({
                 </>
               ) : (
                 <>
-                  <Check className="w-4 h-4 flex-shrink-0" />
+                  <Check className="w-4 h-4 shrink-0" />
                   Удалить аккаунт
                 </>
               )}

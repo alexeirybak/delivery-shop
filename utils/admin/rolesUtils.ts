@@ -7,7 +7,7 @@ export const getRoleStyles = (role: UserRole) => {
       case "manager":
         return "bg-[#e5ffde] text-[#008c48]";
       default:
-        return "bg-[#f3f2f1] text-[#414141]";
+        return "bg-[#f3f2f1] text-main-text";
     }
   };
 

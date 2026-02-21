@@ -1,7 +1,7 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
 import { useCategoryStore } from "@/store/categoryStore";
-import { CategoryFormFieldsProps } from "../types";
+import { CategoryFormFieldsProps } from "../types/components/form/form-fields.types";
 
 export const CategoryFormFields = ({
   errors,

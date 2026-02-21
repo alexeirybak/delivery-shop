@@ -115,14 +115,12 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
             />
           </div>
 
-          {/* Сообщение о необходимости заполнить все поля */}
           {showValidationError && (
             <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
               Пожалуйста, поставьте оценку и напишите отзыв
             </div>
           )}
 
-          {/* Сообщение об ошибке авторизации или сервера */}
           {error && (
             <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
               {error}
@@ -136,7 +134,7 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
           className={`${
             submitting
               ? "cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]"
-              : "text-base bg-[#ff6633] text-white hover:shadow-(--shadow-article)"
+              : "text-base bg-[#ff6633] text-white hover:shadow-article"
           } w-[188px] p-2 flex items-center justify-center rounded duration-300 cursor-pointer`}
         >
           {submitting ? "Отправка..." : "Отправить отзыв"}

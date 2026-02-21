@@ -1,13 +1,10 @@
-import { Editor } from '@tiptap/react';
-import { UploadResult } from '../types';
+import { Editor } from "@tiptap/react";
+import { UploadResult } from "../types";
 
-/**
- * Валидация файла изображения
- */
 export const validateImageFile = (file: File): string | null => {
-  const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+  const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
   if (!allowedTypes.includes(file.type.toLowerCase())) {
-    return 'Недопустимый формат файла. Разрешены только JPG, PNG и WebP.';
+    return "Недопустимый формат файла. Разрешены только JPG, PNG и WebP.";
   }
 
   const maxSize = 5 * 1024 * 1024;
@@ -18,19 +15,16 @@ export const validateImageFile = (file: File): string | null => {
   return null;
 };
 
-/**
- * Загрузка файла на сервер
- */
 export const uploadToServer = async (file: File): Promise<UploadResult> => {
   const formData = new FormData();
-  formData.append('image', file);
+  formData.append("image", file);
 
   const response = await fetch(
-    '/administrator/cms/api/articles/upload/temp-image',
+    "/administrator/cms/api/articles/upload/temp-image",
     {
-      method: 'POST',
+      method: "POST",
       body: formData,
-    }
+    },
   );
 
   if (!response.ok) {
@@ -41,7 +35,7 @@ export const uploadToServer = async (file: File): Promise<UploadResult> => {
   const data = await response.json();
 
   if (!data.success) {
-    throw new Error(data.error || 'Неизвестная ошибка');
+    throw new Error(data.error || "Неизвестная ошибка");
   }
 
   return {
@@ -51,26 +45,16 @@ export const uploadToServer = async (file: File): Promise<UploadResult> => {
   };
 };
 
-/**
- * Получение позиции для вставки изображения
- */
 const getInsertPosition = (editor: Editor): number => {
-
-  // Если позиция не указана, вставляем в конец выделения или текущую позицию курсора
   const { from, to } = editor.state.selection;
-  
-  // Если есть выделение, вставляем после выделения
+
   if (from !== to) {
     return Math.max(from, to);
   }
-  
-  // Если нет выделения, вставляем в текущую позицию курсора
+
   return from;
 };
 
-/**
- * Вставка изображения в редактор
- */
 export const insertImageToEditor = (
   editor: Editor,
   src: string,
@@ -78,9 +62,9 @@ export const insertImageToEditor = (
   title?: string,
 ) => {
   const insertPos = getInsertPosition(editor);
-  
+
   const imageNode = {
-    type: 'image' as const,
+    type: "image" as const,
     attrs: {
       src,
       alt,
@@ -88,28 +72,17 @@ export const insertImageToEditor = (
     },
   };
 
-  // Вставляем изображение
-  editor
-    .chain()
-    .insertContentAt(insertPos, imageNode)
-    .focus()
-    .run();
-  
-  // Перемещаем курсор после вставленного изображения
-  // +1 чтобы курсор был после тега изображения
+  editor.chain().insertContentAt(insertPos, imageNode).focus().run();
+
   setTimeout(() => {
     editor.commands.setTextSelection(insertPos + 1);
   }, 10);
 };
 
-/**
- * Обработка файла с загрузкой на сервер и вставкой в редактор
- */
 export const handleImageUpload = async (
   file: File,
   editor: Editor,
 ): Promise<void> => {
-  // Валидация
   const validationError = validateImageFile(file);
   if (validationError) {
     alert(validationError);
@@ -117,10 +90,8 @@ export const handleImageUpload = async (
   }
 
   try {
-    // Загружаем на сервер
     const serverResult = await uploadToServer(file);
 
-    // Вставляем в редактор
     insertImageToEditor(
       editor,
       serverResult.url,
@@ -128,10 +99,9 @@ export const handleImageUpload = async (
       serverResult.filename,
     );
   } catch (error) {
-    console.error('Upload error:', error);
-    alert('Ошибка при загрузке изображения');
+    console.error("Upload error:", error);
+    alert("Ошибка при загрузке изображения");
 
-    // Fallback: base64 preview
     const reader = new FileReader();
     reader.onload = (e) => {
       insertImageToEditor(
@@ -145,19 +115,16 @@ export const handleImageUpload = async (
   }
 };
 
-/**
- * Обработка URL изображения
- */
 export const handleImageUrl = (editor: Editor): void => {
-  const url = prompt('Введите URL изображения:', 'https://');
+  const url = prompt("Введите URL изображения:", "https://");
 
   if (url && editor) {
     if (!url.match(/\.(jpeg|jpg|png|webp)(\?.*)?$/i)) {
-      alert('Недопустимый формат файла. Разрешены только JPG, PNG и WebP.');
+      alert("Недопустимый формат файла. Разрешены только JPG, PNG и WebP.");
       return;
     }
 
-    const filename = url.split('/').pop() || 'Изображение';
+    const filename = url.split("/").pop() || "Изображение";
     insertImageToEditor(editor, url, filename);
   }
 };

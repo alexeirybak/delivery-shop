@@ -65,7 +65,6 @@ export const TableMenu = ({ editor }: EditorProps) => {
 
       const canMergeCells = editor.can().mergeCells();
 
-      // Получаем текущее состояние заголовков таблицы
       const hasHeaderRow = editor.isActive("table", { headerRow: true });
       const hasHeaderColumn = editor.isActive("table", { headerColumn: true });
       const isHeaderCell = editor.isActive("tableHeader");
@@ -141,8 +140,6 @@ export const TableMenu = ({ editor }: EditorProps) => {
   };
 
   const toggleHeaderCell = () => {
-    // Важное замечание: toggleHeaderCell в Tiptap переключает ячейку между
-    // tableCell и tableHeader, но только если курсор находится в ячейке
     editor.chain().focus().toggleHeaderCell().run();
   };
 
@@ -161,7 +158,6 @@ export const TableMenu = ({ editor }: EditorProps) => {
     }
   };
 
-  // Исправленная логика: показываем меню модификации если выделена ячейка или таблица
   const canModifyTable = selectionState.isCellSelected || selectionState.isTableSelected;
 
   return (

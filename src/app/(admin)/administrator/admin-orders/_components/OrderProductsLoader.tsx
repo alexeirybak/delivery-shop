@@ -44,14 +44,12 @@ const OrderProductsLoader = ({
         const productsData = await Promise.all(productPromises);
         setProducts(productsData);
 
-        // Рассчитываем общую массу
         const weight = productsData.reduce((total, product, index) => {
           const itemWeight = product.weight || 0;
           const quantity = orderItems[index]?.quantity || 1;
           return total + itemWeight * quantity;
         }, 0);
 
-        // Передаем массу родительскому компоненту
         if (onTotalWeightCalculated) {
           onTotalWeightCalculated(weight);
         }

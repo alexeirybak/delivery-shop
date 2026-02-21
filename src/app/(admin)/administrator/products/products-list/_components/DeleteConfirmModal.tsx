@@ -25,7 +25,7 @@ export function DeleteConfirmationModal({
             <strong>&quot;{productTitle}&quot;</strong>?
           </p>
           <div className="flex items-start gap-2 text-sm text-red-600 mb-6">
-            <AlertTriangle size={16} className="mt-0.5 flex-shrink-0" />
+            <AlertTriangle size={16} className="mt-0.5 shrink-0" />
             <p>
               Это действие нельзя отменить! Товар будет полностью удален из
               системы.

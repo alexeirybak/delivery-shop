@@ -119,4 +119,14 @@ export type ToolbarGroup = {
   items: string[];
 };
 
+export interface LinkModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  editor: Editor | null;
+  initialUrl?: string;
+  initialText?: string;
+  initialOpenInNewTab?: boolean;
+  isEditing?: boolean;
+}
+
 export type ToolbarComponentId = keyof typeof CONFIG_TOOLBAR_COMPONENTS;

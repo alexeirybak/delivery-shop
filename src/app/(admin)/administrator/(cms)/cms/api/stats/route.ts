@@ -5,12 +5,10 @@ export async function GET() {
   try {
     const db = await getDB();
 
-    // Считаем опубликованные статьи
     const publishedCount = await db.collection("articles").countDocuments({
       status: { $in: ["published", "archived"] },
     });
 
-    // Считаем общее количество просмотров
     const articles = await db
       .collection("articles")
       .find({}, { projection: { views: 1 } })

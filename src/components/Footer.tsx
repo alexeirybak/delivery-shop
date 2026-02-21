@@ -7,7 +7,6 @@ const Footer = () => {
   return (
     <footer className="bg-[#f9f4e2] mt-10 md:mt-15 xl:mt-20 bg-[url('/images/graphics/pattern-footer.png')] px-[max(12px,calc((100%-1208px)/2))] w-full">
       <div className="px-7 py-10 grid-container gap-6 text-main-text md:gap-x-10 items-center">
-        {/* Логотип со ссылкой на главную */}
         <div className="logo">
           <Link href="/" className="relative w-23 h-16 md:w-16 md:h-11 block">
             <Image
@@ -91,24 +90,23 @@ const Footer = () => {
         <nav className="nav">
           <ul className="flex flex-wrap gap-x-8 text-xs gap-4 xl:gap-y-2 md:gap-x-10">
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">О компании</Link>
+              <Link href="/about-us">О компании</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Контакты</Link>
+              <Link href="/contacts">Контакты</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Вакансии</Link>
+              <Link href="/vacations">Вакансии</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
               <Link href="/blog">Статьи</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              Политика обработки персональных данных
+              <Link href="/policy">Политика обработки персональных данных</Link>
             </li>
           </ul>
         </nav>
 
-        {/* Дизайнер (без изменений) */}
         <div className="design">
           <a href="https://zasovskiy.ru/" target="_blank">
             <Image
@@ -122,7 +120,6 @@ const Footer = () => {
       </div>
 
       <style jsx>{`
-        /* Базовые стили для мобильных (mobile-first) */
         .grid-container {
           display: grid;
           grid-template-areas:
@@ -151,7 +148,6 @@ const Footer = () => {
           grid-area: design;
         }
 
-        /* Средние экраны (768px и больше) */
         @media (min-width: 768px) {
           .grid-container {
             grid-template-areas:

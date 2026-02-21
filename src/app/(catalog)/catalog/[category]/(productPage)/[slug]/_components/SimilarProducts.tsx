@@ -59,7 +59,7 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
               href={`/catalog/product/${product.id}`}
               className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block duration-300 hover:shadow-lg"
             >
-              <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] flex-shrink-0">
+              <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] shrink-0">
                 <Image
                   src={product.img}
                   alt={product.title}

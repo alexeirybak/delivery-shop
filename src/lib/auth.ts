@@ -48,24 +48,21 @@ export const auth = betterAuth({
   plugins: [
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
-        console.log(`[DEBUG] Отправка OTP: ${code} для ${phoneNumber}`);
+        try {
+          const response = await fetch(
+            `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
+          );
+
+          const result = await response.json();
+
+          if (result.status !== "OK") {
+            throw new Error(result.status || "Ошибка отправки SMS");
+          }
+        } catch (error) {
+          console.error("Ошибка отправки SMS:", error);
+          throw error;
+        }
       },
-      // sendOTP: async ({ phoneNumber, code }) => {
-      //   try {
-      //     const response = await fetch(
-      //       `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
-      //     );
-
-      //     const result = await response.json();
-
-      //     if (result.status !== "OK") {
-      //       throw new Error(result.status || "Ошибка отправки SMS");
-      //     }
-      //   } catch (error) {
-      //     console.error("Ошибка отправки SMS:", error);
-      //     throw error;
-      //   }
-      // },
       signUpOnVerification: {
         getTempEmail: (phoneNumber) => {
           return `${phoneNumber}${CONFIG.TEMPORARY_EMAIL_DOMAIN}`;

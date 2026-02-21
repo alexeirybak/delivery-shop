@@ -5,7 +5,6 @@ export const generateOrderExcel = (data: SimplifiedOrderData) => {
   const workbook = XLSX.utils.book_new();
   const { order, items } = data;
 
-  // === ЛИСТ 1: ОСНОВНАЯ ИНФОРМАЦИЯ О ЗАКАЗЕ ===
   const formatDate = (dateString: string): string => {
     if (!dateString) return 'Не указано';
     try {
@@ -60,7 +59,6 @@ export const generateOrderExcel = (data: SimplifiedOrderData) => {
   const orderSheet = XLSX.utils.aoa_to_sheet(orderSummary);
   XLSX.utils.book_append_sheet(workbook, orderSheet, '📋 Заказ');
 
-  // === ЛИСТ 2: ТОВАРЫ В ЗАКАЗЕ ===
   const productsHeader = [
     '№', 'ID товара', 'Наименование', 'Количество', 'Цена за шт.', 'Общая стоимость',
     'Вес', 'Бренд', 'Производитель'
@@ -78,7 +76,6 @@ export const generateOrderExcel = (data: SimplifiedOrderData) => {
     item.manufacturer || 'Не указан'
   ]);
 
-  // Подсчет общего веса
   const totalWeight = items.reduce((sum, item) => {
     return sum + ((item.weight || 0) * item.quantity);
   }, 0);
@@ -92,7 +89,6 @@ export const generateOrderExcel = (data: SimplifiedOrderData) => {
   const productsSheet = XLSX.utils.aoa_to_sheet(productsSheetData);
   XLSX.utils.book_append_sheet(workbook, productsSheet, '📦 Товары');
 
-  // === ЛИСТ 3: СВОДКА ПО ЗАКАЗУ ===
   const summaryData = [
     ['📊 СВОДКА ПО ЗАКАЗУ', ''],
     ['Номер заказа', order.orderNumber],

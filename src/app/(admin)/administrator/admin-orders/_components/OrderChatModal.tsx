@@ -12,7 +12,6 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuthStore();
 
-  // Получаем сообщения через RTK Query с polling
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
     skip: !isOpen || !orderId,
     pollingInterval: isOpen ? 3000 : 0,
@@ -22,12 +21,10 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
     return msg.userRole || "courier";
   };
 
-  // Автопрокрутка к новым сообщениям
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Отправка сообщения через fetch
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isSending) return;

@@ -17,7 +17,6 @@ const ConfirmAvatarModal = ({
   onConfirm,
   onCancel,
 }: ConfirmAvatarModalProps) => {
-  
   if (!isOpen) return null;
 
   return (
@@ -53,7 +52,7 @@ const ConfirmAvatarModal = ({
           <button
             onClick={onCancel}
             disabled={isUploading}
-            className="flex-1 bg-[#f3f2f1] rounded hover:shadow-button-secondary py-2 active:shadow-(--shadow-button-active) disabled:opacity-50 text-[#606060] duration-300 cursor-pointer"
+            className="flex-1 bg-[#f3f2f1] rounded hover:shadow-button-secondary py-2 active:shadow-button-active disabled:opacity-50 text-[#606060] duration-300 cursor-pointer"
           >
             Отмена
           </button>

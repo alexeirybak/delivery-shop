@@ -4,7 +4,6 @@ import { ToolbarGroup } from "../types";
 
 export const useToolbarOrder = () => {
   const [groups, setGroups] = useState<ToolbarGroup[]>(() => {
-
     try {
       const saved = localStorage.getItem("toolbar-order");
       if (saved) {

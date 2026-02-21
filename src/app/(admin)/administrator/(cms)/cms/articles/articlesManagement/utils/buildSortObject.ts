@@ -1,4 +1,3 @@
-
 import { SortField } from "../types";
 
 export const buildSortObject = (

@@ -7,7 +7,7 @@ const SearchBlock = ({
   onFocusChangeAction: (focused: boolean) => void;
 }) => {
   return (
-    <div className="flex flex-row gap-4 flex-grow">
+    <div className="flex flex-row gap-4 grow">
       <ButtonSearch />
       <InputBlock onFocusChangeAction={onFocusChangeAction} />
     </div>

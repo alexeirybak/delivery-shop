@@ -5,21 +5,17 @@ import { useEffect, useState } from "react";
 export const QuoteButton = ({ editor }: EditorProps) => {
   const [isActive, setIsActive] = useState(false);
  
-  // Подписываемся на изменения редактора для определения активности
   useEffect(() => {
     if (!editor) return;
  
     const updateActiveState = () => {
-      // Проверяем, активен ли блок цитаты
       const active = editor.isActive("blockquote");
       setIsActive(active);
     };
  
-    // Подписываемся на события редактора
     editor.on("selectionUpdate", updateActiveState);
     editor.on("transaction", updateActiveState);
     
-    // Инициализация
     updateActiveState();
  
     return () => {

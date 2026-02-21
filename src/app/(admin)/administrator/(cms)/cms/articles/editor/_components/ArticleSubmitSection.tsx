@@ -45,11 +45,12 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
       formData.name.trim() !== "" ||
       formData.slug.trim() !== "" ||
       formData.description.trim() !== "" ||
-      formData.keywords.trim() !== "" ||
+      (typeof formData.keywords === "string"
+        ? formData.keywords.trim() !== ""
+        : formData.keywords.length > 0) ||
       formData.image.trim() !== "" ||
       formData.content?.trim() !== "" ||
       formData.categoryId !== "";
-
     if (hasData) {
       const confirmCancel = confirm(
         "Вы уверены, что хотите отменить создание статьи? Все введенные данные будут потеряны.",

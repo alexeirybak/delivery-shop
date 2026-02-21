@@ -19,7 +19,6 @@ const PriceDisplay = memo(function PriceDisplay({
 }: PriceDisplayProps) {
     
   return (
-    // Немного изменил, чтобы даже когда товара нет в наличии, показывалась цена
     <>
       <div className="mt-2 text-xs flex gap-x-2 items-baseline">
         {hasDiscount ? (

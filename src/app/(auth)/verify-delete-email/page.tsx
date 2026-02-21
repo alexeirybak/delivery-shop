@@ -77,7 +77,7 @@ const VerifyDeleteEmailPage = () => {
               </>
             ) : (
               <>
-                <Mail className="w-4 h-4 flex-shrink-0" />
+                <Mail className="w-4 h-4 shrink-0" />
                 Отправить подтверждение
               </>
             )}

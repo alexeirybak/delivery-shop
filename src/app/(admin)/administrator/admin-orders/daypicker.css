@@ -27,7 +27,6 @@
   margin: 0 auto !important;
 }
 
-/* Растягивание календаря */
 .full-width-calendar table {
   width: 100% !important;
   table-layout: fixed !important;

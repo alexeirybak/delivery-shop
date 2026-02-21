@@ -36,7 +36,7 @@ const Filters = ({
           </button>
           <button
             onClick={onClearFilters}
-            className="px-3 py-2 text-xs justify-center items-center active:shadow-(--shadow-button-active) border-none rounded cursor-pointer transition-colors duration-300 bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)"
+            className="px-3 py-2 text-xs justify-center items-center active:shadow-button-active border-none rounded cursor-pointer transition-colors duration-300 bg-[#f3f2f1] hover:shadow-button-secondary"
           >
             Очистить
           </button>

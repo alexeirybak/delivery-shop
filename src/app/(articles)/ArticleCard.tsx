@@ -60,7 +60,7 @@ const ArticleCard = ({
           </p>
 
           <div className="mt-auto">
-            <div className="w-full py-2 text-center bg-[#E5FFDE] text-[#70C05B] rounded hover:bg-[#70C05B] hover:text-white duration-300">
+            <div className="w-full py-2 text-center bg-[#E5FFDE] text-primary rounded hover:bg-primary hover:text-white duration-300">
               Подробнее
             </div>
           </div>

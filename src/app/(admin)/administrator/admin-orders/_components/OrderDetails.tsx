@@ -69,7 +69,6 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Финансовая информация */}
         <div className="space-y-3">
           <h4 className="font-medium text-gray-700">Финансовая информация</h4>
           <div className="space-y-2">
@@ -96,7 +95,6 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Информация о доставке */}
         <div className="space-y-3">
           <h4 className="font-medium text-gray-700">Информация о доставке</h4>
           <div className="space-y-2">
@@ -132,7 +130,6 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Информация о клиенте */}
         <div className="space-y-3 md:col-span-2 lg:col-span-3">
           <h4 className="font-medium text-gray-700">Информация о клиенте</h4>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">

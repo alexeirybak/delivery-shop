@@ -85,7 +85,7 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
         {filteredSlotOrders.map((order) => (
           <AdminOrderCard
             key={order._id}
-            orderId={order._id} // Передаем только ID, как требует дочерний компонент
+            orderId={order._id} 
           />
         ))}
       </div>

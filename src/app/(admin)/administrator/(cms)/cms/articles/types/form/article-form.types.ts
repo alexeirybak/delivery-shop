@@ -14,7 +14,7 @@ export interface ArticleFormData {
   metaTitle?: string;
   metaDescription?: string;
   isFeatured?: boolean;
-  author?: string
+  author?: string;
 }
 
 export interface ArticleFormProps {

@@ -121,7 +121,6 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCartAndProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleQuantityUpdate = useCallback(

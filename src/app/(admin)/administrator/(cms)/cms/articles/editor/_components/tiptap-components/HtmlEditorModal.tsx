@@ -15,7 +15,6 @@ export const HtmlEditorModal = ({
   const modalRef = useRef<HTMLDivElement>(null);
   const previewRef = useRef<HTMLDivElement>(null);
 
-  // Обработчик сохранения
   const handleUpdate = useCallback(() => {
     if (!editor || !htmlContent.trim()) return;
 
@@ -32,7 +31,6 @@ export const HtmlEditorModal = ({
     onCloseAction();
   }, [editor, htmlContent, onCloseAction]);
 
-  // Глобальные обработчики клавиш
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -58,7 +56,6 @@ export const HtmlEditorModal = ({
     }
   }, [isOpen, onCloseAction, handleUpdate]);
 
-  // Инициализация содержимого
   useEffect(() => {
     if (isOpen && editor) {
       const html = editor.getHTML();
@@ -66,7 +63,6 @@ export const HtmlEditorModal = ({
     }
   }, [isOpen, editor]);
 
-  // Копирование
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(htmlContent);
@@ -77,18 +73,15 @@ export const HtmlEditorModal = ({
     }
   };
 
-  // Обработчик изменения
   const handleEditorChange = (value: string | undefined) => {
     setHtmlContent(value || "");
   };
 
-  // Обработчик монтирования
   const handleEditorDidMount = (
     editorInstance: monaco.editor.IStandaloneCodeEditor,
   ) => {
     editorRef.current = editorInstance;
     
-    // Фокус и выделение
     setTimeout(() => {
       editorInstance.focus();
       const model = editorInstance.getModel();
@@ -105,9 +98,7 @@ export const HtmlEditorModal = ({
     }, 100);
   };
 
-  // Обработчик beforeMount для установки темы
   const handleBeforeMount = (monacoInstance: typeof monaco) => {
-    // Определяем темную тему
     monacoInstance.editor.defineTheme("dark-theme", {
       base: "vs-dark",
       inherit: true,
@@ -142,7 +133,6 @@ export const HtmlEditorModal = ({
       }}
     >
       <div className="bg-gray-900 rounded-xl shadow-2xl w-full max-w-6xl border border-gray-800 overflow-hidden max-h-[90vh] flex flex-col">
-        {/* Заголовок */}
         <div className="px-6 py-4 border-b border-gray-800 bg-gray-900 flex justify-between items-center">
           <div>
             <h3 className="text-lg font-semibold text-white">HTML редактор</h3>
@@ -184,10 +174,8 @@ export const HtmlEditorModal = ({
           </div>
         </div>
 
-        {/* Основной контент */}
         <div className="overflow-hidden flex flex-col h-[calc(90vh-120px)]">
           <div className="grid grid-cols-2 flex-1 min-h-0">
-            {/* Левая часть - редактор */}
             <div className="border-r border-gray-800 flex flex-col min-h-0">
               <div className="px-4 py-3 bg-gray-800 border-b border-gray-700 shrink-0">
                 <span className="text-sm font-medium text-gray-300">
@@ -228,7 +216,6 @@ export const HtmlEditorModal = ({
               </div>
             </div>
 
-            {/* Правая часть - предпросмотр */}
             <div className="flex flex-col min-h-0">
               <div className="border-l border-l-gray-700 px-4 py-3 bg-gray-800 border-b border-gray-700 shrink-0">
                 <span className="text-sm font-medium text-gray-300">
@@ -251,7 +238,6 @@ export const HtmlEditorModal = ({
           </div>
         </div>
 
-        {/* Подвал */}
         <div className="px-6 py-4 border-t border-gray-800 bg-gray-900">
           <div className="flex justify-between items-center">
             <div className="text-sm text-gray-400">

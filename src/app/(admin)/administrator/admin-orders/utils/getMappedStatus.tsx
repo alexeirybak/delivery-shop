@@ -5,9 +5,15 @@ export const getMappedStatus = (order: Order): string => {
   if (order.paymentMethod === "online") {
     if (order.paymentStatus === "paid" && order.status === "confirmed") {
       return "Подтвержден";
-    } else if (order.paymentStatus === "failed" && order.status === "cancelled") { // ← ИСПРАВЛЕНО
+    } else if (
+      order.paymentStatus === "failed" &&
+      order.status === "cancelled"
+    ) {
       return "Не подтвердили";
-    } else if (order.paymentStatus === "waiting" && order.status === "pending") {
+    } else if (
+      order.paymentStatus === "waiting" &&
+      order.status === "pending"
+    ) {
       return "Новый";
     }
   }
@@ -20,8 +26,9 @@ export const getMappedStatus = (order: Order): string => {
     }
   }
 
-  // Базовый маппинг
-  const statusFromValue = CUSTOMER_STATUSES.find(status => status.value === order.status);
+  const statusFromValue = CUSTOMER_STATUSES.find(
+    (status) => status.value === order.status,
+  );
   if (statusFromValue) {
     return statusFromValue.label;
   }

@@ -1,7 +1,7 @@
 import { Order } from "@/types/order";
 
 export const getPaymentStatusText = (
-  paymentStatus: Order["paymentStatus"]
+  paymentStatus: Order["paymentStatus"],
 ): string => {
   switch (paymentStatus) {
     case "pending":

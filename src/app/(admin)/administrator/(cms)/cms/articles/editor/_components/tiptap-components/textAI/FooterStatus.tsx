@@ -52,7 +52,6 @@ export const FooterStatus = ({
         </div>
       </div>
 
-      {/* Статус */}
       {aiStatus !== "idle" && (
         <div
           className={`p-3 rounded-lg text-sm font-medium ${

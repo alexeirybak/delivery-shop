@@ -30,7 +30,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Получаем системный промпт из отдельного файла
     const systemPrompt = getSystemPrompt(action);
 
     const apiUrl =
