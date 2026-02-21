@@ -40,6 +40,8 @@ export const TRANSLATIONS: Record<string, string> = {
   "auto-generate": "Автогенерация",
   "comments": "Комментарии",
   "about-us": "О компании",
+  "contacts": "Контакты",
+  "vacations": "Вакансии",
   "rules": "Правила"
 };
 

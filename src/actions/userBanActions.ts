@@ -119,7 +119,7 @@ export async function checkBanStatus(userId: string) {
     }
 
     const now = new Date();
-    const isBanned = user.bannedUntil ? new Date(user.bannedUntil) > now : false;
+    const isBanned = user.bannedUntil === null || new Date(user.bannedUntil) > now;
 
     return { 
       success: true,

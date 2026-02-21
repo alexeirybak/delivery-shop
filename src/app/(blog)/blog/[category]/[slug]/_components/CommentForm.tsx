@@ -8,6 +8,7 @@ import Link from "next/link";
 import { RulesModal } from "./RulesModal";
 import { acceptRules, checkRulesAccepted } from "@/actions/acceptRules";
 import { checkBanStatus } from "@/actions/userBanActions"; // Импортируем server action
+import { formatBanDate } from "@/app/(admin)/administrator/(cms)/cms/comments/utils/formatBanDate";
 
 interface BanInfo {
   isBanned: boolean;
@@ -66,17 +67,6 @@ export default function CommentForm({
     
     checkRules();
   }, [userId]);
-
-  const formatBanDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('ru-RU', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  };
 
   const handleAcceptRules = async () => {
     if (!userId) return;

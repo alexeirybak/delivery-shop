@@ -94,16 +94,16 @@ const Footer = () => {
               <Link href="/about-us">О компании</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Контакты</Link>
+              <Link href="/contacts">Контакты</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              <Link href="#">Вакансии</Link>
+              <Link href="/vacations">Вакансии</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
               <Link href="/blog">Статьи</Link>
             </li>
             <li className="hover:text-black cursor-pointer">
-              Политика обработки персональных данных
+              <Link href="/policy">Политика обработки персональных данных</Link>
             </li>
           </ul>
         </nav>
