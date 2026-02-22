@@ -120,7 +120,7 @@ export const ArticleTable = ({ onReorder }: ArticleTableProps) => {
   return (
     <div className="bg-white rounded shadow-sm">
       <div className="p-4 border-b border-gray-200">
-        <div className="flex flex-col md:flex-row md:items-center gap-4">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center ">
           <SearchBar />
           <FilterControls onToggleFilters={setShowFilters} />
         </div>

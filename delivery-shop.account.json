@@ -1,0 +1,34 @@
+[{
+  "_id": {
+    "$oid": "68bf31a6b952b55ca5a5fcd3"
+  },
+  "accountId": "68bf31a6b952b55ca5a5fcd2",
+  "providerId": "credential",
+  "userId": {
+    "$oid": "68bf31a6b952b55ca5a5fcd2"
+  },
+  "password": "42e87e7112dbffd8be79b01a35a05cdb:4066254a6c8020c0cff1bb4bf6265c436d9f38792265eff339b36f526fc1844da47266ab632030655120a6a8ce6c3b1f2cdfc65abfbf71f425089d5ba6753238",
+  "createdAt": {
+    "$date": "2025-09-08T19:42:30.019Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-08T19:42:30.019Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68c07c02ba96b9a2e847510a"
+  },
+  "accountId": "68c07c02ba96b9a2e8475109",
+  "providerId": "credential",
+  "userId": {
+    "$oid": "68c07c02ba96b9a2e8475109"
+  },
+  "password": "1039ba4684d0bc7a3f438e10067e2d51:8e905b8881ed8b82fa1a3628c67f3b65f9bb8b19affad44d0a5dfbe8d92ce3fdd59a5ce2d2d2551e7e0098bac7303f3df07d663496f4825881632d816ed1756b",
+  "createdAt": {
+    "$date": "2025-09-09T19:12:02.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-09T19:12:02.694Z"
+  }
+}]

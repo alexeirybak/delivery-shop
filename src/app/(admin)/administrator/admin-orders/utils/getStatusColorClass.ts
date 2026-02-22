@@ -17,6 +17,6 @@ export const getStatusColorClass = (
     case "Вернули":
       return isSelected ? "bg-[#1cb9fc]" : "text-[#1cb9fc]";
     default:
-      return isSelected ? "bg-[#f3f2f1]" : "text-main-text";
+      return isSelected ? "bg-[#f3f2f1]" : "text-main-text"; 
   }
 };

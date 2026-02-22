@@ -1,0 +1,96 @@
+[{
+  "_id": {
+    "$oid": "68d1c942d999b87a68d6e0a2"
+  },
+  "productId": "17",
+  "userId": "68c18fdf4810f87fed0ea88a",
+  "userName": "Игнат",
+  "rating": 4,
+  "comment": "Довольно неплохой, но дороговат",
+  "createdAt": {
+    "$date": "2025-09-22T22:10:10.166Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-22T22:10:10.166Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68d1ca63d999b87a68d6e0a4"
+  },
+  "productId": "17",
+  "userId": "68c18f314810f87fed0ea881",
+  "userName": "Иван",
+  "rating": 2,
+  "comment": "Слишком много лука",
+  "createdAt": {
+    "$date": "2025-09-22T22:14:59.500Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-22T22:14:59.500Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68d849e501bbd26ccb95dd42"
+  },
+  "productId": "85",
+  "userId": "68c05f4cb952b55ca5a5fcd8",
+  "userName": "Алексей",
+  "rating": 4,
+  "comment": "Рекомендую, хотя и на любителя. Один раз купил, кисловат.",
+  "createdAt": {
+    "$date": "2025-09-27T20:32:37.529Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-27T20:32:37.529Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68dac9bc23793eaede707121"
+  },
+  "productId": "30",
+  "userId": "68c18f314810f87fed0ea881",
+  "userName": "Иван",
+  "rating": 4,
+  "comment": "Вкусный, особенно когда свежий",
+  "createdAt": {
+    "$date": "2025-09-29T18:02:36.127Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-29T18:02:36.127Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69065d0fa023f07ca9f68661"
+  },
+  "productId": "11",
+  "userId": "68c18f314810f87fed0ea881",
+  "userName": "Иван",
+  "rating": 3,
+  "comment": "Слишком острый",
+  "createdAt": {
+    "$date": "2025-11-01T19:18:39.240Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-01T19:18:39.240Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "690dafbc3b92aebf42864ce8"
+  },
+  "productId": "1",
+  "userId": "68c18f314810f87fed0ea881",
+  "userName": "Иван",
+  "rating": 3,
+  "comment": "Очень жирные, хотя и вкусные",
+  "createdAt": {
+    "$date": "2025-11-07T08:37:16.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T08:37:16.562Z"
+  }
+}]

@@ -1,0 +1,445 @@
+[{
+  "_id": {
+    "$oid": "68c05f4cb952b55ca5a5fcd8"
+  },
+  "name": "Алексей",
+  "email": "71111111111@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-09T17:09:32.555Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-09T17:09:32.555Z"
+  },
+  "phoneNumber": "71111111111",
+  "phoneNumberVerified": true,
+  "role": "manager",
+  "password": "$2b$10$/hZRXhmkIiqMBTA9Ss/64uHK3ZnzLHZEvtwgtDL6vMOwZ2/XaNHoq",
+  "birthdayDate": "1988-06-03T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Северодвинск",
+  "region": "Архангельская область",
+  "surname": "Рыбак"
+},
+{
+  "_id": {
+    "$oid": "68c08609ba96b9a2e8475117"
+  },
+  "name": "Илья",
+  "email": "romanoff@gmail.com",
+  "emailVerified": true,
+  "createdAt": {
+    "$date": "2025-09-09T19:54:49.694Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:56:45.724Z"
+  },
+  "phoneNumber": "73333333333",
+  "phoneNumberVerified": true,
+  "role": "admin",
+  "banned": false,
+  "password": "$2b$10$z/l3gCDet2VIs2yBexSgn.PX8Vzjoukh6OVdFu/WcFYrEMrNTzEva",
+  "birthdayDate": "2002-12-11T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Архангельск",
+  "region": "Архангельская область",
+  "surname": "Романов",
+  "rulesAcceptedAt": {
+    "$date": "2026-02-18T12:39:24.006Z"
+  },
+  "bannedAt": {
+    "$date": "2026-02-19T19:24:09.836Z"
+  },
+  "bannedUntil": {
+    "$date": "2026-02-19T19:25:09.836Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "name": "Иван",
+  "email": "75555555555@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:46:09.451Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-22T08:10:44.453Z"
+  },
+  "phoneNumber": "75555555555",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$3.PRNfXunMmTMYKMrSEQM.NTSOaB7XwxPlbvlPeFdg..KnXS5BFQy",
+  "birthdayDate": "2005-04-14T00:00:00.000Z",
+  "card": "1111222233334444",
+  "gender": "male",
+  "hasCard": true,
+  "location": "Котлас",
+  "region": "Архангельская область",
+  "surname": "Жуков",
+  "favorites": [
+    "28",
+    "31",
+    "78",
+    "77",
+    "86",
+    "60",
+    "80",
+    "81",
+    "84",
+    "1",
+    "6"
+  ],
+  "cart": [
+    {
+      "productId": "8",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-12-09T21:52:32.249Z"
+      }
+    }
+  ],
+  "bonusesCount": 1129,
+  "purchases": [
+    118,
+    18,
+    1,
+    2,
+    7,
+    6,
+    14,
+    11,
+    15,
+    16,
+    39,
+    38,
+    37,
+    8,
+    66,
+    48,
+    51,
+    49,
+    98,
+    99,
+    102,
+    101,
+    41,
+    40,
+    46,
+    24,
+    13,
+    25,
+    27,
+    26,
+    29,
+    31,
+    30,
+    35,
+    87,
+    88,
+    92,
+    91,
+    90,
+    96,
+    34,
+    65,
+    62,
+    80,
+    110,
+    109,
+    108,
+    113,
+    112,
+    115,
+    114,
+    119,
+    120,
+    127,
+    126,
+    53,
+    21,
+    23,
+    105,
+    104,
+    106
+  ]
+},
+{
+  "_id": {
+    "$oid": "68c18f744810f87fed0ea884"
+  },
+  "name": "Полина",
+  "email": "76666666666@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:47:16.349Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T18:22:32.412Z"
+  },
+  "phoneNumber": "76666666666",
+  "phoneNumberVerified": true,
+  "role": "manager",
+  "banned": false,
+  "password": "$2b$10$LWGJnHOcCAS3ZS2/nsjEWu0RAOg8QTG.qRj5YrHrjg4/46Wqj5BMy",
+  "birthdayDate": "1999-09-11T00:00:00.000Z",
+  "card": "",
+  "gender": "female",
+  "hasCard": false,
+  "location": "Коряжма",
+  "region": "Архангельская область",
+  "surname": "Новикова",
+  "cart": [
+    {
+      "productId": "80",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-10-14T18:16:25.889Z"
+      }
+    },
+    {
+      "productId": "79",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-10-14T18:16:29.240Z"
+      }
+    },
+    {
+      "productId": "85",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-10-14T18:16:30.459Z"
+      }
+    },
+    {
+      "productId": "38",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-10-14T18:16:31.827Z"
+      }
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "addedAt": {
+        "$date": "2025-11-22T08:05:37.115Z"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68c18faa4810f87fed0ea887"
+  },
+  "name": "Ольга",
+  "email": "77777777777@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:48:10.525Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-22T21:26:15.274Z"
+  },
+  "phoneNumber": "77777777777",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$rUJV1roNuSc67mTEDP9aFepUOK/4u8z.QI3pF6SuynPeyEZgjqg/q",
+  "birthdayDate": "2002-06-10T00:00:00.000Z",
+  "card": "",
+  "gender": "female",
+  "hasCard": false,
+  "location": "Новодвинск",
+  "region": "Архангельская область",
+  "surname": "Лебедева",
+  "cart": []
+},
+{
+  "_id": {
+    "$oid": "68c18fdf4810f87fed0ea88a"
+  },
+  "name": "Игнат",
+  "email": "79999999999@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:49:03.992Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T10:59:20.940Z"
+  },
+  "phoneNumber": "79999999999",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$BxFSTdg8CaIYD6rNr68kme8GIF/gG/SqTYonh1xjo15bplNt6ejYS",
+  "birthdayDate": "2004-10-12T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Архангельск",
+  "region": "Архангельская область",
+  "surname": "Терентьев",
+  "cart": []
+},
+{
+  "_id": {
+    "$oid": "68c190414810f87fed0ea88d"
+  },
+  "name": "Дмитрий",
+  "email": "79113333355@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:50:41.474Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-11T18:24:22.960Z"
+  },
+  "phoneNumber": "79113333355",
+  "phoneNumberVerified": true,
+  "role": "manager",
+  "banned": false,
+  "password": "$2b$10$PzusyUh..JZ5krDnc11XvurHWWYieJ98Coetox1Tr0J6Q7pF.tyOW",
+  "birthdayDate": "1998-09-11T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Новодвинск",
+  "region": "Архангельская область",
+  "surname": "Ветров"
+},
+{
+  "_id": {
+    "$oid": "68c190864810f87fed0ea890"
+  },
+  "name": "Леонид",
+  "email": "79115557733@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:51:50.835Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:51:50.967Z"
+  },
+  "phoneNumber": "79115557733",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$Jbr8DYOq0DIaPe3Fp2.V6eaFFviL7r3PhkkxGhIhb3dO0FaMYBMTq",
+  "birthdayDate": "1989-08-14T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Новодвинск",
+  "region": "Архангельская область",
+  "surname": "Марков"
+},
+{
+  "_id": {
+    "$oid": "68c190cd4810f87fed0ea893"
+  },
+  "name": "Марина",
+  "email": "79214444444@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:53:01.789Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:53:01.918Z"
+  },
+  "phoneNumber": "79214444444",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$u6pvrGn.ys7tp1HWzRPe0Oy1IFQRPrY5JjjUWHdBNttkr8NZGfBv2",
+  "birthdayDate": "2006-02-01T00:00:00.000Z",
+  "card": "",
+  "gender": "female",
+  "hasCard": false,
+  "location": "Котлас",
+  "region": "Вологодская область",
+  "surname": "Теплякова"
+},
+{
+  "_id": {
+    "$oid": "68c191134810f87fed0ea896"
+  },
+  "name": "Евгения",
+  "email": "79827556566@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:54:11.582Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:54:11.713Z"
+  },
+  "phoneNumber": "79827556566",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$.xKjotcrQQexzIKfzv397.61W5.UgLWtxoYr19g/UjJYkvUA8Lt6S",
+  "birthdayDate": "2001-05-25T00:00:00.000Z",
+  "card": "",
+  "gender": "female",
+  "hasCard": false,
+  "location": "Коряжма",
+  "region": "Республика Коми",
+  "surname": "Осипова"
+},
+{
+  "_id": {
+    "$oid": "68c1915d4810f87fed0ea899"
+  },
+  "name": "Антон",
+  "email": "79338888888@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:55:25.442Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:55:25.575Z"
+  },
+  "phoneNumber": "79338888888",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$ZoPg9MtVk1P3Sgqnx32we.iPuY6lrhry9SaxNvsPnj.GPWbgKNtzO",
+  "birthdayDate": "1996-02-10T00:00:00.000Z",
+  "card": "",
+  "gender": "male",
+  "hasCard": false,
+  "location": "Коряжма",
+  "region": "Республика Карелия",
+  "surname": "Борисов"
+},
+{
+  "_id": {
+    "$oid": "68c1919a4810f87fed0ea89c"
+  },
+  "name": "Жанна",
+  "email": "79223995566@delivery-shop.ru",
+  "emailVerified": false,
+  "createdAt": {
+    "$date": "2025-09-10T14:56:26.279Z"
+  },
+  "updatedAt": {
+    "$date": "2025-09-10T14:56:26.406Z"
+  },
+  "phoneNumber": "79223995566",
+  "phoneNumberVerified": true,
+  "role": "user",
+  "banned": false,
+  "password": "$2b$10$JYOxHRWXWawJ6LbKMUF41uwD6oGWrfGLzaKWzykXlJp738Y3irM0i",
+  "birthdayDate": "2004-08-07T00:00:00.000Z",
+  "card": "",
+  "gender": "female",
+  "hasCard": false,
+  "location": "Северодвинск",
+  "region": "Архангельская область",
+  "surname": "Николаева"
+}]

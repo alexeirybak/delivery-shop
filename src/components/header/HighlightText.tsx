@@ -17,7 +17,7 @@ export default function HighlightText({
           </span>
         ) : (
           part
-        )
+        ),
       )}
     </span>
   );

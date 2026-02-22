@@ -1,0 +1,3214 @@
+[{
+  "_id": {
+    "$oid": "69107793e7d349c919d29e7d"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762686867932-890",
+  "status": "cancelled",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1034,
+  "discountAmount": 66,
+  "usedBonuses": 0,
+  "earnedBonuses": 56,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-03",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "66",
+      "quantity": 4,
+      "price": 258.5,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T11:14:27.932Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-01T18:48:59.693Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T11:14:52.943Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c5dae7d349c919d29e7e"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762706906974-192",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1633.04,
+  "discountAmount": 104.24,
+  "usedBonuses": 0,
+  "earnedBonuses": 90,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-03",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "8",
+      "quantity": 1,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 2,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "6",
+      "quantity": 1,
+      "price": 126.89,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "48",
+      "quantity": 4,
+      "price": 103.4,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "49",
+      "quantity": 1,
+      "price": 780.2,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:48:26.974Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:48:34.594Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:48:34.594Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c637e7d349c919d29e7f"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762706999110-704",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1519.98,
+  "discountAmount": 97.02,
+  "usedBonuses": 0,
+  "earnedBonuses": 76,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-03",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "98",
+      "quantity": 12,
+      "price": 21.15,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "99",
+      "quantity": 11,
+      "price": 24.44,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "102",
+      "quantity": 7,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "101",
+      "quantity": 4,
+      "price": 27.26,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:49:59.110Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:50:03.325Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:50:03.325Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c6e0e7d349c919d29e80"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707168588-935",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1887.05,
+  "discountAmount": 120.45,
+  "usedBonuses": 0,
+  "earnedBonuses": 103,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-05",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "11",
+      "quantity": 1,
+      "price": 120.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "16",
+      "quantity": 2,
+      "price": 188,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "38",
+      "quantity": 4,
+      "price": 105.28,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "39",
+      "quantity": 1,
+      "price": 169.2,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "37",
+      "quantity": 1,
+      "price": 178.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "41",
+      "quantity": 2,
+      "price": 141,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "40",
+      "quantity": 1,
+      "price": 283.41,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "46",
+      "quantity": 3,
+      "price": 18.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:52:48.588Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-03T21:34:08.562Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:53:01.062Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c71ce7d349c919d29e81"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707228889-933",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1106.85,
+  "discountAmount": 70.65,
+  "usedBonuses": 0,
+  "earnedBonuses": 61,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-04",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-12-04T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "24",
+      "quantity": 1,
+      "price": 155.1,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "14",
+      "quantity": 1,
+      "price": 228.42,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "13",
+      "quantity": 1,
+      "price": 133.48,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "25",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "27",
+      "quantity": 1,
+      "price": 103.4,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "26",
+      "quantity": 1,
+      "price": 67.21,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "48",
+      "quantity": 3,
+      "price": 103.4,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:53:48.889Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:53:52.679Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:53:52.679Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c75ae7d349c919d29e82"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707290958-448",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1152.44,
+  "discountAmount": 73.56,
+  "usedBonuses": 0,
+  "earnedBonuses": 65,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-05",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "29",
+      "quantity": 1,
+      "price": 49.35,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "31",
+      "quantity": 1,
+      "price": 73.32,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "30",
+      "quantity": 1,
+      "price": 52.17,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "35",
+      "quantity": 1,
+      "price": 136.3,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "87",
+      "quantity": 4,
+      "price": 68.62,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "88",
+      "quantity": 1,
+      "price": 16.92,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "92",
+      "quantity": 1,
+      "price": 94,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "91",
+      "quantity": 2,
+      "price": 17.86,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "90",
+      "quantity": 3,
+      "price": 17.86,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "96",
+      "quantity": 3,
+      "price": 122.2,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:54:50.958Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:54:54.827Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:54:54.827Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c788e7d349c919d29e83"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707336787-460",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 2180.8,
+  "discountAmount": 139.2,
+  "usedBonuses": 0,
+  "earnedBonuses": 115,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-05",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "13",
+      "quantity": 4,
+      "price": 133.48,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "14",
+      "quantity": 3,
+      "price": 228.42,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "34",
+      "quantity": 3,
+      "price": 58.28,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "35",
+      "quantity": 1,
+      "price": 136.3,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "65",
+      "quantity": 1,
+      "price": 220.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "62",
+      "quantity": 1,
+      "price": 108.1,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "80",
+      "quantity": 1,
+      "price": 321.48,
+      "discountPercent": 5,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:55:36.787Z"
+  },
+  "updatedAt": {
+    "$date": "2025-12-04T08:47:19.266Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:55:40.403Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c7ade7d349c919d29e84"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707373318-750",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1397.78,
+  "discountAmount": 89.22,
+  "usedBonuses": 0,
+  "earnedBonuses": 74,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-12-03",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "110",
+      "quantity": 1,
+      "price": 1034,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "109",
+      "quantity": 1,
+      "price": 35.72,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "108",
+      "quantity": 1,
+      "price": 41.36,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "113",
+      "quantity": 1,
+      "price": 83.66,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "112",
+      "quantity": 1,
+      "price": 92.12,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "115",
+      "quantity": 1,
+      "price": 93.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "114",
+      "quantity": 1,
+      "price": 17.86,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:56:13.319Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:56:17.014Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:56:17.014Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c7d6e7d349c919d29e85"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707414875-619",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1083.35,
+  "discountAmount": 69.15,
+  "usedBonuses": 0,
+  "earnedBonuses": 61,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-24",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "119",
+      "quantity": 1,
+      "price": 207.74,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "118",
+      "quantity": 3,
+      "price": 23.97,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "120",
+      "quantity": 3,
+      "price": 85.07,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "127",
+      "quantity": 6,
+      "price": 84.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "126",
+      "quantity": 1,
+      "price": 40.89,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:56:54.875Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:57:09.272Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:57:09.272Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6910c80de7d349c919d29e86"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1762707469040-534",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1900.68,
+  "discountAmount": 121.32,
+  "usedBonuses": 0,
+  "earnedBonuses": 101,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-22",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 270.72,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 803.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 173.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-09T16:57:49.040Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-09T16:57:53.382Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-09T16:57:53.382Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918ce50e7d804f3362d3a83"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763233360583-316",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1880.47,
+  "discountAmount": 120.03,
+  "usedBonuses": 0,
+  "earnedBonuses": 94,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 300.8,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 723.33,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 173.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-15T19:02:40.583Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T19:04:28.468Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-15T19:04:28.468Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918d20ae7d804f3362d3a85"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763234314328-184",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1880.47,
+  "discountAmount": 120.03,
+  "usedBonuses": 0,
+  "earnedBonuses": 94,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-24",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 300.8,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 723.33,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 173.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-15T19:18:34.329Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T19:18:37.997Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-15T19:18:37.997Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918d5b6e7d804f3362d3a86"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763235254409-757",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1880.47,
+  "discountAmount": 120.03,
+  "usedBonuses": 0,
+  "earnedBonuses": 94,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "08:00-14:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 300.8,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 723.33,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 173.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-15T19:34:14.410Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T19:34:18.812Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-15T19:34:18.812Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918d5d0e7d804f3362d3a87"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763235280428-956",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1880.47,
+  "discountAmount": 120.03,
+  "usedBonuses": 0,
+  "earnedBonuses": 94,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-27",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 300.8,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 723.33,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 109.04,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 173.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-15T19:34:40.428Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-15T19:34:40.428Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6918d65fe7d804f3362d3a88"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763235423303-709",
+  "status": "confirmed",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 2000.5,
+  "discountAmount": 0,
+  "usedBonuses": 0,
+  "earnedBonuses": 100,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-28",
+  "deliveryTimeSlot": "08:00-10:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 320,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 769.5,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 116,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 185,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 290,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-15T19:37:03.304Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T13:34:59.141Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6919a3420cac40f48ec69497"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763287874383-772",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 1841.69,
+  "discountAmount": 117.56,
+  "usedBonuses": 0,
+  "earnedBonuses": 92,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 2,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "53",
+      "quantity": 1,
+      "price": 683.15,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "51",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 156.51,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "23",
+      "quantity": 1,
+      "price": 272.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-16T10:11:14.383Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-16T10:11:18.441Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-16T10:11:18.441Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691da5dd7a105b63a8833c32"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763550685459-285",
+  "status": "refund",
+  "paymentMethod": "online",
+  "paymentStatus": "waiting",
+  "totalAmount": 1083.18,
+  "discountAmount": 69.14,
+  "usedBonuses": 0,
+  "earnedBonuses": 58,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-27",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 246.75,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "8",
+      "quantity": 3,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "9",
+      "quantity": 4,
+      "price": 51.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 1,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 66.93,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:11:25.459Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-27T19:03:03.341Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691da6997a105b63a8833c33"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763550873604-706",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1083.18,
+  "discountAmount": 69.14,
+  "usedBonuses": 0,
+  "earnedBonuses": 58,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-28",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 246.75,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "8",
+      "quantity": 3,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "9",
+      "quantity": 4,
+      "price": 51.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 1,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 66.93,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:14:33.604Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:14:38.611Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691da7387a105b63a8833c34"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763551032858-665",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1083.18,
+  "discountAmount": 69.14,
+  "usedBonuses": 0,
+  "earnedBonuses": 58,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 246.75,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "8",
+      "quantity": 3,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "9",
+      "quantity": 4,
+      "price": 51.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 1,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 66.93,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:17:12.858Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:17:18.817Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691da8417a105b63a8833c35"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763551297196-982",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1083.18,
+  "discountAmount": 69.14,
+  "usedBonuses": 0,
+  "earnedBonuses": 58,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-27",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 246.75,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "8",
+      "quantity": 3,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "9",
+      "quantity": 4,
+      "price": 51.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 1,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 66.93,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:21:37.197Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:21:42.154Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691daa0e7a105b63a8833c36"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763551758073-644",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1083.18,
+  "discountAmount": 69.14,
+  "usedBonuses": 0,
+  "earnedBonuses": 58,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-28",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 246.75,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "8",
+      "quantity": 3,
+      "price": 61.09,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "9",
+      "quantity": 4,
+      "price": 51.7,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "2",
+      "quantity": 1,
+      "price": 71.11,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 66.93,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:29:18.073Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:29:23.313Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691dace67a105b63a8833c37"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763552486776-887",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1208.84,
+  "discountAmount": 77.16,
+  "usedBonuses": 0,
+  "earnedBonuses": 65,
+  "deliveryAddress": {
+    "city": "Котлас",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "21",
+      "quantity": 1,
+      "price": 156.51,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "47",
+      "quantity": 1,
+      "price": 150.4,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "40",
+      "quantity": 1,
+      "price": 283.41,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "48",
+      "quantity": 3,
+      "price": 103.4,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:41:26.776Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:41:26.776Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691dadb77a105b63a8833c38"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763552695905-555",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3262.74,
+  "discountAmount": 208.26,
+  "usedBonuses": 0,
+  "earnedBonuses": 174,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-27",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "102",
+      "quantity": 1,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 34.78,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:44:55.905Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:44:55.905Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691dafa67a105b63a8833c39"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763553190884-982",
+  "status": "confirmed",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3262.74,
+  "discountAmount": 208.26,
+  "usedBonuses": 0,
+  "earnedBonuses": 163,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-28",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "102",
+      "quantity": 1,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 34.78,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:53:10.884Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T13:30:13.559Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db0ac7a105b63a8833c3b"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763553452412-602",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1189.57,
+  "discountAmount": 75.93,
+  "usedBonuses": 0,
+  "earnedBonuses": 65,
+  "deliveryAddress": {
+    "city": "Котлас",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "37",
+      "quantity": 2,
+      "price": 178.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "38",
+      "quantity": 2,
+      "price": 105.28,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "39",
+      "quantity": 2,
+      "price": 169.2,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "40",
+      "quantity": 1,
+      "price": 283.41,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T11:57:32.413Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T11:57:32.413Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db2237a105b63a8833c3d"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763553827177-322",
+  "status": "confirmed",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 2015.36,
+  "discountAmount": 128.64,
+  "usedBonuses": 0,
+  "earnedBonuses": 110,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "39",
+      "quantity": 2,
+      "price": 169.2,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "38",
+      "quantity": 2,
+      "price": 105.28,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "37",
+      "quantity": 2,
+      "price": 178.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "52",
+      "quantity": 4,
+      "price": 277.3,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:03:47.177Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T13:51:28.387Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db5347a105b63a8833c3e"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763554612701-108",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3262.74,
+  "discountAmount": 208.26,
+  "usedBonuses": 0,
+  "earnedBonuses": 174,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-24",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "102",
+      "quantity": 1,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 34.78,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:16:52.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:16:52.702Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db5c87a105b63a8833c3f"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763554760864-448",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3262.74,
+  "discountAmount": 208.26,
+  "usedBonuses": 0,
+  "earnedBonuses": 174,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-20",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "102",
+      "quantity": 1,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 34.78,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:19:20.864Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:19:20.864Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db5f37a105b63a8833c40"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763554803017-369",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3262.74,
+  "discountAmount": 208.26,
+  "usedBonuses": 0,
+  "earnedBonuses": 174,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-24",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "102",
+      "quantity": 1,
+      "price": 126.9,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 34.78,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:20:03.017Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:20:03.017Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db6217a105b63a8833c41"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763554849788-650",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1128.94,
+  "discountAmount": 72.06,
+  "usedBonuses": 0,
+  "earnedBonuses": 65,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-19",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "92",
+      "quantity": 1,
+      "price": 94,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "96",
+      "quantity": 7,
+      "price": 122.2,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "97",
+      "quantity": 1,
+      "price": 30.08,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "95",
+      "quantity": 1,
+      "price": 65.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "94",
+      "quantity": 1,
+      "price": 65.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "93",
+      "quantity": 1,
+      "price": 17.86,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:20:49.788Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:20:57.978Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db6c07a105b63a8833c42"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763555008138-531",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 3101.06,
+  "discountAmount": 197.94,
+  "usedBonuses": 0,
+  "earnedBonuses": 165,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-19",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:23:28.138Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:23:28.138Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691db6dc7a105b63a8833c43"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763555036459-865",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 3101.06,
+  "discountAmount": 197.94,
+  "usedBonuses": 0,
+  "earnedBonuses": 165,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-19",
+  "deliveryTimeSlot": "18:00-20:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:23:56.459Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T12:24:02.480Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691e440a7a105b63a8833c44"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763591178895-989",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-20",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T22:26:18.896Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-19T22:26:18.896Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f568907b536e7a7df14af"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763661449995-410",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-21",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T17:57:29.996Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T17:57:29.996Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f57d607b536e7a7df14b0"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763661782420-254",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-21",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:03:02.420Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:03:02.420Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f582507b536e7a7df14b1"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763661861544-458",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-25",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:04:21.545Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:04:21.545Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f5a1107b536e7a7df14b2"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763662353291-412",
+  "status": "confirmed",
+  "paymentMethod": "online",
+  "paymentStatus": "paid",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-25",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:12:33.291Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:12:38.558Z"
+  },
+  "paidAt": {
+    "$date": "2025-11-20T18:12:38.558Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f5a5607b536e7a7df14b3"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763662422835-860",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "waiting",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-25",
+  "deliveryTimeSlot": "14:00-18:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:13:42.836Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:13:42.836Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f5aa807b536e7a7df14b4"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763662504057-422",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "waiting",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-25",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:15:04.057Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:15:04.057Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "691f5cbc07b536e7a7df14b5"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763663036028-722",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "waiting",
+  "totalAmount": 6596.92,
+  "discountAmount": 421.08,
+  "usedBonuses": 0,
+  "earnedBonuses": 351,
+  "deliveryAddress": {
+    "city": "Котлас",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-25",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3101.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "104",
+      "quantity": 1,
+      "price": 112.8,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3383.06,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-20T18:23:56.028Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-20T18:23:56.028Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69216f8457e5e21d357e793b"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763798916971-207",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1233.28,
+  "discountAmount": 78.72,
+  "usedBonuses": 0,
+  "earnedBonuses": 64,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-24",
+  "deliveryTimeSlot": "08:00-14:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 4,
+      "price": 308.32,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-22T08:08:36.972Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-22T08:08:36.972Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69222a740b5307cff7a43fc5"
+  },
+  "userId": {
+    "$oid": "68c18faa4810f87fed0ea887"
+  },
+  "orderNumber": "1763846772497-977",
+  "status": "confirmed",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1008.64,
+  "discountAmount": 0,
+  "usedBonuses": 0,
+  "earnedBonuses": 51,
+  "deliveryAddress": {
+    "city": "Северодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "08:00-14:00",
+  "surname": "Лебедева",
+  "name": "Ольга",
+  "phone": "77777777777",
+  "gender": "female",
+  "birthday": "2002-06-10T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "8",
+      "quantity": 1,
+      "price": 64.99,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "9",
+      "quantity": 1,
+      "price": 55,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 328,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "2",
+      "quantity": 3,
+      "price": 75.65,
+      "discountPercent": 15,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "1",
+      "quantity": 1,
+      "price": 71.2,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "3",
+      "quantity": 1,
+      "price": 262.5,
+      "discountPercent": 25,
+      "hasLoyaltyDiscount": false
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-22T21:26:12.497Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T14:08:09.341Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69222b18efd53616884712a7"
+  },
+  "userId": {
+    "$oid": "68c18fdf4810f87fed0ea88a"
+  },
+  "orderNumber": "1763846936194-868",
+  "status": "confirmed",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 7485,
+  "discountAmount": 0,
+  "usedBonuses": 0,
+  "earnedBonuses": 375,
+  "deliveryAddress": {
+    "city": "Северодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "08:00-14:00",
+  "surname": "Терентьев",
+  "name": "Игнат",
+  "phone": "79999999999",
+  "gender": "male",
+  "birthday": "2004-10-12T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "103",
+      "quantity": 1,
+      "price": 37,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "105",
+      "quantity": 1,
+      "price": 3299,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "107",
+      "quantity": 1,
+      "price": 550,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "106",
+      "quantity": 1,
+      "price": 3599,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-22T21:28:56.194Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T14:08:13.651Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6922e45052c1a3bcdd1f845d"
+  },
+  "userId": {
+    "$oid": "68c18fdf4810f87fed0ea88a"
+  },
+  "orderNumber": "1763894352078-761",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "waiting",
+  "totalAmount": 1407.99,
+  "discountAmount": 0,
+  "usedBonuses": 0,
+  "earnedBonuses": 70,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Терентьев",
+  "name": "Игнат",
+  "phone": "79999999999",
+  "gender": "male",
+  "birthday": "2004-10-12T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 328,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "8",
+      "quantity": 1,
+      "price": 64.99,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "9",
+      "quantity": 1,
+      "price": 55,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "10",
+      "quantity": 6,
+      "price": 160,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-23T10:39:12.079Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T10:39:12.079Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6922e90052c1a3bcdd1f845e"
+  },
+  "userId": {
+    "$oid": "68c18fdf4810f87fed0ea88a"
+  },
+  "orderNumber": "1763895552661-148",
+  "status": "pending",
+  "paymentMethod": "online",
+  "paymentStatus": "failed",
+  "totalAmount": 1087.99,
+  "discountAmount": 0,
+  "usedBonuses": 0,
+  "earnedBonuses": 54,
+  "deliveryAddress": {
+    "city": "Новодвинск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-23",
+  "deliveryTimeSlot": "20:00-22:00",
+  "surname": "Терентьев",
+  "name": "Игнат",
+  "phone": "79999999999",
+  "gender": "male",
+  "birthday": "2004-10-12T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "7",
+      "quantity": 1,
+      "price": 328,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "8",
+      "quantity": 1,
+      "price": 64.99,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "9",
+      "quantity": 1,
+      "price": 55,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    },
+    {
+      "productId": "10",
+      "quantity": 4,
+      "price": 160,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": false
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-23T10:59:12.661Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T10:59:17.685Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "69261938ccb18925ca25ec30"
+  },
+  "userId": {
+    "$oid": "68c18f314810f87fed0ea881"
+  },
+  "orderNumber": "1763553659521-190",
+  "status": "pending",
+  "paymentMethod": "cash_on_delivery",
+  "paymentStatus": "pending",
+  "totalAmount": 1562.28,
+  "discountAmount": 99.72,
+  "usedBonuses": 0,
+  "earnedBonuses": 85,
+  "deliveryAddress": {
+    "city": "Архангельск",
+    "street": "Ленина",
+    "house": "4",
+    "apartment": "44",
+    "additional": ""
+  },
+  "deliveryDate": "2025-11-26",
+  "deliveryTimeSlot": "08:00-12:00",
+  "surname": "Жуков",
+  "name": "Иван",
+  "phone": "75555555555",
+  "gender": "male",
+  "birthday": "2005-04-14T00:00:00.000Z",
+  "items": [
+    {
+      "productId": "39",
+      "quantity": 1,
+      "price": 169.2,
+      "discountPercent": 10,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "38",
+      "quantity": 1,
+      "price": 105.28,
+      "discountPercent": 20,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "37",
+      "quantity": 1,
+      "price": 178.6,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    },
+    {
+      "productId": "52",
+      "quantity": 4,
+      "price": 277.3,
+      "discountPercent": 0,
+      "hasLoyaltyDiscount": true
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-19T12:00:59.521Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-23T13:30:30.412Z"
+  }
+}]

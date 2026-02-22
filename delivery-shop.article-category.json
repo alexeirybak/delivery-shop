@@ -1,0 +1,229 @@
+[{
+  "_id": {
+    "$oid": "694fbd751165445e805b1031"
+  },
+  "numericId": 4,
+  "name": "Микроэлементы",
+  "slug": "mikroelementy",
+  "description": "Все о микроэлементах и минералах",
+  "keywords": [
+    "микроэлементы",
+    "минералы"
+  ],
+  "imageAlt": "Микроэлементы",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-27T11:05:25.452Z",
+  "updatedAt": "2026-01-08T21:50:59.524Z",
+  "image": "/blogCategories/unnamed_1767909059398.jpg"
+},
+{
+  "_id": {
+    "$oid": "694fbdd11165445e805b1032"
+  },
+  "numericId": 3,
+  "name": "Диеты",
+  "slug": "diety",
+  "description": "Все о диетах",
+  "keywords": [
+    "диета",
+    "похудение",
+    "фитнес"
+  ],
+  "image": "/blogCategories/8ee2a8c5_23a0_46d1_838c_fb1c8eb3d864_1769510947711_1771257448307.webp",
+  "imageAlt": "Диеты",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-27T11:06:57.982Z",
+  "updatedAt": "2026-02-16T15:57:29.323Z"
+},
+{
+  "_id": {
+    "$oid": "694fbe641165445e805b1033"
+  },
+  "numericId": 1,
+  "name": "Овощи",
+  "slug": "ovoschi",
+  "description": "Польза овощей",
+  "keywords": [
+    "овощи",
+    "рецепты из овощей",
+    "приготовление овощей"
+  ],
+  "image": "/blogCategories/tatjana_baibakova_fotobank_lori_14_1_1767908510505.jpg",
+  "imageAlt": "Овощи",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-27T11:09:24.535Z",
+  "updatedAt": "2026-01-08T21:41:50.709Z"
+},
+{
+  "_id": {
+    "$oid": "694fbeb81165445e805b1034"
+  },
+  "numericId": 2,
+  "name": "Фрукты",
+  "slug": "frukty",
+  "description": "Все о фруктах",
+  "keywords": [
+    "фрукты",
+    "полезные фрукты",
+    "все о фруктах"
+  ],
+  "image": "/blogCategories/images_1767908568280.jpg",
+  "imageAlt": "Фрукты",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-27T11:10:48.662Z",
+  "updatedAt": "2026-01-08T21:42:48.461Z"
+},
+{
+  "_id": {
+    "$oid": "694fbf3b1165445e805b1035"
+  },
+  "numericId": 5,
+  "name": "Мясные продукты",
+  "slug": "myasnye-produkty",
+  "description": "Все о мясных и рыбных продуктах",
+  "keywords": [
+    "Польза мяса и рыбы",
+    "вред мяса и рыбы",
+    "рецепты мясных блюд"
+  ],
+  "imageAlt": "Мясные продукты",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-27T11:12:59.259Z",
+  "updatedAt": "2026-01-08T21:49:02.699Z",
+  "image": "/blogCategories/produkt_6_1767908942572.jpg"
+},
+{
+  "_id": {
+    "$oid": "6953fef1faef62b607664b02"
+  },
+  "numericId": 6,
+  "name": "Витамины",
+  "slug": "vitaminy",
+  "description": "Все о витаминах",
+  "keywords": [
+    "витамины",
+    "польза витаминов",
+    "витамины в продуктах"
+  ],
+  "imageAlt": "Витамины",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-30T16:33:53.106Z",
+  "updatedAt": "2026-01-08T21:48:07.801Z",
+  "image": "/blogCategories/vitam_ni_3_1767908887682.jpg"
+},
+{
+  "_id": {
+    "$oid": "6955483548813cb82cd0f31c"
+  },
+  "numericId": 9,
+  "name": "Спортивное питание",
+  "slug": "sportivnoe-pitanie",
+  "description": "Все о спортивном питании",
+  "keywords": [
+    "спорт",
+    "диеты",
+    "питание спортсменов"
+  ],
+  "imageAlt": "Спортивное питание",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-31T15:58:45.609Z",
+  "updatedAt": "2026-01-08T21:47:01.303Z",
+  "image": "/blogCategories/x0uo87ozmyclne2wzm94n21ckm1n03gj_1767908821134.jpg"
+},
+{
+  "_id": {
+    "$oid": "6955489548813cb82cd0f31d"
+  },
+  "numericId": 7,
+  "name": "Салаты",
+  "slug": "salaty",
+  "description": "Рецепты разных салатов",
+  "keywords": [
+    "салаты овощные",
+    "салаты мясные",
+    "салаты рыбные"
+  ],
+  "imageAlt": "Салаты",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-31T16:00:21.932Z",
+  "updatedAt": "2026-01-08T21:46:08.637Z",
+  "image": "/blogCategories/salat_s_mandarinami_syrom_i_tykvennymi_semechkami_1767908768498.jpg"
+},
+{
+  "_id": {
+    "$oid": "695548f648813cb82cd0f31e"
+  },
+  "numericId": 10,
+  "name": "Морепродукты",
+  "slug": "moreprodukty",
+  "description": "Все о морепродуктах",
+  "keywords": [
+    "Морепродукты",
+    "блюда из морепродуктов"
+  ],
+  "imageAlt": "Морепродукты",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-31T16:01:58.480Z",
+  "updatedAt": "2026-01-08T21:45:12.868Z",
+  "image": "/blogCategories/directory_seafood_1767908712737.jpg"
+},
+{
+  "_id": {
+    "$oid": "6955496248813cb82cd0f31f"
+  },
+  "numericId": 11,
+  "name": "Напитки",
+  "slug": "napitki",
+  "description": "Все о напитках",
+  "keywords": [
+    "напитки",
+    "чай",
+    "кофе",
+    "соки"
+  ],
+  "imageAlt": "Напитки",
+  "author": "Рыбак Алексей",
+  "createdAt": "2025-12-31T16:03:46.340Z",
+  "updatedAt": "2026-01-08T21:44:05.304Z",
+  "image": "/blogCategories/c4327488f80072ab600be1fd4606d123_1767908645112.jpg"
+},
+{
+  "_id": {
+    "$oid": "696908d167f99f16fc454571"
+  },
+  "numericId": 12,
+  "name": "Отдых на природе",
+  "slug": "otdyh-na-prirode",
+  "description": "Все об отдыхе на природе",
+  "keywords": [
+    "природа",
+    "отдых",
+    "хобби",
+    "туризм"
+  ],
+  "image": "",
+  "imageAlt": "",
+  "author": "Рыбак Леонид",
+  "createdAt": "2026-01-15T15:33:37.375Z",
+  "updatedAt": "2026-01-15T15:33:37.375Z"
+},
+{
+  "_id": {
+    "$oid": "697898235407cc5f33052982"
+  },
+  "numericId": 13,
+  "name": "Рецепты",
+  "slug": "retsepty",
+  "description": "Самые разные кулинарные рецепты, как на праздники, так и на каждый день",
+  "keywords": [
+    "рецепты",
+    "как приготовить",
+    "быстро приготовить",
+    "вкусные блюда"
+  ],
+  "image": "/blogCategories/8ee2a8c5_23a0_46d1_838c_fb1c8eb3d864_1769510947711.webp",
+  "imageAlt": "Рецепты",
+  "author": "Рыбак Леонид",
+  "createdAt": "2026-01-27T10:49:07.801Z",
+  "updatedAt": "2026-01-27T10:49:07.801Z"
+}]

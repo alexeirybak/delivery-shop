@@ -1,0 +1,108 @@
+[{
+  "_id": {
+    "$oid": "692de8ba68f660808763a1e6"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+},
+{
+  "_id": {
+    "$oid": "692de924ccb18925ca25ec33"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+},
+{
+  "_id": {
+    "$oid": "692de927ccb18925ca25ec34"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+},
+{
+  "_id": {
+    "$oid": "692de97accb18925ca25ec35"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+},
+{
+  "_id": {
+    "$oid": "692de97cccb18925ca25ec36"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+},
+{
+  "_id": {
+    "$oid": "692de97fccb18925ca25ec37"
+  },
+  "orderId": "69107793e7d349c919d29e7d",
+  "userId": "68c08609ba96b9a2e8475117",
+  "userName": "Илья",
+  "message": "Пользователь не поднимает трубку",
+  "timestamp": {
+    "$date": "2025-12-01T19:12:58.785Z"
+  },
+  "readBy": [
+    "68c08609ba96b9a2e8475118",
+    "68c08609ba96b9a2e8475117",
+    "68c05f4cb952b55ca5a5fcd8"
+  ],
+  "userRole": "admin"
+}]

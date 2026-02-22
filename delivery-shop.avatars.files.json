@@ -1,0 +1,40 @@
+[{
+  "_id": {
+    "$oid": "69222b7eefd53616884712a9"
+  },
+  "length": 3432,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2025-11-22T21:30:38.911Z"
+  },
+  "filename": "Без названия.jpg",
+  "metadata": {
+    "userId": {
+      "$oid": "68c18fdf4810f87fed0ea88a"
+    },
+    "originalName": "Без названия.jpg",
+    "uploadedAt": {
+      "$date": "2025-11-22T21:30:38.897Z"
+    }
+  }
+},
+{
+  "_id": {
+    "$oid": "69938d4a231b41560bd86b78"
+  },
+  "length": 6503,
+  "chunkSize": 261120,
+  "uploadDate": {
+    "$date": "2026-02-16T21:34:02.059Z"
+  },
+  "filename": "yandex_art_1771166250975_1771169742445.jpg",
+  "metadata": {
+    "userId": {
+      "$oid": "68c08609ba96b9a2e8475117"
+    },
+    "originalName": "yandex_art_1771166250975_1771169742445.jpg",
+    "uploadedAt": {
+      "$date": "2026-02-16T21:34:02.049Z"
+    }
+  }
+}]

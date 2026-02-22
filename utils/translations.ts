@@ -39,6 +39,10 @@ export const TRANSLATIONS: Record<string, string> = {
   "articlesManagement": "Управление статьями",
   "auto-generate": "Автогенерация",
   "rules": "Правила сообщества",
-  "comments": "Комментарии"
+  "comments": "Комментарии",
+  "about-us": "О нас",
+  "contacts": "Контакты",
+  "vacations": "Вакансии",
+  "policy": "Политика обработки персональных данных"
 };
 

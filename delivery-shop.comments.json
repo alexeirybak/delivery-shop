@@ -1,0 +1,278 @@
+[{
+  "_id": {
+    "$oid": "69937b61c9847f973110d1e4"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "[Комментарий удален]",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-16T20:17:37.477Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T16:53:26.597Z"
+  },
+  "deletedAt": {
+    "$date": "2026-02-17T16:53:26.597Z"
+  },
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "6994b8d1231b41560bd86b7b"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6993708dc9847f973110d1e3",
+  "content": "Нормально!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T18:52:01.744Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T18:52:01.744Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994c937231b41560bd86b7d"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6994b8d1231b41560bd86b7b",
+  "content": "Ну и прекрасно!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:01:59.843Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:01:59.843Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994c948231b41560bd86b7e"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6994c937231b41560bd86b7d",
+  "content": "Действительно!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:02:16.190Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:02:16.190Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994c969231b41560bd86b7f"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6993708dc9847f973110d1e3",
+  "content": "Что конкретно?",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:02:49.204Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:02:49.204Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994c978231b41560bd86b80"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6994c969231b41560bd86b7f",
+  "content": "Да, так спросил!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:03:04.810Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:03:04.810Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994d1a1231b41560bd86b81"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "Всем привет!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:37:53.582Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:37:53.582Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994d1aa231b41560bd86b82"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "Ну и погодка сегодня!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:38:02.729Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:38:02.729Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994d1b8231b41560bd86b83"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "третий день дождь",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:38:16.178Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:38:16.178Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6994d1cb231b41560bd86b84"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "[Комментарий удален]",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-17T20:38:35.524Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-17T20:38:35.524Z"
+  },
+  "deletedAt": {
+    "$date": "2026-02-19T18:45:54.149Z"
+  },
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "6995b0d0cb648f5cceb2e0a9"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "[Комментарий удален]",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-18T12:30:08.095Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-18T12:30:08.095Z"
+  },
+  "deletedAt": {
+    "$date": "2026-02-19T18:26:50.923Z"
+  },
+  "isDeleted": true
+},
+{
+  "_id": {
+    "$oid": "6995bd66cb648f5cceb2e0ab"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6995b2fdcb648f5cceb2e0aa",
+  "content": "Что за ссылка?",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-18T13:23:50.419Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-18T13:23:50.419Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "6996e24a933324b10d7f3fc4"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": null,
+  "content": "Интересный рецептик",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-19T10:13:30.497Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-19T10:13:30.497Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "699759ae933324b10d7f3fc5"
+  },
+  "articleId": "69789d745407cc5f33052983",
+  "parentId": "6994d1b8231b41560bd86b83",
+  "content": "Ну и ну!",
+  "authorId": "68c08609ba96b9a2e8475117",
+  "authorName": "Романов Илья",
+  "authorRole": "admin",
+  "likes": [],
+  "isEdited": false,
+  "createdAt": {
+    "$date": "2026-02-19T18:42:54.353Z"
+  },
+  "updatedAt": {
+    "$date": "2026-02-19T18:42:54.353Z"
+  }
+}]

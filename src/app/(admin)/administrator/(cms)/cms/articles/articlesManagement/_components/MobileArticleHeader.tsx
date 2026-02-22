@@ -13,7 +13,7 @@ export const MobileArticleHeader = ({
         {displayNumericId || "—"}
       </span>
       <h3
-        className="font-medium text-gray-900 text-sm break-all"
+        className="text-sm font-medium text-gray-900 break-all"
         title={article.name}
       >
         {article.name}
@@ -22,7 +22,7 @@ export const MobileArticleHeader = ({
 
     <div className="flex flex-wrap items-center gap-2 mt-2">
       <div
-        className="text-xs bg-gray-100 px-2 py-1 rounded font-mono break-all"
+        className="px-2 py-1 font-mono text-xs break-all bg-gray-100 rounded"
         title="Категория"
       >
         {article.categoryName}
