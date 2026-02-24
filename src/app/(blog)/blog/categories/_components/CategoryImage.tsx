@@ -1,5 +1,4 @@
 import Image from "next/image";
-
 import { CategoryImageProps } from "../types/categories.types";
 import { getImagePath } from "../utils/getImagePath";
 
@@ -11,11 +10,12 @@ export default function CategoryImage({
   name,
   priority,
 }: CategoryImageProps) {
-  const imagePath = getImagePath(hasImage ? image : "");
+  const imagePath = getImagePath(image);
+  const shouldShowImage = hasImage && image && image.trim() !== "" && imagePath;
 
   return (
     <div className="relative w-full h-48">
-      {hasImage ? (
+      {shouldShowImage ? (
         <Image
           src={imagePath}
           alt={imageAlt}
@@ -23,7 +23,7 @@ export default function CategoryImage({
           className="object-cover"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           priority={priority}
-          quality={75}
+          quality={70}
           loading={priority ? "eager" : "lazy"}
         />
       ) : (

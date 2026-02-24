@@ -1,3 +1,5 @@
+import { baseUrl } from "../../../../utils/baseUrl";
+
 const fetchFavorites = async (options: {
   pagination: { startIdx: number; perPage: number };
   filter?: string | string[];
@@ -17,7 +19,7 @@ const fetchFavorites = async (options: {
     }
 
     const url = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/favorites/products`
+      `${baseUrl}/api/users/favorites/products`
     );
 
     url.searchParams.append("startIdx", pagination.startIdx.toString());

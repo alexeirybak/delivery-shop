@@ -1,3 +1,5 @@
+import { baseUrl } from "../../../utils/baseUrl";
+
 const fetchPurchases = async (options?: {
   userPurchasesLimit?: number;
   pagination?: { startIdx: number; perPage: number };
@@ -5,7 +7,7 @@ const fetchPurchases = async (options?: {
 }) => {
   try {
     const url = new URL(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/users/purchases`
+      `${baseUrl}/api/users/purchases`
     );
 
     if (options?.userPurchasesLimit) {

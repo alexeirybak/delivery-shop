@@ -10,7 +10,7 @@ import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChang
 import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
 import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 
-const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
+const client = new MongoClient(process.env.DB_CONNECTION_STRING!);
 const db = client.db("delivery-shop");
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -48,21 +48,24 @@ export const auth = betterAuth({
   plugins: [
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
-        try {
-          const response = await fetch(
-            `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
-          );
-
-          const result = await response.json();
-
-          if (result.status !== "OK") {
-            throw new Error(result.status || "Ошибка отправки SMS");
-          }
-        } catch (error) {
-          console.error("Ошибка отправки SMS:", error);
-          throw error;
-        }
+        console.log(`[DEBUG] Отправка OTP: ${code} для ${phoneNumber}`);
       },
+      // sendOTP: async ({ phoneNumber, code }) => {
+      //   try {
+      //     const response = await fetch(
+      //       `https://sms.ru/sms/send?api_id=${process.env.SMS_API_ID}&to=${phoneNumber}&msg=Ваш код подтверждения от "Северяночки": ${code}&json=1`
+      //     );
+
+      //     const result = await response.json();
+
+      //     if (result.status !== "OK") {
+      //       throw new Error(result.status || "Ошибка отправки SMS");
+      //     }
+      //   } catch (error) {
+      //     console.error("Ошибка отправки SMS:", error);
+      //     throw error;
+      //   }
+      // },
       signUpOnVerification: {
         getTempEmail: (phoneNumber) => {
           return `${phoneNumber}${CONFIG.TEMPORARY_EMAIL_DOMAIN}`;
@@ -149,7 +152,7 @@ export const auth = betterAuth({
 // import { MongoClient } from "mongodb";
 // import nodemailer from "nodemailer"
 
-// const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
+// const client = new MongoClient(process.env.DB_CONNECTION_STRING!);
 // const db = client.db("delivery-shop");
 
 // // Локальный SMTP транспорт для разработки

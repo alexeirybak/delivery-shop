@@ -1,9 +1,11 @@
+import { baseUrl } from "../../../utils/baseUrl";
+
 const fetchArticles = async (options?: {
   articlesLimit?: number;
   pagination?: { startIdx: number; perPage: number };
 }) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articles`);
+    const url = new URL(`${baseUrl}/api/articles`);
 
     if (options?.articlesLimit) {
       url.searchParams.append(

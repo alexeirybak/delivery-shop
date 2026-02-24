@@ -1,9 +1,10 @@
+import { baseUrl } from "../../../../../../utils/baseUrl";
 import { BlogCategory } from "../types/categories.types";
 
 export async function getCategories(): Promise<BlogCategory[]> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/categories`,
+      `${baseUrl}/api/blog/categories`,
       {
         cache: "force-cache",
         next: {

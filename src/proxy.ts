@@ -7,8 +7,10 @@ import {
 
 export async function proxy(request: NextRequest) {
   const protectedPaths = ["/profile", "/administrator", "/cart", "/favorite"];
-  const isProtectedPath = protectedPaths.some((path) =>
-    request.nextUrl.pathname.startsWith(path)
+  
+  const pathname = request.nextUrl?.pathname;
+  const isProtectedPath = pathname && protectedPaths.some((path) =>
+    pathname.startsWith(path)
   );
 
   if (isProtectedPath) {

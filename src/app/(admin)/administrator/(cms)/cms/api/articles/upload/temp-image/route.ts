@@ -39,14 +39,14 @@ export async function POST(request: NextRequest) {
     const random = Math.random().toString(36).substring(2, 9);
     const filename = `temp_${timestamp}_${random}${extension}`;
     
-    const uploadDir = path.join(process.cwd(), 'public', 'temp');
+    const uploadDir = path.join(process.cwd(), 'uploads', 'temp');
     const filepath = path.join(uploadDir, filename);
     
     await mkdir(uploadDir, { recursive: true });
     
     await writeFile(filepath, buffer);
     
-    const url = `/temp/${filename}`;
+    const url = `/api/uploads/temp/${filename}`;
     
     return NextResponse.json({ 
       success: true,

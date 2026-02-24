@@ -8,10 +8,11 @@ export async function processArticleImages(
   
   if (tempImages.length === 0) return content;
 
-  const tempDir = path.join(process.cwd(), "public", "temp");
-  const articlesDir = path.join(process.cwd(), "public", "uploads", "articles");
+  const tempDir = path.join(process.cwd(), "uploads", "temp");
+  const articlesDir = path.join(process.cwd(), "uploads", "articles");
   
   await fs.mkdir(articlesDir, { recursive: true });
+  await fs.mkdir(tempDir, { recursive: true }); // если temp еще не создана
   
   const uniqueTempFiles = [...new Set(tempImages.map(url => url.split('/').pop()!))];
       
@@ -35,7 +36,7 @@ export async function processArticleImages(
       await fs.unlink(oldPath);
       
       const tempUrlPattern = `/temp/${tempFilename}`;
-      const permanentUrl = `/uploads/articles/${permanentFilename}`;
+      const permanentUrl = `/api/uploads/articles/${permanentFilename}`;
       content = content.replace(new RegExp(tempUrlPattern, "gi"), permanentUrl);
       
     } catch (error) {

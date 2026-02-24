@@ -5,10 +5,10 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
-    "start": "next start -p 3000",
+    "start": "next start",
     "lint": "next lint",
-    "price-check": "curl -X GET http://localhost:3000/api/cron/price-check?secret=6f0a80c1123c4f41985f2ad4ca960b398514c2bd3383a1ae0bc45860747723fa",
-    "update-delivery-dates": "curl -X GET http://localhost:3000/api/cron/update-delivery-dates?secret=6f0a80c1123c4f41985f2ad4ca960b398514c2bd3383a1ae0bc45860747723fa",
+    "price-check": "curl -X GET https://delivery-shop29.ru/api/cron/price-check?secret=6f0a80c1123c4f41985f2ad4ca960b398514c2bd3383a1ae0bc45860747723fa",
+    "update-delivery-dates": "curl -X GET https://delivery-shop29.ru/api/cron/update-delivery-dates?secret=6f0a80c1123c4f41985f2ad4ca960b398514c2bd3383a1ae0bc45860747723fa",
     "cleanup": "node cleanup.mjs"
   },
   "dependencies": {

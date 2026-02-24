@@ -1,3 +1,5 @@
+import { baseUrl } from "../../../utils/baseUrl";
+
 const fetchProductsByTag = async (
   tag: string,
   options?: {
@@ -5,7 +7,7 @@ const fetchProductsByTag = async (
   }
 ) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/products`);
+    const url = new URL(`${baseUrl}/api/products`);
     url.searchParams.append("tag", tag);
 
     if (options?.pagination) {

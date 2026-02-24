@@ -1,9 +1,10 @@
 import { ProductCardProps } from "@/types/product";
+import { baseUrl } from "../../../../../../utils/baseUrl";
 
 export async function getProduct(id: string): Promise<ProductCardProps> {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/${id}`,
+      `${baseUrl}/api/products/${id}`,
       {
         next: { revalidate: 3600 },
       }
