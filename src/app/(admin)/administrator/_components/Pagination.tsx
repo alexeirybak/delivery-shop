@@ -57,7 +57,7 @@ export const Pagination = ({ type = "categories" }) => {
       <button
         key={pageNum}
         onClick={() => handlePageChange(pageNum)}
-        className={`flex items-center justify-center w-11 h-11 px-4 py-2 border rounded cursor-pointer duration-300 ${
+        className={`flex items-center justify-center w-11 h-11 px-4 py-2 border rounded cursor-pointer transition-custom ${
           currentPage === pageNum
             ? "bg-primary text-white border-primary hover:bg-primary"
             : "border-gray-300 hover:bg-gray-50"
@@ -81,7 +81,7 @@ export const Pagination = ({ type = "categories" }) => {
           <button
             onClick={() => handlePageChange(Math.max(1, currentPage - 1))}
             disabled={currentPage === 1}
-            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
+            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 transition-custom"
           >
             Назад
           </button>
@@ -91,7 +91,7 @@ export const Pagination = ({ type = "categories" }) => {
               handlePageChange(Math.min(totalPages, currentPage + 1))
             }
             disabled={currentPage === totalPages}
-            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 duration-300"
+            className="flex items-center justify-center px-4 py-2 border border-gray-300 rounded disabled:opacity-50 cursor-pointer hover:bg-gray-50 transition-custom"
           >
             Вперед
           </button>

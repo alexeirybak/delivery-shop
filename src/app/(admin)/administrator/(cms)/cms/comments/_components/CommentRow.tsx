@@ -160,7 +160,7 @@ export const CommentRow = ({
 
         <button
           onClick={() => setShowBanModal(true)}
-          className="text-sm font-medium text-gray-900 hover:text-green-600 hover:underline text-left duration-300 cursor-pointer"
+          className="text-sm font-medium text-gray-900 hover:text-green-600 hover:underline text-left transition-custom cursor-pointer"
           title={
             isBanned
               ? "Пользователь заблокирован"
@@ -169,7 +169,9 @@ export const CommentRow = ({
         >
           {comment.authorName}
           {isBanned && (
-            <p className="text-[10px] text-red-600 text-left ">(заблокирован)</p>
+            <p className="text-[10px] text-red-600 text-left ">
+              (заблокирован)
+            </p>
           )}
         </button>
 
@@ -197,7 +199,7 @@ export const CommentRow = ({
               isBanned
                 ? "text-red-600 hover:text-red-800"
                 : "text-gray-400 hover:text-red-600"
-            } cursor-pointer duration-300`}
+            } cursor-pointer transition-custom`}
             title={
               isBanned ? "Управление блокировкой" : "Заблокировать пользователя"
             }
@@ -207,7 +209,7 @@ export const CommentRow = ({
           <button
             onClick={() => onDelete(comment._id)}
             disabled={deletingId === comment._id}
-            className="p-1.5 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer duration-300"
+            className="p-1.5 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer transition-custom"
             title="Удалить комментарий"
           >
             <Trash2 className="w-4 h-4" />

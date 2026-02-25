@@ -5,13 +5,12 @@ import { memo } from "react";
 
 export const CommentSortButtons = memo(
   ({ sortOrder, onSortChange }: CommentSortButtonsProps) => {
-
     return (
       <div className="flex rounded-full shadow-sm">
         <button
           onClick={() => onSortChange("newest")}
           className={`
-          px-4 py-2 text-sm font-medium rounded-l-full border cursor-pointer duration-300
+          px-4 py-2 text-sm font-medium rounded-l-full border cursor-pointer transition-custom
           ${
             sortOrder === "newest"
               ? "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"
@@ -25,7 +24,7 @@ export const CommentSortButtons = memo(
         <button
           onClick={() => onSortChange("oldest")}
           className={`
-          px-4 py-2 text-sm font-medium rounded-r-full border-t border-b border-r cursor-pointer duration-300
+          px-4 py-2 text-sm font-medium rounded-r-full border-t border-b border-r cursor-pointer transition-custom
           ${
             sortOrder === "oldest"
               ? "bg-orange-500 text-white border-orange-500 hover:bg-orange-600"

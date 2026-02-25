@@ -64,14 +64,14 @@ export const MobileExpandableContent = ({
       <div className="flex gap-2 pt-2">
         <button
           onClick={handleEdit}
-          className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs cursor-pointer duration-300"
+          className="flex-1 px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-xs cursor-pointer transition-custom"
           title="Редактировать категорию"
         >
           Редактировать
         </button>
         <button
           onClick={handleDelete}
-          className="flex-1 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-xs cursor-pointer duration-300"
+          className="flex-1 px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-xs cursor-pointer transition-custom"
           title="Удалить категорию"
         >
           Удалить

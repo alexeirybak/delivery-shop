@@ -23,7 +23,7 @@ const CheckboxCard = ({ checked, onChangeAction }: CheckboxNoCardProps) => {
           className="absolute opacity-0 h-0 w-0"
         />
         <span
-          className={`relative w-5 h-5 border rounded flex items-center justify-center duration-300 ${
+          className={`relative w-5 h-5 border rounded flex items-center justify-center transition-custom ${
             checked ? "bg-primary border-primary" : "bg-white border-[#bfbfbf]"
           }`}
         >

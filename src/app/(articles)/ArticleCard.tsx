@@ -18,7 +18,7 @@ const ArticleCard = ({
 
   return (
     <Link href={articleUrl} className="block h-full">
-      <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-card hover:shadow-article duration-300">
+      <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-card hover:shadow-article transition-custom">
         <div className="relative h-48 w-full">
           {image ? (
             <Image
@@ -60,7 +60,7 @@ const ArticleCard = ({
           </p>
 
           <div className="mt-auto">
-            <div className="w-full py-2 text-center bg-[#E5FFDE] text-[#70C05B] rounded hover:bg-[#70C05B] hover:text-white duration-300">
+            <div className="w-full py-2 text-center bg-[#E5FFDE] text-[#70C05B] rounded hover:bg-[#70C05B] hover:text-white transition-custom">
               Подробнее
             </div>
           </div>

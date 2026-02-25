@@ -59,7 +59,7 @@ export const DesktopArticleRow = ({
 
   return (
     <div
-      className={`p-4 hover:bg-gray-50 text-sm duration-200 ${
+      className={`p-4 hover:bg-gray-50 text-sm transition-custom ${
         isDragging
           ? "opacity-60 bg-linear-to-r from-blue-50 to-green-50 shadow-lg border-2 border-green-400 transform scale-[0.995]"
           : "hover:shadow-sm"
@@ -207,7 +207,7 @@ export const DesktopArticleRow = ({
             {article.status !== "deleted" && (
               <button
                 onClick={handleEdit}
-                className="p-1 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+                className="p-1 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
                 title="Редактировать статью"
               >
                 <Edit className="w-3 h-3" />
@@ -219,7 +219,7 @@ export const DesktopArticleRow = ({
               <Link
                 href={`/blog/${article.categorySlug}/${article.slug}`}
                 target="_blank"
-                className="p-1 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+                className="p-1 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
                 title="Просмотреть статью"
               >
                 <Eye className="w-3 h-3" />

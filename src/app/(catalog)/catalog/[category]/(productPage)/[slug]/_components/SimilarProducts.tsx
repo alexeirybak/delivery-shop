@@ -24,12 +24,12 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
       {
-        next: { revalidate: 3600 }
-      }
+        next: { revalidate: 3600 },
+      },
     );
 
     if (!response.ok) {
-      throw new Error('Не удалось получить похожие продукты');
+      throw new Error("Не удалось получить похожие продукты");
     }
 
     const data = await response.json();
@@ -57,7 +57,7 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
             <Link
               key={product.id}
               href={`/catalog/product/${product.id}`}
-              className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block duration-300 hover:shadow-lg"
+              className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block transition-custom hover:shadow-lg"
             >
               <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] flex-shrink-0">
                 <Image

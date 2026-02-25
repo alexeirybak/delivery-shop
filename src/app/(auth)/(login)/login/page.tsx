@@ -63,7 +63,7 @@ const EnterLoginPage = () => {
         setError(
           loginType === "email"
             ? "Аккаунт с таким email не существует"
-            : "Аккаунт с таким телефоном не существует"
+            : "Аккаунт с таким телефоном не существует",
         );
         return;
       }
@@ -82,7 +82,7 @@ const EnterLoginPage = () => {
         setShowAuthMethodChoice(true);
       } else {
         router.push(
-          `/password-enter?login=${encodeURIComponent(login)}&loginType=${loginType}`
+          `/password-enter?login=${encodeURIComponent(login)}&loginType=${loginType}`,
         );
       }
     } catch {
@@ -106,7 +106,7 @@ const EnterLoginPage = () => {
     router.replace(
       method === "password"
         ? `/password-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
-        : `/otp-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`
+        : `/otp-enter?login=${encodeURIComponent(cleanLogin)}&loginType=phone`,
     );
   };
 
@@ -240,7 +240,7 @@ const EnterLoginPage = () => {
                : "bg-[#ff6633] text-white hover:shadow-(--shadow-article)"
            }
             active:shadow-(--shadow-button-active)
-           duration-300
+           transition-custom
             
           `}
         >
@@ -255,7 +255,7 @@ const EnterLoginPage = () => {
           </Link>
           <button
             onClick={handleForgotPassword}
-            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
+            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center transition-custom cursor-pointer"
           >
             Забыли пароль?
           </button>

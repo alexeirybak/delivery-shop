@@ -45,7 +45,7 @@ export default function AddTimeSlotForm({
 
         <button
           onClick={onAddTimeSlot}
-          className="bg-primary text-white hover:shadow-button-default active:shadow-button-active py-2 px-3 md:px-4 rounded whitespace-nowrap text-sm md:text-base w-full md:w-auto duration-300 cursor-pointer"
+          className="bg-primary text-white hover:shadow-button-default active:shadow-button-active py-2 px-3 md:px-4 rounded whitespace-nowrap text-sm md:text-base w-full md:w-auto transition-custom cursor-pointer"
         >
           Добавить слот
         </button>

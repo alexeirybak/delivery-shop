@@ -17,14 +17,14 @@ export const BanUserModal = ({
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded shadow-2xl max-w-md w-full transform transition-all">
+      <div className="bg-white rounded shadow-2xl max-w-md w-full transform ">
         <div className="flex justify-between items-center p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             {isBanned ? "Управление блокировкой" : "Блокировка пользователя"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full transition-all duration-200 cursor-pointer group"
+            className="p-2 hover:bg-gray-100 rounded-full  transition-custom cursor-pointer group"
             title="Закрыть"
           >
             <X className="w-5 h-5 text-gray-500 group-hover:text-gray-700" />
@@ -82,7 +82,7 @@ export const BanUserModal = ({
 
               <button
                 onClick={onUnban}
-                className="w-full px-4 py-3.5 bg-green-600 text-white rounded hover:bg-green-700 font-medium transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                className="w-full px-4 py-3.5 bg-green-600 text-white rounded hover:bg-green-700 font-medium  transition-custom shadow-md hover:shadow-lg transform hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
               >
                 Разблокировать пользователя
               </button>
@@ -101,7 +101,7 @@ export const BanUserModal = ({
                   <button
                     key={option.label}
                     onClick={() => onBan(option.days)}
-                    className="px-3 py-3.5 rounded text-sm font-medium transition-all duration-300 
+                    className="px-3 py-3.5 rounded text-sm font-medium  transition-custom 
                               bg-gray-200 text-gray-700 hover:bg-red-300 hover:shadow-md 
                               active:scale-[0.97] cursor-pointer border border-gray-300
                               hover:border-red-400 focus:ring-2 focus:ring-green-500/50"
@@ -119,7 +119,7 @@ export const BanUserModal = ({
             onClick={onClose}
             className="px-8 py-3 bg-gray-700 text-white font-semibold 
                         rounded shadow-md hover:bg-gray-800 hover:shadow-lg 
-                        active:bg-gray-900 active:scale-95 transition-all duration-200 
+                        active:bg-gray-900 active:scale-95  transition-custom 
                         focus:ring-4 focus:ring-gray-400 cursor-pointer border border-gray-600"
           >
             {isBanned ? "Закрыть" : "Отмена"}

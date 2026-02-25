@@ -73,7 +73,7 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
                 <button
                   key={item.dateString}
                   onClick={() => handleDateSelect(item.date)}
-                  className={`py-2 px-3 rounded text-sm duration-300 cursor-pointer ${
+                  className={`py-2 px-3 rounded text-sm transition-custom cursor-pointer ${
                     isSelected
                       ? "bg-primary text-white"
                       : "bg-gray-100 hover:bg-gray-200"
@@ -112,7 +112,7 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
                     key={slot}
                     onClick={() => handleTimeSlotSelect(slot)}
                     disabled={isCreatingOrder}
-                    className="bg-gray-100 hover:bg-primary hover:text-white py-2 px-3 rounded text-sm duration-300 cursor-pointer disabled:opacity-50"
+                    className="bg-gray-100 hover:bg-primary hover:text-white py-2 px-3 rounded text-sm transition-custom cursor-pointer disabled:opacity-50"
                   >
                     <span className="xl:hidden">{formatted.mobileLabel}</span>
                     <span className="hidden xl:block">
@@ -133,7 +133,7 @@ const DeliveryDatePicker: React.FC<DeliveryDatePickerProps> = ({
         <div className="flex gap-2 mt-4">
           <button
             onClick={onCancel}
-            className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 hover:text-white duration-300 cursor-pointer"
+            className="flex-1 bg-gray-300 text-gray-700 py-2 rounded hover:bg-gray-400 hover:text-white transition-custom cursor-pointer"
             disabled={isCreatingOrder}
           >
             Отмена

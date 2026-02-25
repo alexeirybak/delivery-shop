@@ -8,7 +8,7 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       if (
         event.ctrlKey &&
         event.altKey &&
-        (event.code === 'Digit0' || event.code === 'Numpad0') // 0 на основной клавиатуре или на цифровом блоке
+        (event.code === "Digit0" || event.code === "Numpad0") // 0 на основной клавиатуре или на цифровом блоке
       ) {
         if (editor && editor.can().setParagraph()) {
           editor.chain().focus().setParagraph().run();
@@ -16,12 +16,12 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [editor]); 
+  }, [editor]);
 
   if (!editor) {
     return null;
@@ -32,7 +32,7 @@ export const ParagraphButton = ({ editor }: EditorProps) => {
   return (
     <button
       onClick={() => editor.chain().focus().setParagraph().run()}
-      className={`p-2 rounded duration-300 cursor-pointer ${
+      className={`p-2 rounded transition-custom cursor-pointer ${
         isActive
           ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
           : "text-gray-700 hover:bg-gray-100"

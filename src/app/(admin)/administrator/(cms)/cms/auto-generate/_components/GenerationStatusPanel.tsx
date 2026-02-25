@@ -49,7 +49,7 @@ export const GenerationStatusPanel = ({
         {/* Прогресс-бар */}
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-linear-to-r from-blue-500 to-cyan-500 duration-300 transition-all"
+            className="h-full bg-linear-to-r from-blue-500 to-cyan-500 transition-custom "
             style={{
               width: `${getProgressPercentage()}%`,
             }}

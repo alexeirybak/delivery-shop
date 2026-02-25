@@ -50,14 +50,14 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
   }, [cameraStream, previewUrl]);
 
   const handleImageError = (
-    e: React.SyntheticEvent<HTMLImageElement, Event>
+    e: React.SyntheticEvent<HTMLImageElement, Event>,
   ) => {
     const target = e.target as HTMLImageElement;
     target.src = getAvatarByGender(gender);
   };
 
   const handleFileInputChange = async (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -167,7 +167,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
           canvas,
           0.7,
           128,
-          user.id
+          user.id,
         );
 
         const previewUrl = URL.createObjectURL(optimizedFile);
@@ -201,7 +201,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
           </div>
         )}
-        <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 duration-300">
+        <label className="absolute bottom-0 right-0 bg-primary text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-green-600 transition-custom">
           <input
             ref={fileInputRef}
             type="file"
@@ -214,7 +214,7 @@ const ProfileAvatar = ({ gender }: { gender: string }) => {
         <button
           onClick={startCamera}
           disabled={isUploading}
-          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="absolute -bottom-1 left-0 bg-[#ff6633] text-white p-2 rounded-full cursor-pointer shadow-article hover:bg-[#e5410a] transition-custom disabled:opacity-50 disabled:cursor-not-allowed"
           title="Сделать фото"
         >
           <Image

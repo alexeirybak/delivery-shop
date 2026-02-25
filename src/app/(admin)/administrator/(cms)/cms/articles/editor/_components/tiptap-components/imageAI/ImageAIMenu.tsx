@@ -245,7 +245,7 @@ export const ImageAIMenu = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={() => setShowAIImageModal(true)}
-        className="px-3 py-1.5 rounded-md bg-linear-to-r from-cyan-500 to-blue-700 hover:from-cyan-600 hover:to-blue-800 text-white shadow-sm shadow-cyan-500/20 hover:shadow-md hover:shadow-cyan-500/30 cursor-pointer duration-200 flex items-center gap-2 min-w-[85px] h-8 text-xs"
+        className="px-3 py-1.5 rounded-md bg-linear-to-r from-cyan-500 to-blue-700 hover:from-cyan-600 hover:to-blue-800 text-white shadow-sm shadow-cyan-500/20 hover:shadow-md hover:shadow-cyan-500/30 cursor-pointer transition-custom flex items-center gap-2 min-w-[85px] h-8 text-xs"
         title="Сгенерировать изображение с помощью ИИ"
       >
         <ImageIcon className="w-3.5 h-3.5" />

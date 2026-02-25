@@ -12,7 +12,7 @@ const CloseButton = () => {
   return (
     <button
       onClick={handleClose}
-      className="bg-[#f3f2f1] rounded duration-300 cursor-pointer mb-8 absolute top-0 right-0"
+      className="bg-[#f3f2f1] rounded transition-custom cursor-pointer mb-8 absolute top-0 right-0"
       aria-label="Закрыть"
     >
       <Image

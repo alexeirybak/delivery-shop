@@ -1,5 +1,9 @@
 import { useState, useCallback, useEffect } from "react";
-import { EditorProps, ImageAttributesState, SelectedImage } from "../../../types";
+import {
+  EditorProps,
+  ImageAttributesState,
+  SelectedImage,
+} from "../../../types";
 import { Crop } from "lucide-react";
 import { ImageAttributesModal } from "./ImageAttributesModal";
 
@@ -311,7 +315,7 @@ export const ImageAttributes = ({ editor }: EditorProps) => {
       <button
         type="button"
         onClick={openModal}
-        className={`p-2 rounded duration-300 cursor-pointer flex items-center gap-1 ${
+        className={`p-2 rounded transition-custom cursor-pointer flex items-center gap-1 ${
           isImageSelected
             ? "hover:bg-gray-200 text-gray-600"
             : "text-gray-300 cursor-not-allowed opacity-50"

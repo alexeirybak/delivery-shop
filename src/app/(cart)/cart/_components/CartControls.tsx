@@ -22,7 +22,7 @@ const CartControls = ({
           onChange={(e) => (e.target.checked ? onSelectAll() : onDeselectAll())}
           className="hidden"
         />
-        <div className="w-6 h-6 bg-primary border border-[#f3f2f1] rounded flex items-center justify-center duration-300">
+        <div className="w-6 h-6 bg-primary border border-[#f3f2f1] rounded flex items-center justify-center transition-custom">
           {isAllSelected ? (
             <div className="w-[15px] h-[1px] bg-white"></div>
           ) : (

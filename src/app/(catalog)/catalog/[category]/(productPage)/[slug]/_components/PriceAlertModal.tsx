@@ -21,7 +21,7 @@ export const PriceAlertModal = ({
 }: PriceAlertModalProps) => {
   const handleSubmit = async (
     prevState: PriceAlertFormState | null,
-    formData: FormData
+    formData: FormData,
   ): Promise<PriceAlertFormState> => {
     formData.append("productId", productId);
     formData.append("productTitle", productTitle);
@@ -32,7 +32,7 @@ export const PriceAlertModal = ({
 
   const [state, formAction, isPending] = useActionState(
     handleSubmit,
-    {} as PriceAlertFormState
+    {} as PriceAlertFormState,
   );
 
   useEffect(() => {
@@ -73,7 +73,7 @@ export const PriceAlertModal = ({
           <button
             type="submit"
             disabled={isPending}
-            className="flex-1 justify-center px-4 py-2 text-white rounded text-sm bg-primary hover:shadow-button-default active:shadow-button-active disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer duration-300"
+            className="flex-1 justify-center px-4 py-2 text-white rounded text-sm bg-primary hover:shadow-button-default active:shadow-button-active disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-custom"
           >
             {isPending ? "Подписка..." : "Подписаться"}
           </button>
@@ -82,7 +82,7 @@ export const PriceAlertModal = ({
             type="button"
             onClick={onCloseAction}
             disabled={isPending}
-            className="px-4 py-2 justify-center items-center active:shadow-button-active border-none rounded cursor-pointer duration-300 bg-[#f3f2f1] hover:shadow-button-secondary disabled:opacity-50"
+            className="px-4 py-2 justify-center items-center active:shadow-button-active border-none rounded cursor-pointer transition-custom bg-[#f3f2f1] hover:shadow-button-secondary disabled:opacity-50"
           >
             Отмена
           </button>

@@ -6,7 +6,7 @@ import Link from "next/link";
 const createPageUrl = (
   basePath: string,
   params: URLSearchParams,
-  page: number
+  page: number,
 ) => {
   const newParams = new URLSearchParams(params);
   newParams.set("page", page.toString());
@@ -54,7 +54,7 @@ const Pagination = ({
   const visiblePages = getVisiblePages(totalPages, currentPage);
 
   const buttonSize =
-    "w-5 h-5 md:w-10 md:h-10 flex items-center justify-center rounded duration-300";
+    "w-5 h-5 md:w-10 md:h-10 flex items-center justify-center rounded transition-custom";
   const buttonActive = "bg-[#ff6633] text-white hover:bg-[#ff6633]";
   const buttonDisabled = "bg-[#fcd5ba] cursor-not-allowed";
   const pageButtonClass = `border border-[#ff6633] ${buttonSize}`;

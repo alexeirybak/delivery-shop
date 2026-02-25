@@ -14,9 +14,9 @@ const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
   const handleIconClick = (
     e: React.MouseEvent,
     field: string,
-    direction: "asc" | "desc"
+    direction: "asc" | "desc",
   ) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     onSort(field, direction);
   };
 
@@ -32,7 +32,7 @@ const TableHeader = ({ sortBy, sortDirection, onSort }: TableHeaderProps) => {
             key={key}
             className={`${span} text-xs break-all font-semibold ${key !== "createdAt" ? tableStyles.border.right : ""} ${
               sortable ? "cursor-default" : "cursor-not-allowed opacity-50"
-            } duration-300`}
+            } transition-custom`}
           >
             <div className="flex justify-center items-center gap-1">
               {label}

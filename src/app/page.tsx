@@ -1,6 +1,6 @@
 import Actions from "./(products)/Actions";
 import Articles from "./(articles)/Articles";
-import Maps from "@/components/Maps";
+import Maps from "@/components/maps/Maps";
 import NewProducts from "./(products)/NewProducts";
 import Purchases from "./(user)/Purchases";
 import Slider from "@/components/Slider/Slider";

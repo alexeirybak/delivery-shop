@@ -1,11 +1,7 @@
 import { X } from "lucide-react";
 import { NotificationProps } from "../categories/types";
 
-export const Notification = ({
-  type,
-  message,
-  onClose,
-}: NotificationProps) => {
+export const Notification = ({ type, message, onClose }: NotificationProps) => {
   const baseClasses =
     "mb-4 p-4 rounded absolute top-9 flex justify-between items-center";
   const typeClasses =
@@ -20,7 +16,7 @@ export const Notification = ({
       </div>
       <button
         onClick={onClose}
-        className="ml-4 text-gray-500 hover:text-gray-700 cursor-pointer duration-300"
+        className="ml-4 text-gray-500 hover:text-gray-700 cursor-pointer transition-custom"
         aria-label="Закрыть уведомление"
       >
         <X className="w-5 h-5" />

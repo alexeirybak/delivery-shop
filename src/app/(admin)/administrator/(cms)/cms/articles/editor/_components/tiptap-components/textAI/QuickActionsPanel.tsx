@@ -19,13 +19,17 @@ export const QuickActionsPanel = ({
             key={action.id}
             onClick={() => onActionClick(action.id)}
             disabled={isGenerating}
-            className={`flex items-center gap-1 md:gap-3 p-1 md:p-4 rounded-xl border duration-300 ${action.color} disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
+            className={`flex items-center gap-1 md:gap-3 p-1 md:p-4 rounded-xl border transition-custom ${action.color} disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer`}
             title={action.desc}
           >
             <div className="p-1 md:p-2 bg-white rounded-lg">{action.icon}</div>
             <div className="text-left">
-              <div className="text-xs md:text-sm md:font-semibold text-gray-900">{action.label}</div>
-              <div className="hidden md:block text-xs text-gray-600 mt-1">{action.desc}</div>
+              <div className="text-xs md:text-sm md:font-semibold text-gray-900">
+                {action.label}
+              </div>
+              <div className="hidden md:block text-xs text-gray-600 mt-1">
+                {action.desc}
+              </div>
             </div>
           </button>
         ))}

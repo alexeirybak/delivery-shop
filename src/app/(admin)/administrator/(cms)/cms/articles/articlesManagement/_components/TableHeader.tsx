@@ -33,7 +33,7 @@ export const TableHeader = () => {
 
     return (
       <ChevronUp
-        className={`w-4 h-4 ml-1 transition-transform duration-200 ${
+        className={`w-4 h-4 ml-1 transition-transform transition-custom ${
           sortDirection === "desc" ? "rotate-180" : ""
         }`}
       />

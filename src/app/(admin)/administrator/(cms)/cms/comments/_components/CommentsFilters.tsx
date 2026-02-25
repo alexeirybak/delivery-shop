@@ -42,7 +42,7 @@ export const CommentsFilters = ({
         <div className="flex flex-wrap gap-2 mb-4">
           <button
             onClick={onSetToday}
-            className={`px-4 py-2 text-sm rounded cursor-pointer duration-300 border ${
+            className={`px-4 py-2 text-sm rounded cursor-pointer transition-custom border ${
               activeFilter === "today"
                 ? "bg-green-600 text-white border-green-600 hover:bg-green-700"
                 : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
@@ -52,7 +52,7 @@ export const CommentsFilters = ({
           </button>
           <button
             onClick={onSetLast3Days}
-            className={`px-4 py-2 text-sm rounded cursor-pointer duration-300 border ${
+            className={`px-4 py-2 text-sm rounded cursor-pointer transition-custom border ${
               activeFilter === "3days"
                 ? "bg-green-600 text-white border-green-600 hover:bg-green-700"
                 : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
@@ -62,7 +62,7 @@ export const CommentsFilters = ({
           </button>
           <button
             onClick={onSetLastWeek}
-            className={`px-4 py-2 text-sm rounded cursor-pointer duration-300 border ${
+            className={`px-4 py-2 text-sm rounded cursor-pointer transition-custom border ${
               activeFilter === "week"
                 ? "bg-green-600 text-white border-green-600 hover:bg-green-700"
                 : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
@@ -72,7 +72,7 @@ export const CommentsFilters = ({
           </button>
           <button
             onClick={onSetLastMonth}
-            className={`px-4 py-2 text-sm rounded cursor-pointer duration-300 border ${
+            className={`px-4 py-2 text-sm rounded cursor-pointer transition-custom border ${
               activeFilter === "month"
                 ? "bg-green-600 text-white border-green-600 hover:bg-green-700"
                 : "bg-gray-50 text-gray-700 border-gray-200 hover:bg-gray-100"
@@ -147,7 +147,7 @@ export const CommentsFilters = ({
           {(authorInput || articleInput || dateFrom || dateTo) && (
             <button
               onClick={handleClear}
-              className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer duration-300 flex items-center gap-1"
+              className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer transition-custom flex items-center gap-1"
             >
               <X className="w-4 h-4" />
               Сбросить все
@@ -155,7 +155,7 @@ export const CommentsFilters = ({
           )}
           <button
             onClick={handleApply}
-            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer duration-300 flex items-center gap-2"
+            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 cursor-pointer transition-custom flex items-center gap-2"
           >
             <Search className="w-4 h-4" />
             Применить фильтры

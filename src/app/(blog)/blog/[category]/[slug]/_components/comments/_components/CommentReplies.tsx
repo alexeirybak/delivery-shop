@@ -3,7 +3,10 @@
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import { CommentItem } from "./CommentItem";
-import { CommentRepliesProps, IComment } from "@/app/(blog)/blog/types/comments.types";
+import {
+  CommentRepliesProps,
+  IComment,
+} from "@/app/(blog)/blog/types/comments.types";
 import { getReplyWord } from "../../../../utils/getReplayWord";
 
 export const CommentReplies = ({
@@ -20,7 +23,7 @@ export const CommentReplies = ({
     <div className="mt-2">
       <button
         onClick={() => setShowReplies(!showReplies)}
-        className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800 mb-2 cursor-pointer duration-300"
+        className="flex items-center gap-1 text-sm text-green-600 hover:text-green-800 mb-2 cursor-pointer transition-custom"
       >
         {showReplies ? (
           <ChevronUp className="w-4 h-4" />

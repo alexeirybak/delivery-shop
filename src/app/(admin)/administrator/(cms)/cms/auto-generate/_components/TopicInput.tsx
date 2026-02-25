@@ -21,7 +21,7 @@ const TopicInput = ({
         value={topic}
         onChange={(e) => onTopicChange(e.target.value)}
         placeholder="Название статьи"
-        className="w-full px-4 py-2.5 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary duration-300"
+        className="w-full px-4 py-2.5 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-custom"
       />
       {topic && (
         <div className="mt-2 text-sm text-gray-600">

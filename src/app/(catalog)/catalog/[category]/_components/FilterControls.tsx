@@ -57,7 +57,7 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
   return (
     <div className="flex flex-wrap flex-row gap-4">
       <div
-        className={`h-8 p-2 rounded text-xs flex justify-center items-center duration-300 cursor-not-allowed gap-x-2 ${
+        className={`h-8 p-2 rounded text-xs flex justify-center items-center transition-custom cursor-not-allowed gap-x-2 ${
           (activeFilter && activeFilter.length > 0) || hasPriceFilter
             ? "bg-primary text-white"
             : "bg-[#f3f2f1] text-[#606060]"
@@ -66,7 +66,7 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
         {filterButtonText}
       </div>
       {hasPriceFilter && (
-        <div className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-primary text-white">
+        <div className="h-8 p-2 rounded text-xs flex justify-center items-center transition-custom gap-x-2 bg-primary text-white">
           <Link
             href={buildClearPriceFilterLink()}
             className="flex items-center gap-x-2"
@@ -84,7 +84,7 @@ const FilterControls = ({ basePath }: FilterControlsProps) => {
         </div>
       )}
       {activeFilterCount > 0 && (
-        <div className="h-8 p-2 rounded text-xs flex justify-center items-center duration-300 gap-x-2 bg-primary text-white">
+        <div className="h-8 p-2 rounded text-xs flex justify-center items-center transition-custom gap-x-2 bg-primary text-white">
           <Link
             href={buildClearFiltersLink()}
             className="flex items-center gap-x-2"

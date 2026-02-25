@@ -21,7 +21,7 @@ const OrderSuccessMessage = ({
 
   const usedBonuses = Math.min(
     maxBonusUse,
-    Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100)
+    Math.floor((totalPrice * CONFIG.MAX_BONUSES_PERCENT) / 100),
   );
 
   return (
@@ -48,7 +48,7 @@ const OrderSuccessMessage = ({
       </div>
       <button
         onClick={handleToOrder}
-        className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] duration-300 font-medium cursor-pointer"
+        className="ml-4 bg-[#008c48] text-white px-4 py-2 rounded hover:bg-[#006c38] transition-custom font-medium cursor-pointer"
       >
         Перейти на страницу заказов
       </button>

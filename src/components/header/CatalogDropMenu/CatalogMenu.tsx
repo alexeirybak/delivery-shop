@@ -45,15 +45,17 @@ const CatalogMenu = ({
                   <Link
                     key={category.slug}
                     href={`/catalog/${category.slug}`}
-                    className="block px-4 py-2 text-main-text hover:text-[#ff6633] font-bold duration-300"
+                    className="block px-4 py-2 text-main-text hover:text-[#ff6633] font-bold transition-custom"
                     onClick={() => setIsCatalogOpen(false)}
                   >
                     {category.title}
                   </Link>
                 ))}
               </div>
-            ) : !isLoading && (
-              <div className="py-2 text-center">Нет доступных категорий</div>
+            ) : (
+              !isLoading && (
+                <div className="py-2 text-center">Нет доступных категорий</div>
+              )
             )}
           </div>
         </div>

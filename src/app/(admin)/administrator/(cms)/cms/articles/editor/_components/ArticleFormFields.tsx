@@ -28,7 +28,7 @@ export const ArticleFormFields = ({
           }
           required
           disabled={isSubmitting}
-          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom
            border-gray-300 focus:border-primary focus:ring-primary/20
           disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="Например: Соки"
@@ -57,14 +57,14 @@ export const ArticleFormFields = ({
             }}
             required
             disabled={isSubmitting}
-            className="flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
+            className="flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
             placeholder="soki"
           />
           <button
             type="button"
             onClick={onGenerateSlug}
             disabled={isSubmitting}
-            className="flex w-full items-center gap-1 px-4 py-2.5 bg-gray-50 text-gray-700 rounded hover:bg-gray-100 text-sm whitespace-nowrap cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
+            className="flex w-full items-center gap-1 px-4 py-2.5 bg-gray-50 text-gray-700 rounded hover:bg-gray-100 text-sm whitespace-nowrap cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
             title="Сгенерировать из названия"
           >
             <RotateCcw className="w-4 h-4" />
@@ -93,12 +93,12 @@ export const ArticleFormFields = ({
             onInputChange(
               "description",
               e.target.value,
-              SEO_LIMITS.description.max
+              SEO_LIMITS.description.max,
             )
           }
           rows={3}
           disabled={isSubmitting}
-          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 resize-none border-gray-300 focus:border-primary focus:ring-primary/20
+          className="w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom resize-none border-gray-300 focus:border-primary focus:ring-primary/20
           disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="Краткое описание категории для поисковых систем (10-160 символов)"
         />
@@ -122,11 +122,11 @@ export const ArticleFormFields = ({
             onInputChange(
               "keywords",
               e.target.value,
-              SEO_LIMITS.keywords.maxLength
+              SEO_LIMITS.keywords.maxLength,
             )
           }
           disabled={isSubmitting}
-          className="text-xs w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
+          className="text-xs w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom border-gray-300 focus:border-primary focus:ring-primary/20 disabled:opacity-50 disabled:bg-gray-100 placeholder:text-gray-400"
           placeholder="мясо, напитки, польза и вред"
         />
       </div>

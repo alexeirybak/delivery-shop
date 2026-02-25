@@ -17,8 +17,8 @@ export const AuthMethodSelector: React.FC<AuthMethodSelectorProps> = ({
   const buttonStyles = `
     flex flex-col items-center justify-center
     p-4 rounded-lg border border-gray-200
-    hover:shadow-md duration-300 cursor-pointer
-    relative group w-full cursor-pointer duration-300
+    hover:shadow-md transition-custom cursor-pointer
+    relative group w-full cursor-pointer transition-custom
   `;
 
   return (
@@ -56,7 +56,7 @@ export const AuthMethodSelector: React.FC<AuthMethodSelectorProps> = ({
 
           <button
             onClick={onBackAction}
-            className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+            className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto transition-custom cursor-pointer"
           >
             <ArrowLeft className="h-4 w-4" />
             Вернуться

@@ -25,24 +25,27 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Функция для извлечения размера шрифта из inline-стилей
-  const extractFontSizeFromStyle = useCallback((style: string): string | null => {
-    const match = style.match(/font-size:\s*([^;]+)/i);
-    return match ? match[1].trim() : null;
-  }, []);
+  const extractFontSizeFromStyle = useCallback(
+    (style: string): string | null => {
+      const match = style.match(/font-size:\s*([^;]+)/i);
+      return match ? match[1].trim() : null;
+    },
+    [],
+  );
 
   // Функция для поиска размера шрифта в текущем выделении
   const findFontSizeInSelection = useCallback(() => {
     if (!editor) return DEFAULT_SIZE;
-    
+
     const { state, view } = editor;
     const { from } = state.selection; // Убрали неиспользуемую переменную 'to'
-    
+
     let foundSize = null;
-    
+
     // Сначала пробуем получить через атрибуты Tiпtаp
     const textStyleAttrs = editor.getAttributes("textStyle");
     foundSize = textStyleAttrs?.fontSize;
-    
+
     // Если не нашли, ищем в DOM через inline-стили
     if (!foundSize) {
       try {
@@ -50,13 +53,14 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
         const pos = Math.min(from, state.doc.content.size - 1);
         const domPos = view.domAtPos(pos);
         const node = domPos.node as HTMLElement;
-        
+
         if (node) {
           // Проверяем текущий элемент и его родители
-          let currentElement: HTMLElement | null = node.nodeType === 3 ? node.parentElement : node;
-          
+          let currentElement: HTMLElement | null =
+            node.nodeType === 3 ? node.parentElement : node;
+
           while (currentElement && !foundSize) {
-            const style = currentElement.getAttribute('style');
+            const style = currentElement.getAttribute("style");
             if (style) {
               const sizeFromStyle = extractFontSizeFromStyle(style);
               if (sizeFromStyle) {
@@ -71,22 +75,24 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
         console.error("Error extracting font size from DOM:", error);
       }
     }
-    
+
     return foundSize || DEFAULT_SIZE;
   }, [editor, extractFontSizeFromStyle]);
 
   // Функция для обновления состояния
   const updateSize = useCallback(() => {
     if (!editor) return;
-    
+
     const size = findFontSizeInSelection();
-    
+
     // Если размер не найден или пустой, используем 16px
-    const finalSize = (!size || size === "unset") ? DEFAULT_SIZE : size;
-    
+    const finalSize = !size || size === "unset" ? DEFAULT_SIZE : size;
+
     // Нормализуем размер (добавляем px если нет)
-    const normalizedSize = finalSize.includes('px') ? finalSize : `${finalSize}px`;
-    
+    const normalizedSize = finalSize.includes("px")
+      ? finalSize
+      : `${finalSize}px`;
+
     // Обновляем отображаемый размер
     if (finalSize === "unset" || !finalSize) {
       setDisplaySize("16");
@@ -105,7 +111,7 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     };
 
     editor.on("selectionUpdate", handleUpdate);
-    
+
     // Используем requestAnimationFrame для оптимизации
     editor.on("transaction", ({ transaction }) => {
       if (transaction.selectionSet || transaction.docChanged) {
@@ -149,16 +155,16 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
 
   const handleSizeChange = (size: string) => {
     if (!editor) return;
-    
+
     // Сначала фокусируем редактор
     editor.chain().focus();
-    
+
     if (size === "unset") {
       editor.chain().unsetFontSize().run();
     } else {
       editor.chain().setFontSize(size).run();
     }
-    
+
     setIsOpen(false);
     // Обновляем состояние сразу
     updateSize();
@@ -173,16 +179,22 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
   // Проверяем активность для пунктов меню
   const checkIsActive = (sizeValue: string) => {
     const currentSize = findFontSizeInSelection();
-    
+
     if (sizeValue === "unset") {
-      const normalizedCurrent = currentSize.includes('px') ? currentSize : `${currentSize}px`;
+      const normalizedCurrent = currentSize.includes("px")
+        ? currentSize
+        : `${currentSize}px`;
       return !currentSize || normalizedCurrent === DEFAULT_SIZE;
     }
-    
+
     // Нормализуем оба размера для сравнения
-    const normalizedCurrent = currentSize.includes('px') ? currentSize : `${currentSize}px`;
-    const normalizedTarget = sizeValue.includes('px') ? sizeValue : `${sizeValue}px`;
-    
+    const normalizedCurrent = currentSize.includes("px")
+      ? currentSize
+      : `${currentSize}px`;
+    const normalizedTarget = sizeValue.includes("px")
+      ? sizeValue
+      : `${sizeValue}px`;
+
     return normalizedCurrent === normalizedTarget;
   };
 
@@ -190,20 +202,21 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
     <div className="relative inline-block">
       <button
         ref={buttonRef}
-        type="button" 
+        type="button"
         onClick={handleButtonClick}
         className={`
-          flex items-center gap-1 px-3 py-1.5 text-sm border rounded-md duration-300 cursor-pointer
-          ${isOpen
-            ? "bg-blue-100 text-[#9674F9] border-blue-300"
-            : "text-gray-700 hover:bg-gray-100 border-gray-300"
+          flex items-center gap-1 px-3 py-1.5 text-sm border rounded-md transition-custom cursor-pointer
+          ${
+            isOpen
+              ? "bg-blue-100 text-[#9674F9] border-blue-300"
+              : "text-gray-700 hover:bg-gray-100 border-gray-300"
           }
         `}
         title="Размер шрифта"
       >
         <span className="text-xs font-mono">{displaySize}</span>
         <ChevronDown
-          className={`w-3 h-3 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`w-3 h-3 transition-transform transition-custom ${isOpen ? "rotate-180" : ""}`}
         />
       </button>
 
@@ -212,7 +225,7 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
         <div
           ref={dropdownRef}
           className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg min-w-40"
-          onClick={(e) => e.stopPropagation()} 
+          onClick={(e) => e.stopPropagation()}
         >
           <div className="py-1">
             {/* Заголовок меню */}
@@ -229,31 +242,36 @@ export const FontSizeMenu = ({ editor }: EditorProps) => {
               return (
                 <button
                   key={size.value}
-                  type="button" 
+                  type="button"
                   onClick={() => {
                     handleSizeChange(size.value);
                   }}
                   className={`
-                    w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center duration-300 cursor-pointer
-                    ${isActive
-                      ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
-                      : "text-gray-700"
+                    w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center transition-custom cursor-pointer
+                    ${
+                      isActive
+                        ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
+                        : "text-gray-700"
                     }
                   `}
                 >
                   <div className="flex items-center gap-2">
                     {size.value !== "unset" && (
-                      <div 
+                      <div
                         className="w-3 h-3 rounded-full border border-gray-300"
-                        style={{ 
+                        style={{
                           backgroundColor: isActive ? "#9674F9" : "transparent",
-                          borderColor: isActive ? "#9674F9" : "#d1d5db"
+                          borderColor: isActive ? "#9674F9" : "#d1d5db",
                         }}
                       />
                     )}
-                    <span 
+                    <span
                       className={size.value === "unset" ? "italic" : ""}
-                      style={size.value !== "unset" ? { fontSize: size.value } : undefined}
+                      style={
+                        size.value !== "unset"
+                          ? { fontSize: size.value }
+                          : undefined
+                      }
                     >
                       {size.label}
                     </span>

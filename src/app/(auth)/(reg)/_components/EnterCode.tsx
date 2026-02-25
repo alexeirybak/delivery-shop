@@ -59,16 +59,25 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
         throw new Error(errorData.error || "Ошибка установки пароля");
       }
 
-      let userDataToUpdate = { ...regFormData };
+      const updateData = {
+        surname: regFormData.surname,
+        name:regFormData.name,
+        birthdayDate: regFormData.birthdayDate,
+        region: regFormData.region,
+        location: regFormData.location,
+        gender: regFormData.gender,
+        ...(regFormData.card && { card: regFormData.card }),
+        ...(regFormData.hasCard !== undefined && {
+          hasCard: regFormData.hasCard,
+        }),
+      };
 
-      if (verifyData.user.phoneNumberVerified) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { email, ...rest } = userDataToUpdate;
-        userDataToUpdate = rest as typeof regFormData;
-      }
+      const { error: updateError } = await (
+        authClient.updateUser as (
+          data: unknown,
+        ) => ReturnType<typeof authClient.updateUser>
+      )(updateData);
 
-      const { error: updateError } =
-        await authClient.updateUser(userDataToUpdate);
       if (updateError) throw updateError;
 
       router.replace("/login");
@@ -102,7 +111,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Ошибка отправки кода:", error);
@@ -137,7 +146,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
                 setCode(e.target.value);
                 setError("");
               }}
-              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-primary focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
               autoComplete="one-time-code"
               required
             />
@@ -164,7 +173,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
         <Link
           href="/register"
-          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto transition-custom cursor-pointer"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

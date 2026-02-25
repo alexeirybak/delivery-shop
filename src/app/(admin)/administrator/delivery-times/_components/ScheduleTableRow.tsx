@@ -9,7 +9,7 @@ interface ScheduleTableRowProps {
   onUpdateTimeSlotStatus: (
     date: string,
     timeSlot: string,
-    free: boolean
+    free: boolean,
   ) => void;
 }
 
@@ -53,7 +53,7 @@ export default function ScheduleTableRow({
               />
               <span
                 className={`
-                  w-6 h-6 border-2 rounded flex items-center justify-center duration-300
+                  w-6 h-6 border-2 rounded flex items-center justify-center transition-custom
                   ${
                     schedule[date]?.[timeSlot] !== false
                       ? "bg-primary border-primary"

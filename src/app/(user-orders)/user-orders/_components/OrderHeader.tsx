@@ -12,7 +12,6 @@ const OrderHeader = ({
   onDeliveryClick,
   disabled = false,
 }: OrderHeaderProps) => {
-
   return (
     <div className="flex flex-row justify-between items-center mb-10.5 gap-6">
       <div className="flex flex-col md:flex-row text-sm xl:text-2xl gap-2 xl:gap-6 items-center">
@@ -31,7 +30,7 @@ const OrderHeader = ({
         {!showDeliveryButton ? (
           <button
             className={`
-                w-50 h-10 rounded duration-300
+                w-50 h-10 rounded transition-custom
                 ${
                   disabled
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed opacity-60"
@@ -46,7 +45,7 @@ const OrderHeader = ({
         ) : (
           <button
             onClick={onDeliveryClick}
-            className="flex justify-center items-center p-2 gap-2 rounded bg-primary text-white hover:shadow-button-default cursor-pointer duration-300"
+            className="flex justify-center items-center p-2 gap-2 rounded bg-primary text-white hover:shadow-button-default cursor-pointer transition-custom"
           >
             <Image
               src="/icons-auth/icon-date.svg"

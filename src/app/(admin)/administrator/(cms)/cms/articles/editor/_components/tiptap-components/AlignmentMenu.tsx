@@ -1,75 +1,75 @@
 import { AlignLeft, AlignCenter, AlignRight, AlignJustify } from "lucide-react";
 import { EditorProps } from "../../../types";
 import { useEffect, useState } from "react";
- 
+
 export const AlignmentMenu = ({ editor }: EditorProps) => {
   const [, setUpdate] = useState(0);
- 
+
   // Перерисовываем компонент при изменениях
   useEffect(() => {
     if (!editor) return;
- 
+
     const handleUpdate = () => {
-      setUpdate(prev => prev + 1);
+      setUpdate((prev) => prev + 1);
     };
- 
-    editor.on('update', handleUpdate);
-    editor.on('selectionUpdate', handleUpdate);
-    editor.on('transaction', handleUpdate);
- 
+
+    editor.on("update", handleUpdate);
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
+
     return () => {
-      editor.off('update', handleUpdate);
-      editor.off('selectionUpdate', handleUpdate);
-      editor.off('transaction', handleUpdate);
+      editor.off("update", handleUpdate);
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
     };
   }, [editor]);
- 
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!editor) return;
- 
+
       if (event.ctrlKey && event.shiftKey) {
         event.preventDefault();
- 
+
         // Сначала фокусируем редактор
         editor.commands.focus();
- 
+
         switch (event.code) {
           case "KeyL":
             editor.commands.setTextAlign("left");
             break;
- 
+
           case "KeyC":
             editor.commands.setTextAlign("center");
             break;
- 
+
           case "KeyR":
             editor.commands.setTextAlign("right");
             break;
- 
+
           case "KeyJ":
             editor.commands.setTextAlign("justify");
             break;
- 
+
           default:
             return;
         }
       }
     };
- 
+
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [editor]);
- 
+
   if (!editor) return null;
- 
+
   const setAlignment = (align: "left" | "center" | "right" | "justify") => {
     // Сначала фокусируем редактор
     editor.commands.focus();
     // Затем устанавливаем выравнивание
     editor.commands.setTextAlign(align);
   };
- 
+
   const buttons = [
     {
       icon: <AlignLeft className="w-4 h-4" />,
@@ -96,7 +96,7 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
       shortcut: "Ctrl+Shift+J",
     },
   ];
- 
+
   return (
     <div className="flex items-center gap-1">
       {buttons.map((button, index) => {
@@ -107,7 +107,7 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
             type="button"
             onClick={() => setAlignment(button.align)}
             className={`
-              p-2 rounded duration-300 cursor-pointer
+              p-2 rounded transition-custom cursor-pointer
               ${
                 isActive
                   ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"

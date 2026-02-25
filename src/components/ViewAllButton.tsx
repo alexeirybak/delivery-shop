@@ -13,7 +13,7 @@ const ViewAllButton = ({
       href={href}
       className="flex flex-row items-center gap-x-2 cursor-pointer"
     >
-      <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf] duration-300">
+      <p className="text-base text-center text-[#606060] hover:text-[#bfbfbf] transition-custom">
         {btnText}
       </p>
       <Image

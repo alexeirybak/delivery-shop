@@ -33,7 +33,7 @@ export const TiptapEditor = ({
         },
         link: {
           openOnClick: false,
-        }
+        },
       }),
       TextAlign.configure({
         types: ["heading", "paragraph"],
@@ -146,9 +146,9 @@ export const TiptapEditor = ({
         {showDragIcon && (
           <div
             key="drag-overlay"
-            className="absolute inset-0 bg-blue-50/95 border-2 border-dashed border-blue-500 rounded-lg flex items-center justify-center z-50 pointer-events-none animate-in fade-in-0 zoom-in-95 duration-150"
+            className="absolute inset-0 bg-blue-50/95 border-2 border-dashed border-blue-500 rounded-lg flex items-center justify-center z-50 pointer-events-none animate-in fade-in-0 zoom-in-95 transition-custom"
           >
-            <div className="text-center p-8 bg-white/80 rounded-xl shadow-lg animate-in fade-in-0 slide-in-from-bottom-2 duration-200">
+            <div className="text-center p-8 bg-white/80 rounded-xl shadow-lg animate-in fade-in-0 slide-in-from-bottom-2 transition-custom">
               <Upload className="w-16 h-16 text-blue-600 mx-auto mb-4 animate-bounce" />
               <p className="text-blue-700 font-semibold text-lg mb-1">
                 Отпустите изображение

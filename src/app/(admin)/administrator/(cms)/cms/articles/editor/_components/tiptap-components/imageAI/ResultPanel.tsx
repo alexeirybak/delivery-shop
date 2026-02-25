@@ -19,7 +19,7 @@ export const ResultPanel = ({
           <button
             type="button"
             onClick={onDownload}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2 duration-300 cursor-pointer"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2 transition-custom cursor-pointer"
           >
             <Download className="w-4 h-4" />
             Скачать

@@ -20,7 +20,7 @@ const SelectionCheckbox = memo(function SelectionCheckbox({
       />
       <span
         className={`
-          w-6 h-6 border-2 rounded flex items-center justify-center duration-300 absolute -top-3 left-2
+          w-6 h-6 border-2 rounded flex items-center justify-center transition-custom absolute -top-3 left-2
           ${isSelected ? "bg-primary border-[#f3f2f1]" : "bg-white border-[#f3f2f1]"}
         `}
       >

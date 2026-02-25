@@ -22,7 +22,7 @@ export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
     filterType !== "all" ||
       sortField !== "numericId" ||
       sortDirection !== "asc" ||
-      searchQuery !== ""
+      searchQuery !== "",
   );
 
   const resetFilters = () => {
@@ -45,7 +45,7 @@ export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
     <div className="flex items-center gap-2">
       <button
         onClick={handleToggleFilters}
-        className={`flex items-center gap-2 px-4 py-2 border rounded cursor-pointer duration-300 ${
+        className={`flex items-center gap-2 px-4 py-2 border rounded cursor-pointer transition-custom ${
           localShowFilters
             ? "bg-gray-100 border-gray-300"
             : "border-gray-300 hover:bg-gray-50"
@@ -59,7 +59,7 @@ export const FilterControls = ({ onToggleFilters }: FilterControlsProps) => {
       {hasActiveFilters && (
         <button
           onClick={resetFilters}
-          className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer duration-300"
+          className="flex items-center gap-2 px-4 py-2 border border-gray-300 rounded hover:bg-gray-50 cursor-pointer transition-custom"
           title="Сбросить все фильтры"
         >
           <X className="w-4 h-4" />

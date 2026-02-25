@@ -19,7 +19,7 @@ const Calendar = ({
   isOrderDateChange = false,
 }: CalendarProps) => {
   const [currentMonth, setCurrentMonth] = useState<Date>(
-    month || customDate || new Date()
+    month || customDate || new Date(),
   );
   const getMonthName = (date: Date) => {
     const monthName = date.toLocaleDateString("ru-RU", {
@@ -60,27 +60,27 @@ const Calendar = ({
         <div className="flex gap-x-4 justify-center">
           <button
             onClick={handlePreviousMonth}
-            className="p-2 bg-[#f3f2f1] rounded duration-300 cursor-pointer group"
+            className="p-2 bg-[#f3f2f1] rounded transition-custom cursor-pointer group"
           >
             <Image
               src="/icons-header/icon-arrow-right.svg"
               width={24}
               height={24}
               alt="Предыдущий месяц"
-              className="rotate-180 group-hover:sepia group-hover:brightness-0 transition duration-300"
+              className="rotate-180 group-hover:sepia group-hover:brightness-0 transition transition-custom"
             />
           </button>
 
           <button
             onClick={handleNextMonth}
-            className="p-2 bg-[#f3f2f1] rounded duration-300 cursor-pointer group"
+            className="p-2 bg-[#f3f2f1] rounded transition-custom cursor-pointer group"
           >
             <Image
               src="/icons-header/icon-arrow-right.svg"
               width={24}
               height={24}
               alt="Следующий месяц"
-              className="group-hover:sepia group-hover:brightness-0 transition duration-300"
+              className="group-hover:sepia group-hover:brightness-0 transition transition-custom"
             />
           </button>
         </div>
@@ -105,7 +105,7 @@ const Calendar = ({
             head_cell: "font-normal py-2 text-sm",
             row: "border-b",
             cell: "h-10 text-center",
-            day: "size-10 rounded-full text-[#606060] hover:text-white hover:bg-[#ff6633] duration-300 cursor-pointer mx-auto",
+            day: "size-10 rounded-full text-[#606060] hover:text-white hover:bg-[#ff6633] transition-custom cursor-pointer mx-auto",
             day_selected: "bg-[#ff6633] !text-white",
             day_today: "bg-gray-100 !text-white",
             day_outside: "text-gray-500 opacity-50",

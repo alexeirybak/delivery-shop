@@ -199,7 +199,7 @@ const PriceFilter = ({
       />
       <button
         type="submit"
-        className="bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center duration-300 cursor-pointer"
+        className="bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center transition-custom cursor-pointer"
       >
         Применить
       </button>

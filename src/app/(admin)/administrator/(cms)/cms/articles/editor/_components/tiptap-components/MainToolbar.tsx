@@ -83,19 +83,19 @@ const MainToolbar = ({ editor, onImageDragOverChange }: MainToolbarProps) => {
 
     const Component = config.component;
 
-      const props = {
-        editor,
-        ...(onImageDragOverChange && {onDragOverChange: onImageDragOverChange}),
-      };
+    const props = {
+      editor,
+      ...(onImageDragOverChange && { onDragOverChange: onImageDragOverChange }),
+    };
 
-      return (
-        <div
-          key={itemId}
-          className="p-0.5 rounded hover:bg-gray-100 duration-300 cursor-pointer"
-        >
-          <Component {...props} />
-        </div>
-      );
+    return (
+      <div
+        key={itemId}
+        className="p-0.5 rounded hover:bg-gray-100 transition-custom cursor-pointer"
+      >
+        <Component {...props} />
+      </div>
+    );
   };
 
   return (
@@ -112,7 +112,7 @@ const MainToolbar = ({ editor, onImageDragOverChange }: MainToolbarProps) => {
             onDrop={(e) => handleDrop(e, group.id)}
             onDragEnd={resetDragState}
             className={`
-              flex items-center gap-1 px-2 py-1.5 rounded-lg border duration-300 cursor-pointer
+              flex items-center gap-1 px-2 py-1.5 rounded-lg border transition-custom cursor-pointer
               min-h-14 box-content
               ${
                 draggingGroupId === group.id

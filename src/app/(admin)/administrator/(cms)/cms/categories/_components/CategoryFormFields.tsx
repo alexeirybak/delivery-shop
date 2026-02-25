@@ -29,7 +29,7 @@ export const CategoryFormFields = ({
           }
           required
           disabled={isSubmitting}
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
+          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom ${
             errors.name
               ? "border-red-400 focus:border-red-500 focus:ring-red-100"
               : "border-gray-300 focus:border-primary focus:ring-primary/20"
@@ -63,7 +63,7 @@ export const CategoryFormFields = ({
             }}
             required
             disabled={isSubmitting}
-            className={`flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
+            className={`flex-1 px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom ${
               errors.slug
                 ? "border-red-400 focus:border-red-500 focus:ring-red-100"
                 : "border-gray-300 focus:border-primary focus:ring-primary/20"
@@ -74,7 +74,7 @@ export const CategoryFormFields = ({
             type="button"
             onClick={onGenerateSlug}
             disabled={isSubmitting}
-            className="flex w-full items-center gap-1 px-4 py-2.5 bg-gray-50 text-gray-700 rounded hover:bg-gray-100 text-sm whitespace-nowrap cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
+            className="flex w-full items-center gap-1 px-4 py-2.5 bg-gray-50 text-gray-700 rounded hover:bg-gray-100 text-sm whitespace-nowrap cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed border border-gray-300 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-200 focus:border-gray-400"
             title="Сгенерировать из названия"
           >
             <RotateCcw className="w-4 h-4" />
@@ -104,12 +104,12 @@ export const CategoryFormFields = ({
             onInputChange(
               "description",
               e.target.value,
-              SEO_LIMITS.description.max
+              SEO_LIMITS.description.max,
             )
           }
           rows={3}
           disabled={isSubmitting}
-          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 resize-none ${
+          className={`w-full px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom resize-none ${
             errors.description
               ? "border-red-400 focus:border-red-500 focus:ring-red-100"
               : "border-gray-300 focus:border-primary focus:ring-primary/20"
@@ -142,11 +142,11 @@ export const CategoryFormFields = ({
             onInputChange(
               "keywords",
               e.target.value,
-              SEO_LIMITS.keywords.maxLength
+              SEO_LIMITS.keywords.maxLength,
             )
           }
           disabled={isSubmitting}
-          className={`w-full text-xs px-3 py-2.5 border rounded focus:outline-none focus:ring-3 duration-300 ${
+          className={`w-full text-xs px-3 py-2.5 border rounded focus:outline-none focus:ring-3 transition-custom ${
             errors.keywords
               ? "border-red-400 focus:border-red-500 focus:ring-red-100"
               : "border-gray-300 focus:border-primary focus:ring-primary/20"

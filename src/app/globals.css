@@ -2,7 +2,6 @@
 @import "../styles/_variables.scss";
 @import "../styles/_keyframe-animations.scss";
 
-
 @theme inline {
   --font-sans: var(--font-rubik);
   --color-primary: #70c05b;
@@ -15,8 +14,8 @@
   --shadow-card-shop: 0px 8px 16px 0px rgba(202, 147, 96, 0.5);
   --shadow-category-block: 1px 2px 4px 0px rgba(112, 192, 91, 0.2);
   --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
+  --shadow-vacation: 1px 2px 2px 0px rgba(0, 0, 0, 0.1);
 }
-
 
 body {
   background-color: #fbf8ec;
@@ -28,11 +27,13 @@ body {
   justify-content: space-between;
 }
 
+.transition-custom {
+  transition: all 0.3s ease;
+}
+
 .no-ymaps-copyright [class*="copyrights-pane"] {
   visibility: hidden;
 }
-
-/* className="no-ymaps-copyright w-full h-[354px]" */
 
 @keyframes spin {
   to {

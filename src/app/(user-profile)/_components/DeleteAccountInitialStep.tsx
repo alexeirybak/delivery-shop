@@ -47,7 +47,7 @@ export const DeleteAccountInitialStep = ({
           <button
             type="submit"
             disabled={loading || !canResend}
-            className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-10 rounded font-medium duration-300 text-center cursor-pointer disabled:bg-[#fcd5ba]"
+            className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-10 rounded font-medium transition-custom text-center cursor-pointer disabled:bg-[#fcd5ba]"
           >
             {loading ? (
               <>

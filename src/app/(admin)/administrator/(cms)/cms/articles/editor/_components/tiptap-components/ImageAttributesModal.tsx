@@ -43,7 +43,7 @@ export const ImageAttributesModal = ({
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-gray-100 rounded duration-300 cursor-pointer"
+            className="p-1 hover:bg-gray-100 rounded transition-custom cursor-pointer"
             aria-label="Закрыть"
           >
             <X className="w-5 h-5 text-gray-500" />
@@ -56,7 +56,7 @@ export const ImageAttributesModal = ({
             <button
               type="button"
               onClick={() => handleTabChange("basic")}
-              className={`px-4 py-2 text-sm font-medium duration-300 cursor-pointer ${internalActiveTab === "basic" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+              className={`px-4 py-2 text-sm font-medium transition-custom cursor-pointer ${internalActiveTab === "basic" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
             >
               <span className="flex items-center gap-2">
                 <Captions className="w-4 h-4" />
@@ -66,7 +66,7 @@ export const ImageAttributesModal = ({
             <button
               type="button"
               onClick={() => handleTabChange("advanced")}
-              className={`px-4 py-2 text-sm font-medium duration-300 cursor-pointer ${internalActiveTab === "advanced" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
+              className={`px-4 py-2 text-sm font-medium transition-custom cursor-pointer ${internalActiveTab === "advanced" ? "border-b-2 border-blue-500 text-blue-600" : "text-gray-500 hover:text-gray-700"}`}
             >
               <span className="flex items-center gap-2">
                 <Maximize2 className="w-4 h-4" />
@@ -162,28 +162,28 @@ export const ImageAttributesModal = ({
                     <button
                       type="button"
                       onClick={() => setPresetSize("small")}
-                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded duration-300 cursor-pointer"
+                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-custom cursor-pointer"
                     >
                       М
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetSize("medium")}
-                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded duration-300 cursor-pointer"
+                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-custom cursor-pointer"
                     >
                       Ср
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetSize("large")}
-                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded duration-300 cursor-pointer"
+                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-custom cursor-pointer"
                     >
                       Б
                     </button>
                     <button
                       type="button"
                       onClick={() => setPresetSize("original")}
-                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded duration-300 cursor-pointer"
+                      className="px-2 py-1 text-xs bg-gray-100 hover:bg-gray-200 rounded transition-custom cursor-pointer"
                     >
                       Ориг
                     </button>
@@ -250,7 +250,7 @@ export const ImageAttributesModal = ({
                     onClick={() =>
                       setAttributes((prev) => ({ ...prev, align: "left" }))
                     }
-                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 duration-300 cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 transition-custom cursor-pointer ${
                       attributes.align === "left"
                         ? "bg-blue-50 border border-blue-200 text-blue-700"
                         : "bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700"
@@ -267,7 +267,7 @@ export const ImageAttributesModal = ({
                         align: "center",
                       }))
                     }
-                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 duration-300 cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 transition-custom cursor-pointer ${
                       attributes.align === "center"
                         ? "bg-blue-50 border border-blue-200 text-blue-700"
                         : "bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700"
@@ -281,7 +281,7 @@ export const ImageAttributesModal = ({
                     onClick={() =>
                       setAttributes((prev) => ({ ...prev, align: "right" }))
                     }
-                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 duration-300 cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 transition-custom cursor-pointer ${
                       attributes.align === "right"
                         ? "bg-blue-50 border border-blue-200 text-blue-700"
                         : "bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700"
@@ -295,7 +295,7 @@ export const ImageAttributesModal = ({
                     onClick={() =>
                       setAttributes((prev) => ({ ...prev, align: "none" }))
                     }
-                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 duration-300 cursor-pointer ${
+                    className={`flex-1 py-2 px-3 rounded flex flex-col items-center justify-center gap-1 transition-custom cursor-pointer ${
                       attributes.align === "none"
                         ? "bg-blue-50 border border-blue-200 text-blue-700"
                         : "bg-gray-50 border border-gray-200 hover:bg-gray-100 text-gray-700"
@@ -316,7 +316,7 @@ export const ImageAttributesModal = ({
           <button
             type="button"
             onClick={onReset}
-            className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded duration-300 cursor-pointer"
+            className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded transition-custom cursor-pointer"
             disabled={
               attributes.alt === (currentImage?.alt || "") &&
               attributes.title === (currentImage?.title || "") &&
@@ -332,14 +332,14 @@ export const ImageAttributesModal = ({
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded duration-300 cursor-pointer"
+              className="px-4 py-1.5 text-sm text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded transition-custom cursor-pointer"
             >
               Отмена
             </button>
             <button
               type="button"
               onClick={onApply}
-              className="px-4 py-1.5 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded duration-300 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+              className="px-4 py-1.5 text-sm bg-blue-600 text-white hover:bg-blue-700 rounded transition-custom cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={!attributes.alt.trim()}
             >
               Применить

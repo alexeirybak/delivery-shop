@@ -82,7 +82,7 @@ const AddToCartButton = ({
       let updatedCartItems;
       if (newQuantity === 0) {
         updatedCartItems = cartItems.filter(
-          (item) => item.productId !== productId
+          (item) => item.productId !== productId,
         );
         updateCart(updatedCartItems);
         await removeMultipleOrderItemsAction([productId]);
@@ -90,7 +90,7 @@ const AddToCartButton = ({
         updatedCartItems = cartItems.map((item) =>
           item.productId === productId
             ? { ...item, quantity: newQuantity }
-            : item
+            : item,
         );
         updateCart(updatedCartItems);
         await updateOrderItemQuantityAction(productId, newQuantity);
@@ -148,7 +148,7 @@ const AddToCartButton = ({
         <button
           onClick={handleAddToCart}
           disabled={isOutOfStock || isLoading || hasReachedMaxQuantity}
-          className={`absolute border bottom-2 left-2 right-2 h-10 rounded justify-center items-center duration-300 select-none ${
+          className={`absolute border bottom-2 left-2 right-2 h-10 rounded justify-center items-center transition-custom select-none ${
             isOutOfStock || hasReachedMaxQuantity
               ? "bg-gray-300 text-gray-500 border-gray-300 cursor-not-allowed"
               : "border-primary text-primary hover:text-white hover:bg-[#ff6633] hover:border-transparent active:shadow-button-active cursor-pointer"

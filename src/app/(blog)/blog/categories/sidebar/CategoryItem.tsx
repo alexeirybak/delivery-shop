@@ -10,7 +10,7 @@ export default function CategoryItem({
   return (
     <Link href={`/blog/categories/${category.slug}`} onClick={onClick}>
       <div
-        className="group p-4 my-1 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 duration-300 hover:shadow-md animate-slide-in"
+        className="group p-4 my-1 rounded-xl border border-gray-200 dark:border-gray-800 hover:border-blue-300 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-custom hover:shadow-md animate-slide-in"
         style={{ animationDelay: `${index * 0.03}s` }}
       >
         <div className="flex items-center justify-between">
@@ -34,7 +34,7 @@ export default function CategoryItem({
               </div>
             )}
           </div>
-          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 duration-300" />
+          <ChevronRight className="w-5 h-5 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-1 transition-custom" />
         </div>
       </div>
     </Link>

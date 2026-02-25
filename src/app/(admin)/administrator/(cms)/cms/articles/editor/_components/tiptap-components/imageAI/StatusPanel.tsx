@@ -1,9 +1,12 @@
-import { RefreshCw, PlayCircle, Clock } from 'lucide-react';
-import { StatusPanelProps } from '../../../../types';
-import { formatTime } from '../../../../utils/formatTime';
+import { RefreshCw, PlayCircle, Clock } from "lucide-react";
+import { StatusPanelProps } from "../../../../types";
+import { formatTime } from "../../../../utils/formatTime";
 
-export const StatusPanel = ({ status, elapsedSeconds, operationId }: StatusPanelProps) => {
-
+export const StatusPanel = ({
+  status,
+  elapsedSeconds,
+  operationId,
+}: StatusPanelProps) => {
   return (
     <div className="mb-6 p-6 bg-linear-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
       <div className="flex items-center justify-center gap-4 mb-4">
@@ -27,7 +30,7 @@ export const StatusPanel = ({ status, elapsedSeconds, operationId }: StatusPanel
       <div className="space-y-3">
         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
           <div
-            className="h-full bg-linear-to-r from-yellow-500 to-orange-500 duration-300 cursor-pointer"
+            className="h-full bg-linear-to-r from-yellow-500 to-orange-500 transition-custom cursor-pointer"
             style={{
               width: `${Math.min(elapsedSeconds * 3, 100)}%`,
             }}

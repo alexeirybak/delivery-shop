@@ -63,7 +63,7 @@ export const ImageSection = ({
                   type="button"
                   onClick={handleRemoveImage}
                   disabled={isUploading || isSubmitting}
-                  className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
+                  className="flex items-center gap-1 px-3 py-1.5 text-sm bg-red-50 text-red-600 rounded hover:bg-red-100 cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed border border-red-200 hover:border-red-300"
                 >
                   <XCircle className="w-4 h-4" />
                   Удалить изображение
@@ -90,7 +90,7 @@ export const ImageSection = ({
                   disabled={isUploading || isSubmitting}
                   className="hidden"
                 />
-                <div className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus-within:border-primary focus-within:ring-3 focus-within:ring-primary/20 duration-300 disabled:opacity-50 disabled:bg-gray-100 bg-white hover:bg-gray-50">
+                <div className="w-full px-3 py-2 text-sm border border-gray-300 rounded focus-within:border-primary focus-within:ring-3 focus-within:ring-primary/20 transition-custom disabled:opacity-50 disabled:bg-gray-100 bg-white hover:bg-gray-50">
                   <div className="flex items-center gap-2 text-gray-700">
                     <Upload className="w-4 h-4" />
                     <span>Выберите файл</span>
@@ -141,11 +141,11 @@ export const ImageSection = ({
                 onInputChange(
                   "imageAlt",
                   e.target.value,
-                  SEO_LIMITS.imageAlt.max
+                  SEO_LIMITS.imageAlt.max,
                 )
               }
               disabled={isSubmitting}
-              className={`w-full px-3 py-2.5 bg-white border rounded focus:outline-none focus:ring-3 duration-300 ${
+              className={`w-full px-3 py-2.5 bg-white border rounded focus:outline-none focus:ring-3 transition-custom ${
                 errors.imageAlt
                   ? "border-red-400 focus:border-red-500 focus:ring-red-100"
                   : "border-gray-300 focus:border-primary focus:ring-primary/20"

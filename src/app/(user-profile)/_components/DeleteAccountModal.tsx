@@ -34,13 +34,13 @@ const DeleteAccountModal: React.FC<DeleteAccountModalProps> = ({
         <div className="flex justify-end gap-3">
           <button
             onClick={onClose}
-            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-(--shadow-button-active) duration-300 cursor-pointer"
+            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-(--shadow-button-active) transition-custom cursor-pointer"
           >
             Отмена
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 px-4 py-2 bg-[#d80000] text-white rounded hover:bg-red-700 duration-300 cursor-pointer"
+            className="flex-1 px-4 py-2 bg-[#d80000] text-white rounded hover:bg-red-700 transition-custom cursor-pointer"
           >
             Удалить
           </button>

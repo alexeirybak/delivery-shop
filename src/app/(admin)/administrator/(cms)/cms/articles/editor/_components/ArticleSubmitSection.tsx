@@ -86,9 +86,9 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
             type="button"
             onClick={() => setShowPreview(true)}
             disabled={!canPreview || isUploading || isSubmitting}
-            className={`flex items-center justify-center gap-2 px-2 md:px-6 py-3 rounded-lg cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium whitespace-nowrap shadow-lg ${
+            className={`flex items-center justify-center gap-2 px-2 md:px-6 py-3 rounded-lg cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed font-medium whitespace-nowrap shadow-lg ${
               canPreview
-                ? "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transform hover:-translate-y-0.5 transition-all"
+                ? "bg-linear-to-r from-purple-600 to-indigo-600 text-white hover:from-purple-700 hover:to-indigo-700 transform hover:-translate-y-0.5 "
                 : "bg-gray-200 text-gray-500"
             }`}
             title={
@@ -121,7 +121,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               type="button"
               onClick={() => handleFeaturedChange(false)}
               disabled={isUploading || isSubmitting}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed ${
                 !isFeatured
                   ? "bg-white text-gray-700 border-gray-300 shadow-sm"
                   : "bg-gray-50 border-gray-200 hover:bg-gray-100"
@@ -140,7 +140,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               type="button"
               onClick={() => handleFeaturedChange(true)}
               disabled={isUploading || isSubmitting}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed ${
                 isFeatured
                   ? "bg-yellow-50 text-yellow-700 border-yellow-300 shadow-sm"
                   : "bg-white border-gray-300 hover:bg-gray-50"
@@ -192,7 +192,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               type="button"
               onClick={() => handleStatusChange("draft")}
               disabled={isUploading || isSubmitting}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed ${
                 articleStatus === "draft"
                   ? "bg-yellow-50 text-yellow-700 border-yellow-300 shadow-sm"
                   : "bg-white border-gray-300 hover:bg-gray-50"
@@ -211,7 +211,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               type="button"
               onClick={() => handleStatusChange("published")}
               disabled={isUploading || isSubmitting}
-              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg border cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed ${
                 articleStatus === "published"
                   ? "bg-green-50 text-green-700 border-green-300 shadow-sm"
                   : "bg-white border-gray-300 hover:bg-gray-50"
@@ -259,7 +259,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         <button
           type="submit"
           disabled={isUploading || isSubmitting}
-          className={`flex items-center justify-center gap-2 px-5 py-3 rounded-lg cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium flex-1 ${
+          className={`flex items-center justify-center gap-2 px-5 py-3 rounded-lg cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed font-medium flex-1 ${
             articleStatus === "published"
               ? isFeatured
                 ? "bg-yellow-600 text-white hover:bg-yellow-700"
@@ -285,7 +285,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
           type="button"
           onClick={handleCancelWithConfirm}
           disabled={isUploading || isSubmitting}
-          className="px-5 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer duration-200 disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+          className="px-5 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed font-medium"
         >
           Отмена
         </button>

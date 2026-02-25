@@ -13,7 +13,7 @@ const Tooltip = ({
 }: TooltipProps) => {
   return (
     <div
-      className={`absolute left-0 mt-2 w-full transition-all duration-300 ease-in-out ${
+      className={`absolute left-0 mt-2 w-full  transition-custom ease-in-out ${
         position === "top" ? (cardPosition ? "-top-30" : "-top-13") : ""
       }`}
     >

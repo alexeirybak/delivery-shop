@@ -5,10 +5,7 @@ import { ChevronDown, Check } from "lucide-react";
 import { useCategoryStore } from "@/store/categoryStore";
 import { CategorySelectProps } from "../../types";
 
-export const CategorySelect = ({
-  value,
-  onChange,
-}: CategorySelectProps) => {
+export const CategorySelect = ({ value, onChange }: CategorySelectProps) => {
   const { categories } = useCategoryStore();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -29,7 +26,7 @@ export const CategorySelect = ({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary duration-300 text-left flex justify-between items-center"
+          className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary transition-custom text-left flex justify-between items-center"
         >
           <span
             className={selectedCategory ? "text-gray-900" : "text-gray-500"}
@@ -37,7 +34,7 @@ export const CategorySelect = ({
             {selectedCategory ? selectedCategory.name : "Выберите категорию"}
           </span>
           <ChevronDown
-            className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+            className={`w-4 h-4 text-gray-500 transition-transform transition-custom ${isOpen ? "rotate-180" : ""}`}
           />
         </button>
 

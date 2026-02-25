@@ -37,7 +37,7 @@ export const TextAIMenuModal = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-white rounded-lg duration-300 cursor-pointer"
+            className="p-2 hover:bg-white rounded-lg transition-custom cursor-pointer"
             disabled={isGenerating}
           >
             <X className="w-5 h-5 text-gray-500" />
