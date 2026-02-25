@@ -1,4 +1,34 @@
+import { Metadata } from "next";
 import Image from "next/image";
+import { baseUrl } from "../../../utils/baseUrl";
+
+export const metadata: Metadata = {
+  title: "О компании Северяночка | Наша история и миссия",
+  description:
+    "Узнайте больше о компании Северяночка. Более 20 лет на рынке розничной торговли. Мы предлагаем качественные продукты местного производства по доступным ценам.",
+  keywords:
+    "о компании, Северяночка, история, миссия, розничная торговля, местные продукты, качественные товары",
+  openGraph: {
+    title: "О компании Северяночка",
+    description:
+      "Более 20 лет мы заботимся о наших клиентах и предлагаем лучшие местные продукты",
+    url: `https://${baseUrl}/about-us`,
+    siteName: "Северяночка",
+    images: [
+      {
+        url: "/images/about-us/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "О компании Северяночка",
+      },
+    ],
+    locale: "ru_RU",
+    type: "website",
+  },
+  alternates: {
+    canonical: `https://${baseUrl}/about-us`,
+  },
+};
 
 const AboutUsPage = () => {
   return (

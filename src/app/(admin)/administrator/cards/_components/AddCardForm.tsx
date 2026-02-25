@@ -47,6 +47,9 @@ export const AddCardForm = ({
 
     const cleanedCardNumber = cleanCardNumber(newCardNumber);
     await onSubmit(cleanedCardNumber);
+    
+    // Очищаем поле после успешной отправки
+    setNewCardNumber("");
   };
 
   const displayValue = formatCardNumber(newCardNumber, true);
