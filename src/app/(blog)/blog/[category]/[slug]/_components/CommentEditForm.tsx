@@ -80,7 +80,7 @@ export default function CommentEditForm({
           type="button"
           onClick={onCancel}
           disabled={submitting}
-          className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1 cursor-pointer duration-300"
+          className="px-3 py-1.5 text-sm text-gray-600 hover:text-gray-800 flex items-center gap-1 cursor-pointer transition-custom"
         >
           <X className="w-4 h-4" />
           Отмена
@@ -88,7 +88,7 @@ export default function CommentEditForm({
         <button
           type="submit"
           disabled={submitting || !content.trim() || content === initialContent}
-          className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer duration-300"
+          className="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 cursor-pointer transition-custom"
         >
           <Save className="w-4 h-4" />
           {submitting ? "Сохранение..." : "Сохранить"}

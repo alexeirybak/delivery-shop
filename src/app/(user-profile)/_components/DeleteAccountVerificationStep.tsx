@@ -67,7 +67,7 @@ export const DeleteAccountVerificationStep = ({
             <button
               onClick={onVerify}
               disabled={code.length !== 4 || verifying}
-              className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-10 rounded font-medium duration-300 text-center cursor-pointer disabled:bg-[#fcd5ba]"
+              className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-10 rounded font-medium transition-custom text-center cursor-pointer disabled:bg-[#fcd5ba]"
             >
               {verifying ? (
                 <>
@@ -86,7 +86,7 @@ export const DeleteAccountVerificationStep = ({
           <button
             onClick={onResend}
             disabled={!canResend}
-            className="text-main-text hover:text-black text-sm underline duration-300 cursor-pointer disabled:opacity-50"
+            className="text-main-text hover:text-black text-sm underline transition-custom cursor-pointer disabled:opacity-50"
           >
             {canResend
               ? "Отправить код повторно"

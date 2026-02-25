@@ -90,7 +90,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Ошибка отправки кода:", error);
@@ -153,7 +153,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
         />
         <Link
           href="/register"
-          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto transition-custom cursor-pointer"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

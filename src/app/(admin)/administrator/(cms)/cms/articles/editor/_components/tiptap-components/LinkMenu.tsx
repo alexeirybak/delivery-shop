@@ -22,7 +22,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
 
     editor.on("selectionUpdate", updateLinkActive);
     editor.on("transaction", updateLinkActive);
-    
+
     // Инициализация
     updateLinkActive();
 
@@ -38,10 +38,10 @@ export const LinkMenu = ({ editor }: EditorProps) => {
 
     const handleClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement;
-      if (target.tagName === 'A' && editor.view.dom.contains(target)) {
+      if (target.tagName === "A" && editor.view.dom.contains(target)) {
         event.preventDefault();
         event.stopPropagation();
-        
+
         // Устанавливаем курсор на ссылку
         const pos = editor.view.posAtDOM(target, 0);
         if (pos >= 0) {
@@ -51,10 +51,10 @@ export const LinkMenu = ({ editor }: EditorProps) => {
     };
 
     const editorDom = editor.view.dom;
-    editorDom.addEventListener('click', handleClick);
+    editorDom.addEventListener("click", handleClick);
 
     return () => {
-      editorDom.removeEventListener('click', handleClick);
+      editorDom.removeEventListener("click", handleClick);
     };
   }, [editor]);
 
@@ -68,24 +68,27 @@ export const LinkMenu = ({ editor }: EditorProps) => {
       setText(
         editor.state.doc.textBetween(
           editor.state.selection.from,
-          editor.state.selection.to
-        ) || ""
+          editor.state.selection.to,
+        ) || "",
       );
     } else if (isModalOpen) {
       setText(
         editor.state.doc.textBetween(
           editor.state.selection.from,
-          editor.state.selection.to
-        ) || ""
+          editor.state.selection.to,
+        ) || "",
       );
       setUrl("");
-      setOpenInNewTab(true); 
+      setOpenInNewTab(true);
     }
   }, [isModalOpen, editor]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
         handleCloseModal();
       }
     };
@@ -168,10 +171,11 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           type="button"
           onClick={handleOpenModal}
           className={`
-            p-2 rounded duration-300 cursor-pointer
-            ${isLinkActive
-              ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
-              : "text-gray-700 hover:bg-gray-100"
+            p-2 rounded transition-custom cursor-pointer
+            ${
+              isLinkActive
+                ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"
+                : "text-gray-700 hover:bg-gray-100"
             }
           `}
           title="Добавить ссылку (Ctrl+K)"
@@ -185,10 +189,11 @@ export const LinkMenu = ({ editor }: EditorProps) => {
           onClick={handleRemoveLink}
           disabled={!canRemoveLink}
           className={`
-            p-2 rounded duration-300
-            ${canRemoveLink
-              ? "text-red-600 hover:bg-red-50 hover:text-red-700 cursor-pointer"
-              : "opacity-40 cursor-not-allowed text-gray-400"
+            p-2 rounded transition-custom
+            ${
+              canRemoveLink
+                ? "text-red-600 hover:bg-red-50 hover:text-red-700 cursor-pointer"
+                : "opacity-40 cursor-not-allowed text-gray-400"
             }
           `}
           title="Удалить ссылку"
@@ -200,15 +205,13 @@ export const LinkMenu = ({ editor }: EditorProps) => {
       {/* Модальное окно */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div 
+          <div
             ref={modalRef}
             className="bg-white rounded-lg shadow-xl w-full max-w-md border border-gray-300"
           >
             <div className="p-6">
               <h3 className="text-lg font-medium text-gray-900 mb-4">
-                {isLinkActive
-                  ? "Редактировать ссылку"
-                  : "Добавить ссылку"}
+                {isLinkActive ? "Редактировать ссылку" : "Добавить ссылку"}
               </h3>
 
               <div className="space-y-4">
@@ -267,8 +270,8 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                     className={`
                       relative inline-flex h-6 w-11 items-center rounded-full 
                       transition-colors focus:outline-none focus:ring-2 
-                      focus:ring-[#9674F9] focus:ring-offset-2 cursor-pointer duration-300
-                      ${openInNewTab ? 'bg-[#9674F9]' : 'bg-gray-300'}
+                      focus:ring-[#9674F9] focus:ring-offset-2 cursor-pointer transition-custom
+                      ${openInNewTab ? "bg-[#9674F9]" : "bg-gray-300"}
                     `}
                     aria-pressed={openInNewTab}
                   >
@@ -276,7 +279,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                       className={`
                         inline-block h-4 w-4 transform rounded-full bg-white 
                         transition-transform duration-200
-                        ${openInNewTab ? 'translate-x-6' : 'translate-x-1'}
+                        ${openInNewTab ? "translate-x-6" : "translate-x-1"}
                       `}
                     />
                   </button>
@@ -291,7 +294,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
 
                 {/* Подсказка */}
                 <div className="text-xs text-gray-500 mt-2 p-2 bg-gray-50 rounded">
-                  {openInNewTab 
+                  {openInNewTab
                     ? "Ссылка будет открываться в новой вкладке (рекомендуется для внешних ссылок)"
                     : "Ссылка будет открываться в текущей вкладке (рекомендуется для навигации по Вашему сайту)"}
                 </div>
@@ -301,7 +304,7 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md duration-300 cursor-pointer"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-md transition-custom cursor-pointer"
                 >
                   Отмена
                 </button>
@@ -310,10 +313,11 @@ export const LinkMenu = ({ editor }: EditorProps) => {
                   onClick={handleAddLink}
                   disabled={!url.trim()}
                   className={`
-                    px-4 py-2 text-sm font-medium text-white rounded-md duration-300
-                    ${url.trim()
-                      ? "bg-[#9674F9] hover:bg-[#8563e8] cursor-pointer"
-                      : "bg-[#9674F9]/60 cursor-not-allowed"
+                    px-4 py-2 text-sm font-medium text-white rounded-md transition-custom
+                    ${
+                      url.trim()
+                        ? "bg-[#9674F9] hover:bg-[#8563e8] cursor-pointer"
+                        : "bg-[#9674F9]/60 cursor-not-allowed"
                     }
                   `}
                 >

@@ -35,11 +35,11 @@ export default function ImageUploader({
             resolve(
               new File([blob], file.name.replace(/\.[^/.]+$/, ".jpg"), {
                 type: "image/jpeg",
-              })
+              }),
             );
           },
           "image/jpeg",
-          0.9
+          0.9,
         );
       };
 
@@ -62,7 +62,7 @@ export default function ImageUploader({
       }
       if (file.size > maxSize) {
         return setError(
-          `Файл слишком большой. Максимум ${maxSize / 1024 / 1024}MB`
+          `Файл слишком большой. Максимум ${maxSize / 1024 / 1024}MB`,
         );
       }
 
@@ -80,7 +80,7 @@ export default function ImageUploader({
         setConverting(false);
       }
     },
-    [convertToJpeg, onImageUploadAction, maxSize]
+    [convertToJpeg, onImageUploadAction, maxSize],
   );
 
   const handleDrop = (e: React.DragEvent) => {
@@ -96,7 +96,7 @@ export default function ImageUploader({
   return (
     <div className="w-full">
       <div
-        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer duration-300 ${
+        className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-custom ${
           isDragging
             ? "border-primary bg-[#e5ffde]"
             : "border-gray-300 hover:border-gray-400"
@@ -145,7 +145,7 @@ export default function ImageUploader({
             ) : (
               <>
                 Перетащите изображение или{" "}
-                <span className="font-medium text-primary hover:text-[#008c49] duration-300">
+                <span className="font-medium text-primary hover:text-[#008c49] transition-custom">
                   выберите файл
                 </span>
               </>

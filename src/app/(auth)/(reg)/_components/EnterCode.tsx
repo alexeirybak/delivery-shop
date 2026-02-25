@@ -48,7 +48,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          userId: verifyData.user.id,
+          userId: verifyData?.user.id,
           password: regFormData.password,
         }),
       });
@@ -59,16 +59,20 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
         throw new Error(errorData.error || "Ошибка установки пароля");
       }
 
-      let userDataToUpdate = { ...regFormData };
+      // Создаем объект с данными
+      const updateData = {
+        surname: regFormData.surname,
+        birthdayDate: regFormData.birthdayDate,
+        region: regFormData.region,
+        location: regFormData.location,
+        gender: regFormData.gender,
+        ...(regFormData.card && { card: regFormData.card }),
+        ...(regFormData.hasCard !== undefined && { hasCard: regFormData.hasCard }),
+      };
 
-      if (verifyData.user.phoneNumberVerified) {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { email, ...rest } = userDataToUpdate;
-        userDataToUpdate = rest as typeof regFormData;
-      }
-
-      const { error: updateError } =
-        await authClient.updateUser(userDataToUpdate);
+      // Используем утверждение типа через unknown
+      const { error: updateError } = await (authClient.updateUser as (data: unknown) => ReturnType<typeof authClient.updateUser>)(updateData);
+      
       if (updateError) throw updateError;
 
       router.replace("/login");
@@ -102,7 +106,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
           onError: (ctx) => {
             setError(ctx.error?.message || "Ошибка при отправке SMS");
           },
-        }
+        },
       );
     } catch (error) {
       console.error("Ошибка отправки кода:", error);
@@ -164,7 +168,7 @@ export const EnterCode = ({ phoneNumber }: { phoneNumber: string }) => {
 
         <Link
           href="/register"
-          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto duration-300 cursor-pointer"
+          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto transition-custom cursor-pointer"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

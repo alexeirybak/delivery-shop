@@ -25,7 +25,7 @@ const CategorySelect = ({
         <button
           type="button"
           onClick={onToggleOpen}
-          className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary duration-300 text-left flex justify-between items-center"
+          className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded focus:outline-none focus:ring-3 focus:ring-primary/20 focus:border-primary transition-custom text-left flex justify-between items-center"
         >
           <span
             className={selectedCategory ? "text-gray-900" : "text-gray-500"}

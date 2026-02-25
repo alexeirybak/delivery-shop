@@ -118,7 +118,7 @@ const Profile = () => {
     return (
       <Link
         href="/login"
-        className="ml-6 w-10 xl:w-[157px] flex justify-between items-center gap-x-2 p-2 rounded text-white text-base bg-[#ff6633] hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) duration-300 cursor-pointer"
+        className="ml-6 w-10 xl:w-[157px] flex justify-between items-center gap-x-2 p-2 rounded text-white text-base bg-[#ff6633] hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) transition-custom cursor-pointer"
       >
         <div className="w-[109px] justify-center hidden xl:flex">
           <p>Войти</p>
@@ -157,7 +157,7 @@ const Profile = () => {
             width={24}
             height={24}
             sizes="24px"
-            className={`transform transition-transform duration-300 ${
+            className={`transform transition-transform transition-custom ${
               isMenuOpen ? "rotate-180" : "rotate-0"
             }`}
           />
@@ -170,20 +170,20 @@ const Profile = () => {
           isMenuOpen
             ? "opacity-100 translate-y-0"
             : "opacity-0 -translate-y-2 pointer-events-none"
-        } duration-300 cursor-pointer min-w-50 ${
+        } transition-custom cursor-pointer min-w-50 ${
           isMobile ? "bottom-full top-auto mb-6" : "top-full mt-6"
         }`}
       >
         <Link
           href="/user-profile"
-          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-main-text hover:text-[#ff6633] transition-custom"
           onClick={() => setIsMenuOpen(false)}
         >
           Профиль
         </Link>
         <Link
           href="/"
-          className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+          className="block px-4 py-3 text-main-text hover:text-[#ff6633] transition-custom"
           onClick={() => setIsMenuOpen(false)}
         >
           Главная
@@ -191,7 +191,7 @@ const Profile = () => {
         {isManagerOrAdmin() && (
           <Link
             href="/administrator"
-            className="block px-4 py-3 text-main-text hover:text-[#ff6633] duration-300"
+            className="block px-4 py-3 text-main-text hover:text-[#ff6633] transition-custom"
             onClick={() => setIsMenuOpen(false)}
           >
             Панель управления
@@ -200,7 +200,7 @@ const Profile = () => {
         <button
           onClick={handleLogout}
           disabled={isLoggingOut}
-          className="w-full text-left px-4 py-3 text-main-text hover:text-[#ff6633] duration-300 border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full text-left px-4 py-3 text-main-text hover:text-[#ff6633] transition-custom border-t border-gray-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isLoggingOut ? "Выход..." : "Выйти"}
         </button>

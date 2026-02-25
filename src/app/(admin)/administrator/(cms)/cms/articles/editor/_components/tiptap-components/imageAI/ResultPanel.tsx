@@ -18,12 +18,11 @@ const ResultPanel = ({
         <div className="flex gap-2">
           <button
             onClick={onDownload}
-            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2 duration-300 cursor-pointer"
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 flex items-center gap-2 transition-custom cursor-pointer"
           >
             <Download className="w-4 h-4" />
             Скачать
           </button>
-          
         </div>
       </div>
       <div className="bg-gray-100 rounded-xl overflow-hidden border-2 border-gray-300 p-4">

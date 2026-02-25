@@ -8,7 +8,11 @@ import { CommentRowProps } from "../types/comments.types";
 import { formatDate } from "../../../../../../../../utils/formatDate";
 import { BanUserModal } from "./BanUserModal";
 import { useCommentsStore } from "@/store/commentsStore";
-import { banUser, unbanUser, checkBanStatus } from "../../../../../../../actions/userBanActions";
+import {
+  banUser,
+  unbanUser,
+  checkBanStatus,
+} from "../../../../../../../actions/userBanActions";
 
 export const CommentRow = ({
   comment,
@@ -55,9 +59,9 @@ export const CommentRow = ({
         const result = await checkBanStatus(comment.authorId);
         if (result.success) {
           setUserBanned(
-            comment.authorId, 
-            result.isBanned ?? false, 
-            result.bannedUntil
+            comment.authorId,
+            result.isBanned ?? false,
+            result.bannedUntil,
           );
         }
       } catch (error) {
@@ -106,7 +110,7 @@ export const CommentRow = ({
   const handleBan = async (banDays: number | null) => {
     try {
       const result = await banUser(comment.authorId, banDays);
-      
+
       if (result.success) {
         setUserBanned(comment.authorId, true, result.bannedUntil);
         alert(result.message);
@@ -124,7 +128,7 @@ export const CommentRow = ({
   const handleUnban = async () => {
     try {
       const result = await unbanUser(comment.authorId);
-      
+
       if (result.success) {
         setUserBanned(comment.authorId, false, null);
         alert(result.message);
@@ -161,7 +165,7 @@ export const CommentRow = ({
 
         <button
           onClick={() => setShowBanModal(true)}
-          className="text-sm font-medium text-gray-900 hover:text-green-600 hover:underline text-left duration-300 cursor-pointer"
+          className="text-sm font-medium text-gray-900 hover:text-green-600 hover:underline text-left transition-custom cursor-pointer"
           title={
             isBanned
               ? "Пользователь заблокирован"
@@ -198,7 +202,7 @@ export const CommentRow = ({
               isBanned
                 ? "text-red-600 hover:text-red-800"
                 : "text-gray-400 hover:text-red-600"
-            } cursor-pointer duration-300`}
+            } cursor-pointer transition-custom`}
             title={
               isBanned ? "Управление блокировкой" : "Заблокировать пользователя"
             }
@@ -208,7 +212,7 @@ export const CommentRow = ({
           <button
             onClick={() => onDelete(comment._id)}
             disabled={deletingId === comment._id}
-            className="p-1.5 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer duration-300"
+            className="p-1.5 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer transition-custom"
             title="Удалить комментарий"
           >
             <Trash2 className="w-4 h-4" />

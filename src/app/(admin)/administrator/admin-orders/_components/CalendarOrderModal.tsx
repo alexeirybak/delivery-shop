@@ -89,7 +89,7 @@ const CalendarOrderModal = ({
             deliveryDate: formattedDate,
             deliveryTimeSlot: selectedTimeSlot,
           }),
-        }
+        },
       );
 
       const result = await response.json();
@@ -98,7 +98,7 @@ const CalendarOrderModal = ({
         onClose();
       } else {
         alert(
-          `Ошибка: ${result.message || "Не удалось обновить время доставки"}`
+          `Ошибка: ${result.message || "Не удалось обновить время доставки"}`,
         );
       }
     } catch (error) {
@@ -151,7 +151,7 @@ const CalendarOrderModal = ({
                         order?.deliveryDate &&
                         order?.deliveryTimeSlot === slot &&
                         formatDateToLocalYYYYMMDD(
-                          new Date(order.deliveryDate)
+                          new Date(order.deliveryDate),
                         ) === formatDateToLocalYYYYMMDD(selectedDate);
 
                       const shouldHighlight =
@@ -162,15 +162,13 @@ const CalendarOrderModal = ({
                         <button
                           key={slot}
                           onClick={() => setSelectedTimeSlot(slot)}
-                          className={`py-2 px-3 rounded text-sm duration-300 cursor-pointer ${
+                          className={`py-2 px-3 rounded text-sm transition-custom cursor-pointer ${
                             shouldHighlight
                               ? "bg-primary text-white"
                               : "bg-gray-100 hover:bg-primary hover:text-white"
                           }`}
                         >
-                          <span>
-                            {slot.replace(".", ":").split("-")[0]}
-                          </span>
+                          <span>{slot.replace(".", ":").split("-")[0]}</span>
                         </button>
                       );
                     })}

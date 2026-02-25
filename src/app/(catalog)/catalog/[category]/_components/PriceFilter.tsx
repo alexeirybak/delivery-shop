@@ -16,7 +16,7 @@ const PriceFilter = ({
   category,
   setIsFilterOpenAction,
   apiEndpoint = "/category",
-  userId, 
+  userId,
 }: PriceFilterProps & { apiEndpoint?: string }) => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -29,7 +29,7 @@ const PriceFilter = ({
     to: urlPriceTo,
   });
   const [priceRange, setPriceRange] = useState<PriceRange>(
-    CONFIG.FALLBACK_PRICE_RANGE
+    CONFIG.FALLBACK_PRICE_RANGE,
   );
   const [inStock, setInStock] = useState(urlInStock);
   const [error, setError] = useState<{
@@ -103,12 +103,12 @@ const PriceFilter = ({
 
     let fromValue = Math.max(
       priceRange.min,
-      parseInt(inputValues.from) || priceRange.min
+      parseInt(inputValues.from) || priceRange.min,
     );
 
     let toValue = Math.min(
       priceRange.max,
-      parseInt(inputValues.to) || priceRange.max
+      parseInt(inputValues.to) || priceRange.max,
     );
 
     if (fromValue > toValue) [fromValue, toValue] = [toValue, fromValue];
@@ -199,7 +199,7 @@ const PriceFilter = ({
       />
       <button
         type="submit"
-        className="bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center duration-300 cursor-pointer"
+        className="bg-[#ff6633] text-white hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) h-10 rounded justify-center items-center transition-custom cursor-pointer"
       >
         Применить
       </button>

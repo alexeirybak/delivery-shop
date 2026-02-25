@@ -25,7 +25,7 @@ export default function CommentsList({
       {comments.map((comment) => (
         <div
           key={comment._id}
-          className="flex-1 justify-center bg-white rounded border border-gray-100 shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="flex-1 justify-center bg-white rounded border border-gray-100 shadow-sm hover:shadow-md transition-shadow transition-custom"
         >
           <div className="flex-1 justify-center hover:bg-gray-50">
             <CommentRow

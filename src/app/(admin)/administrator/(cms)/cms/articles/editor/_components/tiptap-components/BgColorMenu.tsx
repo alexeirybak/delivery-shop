@@ -25,7 +25,7 @@ const BG_COLORS = [
 export const BgColorMenu = ({ editor }: EditorProps) => {
   const [isOpen, setIsOpen] = useState(false);
   const [customColor, setCustomColor] = useState("#FFFFFF");
-  const [currentColor, setCurrentColor] = useState("transparent"); 
+  const [currentColor, setCurrentColor] = useState("transparent");
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -41,7 +41,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
   const updateColor = useCallback(() => {
     const color = getCurrentColor();
     setCurrentColor(color);
-    
+
     // Если цвет не из предопределенных и не прозрачный, обновляем customColor
     if (color !== "transparent" && !BG_COLORS.includes(color)) {
       setCustomColor(color);
@@ -116,7 +116,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
     if (color !== "transparent" && !BG_COLORS.includes(color)) {
       setCustomColor(color);
     }
-    
+
     // Обновляем состояние после изменения
     setTimeout(updateColor, 10);
   };
@@ -162,7 +162,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
           setIsOpen(!isOpen);
         }}
         className={`
-          p-2 rounded duration-300 cursor-pointer border
+          p-2 rounded transition-custom cursor-pointer border
           ${
             isOpen
               ? "bg-blue-100 text-[#9674F9] border-blue-300"
@@ -197,10 +197,10 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
           ref={dropdownRef}
           className="absolute z-50 mt-1 left-0 bg-white border border-gray-300 rounded-lg shadow-lg p-2 max-w-[calc(100vw-20px)]"
           style={{
-            left: '50%',
-            transform: 'translateX(-50%)',
-            maxHeight: 'calc(100vh - 100px)',
-            overflowY: 'auto'
+            left: "50%",
+            transform: "translateX(-50%)",
+            maxHeight: "calc(100vh - 100px)",
+            overflowY: "auto",
           }}
           onClick={(e) => e.stopPropagation()}
         >
@@ -221,7 +221,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
                     setIsOpen(false);
                   }}
                   className={`
-                    w-5 h-5 rounded border hover:scale-110 transition-transform relative duration-300 cursor-pointer
+                    w-5 h-5 rounded border hover:scale-110 transition-transform relative transition-custom cursor-pointer
                     ${color === "transparent" ? "border-2" : "border border-gray-300"}
                   `}
                   style={{
@@ -247,9 +247,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
 
             {/* Пользовательский цвет */}
             <div className="mb-2">
-              <div className="text-xs text-gray-600 mb-1">
-                Свой цвет:
-              </div>
+              <div className="text-xs text-gray-600 mb-1">Свой цвет:</div>
               <div className="flex flex-col gap-1">
                 <div className="flex items-center gap-1">
                   <input
@@ -270,7 +268,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
                 <button
                   type="button"
                   onClick={applyCustomColor}
-                  className="w-full px-2 py-1 text-xs bg-[#9674F9] text-white rounded hover:bg-[#8563e8] duration-300 cursor-pointer"
+                  className="w-full px-2 py-1 text-xs bg-[#9674F9] text-white rounded hover:bg-[#8563e8] transition-custom cursor-pointer"
                 >
                   Применить цвет
                 </button>
@@ -305,7 +303,7 @@ export const BgColorMenu = ({ editor }: EditorProps) => {
           <button
             type="button"
             onClick={resetColor}
-            className="w-full px-2 py-1 text-xs rounded duration-300 cursor-pointer bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300"
+            className="w-full px-2 py-1 text-xs rounded transition-custom cursor-pointer bg-red-50 text-red-700 border border-red-200 hover:bg-red-100 hover:border-red-300"
           >
             Сбросить цвет фона
           </button>

@@ -10,17 +10,17 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
     if (!editor) return;
 
     const handleUpdate = () => {
-      setUpdate(prev => prev + 1);
+      setUpdate((prev) => prev + 1);
     };
 
-    editor.on('update', handleUpdate);
-    editor.on('selectionUpdate', handleUpdate);
-    editor.on('transaction', handleUpdate);
+    editor.on("update", handleUpdate);
+    editor.on("selectionUpdate", handleUpdate);
+    editor.on("transaction", handleUpdate);
 
     return () => {
-      editor.off('update', handleUpdate);
-      editor.off('selectionUpdate', handleUpdate);
-      editor.off('transaction', handleUpdate);
+      editor.off("update", handleUpdate);
+      editor.off("selectionUpdate", handleUpdate);
+      editor.off("transaction", handleUpdate);
     };
   }, [editor]);
 
@@ -107,7 +107,7 @@ export const AlignmentMenu = ({ editor }: EditorProps) => {
             type="button"
             onClick={() => setAlignment(button.align)}
             className={`
-              p-2 rounded duration-300 cursor-pointer
+              p-2 rounded transition-custom cursor-pointer
               ${
                 isActive
                   ? "bg-blue-100 text-[#9674F9] hover:bg-blue-200"

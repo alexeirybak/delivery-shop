@@ -6,7 +6,11 @@ interface InStockToggleProps {
   labelText?: string;
 }
 
-const InStockToggle = ({ checked, onChangeAction, labelText }: InStockToggleProps) => {
+const InStockToggle = ({
+  checked,
+  onChangeAction,
+  labelText,
+}: InStockToggleProps) => {
   return (
     <div className="flex items-center gap-2">
       <label className="relative inline-flex items-center cursor-pointer">
@@ -26,7 +30,7 @@ const InStockToggle = ({ checked, onChangeAction, labelText }: InStockToggleProp
                 rounded-full
                 shadow-[0px_1px_1px_rgba(0,0,0,0.08),0px_2px_6px_rgba(0,0,0,0.15)]
                 bg-white
-                transition-transform duration-300
+                transition-transform transition-custom
                 ${
                   checked
                     ? "transform translate-x-6"

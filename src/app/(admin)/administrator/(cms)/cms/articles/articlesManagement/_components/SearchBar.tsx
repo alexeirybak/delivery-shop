@@ -49,7 +49,7 @@ export const SearchBar = () => {
           <button
             type="button"
             onClick={handleClear}
-            className="p-1 text-gray-400 hover:text-gray-600 cursor-pointer duration-300"
+            className="p-1 text-gray-400 hover:text-gray-600 cursor-pointer transition-custom"
             title="Очистить поле поиска"
           >
             <X className="w-4 h-4" />
@@ -58,7 +58,7 @@ export const SearchBar = () => {
         <button
           type="button"
           onClick={handleSearchClick}
-          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm cursor-pointer duration-300"
+          className="px-3 py-1 bg-green-600 text-white rounded hover:bg-green-700 text-sm cursor-pointer transition-custom"
         >
           Найти
         </button>

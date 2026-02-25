@@ -317,7 +317,7 @@ export default async function CommunityRulesPage() {
           </p>
 
           <div className="flex flex-col md:flex-row gap-4 justify-center w-full">
-            <div className="flex-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 duration-300 inline-flex flex-col items-center gap-2 justify-center">
+            <div className="flex-1 px-3 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-custom inline-flex flex-col items-center gap-2 justify-center">
               <Flag className="w-7 h-7" />
               <span className="text-lg font-medium">Пожаловаться</span>
               <span className="opacity-90 flex items-center gap-1.5 bg-red-400 px-4 py-1.5 rounded-full">
@@ -326,7 +326,7 @@ export default async function CommunityRulesPage() {
               </span>
             </div>
 
-            <div className="flex-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 duration-300 inline-flex flex-col items-center gap-2 justify-center">
+            <div className="flex-1 px-3 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-custom inline-flex flex-col items-center gap-2 justify-center">
               <MessageSquare className="w-7 h-7" />
               <span className="text-lg font-medium">Написать нам</span>
               <span className="opacity-90 flex items-center gap-1.5 bg-green-400 px-4 py-1.5 rounded-full">

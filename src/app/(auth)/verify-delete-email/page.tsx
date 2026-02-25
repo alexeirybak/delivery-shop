@@ -55,7 +55,8 @@ const VerifyDeleteEmailPage = () => {
           <h1 className="text-2xl font-bold text-center">Удаление аккаунта</h1>
         </div>
         <p className="text-center">
-          Для подтверждения удаления аккаунта мы отправим письмо с инструкциями на Вашу почту, по которой Вы регистрировались.
+          Для подтверждения удаления аккаунта мы отправим письмо с инструкциями
+          на Вашу почту, по которой Вы регистрировались.
         </p>
         {error && (
           <div className="p-5 bg-[#ffc7c7] text-[#d80000] rounded">{error}</div>
@@ -68,7 +69,7 @@ const VerifyDeleteEmailPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-12 rounded font-medium duration-300 text-center cursor-pointer disabled:bg-[#fcd5ba]"
+            className="flex-1 flex flex-row items-center justify-center gap-x-3 bg-[#ffc7c7] hover:bg-[#d80000] text-[#d80000] hover:text-[#f2f2f2] px-4 py-2 h-12 rounded font-medium transition-custom text-center cursor-pointer disabled:bg-[#fcd5ba]"
           >
             {loading ? (
               <>

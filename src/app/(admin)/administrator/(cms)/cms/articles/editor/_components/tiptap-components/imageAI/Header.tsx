@@ -25,14 +25,14 @@ export const Header = ({
           type="button"
           onClick={onTestAPI}
           disabled={isGenerating}
-          className="text-sm h-10 px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2 disabled:opacity-50 duration-300 cursor-pointer"
+          className="text-sm h-10 px-3 py-1.5 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 flex items-center gap-2 disabled:opacity-50 transition-custom cursor-pointer"
         >
           <AlertCircle className="w-4 h-4" />
           Тест API
         </button>
         <button
           onClick={onCloseClick}
-          className="h-10 p-2 bg-gray-200 hover:bg-white rounded-lg ml-2 duration-300 cursor-pointer"
+          className="h-10 p-2 bg-gray-200 hover:bg-white rounded-lg ml-2 transition-custom cursor-pointer"
           disabled={isGenerating}
         >
           <X className="w-5 h-5 text-gray-500" />

@@ -45,7 +45,7 @@ const SuccessSentEmail = ({ email }: { email: string }) => {
             <button
               type="button"
               onClick={() => router.replace("/login")}
-              className="text-[#ff6633] font-medium underline hover:no-underline ml-1 cursor-pointer duration-300"
+              className="text-[#ff6633] font-medium underline hover:no-underline ml-1 cursor-pointer transition-custom"
             >
               войти с помощью номера телефона
             </button>

@@ -28,7 +28,10 @@ export default function CommentForm({
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
-  const [banInfo, setBanInfo] = useState<BanInfo>({ isBanned: false, bannedUntil: null });
+  const [banInfo, setBanInfo] = useState<BanInfo>({
+    isBanned: false,
+    bannedUntil: null,
+  });
 
   const userId = user?.id || user?._id;
   const userName = `${user?.surname} ${user?.name}`;
@@ -44,7 +47,7 @@ export default function CommentForm({
         if (result.success) {
           setBanInfo({
             isBanned: result.isBanned ?? false,
-            bannedUntil: result.bannedUntil || null
+            bannedUntil: result.bannedUntil || null,
           });
         }
       } catch (error) {
@@ -64,13 +67,13 @@ export default function CommentForm({
       }
       setLoading(false);
     }
-    
+
     checkRules();
   }, [userId]);
 
   const handleAcceptRules = async () => {
     if (!userId) return;
-    
+
     const result = await acceptRules(userId);
     if (result.success) {
       setRulesAccepted(true);
@@ -158,11 +161,7 @@ export default function CommentForm({
   }
 
   if (loading) {
-    return (
-      <div className="text-center py-4 text-gray-600">
-        Загрузка...
-      </div>
-    );
+    return <div className="text-center py-4 text-gray-600">Загрузка...</div>;
   }
 
   // Если пользователь забанен, показываем специальное сообщение
@@ -174,8 +173,8 @@ export default function CommentForm({
           Вы заблокированы
         </h3>
         <p className="text-red-600">
-          {banInfo.bannedUntil 
-            ? `До ${formatBanDate(banInfo.bannedUntil)}` 
+          {banInfo.bannedUntil
+            ? `До ${formatBanDate(banInfo.bannedUntil)}`
             : "Навсегда"}
         </p>
         <p className="text-sm text-gray-600 mt-4">
@@ -193,7 +192,7 @@ export default function CommentForm({
             {error}
           </div>
         )}
-        
+
         {!rulesAccepted && (
           <div className="bg-yellow-50 border border-yellow-200 rounded p-3 text-sm text-yellow-800">
             <p className="flex items-center gap-2">
@@ -236,7 +235,7 @@ export default function CommentForm({
           <button
             type="submit"
             disabled={submitting || !content.trim() || !rulesAccepted}
-            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer duration-300"
+            className="px-6 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 cursor-pointer transition-custom"
           >
             {submitting ? (
               <>
@@ -253,7 +252,7 @@ export default function CommentForm({
         </div>
       </form>
 
-      <RulesModal 
+      <RulesModal
         isOpen={showRulesModal}
         onClose={() => setShowRulesModal(false)}
         onAccept={handleAcceptRules}

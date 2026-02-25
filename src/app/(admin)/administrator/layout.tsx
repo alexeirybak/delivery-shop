@@ -64,7 +64,7 @@ export default function AdminLayout({
 
       <button
         onClick={scrollToTop}
-        className={`fixed z-50 w-12 h-12 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 cursor-pointer duration-300 flex items-center justify-center ${
+        className={`fixed z-50 w-12 h-12 bg-green-600 text-white rounded-full shadow-lg hover:bg-green-700 cursor-pointer transition-custom flex items-center justify-center ${
           showScrollTop
             ? "opacity-100 translate-y-0"
             : "opacity-0 translate-y-10 pointer-events-none"

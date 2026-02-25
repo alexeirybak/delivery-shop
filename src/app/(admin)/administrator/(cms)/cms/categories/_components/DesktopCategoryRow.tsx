@@ -146,14 +146,14 @@ export const DesktopCategoryRow = ({
           <div className="flex gap-2 justify-center">
             <button
               onClick={handleEdit}
-              className="p-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+              className="p-2 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
               title="Редактировать категорию"
             >
               <Edit className="w-4 h-4" />
             </button>
             <button
               onClick={handleDelete}
-              className="p-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+              className="p-2 bg-red-600 text-white rounded hover:bg-red-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
               title="Удалить категорию"
             >
               <Trash2 className="w-4 h-4" />

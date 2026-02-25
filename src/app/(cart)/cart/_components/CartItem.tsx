@@ -73,7 +73,7 @@ const CartItem = memo(function CartItem({
 
   const priceWithDiscount = calculateFinalPrice(
     productData?.basePrice || 0,
-    productData?.discountPercent || 0
+    productData?.discountPercent || 0,
   );
 
   const finalPrice = hasLoyaltyCard
@@ -88,7 +88,7 @@ const CartItem = memo(function CartItem({
   return (
     <div
       className={`
-        bg-white rounded flex shadow-cart-item hover:shadow-article relative duration-300
+        bg-white rounded flex shadow-cart-item hover:shadow-article relative transition-custom
         ${isOutOfStock ? "opacity-60" : ""}
       `}
     >

@@ -38,7 +38,7 @@ export const ArticlePreviewModal = ({
           </div>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full duration-300 cursor-pointer"
+            className="p-2 hover:bg-gray-100 rounded-full transition-custom cursor-pointer"
             aria-label="Закрыть"
           >
             <X className="w-6 h-6" />
@@ -80,7 +80,7 @@ export const ArticlePreviewModal = ({
             <div className="flex gap-3">
               <button
                 onClick={onClose}
-                className="px-6 py-3 bg-linear-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 shadow-lg font-medium duration-300 cursor-pointer"
+                className="px-6 py-3 bg-linear-to-r from-purple-600 to-purple-700 text-white rounded-lg hover:from-purple-700 hover:to-purple-800 shadow-lg font-medium transition-custom cursor-pointer"
               >
                 Закрыть предпросмотр
               </button>

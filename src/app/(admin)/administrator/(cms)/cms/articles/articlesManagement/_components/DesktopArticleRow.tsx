@@ -207,18 +207,19 @@ export const DesktopArticleRow = ({
             {article.status !== "deleted" && (
               <button
                 onClick={handleEdit}
-                className="p-1 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+                className="p-1 bg-green-600 text-white rounded hover:bg-green-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
                 title="Редактировать статью"
               >
                 <Edit className="w-3 h-3" />
               </button>
             )}
 
-            {(article.status === "published" || article.status === "archived") && (
+            {(article.status === "published" ||
+              article.status === "archived") && (
               <Link
                 href={`/blog/${article.categorySlug}/${article.slug}`}
                 target="_blank"
-                className="p-1 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center justify-center cursor-pointer duration-300 shrink-0"
+                className="p-1 bg-blue-600 text-white rounded hover:bg-blue-700 flex items-center justify-center cursor-pointer transition-custom shrink-0"
                 title="Просмотреть статью"
               >
                 <Eye className="w-3 h-3" />

@@ -101,7 +101,7 @@ export const BanUserModal = ({
                   <button
                     key={option.label}
                     onClick={() => onBan(option.days)}
-                    className="px-3 py-3.5 rounded text-sm font-medium transition-all duration-300 
+                    className="px-3 py-3.5 rounded text-sm font-medium transition-all transition-custom 
                               bg-gray-200 text-gray-700 hover:bg-red-300 hover:shadow-md 
                               active:scale-[0.97] cursor-pointer border border-gray-300
                               hover:border-red-400 focus:ring-2 focus:ring-green-500/50"

@@ -21,7 +21,7 @@ export const LoadMoreComments = ({
         <div className="flex justify-center pt-4">
           <button
             onClick={onLoadMore}
-            className="px-6 py-2.5 bg-orange-100 hover:bg-orange-200 text-gray-800 font-medium rounded-lg cursor-pointer duration-300 flex items-center gap-2"
+            className="px-6 py-2.5 bg-orange-100 hover:bg-orange-200 text-gray-800 font-medium rounded-lg cursor-pointer transition-custom flex items-center gap-2"
           >
             <Eye className="md:hidden w-6 h-6 text-orange-700" />
             <span className="hidden md:inline-block text-orange-700">

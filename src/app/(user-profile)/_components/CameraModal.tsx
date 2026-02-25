@@ -55,7 +55,7 @@ const CameraModal = ({
           <button
             onClick={onTakePhoto}
             disabled={!isCameraReady || isUploading}
-            className="flex-1 text-white px-3 bg-primary hover:bg-[#039b03] hover:shadow-button-default active:shadow-button-active cursor-pointer rounded disabled:opacity-50 disabled:cursor-not-allowed duration-300"
+            className="flex-1 text-white px-3 bg-primary hover:bg-[#039b03] hover:shadow-button-default active:shadow-button-active cursor-pointer rounded disabled:opacity-50 disabled:cursor-not-allowed transition-custom"
           >
             <div className="flex flex-row gap-x-2 md:gap-x-4 justify-center items-center">
               <Image
@@ -70,7 +70,7 @@ const CameraModal = ({
           <button
             onClick={onClose}
             disabled={isUploading}
-            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-button-active cursor-pointer duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex-1 bg-[#f3f2f1] border-none rounded flex hover:shadow-button-secondary p-2 justify-center items-center active:shadow-button-active cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed"
           >
             Отмена
           </button>

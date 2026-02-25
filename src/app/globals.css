@@ -27,6 +27,10 @@ body {
   justify-content: space-between;
 }
 
+.transition-custom {
+  transition: all 0.3s ease;
+}
+
 .no-ymaps-copyright [class*="copyrights-pane"] {
   visibility: hidden;
 }

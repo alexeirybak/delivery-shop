@@ -69,7 +69,7 @@ const SearchProductResult = ({
               <div className="flex gap-2 ml-4">
                 <Link
                   href={`/administrator/products/edit-product/${product.id}`}
-                  className="bg-primary hover:shadow-button-default active:shadow-button-active rounded text-white cursor-pointer duration-300 px-4 py-2 flex flex-row gap-2 items-center justify-center"
+                  className="bg-primary hover:shadow-button-default active:shadow-button-active rounded text-white cursor-pointer transition-custom px-4 py-2 flex flex-row gap-2 items-center justify-center"
                 >
                   <Edit size={16} />
                   Редактировать

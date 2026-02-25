@@ -50,7 +50,7 @@ export default function CommentHeader({
         {canEdit && !isEditing && (
           <button
             onClick={onEdit}
-            className="p-1 text-gray-400 hover:text-green-600 cursor-pointer duration-300"
+            className="p-1 text-gray-400 hover:text-green-600 cursor-pointer transition-custom"
             title="Редактировать"
           >
             <Edit className="w-4 h-4" />
@@ -60,7 +60,7 @@ export default function CommentHeader({
           <button
             onClick={onDelete}
             disabled={deleting}
-            className="p-1 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer duration-300"
+            className="p-1 text-gray-400 hover:text-red-600 disabled:opacity-50 cursor-pointer transition-custom"
             title={deleteButtonTitle}
           >
             <Trash2 className="w-4 h-4" />

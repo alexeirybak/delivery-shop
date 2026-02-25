@@ -38,7 +38,7 @@ export const SettingsPanel = ({
               key={ratio.id}
               onClick={(e) => handleAspectClick(ratio.id, e)}
               disabled={disabled}
-              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center duration-300 gap-1 cursor-pointer ${
+              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center transition-custom gap-1 cursor-pointer ${
                 selectedAspect === ratio.id
                   ? "bg-red-50 border-red-300 text-red-700"
                   : "hover:bg-gray-50 border-gray-200 text-gray-700"
@@ -63,7 +63,7 @@ export const SettingsPanel = ({
               key={style.id}
               onClick={(e) => handleStyleClick(style.id, e)}
               disabled={disabled}
-              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center gap-1 duration-300 cursor-pointer ${
+              className={`p-3 md:h-20 rounded-lg border flex flex-col items-center gap-1 transition-custom cursor-pointer ${
                 selectedStyle === style.id
                   ? "bg-yellow-50 border-yellow-300 text-yellow-700"
                   : "hover:bg-gray-50 border-gray-200 text-gray-700"

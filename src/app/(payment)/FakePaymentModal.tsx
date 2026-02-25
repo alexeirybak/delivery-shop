@@ -46,7 +46,7 @@ const FakePaymentModal = ({
   ];
 
   const simulatePayment = async (
-    simulatedResult: PaymentSimulationResult
+    simulatedResult: PaymentSimulationResult,
   ): Promise<void> => {
     if (!isOpen) return;
 
@@ -72,12 +72,12 @@ const FakePaymentModal = ({
           break;
         case "failure":
           onError(
-            'Недостаточно средств на карте. Повторную попытку оплаты Вы можете совершить на странице "Заказы"'
+            'Недостаточно средств на карте. Повторную попытку оплаты Вы можете совершить на странице "Заказы"',
           );
           break;
         case "error":
           onError(
-            'Ошибка банка-эмитента. Повторную попытку оплаты Вы можете совершить на странице "Заказы"'
+            'Ошибка банка-эмитента. Повторную попытку оплаты Вы можете совершить на странице "Заказы"',
           );
           break;
       }
@@ -94,7 +94,7 @@ const FakePaymentModal = ({
     e.preventDefault();
 
     const testCard = testCards.find((card) =>
-      cardNumber.replace(/\s/g, "").includes(card.number.replace(/\s/g, ""))
+      cardNumber.replace(/\s/g, "").includes(card.number.replace(/\s/g, "")),
     );
 
     const result: PaymentSimulationResult = testCard?.result || "error";
@@ -103,7 +103,7 @@ const FakePaymentModal = ({
 
   const fillTestCard = (
     cardNumber: string,
-    result: PaymentSimulationResult
+    result: PaymentSimulationResult,
   ): void => {
     setCardNumber(cardNumber.replace(/\s/g, ""));
     setExpiryDate("12/28");
@@ -230,7 +230,7 @@ const FakePaymentModal = ({
               type="button"
               onClick={onClose}
               disabled={isProcessing}
-              className="flex-1 py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 disabled:opacity-50 duration-300 cursor-pointer"
+              className="flex-1 py-2 px-4 border border-gray-300 rounded text-gray-700 hover:bg-gray-50 disabled:opacity-50 transition-custom cursor-pointer"
             >
               Отмена
             </button>
@@ -243,7 +243,7 @@ const FakePaymentModal = ({
                 !cvc ||
                 !cardholder
               }
-              className="flex-1 py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed duration-300 cursor-pointer"
+              className="flex-1 py-2 px-4 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-custom cursor-pointer"
             >
               {isProcessing
                 ? "Обработка..."

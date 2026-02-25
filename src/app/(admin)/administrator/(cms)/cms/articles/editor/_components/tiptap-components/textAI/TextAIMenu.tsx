@@ -214,7 +214,7 @@ export const TextAIMenu = ({ editor }: { editor: Editor | null }) => {
       <button
         type="button"
         onClick={() => setShowAITextModal(true)}
-        className="px-3 py-1.5 rounded-md bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm shadow-purple-500/20 hover:shadow-md hover:shadow-purple-500/30 cursor-pointer duration-300 flex items-center gap-2 h-8 text-xs"
+        className="px-3 py-1.5 rounded-md bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white shadow-sm shadow-purple-500/20 hover:shadow-md hover:shadow-purple-500/30 cursor-pointer transition-custom flex items-center gap-2 h-8 text-xs"
         title="Открыть AI помощник (YandexGPT)"
       >
         <Brain className="w-3.5 h-3.5" />

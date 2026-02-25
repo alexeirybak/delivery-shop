@@ -33,7 +33,7 @@ export const MobileCategoryCard = ({
           </div>
         </div>
 
-        <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer duration-300 shrink-0 mt-1">
+        <button className="ml-2 text-gray-400 hover:text-gray-600 cursor-pointer transition-custom shrink-0 mt-1">
           <ChevronDown
             className={`w-5 h-5 transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}
           />

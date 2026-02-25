@@ -15,7 +15,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
 
     const handleUpdate = () => {
       let newLabel = "Текст";
-      
+
       // Проверяем заголовки
       for (let i = 1; i <= 6; i++) {
         if (editor.isActive("heading", { level: i as 1 | 2 | 3 | 4 | 5 | 6 })) {
@@ -23,18 +23,18 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
           break;
         }
       }
-      
+
       // Если не нашли заголовок, проверяем параграф
       if (newLabel === "Текст" && editor.isActive("paragraph")) {
         newLabel = "Текст";
       }
-      
+
       setCurrentLabel(newLabel);
     };
 
     // Подписываемся на события БЕЗ debounce
     editor.on("selectionUpdate", handleUpdate);
-    
+
     // Используем requestAnimationFrame для оптимизации вместо setTimeout
     editor.on("transaction", ({ transaction }) => {
       if (transaction.selectionSet || transaction.docChanged) {
@@ -78,7 +78,9 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
 
   // Функция проверки активности для меню
   const isActiveHeading = (level: number) => {
-    return editor.isActive("heading", { level: level as 1 | 2 | 3 | 4 | 5 | 6 });
+    return editor.isActive("heading", {
+      level: level as 1 | 2 | 3 | 4 | 5 | 6,
+    });
   };
 
   const isActiveParagraph = editor.isActive("paragraph");
@@ -91,7 +93,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
         type="button"
         onClick={handleButtonClick}
         className={`
-          flex items-center gap-1 px-3 py-1.5 text-sm border rounded-md duration-300 cursor-pointer
+          flex items-center gap-1 px-3 py-1.5 text-sm border rounded-md transition-custom cursor-pointer
           ${
             isOpen
               ? "bg-blue-100 text-[#9674F9] border-blue-300"
@@ -132,7 +134,7 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
                 setIsOpen(false);
               }}
               className={`
-                w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center duration-300 cursor-pointer
+                w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center transition-custom cursor-pointer
                 ${
                   isActiveParagraph
                     ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"
@@ -153,14 +155,14 @@ export const TextLevelMenu = ({ editor }: { editor: Editor | null }) => {
             {/* Заголовки */}
             {[1, 2, 3, 4, 5, 6].map((level) => {
               const isActive = isActiveHeading(level);
-              
+
               return (
                 <div key={level} className="px-1">
                   <HeadingButton
                     level={level as 1 | 2 | 3 | 4 | 5 | 6}
                     editor={editor}
                     className={`
-                      w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center duration-300 cursor-pointer
+                      w-full text-left px-3 py-2.5 text-sm hover:bg-gray-50 flex justify-between items-center transition-custom cursor-pointer
                       ${
                         isActive
                           ? "bg-blue-50 text-[#9674F9] border-r-2 border-[#9674F9]"

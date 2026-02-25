@@ -154,7 +154,7 @@ const DeliveryTime = ({
                   <button
                     type="button"
                     onClick={() => handleTimeSlotClick(slot)}
-                    className={`p-2 rounded justify-center items-center w-full h-10 duration-300 ${
+                    className={`p-2 rounded justify-center items-center w-full h-10 transition-custom ${
                       selectedTimeSlot === slot.value &&
                       slot.free &&
                       !slot.passed

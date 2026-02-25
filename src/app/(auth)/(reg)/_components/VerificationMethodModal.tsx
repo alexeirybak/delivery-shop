@@ -12,7 +12,7 @@ export default function VerificationMethodModal() {
 
   const iconContainerStyles = `
     p-3 mb-4 rounded-full bg-[#FFF2ED] 
-    group-hover:bg-[#ff6633] duration-300
+    group-hover:bg-[#ff6633] transition-custom
   `;
 
   return (

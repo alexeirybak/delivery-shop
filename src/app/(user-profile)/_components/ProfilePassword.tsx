@@ -72,7 +72,7 @@ const ProfilePassword = () => {
               </h3>
               <button
                 onClick={handleCancel}
-                className="text-gray-400 hover:text-gray-600 duration-300 p-1 rounded-full hover:bg-gray-100 cursor-pointer"
+                className="text-gray-400 hover:text-gray-600 transition-custom p-1 rounded-full hover:bg-gray-100 cursor-pointer"
               >
                 <X className="h-5 w-5" />
               </button>

@@ -16,10 +16,10 @@ export const MenuHeader = ({ onCloseAction, icon }: MenuHeaderProps) => {
 
       <button
         onClick={onCloseAction}
-        className="group p-3 rounded-2xl bg-linear-to-br from-gray-100 to-white shadow-lg hover:shadow-xl hover:from-gray-200 duration-300 cursor-pointer hover:scale-110"
+        className="group p-3 rounded-2xl bg-linear-to-br from-gray-100 to-white shadow-lg hover:shadow-xl hover:from-gray-200 transition-custom cursor-pointer hover:scale-110"
         aria-label="Закрыть меню"
       >
-        <X className="w-6 h-6 text-gray-100 group-hover:text-gray-300 group-hover:rotate-90 duration-300 cursor-pointer" />
+        <X className="w-6 h-6 text-gray-100 group-hover:text-gray-300 group-hover:rotate-90 transition-custom cursor-pointer" />
       </button>
     </div>
   );

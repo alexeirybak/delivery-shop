@@ -103,7 +103,7 @@ const EnterPasswordContent = () => {
                 setError(ctx.error?.message || "Ошибка при входе");
               }
             },
-          }
+          },
         );
       }
     } catch (error) {
@@ -162,7 +162,7 @@ const EnterPasswordContent = () => {
         <div className="flex flex-row flex-wrap mx-auto text-xs">
           <button
             onClick={() => router.replace("/login")}
-            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 duration-300 cursor-pointer"
+            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 transition-custom cursor-pointer"
           >
             <Image
               src="/icons-auth/icon-arrow-left.svg"
@@ -174,7 +174,7 @@ const EnterPasswordContent = () => {
           </button>
           <button
             onClick={handleForgotPassword}
-            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center duration-300 cursor-pointer"
+            className="h-8 text-main-text hover:text-black w-30 flex items-center justify-center transition-custom cursor-pointer"
           >
             Забыли пароль?
           </button>

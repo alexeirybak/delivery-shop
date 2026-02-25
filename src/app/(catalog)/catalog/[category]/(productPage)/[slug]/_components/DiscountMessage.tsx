@@ -26,7 +26,7 @@ const DiscountMessage = ({
   const [isSubscribed, setIsSubscribed] = useState(initialIsSubscribed);
   const [notification, setNotification] = useState("");
   const [unsubscribeToken, setUnsubscribeToken] = useState(
-    initialUnsubscribeToken || ""
+    initialUnsubscribeToken || "",
   );
   const { isAuth } = useAuthStore();
 
@@ -43,7 +43,7 @@ const DiscountMessage = ({
   const handleOpenModal = () => {
     if (!isAuth) {
       setNotification(
-        "Подписка доступна только для авторизованных пользователей"
+        "Подписка доступна только для авторизованных пользователей",
       );
       return;
     }
@@ -97,7 +97,7 @@ const DiscountMessage = ({
         <button
           onClick={handleUnsubscribe}
           disabled={isLoading}
-          className="flex flex-row items-center gap-2 p-2 mb-6 text-[#606060] rounded text-xs hover:bg-gray-200 mx-auto duration-300 cursor-pointer"
+          className="flex flex-row items-center gap-2 p-2 mb-6 text-[#606060] rounded text-xs hover:bg-gray-200 mx-auto transition-custom cursor-pointer"
         >
           <IconBell crossed={false} />
           {isLoading
@@ -107,7 +107,7 @@ const DiscountMessage = ({
       ) : (
         <button
           onClick={handleOpenModal}
-          className="flex flex-row items-center gap-2 p-2 mb-6 text-[#606060] rounded text-xs hover:bg-gray-200 mx-auto duration-300 cursor-pointer"
+          className="flex flex-row items-center gap-2 p-2 mb-6 text-[#606060] rounded text-xs hover:bg-gray-200 mx-auto transition-custom cursor-pointer"
         >
           <IconBell />
           Уведомить о снижении цены

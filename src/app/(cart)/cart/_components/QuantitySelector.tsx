@@ -26,7 +26,7 @@ const QuantitySelector = memo(function QuantitySelector({
       <button
         onClick={onDecrement}
         disabled={quantity < 0 || isUpdating || isOutOfStock}
-        className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
+        className="w-6 h-6 rounded flex items-center justify-center transition-custom cursor-pointer disabled:opacity-50"
       >
         <div className="w-[15px] h-[1px] bg-white"></div>
       </button>
@@ -38,7 +38,7 @@ const QuantitySelector = memo(function QuantitySelector({
       <button
         onClick={onIncrement}
         disabled={isUpdating || isOutOfStock}
-        className="w-6 h-6 rounded flex items-center justify-center duration-300 cursor-pointer disabled:opacity-50"
+        className="w-6 h-6 rounded flex items-center justify-center transition-custom cursor-pointer disabled:opacity-50"
       >
         <div className="relative w-[15px] h-[15px]">
           <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -translate-y-1/2"></div>

@@ -60,7 +60,7 @@ export const UnverifiedEmail = ({
             className={`${formStyles.loginLink} [&&]:h-auto [&&]:my-auto text-primary hover:text-white w-full cursor-pointer`}
           >
             <span className="relative flex items-center justify-center gap-2 font-medium py-3.5 px-6 text-sm hover:*:text-white">
-              <Search className="h-5 w-5 text-primary transition-colors duration-300" />
+              <Search className="h-5 w-5 text-primary transition-colors transition-custom" />
               <span className="translate-y-px">Использовать другой email</span>
             </span>
           </button>
@@ -71,7 +71,7 @@ export const UnverifiedEmail = ({
               setShowUnverifiedEmailAction(false);
               router.replace("/contacts");
             }}
-            className="w-full rounded border border-gray-300 hover:bg-gray-300 duration-300 cursor-pointer"
+            className="w-full rounded border border-gray-300 hover:bg-gray-300 transition-custom cursor-pointer"
           >
             <span className="flex items-center justify-center gap-2 font-medium py-3.5 px-6 text-sm">
               <HelpCircle className="h-5 w-5" />

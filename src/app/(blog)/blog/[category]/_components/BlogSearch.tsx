@@ -95,7 +95,7 @@ export default function BlogSearch() {
             <button
               type="submit"
               disabled={isSearching || searchTerm.trim().length < 2}
-              className="text-center px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 duration-300 cursor-pointer"
+              className="text-center px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2 transition-custom cursor-pointer"
             >
               {isSearching ? (
                 <>
@@ -135,7 +135,7 @@ export default function BlogSearch() {
                 </h3>
                 <button
                   onClick={closeResults}
-                  className="text-main-text hover:text-gray-700 duration-300 cursor-pointer"
+                  className="text-main-text hover:text-gray-700 transition-custom cursor-pointer"
                   aria-label="Закрыть результаты"
                 >
                   <X className="w-5 h-5" />
@@ -149,7 +149,7 @@ export default function BlogSearch() {
                     <Link
                       key={article._id}
                       href={`/blog/${article.category?.slug}/${article.slug}`}
-                      className="block p-4 hover:bg-gray-50 duration-300"
+                      className="block p-4 hover:bg-gray-50 transition-custom"
                       onClick={closeResults}
                     >
                       <div className="flex items-start gap-3">

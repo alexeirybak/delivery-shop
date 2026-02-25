@@ -25,7 +25,7 @@ export const PaymentButtons = ({
   }
 
   if (isOrdered) return null;
-  
+
   return (
     <div className="flex flex-col gap-3">
       <button
@@ -41,7 +41,7 @@ export const PaymentButtons = ({
       <button
         disabled={!canProceedWithPayment}
         onClick={onCashPayment}
-        className={`h-10 rounded w-full text-base items-center justify-center duration-300 ${
+        className={`h-10 rounded w-full text-base items-center justify-center transition-custom ${
           canProceedWithPayment
             ? "bg-primary hover:shadow-button-default active:shadow-button-active text-white cursor-pointer"
             : "bg-gray-300 text-gray-500 cursor-not-allowed"

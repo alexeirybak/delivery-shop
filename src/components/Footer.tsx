@@ -27,7 +27,7 @@ const Footer = () => {
                 alt="VKontakte"
                 width={24}
                 height={24}
-                className="hover:opacity-80 transition-opacity duration-300"
+                className="hover:opacity-80 transition-opacity transition-custom"
               />
             </a>
             <a href="https://ok.ru" target="_blank" rel="noopener noreferrer">
@@ -36,7 +36,7 @@ const Footer = () => {
                 alt="Odnoklassniki"
                 width={24}
                 height={24}
-                className="hover:opacity-80 transition-opacity duration-300"
+                className="hover:opacity-80 transition-opacity transition-custom"
               />
             </a>
           </div>
@@ -51,7 +51,7 @@ const Footer = () => {
                 alt="WhatsApp"
                 width={24}
                 height={24}
-                className="hover:opacity-80 transition-opacity duration-300"
+                className="hover:opacity-80 transition-opacity transition-custom"
               />
             </a>
             <a
@@ -64,7 +64,7 @@ const Footer = () => {
                 alt="Telegram"
                 width={24}
                 height={24}
-                className="hover:opacity-80 transition-opacity duration-300"
+                className="hover:opacity-80 transition-opacity transition-custom"
               />
             </a>
           </div>
@@ -73,16 +73,16 @@ const Footer = () => {
         <div className="phone">
           <a
             href="tel:+78007773333"
-            className="flex items-center gap-x-2 hover:opacity-80 transition-opacity duration-300"
+            className="flex items-center gap-x-2 hover:opacity-80 transition-opacity transition-custom"
           >
             <Image
               src="/icons-footer/phone.svg"
               alt="Позвонить по телефону"
               width={20}
               height={20}
-              className="hover:opacity-80 transition-opacity duration-300"
+              className="hover:opacity-80 transition-opacity transition-custom"
             />
-            <p className="text-base hover:text-black duration-300">
+            <p className="text-base hover:text-black transition-custom">
               8 800 777 33 33
             </p>
           </a>

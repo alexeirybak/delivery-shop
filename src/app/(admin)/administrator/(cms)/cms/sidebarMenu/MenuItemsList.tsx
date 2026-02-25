@@ -30,10 +30,10 @@ export const MenuItemsList = ({ items, onItemClick }: MenuItemsListProps) => {
           </div>
 
           <div className="flex-1">
-            <div className="font-bold text-lg text-gray-900 group-hover:text-gray-800 duration-300">
+            <div className="font-bold text-lg text-gray-900 group-hover:text-gray-800 transition-custom">
               {item.title}
             </div>
-            <div className="text-sm text-gray-600 group-hover:text-gray-700 mt-1 duration-300">
+            <div className="text-sm text-gray-600 group-hover:text-gray-700 mt-1 transition-custom">
               {item.description}
             </div>
           </div>

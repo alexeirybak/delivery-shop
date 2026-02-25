@@ -177,7 +177,7 @@ export const MobileExpandableContent = ({
         {article.status !== "deleted" && (
           <button
             onClick={handleEdit}
-            className="flex items-center justify-center w-8 h-8 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer transition-colors duration-300 shadow-sm hover:shadow"
+            className="flex items-center justify-center w-8 h-8 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer transition-colors transition-custom shadow-sm hover:shadow"
             title="Редактировать статью"
           >
             <Edit className="w-4 h-4" />
@@ -187,7 +187,7 @@ export const MobileExpandableContent = ({
           <Link
             href={`/blog/${article.categorySlug}/${article.slug}`}
             target="_blank"
-            className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors duration-300 shadow-sm hover:shadow"
+            className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors transition-custom shadow-sm hover:shadow"
             title="Просмотреть статью на сайте"
           >
             <Eye className="w-4 h-4" />

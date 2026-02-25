@@ -87,7 +87,7 @@ export const HtmlEditorModal = ({
     editorInstance: monaco.editor.IStandaloneCodeEditor,
   ) => {
     editorRef.current = editorInstance;
-    
+
     // Фокус и выделение
     setTimeout(() => {
       editorInstance.focus();
@@ -156,7 +156,7 @@ export const HtmlEditorModal = ({
             </div>
             <button
               onClick={handleCopy}
-              className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm duration-300 cursor-pointer ${
+              className={`px-3 py-1.5 rounded-lg flex items-center gap-2 text-sm transition-custom cursor-pointer ${
                 copied
                   ? "bg-green-600 text-white"
                   : "bg-gray-800 text-gray-300 hover:bg-gray-700"
@@ -176,7 +176,7 @@ export const HtmlEditorModal = ({
             </button>
             <button
               onClick={onCloseAction}
-              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg duration-300 cursor-pointer"
+              className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-custom cursor-pointer"
               title="Закрыть (Esc)"
             >
               <X className="w-5 h-5" />
@@ -272,14 +272,14 @@ export const HtmlEditorModal = ({
             <div className="flex items-center gap-3">
               <button
                 onClick={onCloseAction}
-                className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg duration-300 cursor-pointer"
+                className="px-4 py-2 text-sm font-medium text-gray-300 bg-gray-800 hover:bg-gray-700 rounded-lg transition-custom cursor-pointer"
               >
                 Отмена (Esc)
               </button>
               <button
                 onClick={handleUpdate}
                 disabled={!htmlContent.trim()}
-                className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 duration-300 cursor-pointer ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg flex items-center gap-2 transition-custom cursor-pointer ${
                   htmlContent.trim()
                     ? "bg-[#9674F9] text-white hover:bg-[#8563e8]"
                     : "bg-gray-800 text-gray-400 cursor-not-allowed"

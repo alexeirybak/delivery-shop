@@ -37,7 +37,7 @@ const ResetPassword = () => {
   };
 
   const handleConfirmPasswordChange = (
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
   ) => {
     setConfirmPassword(e.target.value);
     setError(null);
@@ -73,7 +73,7 @@ const ResetPassword = () => {
     e.preventDefault();
     if (!isPasswordValid(password)) {
       setError(
-        "Пароль должен содержать: 6+ символов, заглавные и строчные буквы, цифры"
+        "Пароль должен содержать: 6+ символов, заглавные и строчные буквы, цифры",
       );
       return;
     }
@@ -166,7 +166,7 @@ const ResetPassword = () => {
         <button
           type="submit"
           disabled={loading}
-          className={`text-white bg-primary hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full max-w-65 mx-auto p-2 gap-4 cursor-pointer duration-300 rounded ${loading ? "bg-[#e5ffde]" : "bg-primary"}`}
+          className={`text-white bg-primary hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full max-w-65 mx-auto p-2 gap-4 cursor-pointer transition-custom rounded ${loading ? "bg-[#e5ffde]" : "bg-primary"}`}
         >
           {loading ? "Сохранение..." : "Сохранить новый пароль"}
         </button>

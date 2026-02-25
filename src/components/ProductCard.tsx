@@ -54,7 +54,7 @@ const ProductCard = ({
 
   return (
     <div
-      className={`relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-56 xl:w-[272px] ${isAdminOrderPage ? "h-auto" : "h-[349px]"} align-top p-0 hover:shadow-article duration-300`}
+      className={`relative flex flex-col justify-between w-40 rounded overflow-hidden bg-white md:w-56 xl:w-[272px] ${isAdminOrderPage ? "h-auto" : "h-[349px]"} align-top p-0 hover:shadow-article transition-custom`}
     >
       {orderQuantity && (
         <div className="absolute top-2 left-2 text-main-text flex items-center p-1 bg-white bg-opacity-80 rounded justify-center gap-1 text-lg font-bold z-10">

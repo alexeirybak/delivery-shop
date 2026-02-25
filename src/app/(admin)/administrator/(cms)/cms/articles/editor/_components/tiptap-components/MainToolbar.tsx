@@ -96,9 +96,9 @@ export const MainToolbar = ({
       // Создаем пропсы для ImageMenu
       const imageProps = {
         editor,
-        onDragOverChange: onImageDragOverChange // Переименовываем пропс
+        onDragOverChange: onImageDragOverChange, // Переименовываем пропс
       };
-      
+
       return (
         <div
           key={itemId}
@@ -134,7 +134,7 @@ export const MainToolbar = ({
             onDrop={(e) => handleDrop(e, group.id)}
             onDragEnd={resetDragState}
             className={`
-              flex items-center gap-1 px-2 py-1.5 rounded-lg border duration-300 cursor-pointer
+              flex items-center gap-1 px-2 py-1.5 rounded-lg border transition-custom cursor-pointer
               min-h-9 box-content
               ${
                 draggingGroupId === group.id

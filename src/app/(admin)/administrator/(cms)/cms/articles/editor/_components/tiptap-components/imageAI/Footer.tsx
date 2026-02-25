@@ -49,13 +49,15 @@ export const Footer = ({
   return (
     <div className="border-t px-6 py-4 bg-gray-50">
       <div className="flex flex-wrap flex-col md:flex-row justify-between items-center">
-        <div className="text-sm mb-4 text-gray-500">{renderStatusMessage()}</div>
+        <div className="text-sm mb-4 text-gray-500">
+          {renderStatusMessage()}
+        </div>
 
         <div className="flex flex-wrap flex-col md:flex-row justify-center gap-3">
           <button
             onClick={onCloseClick}
             disabled={isGenerating}
-            className="flex-1 px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium duration-300 cursor-pointer"
+            className="flex-1 px-6 py-2.5 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 disabled:opacity-50 font-medium transition-custom cursor-pointer"
           >
             {isCompleted ? "Закрыть" : "Отмена"}
           </button>
@@ -63,7 +65,7 @@ export const Footer = ({
           {isCompleted ? (
             <button
               onClick={onInsertToEditor}
-              className="flex-1 px-6 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 font-medium flex items-center gap-2 duration-300 cursor-pointer"
+              className="flex-1 px-6 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 font-medium flex items-center gap-2 transition-custom cursor-pointer"
             >
               <Check className="w-4 h-4" />
               Вставить в документ
@@ -72,7 +74,7 @@ export const Footer = ({
             <button
               onClick={onGenerateImage}
               disabled={isGenerating || !prompt.trim()}
-              className="flex-1 px-6 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center gap-2 duration-300 cursor-pointer"
+              className="flex-1 px-6 py-2.5 bg-linear-to-r from-red-600 to-yellow-600 text-white rounded-lg hover:from-red-700 hover:to-yellow-700 disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center gap-2 transition-custom cursor-pointer"
             >
               {isGenerating ? (
                 <>

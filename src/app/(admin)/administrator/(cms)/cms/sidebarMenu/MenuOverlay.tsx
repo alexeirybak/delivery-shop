@@ -3,7 +3,7 @@ import { MenuOverlayProps } from "../types/sidebar";
 export const MenuOverlay = ({ isOpen, onClose }: MenuOverlayProps) => {
   return (
     <div
-      className={`fixed inset-0 bg-linear-to-br from-black/60 via-purple-900/20 to-black/60 backdrop-blur-sm z-40 duration-300 cursor-pointer ease-out ${
+      className={`fixed inset-0 bg-linear-to-br from-black/60 via-purple-900/20 to-black/60 backdrop-blur-sm z-40 transition-custom cursor-pointer ease-out ${
         isOpen
           ? "opacity-100 pointer-events-auto"
           : "opacity-0 pointer-events-none"

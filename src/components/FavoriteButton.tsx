@@ -50,7 +50,7 @@ const FavoriteButton = ({
       return `${baseClasses} w-auto h-6`;
     }
 
-    return `${baseClasses} w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2 right-2 rounded duration-300 z-10 hover:scale-110`;
+    return `${baseClasses} w-8 h-8 p-2 bg-[#f3f2f1] hover:bg-[#fcd5ba] absolute top-2 right-2 rounded transition-custom z-10 hover:scale-110`;
   };
 
   return (

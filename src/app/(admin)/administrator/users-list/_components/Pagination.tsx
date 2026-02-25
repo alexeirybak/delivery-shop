@@ -43,7 +43,7 @@ const Pagination = ({
         <button
           onClick={() => onPageChange(currentPage - 1)}
           disabled={currentPage === 1}
-          className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 hover:bg-gray-50 duration-300 cursor-pointer disabled:cursor-not-allowed"
+          className="px-3 py-1 border border-gray-300 rounded disabled:opacity-50 hover:bg-gray-50 transition-custom cursor-pointer disabled:cursor-not-allowed"
         >
           Назад
         </button>
@@ -52,7 +52,7 @@ const Pagination = ({
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`p-2 w-10 hover:bg-[#ff6633] hover:text-white duration-300 cursor-pointer  ${
+            className={`p-2 w-10 hover:bg-[#ff6633] hover:text-white transition-custom cursor-pointer  ${
               currentPage === page ? buttonStyles.active : buttonStyles.inactive
             }`}
           >

@@ -30,7 +30,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
   const order = data?.orders?.find((o) => o._id === orderId);
 
   const [currentStatusLabel, setCurrentStatusLabel] = useState<string>(
-    order ? getMappedStatus(order) : ""
+    order ? getMappedStatus(order) : "",
   );
   const [isUpdating, setIsUpdating] = useState(false);
   const [showOrderDetails, setShowOrderDetails] = useState(false);
@@ -64,7 +64,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
     try {
       const { status: englishStatus, paymentStatus } = getEnglishStatuses(
         newStatusLabel,
-        order
+        order,
       );
 
       const updateData: { status: string; paymentStatus?: string } = {
@@ -180,7 +180,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           />
           {!showOrderDetails && (
             <button
-              className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              className="bg-[#f3f2f1] hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer"
               onClick={handleToggleDetails}
             >
               <IconVision showPassword={!showOrderDetails} />
@@ -190,7 +190,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
           {showOrderDetails && (
             <button
-              className={`${buttonStyles.active} hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer`}
+              className={`${buttonStyles.active} hover:shadow-button-secondary w-50 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer`}
               onClick={handleExportToExcel}
             >
               <Image
@@ -206,7 +206,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           {showCalendarIcon ? (
             <div>
               <button
-                className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+                className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer"
                 onClick={handleOpenCalendar}
               >
                 <Image
@@ -224,7 +224,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             </div>
           ) : (
             <button
-              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+              className="relative bg-[#f3f2f1] hover:shadow-button-secondary w-10 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer"
               onClick={handleOpenChat}
             >
               {messages.length === 0 ? (
@@ -268,7 +268,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
       {showOrderDetails && !showFullOrder && (
         <div className="flex justify-center mt-10">
           <button
-            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer"
             onClick={handleToggleFullOrder}
           >
             <IconVision showPassword={true} />
@@ -279,7 +279,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
       {showFullOrder && (
         <div className="flex justify-center mt-10">
           <button
-            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded duration-300 cursor-pointer"
+            className="bg-[#f3f2f1] hover:shadow-button-secondary text-main-text w-60 h-10 px-2 flex justify-center items-center gap-2 rounded transition-custom cursor-pointer"
             onClick={handleToggleFullOrder}
           >
             <IconVision showPassword={false} />

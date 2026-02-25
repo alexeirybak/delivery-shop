@@ -6,13 +6,12 @@ import CategoryHoverEffect from "./CategoryHoverEffect";
 import CategoryImage from "./CategoryImage";
 import CategoryNewBadge from "./CategoryNewBadge";
 
-export default async function CategoryCard({  
+export default async function CategoryCard({
   category,
   priority = false,
 }: BlogCategoryCardProps) {
-
-  const imageExists = category.image 
-    ? await checkImageExists(category.image) 
+  const imageExists = category.image
+    ? await checkImageExists(category.image)
     : false;
 
   const hasImage =
@@ -23,7 +22,7 @@ export default async function CategoryCard({
     category.description || "Исследуйте материалы по этой теме";
 
   return (
-    <article className="group bg-white h-full flex flex-col rounded overflow-hidden shadow-md hover:shadow-lg duration-300 hover:-translate-y-0.5">
+    <article className="group bg-white h-full flex flex-col rounded overflow-hidden shadow-md hover:shadow-lg transition-custom hover:-translate-y-0.5">
       <CategoryNewBadge createdAt={category.createdAt} />
       <CategoryImage
         hasImage={hasImage}

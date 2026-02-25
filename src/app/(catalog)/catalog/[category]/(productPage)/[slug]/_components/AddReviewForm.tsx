@@ -11,7 +11,7 @@ interface AddReviewFormProps {
 
 const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
   const [rating, setRating] = useState(0);
-  const [hoverRating, setHoverRating] = useState(0); 
+  const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -88,12 +88,11 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
                 onMouseLeave={() => setHoverRating(0)}
                 className="cursor-pointer hover:scale-110 transition-transform mr-1"
               >
-                <IconStar 
-                  size={24} 
+                <IconStar
+                  size={24}
                   fillPercentage={
-                    hoverRating >= star ? 100 : 
-                    rating >= star ? 100 : 0
-                  } 
+                    hoverRating >= star ? 100 : rating >= star ? 100 : 0
+                  }
                 />
               </button>
             ))}
@@ -137,7 +136,7 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
             submitting
               ? "cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]"
               : "text-base bg-[#ff6633] text-white hover:shadow-(--shadow-article)"
-          } w-[188px] p-2 flex items-center justify-center rounded duration-300 cursor-pointer`}
+          } w-[188px] p-2 flex items-center justify-center rounded transition-custom cursor-pointer`}
         >
           {submitting ? "Отправка..." : "Отправить отзыв"}
         </button>
