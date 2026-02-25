@@ -5,7 +5,6 @@ import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
 import { IComment } from "@/app/(blog)/blog/types";
 import { create } from "zustand";
 
-// Интерфейс для информации о бане
 export interface BannedUserInfo {
   isBanned: boolean;
   bannedUntil: string | null;
@@ -19,7 +18,7 @@ interface CommentsStore {
   loading: boolean;
   currentPage: number;
   itemsPerPage: number;
-  bannedUsers: Record<string, BannedUserInfo>; // храним объект с isBanned и bannedUntil
+  bannedUsers: Record<string, BannedUserInfo>;
 
   setComments: (comments: IComment[]) => void;
   setTotalItems: (totalItems: number) => void;
@@ -50,7 +49,6 @@ export const useCommentsStore = create<CommentsStore>((set, get) => ({
   setCurrentPage: (currentPage) => set({ currentPage }),
   setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
   
-  // обновленный метод для сохранения статуса и даты бана
   setUserBanned: (userId: string, isBanned: boolean, bannedUntil?: string | null) => {
     set((state) => ({
       bannedUsers: {

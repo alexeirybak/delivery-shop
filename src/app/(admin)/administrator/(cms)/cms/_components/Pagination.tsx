@@ -4,6 +4,7 @@ import { useCategoryStore } from "@/store/categoryStore";
 import { CONFIG_BLOG } from "../CONFIG_BLOG";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 import { useCommentsStore } from "@/store/commentsStore";
+import { useCardsStore } from "@/store/cardsStore";
 
 type StoreType = {
   totalPages: number;
@@ -18,6 +19,7 @@ export const Pagination = ({ type }: { type: string }) => {
     articles: useArticlesManagementStore(),
     categories: useCategoryStore(),
     comments: useCommentsStore(),
+    cards: useCardsStore(),
   };
 
   const store = stores[type];
@@ -27,7 +29,8 @@ export const Pagination = ({ type }: { type: string }) => {
     return null;
   }
 
-  const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } = store;
+  const { totalPages, totalItems, currentPage, itemsPerPage, setCurrentPage } =
+    store;
 
   const startItem = (currentPage - 1) * itemsPerPage + 1;
   const endItem = Math.min(currentPage * itemsPerPage, totalItems);
