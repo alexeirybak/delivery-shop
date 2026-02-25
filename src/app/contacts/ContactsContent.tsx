@@ -104,7 +104,7 @@ export const ContactsContent = () => {
                   <div className="flex gap-1.5 items-start">
                     <Image
                       src="/images/contacts/market2.svg"
-                      alt="Восход"
+                      alt="Парус"
                       width={146}
                       height={20}
                       className="shrink-0"
@@ -113,7 +113,7 @@ export const ContactsContent = () => {
                   <div className="flex gap-x-2">
                     <Image
                       src="/images/contacts/icon-home.svg"
-                      alt="Восход"
+                      alt="Парус"
                       width={30}
                       height={30}
                       className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
@@ -126,7 +126,7 @@ export const ContactsContent = () => {
                   <div className="flex gap-x-2">
                     <Image
                       src="/images/contacts/icon-phone.svg"
-                      alt="Восход"
+                      alt="Парус"
                       width={30}
                       height={30}
                       className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
@@ -144,7 +144,7 @@ export const ContactsContent = () => {
                   <div className="flex gap-1.5 items-start">
                     <Image
                       src="/images/contacts/market3.svg"
-                      alt="Парус"
+                      alt="Рябинушка"
                       width={146}
                       height={20}
                       className="shrink-0"
@@ -153,7 +153,7 @@ export const ContactsContent = () => {
                   <div className="flex gap-x-2">
                     <Image
                       src="/images/contacts/icon-home.svg"
-                      alt="Парус"
+                      alt="Рябинушка"
                       width={30}
                       height={30}
                       className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
