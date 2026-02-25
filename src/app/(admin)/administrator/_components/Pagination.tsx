@@ -3,14 +3,16 @@
 import { useCategoryStore } from "@/store/categoryStore";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 import { useCommentsStore } from "@/store/commentsStore";
-import { CONFIG_BLOG } from "../CONFIG_BLOG";
-import { StoreType } from "../comments/types/comments.types";
+import { CONFIG_BLOG } from "../(cms)/cms/CONFIG_BLOG";
+import { StoreType } from "../(cms)/cms/comments/types/comments.types";
+import { useCardsStore } from "@/store/useCardsStore";
 
 export const Pagination = ({ type = "categories" }) => {
   const stores: Record<string, StoreType> = {
     articles: useArticlesManagementStore(),
     categories: useCategoryStore(),
     comments: useCommentsStore(),
+    cards: useCardsStore(),
   };
 
   const store = stores[type];

@@ -3,10 +3,10 @@
 import { useCommentsStore } from "@/store/commentsStore";
 import { useEffect, useState } from "react";
 import { Header } from "../_components/Header";
-import { ItemsPerPageSelector } from "../_components/ItemsPerPageSelector";
+import { ItemsPerPageSelector } from "../../../_components/ItemsPerPageSelector";
 import CommentsTableHeader from "./_components/CommentsTableHeader";
 import CommentsList from "./_components/CommentsList";
-import { Pagination } from "../_components/Pagination";
+import { Pagination } from "../../../_components/Pagination";
 import { CommentsFilters } from "./_components/CommentsFilters";
 
 const CommentsPage = () => {

@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import { Header } from "../../_components/Header";
 import { Notification } from "../../_components/Notification";
-import { ItemsPerPageSelector } from "../../_components/ItemsPerPageSelector";
-import { Pagination } from "../../_components/Pagination";
+import { ItemsPerPageSelector } from "../../../../_components/ItemsPerPageSelector";
+import { Pagination } from "../../../../_components/Pagination";
 import { useArticlesManagementStore } from "@/store/articlesManagementStore";
 import { Article } from "./types";
 import { ArticleTable } from "./_components/ArticleTable";
@@ -26,8 +26,7 @@ const ArticlesManagementPage = () => {
     setIsReordering,
   } = useArticlesManagementStore();
 
-  const { loadArticles, reorderArticles } =
-    useArticlesReorder();
+  const { loadArticles, reorderArticles } = useArticlesReorder();
 
   useEffect(() => {
     if (notification) {
@@ -63,7 +62,7 @@ const ArticlesManagementPage = () => {
           type: "error",
           message: result.message || "Ошибка обновления порядка",
         });
-        throw new Error(result.message)
+        throw new Error(result.message);
       }
     } catch (error) {
       console.error("Ошибка:", error);
@@ -71,7 +70,7 @@ const ArticlesManagementPage = () => {
         type: "error",
         message: "Произошла ошибка при обновлении порядка",
       });
-      throw error
+      throw error;
     } finally {
       setIsReordering(false);
     }
@@ -106,7 +105,7 @@ const ArticlesManagementPage = () => {
         </div>
       </div>
       <ArticleTable onReorder={handleReorder} />
-      {totalPages > 1 && <Pagination type="articles"/>}
+      {totalPages > 1 && <Pagination type="articles" />}
     </div>
   );
 };

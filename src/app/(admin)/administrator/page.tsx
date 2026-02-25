@@ -16,6 +16,12 @@ const AdminPanel = () => {
           Управление пользователями
         </Link>
         <Link
+          href="/administrator/cards"
+          className={`${buttonStyles.active} [&&]:justify-start px-4 py-2 w-full md:w-1/2`}
+        >
+          Карты
+        </Link>
+        <Link
           href="/administrator/products/add-product"
           className={`${buttonStyles.active} [&&]:justify-start px-4 py-2 w-full md:w-1/2`}
         >

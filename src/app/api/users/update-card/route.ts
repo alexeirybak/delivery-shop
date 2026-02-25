@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { getDB } from "../../../../../utils/api-routes";
 import { ObjectId } from "mongodb";
@@ -12,7 +11,7 @@ export async function POST(request: NextRequest) {
     if (!userId || !cardNumber) {
       return NextResponse.json(
         { error: "userId и cardNumber обязательны" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -22,7 +21,7 @@ export async function POST(request: NextRequest) {
     } catch {
       return NextResponse.json(
         { error: "Неверный формат userId" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -30,33 +29,82 @@ export async function POST(request: NextRequest) {
     if (!user) {
       return NextResponse.json(
         { error: "Пользователь не найден" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
-    const result = await db
-      .collection("user")
-      .updateOne(
+    const card = await db.collection("cards").findOne({ cardNumber });
+    if (!card) {
+      return NextResponse.json(
+        { error: "Карта с таким номером не найдена в системе" },
+        { status: 404 },
+      );
+    }
+
+    const existingUserWithCard = await db.collection("user").findOne({
+      card: cardNumber,
+    });
+
+    if (
+      existingUserWithCard &&
+      existingUserWithCard._id.toString() !== userId
+    ) {
+      return NextResponse.json(
+        { error: "Эта карта уже привязана к другому пользователю" },
+        { status: 400 },
+      );
+    }
+
+    if (
+      existingUserWithCard &&
+      existingUserWithCard._id.toString() === userId
+    ) {
+      return NextResponse.json({
+        success: true,
+        message: "Карта уже привязана к вашему аккаунту",
+        card: cardNumber,
+      });
+    }
+
+    const [updateUser, updateCard] = await Promise.all([
+      db.collection("user").updateOne(
         { _id: objectId },
-        { 
-          $set: { 
+        {
+          $set: {
             card: cardNumber,
             hasCard: true,
-            updatedAt: new Date()
-          } 
-        }
-      );
+            updatedAt: new Date(),
+          },
+        },
+      ),
+      db.collection("cards").updateOne(
+        { cardNumber },
+        {
+          $set: {
+            isActive: true,
+            activatedAt: new Date(),
+          },
+        },
+      ),
+    ]);
 
-    if (result.modifiedCount === 0) {
+    if (updateUser.modifiedCount === 0) {
       return NextResponse.json(
-        { error: "Не удалось обновить данные карты" },
-        { status: 500 }
+        { error: "Не удалось обновить данные пользователя" },
+        { status: 500 },
+      );
+    }
+
+    if (updateCard.modifiedCount === 0) {
+      return NextResponse.json(
+        { error: "Не удалось активировать карту" },
+        { status: 500 },
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: "Данные карты обновлены",
+      message: "Карта успешно привязана и активирована",
       card: cardNumber,
     });
   } catch (error) {
@@ -67,7 +115,7 @@ export async function POST(request: NextRequest) {
         error:
           error instanceof Error ? error.message : "Внутренняя ошибка сервера",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
