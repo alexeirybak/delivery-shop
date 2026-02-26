@@ -1,13 +1,8 @@
 import Image from "next/image";
 import { ArticleImageProps } from "../../../types";
 
-const ArticleImage = ({
-  image,
-  imageAlt,
-  articleName,
-}: ArticleImageProps) => {
-  
-  if (!image) { 
+const ArticleImage = ({ image, imageAlt, articleName }: ArticleImageProps) => {
+  if (!image) {
     return null;
   }
 

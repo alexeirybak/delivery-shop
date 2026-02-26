@@ -54,11 +54,9 @@ export default function ImageUploader({
         "image/jpeg",
         "image/jpg",
         "image/png",
-        "image/webp",
-        "image/gif",
       ];
       if (!allowedTypes.includes(file.type)) {
-        return setError("Разрешены только изображения (JPG, PNG, WebP, GIF)");
+        return setError("Разрешены только изображения (JPG, PNG)");
       }
       if (file.size > maxSize) {
         return setError(
@@ -155,7 +153,7 @@ export default function ImageUploader({
           <p className="text-xs text-gray-500">
             {converting
               ? "Пожалуйста, подождите"
-              : `JPG, PNG, WebP, GIF до ${maxSize / 1024 / 1024}MB`}
+              : `JPG, PNG до ${maxSize / 1024 / 1024}MB`}
           </p>
         </div>
       </div>

@@ -7,7 +7,6 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const file = formData.get('image') as File;
     
-    // Валидация файла
     if (!file) {
       return NextResponse.json(
         { error: 'Файл не выбран' },
@@ -15,7 +14,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Проверка типа файла
     if (!file.type.startsWith('image/')) {
       return NextResponse.json(
         { error: 'Файл должен быть изображением' },
@@ -29,7 +27,6 @@ export async function POST(request: NextRequest) {
     const originalName = file.name.replace(/\.[^/.]+$/, "");
     const extension = path.extname(file.name).toLowerCase();
     
-    // Проверка расширения
     const allowedExtensions = ['.jpg', '.jpeg', '.png', '.webp'];
     if (!allowedExtensions.includes(extension)) {
       return NextResponse.json(
@@ -38,23 +35,18 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Генерируем уникальное имя с префиксом temp
     const timestamp = Date.now();
     const random = Math.random().toString(36).substring(2, 9);
     const filename = `temp_${timestamp}_${random}${extension}`;
     
-    // СОХРАНЯЕМ В ПАПКУ temp (без вложенности)
-    const uploadDir = path.join(process.cwd(), 'public', 'temp');
+    const uploadDir = path.join(process.cwd(), 'uploads', 'temp');
     const filepath = path.join(uploadDir, filename);
     
-    // Создаем папку если не существует
     await mkdir(uploadDir, { recursive: true });
     
-    // Сохраняем файл
     await writeFile(filepath, buffer);
     
-    // URL для доступа к файлу
-    const url = `/temp/${filename}`;
+    const url = `/api/uploads/temp/${filename}`;
     
     return NextResponse.json({ 
       success: true,

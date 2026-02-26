@@ -35,6 +35,10 @@ export async function generateMetadata({
 
   const keywords = [...(categoryData.keywords || []), "статьи", "блог"];
 
+  const ogImage = categoryData.image
+    ? `${baseUrl}${categoryData.image}`
+    : `${baseUrl}/og-images/blog-og.jpg`;
+
   return {
     metadataBase: new URL(`${baseUrl}/blog`),
     title,
@@ -46,8 +50,13 @@ export async function generateMetadata({
     openGraph: {
       title: `${categoryData.name}`,
       description: description.substring(0, 200),
-      type: "website",
       url: `${baseUrl}/blog/${categoryData.slug}`,
+      images: {
+        url: ogImage,
+        alt: `${categoryData.name}`,
+        width: 512,
+        height: 512,
+      },
     },
   };
 }

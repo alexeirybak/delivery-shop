@@ -25,6 +25,7 @@ interface ArticleStore {
   isUploading: boolean;
   formData: ArticleFormData;
   originalImageUrl: string;
+  editingId?: string | null;
 
   setIsSubmitting: (isSubmitting: boolean) => void;
   setIsUploading: (isUploading: boolean) => void;

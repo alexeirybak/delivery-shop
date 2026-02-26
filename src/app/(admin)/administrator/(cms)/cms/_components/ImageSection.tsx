@@ -85,7 +85,7 @@ export const ImageSection = ({
                 <input
                   type="file"
                   ref={fileInputRef}
-                  accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+                  accept="image/jpeg,image/jpg,image/png"
                   onChange={onFileChange}
                   disabled={isUploading || isSubmitting}
                   className="hidden"
@@ -106,7 +106,7 @@ export const ImageSection = ({
             )}
           </div>
           <p className="text-xs text-gray-500 mt-2">
-            Поддерживаемые форматы: JPG, PNG, GIF, WebP. Изображение будет
+            Поддерживаемые форматы: JPG, PNG. Изображение будет
             загружено на сервер только при сохранении категории.
             {editingId &&
               formData.image &&

@@ -8,25 +8,23 @@ export const metadata: Metadata = {
     "Актуальные вакансии в компании Северяночка. Продавец-кассир, администратор, товаровед, грузчик, мерчандайзер и другие. Официальное трудоустройство, стабильная зарплата, дружный коллектив.",
   keywords:
     "вакансии, работа, Северяночка, продавец-кассир, администратор, товаровед, грузчик, мерчандайзер, уборщица, трудоустройство, Архангельск",
+  alternates: {
+    canonical: `${baseUrl}/vacancies`,
+  },
   openGraph: {
     title: "Вакансии | Северяночка",
     description:
       "Работа в сети магазинов Северяночка. Актуальные вакансии с официальным трудоустройством и стабильной зарплатой.",
-    url: `https://${baseUrl}/vacancies`,
+    url: `${baseUrl}/vacancies`,
     siteName: "Северяночка",
     images: [
       {
-        url: "/images/vacancies/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/og-images/vacancies-og.jpg",
+        width: 512,
+        height: 512,
         alt: "Вакансии Северяночка",
       },
     ],
-    locale: "ru_RU",
-    type: "website",
-  },
-  alternates: {
-    canonical: `https://${baseUrl}/vacancies`,
   },
 };
 

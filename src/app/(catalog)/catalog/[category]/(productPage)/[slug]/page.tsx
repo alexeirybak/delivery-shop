@@ -25,8 +25,20 @@ export async function generateMetadata({
 
     const canonicalUrl = `${baseUrl}/catalog/${category}/${slug}`;
 
+    let ogImage = undefined;
+    
+    if (product.img) {
+      if (product.img.startsWith('http://') || product.img.startsWith('https://')) {
+        ogImage = product.img;
+      } else {
+        ogImage = `${baseUrl}${product.img.startsWith('/') ? '' : '/'}${product.img}`;
+      }
+    } else {
+      console.warn('No image found for product');
+    }
+
     return {
-      title: `${product.title}`,
+      title: product.title,
       description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
       metadataBase: new URL(baseUrl),
       alternates: {
@@ -34,13 +46,13 @@ export async function generateMetadata({
       },
       openGraph: {
         title: product.title,
-        description:
-          product.description || `Заказывайте ${product.title} по лучшей цене`,
-        images: product.img ? [product.img[0]] : [],
+        description: product.description || `Заказывайте ${product.title} по лучшей цене`,
+        images: ogImage,
         url: canonicalUrl,
       },
     };
-  } catch {
+  } catch (error) {
+    console.error('Error generating metadata:', error);
     return {
       title: "Товар",
       description: "Страница товара",

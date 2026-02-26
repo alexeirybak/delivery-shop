@@ -8,10 +8,10 @@ import { NextRequest, NextResponse } from "next/server";
 import sharp from "sharp";
 import fs from "fs/promises";
 import path from "path";
-
+ 
 const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
 const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
-
+ 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -20,14 +20,14 @@ export async function POST(request: NextRequest) {
       aspect_ratio = "1:1",
       style = "default",
     }: GenerationRequest = body;
-
+ 
     if (!prompt || prompt.trim().length < 3) {
       return NextResponse.json(
         { error: "Описание должно содержать минимум 3 символа" },
         { status: 400 },
       );
     }
-
+ 
     if (!YANDEX_API_KEY || !YANDEX_FOLDER_ID) {
       console.error("Отсутствуют API-ключи:", {
         hasApiKey: !!YANDEX_API_KEY,
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     let widthRatio = 1,
       heightRatio = 1;
     switch (aspect_ratio) {
@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
         heightRatio = 9;
         break;
     }
-
+ 
     let enhancedPrompt = prompt;
     const styleMap: Record<StyleType, string> = {
       realistic:
@@ -65,11 +65,11 @@ export async function POST(request: NextRequest) {
       cartoon: "мультяшный стиль, анимация, диснеевский стиль",
       default: "",
     };
-
+ 
     if (style !== "default" && styleMap[style]) {
       enhancedPrompt = `${styleMap[style]}: ${prompt}`;
     }
-
+ 
     const requestBody: YandexArtGenerationRequest = {
       modelUri: `art://${YANDEX_FOLDER_ID}/yandex-art/latest`,
       messages: [
@@ -87,7 +87,7 @@ export async function POST(request: NextRequest) {
         },
       },
     };
-
+ 
     const response = await fetch(
       "https://llm.api.cloud.yandex.net/foundationModels/v1/imageGenerationAsync",
       {
@@ -100,9 +100,9 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify(requestBody),
       },
     );
-
+ 
     const responseText = await response.text();
-
+ 
     if (!response.ok) {
       return NextResponse.json(
         {
@@ -113,7 +113,7 @@ export async function POST(request: NextRequest) {
         { status: response.status },
       );
     }
-
+ 
     if (!responseText || responseText.trim() === "") {
       return NextResponse.json(
         {
@@ -122,7 +122,7 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     let data: YandexArtResponse;
     try {
       data = JSON.parse(responseText) as YandexArtResponse;
@@ -136,9 +136,9 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     const operationId = data.id || data.operationId;
-
+ 
     if (!operationId) {
       console.error("No operationId in response:", data);
       return NextResponse.json(
@@ -149,7 +149,7 @@ export async function POST(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     return NextResponse.json({
       success: true,
       operationId: operationId,
@@ -170,37 +170,37 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
+ 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const operationId = searchParams.get("operationId");
-
+ 
     if (!operationId) {
       return NextResponse.json(
         { error: "Не указан operationId" },
         { status: 400 },
       );
     }
-
+ 
     if (!YANDEX_API_KEY) {
       return NextResponse.json(
         { error: "API ключ не настроен" },
         { status: 500 },
       );
     }
-
+ 
     const statusUrl = `https://operation.api.cloud.yandex.net/operations/${operationId}`;
-
+ 
     const response = await fetch(statusUrl, {
       headers: {
         Authorization: `Api-Key ${YANDEX_API_KEY}`,
         Accept: "application/json",
       },
     });
-
+ 
     const responseText = await response.text();
-
+ 
     if (!response.ok) {
       console.error(
         "Не получилось установить статус:",
@@ -215,7 +215,7 @@ export async function GET(request: NextRequest) {
         { status: response.status },
       );
     }
-
+ 
     if (!responseText || responseText.trim() === "") {
       return NextResponse.json(
         {
@@ -224,7 +224,7 @@ export async function GET(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     let data;
     try {
       data = JSON.parse(responseText);
@@ -238,28 +238,23 @@ export async function GET(request: NextRequest) {
         { status: 500 },
       );
     }
-
+ 
     if (data.done) {
       if (data.response?.image) {
-        // Сохраняем изображение как файл
         const base64Image = data.response.image;
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, "base64");
-
-        // Создаем уникальное имя файла
+ 
         const timestamp = Date.now();
         const randomString = Math.random().toString(36).substring(2, 8);
-
-        // Используем PNG как YandexART по умолчанию
+ 
         const originalExtension = "png";
         const cleanName = "yandex_art";
         const fileName = `${cleanName}_${timestamp}_${randomString}.${originalExtension}`;
-
-        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP
+ 
         let optimizedBuffer: Buffer;
-
+ 
         if (originalExtension === "png") {
-          // Для AI-изображений делаем больше и лучше качество
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -271,7 +266,6 @@ export async function GET(request: NextRequest) {
             })
             .toBuffer();
         } else {
-          // Для JPG
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -283,25 +277,20 @@ export async function GET(request: NextRequest) {
             })
             .toBuffer();
         }
-
-        // Сохраняем в указанную папку
-        const publicDir = path.join(
+ 
+        const uploadDir = path.join(
           process.cwd(),
-          "public",
           "uploads",
           "articles",
           "yandex-art",
         );
-        await fs.mkdir(publicDir, { recursive: true });
-
-        const filePath = path.join(publicDir, fileName);
+        await fs.mkdir(uploadDir, { recursive: true });
+ 
+        const filePath = path.join(uploadDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
-
-        console.log("File saved:", fileName);
-
-        // Публичный URL для использования на фронтенде
-        const publicUrl = `/uploads/articles/yandex-art/${fileName}`;
-
+ 
+        const publicUrl = `/api/uploads/articles/yandex-art/${fileName}`;
+ 
         return NextResponse.json({
           success: true,
           done: true,
@@ -325,14 +314,13 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({
           success: false,
           done: true,
-          status: "failed",
+          status: "error",
           error: "Неожиданный формат ответа от YandexART",
           operationId: operationId,
         });
       }
     }
-
-    // Операция еще выполняется
+ 
     return NextResponse.json({
       success: true,
       done: false,

@@ -1,6 +1,5 @@
 import { BlogCategoryCardProps } from "../types/categories.types";
 import { getColorFromName } from "../utils/getColorFromName";
-import { checkImageExists } from "../utils/imageExists";
 import CategoryContent from "./CategoryContent";
 import CategoryHoverEffect from "./CategoryHoverEffect";
 import CategoryImage from "./CategoryImage";
@@ -10,12 +9,8 @@ export default async function CategoryCard({
   category,
   priority = false,
 }: BlogCategoryCardProps) {
-  const imageExists = category.image
-    ? await checkImageExists(category.image)
-    : false;
-
-  const hasImage =
-    category.image && category.image.trim() !== "" && imageExists;
+  // Просто проверяем, есть ли поле image и оно не пустое
+  const hasImage = Boolean(category.image && category.image.trim() !== "");
 
   const gradientClass = getColorFromName(category.name);
   const description =

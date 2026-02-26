@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
  
 export async function GET(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ path: string[] }> },
 ) {
   try {
@@ -12,7 +12,7 @@ export async function GET(
     const fullPath = path.join(process.cwd(), "uploads", filePath);
  
     if (!fs.existsSync(fullPath)) {
-      return NextResponse.json({ error: "File not found" }, { status: 404 });
+      return NextResponse.json({ error: "Файл не найден" }, { status: 404 });
     }
  
     const fileContent = fs.readFileSync(fullPath);
@@ -34,6 +34,6 @@ export async function GET(
     });
   } catch (error) {
     console.error("API Error:", error); 
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 });
   }
 }

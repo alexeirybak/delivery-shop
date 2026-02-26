@@ -42,6 +42,10 @@ export async function generateMetadata({
     (article.keywords as string[])?.map((k) => k.toLowerCase()) || [];
   const canonicalUrl = `${baseUrl}/blog/${categoryData.slug}/${article.slug}`;
 
+  const ogImage = article.image
+    ? `${baseUrl}${article.image}`
+    : `${baseUrl}/og-images/blog-og.jpg`;
+
   return {
     metadataBase: new URL(baseUrl),
     title,
@@ -55,6 +59,7 @@ export async function generateMetadata({
       description,
       type: "article",
       url: canonicalUrl,
+      images: ogImage,
     },
     ...(article.status === "archived" && {
       robots: {
