@@ -6,15 +6,15 @@ import { Loader } from "@/components/Loader";
 import { baseUrl } from "../../../../utils/baseUrl";
 
 export const metadata: Metadata = {
-  title: 'Акции магазина "Северяночка"',
-  description: 'Акционные товары магазина "Северяночка"',
+  title: 'Новинки магазина "Северяночка"',
+  description: 'Новые товары магазина "Северяночка"',
   openGraph: {
-    title: 'Акции магазина "Северяночка"',
-    description: 'Акционные товары магазина "Северяночка"',
+    title: 'Новые товары магазина "Северяночка"',
+    description: 'Новое посттупление товаров в магазин "Северяночка"',
     url: `${baseUrl}/actions`,
     images: {
       url: `${baseUrl}/og-images/actions-og.jpg`,
-      alt: 'Акции магазина "Северяночка"',
+      alt: 'Новинки магазина "Северяночка"',
       width: 512,
       height: 512,
     },
