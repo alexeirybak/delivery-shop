@@ -26,7 +26,7 @@ export const auth = betterAuth({
     resetPasswordTokenExpiresIn: 86400,
     sendResetPassword: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Северяночка <onboarding@resend.dev>",
+        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
         to: user.email,
         subject: "Сброс пароля для Северяночки",
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
@@ -36,7 +36,7 @@ export const auth = betterAuth({
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
       await resend.emails.send({
-        from: "Северяночка <onboarding@resend.dev>",
+        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
         to: user.email,
         subject: "Подтвердите email",
         react: VerifyEmail({ username: user.name, verifyUrl: url }),
@@ -119,7 +119,7 @@ export const auth = betterAuth({
         url: string;
       }) => {
         await resend.emails.send({
-          from: "Северяночка <onboarding@resend.dev>",
+          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
           to: user.email,
           subject: "Подтверждение смены email в Северяночке",
           react: EmailChangeVerification({
@@ -141,7 +141,7 @@ export const auth = betterAuth({
         url: string;
       }) => {
         await resend.emails.send({
-          from: "Северяночка <onboarding@resend.dev>",
+          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
           to: user.email,
           subject: "Удаление аккаунта",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),

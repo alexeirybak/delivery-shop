@@ -1,23 +1,12 @@
 import { useState, useEffect } from "react";
-
-import {
-  Table,
-  Trash2,
-  Plus,
-  Minus,
-  Rows,
-  Columns,
-  Square,
-  Combine,
-  Split,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  ChevronDown,
-} from "lucide-react";
-
+import { Table, Trash2 } from "lucide-react";
 import "./../css/tableMenu.css";
 import { EditorProps, NodeInfo } from "../../../types";
+import { TableModal } from "./TableModal";
+import { ColumnControls } from "./ColumnControls";
+import { RowControls } from "./RowControls";
+import { HeaderControls } from "./HeaderControls";
+import { CellControls } from "./CellControls";
 
 export const TableMenu = ({ editor }: EditorProps) => {
   const [isTableModalOpen, setIsTableModalOpen] = useState(false);
@@ -103,45 +92,16 @@ export const TableMenu = ({ editor }: EditorProps) => {
     setWithHeaderRow(true);
   };
 
-  const addColumnBefore = () => {
-    editor.chain().focus().addColumnBefore().run();
-  };
-
-  const addColumnAfter = () => {
-    editor.chain().focus().addColumnAfter().run();
-  };
-
-  const deleteColumn = () => {
-    editor.chain().focus().deleteColumn().run();
-  };
-
-  const addRowBefore = () => {
-    editor.chain().focus().addRowBefore().run();
-  };
-
-  const addRowAfter = () => {
-    editor.chain().focus().addRowAfter().run();
-  };
-
-  const deleteRow = () => {
-    editor.chain().focus().deleteRow().run();
-  };
-
-  const deleteTable = () => {
-    editor.chain().focus().deleteTable().run();
-  };
-
-  const toggleHeaderRow = () => {
-    editor.chain().focus().toggleHeaderRow().run();
-  };
-
-  const toggleHeaderColumn = () => {
-    editor.chain().focus().toggleHeaderColumn().run();
-  };
-
-  const toggleHeaderCell = () => {
-    editor.chain().focus().toggleHeaderCell().run();
-  };
+  const addColumnBefore = () => editor.chain().focus().addColumnBefore().run();
+  const addColumnAfter = () => editor.chain().focus().addColumnAfter().run();
+  const deleteColumn = () => editor.chain().focus().deleteColumn().run();
+  const addRowBefore = () => editor.chain().focus().addRowBefore().run();
+  const addRowAfter = () => editor.chain().focus().addRowAfter().run();
+  const deleteRow = () => editor.chain().focus().deleteRow().run();
+  const deleteTable = () => editor.chain().focus().deleteTable().run();
+  const toggleHeaderRow = () => editor.chain().focus().toggleHeaderRow().run();
+  const toggleHeaderColumn = () => editor.chain().focus().toggleHeaderColumn().run();
+  const toggleHeaderCell = () => editor.chain().focus().toggleHeaderCell().run();
 
   const handleMergeCells = () => {
     if (selectionState.hasMultipleCellsSelected || editor.can().mergeCells()) {
@@ -178,156 +138,42 @@ export const TableMenu = ({ editor }: EditorProps) => {
 
         {canModifyTable && (
           <div>
-            <div className="table-menu-divider"></div>
+            <div className="table-menu-divider" />
 
-            <div className="table-button-group">
-              <span className="table-group-label">Столбцы:</span>
-              <button
-                type="button"
-                onClick={addColumnBefore}
-                className="table-menu-button"
-                title="Добавить столбец слева"
-              >
-                <ChevronLeft className="w-3 h-3" />
-                <Plus className="w-3 h-3" />
-              </button>
-              <button
-                type="button"
-                onClick={addColumnAfter}
-                className="table-menu-button"
-                title="Добавить столбец справа"
-              >
-                <Plus className="w-3 h-3" />
-                <ChevronRight className="w-3 h-3" />
-              </button>
-              <button
-                type="button"
-                onClick={deleteColumn}
-                className="table-menu-button"
-                title="Удалить столбец"
-              >
-                <Minus className="w-3 h-3" />
-                <Columns className="w-3 h-3" />
-              </button>
-            </div>
+            <ColumnControls
+              onAddBefore={addColumnBefore}
+              onAddAfter={addColumnAfter}
+              onDelete={deleteColumn}
+            />
 
-            <div className="table-button-group">
-              <span className="table-group-label">Строки:</span>
-              <button
-                type="button"
-                onClick={addRowBefore}
-                className="table-menu-button"
-                title="Добавить строку сверху"
-              >
-                <ChevronUp className="w-3 h-3" />
-                <Plus className="w-3 h-3" />
-              </button>
-              <button
-                type="button"
-                onClick={addRowAfter}
-                className="table-menu-button"
-                title="Добавить строку снизу"
-              >
-                <Plus className="w-3 h-3" />
-                <ChevronDown className="w-3 h-3" />
-              </button>
-              <button
-                type="button"
-                onClick={deleteRow}
-                className="table-menu-button"
-                title="Удалить строку"
-              >
-                <Minus className="w-3 h-3" />
-                <Rows className="w-3 h-3" />
-              </button>
-            </div>
+            <RowControls
+              onAddBefore={addRowBefore}
+              onAddAfter={addRowAfter}
+              onDelete={deleteRow}
+            />
 
-            <div className="table-menu-divider"></div>
+            <div className="table-menu-divider" />
 
-            <div className="table-button-group">
-              <button
-                type="button"
-                onClick={toggleHeaderRow}
-                className={`table-menu-button ${
-                  tableState.hasHeaderRow ? "active" : ""
-                }`}
-                title="Строка заголовка"
-              >
-                <Rows className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={toggleHeaderColumn}
-                className={`table-menu-button ${
-                  tableState.hasHeaderColumn ? "active" : ""
-                }`}
-                title="Столбец заголовка"
-              >
-                <Columns className="w-4 h-4" />
-              </button>
-              <button
-                type="button"
-                onClick={toggleHeaderCell}
-                disabled={!selectionState.isCellSelected}
-                className={`table-menu-button ${
-                  tableState.isHeaderCell ? "active" : ""
-                } ${!selectionState.isCellSelected ? "disabled" : ""}`}
-                title={
-                  selectionState.isCellSelected
-                    ? "Сделать ячейку заголовком"
-                    : "Выделите ячейку"
-                }
-              >
-                <Square className="w-4 h-4" />
-              </button>
-            </div>
+            <HeaderControls
+              hasHeaderRow={tableState.hasHeaderRow}
+              hasHeaderColumn={tableState.hasHeaderColumn}
+              isHeaderCell={tableState.isHeaderCell}
+              isCellSelected={selectionState.isCellSelected}
+              onToggleHeaderRow={toggleHeaderRow}
+              onToggleHeaderColumn={toggleHeaderColumn}
+              onToggleHeaderCell={toggleHeaderCell}
+            />
 
-            <div className="table-menu-divider"></div>
+            <div className="table-menu-divider" />
 
-            <div className="table-button-group">
-              <span className="table-group-label">Ячейки:</span>
+            <CellControls
+              hasMultipleCellsSelected={selectionState.hasMultipleCellsSelected}
+              isCellSelected={selectionState.isCellSelected}
+              onMerge={handleMergeCells}
+              onSplit={handleSplitCell}
+            />
 
-              <button
-                type="button"
-                onClick={handleMergeCells}
-                disabled={!selectionState.hasMultipleCellsSelected}
-                className={`table-menu-button ${
-                  selectionState.hasMultipleCellsSelected ? "" : "disabled"
-                }`}
-                title={
-                  selectionState.hasMultipleCellsSelected
-                    ? "Объединить выделенные ячейки"
-                    : "Выделите несколько ячеек для объединения"
-                }
-              >
-                <Combine className="w-4 h-4" />
-              </button>
-
-              <button
-                type="button"
-                onClick={handleSplitCell}
-                disabled={
-                  !selectionState.isCellSelected ||
-                  selectionState.hasMultipleCellsSelected
-                }
-                className={`table-menu-button ${
-                  selectionState.isCellSelected &&
-                  !selectionState.hasMultipleCellsSelected
-                    ? ""
-                    : "disabled"
-                }`}
-                title={
-                  selectionState.isCellSelected &&
-                  !selectionState.hasMultipleCellsSelected
-                    ? "Разделить ячейку"
-                    : "Выделите одну ячейку для разделения"
-                }
-              >
-                <Split className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="table-menu-divider"></div>
+            <div className="table-menu-divider" />
 
             <button
               type="button"
@@ -341,108 +187,17 @@ export const TableMenu = ({ editor }: EditorProps) => {
         )}
       </div>
 
-      {isTableModalOpen && (
-        <div className="table-modal-overlay">
-          <div className="table-modal-content">
-            <div className="table-modal-header">
-              <h3 className="table-modal-title">Создать таблицу</h3>
-            </div>
-
-            <div className="table-modal-body">
-              <div className="table-form-group">
-                <label htmlFor="rows" className="table-form-label">
-                  Количество строк
-                </label>
-                <div className="table-range-container">
-                  <input
-                    id="rows"
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={rows}
-                    onChange={(e) => setRows(parseInt(e.target.value))}
-                    className="table-range-input"
-                  />
-                  <span className="table-range-value">{rows}</span>
-                </div>
-              </div>
-
-              <div className="table-form-group">
-                <label htmlFor="cols" className="table-form-label">
-                  Количество столбцов
-                </label>
-                <div className="table-range-container">
-                  <input
-                    id="cols"
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={cols}
-                    onChange={(e) => setCols(parseInt(e.target.value))}
-                    className="table-range-input"
-                  />
-                  <span className="table-range-value">{cols}</span>
-                </div>
-              </div>
-
-              <div className="table-form-group">
-                <div className="table-checkbox-container">
-                  <input
-                    id="header"
-                    type="checkbox"
-                    checked={withHeaderRow}
-                    onChange={(e) => setWithHeaderRow(e.target.checked)}
-                    className="table-checkbox"
-                  />
-                  <label htmlFor="header" className="table-checkbox-label">
-                    Добавить строку заголовка
-                  </label>
-                </div>
-              </div>
-
-              <div className="table-preview-container">
-                <p className="table-preview-title">Предпросмотр:</p>
-                <div className="table-preview-grid">
-                  {Array.from({ length: rows }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="table-preview-row">
-                      {Array.from({ length: cols }).map((_, colIndex) => (
-                        <div
-                          key={colIndex}
-                          className={`table-preview-cell ${
-                            rowIndex === 0 && withHeaderRow ? "header" : ""
-                          }`}
-                        >
-                          {rowIndex === 0 && withHeaderRow ? "H" : "C"}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
-                </div>
-                <p className="table-preview-hint">
-                  {withHeaderRow ? "H - заголовок, C - ячейка" : "C - ячейка"}
-                </p>
-              </div>
-            </div>
-
-            <div className="table-modal-footer">
-              <button
-                type="button"
-                onClick={() => setIsTableModalOpen(false)}
-                className="table-modal-button cancel"
-              >
-                Отмена
-              </button>
-              <button
-                type="button"
-                onClick={insertTable}
-                className="table-modal-button insert"
-              >
-                Вставить таблицу
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      <TableModal
+        isOpen={isTableModalOpen}
+        onClose={() => setIsTableModalOpen(false)}
+        rows={rows}
+        cols={cols}
+        withHeaderRow={withHeaderRow}
+        onRowsChange={setRows}
+        onColsChange={setCols}
+        onHeaderChange={setWithHeaderRow}
+        onInsert={insertTable}
+      />
     </>
   );
 };

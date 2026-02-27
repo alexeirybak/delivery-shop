@@ -28,7 +28,7 @@ export async function sendPriceAlertEmail({
     const unsubscribeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/price-alerts/unsubscribe?token=${unsubscribeToken}&email=${encodeURIComponent(to)}`;
 
     const { error } = await resend.emails.send({
-      from: "Северяночка <onboarding@resend.dev>",
+      from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
       to,
       subject: `💰 Цена на "${productTitle}" снизилась!`,
       react: PriceAlertEmail({
