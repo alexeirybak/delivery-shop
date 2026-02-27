@@ -27,12 +27,11 @@ export const FilterBar = ({
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-
+// Исправил
     return () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside); // Было addEventListener
     };
-  });
-
+  }, []);
   return (
     <div className="flex flex-wrap gap-4 justify-between items-start mb-6">
       <div className="flex flex-wrap gap-4 items-center">
