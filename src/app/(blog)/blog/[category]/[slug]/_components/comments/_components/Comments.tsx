@@ -22,7 +22,6 @@ export const Comments = ({ articleId }: { articleId: string }) => {
     const commentMap = new Map<string, IComment>();
     const rootComments: IComment[] = [];
 
-    // Если был комментарий {_id: "123", text: "Привет"}, после этой операции в Map будет: "123" => {_id: "123", text: "Привет", replies: []}
     flatComments.forEach((comment) => {
       commentMap.set(comment._id, { ...comment, replies: [] });
     });
@@ -118,8 +117,8 @@ export const Comments = ({ articleId }: { articleId: string }) => {
   if (loading) return <Loader />;
 
   return (
-    <div className="mt-12 pt-8 border-t border-gray-200">
-      <div className="flex flex-wrap items-center justify-center md:justify-between gap-4 mb-6">
+    <div className="pt-8 mt-12 border-t border-gray-200">
+      <div className="flex flex-wrap items-center justify-center gap-4 mb-6 md:justify-between">
         <h2 className="text-2xl font-bold text-gray-800">
           Комментарии {comments.length > 0 && `(${comments.length})`}
         </h2>
@@ -130,7 +129,7 @@ export const Comments = ({ articleId }: { articleId: string }) => {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+        <div className="px-4 py-3 mb-6 text-red-700 border border-red-200 rounded bg-red-50">
           {error}
         </div>
       )}
@@ -144,7 +143,7 @@ export const Comments = ({ articleId }: { articleId: string }) => {
       </div>
       <div className="space-y-6">
         {comments.length === 0 ? (
-          <div className="text-center py-8 text-gray-500">
+          <div className="py-8 text-center text-gray-500">
             Пока нет комментариев. Будьте первым!
           </div>
         ) : (
@@ -166,7 +165,7 @@ export const Comments = ({ articleId }: { articleId: string }) => {
             />
 
             {!hasMoreComments && totalRootComments > 5 && (
-              <div className="text-center pt-4 text-sm text-gray-500">
+              <div className="pt-4 text-sm text-center text-gray-500">
                 Загружены все комментарии
               </div>
             )}

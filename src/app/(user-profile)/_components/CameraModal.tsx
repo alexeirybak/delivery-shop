@@ -26,9 +26,9 @@ const CameraModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4 rounded">
-      <div className="bg-white rounded p-4 max-w-sm w-full">
-        <h3 className="text-lg font-semibold mb-4 text-center">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-75 rounded">
+      <div className="w-full max-w-sm p-4 bg-white rounded">
+        <h3 className="mb-4 text-lg font-semibold text-center">
           Сделайте фото
         </h3>
 
@@ -39,25 +39,24 @@ const CameraModal = ({
             playsInline
             muted
             onLoadedData={onVideoLoaded}
-            className="w-full h-full bg-gray-200 rounded mb-4 mx-auto"
+            className="w-full h-full mx-auto mb-4 bg-gray-200 rounded"
           />
           {!isCameraReady && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <div className="w-8 h-8 border-b-2 rounded-full animate-spin border-primary"></div>
             </div>
           )}
         </div>
 
-        {/* canvas используется для "фотографирования" текущего кадра видео */}
         <canvas ref={canvasRef} className="hidden" />
 
-        <div className="flex gap-3 w-full text-xs md:text-sm">
+        <div className="flex w-full gap-3 text-xs md:text-sm">
           <button
             onClick={onTakePhoto}
             disabled={!isCameraReady || isUploading}
             className="flex-1 text-white px-3 bg-primary hover:bg-[#039b03] hover:shadow-button-default active:shadow-button-active cursor-pointer rounded disabled:opacity-50 disabled:cursor-not-allowed transition-custom"
           >
-            <div className="flex flex-row gap-x-2 md:gap-x-4 justify-center items-center">
+            <div className="flex flex-row items-center justify-center gap-x-2 md:gap-x-4">
               <Image
                 src="/icons-auth/icon-camera.png"
                 alt="Фото"
@@ -77,7 +76,7 @@ const CameraModal = ({
         </div>
 
         {!isCameraReady && (
-          <p className="text-xs text-gray-500 text-center mt-2">
+          <p className="mt-2 text-xs text-center text-gray-500">
             Камера запускается...
           </p>
         )}

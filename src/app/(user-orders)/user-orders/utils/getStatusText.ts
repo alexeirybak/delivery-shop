@@ -1,7 +1,6 @@
 import { Order } from "@/types/order";
 
 export const getStatusText = (order: Order): string => {
-  // 1. Сначала проверяем особые случаи с оплатой
   if (order.paymentMethod === "online") {
     if (order.paymentStatus === "failed") {
       return "Не оплачен";
@@ -23,7 +22,6 @@ export const getStatusText = (order: Order): string => {
     }
   }
 
-  // 2. Базовые статусы (убраны дубликаты)
   const statusMap: { [key: string]: string } = {
     pending: "В процессе",
     refund: "Возврат",

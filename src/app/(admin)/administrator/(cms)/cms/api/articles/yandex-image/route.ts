@@ -9,7 +9,7 @@ import sharp from "sharp";
 import fs from "fs/promises";
 import path from "path";
 
-const YANDEX_IMAGE_API_KEY = process.env.YANDEX_IMAGE_API_KEY;
+const YANDEX_API_KEY = process.env.YANDEX_API_KEY;
 const YANDEX_FOLDER_ID = process.env.YANDEX_FOLDER_ID;
 
 export async function POST(request: NextRequest) {
@@ -28,9 +28,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!YANDEX_IMAGE_API_KEY || !YANDEX_FOLDER_ID) {
+    if (!YANDEX_API_KEY || !YANDEX_FOLDER_ID) {
       console.error("Отсутствуют API-ключи:", {
-        hasApiKey: !!YANDEX_IMAGE_API_KEY,
+        hasApiKey: !!YANDEX_API_KEY,
         hasFolderId: !!YANDEX_FOLDER_ID,
       });
       return NextResponse.json(
@@ -94,7 +94,7 @@ export async function POST(request: NextRequest) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Api-Key ${YANDEX_IMAGE_API_KEY}`,
+          Authorization: `Api-Key ${YANDEX_API_KEY}`,
           Accept: "application/json",
         },
         body: JSON.stringify(requestBody),
@@ -183,7 +183,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    if (!YANDEX_IMAGE_API_KEY) {
+    if (!YANDEX_API_KEY) {
       return NextResponse.json(
         { error: "API ключ не настроен" },
         { status: 500 },
@@ -194,7 +194,7 @@ export async function GET(request: NextRequest) {
 
     const response = await fetch(statusUrl, {
       headers: {
-        Authorization: `Api-Key ${YANDEX_IMAGE_API_KEY}`,
+        Authorization: `Api-Key ${YANDEX_API_KEY}`,
         Accept: "application/json",
       },
     });
@@ -241,25 +241,20 @@ export async function GET(request: NextRequest) {
 
     if (data.done) {
       if (data.response?.image) {
-        // Сохраняем изображение как файл
         const base64Image = data.response.image;
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, "base64");
 
-        // Создаем уникальное имя файла
         const timestamp = Date.now();
         const randomString = Math.random().toString(36).substring(2, 8);
 
-        // Используем PNG как YandexART по умолчанию
         const originalExtension = "png";
         const cleanName = "yandex_art";
         const fileName = `${cleanName}_${timestamp}_${randomString}.${originalExtension}`;
 
-        // ОПТИМИЗИРУЕМ ЧЕРЕЗ SHARP
         let optimizedBuffer: Buffer;
 
         if (originalExtension === "png") {
-          // Для AI-изображений делаем больше и лучше качество
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -271,7 +266,6 @@ export async function GET(request: NextRequest) {
             })
             .toBuffer();
         } else {
-          // Для JPG
           optimizedBuffer = await sharp(buffer)
             .resize(2048, 2048, {
               fit: "inside",
@@ -284,21 +278,18 @@ export async function GET(request: NextRequest) {
             .toBuffer();
         }
 
-        // Сохраняем в указанную папку
-        const publicDir = path.join(
+        const uploadDir = path.join(
           process.cwd(),
-          "public",
           "uploads",
           "articles",
           "yandex-art",
         );
-        await fs.mkdir(publicDir, { recursive: true });
+        await fs.mkdir(uploadDir, { recursive: true });
 
-        const filePath = path.join(publicDir, fileName);
+        const filePath = path.join(uploadDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
 
-        // Публичный URL для использования на фронтенде
-        const publicUrl = `/uploads/articles/yandex-art/${fileName}`;
+        const publicUrl = `/api/uploads/articles/yandex-art/${fileName}`;
 
         return NextResponse.json({
           success: true,
@@ -330,7 +321,6 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    // Операция еще выполняется
     return NextResponse.json({
       success: true,
       done: false,

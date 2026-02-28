@@ -15,7 +15,7 @@ const AlertMessage = ({ type, message }: AlertMessageProps) => {
 
   return (
     <div className={`flex items-center px-3 py-2 rounded mt-3 ${styles[type]}`}>
-      <AlertCircle className="h-4 w-4 mr-2 flex-shrink-0" />
+      <AlertCircle className="w-4 h-4 mr-2 shrink-0" />
       <span className="text-sm">{message}</span>
     </div>
   );

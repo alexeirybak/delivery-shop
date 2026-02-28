@@ -34,7 +34,6 @@ function createRedirectUrl(
   return `/catalog/${targetCategory}/${slug}`;
 }
 
-// Редирект с /catalog/product/59
 export async function handleCatalogProductRedirect(
   request: NextRequest
 ): Promise<NextResponse | null> {
@@ -56,7 +55,6 @@ export async function handleCatalogProductRedirect(
   return null;
 }
 
-// Редирект с /catalog/category/59
 export async function handleOldProductRedirect(
   request: NextRequest
 ): Promise<NextResponse | null> {

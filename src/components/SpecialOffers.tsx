@@ -3,16 +3,15 @@ import Image from "next/image";
 const SpecialOffers = () => {
   return (
     <section>
-      <div className="flex flex-col mb-4 md:mb-8 xl:mb-10 justify-between text-main-text">
+      <div className="flex flex-col justify-between mb-4 md:mb-8 xl:mb-10 text-main-text">
         <div className="flex flex-col gap-4 md:w-[737px] xl:w-full mx-auto">
-          <h2 className="text-2xl xl:text-4xl text-left font-bold mb-4 md:mb-8">
+          <h2 className="mb-4 text-2xl font-bold text-left xl:text-4xl md:mb-8">
             Специальные предложения
           </h2>
-          <div className="flex flex-col md:flex-row gap-4 items-center xl:w-auto ">
-            {/* Баннер с картой - всегда видим */}
+          <div className="flex flex-col items-center gap-4 md:flex-row xl:w-auto ">
             <button className="text-left flex flex-row pt-5 pl-5 rounded bg-[#FCD5BA] w-full max-w-[336px] md:max-w-[352px] xl:max-w-[584px] h-[170px] xl:h-50 hover:shadow-card-shop transition-custom relative overflow-hidden cursor-pointer">
               <div className="flex flex-col gap-1.5 w-[174px] xl:w-[258px] ">
-                <p className="text-xl xl:text-2xl font-bold">
+                <p className="text-xl font-bold xl:text-2xl">
                   Оформите карту «Северяночка»
                 </p>
                 <p className="text-xs xl:text-base">
@@ -28,25 +27,23 @@ const SpecialOffers = () => {
               />
             </button>
             <button className="relative w-full md:w-[353px] xl:w-[584px] h-[170px] xl:h-[200px] rounded overflow-hidden cursor-pointer hover:shadow-button-default transition-custom">
-              {/* Баннер акций - мобильная/планшетная версия */}
-              <div className="relative xl:hidden w-full h-full">
+              <div className="relative w-full h-full xl:hidden">
                 <Image
                   src="/images/banners/banner-action-mob-tab.jpeg"
                   alt="Акционные товары"
                   fill
-                  className="w-full h-full object-cover rounded"
+                  className="object-cover w-full h-full rounded"
                   priority
                   sizes="(max-width: 767px) 100vw, 353px"
                 />
               </div>
 
-              {/* Баннер акций - десктопная версия */}
-              <div className="relative hidden xl:block w-full h-full">
+              <div className="relative hidden w-full h-full xl:block">
                 <Image
                   src="/images/banners/banner-action-desk.jpeg"
                   alt="Акционные товары"
                   fill
-                  className="w-full h-full object-cover rounded"
+                  className="object-cover w-full h-full rounded"
                   priority
                   sizes="(max-width: 767px) 100vw, 353px"
                 />

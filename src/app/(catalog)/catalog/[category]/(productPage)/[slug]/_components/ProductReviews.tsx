@@ -51,20 +51,19 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
 
   useEffect(() => {
     fetchReviews();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [productId, refreshKey]);
 
   if (loading) {
     return (
       <div>
-        <h2 className="text-xl font-semibold mb-4">Отзывы</h2>
-        <div className="animate-pulse space-y-4">
+        <h2 className="mb-4 text-xl font-semibold">Отзывы</h2>
+        <div className="space-y-4 animate-pulse">
           {[...Array(3)].map((_, i) => (
             <div key={i} className="p-4 bg-gray-100 rounded-lg">
-              <div className="h-4 bg-gray-300 rounded w-1/4 mb-2"></div>
-              <div className="h-4 bg-gray-300 rounded w-1/3 mb-4"></div>
-              <div className="h-3 bg-gray-300 rounded w-full mb-1"></div>
-              <div className="h-3 bg-gray-300 rounded w-2/3"></div>
+              <div className="w-1/4 h-4 mb-2 bg-gray-300 rounded"></div>
+              <div className="w-1/3 h-4 mb-4 bg-gray-300 rounded"></div>
+              <div className="w-full h-3 mb-1 bg-gray-300 rounded"></div>
+              <div className="w-2/3 h-3 bg-gray-300 rounded"></div>
             </div>
           ))}
         </div>
@@ -80,7 +79,7 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-4">Отзывы</h2>
+      <h2 className="mb-4 text-xl font-bold">Отзывы</h2>
 
       {reviews.length === 0 ? (
         <p className="text-main-text">Пока нет отзывов. Будьте первым!</p>
@@ -102,13 +101,13 @@ const ProductReviews = ({ productId, refreshKey = 0 }: ProductReviewsProps) => {
                   <span className="text-lg">{userName}</span>
                 </div>
 
-                <div className="flex flex-row items-center gap-x-4 mb-2">
+                <div className="flex flex-row items-center mb-2 gap-x-4">
                   <StarRating rating={review.rating} />
                   <span className="text-[#8f8f8f] text-xs">
                     {new Date(review.createdAt).toLocaleDateString("ru-RU")}
                   </span>
                 </div>
-                <p className="text-main-text text-base">{review.comment}</p>
+                <p className="text-base text-main-text">{review.comment}</p>
               </div>
             );
           })}

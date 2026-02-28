@@ -9,7 +9,7 @@ const SearchInput = ({
   handleInputBlur,
 }: SearchInputProps) => {
   return (
-    <div className="relative rounded border border-primary shadow-(--shadow-button-default) leading-[150%]">
+    <div className="relative rounded border border-primary shadow-button-default leading-[150%]">
       <form
         onSubmit={(e) => {
           e.preventDefault();

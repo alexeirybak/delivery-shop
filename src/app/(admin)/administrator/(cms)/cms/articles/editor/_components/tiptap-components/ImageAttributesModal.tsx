@@ -51,7 +51,6 @@ export const ImageAttributesModal = ({
         </div>
 
         <div className="p-4 overflow-y-auto max-h-[calc(90vh-180px)]">
-          {/* Вкладки */}
           <div className="flex border-b-blue-500 mb-4">
             <button
               type="button"

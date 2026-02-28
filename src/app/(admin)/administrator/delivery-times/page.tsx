@@ -34,14 +34,13 @@ export default function DeliveryTimesAdmin() {
 
   useEffect(() => {
     fetchDeliveryTimes();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (loading) return <Loader />;
 
   return (
-    <div className="p-3 md:p-4 xl:p-6 w-full mx-auto md:w-auto">
-      <h1 className="text-xl md:text-2xl font-bold mb-4 md:mb-6 text-center">
+    <div className="w-full p-3 mx-auto md:p-4 xl:p-6 md:w-auto">
+      <h1 className="mb-4 text-xl font-bold text-center md:text-2xl md:mb-6">
         Управление графиком доставки на 3 дня
       </h1>
 
@@ -53,7 +52,7 @@ export default function DeliveryTimesAdmin() {
         onAddTimeSlot={addTimeSlot}
       />
 
-      <div className="bg-white rounded border border-gray-200 mb-4 md:mb-6 overflow-x-auto">
+      <div className="mb-4 overflow-x-auto bg-white border border-gray-200 rounded md:mb-6">
         <ScheduleTable
           sortedTimeSlots={sortedTimeSlots}
           dates={dates}

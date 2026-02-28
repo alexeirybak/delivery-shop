@@ -60,7 +60,7 @@ export const UnverifiedEmail = ({
             className={`${formStyles.loginLink} [&&]:h-auto [&&]:my-auto text-primary hover:text-white w-full cursor-pointer`}
           >
             <span className="relative flex items-center justify-center gap-2 font-medium py-3.5 px-6 text-sm hover:*:text-white">
-              <Search className="h-5 w-5 text-primary transition-colors transition-custom" />
+              <Search className="h-5 w-5 text-primary  transition-custom" />
               <span className="translate-y-px">Использовать другой email</span>
             </span>
           </button>

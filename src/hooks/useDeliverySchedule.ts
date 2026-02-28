@@ -15,12 +15,9 @@ export function useDeliverySchedule() {
 
   const dates = getThreeDaysDates();
 
-  const showMessage = useCallback(
-    (text: string) => {
-      setMessage(text);
-    },
-    []
-  );
+  const showMessage = useCallback((text: string) => {
+    setMessage(text);
+  }, []);
 
   const initializeEmptySchedule = useCallback(() => {
     const emptySchedule: Schedule = {};
@@ -40,11 +37,6 @@ export function useDeliverySchedule() {
       if (data.schedule && Object.keys(data.schedule).length > 0) {
         const loadedSchedule = data.schedule as Schedule;
 
-        // const updatedSchedule = dates.reduce<Schedule>((acc, date) => {
-        //   acc[date] = loadedSchedule[date] ? { ...loadedSchedule[date] } : {};
-        //   return acc;
-        // }, {});
-
         const updatedSchedule: Schedule = {};
 
         dates.forEach((date) => {
@@ -56,7 +48,7 @@ export function useDeliverySchedule() {
         setSchedule(updatedSchedule);
 
         const slots = new Set(
-          dates.flatMap((date) => Object.keys(updatedSchedule[date] || {}))
+          dates.flatMap((date) => Object.keys(updatedSchedule[date] || {})),
         );
 
         setTimeSlots(Array.from(slots));
@@ -133,7 +125,7 @@ export function useDeliverySchedule() {
         },
       }));
     },
-    []
+    [],
   );
 
   const removeTimeSlot = useCallback(
@@ -141,7 +133,7 @@ export function useDeliverySchedule() {
       setError("");
 
       const updatedTimeSlots = timeSlots.filter(
-        (slot) => slot !== slotToRemove
+        (slot) => slot !== slotToRemove,
       );
       setTimeSlots(updatedTimeSlots);
 
@@ -156,7 +148,7 @@ export function useDeliverySchedule() {
       setSchedule(updatedSchedule);
       showMessage("Временной слот удален из всех дней");
     },
-    [timeSlots, schedule, dates, showMessage]
+    [timeSlots, schedule, dates, showMessage],
   );
 
   const saveDeliveryTimes = useCallback(async () => {

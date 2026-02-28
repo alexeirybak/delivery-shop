@@ -71,7 +71,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // Проверка существования категории
     if (categoryId) {
       const categoryExists = await db
         .collection("article-category")
@@ -168,7 +167,6 @@ export async function POST(request: Request) {
 
     const newNumericId = maxNumericId + 1;
 
-    // Создание новой статьи
     const newArticle = {
       _id: new ObjectId(),
       numericId: newNumericId,
@@ -188,13 +186,12 @@ export async function POST(request: Request) {
       views: 0,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
-      // Добавляем publishedAt только если статус "published"
+
       ...(status === "published" && { publishedAt: new Date().toISOString() }),
     };
 
     await db.collection("articles").insertOne(newArticle);
 
-    // Формирование ответа
     const responseArticle = {
       ...newArticle,
       _id: newArticle._id.toString(),

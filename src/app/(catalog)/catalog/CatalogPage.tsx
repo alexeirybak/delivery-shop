@@ -8,11 +8,6 @@ import CatalogAdminControls from "../CatalogAdminControls";
 import CatalogGrid from "../CatalogGrid";
 import { useAuthStore } from "@/store/authStore";
 
-export const metadata = {
-  title: 'Каталог товаров магазина "Северяночка"',
-  description: 'Каталог всех товаров магазина "Северяночка"',
-};
-
 const CatalogPage = () => {
   const [categories, setCategories] = useState<CatalogProps[]>([]);
   const [isEditing, setIsEditing] = useState(false);

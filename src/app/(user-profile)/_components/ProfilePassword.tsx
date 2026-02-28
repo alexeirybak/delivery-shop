@@ -39,7 +39,7 @@ const ProfilePassword = () => {
 
   return (
     <div className="mb-8">
-      <div className="flex flex-wrap justify-between items-center mb-4 gap-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
         <h3 className={profileStyles.sectionTitle}>Пароль</h3>
 
         <button
@@ -47,7 +47,7 @@ const ProfilePassword = () => {
           className={profileStyles.editButton}
         >
           Сменить пароль
-          <ArrowRight className="h-4 w-4 ml-1" />
+          <ArrowRight className="w-4 h-4 ml-1" />
         </button>
       </div>
 
@@ -59,28 +59,27 @@ const ProfilePassword = () => {
           disabled
           readOnly
         />
-        <Key className="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
+        <Key className="absolute w-5 h-5 text-gray-400 transform -translate-y-1/2 right-3 top-1/2" />
       </div>
 
-      {/* Модальное окно */}
       {isModalOpen && (
         <div className="absolute inset-0 z-100 flex items-center justify-center bg-[#fcd5bacc] min-h-screen text-main-text py-10 px-3 backdrop-blur-sm">
           <div className="relative bg-white rounded shadow-auth-form) max-h-[calc(100vh-80px)] w-full flex flex-col p-6">
-            <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900">
                 Подтверждение смены пароля
               </h3>
               <button
                 onClick={handleCancel}
-                className="text-gray-400 hover:text-gray-600 transition-custom p-1 rounded-full hover:bg-gray-100 cursor-pointer"
+                className="p-1 text-gray-400 rounded-full cursor-pointer hover:text-gray-600 transition-custom hover:bg-gray-100"
               >
-                <X className="h-5 w-5" />
+                <X className="w-5 h-5" />
               </button>
             </div>
 
-            <p className="text-gray-600 mb-6">{getModalText()}</p>
+            <p className="mb-6 text-gray-600">{getModalText()}</p>
 
-            <div className="flex gap-3 justify-end">
+            <div className="flex justify-end gap-3">
               <button
                 onClick={handleCancel}
                 className={profileStyles.cancelButton}

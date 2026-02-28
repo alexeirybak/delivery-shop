@@ -24,7 +24,6 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
 
   useEffect(() => {
     startTimer();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -109,12 +108,12 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
   return (
     <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
-        <h1 className="text-2xl font-bold text-main-text text-center">Вход</h1>
+        <h1 className="text-2xl font-bold text-center text-main-text">Вход</h1>
         <div>
           <p className="text-center text-[#8f8f8f]">Код из SMS</p>
           <form
             onSubmit={handleSubmit}
-            className="w-65 mx-auto max-h-screen flex flex-col justify-center items-center"
+            className="flex flex-col items-center justify-center max-h-screen mx-auto w-65"
             autoComplete="off"
           >
             <input
@@ -127,12 +126,12 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
                 setCode(e.target.value);
                 setError("");
               }}
-              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+              className="flex justify-center w-27.5 h-15 text-center text-2xl px-4 py-3 border border-[#bfbfbf] rounded focus:border-primary focus:shadow-button-default focus:bg-white focus:outline-none"
               autoComplete="one-time-code"
               required
             />
             {error && (
-              <div className="text-red-500 text-center mt-2 text-sm">
+              <div className="mt-2 text-sm text-center text-red-500">
                 {error}
               </div>
             )}
@@ -153,7 +152,7 @@ const LoginWithOTP = ({ phoneNumber }: { phoneNumber: string }) => {
         />
         <Link
           href="/register"
-          className="h-8 text-xs text-main-text hover:text-black w-30 flex items-center justify-center gap-x-2 mx-auto transition-custom cursor-pointer"
+          className="flex items-center justify-center h-8 mx-auto text-xs cursor-pointer text-main-text hover:text-black w-30 gap-x-2 transition-custom"
         >
           <Image
             src="/icons-auth/icon-arrow-left.svg"

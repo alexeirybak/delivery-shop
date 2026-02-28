@@ -28,9 +28,9 @@ const CatalogMenu = ({
       {isCatalogOpen && (
         <div
           ref={menuRef}
-          className="hidden md:block absolute top-full left-0 w-full bg-white shadow-(--shadow-catalog-menu) z-50"
+          className="absolute left-0 z-50 hidden w-full bg-white md:block top-full shadow-catalog-menu"
         >
-          <div className="mx-auto px-4 py-3">
+          <div className="px-4 py-3 mx-auto">
             {error && (
               <ErrorComponent
                 error={error.error}
@@ -40,7 +40,7 @@ const CatalogMenu = ({
             {isLoading ? (
               <MiniLoader />
             ) : categories && categories.length > 0 ? (
-              <div className="grid grid-cols-2 xl:grid-cols-4 gap-6">
+              <div className="grid grid-cols-2 gap-6 xl:grid-cols-4">
                 {categories.map((category) => (
                   <Link
                     key={category.slug}

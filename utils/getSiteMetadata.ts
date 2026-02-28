@@ -1,6 +1,5 @@
 import { unstable_cache } from "next/cache";
 import { getDB } from "./api-routes";
-import { baseUrl } from "./baseUrl";
 
 export const getSiteMetadata = unstable_cache(
   async () => {
@@ -8,7 +7,6 @@ export const getSiteMetadata = unstable_cache(
       title: "Северяночка",
       description: "Доставка и покупка продуктов питания",
       keywords: "доставка, продукты, питание",
-      ogImage: `${baseUrl}/og-image.jpeg`,
     };
 
     try {
@@ -23,7 +21,6 @@ export const getSiteMetadata = unstable_cache(
         keywords: Array.isArray(settings.semanticCore)
           ? settings.semanticCore.join(", ")
           : defaultMetadata.keywords,
-        ogImage: `${baseUrl}/og-image.jpeg`,
       };
     } catch (error) {
       console.error("Ошибка обращения к БД:", error);

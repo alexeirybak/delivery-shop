@@ -14,7 +14,7 @@ export default function CategoryContent({
   return (
     <div className="p-5 md:p-6 flex-1 flex flex-col">
       <CategoryMeta createdAt={createdAt} author={author} />
-      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-green-600 transition-colors transition-custom">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-800 mb-3 line-clamp-2 group-hover:text-green-600  transition-custom">
         {name}
       </h2>
 

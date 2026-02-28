@@ -28,7 +28,6 @@ const DeliveryTime = ({
   const [schedule, setSchedule] = useState<Schedule>({});
   const [loading, setLoading] = useState(true);
 
-  // Загрузка графика доставки
   useEffect(() => {
     const fetchDeliveryTimes = async () => {
       try {
@@ -48,7 +47,6 @@ const DeliveryTime = ({
     fetchDeliveryTimes();
   }, []);
 
-  // Генерация доступных дат
   useEffect(() => {
     const dates = getThreeDaysDates().map((dateString) => {
       const [year, month, day] = dateString.split("-");
@@ -67,14 +65,12 @@ const DeliveryTime = ({
     }
   }, [selectedDate, onDateChange]);
 
-  // Получение всех временных слотов для выбранной даты (свободных и занятых)
   const getAllTimeSlots = () => {
     if (!schedule[selectedDate]) return [];
 
     const daySchedule = schedule[selectedDate];
     const slots = Object.keys(daySchedule)
       .sort((a, b) => {
-        // Сортировка по времени начала
         const [startA] = a.split("-");
         const [startB] = b.split("-");
         return startA.localeCompare(startB);
@@ -114,7 +110,7 @@ const DeliveryTime = ({
 
   return (
     <div>
-      <h2 className="text-2xl xl:text-4xl font-bold mb-6">Когда</h2>
+      <h2 className="mb-6 text-2xl font-bold xl:text-4xl">Когда</h2>
       <div className="relative flex flex-col gap-y-4 md:flex-row md:flex-nowrap md:gap-x-8 xl:gap-x-10">
         <div>
           <label className={`${labelStyles} text-sm xl:text-base`}>Дата</label>
@@ -137,7 +133,7 @@ const DeliveryTime = ({
               На выбранную дату нет доставки
             </div>
           ) : (
-            <div className="text-base grid grid-cols-3 xl:grid-cols-4 gap-2 w-full">
+            <div className="grid w-full grid-cols-3 gap-2 text-base xl:grid-cols-4">
               {timeSlots.map((slot) => (
                 <div
                   key={slot.value}
@@ -165,21 +161,18 @@ const DeliveryTime = ({
                     }`}
                     disabled={!slot.free || slot.passed}
                   >
-                    {/* Мобильная версия - скрыта на xl и выше */}
-                    <span className="xl:hidden text-sm">
+                    <span className="text-sm xl:hidden">
                       {slot.mobileLabel}
                     </span>
 
-                    {/* Десктоп версия - показывается на xl и выше */}
-                    <span className="hidden xl:block text-base">
+                    <span className="hidden text-base xl:block">
                       {slot.desktopLabel}
                     </span>
                   </button>
 
-                  {/* Тултип для занятых или прошедших слотов */}
                   {(!slot.free || slot.passed) &&
                     tooltipSlot === slot.value && (
-                      <div className="absolute z-50 bottom-full left-1/2 transform -translate-x-1/2 mb-2">
+                      <div className="absolute z-50 mb-2 transform -translate-x-1/2 bottom-full left-1/2">
                         <div className="bg-[#f4f6fb] text-[#151515] text-sm rounded-[5px] p-2 flex items-center gap-2 whitespace-nowrap shadow-lg">
                           <Clock size={16} />
                           {slot.passed

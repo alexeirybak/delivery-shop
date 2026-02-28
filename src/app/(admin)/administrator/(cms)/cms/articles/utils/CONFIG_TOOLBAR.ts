@@ -9,7 +9,7 @@ import { ImageMenu } from "../editor/_components/tiptap-components/ImageMenu";
 import { LinkMenu } from "../editor/_components/tiptap-components/LinkMenu";
 import { ListMenu } from "../editor/_components/tiptap-components/ListMenu";
 import { QuoteButton } from "../editor/_components/tiptap-components/QuoteButton";
-import { TableMenu } from "../editor/_components/tiptap-components/TableMenu";
+import { TableMenu } from "../editor/_components/tiptap-components/table-menu/TableMenu";
 import { TextAIMenu } from "../editor/_components/tiptap-components/textAI/TextAIMenu";
 import { TextColorMenu } from "../editor/_components/tiptap-components/TextColorMenu";
 import { TextFormattingMenu } from "../editor/_components/tiptap-components/TextFormattingMenu";

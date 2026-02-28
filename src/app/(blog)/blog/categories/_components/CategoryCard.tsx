@@ -9,7 +9,7 @@ export default function CategoryCard({
   category,
   priority = false,
 }: BlogCategoryCardProps) {
-  const hasImage = category.image && category.image.trim() !== "";
+  const hasImage = Boolean(category.image && category.image.trim() !== "");
   const gradientClass = getColorFromName(category.name);
   const description =
     category.description || "Исследуйте материалы по этой теме";

@@ -26,7 +26,6 @@ export async function POST(request: NextRequest) {
 
     const uploadsDir = path.join(
       process.cwd(),
-      "public",
       "uploads",
       "articles",
     );
@@ -37,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     await fs.writeFile(filePath, buffer);
 
-    const publicUrl = `/uploads/articles/${fileName}`;
+    const publicUrl = `/api/uploads/articles/${fileName}`;
 
     return NextResponse.json({
       success: true,
@@ -53,7 +52,6 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// DELETE функция остается без изменений
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -68,7 +66,6 @@ export async function DELETE(request: NextRequest) {
 
     const uploadsDir = path.join(
       process.cwd(),
-      "public",
       "uploads",
       "articles",
     );

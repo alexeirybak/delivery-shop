@@ -1,13 +1,12 @@
 const PolicyPage = () => {
   return (
     <section className="w-full mx-auto px-[max(30px,calc((100%-1208px)/2))]">
-      <div className="text-main-text w-full">
+      <div className="w-full text-main-text">
         <h1 className="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[150%] mb-8">
           Политика обработки персональных данных
         </h1>
         
         <div className="space-y-8 text-sm md:text-base lg:text-lg">
-          {/* Введение */}
           <div className="space-y-4">
             <p className="leading-relaxed">
               Настоящая Политика обработки персональных данных (далее — Политика) определяет порядок обработки и защиты персональных данных физических лиц, использующих сервисы, услуги, программы и сайты (далее — Сайты), включая интернет-сайт https://example.ru (далее — Сайт), и регулирует отношения в области сбора, хранения, распространения и защиты персональных данных.
@@ -17,12 +16,11 @@ const PolicyPage = () => {
             </p>
           </div>
 
-          {/* 1. Основные понятия */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               1. Основные понятия
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p><span className="font-semibold">Персональные данные</span> — любая информация, относящаяся к прямо или косвенно определенному или определяемому физическому лицу (субъекту персональных данных).</p>
               <p><span className="font-semibold">Оператор</span> — организация, самостоятельно или совместно с другими лицами организующая и осуществляющая обработку персональных данных.</p>
               <p><span className="font-semibold">Обработка персональных данных</span> — любое действие с персональными данными: сбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, передача, обезличивание, блокирование, удаление, уничтожение.</p>
@@ -30,14 +28,13 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 2. Цели сбора персональных данных */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               2. Цели сбора персональных данных
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p>Оператор собирает и обрабатывает персональные данные в следующих целях:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Идентификация Пользователя на Сайте;</li>
                 <li>Связь с Пользователем для предоставления информации об услугах, акциях и специальных предложениях;</li>
                 <li>Обработка заявок и обращений Пользователя;</li>
@@ -49,14 +46,13 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 3. Состав персональных данных */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               3. Состав персональных данных
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p>Оператор может обрабатывать следующие персональные данные Пользователя:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Фамилия, имя, отчество (при наличии);</li>
                 <li>Номер контактного телефона;</li>
                 <li>Адрес электронной почты;</li>
@@ -68,14 +64,13 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 4. Правовые основания обработки */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               4. Правовые основания обработки персональных данных
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p>Основанием для обработки персональных данных являются:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Конституция Российской Федерации;</li>
                 <li>Федеральный закон от 27.07.2006 № 152-ФЗ «О персональных данных»;</li>
                 <li>Иные нормативные правовые акты, регулирующие отношения, связанные с деятельностью Оператора;</li>
@@ -85,21 +80,20 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 5. Порядок сбора, хранения и передачи */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               5. Порядок сбора, хранения и передачи персональных данных
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p className="font-semibold">5.1. Сбор персональных данных</p>
               <p>Сбор персональных данных осуществляется при заполнении Пользователем форм на Сайте, при оформлении заказа, подписке на рассылку, регистрации, а также в иных случаях, когда Пользователь добровольно предоставляет свои данные.</p>
               
-              <p className="font-semibold mt-3">5.2. Хранение персональных данных</p>
+              <p className="mt-3 font-semibold">5.2. Хранение персональных данных</p>
               <p>Персональные данные хранятся на территории Российской Федерации в защищенных базах данных. Срок хранения персональных данных соответствует целям их сбора, но не менее срока, установленного законодательством РФ.</p>
               
-              <p className="font-semibold mt-3">5.3. Передача персональных данных</p>
+              <p className="mt-3 font-semibold">5.3. Передача персональных данных</p>
               <p>Оператор не передает персональные данные третьим лицам, за исключением случаев, предусмотренных законодательством РФ, а также в следующих случаях:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Пользователь выразил согласие на такие действия;</li>
                 <li>Передача необходима для исполнения договора с Пользователем;</li>
                 <li>По запросам уполномоченных государственных органов.</li>
@@ -107,14 +101,13 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 6. Меры по защите персональных данных */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               6. Меры по защите персональных данных
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p>Оператор принимает необходимые правовые, организационные и технические меры для защиты персональных данных от неправомерного или случайного доступа, уничтожения, изменения, блокирования, копирования, распространения, а также от иных неправомерных действий:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Назначение ответственного за организацию обработки персональных данных;</li>
                 <li>Издание внутренних документов по обработке и защите персональных данных;</li>
                 <li>Применение правовых, организационных и технических мер безопасности;</li>
@@ -125,14 +118,13 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 7. Права Пользователя */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               7. Права Пользователя
             </h2>
-            <div className="space-y-2 pl-4">
+            <div className="pl-4 space-y-2">
               <p>Пользователь имеет право:</p>
-              <ul className="list-disc pl-8 space-y-1">
+              <ul className="pl-8 space-y-1 list-disc">
                 <li>Получать информацию о своих персональных данных, обрабатываемых Оператором;</li>
                 <li>Требовать уточнения, блокирования или уничтожения своих персональных данных;</li>
                 <li>Отозвать согласие на обработку персональных данных;</li>
@@ -142,9 +134,8 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          {/* 8. Изменение Политики */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               8. Изменение Политики обработки персональных данных
             </h2>
             <p className="pl-4 leading-relaxed">
@@ -152,9 +143,8 @@ const PolicyPage = () => {
             </p>
           </div>
 
-          {/* 9. Контактная информация */}
           <div className="space-y-3">
-            <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-main-text">
+            <h2 className="text-2xl font-bold md:text-3xl lg:text-4xl text-main-text">
               9. Контактная информация
             </h2>
             <div className="pl-4 space-y-2">
@@ -169,7 +159,7 @@ const PolicyPage = () => {
             </div>
           </div>
 
-          <div className="mt-8 pt-4 border-t border-gray-200 text-sm text-gray-500">
+          <div className="pt-4 mt-8 text-sm text-gray-500 border-t border-gray-200">
             <p>Дата вступления в силу: 01 января 2026 года</p>
             <p>Последнее обновление: 21 февраля 2026 года</p>
           </div>

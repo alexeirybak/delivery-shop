@@ -62,7 +62,7 @@ export const PhonePasswordResetVerify = ({
         } else if (resetError.message?.includes("Too many attempts")) {
           setCloseForm(true);
           throw new Error(
-            "Превышено количество попыток. Перейдите на страницу входа, чтобы начать заново, или измените номер телефона"
+            "Превышено количество попыток. Перейдите на страницу входа, чтобы начать заново, или измените номер телефона",
           );
         } else if (
           resetError.message?.includes("OTP expired") ||
@@ -70,7 +70,7 @@ export const PhonePasswordResetVerify = ({
         ) {
           setCloseForm(true);
           throw new Error(
-            "Просроченный или недействительный код подтверждения. Перейдите на страницу входа, чтобы начать заново, или измените номер телефона"
+            "Просроченный или недействительный код подтверждения. Перейдите на страницу входа, чтобы начать заново, или измените номер телефона",
           );
         }
         throw new Error(resetError.message || "Неверный OTP код");
@@ -119,7 +119,7 @@ export const PhonePasswordResetVerify = ({
     <AuthFormLayout>
       <div className="flex flex-col gap-y-6">
         <div className="flex flex-col items-center">
-          <MessageCircle className="w-12 h-12 text-primary mb-4" />
+          <MessageCircle className="w-12 h-12 mb-4 text-primary" />
           <h1 className="text-2xl font-bold text-center">Введите код из SMS</h1>
         </div>
 
@@ -129,7 +129,7 @@ export const PhonePasswordResetVerify = ({
         </p>
 
         {error && (
-          <div className="p-3 bg-red-100 text-red-700 rounded text-sm text-center">
+          <div className="p-3 text-sm text-center text-red-700 bg-red-100 rounded">
             {error}
           </div>
         )}
@@ -138,7 +138,7 @@ export const PhonePasswordResetVerify = ({
             error.includes("Просроченный или недействительный код")) && (
             <button
               onClick={handleToLogin}
-              className="text-primary hover:underline text-sm mx-auto cursor-pointer"
+              className="mx-auto text-sm cursor-pointer text-primary hover:underline"
             >
               Перейти на страницу входа
             </button>
@@ -146,14 +146,14 @@ export const PhonePasswordResetVerify = ({
         <button
           type="button"
           onClick={onBackAction}
-          className="text-primary hover:underline text-sm mx-auto cursor-pointer"
+          className="mx-auto text-sm cursor-pointer text-primary hover:underline"
         >
           Изменить номер телефона
         </button>
         {!closeForm && (
           <form
             onSubmit={handleResetPassword}
-            className="flex flex-col gap-y-4 justify-center"
+            className="flex flex-col justify-center gap-y-4"
           >
             <div>
               <p className="text-center text-[#8f8f8f]">Код из SMS</p>
@@ -166,13 +166,13 @@ export const PhonePasswordResetVerify = ({
                 autoComplete="one-time-code"
                 value={otp}
                 onChange={handleOtpChange}
-                className="flex justify-center w-27.5 h-15 mx-auto text-center px-4 py-3 border border-[#bfbfbf] rounded focus:border-[#70c05b] focus:shadow-(--shadow-button-default) focus:bg-white focus:outline-none"
+                className="flex justify-center w-27.5 h-15 mx-auto text-center px-4 py-3 border border-[#bfbfbf] rounded focus:border-primary focus:shadow-button-default focus:bg-white focus:outline-none"
                 required
               />
             </div>
 
-            <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-4 relative">
-              <div className="flex flex-col items-start relative">
+            <div className="relative flex flex-row flex-wrap justify-center w-full gap-x-8 gap-y-4">
+              <div className="relative flex flex-col items-start">
                 <PasswordInput
                   id="password"
                   label="Новый пароль"
@@ -200,7 +200,7 @@ export const PhonePasswordResetVerify = ({
               >
                 {loading ? (
                   <>
-                    <Loader2 className="animate-spin w-4 h-4" />
+                    <Loader2 className="w-4 h-4 animate-spin" />
                     Сохранение...
                   </>
                 ) : (

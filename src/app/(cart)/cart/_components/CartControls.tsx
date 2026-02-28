@@ -14,7 +14,7 @@ const CartControls = ({
   onRemoveSelected,
 }: CartControlsProps) => {
   return (
-    <div className="flex items-center gap-x-10 mb-4 xl:mb-6">
+    <div className="flex items-center mb-4 gap-x-10 xl:mb-6">
       <label className="flex items-center gap-2 cursor-pointer">
         <input
           type="checkbox"
@@ -24,11 +24,11 @@ const CartControls = ({
         />
         <div className="w-6 h-6 bg-primary border border-[#f3f2f1] rounded flex items-center justify-center transition-custom">
           {isAllSelected ? (
-            <div className="w-[15px] h-[1px] bg-white"></div>
+            <div className="w-[15px] h-px bg-white"></div>
           ) : (
             <div className="relative w-[15px] h-[15px]">
-              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-white transform -translate-y-1/2"></div>
-              <div className="absolute left-1/2 top-0 w-[1px] h-full bg-white transform -translate-x-1/2"></div>
+              <div className="absolute left-0 w-full h-px transform -translate-y-1/2 bg-white top-1/2"></div>
+              <div className="absolute top-0 w-px h-full transform -translate-x-1/2 bg-white left-1/2"></div>
             </div>
           )}
         </div>

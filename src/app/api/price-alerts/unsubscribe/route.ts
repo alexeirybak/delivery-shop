@@ -1,15 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { unsubscribePriceAlert } from '@/actions/priceAlerts';
+import { NextRequest, NextResponse } from "next/server";
+import { unsubscribePriceAlert } from "@/actions/priceAlerts";
+import { baseUrl } from "../../../../../utils/baseUrl";
 
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const token = searchParams.get('token');
-    const email = searchParams.get('email');
+    const token = searchParams.get("token");
+    const email = searchParams.get("email");
 
     if (!token || !email) {
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=Неверные параметры запроса`
+        `${baseUrl}/catalog/product/unsubscribe/error?message=Неверные параметры запроса`,
       );
     }
 
@@ -17,18 +18,17 @@ export async function GET(request: NextRequest) {
 
     if (result.error) {
       return NextResponse.redirect(
-        `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=${encodeURIComponent(result.error)}`
+        `${baseUrl}/catalog/product/unsubscribe/error?message=${encodeURIComponent(result.error)}`,
       );
     }
 
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/success`
+      `${baseUrl}/catalog/product/unsubscribe/success`,
     );
-    
   } catch (error) {
-    console.error('Ошибка отписки:', error);
+    console.error("Ошибка отписки:", error);
     return NextResponse.redirect(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/unsubscribe/error?message=Ошибка при отписке`
+      `${baseUrl}/catalog/product/unsubscribe/error?message=Ошибка при отписке`,
     );
   }
 }

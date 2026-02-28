@@ -38,11 +38,11 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
   const birthdaySoon = isBirthdaySoon(order.birthday);
 
   return (
-    <div className="text-main-text p-5 mt-10 space-y-6">
-      <h3 className="text-lg font-bold text-main-text mb-4">
+    <div className="p-5 mt-10 space-y-6 text-main-text">
+      <h3 className="mb-4 text-lg font-bold text-main-text">
         Детали заказа №{order.orderNumber}
       </h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         <div className="space-y-3">
           <h4 className="font-medium text-gray-700">Информация о заказе</h4>
           <div className="space-y-2">
@@ -69,7 +69,6 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Финансовая информация */}
         <div className="space-y-3">
           <h4 className="font-medium text-gray-700">Финансовая информация</h4>
           <div className="space-y-2">
@@ -96,7 +95,6 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Информация о доставке */}
         <div className="space-y-3">
           <h4 className="font-medium text-gray-700">Информация о доставке</h4>
           <div className="space-y-2">
@@ -132,22 +130,21 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
           </div>
         </div>
 
-        {/* Информация о клиенте */}
         <div className="space-y-3 md:col-span-2 lg:col-span-3">
           <h4 className="font-medium text-gray-700">Информация о клиенте</h4>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
             <div>
-              <span className="text-gray-600 text-sm">Имя:</span>
+              <span className="text-sm text-gray-600">Имя:</span>
               <p className="font-medium">
                 {order.name} {order.surname}
               </p>
             </div>
             <div>
-              <span className="text-gray-600 text-sm">Телефон:</span>
+              <span className="text-sm text-gray-600">Телефон:</span>
               <p className="font-medium">+{order.phone}</p>
             </div>
             <div>
-              <span className="text-gray-600 text-sm">Пол:</span>
+              <span className="text-sm text-gray-600">Пол:</span>
               <p className="font-medium">
                 {order.gender === "male"
                   ? "Мужской"
@@ -157,7 +154,7 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
               </p>
             </div>
             <div>
-              <span className="text-gray-600 text-sm">Дата рождения:</span>
+              <span className="text-sm text-gray-600">Дата рождения:</span>
               <div className="flex items-center">
                 <p
                   className={`${birthdaySoon ? "text-red-500" : ""} font-medium`}
@@ -173,9 +170,9 @@ const OrderDetails = ({ order, totalWeight = 0 }: OrderDetailsProps) => {
         </div>
       </div>
 
-      <div className="mt-6 pt-6 border-t border-gray-200">
-        <h4 className="font-medium text-gray-700 mb-4">
-          <span className="text-gray-600 ml-4">
+      <div className="pt-6 mt-6 border-t border-gray-200">
+        <h4 className="mb-4 font-medium text-gray-700">
+          <span className="ml-4 text-gray-600">
             Общая масса: {totalWeight.toFixed(2)} кг
           </span>
         </h4>

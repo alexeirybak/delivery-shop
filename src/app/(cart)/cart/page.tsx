@@ -121,7 +121,6 @@ const CartPage = () => {
 
   useEffect(() => {
     fetchCartAndProducts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleQuantityUpdate = useCallback(
@@ -192,10 +191,10 @@ const CartPage = () => {
 
   if (visibleCartItems.length === 0 && removedItems.length === 0) {
     return (
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-8">Корзина</h1>
-        <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">Корзина пуста</p>
+      <div className="container px-4 py-8 mx-auto">
+        <h1 className="mb-8 text-2xl font-bold">Корзина</h1>
+        <div className="py-12 text-center">
+          <p className="text-lg text-gray-500">Корзина пуста</p>
         </div>
       </div>
     );
@@ -205,7 +204,7 @@ const CartPage = () => {
     <div className="px-[max(12px,calc((100%-1208px)/2))] md:px-[max(16px,calc((100%-1208px)/2))] text-main-text mx-auto">
       <CartHeader itemCount={visibleCartItems.length} title={title} />
 
-      <div className="flex flex-col md:flex-row gap-8 xl:gap-x-15">
+      <div className="flex flex-col gap-8 md:flex-row xl:gap-x-15">
         <div
           className={`flex-1 ${isOrdered ? "pointer-events-none opacity-50" : ""}`}
         >

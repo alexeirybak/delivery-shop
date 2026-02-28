@@ -17,36 +17,33 @@ function extractIdFromSlug(slug: string): string {
 export async function generateMetadata({
   params,
 }: PageProps): Promise<Metadata> {
-  try {
-    const { category, slug } = await params;
+  const { category, slug } = await params;
+  const productId = extractIdFromSlug(slug);
+  const product: ProductCardProps = await getProduct(productId);
 
-    const productId = extractIdFromSlug(slug);
-    const product = await getProduct(productId);
+  const canonicalUrl = `${baseUrl}/catalog/${category}/${slug}`;
 
-    const canonicalUrl = `${baseUrl}/catalog/${category}/${slug}`;
-
-    return {
-      title: `${product.title}`,
-      description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
-      metadataBase: new URL(baseUrl),
-      alternates: {
-        canonical: canonicalUrl,
-      },
-      openGraph: {
-        title: product.title,
-        description:
-          product.description || `Заказывайте ${product.title} по лучшей цене`,
-        images: product.img ? [product.img[0]] : [],
-        url: canonicalUrl,
-      },
-    };
-  } catch {
-    return {
-      title: "Товар",
-      description: "Страница товара",
-      metadataBase: new URL(baseUrl),
-    };
-  }
+  return {
+    title: product.title,
+    description: `Заказывайте ${product.title} по лучшей цене. Быстрая доставка, гарантия качества.`,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    openGraph: {
+      title: product.title,
+      description:
+        product.description || `Заказывайте ${product.title} по лучшей цене`,
+      url: canonicalUrl,
+      images: product.img
+        ? {
+            url: `${baseUrl}${product.img}`,
+            alt: product.title,
+            width: 512,
+            height: 512,
+          }
+        : undefined,
+    },
+  };
 }
 
 const ProductPage = async ({ params }: PageProps) => {

@@ -11,7 +11,7 @@ export async function POST(request: NextRequest) {
     if (!file) {
       return NextResponse.json(
         { error: "Файл не предоставлен" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
     if (originalExtension === "png") {
       optimizedBuffer = await sharp(buffer)
         .resize(800, 450, {
-          fit: "fill", 
+          fit: "fill",
           withoutEnlargement: false,
         })
         .png({ quality: 80 })
@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
     } else if (originalExtension === "gif") {
       optimizedBuffer = await sharp(buffer, { animated: true })
         .resize(800, 450, {
-          fit: "fill", 
+          fit: "fill",
           withoutEnlargement: false,
         })
         .gif()
@@ -60,13 +60,13 @@ export async function POST(request: NextRequest) {
         .jpeg({ quality: 80 })
         .toBuffer();
     }
-    const publicDir = path.join(process.cwd(), "public", "blogCategories");
-    await fs.mkdir(publicDir, { recursive: true });
+    const uploadDir = path.join(process.cwd(), "uploads", "blog-categories");
+    await fs.mkdir(uploadDir, { recursive: true });
 
-    const filePath = path.join(publicDir, fileName);
+    const filePath = path.join(uploadDir, fileName);
     await fs.writeFile(filePath, optimizedBuffer);
 
-    const publicUrl = `/blogCategories/${fileName}`;
+    const publicUrl = `/api/uploads/blog-categories/${fileName}`;
 
     return NextResponse.json({
       success: true,
@@ -77,7 +77,7 @@ export async function POST(request: NextRequest) {
     console.error("Ошибка загрузки изображения:", error);
     return NextResponse.json(
       { error: "Ошибка при загрузке изображения" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -90,12 +90,12 @@ export async function DELETE(request: NextRequest) {
     if (!fileName) {
       return NextResponse.json(
         { error: "Имя файла не указано" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    const publicDir = path.join(process.cwd(), "public", "blogCategories");
-    const filePath = path.join(publicDir, fileName);
+    const uploadDir = path.join(process.cwd(), "uploads", "blog-categories");
+    const filePath = path.join(uploadDir, fileName);
 
     try {
       await fs.access(filePath);
@@ -112,7 +112,7 @@ export async function DELETE(request: NextRequest) {
     console.error("Ошибка удаления изображения:", error);
     return NextResponse.json(
       { error: "Ошибка при удалении изображения" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

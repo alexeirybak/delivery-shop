@@ -29,7 +29,7 @@ export const useArticleFormState = () => {
         updateFormField("imageAlt", `${formData.name}`);
       }
     },
-    [formData.name, updateFormField]
+    [formData.name, updateFormField],
   );
 
   const removeImage = useCallback(() => {
@@ -83,10 +83,15 @@ export const useArticleFormState = () => {
   }, [tempImageFile, formData.categorySlug, formData.image]);
 
   const getKeywordsArray = useCallback(() => {
-    return formData.keywords
-      .split(",")
-      .map((k: string) => k.trim())
-      .filter((k: string) => k.length > 0);
+    if (typeof formData.keywords === "string") {
+      return formData.keywords
+        .split(",")
+        .map((k: string) => k.trim())
+        .filter((k: string) => k.length > 0);
+    }
+    if (Array.isArray(formData.keywords)) {
+      return formData.keywords.filter((k: string) => k.length > 0);
+    }
   }, [formData.keywords]);
 
   const resetForm = useCallback(() => {

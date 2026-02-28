@@ -98,11 +98,11 @@ const CartItem = memo(function CartItem({
           onSelectionChange(item.productId, checked)
         }
       />
-      <div className="flex flex-row flex-wrap md:flex-row justify-between w-full md:flex-nowrap">
+      <div className="flex flex-row flex-wrap justify-between w-full md:flex-row md:flex-nowrap">
         <div className="flex flex-row flex-wrap md:flex-nowrap">
           <ProductImage productId={item.productId} title={productData.title} />
 
-          <div className="flex-1 flex min-w-[224px] md:flex-initial flex-col gap-y-2.5 p-2.5">
+          <div className="flex-1 flex min-w-56 md:flex-initial flex-col gap-y-2.5 p-2.5">
             <Link
               className="text-base hover:text-[#ff6633] cursor-pointer"
               href={`/catalog/${productData.categories[0]}/${item.productId}`}
@@ -110,7 +110,7 @@ const CartItem = memo(function CartItem({
               {productData.description}
             </Link>
 
-            <div className="flex flex-row gap-x-2 items-center">
+            <div className="flex flex-row items-center gap-x-2">
               <PriceDisplay
                 finalPrice={finalPrice}
                 priceWithDiscount={priceWithDiscount}
@@ -144,7 +144,7 @@ const CartItem = memo(function CartItem({
             className={`text-sm md:text-lg font-bold text-right ${isOutOfStock ? "w-full flex justify-end" : "w-26"}`}
           >
             {isOutOfStock ? (
-              <span className="font-normal md:text-base flex">
+              <span className="flex font-normal md:text-base">
                 Нет в наличии
               </span>
             ) : (

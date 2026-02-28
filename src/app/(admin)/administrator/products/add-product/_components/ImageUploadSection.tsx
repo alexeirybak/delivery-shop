@@ -7,14 +7,14 @@ interface ImageUploadSectionProps {
   onImageChange: (file: File | null) => void;
   uploading: boolean;
   loading: boolean;
-  existingImage?: string; 
+  existingImage?: string;
 }
 
 const ImageUploadSection = ({
   onImageChange,
   uploading,
   loading,
-  existingImage, 
+  existingImage,
 }: ImageUploadSectionProps) => {
   const [image, setImage] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -37,7 +37,7 @@ const ImageUploadSection = ({
     setImage(null);
     onImageChange(null);
 
-    if (previewUrl && previewUrl.startsWith('blob:')) {
+    if (previewUrl && previewUrl.startsWith("blob:")) {
       URL.revokeObjectURL(previewUrl);
     }
     setPreviewUrl(null);
@@ -61,7 +61,7 @@ const ImageUploadSection = ({
             <button
               type="button"
               onClick={handleRemoveImage}
-              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-colors"
+              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 "
               disabled={uploading || loading}
             >
               <X className="w-4 h-4 cursor-pointer" />
@@ -69,7 +69,10 @@ const ImageUploadSection = ({
           </div>
           <p className="mt-2 text-sm text-primary">
             {image ? (
-              <>Выбрано: {image.name} ({(image.size / 1024 / 1024).toFixed(2)} MB)</>
+              <>
+                Выбрано: {image.name} ({(image.size / 1024 / 1024).toFixed(2)}{" "}
+                MB)
+              </>
             ) : (
               "Существующее изображение"
             )}

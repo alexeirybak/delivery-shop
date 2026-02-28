@@ -47,7 +47,7 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
   return (
     <div key={timeSlot}>
       <div className="flex justify-between text-xl md:text-2xl xl:text-4xl text-main-text">
-        <div className="flex gap-x-4 mb-4">
+        <div className="flex mb-4 gap-x-4">
           <Image
             alt={timeSlot}
             src="/icons-orders/icon-clock.svg"
@@ -85,7 +85,7 @@ const TimeSlotGroup = ({ timeSlot, orderIds }: TimeSlotGroupProps) => {
         {filteredSlotOrders.map((order) => (
           <AdminOrderCard
             key={order._id}
-            orderId={order._id} // Передаем только ID, как требует дочерний компонент
+            orderId={order._id} 
           />
         ))}
       </div>

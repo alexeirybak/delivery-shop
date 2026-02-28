@@ -1,11 +1,11 @@
 export const getStatusColorClass = (
   statusLabel: string,
-  isSelected: boolean = false
+  isSelected: boolean = false,
 ): string => {
   switch (statusLabel) {
     case "Новый":
     case "Доставляется":
-      return isSelected ? "bg-[#f3f2f1]" : "text-[#414141]";
+      return isSelected ? "bg-[#f3f2f1]" : "text-main-text";
     case "Собран":
       return isSelected ? "bg-primary" : "text-primary";
     case "Подтвержден":
@@ -17,6 +17,6 @@ export const getStatusColorClass = (
     case "Вернули":
       return isSelected ? "bg-[#1cb9fc]" : "text-[#1cb9fc]";
     default:
-      return isSelected ? "bg-[#f3f2f1]" : "text-[#414141]";
+      return isSelected ? "bg-[#f3f2f1]" : "text-main-text";
   }
 };

@@ -29,13 +29,13 @@ export const FilterBar = ({
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.addEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside); // Было addEventListener
     };
-  });
+  }, []);
 
   return (
-    <div className="flex flex-wrap gap-4 justify-between items-start mb-6">
-      <div className="flex flex-wrap gap-4 items-center">
+    <div className="flex flex-wrap items-start justify-between gap-4 mb-6">
+      <div className="flex flex-wrap items-center gap-4">
         <h2 className="text-xl font-semibold">
           Список карт {totalItems !== undefined && `(${totalItems})`}
         </h2>
@@ -43,14 +43,14 @@ export const FilterBar = ({
         <div className="relative" ref={menuRef}>
           <button
             onClick={() => setShowFilterMenu(!showFilterMenu)}
-            className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md hover:bg-gray-50 cursor-pointer"
+            className="flex items-center gap-2 px-3 py-2 border border-gray-300 rounded-md cursor-pointer hover:bg-gray-50"
           >
-            <Filter className="h-4 w-4" />
+            <Filter className="w-4 h-4" />
             {getFilterLabel(tempFilter)}
           </button>
 
           {showFilterMenu && (
-            <div className="absolute left-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg z-10">
+            <div className="absolute left-0 z-10 w-48 mt-2 bg-white border border-gray-200 rounded-md shadow-lg">
               {["all", "active", "inactive", "free", "assigned"].map(
                 (filterType) => (
                   <button
@@ -72,7 +72,7 @@ export const FilterBar = ({
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row md:flex-wrap gap-3 w-full md:w-auto justify-between">
+      <div className="flex flex-col justify-between w-full gap-3 md:flex-row md:flex-wrap md:w-auto">
         <div className="relative flex-1 md:min-w-[200px]">
           <input
             type="text"
@@ -95,15 +95,15 @@ export const FilterBar = ({
 
         <button
           onClick={onApplyFilters}
-          className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 cursor-pointer flex items-center gap-2"
+          className="flex items-center gap-2 px-4 py-2 text-white bg-green-500 rounded-md cursor-pointer hover:bg-green-600"
         >
-          <Search className="h-4 w-4" />
+          <Search className="w-4 h-4" />
           Применить
         </button>
 
         <button
           onClick={onResetFilters}
-          className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600 cursor-pointer"
+          className="px-4 py-2 text-white bg-gray-500 rounded-md cursor-pointer hover:bg-gray-600"
         >
           Сбросить
         </button>

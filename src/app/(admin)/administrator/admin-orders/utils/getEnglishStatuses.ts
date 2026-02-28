@@ -1,7 +1,6 @@
 import { Order } from "@/types/order";
 
 export const getEnglishStatuses = (russianStatus: string, order: Order): { status: string; paymentStatus?: string } => {
-  // Для онлайн оплаты
   if (order.paymentMethod === "online") {
     switch (russianStatus) {
       case "Подтвержден":
@@ -13,7 +12,6 @@ export const getEnglishStatuses = (russianStatus: string, order: Order): { statu
     }
   }
 
-  // Для оплаты при доставке  
   if (order.paymentMethod === "cash_on_delivery") {
     switch (russianStatus) {
       case "Подтвержден":
@@ -23,13 +21,12 @@ export const getEnglishStatuses = (russianStatus: string, order: Order): { statu
     }
   }
 
-  // Общий маппинг
   const statusMap: { [key: string]: string } = {
     "Новый": "pending",
     "Собран": "collected",
     "Доставляется": "delivering",
     "Подтвержден": "confirmed", 
-    "Не подтвердили": "cancelled", // ← ДОБАВЛЕНО
+    "Не подтвердили": "cancelled", 
     "Возврат": "refund",
     "Вернули": "returned",
     "Получен": "delivered",

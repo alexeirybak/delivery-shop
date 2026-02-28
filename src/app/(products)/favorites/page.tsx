@@ -11,7 +11,7 @@ import { headers } from "next/headers";
 import {
   getCustomSessionToken,
   getValidCustomSession,
-} from "../../../../utils/auth-helpers"; // Укажите правильный путь
+} from "../../../../utils/auth-helpers"; 
 
 async function getServerUserId() {
   try {
@@ -57,7 +57,7 @@ const FavoritesPage = async ({
       <div className="hidden xl:flex">
         <FilterButtons basePath={`/${category}`} />
       </div>
-      <div className="flex flex-row gap-x-10 justify-between">
+      <div className="flex flex-row justify-between gap-x-10">
         <div className="hidden xl:flex flex-col w-[272px] gap-y-10">
           <div className="h-11 bg-[#f3f2f1] rounded text-base font-bold text-main-text flex items-center p-2.5">
             Фильтр

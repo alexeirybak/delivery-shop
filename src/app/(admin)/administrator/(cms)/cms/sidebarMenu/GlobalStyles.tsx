@@ -17,7 +17,6 @@ export const GlobalStyles = () => {
         opacity: 0;
       }
 
-      /* Градиент для каждой кнопки */
       .group:nth-child(1) {
         --tw-gradient-from: #3b82f6;
         --tw-gradient-to: #1d4ed8;

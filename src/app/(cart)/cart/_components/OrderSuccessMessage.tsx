@@ -26,23 +26,23 @@ const OrderSuccessMessage = ({
 
   return (
     <div className="text-center p-4 bg-[#e5ffde] text-[#008c49] rounded border border-primary">
-      <div className="font-bold text-lg mb-2">Заказ оформлен успешно!</div>
+      <div className="mb-2 text-lg font-bold">Заказ оформлен успешно!</div>
       <div className="mb-3">
         Номер вашего заказа: <strong>{orderNumber}</strong>
       </div>
-      <div className="text-sm mb-3">
+      <div className="mb-3 text-sm">
         Вы можете оплатить заказ при получении курьеру наличными или картой. С
         Вами свяжутся для подтверждения времени доставки.
       </div>
       {useBonuses && (
-        <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-          <CreditCard size={16} className="flex-shrink-0" />
+        <div className="flex items-center justify-center gap-2 mb-3 text-sm text-primary">
+          <CreditCard size={16} className="shrink-0" />
           {usedBonuses} бонус
           {getFullEnding(usedBonuses)} будет списано после подтверждения оплаты
         </div>
       )}
-      <div className="text-sm mb-3 text-primary flex items-center justify-center gap-2">
-        <CreditCard size={16} className="flex-shrink-0" />
+      <div className="flex items-center justify-center gap-2 mb-3 text-sm text-primary">
+        <CreditCard size={16} className="shrink-0" />
         После доставки вам будет начислено {totalBonuses} бонус
         {getFullEnding(totalBonuses)}
       </div>

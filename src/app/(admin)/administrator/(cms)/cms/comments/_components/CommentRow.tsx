@@ -142,7 +142,7 @@ export const CommentRow = ({
     <>
       <div className="grid md:grid-cols-[48px_90px_140px_100px_80px_100px] lg:grid-cols-[48px_120px_300px_120px_80px_120px] xl:grid-cols-[48px_160px_300px_150px_200px_140px] gap-2 lg:gap-4 px-2 py-3 items-center justify-center md:justify-between">
         <div className="flex justify-center overflow-hidden shrink-0">
-          <div className="w-8 h-8 rounded-full overflow-hidden">
+          <div className="w-8 h-8 overflow-hidden rounded-full">
             {avatarLoading ? (
               <div className="w-full h-full bg-gray-200 animate-pulse" />
             ) : (
@@ -151,7 +151,7 @@ export const CommentRow = ({
                 alt={comment.authorName}
                 width={32}
                 height={32}
-                className="w-full h-full object-cover"
+                className="object-cover w-full h-full"
                 onError={handleAvatarError}
               />
             )}
@@ -160,7 +160,7 @@ export const CommentRow = ({
 
         <button
           onClick={() => setShowBanModal(true)}
-          className="text-sm font-medium text-gray-900 hover:text-green-600 hover:underline text-left transition-custom cursor-pointer"
+          className="text-sm font-medium text-left text-gray-900 cursor-pointer hover:text-green-600 hover:underline transition-custom"
           title={
             isBanned
               ? "Пользователь заблокирован"

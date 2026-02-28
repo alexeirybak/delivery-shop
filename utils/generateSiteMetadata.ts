@@ -20,15 +20,12 @@ export async function generateSiteMetadata(): Promise<Metadata> {
       description: metadata.description,
       url: baseUrl,
       siteName: metadata.title,
-      type: "website",
-      locale: "ru_RU",
-      images: [
-        {
-          url: metadata.ogImage,
-          alt: metadata.title,
-          type: "image/jpeg",
-        },
-      ],
+      images: {
+        url: `${baseUrl}/og-images/og-image.jpg`,
+        alt: "Северяночка - Главная страница",
+        width: 512,
+        height: 512,
+      },
     },
   };
 }

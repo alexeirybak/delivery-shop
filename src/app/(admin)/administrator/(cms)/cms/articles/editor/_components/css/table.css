@@ -1,6 +1,3 @@
-/* ===== СТИЛИ ДЛЯ ТАБЛИЦ В РЕДАКТОРЕ ===== */
-
-/* Основная таблица */
 .tiptap table {
   color: #131313;
   border-collapse: collapse;
@@ -9,28 +6,25 @@
   background-color: white;
 }
 
-/* Заголовки таблицы */
 .tiptap th {
   background-color: #e4ecf4;
   border: 1px solid #d1d5db;
   padding: 0.75rem 1rem;
   text-align: left;
-  font-weight: 600; 
-  color: #1f2937; 
+  font-weight: 600;
+  color: #1f2937;
   font-size: 0.95rem;
 }
 
-/* Ячейки таблицы */
 .tiptap td {
   border: 1px solid #d1d5db;
   padding: 0.75rem 1rem;
   vertical-align: top;
-  color: #374151; 
+  color: #374151;
   background-color: white;
   font-size: 0.95rem;
 }
 
-/* Внешние границы для крайних ячеек */
 .tiptap th:first-child,
 .tiptap td:first-child {
   border-left-width: 2px;
@@ -54,12 +48,10 @@
   border-bottom-color: #9ca3af;
 }
 
-/* Эффект при наведении */
 .tiptap tbody tr:hover {
   background-color: #f3f4f6;
 }
 
-/* ВЫДЕЛЕННАЯ ЯЧЕЙКА - фиксируем проблему инверсии */
 .tiptap .selectedCell {
   background-color: rgba(59, 130, 246, 0.1) !important;
   outline: 2px solid #3b82f6;
@@ -68,33 +60,28 @@
   z-index: 1;
 }
 
-/* ОСОБЕННОСТЬ: Заголовочные ячейки при выделении */
 .tiptap th.selectedCell {
   background-color: rgba(59, 130, 246, 0.15) !important;
   outline: 2px solid #2563eb;
 }
 
-/* Заголовочная строка - СТАНДАРТНАЯ (не заголовочная) */
 .tiptap thead:not([data-header-row="false"]) th {
-  background-color: #e5e7eb; /* Немного темнее для заголовков */
+  background-color: #e5e7eb;
   font-weight: 600;
   color: #111827;
 }
 
-/* Заголовочный столбец - СТАНДАРТНЫЙ (не заголовочный) */
 .tiptap [data-header-column="true"] {
   background-color: #f1f5f9;
   font-weight: 600;
   color: #1f2937;
 }
 
-/* ФИКС: Если заголовок отключен - показываем обычный фон */
 .tiptap [data-header-row="false"] th,
 .tiptap [data-header-column="false"] {
   background-color: white !important;
 }
 
-/* Обертка для прокрутки */
 .tiptap .table-wrapper {
   overflow-x: auto;
   margin: 1rem 0;
@@ -102,7 +89,6 @@
   border: 1px solid #e5e7eb;
 }
 
-/* Индикатор ресайза */
 .tiptap .column-resize-handle {
   position: absolute;
   right: -1px;
@@ -119,7 +105,6 @@
   opacity: 0.5;
 }
 
-/* Контент внутри таблицы */
 .tiptap table p {
   margin: 0;
   line-height: 1.5;
@@ -139,7 +124,6 @@
   margin: 0.25rem 0;
 }
 
-/* Адаптивность */
 @media (max-width: 768px) {
   .tiptap th,
   .tiptap td {
@@ -148,9 +132,6 @@
   }
 }
 
-/* ===== АЛЬТЕРНАТИВНЫЙ ПОДХОД ===== */
-
-/* Простые таблицы без сложных заголовков */
 .tiptap.simple-table th {
   background-color: #f1f5f9;
   border-bottom: 2px solid #d1d5db;
@@ -158,7 +139,6 @@
   color: #374151;
 }
 
-/* Минималистичные таблицы */
 .tiptap.minimal-table table {
   border: none;
 }
@@ -181,7 +161,6 @@
   outline: 1px dashed #3b82f6;
 }
 
-/* Утилитные классы для управления заголовками */
 .tiptap .no-header th {
   background-color: white !important;
   font-weight: normal;

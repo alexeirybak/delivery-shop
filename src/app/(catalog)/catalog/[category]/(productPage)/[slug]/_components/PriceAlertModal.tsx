@@ -43,8 +43,8 @@ export const PriceAlertModal = ({
   }, [state, onSuccessAction, onCloseAction]);
 
   return (
-    <div className="bg-white rounded-lg p-6 w-full max-w-md">
-      <h3 className="text-lg font-semibold mb-4">
+    <div className="w-full max-w-md p-6 bg-white rounded-lg">
+      <h3 className="mb-4 text-lg font-semibold">
         Уведомление о снижении цены
       </h3>
 
@@ -55,7 +55,7 @@ export const PriceAlertModal = ({
             name="email"
             required
             placeholder="Ваш email"
-            className={`p-2 rounded text-sm relative border-1 border-primary shadow-button-default outline-0 w-full ${
+            className={`p-2 rounded text-sm relative border border-primary shadow-button-default outline-0 w-full ${
               state?.errors?.email ? "border-[#d80000]" : ""
             }`}
             disabled={isPending}
@@ -73,7 +73,7 @@ export const PriceAlertModal = ({
           <button
             type="submit"
             disabled={isPending}
-            className="flex-1 justify-center px-4 py-2 text-white rounded text-sm bg-primary hover:shadow-button-default active:shadow-button-active disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer transition-custom"
+            className="justify-center flex-1 px-4 py-2 text-sm text-white rounded cursor-pointer bg-primary hover:shadow-button-default active:shadow-button-active disabled:opacity-50 disabled:cursor-not-allowed transition-custom"
           >
             {isPending ? "Подписка..." : "Подписаться"}
           </button>

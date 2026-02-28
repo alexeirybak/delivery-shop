@@ -108,7 +108,7 @@ export const DesktopArticleRow = ({
         <div className="min-w-0 mx-auto">
           <button
             onClick={handleFeaturedToggle}
-            className={`text-xs px-2 py-1 rounded break-all font-mono flex items-center justify-center w-8 cursor-pointer transition-colors ${
+            className={`text-xs px-2 py-1 rounded break-all font-mono flex items-center justify-center w-8 cursor-pointer  ${
               article.isFeatured
                 ? "bg-yellow-50 hover:bg-yellow-100"
                 : "bg-gray-100 hover:bg-gray-200"

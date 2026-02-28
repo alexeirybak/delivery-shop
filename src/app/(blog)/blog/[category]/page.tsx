@@ -1,14 +1,14 @@
+import CategoryHeader from "./_components/CategoryHeader";
+import CategoryImage from "./_components/CategoryImage";
+import CategoryStats from "./_components/CategoryStats";
+import EmptyCategory from "./_components/EmptyCategory";
+import Pagination from "@/components/Pagination";
+import { ArticlesList } from "./_components/ArticlesList";
+import { CONFIG } from "../../../../../config/config";
 import { getColorFromName } from "../../../../../utils/getColorFromName";
 import { Metadata } from "next";
 import { baseUrl } from "../../../../../utils/baseUrl";
-import EmptyCategory from "./_components/EmptyCategory";
 import { fetchCategoryPageData } from "./utils/fetchCategory";
-import CategoryHeader from "./_components/CategoryHeader";
-import CategoryImage from "./_components/CategoryImage";
-import { ArticlesList } from "./_components/ArticlesList";
-import CategoryStats from "./_components/CategoryStats";
-import { CONFIG } from "../../../../../config/config";
-import Pagination from "@/components/Pagination";
 
 export async function generateMetadata({
   params,
@@ -33,7 +33,11 @@ export async function generateMetadata({
     ? `${categoryData.description} ${totalArticles > 0 ? `Читайте ${totalArticles} статей по теме.` : "Статьи по данной теме."}`
     : `Читайте "${categoryData.name}". ${totalArticles > 0 ? `Доступно ${totalArticles} статей.` : ""}`;
 
-  const keywords = [...(categoryData.keywords || [])];
+  const keywords = [...(categoryData.keywords || []), "статьи", "блог"];
+
+  const ogImage = categoryData.image
+    ? `${baseUrl}${categoryData.image}`
+    : `${baseUrl}/og-images/blog-og.jpg`;
 
   return {
     metadataBase: new URL(`${baseUrl}/blog`),
@@ -46,8 +50,13 @@ export async function generateMetadata({
     openGraph: {
       title: `${categoryData.name}`,
       description: description.substring(0, 200),
-      type: "website",
       url: `${baseUrl}/blog/${categoryData.slug}`,
+      images: {
+        url: ogImage,
+        alt: `${categoryData.name}`,
+        width: 512,
+        height: 512,
+      },
     },
   };
 }

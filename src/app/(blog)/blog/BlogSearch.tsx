@@ -67,9 +67,9 @@ export default function BlogSearch() {
     <div className="relative mb-8">
       <div className="max-w-2xl mx-auto">
         <form onSubmit={handleSubmit} className="relative">
-          <div className="flex flex-col md:flex-row gap-2">
-            <div className="flex-1 relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-main-text w-5 h-5" />
+          <div className="flex flex-col gap-2 md:flex-row">
+            <div className="relative flex-1">
+              <Search className="absolute w-5 h-5 transform -translate-y-1/2 left-3 top-1/2 text-main-text" />
               <input
                 type="text"
                 value={searchTerm}
@@ -78,14 +78,14 @@ export default function BlogSearch() {
                   setError("");
                 }}
                 placeholder="Название или описание статьи"
-                className="w-full text-xs md:text-base pl-10 pr-10 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none"
+                className="w-full py-3 pl-10 pr-10 text-xs border border-gray-300 rounded outline-none md:text-base focus:ring-2 focus:ring-green-500 focus:border-green-500"
                 disabled={isSearching}
               />
               {searchTerm && (
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-main-text hover:text-main-text duration-30 cursor-pointer"
+                  className="absolute transform -translate-y-1/2 cursor-pointer right-3 top-1/2 text-main-text hover:text-main-text duration-30"
                   aria-label="Очистить поиск"
                 >
                   <X className="w-5 h-5" />
@@ -95,11 +95,11 @@ export default function BlogSearch() {
             <button
               type="submit"
               disabled={isSearching || searchTerm.trim().length < 3}
-              className="px-6 py-3 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2  transition-custom cursor-pointer"
+              className="flex items-center justify-center gap-2 px-6 py-3 text-white bg-green-600 rounded cursor-pointer hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed transition-custom"
             >
               {isSearching ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                  <div className="w-5 h-5 border-2 border-white rounded-full border-t-transparent animate-spin" />
                   <span>Поиск...</span>
                 </>
               ) : (
@@ -111,21 +111,19 @@ export default function BlogSearch() {
             </button>
           </div>
 
-          {error && <p className="mt-2 text-red-600 text-sm">{error}</p>}
+          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
 
           {searchTerm.trim().length > 0 && searchTerm.trim().length < 3 && (
-            <p className="mt-2 text-yellow-600 text-sm">
+            <p className="mt-2 text-sm text-yellow-600">
               Введите минимум 3 символа для поиска
             </p>
           )}
         </form>
 
-        {/* Результаты поиска */}
         {showResults && searchResults.searchTerm && (
           <div className="mt-4">
-            <div className="bg-white rounded shadow-lg border border-gray-200 overflow-hidden">
-              {/* Заголовок результатов */}
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-200 flex justify-between items-center">
+            <div className="overflow-hidden bg-white border border-gray-200 rounded shadow-lg">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200 bg-gray-50">
                 <h3 className="font-semibold text-main-text">
                   {searchResults.articles === null
                     ? "Ошибка поиска"
@@ -135,16 +133,15 @@ export default function BlogSearch() {
                 </h3>
                 <button
                   onClick={closeResults}
-                  className="text-main-text hover:text-gray-700 transition-custom cursor-pointer"
+                  className="cursor-pointer text-main-text hover:text-gray-700 transition-custom"
                   aria-label="Закрыть результаты"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Список результатов */}
               {searchResults.articles && searchResults.articles.length > 0 && (
-                <div className="divide-y divide-gray-100 max-h-96 overflow-y-auto">
+                <div className="overflow-y-auto divide-y divide-gray-100 max-h-96">
                   {searchResults.articles.map((article) => (
                     <Link
                       key={article._id}
@@ -154,13 +151,13 @@ export default function BlogSearch() {
                     >
                       <div className="flex items-start gap-3">
                         {article.image ? (
-                          <div className="shrink-0 w-16 h-16">
+                          <div className="w-16 h-16 shrink-0">
                             <Image
                               src={article.image}
                               alt={article.imageAlt || article.name}
                               width={64}
                               height={64}
-                              className="w-full h-full object-cover rounded"
+                              className="object-cover w-full h-full rounded"
                             />
                           </div>
                         ) : (
@@ -170,19 +167,19 @@ export default function BlogSearch() {
                         )}
 
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-main-text truncate">
+                          <h4 className="font-medium truncate text-main-text">
                             {article.name}
                           </h4>
 
                           {article.description && (
-                            <p className="text-main-text text-sm mt-1 line-clamp-2">
+                            <p className="mt-1 text-sm text-main-text line-clamp-2">
                               {article.description}
                             </p>
                           )}
 
                           <div className="flex items-center gap-3 mt-2 text-xs text-main-text">
                             {article.category?.name && (
-                              <span className="px-2 py-1 bg-green-100 text-green-800 rounded">
+                              <span className="px-2 py-1 text-green-800 bg-green-100 rounded">
                                 {article.category.name}
                               </span>
                             )}
@@ -202,21 +199,20 @@ export default function BlogSearch() {
                 </div>
               )}
 
-              {/* Сообщение "ничего не найдено" */}
               {searchResults.articles &&
                 searchResults.articles.length === 0 && (
                   <div className="p-6 text-center">
-                    <div className="text-main-text mb-2">
+                    <div className="mb-2 text-main-text">
                       <Search className="w-12 h-12 mx-auto" />
                     </div>
-                    <p className="text-main-text mb-2">
+                    <p className="mb-2 text-main-text">
                       По запросу{" "}
                       <span className="font-semibold">
                         &quot;{searchResults.searchTerm}&quot;
                       </span>{" "}
                       ничего не найдено
                     </p>
-                    <p className="text-main-text text-sm">
+                    <p className="text-sm text-main-text">
                       Попробуйте изменить запрос
                     </p>
                   </div>
@@ -224,10 +220,10 @@ export default function BlogSearch() {
 
               {searchResults.articles === null && (
                 <div className="p-6 text-center">
-                  <p className="text-red-600 mb-2">
+                  <p className="mb-2 text-red-600">
                     Произошла ошибка при поиске
                   </p>
-                  <p className="text-main-text text-sm">
+                  <p className="text-sm text-main-text">
                     Пожалуйста, попробуйте позже
                   </p>
                 </div>

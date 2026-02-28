@@ -20,7 +20,6 @@ export const getMappedStatus = (order: Order): string => {
     }
   }
 
-  // Базовый маппинг
   const statusFromValue = CUSTOMER_STATUSES.find(status => status.value === order.status);
   if (statusFromValue) {
     return statusFromValue.label;

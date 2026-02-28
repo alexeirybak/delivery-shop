@@ -45,7 +45,9 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
       formData.name.trim() !== "" ||
       formData.slug.trim() !== "" ||
       formData.description.trim() !== "" ||
-      formData.keywords.trim() !== "" ||
+      (typeof formData.keywords === "string"
+        ? formData.keywords.trim() !== ""
+        : formData.keywords.length > 0) ||
       formData.image.trim() !== "" ||
       formData.content?.trim() !== "" ||
       formData.categoryId !== "";
@@ -71,14 +73,14 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         isOpen={showPreview}
         onClose={() => setShowPreview(false)}
       />
-      <div className="mb-6 bg-linear-to-r from-purple-50 to-indigo-50 p-4 rounded-xl border border-purple-200">
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div className="p-4 mb-6 border border-purple-200 bg-linear-to-r from-purple-50 to-indigo-50 rounded-xl">
+        <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1 flex items-center gap-2">
+            <h3 className="flex items-center gap-2 mb-1 text-lg font-semibold text-gray-900">
               <Eye className="w-5 h-5 text-purple-600" />
               Предпросмотр статьи
             </h3>
-            <p className="text-gray-600 text-sm">
+            <p className="text-sm text-gray-600">
               Посмотрите, как статья будет выглядеть на сайте перед сохранением
             </p>
           </div>
@@ -103,20 +105,20 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         </div>
 
         {!canPreview && (
-          <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-yellow-700 text-sm">
+          <div className="p-3 mt-3 border border-yellow-200 rounded-lg bg-yellow-50">
+            <p className="text-sm text-yellow-700">
               Для предпросмотра необходимо заполнить название и текст статьи
             </p>
           </div>
         )}
       </div>
-      <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
-        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+      <div className="p-4 my-6 border border-gray-200 rounded bg-gray-50">
+        <h3 className="flex items-center gap-2 mb-4 text-lg font-medium">
           <Star className="w-5 h-5" />
           Статус избранности
         </h3>
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <button
               type="button"
               onClick={() => handleFeaturedChange(false)}
@@ -156,11 +158,11 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
             </button>
           </div>
 
-          <div className="text-sm text-gray-600 p-3 bg-white rounded border border-gray-200">
+          <div className="p-3 text-sm text-gray-600 bg-white border border-gray-200 rounded">
             {isFeatured ? (
               <div>
-                <p className="font-medium mb-2">Избранная статья будет:</p>
-                <ul className="list-disc pl-5 space-y-1">
+                <p className="mb-2 font-medium">Избранная статья будет:</p>
+                <ul className="pl-5 space-y-1 list-disc">
                   <li>Показана на главной странице блога</li>
                   <li>Выделена в блоке &quot;Рекомендуем&quot;</li>
                   <li>Отмечена звездочкой в списках</li>
@@ -169,8 +171,8 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               </div>
             ) : (
               <div>
-                <p className="font-medium mb-2">Обычная статья будет:</p>
-                <ul className="list-disc pl-5 space-y-1">
+                <p className="mb-2 font-medium">Обычная статья будет:</p>
+                <ul className="pl-5 space-y-1 list-disc">
                   <li>Отображаться в общих списках статей</li>
                   <li>Сортироваться по дате публикации</li>
                   <li>Доступна через категории и поиск</li>
@@ -181,13 +183,13 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         </div>
       </div>
 
-      <div className="my-6 bg-gray-50 p-4 rounded border border-gray-200">
-        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+      <div className="p-4 my-6 border border-gray-200 rounded bg-gray-50">
+        <h3 className="flex items-center gap-2 mb-4 text-lg font-medium">
           <Globe className="w-5 h-5" />
           Статус публикации
         </h3>
         <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
             <button
               type="button"
               onClick={() => handleStatusChange("draft")}
@@ -227,13 +229,13 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
             </button>
           </div>
 
-          <div className="text-sm text-gray-600 p-3 bg-white rounded border border-gray-200">
+          <div className="p-3 text-sm text-gray-600 bg-white border border-gray-200 rounded">
             {articleStatus === "draft" ? (
               <div>
-                <p className="font-medium mb-2">
+                <p className="mb-2 font-medium">
                   Статья сохранится как черновик:
                 </p>
-                <ul className="list-disc pl-5 space-y-1">
+                <ul className="pl-5 space-y-1 list-disc">
                   <li>Будет видна только в административной панели</li>
                   <li>Вы сможете редактировать и опубликовать позже</li>
                   <li>Не будет доступна пользователям сайта</li>
@@ -241,10 +243,10 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
               </div>
             ) : (
               <div>
-                <p className="font-medium mb-2">
+                <p className="mb-2 font-medium">
                   Статья будет опубликована сразу:
                 </p>
-                <ul className="list-disc pl-5 space-y-1">
+                <ul className="pl-5 space-y-1 list-disc">
                   <li>Сразу появится на сайте</li>
                   <li>Будет доступна всем пользователям</li>
                   <li>Попадет в ленту статей и поиск</li>
@@ -255,7 +257,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row gap-3 mt-6">
+      <div className="flex flex-col gap-3 mt-6 sm:flex-row">
         <button
           type="submit"
           disabled={isUploading || isSubmitting}
@@ -285,7 +287,7 @@ export const ArticleSubmitSection = ({ onCancel }: SubmitSectionProps) => {
           type="button"
           onClick={handleCancelWithConfirm}
           disabled={isUploading || isSubmitting}
-          className="px-5 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 cursor-pointer transition-custom disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+          className="px-5 py-3 font-medium border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50 transition-custom disabled:opacity-50 disabled:cursor-not-allowed"
         >
           Отмена
         </button>

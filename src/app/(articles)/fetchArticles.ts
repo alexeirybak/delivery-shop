@@ -1,19 +1,21 @@
+import { baseUrl } from "../../../utils/baseUrl";
+
 const fetchArticles = async (options?: {
   articlesLimit?: number;
   pagination?: { startIdx: number; perPage: number };
 }) => {
   try {
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/articles`);
+    const url = new URL(`${baseUrl}/api/articles`);
 
     if (options?.articlesLimit) {
       url.searchParams.append(
         "articlesLimit",
-        options.articlesLimit.toString()
+        options.articlesLimit.toString(),
       );
     } else if (options?.pagination) {
       url.searchParams.append(
         "startIdx",
-        options.pagination.startIdx.toString()
+        options.pagination.startIdx.toString(),
       );
       url.searchParams.append("perPage", options.pagination.perPage.toString());
     }

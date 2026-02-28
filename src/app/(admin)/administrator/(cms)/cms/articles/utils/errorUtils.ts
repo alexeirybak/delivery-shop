@@ -1,6 +1,5 @@
 import { ErrorWithStatusCode } from "../types";
 
-// Функция для создания ошибки с кодом статуса
 export const createApiError = (
   message: string,
   statusCode?: number,
@@ -37,20 +36,16 @@ export const getErrorMessage = (statusCode?: number): string => {
     case 504:
       return "Таймаут шлюза YandexGPT";
     default:
-      // Коды 4xx
       if (statusCode >= 400 && statusCode < 500) {
         return `Ошибка клиента YandexGPT (${statusCode})`;
       }
-      // Коды 5xx
       if (statusCode >= 500 && statusCode < 600) {
         return `Ошибка сервера YandexGPT (${statusCode})`;
       }
-      // Другие коды
       return `Ошибка YandexGPT (${statusCode})`;
   }
 };
 
-// Получение полного сообщения об ошибке
 export const getFullErrorMessage = (error: ErrorWithStatusCode): string => {
   const userMessage = getErrorMessage(error.statusCode);
   const errorMessage = error.message;
@@ -62,7 +57,6 @@ export const getFullErrorMessage = (error: ErrorWithStatusCode): string => {
   return `${userMessage}\n\nСообщение: ${errorMessage}`;
 };
 
-// Type guard для проверки типа ErrorWithStatusCode
 export const isErrorWithStatusCode = (
   error: unknown,
 ): error is ErrorWithStatusCode => {

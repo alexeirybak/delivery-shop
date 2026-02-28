@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { YandexGPTRequest, YandexGPTResponseAPI } from "../../../articles/types";
+import {
+  YandexGPTRequest,
+  YandexGPTResponseAPI,
+} from "../../../articles/types";
 import { getSystemPrompt } from "../../../articles/utils/systemPrompts";
 
 export async function POST(request: NextRequest) {
@@ -30,7 +33,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Получаем системный промпт из отдельного файла
     const systemPrompt = getSystemPrompt(action);
 
     const apiUrl =

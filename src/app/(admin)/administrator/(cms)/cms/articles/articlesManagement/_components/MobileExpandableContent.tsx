@@ -72,12 +72,10 @@ export const MobileExpandableContent = ({
 
   return (
     <div className="mt-4 pt-4 border-t border-gray-200">
-      {/* Первая строка: избранное, просмотры, статус */}
       <div className="flex items-center justify-between mb-4">
-        {/* Избранное */}
         <button
           onClick={handleFeaturedToggle}
-          className={`flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer transition-colors transition-custom ${
+          className={`flex items-center justify-center w-10 h-10 rounded-lg cursor-pointer  transition-custom ${
             article.isFeatured
               ? "bg-yellow-50 hover:bg-yellow-100"
               : "bg-gray-50 hover:bg-gray-100"
@@ -95,7 +93,6 @@ export const MobileExpandableContent = ({
           />
         </button>
 
-        {/* Просмотры */}
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1 mb-1">
             <Eye className="w-4 h-4 text-gray-500" />
@@ -106,10 +103,9 @@ export const MobileExpandableContent = ({
           <span className="text-xs text-gray-500">просмотров</span>
         </div>
 
-        {/* Статус с выпадающим списком */}
         <div className="relative" ref={dropdownRef}>
           <button
-            className={`flex items-center justify-between gap-2 px-3 py-2 rounded-lg border cursor-pointer transition-colors transition-custom ${statusInfo.className}`}
+            className={`flex items-center justify-between gap-2 px-3 py-2 rounded-lg border cursor-pointer  transition-custom ${statusInfo.className}`}
             title={`Статус: ${statusInfo.label}`}
             onClick={(e) => {
               e.stopPropagation();
@@ -133,7 +129,7 @@ export const MobileExpandableContent = ({
                 return (
                   <button
                     key={status}
-                    className={`flex items-center justify-between w-full px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer transition-colors ${
+                    className={`flex items-center justify-between w-full px-3 py-2 text-sm hover:bg-gray-50 cursor-pointer  ${
                       article.status === status ? "bg-gray-50" : ""
                     } ${statusStyle.className}`}
                     onClick={(e) => {
@@ -177,7 +173,7 @@ export const MobileExpandableContent = ({
         {article.status !== "deleted" && (
           <button
             onClick={handleEdit}
-            className="flex items-center justify-center w-8 h-8 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer transition-colors transition-custom shadow-sm hover:shadow"
+            className="flex items-center justify-center w-8 h-8 bg-green-600 text-white rounded-lg hover:bg-green-700 cursor-pointer  transition-custom shadow-sm hover:shadow"
             title="Редактировать статью"
           >
             <Edit className="w-4 h-4" />
@@ -187,7 +183,7 @@ export const MobileExpandableContent = ({
           <Link
             href={`/blog/${article.categorySlug}/${article.slug}`}
             target="_blank"
-            className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer transition-colors transition-custom shadow-sm hover:shadow"
+            className="flex items-center justify-center w-8 h-8 bg-blue-600 text-white rounded-lg hover:bg-blue-700 cursor-pointer  transition-custom shadow-sm hover:shadow"
             title="Просмотреть статью на сайте"
           >
             <Eye className="w-4 h-4" />

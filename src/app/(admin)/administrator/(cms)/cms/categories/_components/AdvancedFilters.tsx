@@ -22,7 +22,6 @@ export const AdvancedFilters = () => {
   return (
     <div className="mt-4 p-4 bg-gray-50 rounded">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        {/* Выбор поля для фильтрации */}
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-2">
             Искать в:
@@ -41,7 +40,6 @@ export const AdvancedFilters = () => {
           </select>
         </div>
 
-        {/* Сортировка по полю */}
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-2">
             Сортировать по:
@@ -59,7 +57,6 @@ export const AdvancedFilters = () => {
           </select>
         </div>
 
-        {/* Направление сортировки */}
         <div>
           <label className="block text-xs font-medium text-gray-700 mb-2">
             Порядок сортировки:

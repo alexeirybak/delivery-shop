@@ -56,7 +56,6 @@ const pollImageGeneration = async (
         throw new Error(data.error);
       }
 
-      // Ждем 3 секунды перед следующей попыткой
       await new Promise((resolve) => setTimeout(resolve, 3000));
     } catch (error) {
       if (attempt === maxAttempts) throw error;
@@ -130,15 +129,12 @@ export const generateArticleImages = async (
       end: `Фотореалистичное заключительное изображение для статьи о "${topic}". Эпичная фотография, широкая панорама, кинематографический формат, эффектная композиция.`,
     };
 
-    // Шаг 1: Основное изображение
     if (onProgress) onProgress(1, "Основное изображение");
     const mainImageUrl = await generateSingleImage(imgPrompts.main, "16:10");
 
-    // Шаг 2: Среднее изображение
     if (onProgress) onProgress(2, "Среднее изображение");
     const middleImageUrl = await generateSingleImage(imgPrompts.middle, "1:1");
 
-    // Шаг 3: Финальное изображение
     if (onProgress) onProgress(3, "Финальное изображение");
     const endImageUrl = await generateSingleImage(imgPrompts.end, "21:9");
 
@@ -162,14 +158,12 @@ export const updateArticleWithImages = async (
   topic: string,
 ): Promise<boolean> => {
   try {
-    // Обновляем контент с изображениями
     const { contentWithImages, imageAlt } = insertImagesIntoArticle(
       articleData.content,
       images,
       topic,
     );
 
-    // Подготовка данных для обновления
     const updateData = {
       ...articleData,
       _id: articleId,
@@ -179,7 +173,6 @@ export const updateArticleWithImages = async (
       updatedAt: new Date().toISOString(),
     };
 
-    // Отправляем обновление
     const response = await fetch(`/administrator/cms/api/articles`, {
       method: "POST",
       headers: {

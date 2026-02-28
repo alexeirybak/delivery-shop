@@ -1,4 +1,3 @@
-// Базовые типы
 export type AspectRatio = "1:1" | "16:9" | "16:10" | "21:9";
 export type StyleType =
   | "default"
@@ -21,7 +20,6 @@ export interface GenerationStatus {
   error?: string;
 }
 
-// Главный интерфейс
 export interface ImageAIModalProps {
   isOpen: boolean;
   prompt: string;
@@ -30,7 +28,6 @@ export interface ImageAIModalProps {
   selectedStyle: StyleType;
   apiInfo: string;
   elapsedSeconds: number;
-  // Обработчики событий
   onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onAspectChange: (aspect: AspectRatio) => void;
   onStyleChange: (style: StyleType) => void;
@@ -38,7 +35,6 @@ export interface ImageAIModalProps {
   onDownload: (e: React.MouseEvent) => void;
   onInsertToEditor: (e: React.MouseEvent) => void;
   onGenerateImage: (e: React.MouseEvent) => void;
-  // Дополнительные обработчики
   onModalClick?: (e: React.MouseEvent) => void;
   onCloseClick?: (e: React.MouseEvent) => void;
   onSettingsButtonClick?: (aspect: AspectRatio, e: React.MouseEvent) => void;
@@ -77,7 +73,6 @@ export interface FooterProps {
   onGenerateImage: (e: React.MouseEvent) => void; 
 }
 
-// Для вложенных компонентов
 export interface PromptSectionProps {
   prompt: string;
   onPromptChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;

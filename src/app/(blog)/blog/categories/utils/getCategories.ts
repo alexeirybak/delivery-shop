@@ -1,17 +1,15 @@
+import { baseUrl } from "../../../../../../utils/baseUrl";
 import { BlogCategory } from "../types/categories.types";
 
 export async function getCategories(): Promise<BlogCategory[]> {
   try {
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/blog/categories`,
-      {
-        cache: "force-cache",
-        next: {
-          tags: ["categories"],
-          revalidate: 3600,
-        },
-      }
-    );
+    const response = await fetch(`${baseUrl}/api/blog/categories`, {
+      cache: "force-cache",
+      next: {
+        tags: ["categories"],
+        revalidate: 3600,
+      },
+    });
 
     if (!response.ok) {
       console.error("Ошибка HTTP:", response.status);

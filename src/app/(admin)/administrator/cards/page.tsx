@@ -31,13 +31,11 @@ const CardsPage = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Временные состояния для поиска (до применения)
   const [tempSearchCardNumber, setTempSearchCardNumber] =
     useState(searchCardNumber);
   const [tempSearchOwner, setTempSearchOwner] = useState(searchOwner);
   const [tempFilter, setTempFilter] = useState(currentFilter);
 
-  // Загрузка карт при монтировании и изменении currentPage
   useEffect(() => {
     loadCards({
       filter: currentFilter,
@@ -186,8 +184,8 @@ const CardsPage = () => {
   };
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Управление картами лояльности</h1>
+    <div className="container p-6 mx-auto">
+      <h1 className="mb-6 text-2xl font-bold">Управление картами лояльности</h1>
 
       <AddCardForm
         onSubmit={handleAddCard}
@@ -198,7 +196,7 @@ const CardsPage = () => {
         onSuccessChange={setSuccess}
       />
 
-      <div className="bg-white p-6 rounded-lg shadow">
+      <div className="p-6 bg-white rounded-lg shadow">
         <FilterBar
           tempFilter={tempFilter}
           tempSearchCardNumber={tempSearchCardNumber}

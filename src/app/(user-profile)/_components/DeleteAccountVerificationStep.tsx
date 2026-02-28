@@ -29,13 +29,13 @@ export const DeleteAccountVerificationStep = ({
     <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col items-center">
-          <Trash2 className="w-12 h-12 text-red-500 mb-4" />
+          <Trash2 className="w-12 h-12 mb-4 text-red-500" />
           <h1 className="text-2xl font-bold text-center">
             Последнее подтверждение
           </h1>
         </div>
 
-        <p className="text-center text-red-600 font-medium">
+        <p className="font-medium text-center text-red-600">
           Вы собираетесь безвозвратно удалить свой аккаунт и все данные!
         </p>
 
@@ -49,8 +49,8 @@ export const DeleteAccountVerificationStep = ({
           </div>
         )}
 
-        <div className="flex flex-col gap-3 items-center">
-          <div className="flex flex-row gap-3 justify-center">
+        <div className="flex flex-col items-center gap-3">
+          <div className="flex flex-row justify-center gap-3">
             <input
               type="text"
               inputMode="numeric"
@@ -71,12 +71,12 @@ export const DeleteAccountVerificationStep = ({
             >
               {verifying ? (
                 <>
-                  <Loader2 className="animate-spin w-4 h-4" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                   Удаление...
                 </>
               ) : (
                 <>
-                  <Check className="w-4 h-4 flex-shrink-0" />
+                  <Check className="w-4 h-4 shrink-0" />
                   Удалить аккаунт
                 </>
               )}
@@ -86,7 +86,7 @@ export const DeleteAccountVerificationStep = ({
           <button
             onClick={onResend}
             disabled={!canResend}
-            className="text-main-text hover:text-black text-sm underline transition-custom cursor-pointer disabled:opacity-50"
+            className="text-sm underline cursor-pointer text-main-text hover:text-black transition-custom disabled:opacity-50"
           >
             {canResend
               ? "Отправить код повторно"

@@ -19,16 +19,10 @@ interface EnrichedOrderItem extends Omit<OrderItem, 'name' | 'title'> {
   manufacturer: string;
 }
 
-/**
- * Получает имя товара с приоритетами
- */
 const getProductName = (productData?: ProductData): string => {
   return productData?.title || "Неизвестный товар";
 };
 
-/**
- * Загружает данные о продукте
- */
 const fetchProductDetails = async (productId: string): Promise<ProductData> => {
   try {
     const response = await fetch(`/api/products/${productId}`);
@@ -40,9 +34,6 @@ const fetchProductDetails = async (productId: string): Promise<ProductData> => {
   }
 };
 
-/**
- * Обогащает данные товара информацией о продукте
- */
 const enrichOrderItem = async (item: OrderItem): Promise<EnrichedOrderItem> => {
   const productData = await fetchProductDetails(item.productId);
   
@@ -88,9 +79,6 @@ const prepareExcelData = (order: Order, items: EnrichedOrderItem[]): SimplifiedO
   })),
 });
 
-/**
- * Экспорт заказа в Excel
- */
 export const exportOrderToExcel = async (order: Order): Promise<void> => {
   try {
     const enrichedItems = await Promise.all(

@@ -18,7 +18,7 @@ const DropFilter = ({
     <div className="xl:hidden">
       <button
         onClick={() => setIsFilterOpen(true)}
-        className="ml-3 xl:hidden h-8 p-2 w-32 rounded text-xs flex justify-center items-center transition-custom gap-x-2 bg-primary text-white hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) cursor-pointer"
+        className="ml-3 xl:hidden h-8 p-2 w-32 rounded text-xs flex justify-center items-center transition-custom gap-x-2 bg-primary text-white hover:shadow-button-default active:shadow-button-active cursor-pointer"
       >
         Фильтр
       </button>

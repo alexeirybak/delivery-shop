@@ -18,7 +18,6 @@ export async function GET(request: NextRequest) {
     const isManager = searchParams.get("isManager") === "true";
     const sortBy = searchParams.get("sortBy") || "createdAt";
     const sortDirection = searchParams.get("sortDirection") || "desc";
-
     const id = searchParams.get("id");
     const name = searchParams.get("name");
     const surname = searchParams.get("surname");

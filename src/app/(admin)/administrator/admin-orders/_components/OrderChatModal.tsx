@@ -12,7 +12,6 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuthStore();
 
-  // Получаем сообщения через RTK Query с polling
   const { data: messages = [] } = useGetOrderMessagesQuery(orderId, {
     skip: !isOpen || !orderId,
     pollingInterval: isOpen ? 3000 : 0,
@@ -22,12 +21,10 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
     return msg.userRole || "courier";
   };
 
-  // Автопрокрутка к новым сообщениям
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Отправка сообщения через fetch
   const handleSendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!message.trim() || isSending) return;
@@ -76,11 +73,11 @@ const OrderChatModal = ({ orderId, isOpen, onClose }: OrderChatModalProps) => {
             height={24}
           />
         </button>
-        <h3 className="text-center text-2xl font-bold px-4 mt-18 mb-8">
+        <h3 className="px-4 mb-8 text-2xl font-bold text-center mt-18">
           Комментарии
         </h3>
 
-        <div className="flex-1 overflow-y-auto space-y-8 w-full mx-auto">
+        <div className="flex-1 w-full mx-auto space-y-8 overflow-y-auto">
           {messages.map((msg) => {
             const role = getMessageRole(msg);
             const roleDisplayName = getRoleDisplayName(role);

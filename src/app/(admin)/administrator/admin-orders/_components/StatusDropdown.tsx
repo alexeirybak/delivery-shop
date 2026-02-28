@@ -48,14 +48,14 @@ const StatusDropdown = ({
           true,
         )} ${isUpdating ? "opacity-50 cursor-not-allowed" : ""}`}
       >
-        <div className="flex items-center gap-2 flex-1">
+        <div className="flex items-center flex-1 gap-2">
           {currentStatusData && (
             <Image
               src={currentStatusData.icon}
               alt={currentStatusData.label}
               width={24}
               height={24}
-              className={`flex-shrink-0 ${
+              className={`shrink-0 ${
                 currentStatusLabel === "Доставляется" ||
                 currentStatusLabel === "Новый"
                   ? ""
@@ -89,7 +89,7 @@ const StatusDropdown = ({
       </button>
 
       {isDropdownOpen && (
-        <div className="absolute top-full right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg z-200 w-50">
+        <div className="absolute right-0 mt-1 bg-white border border-gray-200 rounded shadow-lg top-full z-200 w-50">
           {CUSTOMER_STATUSES.map((status) => (
             <button
               key={status.value}
@@ -108,7 +108,7 @@ const StatusDropdown = ({
                 alt={status.label}
                 width={24}
                 height={24}
-                className="flex-shrink-0 filter brightness-0"
+                className="shrink-0 filter brightness-0"
               />
               <span>{status.label}</span>
             </button>

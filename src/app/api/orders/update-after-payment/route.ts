@@ -45,7 +45,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 1. НАХОДИМ ЗАКАЗ И ПОЛЬЗОВАТЕЛЯ
     const [order, user] = await Promise.all([
       db.collection("orders").findOne({ _id: orderObjectId }),
       db.collection("user").findOne({ _id: userObjectId })
@@ -65,7 +64,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 2. ОБРАБОТКА БОНУСОВ (если переданы)
     if (usedBonuses !== undefined || earnedBonuses !== undefined) {
       const currentBonuses = user.bonusesCount || 0;
       const usedBonusesNum = Number(usedBonuses) || 0;
@@ -84,7 +82,6 @@ export async function POST(request: Request) {
 
       const newBonusesCount = currentBonuses - usedBonusesNum + earnedBonusesNum;
 
-      // 3. ОБНОВЛЕНИЕ ПОКУПОК ПОЛЬЗОВАТЕЛЯ (если переданы)
       let updatedPurchases = Array.isArray(user.purchases) ? user.purchases : [];
       
       if (purchasedProductIds && purchasedProductIds.length > 0) {
@@ -99,7 +96,6 @@ export async function POST(request: Request) {
         );
       }
 
-      // ОБНОВЛЯЕМ ДАННЫЕ ПОЛЬЗОВАТЕЛЯ
       await db.collection("user").updateOne(
         { _id: userObjectId },
         {
@@ -112,7 +108,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 4. СПИСЫВАЕМ ТОВАРЫ ИЗ ЗАКАЗА
     for (const item of order.items) {
       const productIdNumber = parseInt(item.productId);
       await db.collection("products").updateOne(
@@ -124,7 +119,6 @@ export async function POST(request: Request) {
       );
     }
 
-    // 5. ОБНОВЛЯЕМ СТАТУС ЗАКАЗА
     await db.collection("orders").updateOne(
       { _id: orderObjectId },
       {

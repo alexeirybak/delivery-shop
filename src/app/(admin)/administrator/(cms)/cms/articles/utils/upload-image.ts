@@ -1,9 +1,6 @@
 import { Editor } from '@tiptap/react';
 import { UploadResult } from '../types';
 
-/**
- * Валидация файла изображения
- */
 export const validateImageFile = (file: File): string | null => {
   const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   if (!allowedTypes.includes(file.type.toLowerCase())) {
@@ -18,9 +15,6 @@ export const validateImageFile = (file: File): string | null => {
   return null;
 };
 
-/**
- * Загрузка файла на сервер
- */
 export const uploadToServer = async (file: File): Promise<UploadResult> => {
   const formData = new FormData();
   formData.append('image', file);
@@ -51,26 +45,17 @@ export const uploadToServer = async (file: File): Promise<UploadResult> => {
   };
 };
 
-/**
- * Получение позиции для вставки изображения
- */
 const getInsertPosition = (editor: Editor): number => {
 
-  // Если позиция не указана, вставляем в конец выделения или текущую позицию курсора
   const { from, to } = editor.state.selection;
   
-  // Если есть выделение, вставляем после выделения
   if (from !== to) {
     return Math.max(from, to);
   }
   
-  // Если нет выделения, вставляем в текущую позицию курсора
   return from;
 };
 
-/**
- * Вставка изображения в редактор
- */
 export const insertImageToEditor = (
   editor: Editor,
   src: string,
@@ -88,28 +73,21 @@ export const insertImageToEditor = (
     },
   };
 
-  // Вставляем изображение
   editor
     .chain()
     .insertContentAt(insertPos, imageNode)
     .focus()
     .run();
   
-  // Перемещаем курсор после вставленного изображения
-  // +1 чтобы курсор был после тега изображения
   setTimeout(() => {
     editor.commands.setTextSelection(insertPos + 1);
   }, 10);
 };
 
-/**
- * Обработка файла с загрузкой на сервер и вставкой в редактор
- */
 export const handleImageUpload = async (
   file: File,
   editor: Editor,
 ): Promise<void> => {
-  // Валидация
   const validationError = validateImageFile(file);
   if (validationError) {
     alert(validationError);
@@ -117,10 +95,8 @@ export const handleImageUpload = async (
   }
 
   try {
-    // Загружаем на сервер
     const serverResult = await uploadToServer(file);
 
-    // Вставляем в редактор
     insertImageToEditor(
       editor,
       serverResult.url,
@@ -131,7 +107,6 @@ export const handleImageUpload = async (
     console.error('Upload error:', error);
     alert('Ошибка при загрузке изображения');
 
-    // Fallback: base64 preview
     const reader = new FileReader();
     reader.onload = (e) => {
       insertImageToEditor(
@@ -145,9 +120,6 @@ export const handleImageUpload = async (
   }
 };
 
-/**
- * Обработка URL изображения
- */
 export const handleImageUrl = (editor: Editor): void => {
   const url = prompt('Введите URL изображения:', 'https://');
 

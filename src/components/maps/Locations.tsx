@@ -16,10 +16,10 @@ const Locations = ({ currentLocation, onLocationChange }: LocationsProps) => {
           <button
             key={key}
             onClick={() => onLocationChange(key)}
-            className={`p-2 text-xs justify-center items-center active:shadow-(--shadow-button-active) border-none rounded cursor-pointer transition-colors transition-custom ${
+            className={`p-2 text-xs justify-center items-center active:shadow-button-active border-none rounded cursor-pointer  transition-custom ${
               isActive
-                ? "bg-primary text-white hover: shadow-(--shadow-button-default)"
-                : "bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)"
+                ? "bg-primary text-white hover: shadow-button-default"
+                : "bg-[#f3f2f1] hover:shadow-button-secondary"
             }`}
           >
             {locations[key].name}

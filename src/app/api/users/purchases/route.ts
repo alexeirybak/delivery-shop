@@ -9,7 +9,6 @@ export async function GET(request: Request) {
 
     const url = new URL(request.url);
 
-    // Получаем userId из параметров или из сессии
     const userId = url.searchParams.get("userId");
 
     if (!userId) {

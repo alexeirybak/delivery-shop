@@ -17,10 +17,10 @@ export default function VerificationMethodModal() {
 
   return (
     <AuthFormLayout>
-      <div className="animate-in zoom-in-95 relative">
-        <div className="space-y-6 flex flex-col items-center">
+      <div className="relative animate-in zoom-in-95">
+        <div className="flex flex-col items-center space-y-6">
           <div className="text-center">
-            <h2 className="text-3xl font-bold mb-2">Подтверждение аккаунта</h2>
+            <h2 className="mb-2 text-3xl font-bold">Подтверждение аккаунта</h2>
             <p>
               Выберите удобный способ подтверждения для завершения регистрации
             </p>
@@ -37,9 +37,9 @@ export default function VerificationMethodModal() {
               <span className="font-medium text-gray-900">
                 По SMS на телефон
               </span>
-              <span className="text-sm text-gray-500 mt-1">+{phoneNumber}</span>
+              <span className="mt-1 text-sm text-gray-500">+{phoneNumber}</span>
               <div className="absolute top-0 right-0 -mt-2 -mr-2">
-                <span className="flex h-4 w-4">
+                <span className="flex w-4 h-4">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#ff6633] opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-4 w-4 bg-[#ff6633]"></span>
                 </span>
@@ -47,9 +47,9 @@ export default function VerificationMethodModal() {
             </Link>
 
             <div className="flex items-center my-2">
-              <div className="flex-grow border-t border-gray-200"></div>
-              <span className="mx-4 text-gray-400 text-sm">или</span>
-              <div className="flex-grow border-t border-gray-200"></div>
+              <div className="border-t border-gray-200 grow"></div>
+              <span className="mx-4 text-sm text-gray-400">или</span>
+              <div className="border-t border-gray-200 grow"></div>
             </div>
 
             <Link
@@ -62,7 +62,7 @@ export default function VerificationMethodModal() {
               <span className="font-medium text-gray-900">
                 По ссылке на email
               </span>
-              <span className="text-sm text-gray-500 mt-1">{email}</span>
+              <span className="mt-1 text-sm text-gray-500">{email}</span>
             </Link>
           </div>
         </div>

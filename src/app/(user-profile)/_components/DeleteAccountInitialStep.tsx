@@ -20,10 +20,10 @@ export const DeleteAccountInitialStep = ({
     <AuthFormLayout>
       <div className="flex flex-col gap-y-8">
         <div className="flex flex-col items-center">
-          <Trash2 className="w-12 h-12 text-red-500 mb-4" />
+          <Trash2 className="w-12 h-12 mb-4 text-red-500" />
           <h1 className="text-2xl font-bold text-center">Удаление аккаунта</h1>
         </div>
-        <p className="text-center text-red-600 font-medium">
+        <p className="font-medium text-center text-red-600">
           Внимание! Это действие необратимо. Все Ваши данные будут удалены без
           возможности восстановления.
         </p>
@@ -41,7 +41,7 @@ export const DeleteAccountInitialStep = ({
 
         <form
           onSubmit={onSendCode}
-          className="mx-auto flex flex-col justify-center"
+          className="flex flex-col justify-center mx-auto"
           autoComplete="off"
         >
           <button
@@ -51,14 +51,14 @@ export const DeleteAccountInitialStep = ({
           >
             {loading ? (
               <>
-                <Loader2 className="animate-spin w-4 h-4" />
+                <Loader2 className="w-4 h-4 animate-spin" />
                 Отправка...
               </>
             ) : !canResend ? (
               `Ждите ${timeLeft} сек`
             ) : (
               <>
-                <Mail className="w-4 h-4 flex-shrink-0" />
+                <Mail className="w-4 h-4 shrink-0" />
                 Получить код подтверждения
               </>
             )}

@@ -16,15 +16,15 @@ export const BanUserModal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded shadow-2xl max-w-md w-full transform ">
-        <div className="flex justify-between items-center p-6 border-b border-gray-200">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="w-full max-w-md transform bg-white rounded shadow-2xl ">
+        <div className="flex items-center justify-between p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             {isBanned ? "Управление блокировкой" : "Блокировка пользователя"}
           </h2>
           <button
             onClick={onClose}
-            className="p-2 hover:bg-gray-100 rounded-full  transition-custom cursor-pointer group"
+            className="p-2 rounded-full cursor-pointer hover:bg-gray-100 transition-custom group"
             title="Закрыть"
           >
             <X className="w-5 h-5 text-gray-500 group-hover:text-gray-700" />
@@ -32,27 +32,27 @@ export const BanUserModal = ({
         </div>
 
         <div className="p-6">
-          <div className="bg-gray-50 rounded p-4 mb-4">
-            <p className="text-gray-700 mb-1">
+          <div className="p-4 mb-4 rounded bg-gray-50">
+            <p className="mb-1 text-gray-700">
               <span className="text-sm text-gray-500">Пользователь:</span>{" "}
               <span className="font-semibold text-gray-900">{userName}</span>
             </p>
-            <p className="text-xs text-gray-500 font-mono">
+            <p className="font-mono text-xs text-gray-500">
               ID: <span className="text-gray-600">{userId}</span>
             </p>
           </div>
 
           {isBanned ? (
             <>
-              <div className="bg-red-50 border border-red-200 rounded p-5 mb-5">
-                <p className="text-red-600 flex items-center gap-2 mb-3">
+              <div className="p-5 mb-5 border border-red-200 rounded bg-red-50">
+                <p className="flex items-center gap-2 mb-3 text-red-600">
                   <AlertCircle className="w-5 h-5" />
                   <span className="font-semibold">
                     Пользователь заблокирован
                   </span>
                 </p>
                 {bannedUntil ? (
-                  <div className="text-gray-700 bg-white rounded p-3">
+                  <div className="p-3 text-gray-700 bg-white rounded">
                     <div className="flex flex-wrap gap-x-2">
                       <Calendar className="w-4 h-4 text-red-400" />
                       <p className="text-sm">Блокировка будет снята: </p>
@@ -63,7 +63,7 @@ export const BanUserModal = ({
                     </p>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-2 text-gray-700 bg-white rounded p-3">
+                  <div className="flex items-center gap-2 p-3 text-gray-700 bg-white rounded">
                     <Calendar className="w-4 h-4 text-red-400" />
                     <span className="font-semibold text-red-600">
                       Блокировка навсегда
@@ -72,7 +72,7 @@ export const BanUserModal = ({
                 )}
               </div>
 
-              <p className="text-sm text-blue-500 mb-6 bg-blue-50 border border-blue-100 rounded p-3 flex flex-row gap-3">
+              <p className="flex flex-row gap-3 p-3 mb-6 text-sm text-blue-500 border border-blue-100 rounded bg-blue-50">
                 <Info className="w-5 h-5 shrink-0" />
                 <span>
                   Вы можете разблокировать пользователя досрочно, чтобы он снова
@@ -89,14 +89,14 @@ export const BanUserModal = ({
             </>
           ) : (
             <>
-              <p className="text-sm text-amber-700 mb-6 bg-amber-50 border border-amber-200 rounded p-3">
-                <AlertCircle className="shrink-0 w-4 h-4 mb-2" />
+              <p className="p-3 mb-6 text-sm border rounded text-amber-700 bg-amber-50 border-amber-200">
+                <AlertCircle className="w-4 h-4 mb-2 shrink-0" />
                 <span className="font-medium ">
                   Заблокированный пользователь не сможет оставлять комментарии.
                 </span>
               </p>
 
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-2">
+              <div className="grid grid-cols-2 gap-3 mb-2 sm:grid-cols-3">
                 {banOptions.map((option) => (
                   <button
                     key={option.label}
@@ -114,13 +114,10 @@ export const BanUserModal = ({
           )}
         </div>
 
-        <div className="flex justify-end p-6 border-t border-gray-200 bg-gray-100 rounded-b">
+        <div className="flex justify-end p-6 bg-gray-100 border-t border-gray-200 rounded-b">
           <button
             onClick={onClose}
-            className="px-8 py-3 bg-gray-700 text-white font-semibold 
-                        rounded shadow-md hover:bg-gray-800 hover:shadow-lg 
-                        active:bg-gray-900 active:scale-95  transition-custom 
-                        focus:ring-4 focus:ring-gray-400 cursor-pointer border border-gray-600"
+            className="px-8 py-3 font-semibold text-white bg-gray-700 border border-gray-600 rounded shadow-md cursor-pointer hover:bg-gray-800 hover:shadow-lg active:bg-gray-900 active:scale-95 transition-custom focus:ring-4 focus:ring-gray-400"
           >
             {isBanned ? "Закрыть" : "Отмена"}
           </button>

@@ -239,7 +239,7 @@ const EnterLoginPage = () => {
                ? "cursor-not-allowed bg-[#fcd5ba] text-[#ff6633]"
                : "bg-[#ff6633] text-white hover:shadow-(--shadow-article)"
            }
-            active:shadow-(--shadow-button-active)
+            active:shadow-button-active
            transition-custom
             
           `}

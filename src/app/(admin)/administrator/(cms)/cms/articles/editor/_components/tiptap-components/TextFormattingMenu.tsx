@@ -8,11 +8,9 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
   const [isUnderline, setIsUnderline] = useState(false);
   const [isStrike, setIsStrike] = useState(false);
 
-  // Хук useEffect должен вызываться безусловно
   useEffect(() => {
     if (!editor) return;
 
-    // Обновляем состояния при изменении редактора
     const updateStates = () => {
       setIsBold(editor.isActive("bold"));
       setIsItalic(editor.isActive("italic"));
@@ -20,14 +18,11 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
       setIsStrike(editor.isActive("strike"));
     };
 
-    // Подписываемся на события редактора
     editor.on("selectionUpdate", updateStates);
     editor.on("transaction", updateStates);
 
-    // Инициализация
     updateStates();
 
-    // Обработчик горячих клавиш
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.ctrlKey && event.shiftKey && event.code === "KeyS") {
         event.preventDefault();
@@ -100,7 +95,6 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
 
   return (
     <div className="flex items-center gap-1">
-      {/* Bold */}
       <button
         type="button"
         onClick={handleBold}
@@ -120,7 +114,6 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
         <Bold className="w-4 h-4" />
       </button>
 
-      {/* Italic */}
       <button
         type="button"
         onClick={handleItalic}
@@ -140,7 +133,6 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
         <Italic className="w-4 h-4" />
       </button>
 
-      {/* Underline */}
       <button
         type="button"
         onClick={handleUnderline}
@@ -160,7 +152,6 @@ export const TextFormattingMenu = ({ editor }: EditorProps) => {
         <Underline className="w-4 h-4" />
       </button>
 
-      {/* Strike */}
       <button
         type="button"
         onClick={handleStrike}

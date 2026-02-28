@@ -52,7 +52,7 @@ const EmailChangeVerification = (props: EmailChangeVerificationProps) => {
               <Section className="text-center mb-6">
                 <Button
                   href={verificationUrl}
-                  className="bg-[#70C05B] hover: text-white px-6 py-2 rounded text-base font-medium no-underline"
+                  className="bg-primary hover: text-white px-6 py-2 rounded text-base font-medium no-underline"
                 >
                   Подтвердить смену email
                 </Button>

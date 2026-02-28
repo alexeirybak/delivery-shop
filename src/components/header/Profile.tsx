@@ -118,7 +118,7 @@ const Profile = () => {
     return (
       <Link
         href="/login"
-        className="ml-6 w-10 xl:w-[157px] flex justify-between items-center gap-x-2 p-2 rounded text-white text-base bg-[#ff6633] hover:shadow-(--shadow-article) active:shadow-(--shadow-button-active) transition-custom cursor-pointer"
+        className="ml-6 w-10 xl:w-[157px] flex justify-between items-center gap-x-2 p-2 rounded text-white text-base bg-[#ff6633] hover:shadow-(--shadow-article) active:shadow-button-active transition-custom cursor-pointer"
       >
         <div className="w-[109px] justify-center hidden xl:flex">
           <p>Войти</p>

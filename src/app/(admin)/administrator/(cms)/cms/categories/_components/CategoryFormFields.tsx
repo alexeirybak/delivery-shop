@@ -1,7 +1,7 @@
 import { RotateCcw } from "lucide-react";
 import { SEO_LIMITS } from "../../utils/SEO_LIMITS";
 import { useCategoryStore } from "@/store/categoryStore";
-import { CategoryFormFieldsProps } from "../types";
+import { CategoryFormFieldsProps } from "../types/components/form/form-fields.types";
 
 export const CategoryFormFields = ({
   errors,
@@ -11,9 +11,9 @@ export const CategoryFormFields = ({
 }: CategoryFormFieldsProps) => {
   const { isSubmitting, formData } = useCategoryStore();
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
       <div>
-        <div className="flex justify-between items-center mb-1">
+        <div className="flex items-center justify-between mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Название категории *
           </label>
@@ -37,11 +37,11 @@ export const CategoryFormFields = ({
           placeholder="Например: Соки"
         />
         {errors.name && (
-          <p className="text-red-500 text-xs mt-1">{errors.name}</p>
+          <p className="mt-1 text-xs text-red-500">{errors.name}</p>
         )}
       </div>
       <div>
-        <div className="flex justify-between items-center mb-1">
+        <div className="flex items-center justify-between mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Алиас (slug) *
           </label>
@@ -82,15 +82,15 @@ export const CategoryFormFields = ({
           </button>
         </div>
         {errors.slug ? (
-          <p className="text-red-500 text-xs mt-1">{errors.slug}</p>
+          <p className="mt-1 text-xs text-red-500">{errors.slug}</p>
         ) : (
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="mt-1 text-xs text-gray-500">
             Только латиница, цифры и дефисы
           </p>
         )}
       </div>
       <div className="md:col-span-2">
-        <div className="flex justify-between items-center mb-1">
+        <div className="flex items-center justify-between mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Описание (мета-описание)
           </label>
@@ -117,19 +117,19 @@ export const CategoryFormFields = ({
           placeholder="Краткое описание категории для поисковых систем (10-160 символов)"
         />
         {errors.description ? (
-          <p className="text-red-500 text-xs mt-1">{errors.description}</p>
+          <p className="mt-1 text-xs text-red-500">{errors.description}</p>
         ) : (
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="mt-1 text-xs text-gray-500">
             Оптимальная длина для SEO: {SEO_LIMITS.description.min}-
             {SEO_LIMITS.description.max} символов
           </p>
         )}
       </div>
       <div className="md:col-span-2">
-        <div className="flex justify-between items-center mb-1">
+        <div className="flex items-center justify-between mb-1">
           <label className="block text-sm font-medium text-gray-700">
             Ключевые слова
-            <span className="text-gray-500 text-xs ml-2">(через запятую)</span>
+            <span className="ml-2 text-xs text-gray-500">(через запятую)</span>
           </label>
           <span className="text-xs text-gray-500">
             {charCount.keywords}/{SEO_LIMITS.keywords.maxLength}
@@ -154,7 +154,7 @@ export const CategoryFormFields = ({
           placeholder="мясо, напитки, польза и вред"
         />
         {errors.keywords && (
-          <p className="text-red-500 text-xs mt-1">{errors.keywords}</p>
+          <p className="mt-1 text-xs text-red-500">{errors.keywords}</p>
         )}
       </div>
     </div>

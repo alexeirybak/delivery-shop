@@ -4,7 +4,7 @@ import { getDB } from "../../../../../../../../../utils/api-routes";
 
 export async function PUT(
   request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const db = await getDB();
@@ -15,21 +15,21 @@ export async function PUT(
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "Неверный ID категории" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!rawData.name?.trim()) {
       return NextResponse.json(
         { success: false, message: "Название категории обязательно" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!rawData.slug?.trim()) {
       return NextResponse.json(
         { success: false, message: "Алиас (slug) категории обязателен" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -45,7 +45,7 @@ export async function PUT(
     if (existingCategory) {
       return NextResponse.json(
         { success: false, message: "Категория с таким алиасом уже существует" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -91,7 +91,7 @@ export async function PUT(
     if (result.matchedCount === 0) {
       return NextResponse.json(
         { success: false, message: "Категория не найдена" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -108,14 +108,14 @@ export async function PUT(
         message: "Ошибка обновления категории",
         error: error instanceof Error ? error.message : "Неизвестная ошибка",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(
   _request: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const db = await getDB();
@@ -124,7 +124,7 @@ export async function DELETE(
     if (!ObjectId.isValid(id)) {
       return NextResponse.json(
         { success: false, message: "Неверный ID категории" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -140,7 +140,7 @@ export async function DELETE(
           success: false,
           message: `Невозможно удалить категорию. В ней статьи в количестве ${articlesCount} шт.`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -151,7 +151,7 @@ export async function DELETE(
     if (result.deletedCount === 0) {
       return NextResponse.json(
         { success: false, message: "Категория не найдена" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -163,7 +163,7 @@ export async function DELETE(
     console.error("Ошибка удаления категории:", error);
     return NextResponse.json(
       { success: false, message: "Ошибка удаления категории" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

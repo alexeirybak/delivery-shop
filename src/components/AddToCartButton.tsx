@@ -29,7 +29,6 @@ const AddToCartButton = ({
   const currentQuantity = cartItem?.quantity || 0;
   const isInCart = currentQuantity > 0;
   const displayQuantity = Math.min(currentQuantity, availableQuantity);
-
   const hasReachedMaxQuantity = displayQuantity >= availableQuantity;
   const isOutOfStock = availableQuantity === 0;
 

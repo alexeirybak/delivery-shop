@@ -24,7 +24,7 @@ const Filters = ({
   };
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow-md border border-gray-200">
+    <div className="p-4 bg-white border border-gray-200 rounded-lg shadow-md">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-lg font-semibold">Фильтры</h3>
         <div className="flex gap-2">
@@ -36,16 +36,16 @@ const Filters = ({
           </button>
           <button
             onClick={onClearFilters}
-            className="px-3 py-2 text-xs justify-center items-center active:shadow-(--shadow-button-active) border-none rounded cursor-pointer transition-colors transition-custom bg-[#f3f2f1] hover:shadow-(--shadow-button-secondary)"
+            className="px-3 py-2 text-xs justify-center items-center active:shadow-button-active border-none rounded cursor-pointer  transition-custom bg-[#f3f2f1] hover:shadow-button-secondary"
           >
             Очистить
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         <div>
-          <label className="block text-xs font-medium mb-1">ID</label>
+          <label className="block mb-1 text-xs font-medium">ID</label>
           <input
             type="text"
             value={filters.id}
@@ -56,7 +56,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Имя</label>
+          <label className="block mb-1 text-xs font-medium">Имя</label>
           <input
             type="text"
             value={filters.name}
@@ -67,7 +67,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Фамилия</label>
+          <label className="block mb-1 text-xs font-medium">Фамилия</label>
           <input
             type="text"
             value={filters.surname}
@@ -78,7 +78,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Email</label>
+          <label className="block mb-1 text-xs font-medium">Email</label>
           <input
             type="email"
             value={filters.email}
@@ -89,7 +89,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Телефон</label>
+          <label className="block mb-1 text-xs font-medium">Телефон</label>
           <input
             type="tel"
             value={filters.phoneNumber}
@@ -100,7 +100,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Роль</label>
+          <label className="block mb-1 text-xs font-medium">Роль</label>
           <select
             value={filters.role}
             onChange={(e) => handleInputChange("role", e.target.value)}
@@ -113,7 +113,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Возраст от</label>
+          <label className="block mb-1 text-xs font-medium">Возраст от</label>
           <input
             type="number"
             value={filters.minAge}
@@ -125,7 +125,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">Возраст до</label>
+          <label className="block mb-1 text-xs font-medium">Возраст до</label>
           <input
             type="number"
             value={filters.maxAge}
@@ -137,7 +137,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">
+          <label className="block mb-1 text-xs font-medium">
             Регистрация от
           </label>
           <input
@@ -149,7 +149,7 @@ const Filters = ({
         </div>
 
         <div>
-          <label className="block text-xs font-medium mb-1">
+          <label className="block mb-1 text-xs font-medium">
             Регистрация до
           </label>
           <input

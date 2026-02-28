@@ -8,38 +8,36 @@ export const metadata: Metadata = {
     "Актуальные вакансии в компании Северяночка. Продавец-кассир, администратор, товаровед, грузчик, мерчандайзер и другие. Официальное трудоустройство, стабильная зарплата, дружный коллектив.",
   keywords:
     "вакансии, работа, Северяночка, продавец-кассир, администратор, товаровед, грузчик, мерчандайзер, уборщица, трудоустройство, Архангельск",
+  alternates: {
+    canonical: `${baseUrl}/vacancies`,
+  },
   openGraph: {
     title: "Вакансии | Северяночка",
     description:
       "Работа в сети магазинов Северяночка. Актуальные вакансии с официальным трудоустройством и стабильной зарплатой.",
-    url: `https://${baseUrl}/vacancies`,
+    url: `${baseUrl}/vacancies`,
     siteName: "Северяночка",
     images: [
       {
-        url: "/images/vacancies/og-image.jpg",
-        width: 1200,
-        height: 630,
+        url: "/og-images/vacancies-og.jpg",
+        width: 512,
+        height: 512,
         alt: "Вакансии Северяночка",
       },
     ],
-    locale: "ru_RU",
-    type: "website",
-  },
-  alternates: {
-    canonical: `https://${baseUrl}/vacancies`,
   },
 };
 
 export default function VacanciesPage() {
   return (
     <section className="w-full mx-auto px-[max(12px,calc((100%-1208px)/2))]">
-      <div className="text-main-text w-full">
+      <div className="w-full text-main-text">
         <h1 className="text-4xl md:text-5xl lg:text-[64px] font-bold leading-[150%] mb-8 чдЖьи-15">
           Вакансии
         </h1>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-10">
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:gap-10">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Продавец-кассир
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -79,14 +77,13 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>
 
-          {/* Остальные вакансии без изменений */}
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Администратор магазина
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -125,13 +122,13 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Товаровед
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -168,13 +165,13 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Грузчик-комплектовщик
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -211,13 +208,13 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Мерчандайзер
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -255,13 +252,13 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 md:p-6 lg:p-8 bg-white shadow-vacation flex flex-col gap-y-4">
-            <h2 className="text-xl md:text-lg lg:text-2xl font-bold">
+          <div className="flex flex-col p-4 bg-white md:p-6 lg:p-8 shadow-vacation gap-y-4">
+            <h2 className="text-xl font-bold md:text-lg lg:text-2xl">
               Уборщица/уборщик торговых помещений
             </h2>
             <div className="flex flex-col gap-y-2">
@@ -298,7 +295,7 @@ export default function VacanciesPage() {
                   height={30}
                   className="w-6 h-6 lg:w-7.5 lg:h-7.5 object-contain"
                 />
-                <p className="text-xs lg:text-xl underline">+7 904 271 35 90</p>
+                <p className="text-xs underline lg:text-xl">+7 904 271 35 90</p>
               </div>
             </div>
           </div>

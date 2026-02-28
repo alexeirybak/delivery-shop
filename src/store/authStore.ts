@@ -2,7 +2,6 @@ import { authClient } from "@/lib/auth-client";
 import { UserDataOrNull } from "@/types/userData";
 import { create } from "zustand";
 
-
 type AuthState = {
   isAuth: boolean;
   user: UserDataOrNull;

@@ -13,7 +13,7 @@ export default function GoodbyePage() {
         </p>
         <Link
           href="/"
-          className="bg-primary hover:shadow-(--shadow-button-default) active:shadow-(--shadow-button-active) w-full text-center text-white text-2xl px-3 py-2 cursor-pointer rounded transition-custom"
+          className="bg-primary hover:shadow-button-default active:shadow-button-active w-full text-center text-white text-2xl px-3 py-2 cursor-pointer rounded transition-custom"
         >
           На главную
         </Link>

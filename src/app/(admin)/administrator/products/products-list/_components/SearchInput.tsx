@@ -29,13 +29,13 @@ const SearchInput = ({
             value={searchTerm}
             onChange={(e) => onSearchTermChange(e.target.value)}
             onKeyDown={onKeyPress}
-            className="w-full pl-10 pr-4 py-2 rounded outline-none border-1 border-primary bg-white focus:shadow-button-default transition-custom"
+            className="w-full py-2 pl-10 pr-4 bg-white border rounded outline-none border-primary focus:shadow-button-default transition-custom"
           />
         </div>
         <button
           onClick={onSearch}
           disabled={loading || searchTerm.trim().length < 3}
-          className="bg-primary hover:shadow-button-default active:shadow-button-active rounded text-white transition-custom px-4 py-2 flex flex-row gap-2 items-center justify-center disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+          className="flex flex-row items-center justify-center gap-2 px-4 py-2 text-white rounded cursor-pointer bg-primary hover:shadow-button-default active:shadow-button-active transition-custom disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {loading ? (
             <Loader size={18} className="animate-spin" />
@@ -46,7 +46,7 @@ const SearchInput = ({
         </button>
       </div>
 
-      <p className="text-sm mt-2">
+      <p className="mt-2 text-sm">
         {searchTerm.trim().length === 0 ? (
           <span className="text-main-text">
             Введите минимум 3 символа для поиска

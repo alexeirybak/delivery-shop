@@ -6,25 +6,20 @@ export const ListMenu = ({ editor }: EditorProps) => {
   const [isBulletListActive, setIsBulletListActive] = useState(false);
   const [isOrderedListActive, setIsOrderedListActive] = useState(false);
 
-  // Подписываемся на изменения редактора для определения активности списков
   useEffect(() => {
     if (!editor) return;
 
     const updateActiveStates = () => {
-      // Проверяем активность маркированного списка
       const bulletActive = editor.isActive("bulletList");
       setIsBulletListActive(bulletActive);
 
-      // Проверяем активность нумерованного списка
       const orderedActive = editor.isActive("orderedList");
       setIsOrderedListActive(orderedActive);
     };
 
-    // Подписываемся на события редактора
     editor.on("selectionUpdate", updateActiveStates);
     editor.on("transaction", updateActiveStates);
 
-    // Инициализация
     updateActiveStates();
 
     return () => {
@@ -37,7 +32,6 @@ export const ListMenu = ({ editor }: EditorProps) => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!editor) return;
 
-      // Ctrl+Shift+8 для маркированного списка
       if (
         event.ctrlKey &&
         event.shiftKey &&
@@ -46,10 +40,7 @@ export const ListMenu = ({ editor }: EditorProps) => {
         event.preventDefault();
         event.stopPropagation();
         editor.chain().focus().toggleBulletList().run();
-      }
-
-      // Ctrl+Shift+9 для нумерованного списка
-      else if (
+      } else if (
         event.ctrlKey &&
         event.shiftKey &&
         (event.code === "Digit9" || event.key === "9" || event.key === "(")

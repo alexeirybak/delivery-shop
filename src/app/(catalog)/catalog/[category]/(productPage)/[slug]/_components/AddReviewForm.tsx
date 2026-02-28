@@ -86,7 +86,7 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
                 }}
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
-                className="cursor-pointer hover:scale-110 transition-transform mr-1"
+                className="mr-1 transition-transform cursor-pointer hover:scale-110"
               >
                 <IconStar
                   size={24}
@@ -114,14 +114,12 @@ const AddReviewForm = ({ productId, onReviewAdded }: AddReviewFormProps) => {
             />
           </div>
 
-          {/* Сообщение о необходимости заполнить все поля */}
           {showValidationError && (
             <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
               Пожалуйста, поставьте оценку и напишите отзыв
             </div>
           )}
 
-          {/* Сообщение об ошибке авторизации или сервера */}
           {error && (
             <div className="text-[#d80000] text-sm p-2 bg-[#ffc7c7] rounded mb-2">
               {error}

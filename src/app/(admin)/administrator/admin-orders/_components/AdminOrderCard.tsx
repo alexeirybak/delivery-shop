@@ -147,9 +147,9 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
 
   return (
     <div className="flex flex-col">
-      <div className="flex flex-1 flex-wrap justify-between items-start text-main-text gap-x-20">
-        <div className="flex gap-x-4 items-center">
-          <h2 className="text-base md:text-lg xl:text-2xl font-bold">
+      <div className="flex flex-wrap items-start justify-between flex-1 text-main-text gap-x-20">
+        <div className="flex items-center gap-x-4">
+          <h2 className="text-base font-bold md:text-lg xl:text-2xl">
             {order.orderNumber.slice(-3)}
           </h2>
           <div className="flex items-center gap-x-2">
@@ -162,7 +162,7 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           </div>
         </div>
 
-        <div className="flex flex-wrap gap-5 items-center">
+        <div className="flex flex-wrap items-center gap-5">
           <div className="flex items-center gap-2">
             <Image
               alt="Телефон"
@@ -247,7 +247,6 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
           )}
         </div>
       </div>
-      {/* Товары показываем когда showOrderDetails = true */}
       {showOrderDetails && (
         <>
           <OrderProductsLoader
@@ -257,14 +256,12 @@ const AdminOrderCard = ({ orderId }: AdminOrderCardProps) => {
             showFullOrder={showFullOrder}
           />
 
-          {/* Полные детали заказа показываем когда showFullOrder = true */}
           {showFullOrder && (
             <OrderDetails order={order} totalWeight={totalOrderWeight} />
           )}
         </>
       )}
 
-      {/* Нижняя кнопка Показать заказ/Скрыть */}
       {showOrderDetails && !showFullOrder && (
         <div className="flex justify-center mt-10">
           <button

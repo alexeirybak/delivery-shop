@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import dotenv from "dotenv";
 import path from "path";
 import PriceAlertEmail from "@/app/(catalog)/catalog/[category]/(productPage)/[slug]/_components/PriceAlertEmail";
+import { baseUrl } from "../../utils/baseUrl";
 dotenv.config({ path: path.resolve(process.cwd(), ".env") });
 
 const resendApiKey = process.env.RESEND_API_KEY;
@@ -24,13 +25,13 @@ export async function sendPriceAlertEmail({
 }) {
   try {
     const encodedTitle = encodeURIComponent(productTitle);
-    const productUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/catalog/product/${productId}?desc=${encodedTitle}`;
-    const unsubscribeUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/price-alerts/unsubscribe?token=${unsubscribeToken}&email=${encodeURIComponent(to)}`;
+    const productUrl = `${baseUrl}/catalog/product/${productId}?desc=${encodedTitle}`;
+    const unsubscribeUrl = `${baseUrl}/api/price-alerts/unsubscribe?token=${unsubscribeToken}&email=${encodeURIComponent(to)}`;
 
     const { error } = await resend.emails.send({
-      from: "Северяночка <onboarding@resend.dev>",
+      from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
       to,
-      subject: `💰 Цена на "${productTitle}" снизилась!`,
+      subject: `Цена на "${productTitle}" снизилась!`,
       react: PriceAlertEmail({
         productTitle,
         oldPrice,

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ProductCardProps } from "@/types/product";
+import { baseUrl } from "../../../../../../../../utils/baseUrl";
 
 interface SimilarProductsProps {
   currentProduct: ProductCardProps;
@@ -22,7 +23,7 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
     if (!category) return null;
 
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
+      `${baseUrl}/api/products/similar-products?productId=${currentProduct.id}&category=${category}&limit=4`,
       {
         next: { revalidate: 3600 },
       },
@@ -45,21 +46,21 @@ const SimilarProducts = async ({ currentProduct }: SimilarProductsProps) => {
     };
 
     return (
-      <div className="mx-auto flex flex-col items-center">
+      <div className="flex flex-col items-center mx-auto">
         <div className="w-full max-w-[328px] md:max-w-[688px] xl:max-w-[168px]">
           <h3 className="text-sm md:text-lg font-semibold mb-2 text-[#606060] text-left">
             Похожие
           </h3>
         </div>
 
-        <div className="flex flex-row xl:flex-col gap-2 md:gap-4 justify-center xl:justify-start">
+        <div className="flex flex-row justify-center gap-2 xl:flex-col md:gap-4 xl:justify-start">
           {similarProducts.map((product) => (
             <Link
               key={product.id}
               href={`/catalog/product/${product.id}`}
               className="text-main-text text-sm md:text-lg flex flex-col w-[78px] h-[62px] md:w-[172px] md:h-[158px] xl:w-[168px] xl:h-[104px] rounded bg-white shadow-image-block transition-custom hover:shadow-lg"
             >
-              <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] flex-shrink-0">
+              <div className="relative w-full h-[25px] md:h-[111px] xl:h-[57px] shrink-0">
                 <Image
                   src={product.img}
                   alt={product.title}

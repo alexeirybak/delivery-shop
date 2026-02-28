@@ -12,6 +12,7 @@ export default function CategoryImage({
   priority,
 }: CategoryImageProps) {
   const imagePath = getImagePath(hasImage ? image : "");
+  console.log(imagePath);
 
   return (
     <div className="relative w-full h-48">

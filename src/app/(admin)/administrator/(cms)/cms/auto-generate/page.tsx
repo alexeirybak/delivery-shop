@@ -105,7 +105,6 @@ const AutoGeneratePage = () => {
         );
 
         if (updated) {
-          // Перенаправляем после успешной генерации
           setTimeout(() => {
             window.location.href = `/blog/${articleData.categorySlug}/${articleData.slug}`;
           }, 2000);
@@ -122,7 +121,6 @@ const AutoGeneratePage = () => {
         setGenerationStatus("error");
         setCurrentStepName("Ошибка");
 
-        // В случае ошибки все равно перенаправляем
         setTimeout(() => {
           window.location.href = `/blog/${articleData.categorySlug}/${articleData.slug}`;
         }, 3000);

@@ -8,7 +8,6 @@ export const useCategoryFormValidation = () => {
   const validateForm = (formData: CategoryFormData): boolean => {
     const newErrors: Record<string, string> = {};
 
-    // Валидация названия
     if (
       formData.name.length < SEO_LIMITS.name.min ||
       formData.name.length > SEO_LIMITS.name.max
@@ -16,7 +15,6 @@ export const useCategoryFormValidation = () => {
       newErrors.name = SEO_LIMITS.name.message;
     }
 
-    // Валидация slug
     if (
       formData.slug.length < SEO_LIMITS.slug.min ||
       formData.slug.length > SEO_LIMITS.slug.max
@@ -24,7 +22,6 @@ export const useCategoryFormValidation = () => {
       newErrors.slug = SEO_LIMITS.slug.message;
     }
 
-    // Валидация описания
     if (
       formData.description &&
       (formData.description.length < SEO_LIMITS.description.min ||
@@ -33,7 +30,6 @@ export const useCategoryFormValidation = () => {
       newErrors.description = SEO_LIMITS.description.message;
     }
 
-    // Валидация ключевых слов
     if (formData.keywords) {
       const keywordsArray = formData.keywords
         .split(",")

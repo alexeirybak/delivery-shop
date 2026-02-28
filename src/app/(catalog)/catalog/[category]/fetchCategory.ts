@@ -1,3 +1,5 @@
+import { baseUrl } from "../../../../../utils/baseUrl";
+
 const fetchProductsByCategory = async (
   category: string,
   options: {
@@ -7,14 +9,12 @@ const fetchProductsByCategory = async (
     priceTo?: string;
     inStock?: boolean;
     userId?: string | null;
-  }
+  },
 ) => {
-
   const { pagination, filter, priceFrom, priceTo, inStock, userId } = options;
 
   try {
     if (category === "favorites") {
-      
       if (!userId) {
         return {
           items: [],
@@ -23,7 +23,7 @@ const fetchProductsByCategory = async (
       }
     }
 
-    const url = new URL(`${process.env.NEXT_PUBLIC_BASE_URL}/api/category`);
+    const url = new URL(`${baseUrl}/api/category`);
 
     url.searchParams.append("category", category);
     url.searchParams.append("startIdx", pagination.startIdx.toString());
