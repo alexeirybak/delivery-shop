@@ -3,6 +3,7 @@ import { Edit, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { SortableItemProps } from "../types";
 import { DragHandle } from "../../_components/DragHandle";
+import { getImagePath } from "../../../../../../../../utils/getImagePath";
 
 export const DesktopCategoryRow = ({
   category,
@@ -24,6 +25,11 @@ export const DesktopCategoryRow = ({
     e.stopPropagation();
     onDelete(category._id.toString());
   };
+
+  const imagePath = category.image
+    ? `/api/uploads/blog-categories/${getImagePath(category.image)}`
+    : "";
+
   return (
     <div
       className={`p-4 hover:bg-gray-50 text-xs xl:text-sm transition-custom ${
@@ -49,7 +55,7 @@ export const DesktopCategoryRow = ({
         <div className="flex items-center justify-center">
           {showImage ? (
             <Image
-              src={category.image}
+              src={imagePath}
               alt={category.imageAlt || category.name}
               width={50}
               height={50}

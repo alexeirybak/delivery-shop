@@ -5,6 +5,7 @@ import { useRef } from "react";
 import { useCategoryStore } from "@/store/categoryStore";
 import { ImageSectionProps } from "../categories/types";
 import { useArticleStore } from "@/store/articleStore";
+import { getImagePath } from "../../../../../../../utils/getImagePath";
 
 export const ImageSection = ({
   type,
@@ -30,6 +31,23 @@ export const ImageSection = ({
       fileInputRef.current.value = "";
     }
   };
+
+  const getImageSrc = () => {
+    if (!formData.image) return "";
+
+    if (formData.image.startsWith("blob:")) {
+      return formData.image;
+    }
+
+    if (type === "category") {
+      return `/uploads/blog-categories/${getImagePath(formData.image)}`;
+    } else {
+      return `/uploads/articles/${getImagePath(formData.image)}`;
+    }
+  };
+
+  const imageSrc = getImageSrc();
+
   return (
     <div className="mb-6 bg-gray-50 p-4 rounded border border-gray-200">
       <h3 className="text-lg font-medium mb-4">Изображение {entityName}</h3>
@@ -39,7 +57,7 @@ export const ImageSection = ({
             <div className="flex flex-col lg:flex-row items-start gap-4">
               <div className="shrink-0">
                 <Image
-                  src={formData.image}
+                  src={imageSrc}
                   alt="Предпросмотр"
                   width={160}
                   height={160}

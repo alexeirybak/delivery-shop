@@ -10,7 +10,7 @@ const CategoryImage = ({
   if (hasImage && category.image) {
     const imagePath =
       hasImage && category.image
-        ? `/uploads/blog-categories/${getImagePath(category.image)}`
+        ? `/api/uploads/blog-categories/${getImagePath(category.image)}`
         : "";
     return (
       <div className="relative mb-6 w-full max-w-[400px] h-[200px] md:h-[200px] mx-auto rounded overflow-hidden shadow-lg">

@@ -13,7 +13,7 @@ export default function CategoryImage({
 }: CategoryImageProps) {
   const imagePath =
     hasImage && image
-      ? `/uploads/blog-categories/${getImagePath(image)}`
+      ? `/api/uploads/blog-categories/${getImagePath(image)}`
       : "";
 
   return (
