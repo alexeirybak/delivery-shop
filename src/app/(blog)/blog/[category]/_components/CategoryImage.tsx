@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { CategoryImageProps } from "../../types";
+import { getImagePath } from "../../../../../../utils/getImagePath";
 
 const CategoryImage = ({
   category,
@@ -7,10 +8,14 @@ const CategoryImage = ({
   hasImage,
 }: CategoryImageProps) => {
   if (hasImage && category.image) {
+    const imagePath =
+      hasImage && category.image
+        ? `/uploads/blog-categories/${getImagePath(category.image)}`
+        : "";
     return (
       <div className="relative mb-6 w-full max-w-[400px] h-[200px] md:h-[200px] mx-auto rounded overflow-hidden shadow-lg">
         <Image
-          src={category.image}
+          src={imagePath}
           alt={category.imageAlt || category.name}
           fill
           className="object-cover"

@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { CategoryImageProps } from "../types/categories.types";
-import { getImagePath } from "../utils/getImagePath";
+import { getImagePath } from "../../../../../../utils/getImagePath";
 
 export default function CategoryImage({
   hasImage,
@@ -11,8 +11,10 @@ export default function CategoryImage({
   name,
   priority,
 }: CategoryImageProps) {
-  const imagePath = getImagePath(hasImage ? image : "");
-  console.log(imagePath);
+  const imagePath =
+    hasImage && image
+      ? `/uploads/blog-categories/${getImagePath(image)}`
+      : "";
 
   return (
     <div className="relative w-full h-48">

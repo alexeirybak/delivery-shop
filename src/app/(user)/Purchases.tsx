@@ -56,7 +56,7 @@ const Purchases = () => {
   return (
     <ProductsSection
       title="Покупали раньше"
-      viewAllButton={{ text: "Все покупки", href: "purchases" }}
+      viewAllButton={{ text: "Все покупки", href: "/purchases" }}
       products={items}
     />
   );

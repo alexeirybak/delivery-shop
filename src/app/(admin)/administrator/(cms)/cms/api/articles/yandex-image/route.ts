@@ -278,18 +278,13 @@ export async function GET(request: NextRequest) {
             .toBuffer();
         }
 
-        const uploadDir = path.join(
-          process.cwd(),
-          "uploads",
-          "articles",
-          "yandex-art",
-        );
+        const uploadDir = path.join(process.cwd(), "uploads", "articles");
         await fs.mkdir(uploadDir, { recursive: true });
 
         const filePath = path.join(uploadDir, fileName);
         await fs.writeFile(filePath, optimizedBuffer);
 
-        const publicUrl = `/api/uploads/articles/yandex-art/${fileName}`;
+        const publicUrl = `/api/uploads/articles/${fileName}`;
 
         return NextResponse.json({
           success: true,
