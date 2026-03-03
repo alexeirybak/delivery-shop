@@ -9,8 +9,7 @@ export default async function CategoryCard({
   category,
   priority = false,
 }: BlogCategoryCardProps) {
-  // Просто проверяем, есть ли поле image и оно не пустое
-  const hasImage = Boolean(category.image && category.image.trim() !== "");
+  const hasImage = category.image && category.image.trim() !== "";
 
   const gradientClass = getColorFromName(category.name);
   const description =

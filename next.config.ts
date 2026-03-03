@@ -4,16 +4,12 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return [
       {
+        source: "/uploads/:path*",
+        destination: "/api/uploads/:path*",
+      },
+      {
         source: '/images/products/:path*',
         destination: '/api/uploads/products/:path*',
-      },
-      {
-        source: '/uploads/articles/:path*',
-        destination: '/api/uploads/articles/:path*',
-      },
-      {
-        source: '/blogCategories/:path*',           
-        destination: '/api/uploads/blog-categories/:path*',
       },
     ];
   },

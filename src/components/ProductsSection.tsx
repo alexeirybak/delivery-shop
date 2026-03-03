@@ -24,9 +24,9 @@ const ProductsSection = ({
 
   return (
     <section>
-      <div className="flex flex-col px-[max(12px,calc((100%-1208px)/2))]">
+      <div className="flex flex-col">
         <div className="mb-4 md:mb-8 xl:mb-10 flex flex-row justify-between">
-          <h2 className="text-2xl xl:text-4xl text-left font-bold text-main-text">
+          <h2 className="ml-3 text-2xl xl:text-4xl text-left font-bold text-main-text">
             {title}
           </h2>
           {viewAllButton && (

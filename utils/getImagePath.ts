@@ -4,5 +4,5 @@ export function getImagePath(image: string): string {
   }
  
   const filename = image.split('/').pop() || '';
-  return `/api/uploads/blog-categories/${filename}`;
+  return filename;
 }

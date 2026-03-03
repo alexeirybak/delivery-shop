@@ -17,7 +17,7 @@ const Actions = async ({ mobileItemsLimit = 4 }: ActionProps) => {
     return (
       <ProductsSection
         title="Акции"
-        viewAllButton={{ text: "Все акции", href: "actions" }}
+        viewAllButton={{ text: "Все акции", href: "/actions" }}
         products={items}
         mobileItemsLimit={mobileItemsLimit}
       />

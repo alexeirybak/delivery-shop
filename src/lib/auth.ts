@@ -4,7 +4,9 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { admin, phoneNumber } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
-import { Resend } from "resend";
+// ИЗМЕНЕНО: Удален Resend, добавлен nodemailer
+import nodemailer from "nodemailer";
+import { render } from "@react-email/render";
 import { CONFIG } from "../../config/config";
 import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChangeVerification";
 import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
@@ -12,7 +14,30 @@ import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
-const resend = new Resend(process.env.RESEND_API_KEY);
+
+// ИЗМЕНЕНО: Создаем transporter вместо resend
+const transporter = nodemailer.createTransport({
+  host: process.env.SMTP_HOST,
+  port: Number(process.env.SMTP_PORT),
+  secure: process.env.SMTP_SECURE === "true",
+  auth: {
+    user: process.env.SMTP_USER!,
+    pass: process.env.SMTP_PASSWORD!,
+  },
+});
+
+// ИЗМЕНЕНО: Новая функция для отправки писем, имитирующая API Resend
+const smtpEmail = {
+  send: async ({ from, to, subject, react }: any) => {
+    const html = await render(react);
+    await transporter.sendMail({
+      from,
+      to,
+      subject,
+      html,
+    });
+  },
+};
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
@@ -25,8 +50,9 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     resetPasswordTokenExpiresIn: 86400,
     sendResetPassword: async ({ user, url }) => {
-      await resend.emails.send({
-        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
+      // ИЗМЕНЕНО: smtpEmail вместо resend
+      await smtpEmail.send({
+        from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
         to: user.email,
         subject: "Сброс пароля для Северяночки",
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
@@ -35,8 +61,9 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      await resend.emails.send({
-        from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
+      // ИЗМЕНЕНО: smtpEmail вместо resend
+      await smtpEmail.send({
+        from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
         to: user.email,
         subject: "Подтвердите email",
         react: VerifyEmail({ username: user.name, verifyUrl: url }),
@@ -48,10 +75,10 @@ export const auth = betterAuth({
   plugins: [
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
+        // Полная версия SMS.RU как у вас была
         try {
           const cleanPhone = phoneNumber.replace(/\D/g, "");
 
-          console.log(`[DEBUG] Отправка кода ${code} на номер ${cleanPhone}`);
           const url =
             `https://sms.ru/sms/send` +
             `?api_id=${process.env.SMS_API_ID}` +
@@ -59,18 +86,8 @@ export const auth = betterAuth({
             `&msg=Ваш код подтверждения от "Северяночки": ${code}` +
             `&json=1`;
 
-          console.log(
-            "[DEBUG] URL запроса:",
-            url.replace(process.env.SMS_API_ID!, "***HIDDEN***"),
-          );
-
           const response = await fetch(url);
           const result = await response.json();
-
-          console.log(
-            "[DEBUG] Полный ответ SMS.RU:",
-            JSON.stringify(result, null, 2),
-          );
 
           if (result.status !== "OK") {
             if (result.sms) {
@@ -84,8 +101,6 @@ export const auth = betterAuth({
             }
             throw new Error(result.status_text || "Ошибка отправки SMS");
           }
-
-          console.log("[DEBUG] SMS успешно отправлена");
         } catch (error) {
           console.error("Ошибка отправки SMS:", error);
           throw error;
@@ -118,8 +133,9 @@ export const auth = betterAuth({
         newEmail: string;
         url: string;
       }) => {
-        await resend.emails.send({
-          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
+        // ИЗМЕНЕНО: smtpEmail вместо resend
+        await smtpEmail.send({
+          from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
           to: user.email,
           subject: "Подтверждение смены email в Северяночке",
           react: EmailChangeVerification({
@@ -140,8 +156,9 @@ export const auth = betterAuth({
         user: { email: string; name: string };
         url: string;
       }) => {
-        await resend.emails.send({
-          from: `${process.env.RESEND_FROM_NAME} <${process.env.RESEND_FROM_EMAIL}>`,
+        // ИЗМЕНЕНО: smtpEmail вместо resend
+        await smtpEmail.send({
+          from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
           to: user.email,
           subject: "Удаление аккаунта",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),
@@ -169,4 +186,3 @@ export const auth = betterAuth({
     },
   },
 });
-

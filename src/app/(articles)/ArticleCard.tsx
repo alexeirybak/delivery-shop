@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getColorFromName } from "../(blog)/blog/categories/utils/getColorFromName";
 import { ArticleCardProps } from "@/types/articles";
+import { getImagePath } from "../../../utils/getImagePath";
 
 const ArticleCard = ({
   slug,
@@ -15,14 +16,23 @@ const ArticleCard = ({
 }: ArticleCardProps) => {
   const articleUrl = `/blog/${categorySlug}/${slug}`;
   const gradientClass = getColorFromName(name);
+  const getImageUrl = () => {
+    if (!image) return null;
+
+    const imagePath = getImagePath(image);
+    console.log(imagePath);
+    return `/api/uploads/articles/${imagePath}`;
+  };
+
+  const imageUrl = getImageUrl();
 
   return (
     <Link href={articleUrl} className="block h-full">
       <article className="bg-white h-full flex flex-col rounded overflow-hidden shadow-card hover:shadow-article transition-custom">
         <div className="relative h-48 w-full">
-          {image ? (
+          {imageUrl ? (
             <Image
-              src={image}
+              src={imageUrl}
               alt={imageAlt || name}
               fill
               className="object-cover"
