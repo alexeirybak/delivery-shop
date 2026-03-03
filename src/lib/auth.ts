@@ -26,9 +26,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+interface SendEmailParams {
+  from: string;
+  to: string;
+  subject: string;
+  react: React.ReactElement;
+}
+
 // ИЗМЕНЕНО: Новая функция для отправки писем, имитирующая API Resend
 const smtpEmail = {
-  send: async ({ from, to, subject, react }: any) => {
+  send: async ({ from, to, subject, react }: SendEmailParams) => {
     const html = await render(react);
     await transporter.sendMail({
       from,
@@ -52,7 +59,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user, url }) => {
       // ИЗМЕНЕНО: smtpEmail вместо resend
       await smtpEmail.send({
-        from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
+        from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Сброс пароля для Северяночки",
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
@@ -63,7 +70,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user, url }) => {
       // ИЗМЕНЕНО: smtpEmail вместо resend
       await smtpEmail.send({
-        from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
+        from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Подтвердите email",
         react: VerifyEmail({ username: user.name, verifyUrl: url }),
@@ -135,7 +142,7 @@ export const auth = betterAuth({
       }) => {
         // ИЗМЕНЕНО: smtpEmail вместо resend
         await smtpEmail.send({
-          from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
+          from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
           subject: "Подтверждение смены email в Северяночке",
           react: EmailChangeVerification({
@@ -158,7 +165,7 @@ export const auth = betterAuth({
       }) => {
         // ИЗМЕНЕНО: smtpEmail вместо resend
         await smtpEmail.send({
-          from: "Северяночка <admin@delivery-shop29.ru>", // ИЗМЕНЕНО: ваш реальный email
+          from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
           subject: "Удаление аккаунта",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),
