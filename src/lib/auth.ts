@@ -4,7 +4,6 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { admin, phoneNumber } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
-// ИЗМЕНЕНО: Удален Resend, добавлен nodemailer
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
 import { CONFIG } from "../../config/config";
@@ -15,7 +14,6 @@ import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
 const db = client.db("delivery-shop");
 
-// ИЗМЕНЕНО: Создаем transporter вместо resend
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),
@@ -33,7 +31,6 @@ interface SendEmailParams {
   react: React.ReactElement;
 }
 
-// ИЗМЕНЕНО: Новая функция для отправки писем, имитирующая API Resend
 const smtpEmail = {
   send: async ({ from, to, subject, react }: SendEmailParams) => {
     const html = await render(react);
@@ -57,8 +54,7 @@ export const auth = betterAuth({
     requireEmailVerification: true,
     resetPasswordTokenExpiresIn: 86400,
     sendResetPassword: async ({ user, url }) => {
-      // ИЗМЕНЕНО: smtpEmail вместо resend
-      await smtpEmail.send({
+           await smtpEmail.send({
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Сброс пароля для Северяночки",
@@ -68,8 +64,7 @@ export const auth = betterAuth({
   },
   emailVerification: {
     sendVerificationEmail: async ({ user, url }) => {
-      // ИЗМЕНЕНО: smtpEmail вместо resend
-      await smtpEmail.send({
+            await smtpEmail.send({
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Подтвердите email",
@@ -82,8 +77,7 @@ export const auth = betterAuth({
   plugins: [
     phoneNumber({
       sendOTP: async ({ phoneNumber, code }) => {
-        // Полная версия SMS.RU как у вас была
-        try {
+                try {
           const cleanPhone = phoneNumber.replace(/\D/g, "");
 
           const url =
@@ -140,8 +134,7 @@ export const auth = betterAuth({
         newEmail: string;
         url: string;
       }) => {
-        // ИЗМЕНЕНО: smtpEmail вместо resend
-        await smtpEmail.send({
+              await smtpEmail.send({
           from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
           subject: "Подтверждение смены email в Северяночке",
@@ -163,8 +156,7 @@ export const auth = betterAuth({
         user: { email: string; name: string };
         url: string;
       }) => {
-        // ИЗМЕНЕНО: smtpEmail вместо resend
-        await smtpEmail.send({
+               await smtpEmail.send({
           from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
           subject: "Удаление аккаунта",
