@@ -11,6 +11,7 @@ import { ProductProvider } from "./contexts/ProductContext";
 import { generateSiteMetadata } from "../../utils/generateSiteMetadata";
 import { ArticleProvider } from "./contexts/ArticleContext";
 import { CategoryProvider } from "./contexts/CategoryContext";
+import CookieConsent from "@/components/CookieConsent";
 
 const rubik = Rubik({
   variable: "--font-rubik",
@@ -39,6 +40,7 @@ export default function RootLayout({
                     <Breadcrumbs />
                     {children}
                     <Footer />
+                    <CookieConsent />
                   </CategoryProvider>
                 </ArticleProvider>
               </ProductProvider>

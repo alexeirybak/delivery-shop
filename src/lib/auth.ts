@@ -13,7 +13,7 @@ import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
 import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
 
 const client = new MongoClient(process.env.DELIVERY_SHOP_DB_URL!);
-const db = client.db("delivery-shop");
+const db = client.db(process.env.DBNAME);
 
 // ИЗМЕНЕНО: Создаем transporter вместо resend
 const transporter = nodemailer.createTransport({
