@@ -20,7 +20,11 @@ interface SendEmailProps {
 
 export async function sendEmail({ to, subject, react, from }: SendEmailProps) {
   try {
-    const html = await render(react);
+    const html = await render(react, {
+      pretty: true,
+      plainText: false,
+    });
+    
     const info = await transporter.sendMail({
       from: from || `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
       to,
