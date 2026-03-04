@@ -45,7 +45,7 @@ export default function VerifySuccessPage() {
         <div className="space-y-4">
           <button
             onClick={() => router.replace("/login")}
-            className={`${buttonStyles.active} px-4 py-2 rounded cursor-pointer`}
+            className={`${buttonStyles.active} w-full px-4 py-2 rounded cursor-pointer`}
           >
             Перейти к авторизации
           </button>

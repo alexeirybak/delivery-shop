@@ -7,7 +7,6 @@ import {
   Text,
   Button,
   Hr,
-  Tailwind,
 } from "@react-email/components";
 
 interface DeleteVerifyProps {
@@ -20,84 +19,162 @@ const DeleteVerify = (props: DeleteVerifyProps) => {
 
   return (
     <Html lang="ru" dir="ltr">
-      <Tailwind>
-        <Head />
-        <Body className="bg-gray-100 font-sans py-4 px-2">
-          <Container className="bg-white rounded-md p-6 max-w-145 mx-auto">
-            <Section>
-              <Text className="text-xl font-bold text-gray-900 mb-4 mt-0">
-                Подтверждение удаления аккаунта
+      <Head />
+      <Body style={{
+        backgroundColor: '#f3f4f6',
+        fontFamily: 'Arial, sans-serif',
+        padding: '16px 8px',
+        margin: 0
+      }}>
+        <Container style={{
+          backgroundColor: '#ffffff',
+          borderRadius: '6px',
+          padding: '24px',
+          maxWidth: '580px',
+          margin: '0 auto'
+        }}>
+          <Section>
+            <Text style={{
+              fontSize: '20px',
+              fontWeight: 'bold',
+              color: '#111827',
+              margin: '0 0 16px 0'
+            }}>
+              Подтверждение удаления аккаунта
+            </Text>
+
+            <Text style={{
+              fontSize: '16px',
+              color: '#374151',
+              margin: '0 0 16px 0',
+              lineHeight: '1.25'
+            }}>
+              Здравствуйте, {username}! Мы получили запрос на удаление Вашего
+              аккаунта в &quot;Северяночке&quot;.
+            </Text>
+
+            <Section style={{
+              backgroundColor: '#fef2f2',
+              border: '1px solid #fecaca',
+              borderRadius: '6px',
+              padding: '16px',
+              marginBottom: '24px'
+            }}>
+              <Text style={{
+                fontSize: '14px',
+                color: '#b91c1c',
+                margin: '0 0 8px 0',
+                fontWeight: 'bold'
+              }}>
+                Внимание: это действие необратимо!
               </Text>
-
-              <Text className="text-base text-gray-700 mb-4 mt-0 leading-5">
-                Здравствуйте, {username}! Мы получили запрос на удаление Вашего
-                аккаунта в &quot;Северяночке&quot;.
-              </Text>
-
-              <Section className="bg-red-50 border border-red-200 rounded-md p-4 mb-6">
-                <Text className="text-sm text-red-700 mb-2 mt-0 font-semibold">
-                  Внимание: это действие необратимо!
-                </Text>
-                <Text className="text-sm text-red-700 mb-0 mt-0">
-                  После удаления аккаунта все Ваши данные, включая историю
-                  заказов, бонусные баллы и персональные настройки, будут
-                  безвозвратно удалены.
-                </Text>
-              </Section>
-
-              <Text className="text-base text-gray-700 mb-4 mt-0 leading-5">
-                Если Вы хотите продолжить удаление аккаунта, нажмите на кнопку
-                ниже:
-              </Text>
-
-              <Section className="text-center mb-6">
-                <Button
-                  href={verifyUrl}
-                  className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded text-base font-medium no-underline"
-                >
-                  Подтвердить удаление аккаунта
-                </Button>
-              </Section>
-
-              <Text className="text-sm text-gray-600 mb-4 mt-0 leading-5">
-                Если кнопка не работает, скопируйте и вставьте эту ссылку в
-                адресную строку браузера:
-                <br />
-                <span className="break-all text-blue-600">{verifyUrl}</span>
-              </Text>
-
-              <Text className="text-sm text-gray-600 mb-6 mt-0 leading-5">
-                Ссылка для подтверждения будет активна в течение 24 часов. Если
-                Вы не запрашивали удаление аккаунта, пожалуйста, проигнорируйте
-                это письмо или свяжитесь со службой поддержки для обеспечения
-                безопасности Вашего аккаунта.
-              </Text>
-
-              <Hr className="border-gray-200 my-4" />
-
-              <Text className="text-xs text-gray-500 m-0 leading-4">
-                С уважением,
-                <br />
-                Команда &quot;Северяночки&quot;
+              <Text style={{
+                fontSize: '14px',
+                color: '#b91c1c',
+                margin: 0
+              }}>
+                После удаления аккаунта все Ваши данные, включая историю
+                заказов, бонусные баллы и персональные настройки, будут
+                безвозвратно удалены.
               </Text>
             </Section>
 
-            <Section className="mt-6 pt-4 border-t border-gray-200">
-              <Text className="text-xs text-gray-400 m-0 text-center leading-4">
-                Северяночка
-                <br />
-                Россия, Архангельск, ул. Ленина, д.1
-                <br />
-                ИНН 0291234567890
-              </Text>
+            <Text style={{
+              fontSize: '16px',
+              color: '#374151',
+              margin: '0 0 16px 0',
+              lineHeight: '1.25'
+            }}>
+              Если Вы хотите продолжить удаление аккаунта, нажмите на кнопку
+              ниже:
+            </Text>
 
-              <Text className="text-xs text-gray-400 m-0 text-center mt-2 leading-4">
-                © {new Date().getFullYear()} Северяночка. Все права защищены.
-              </Text>
+            <Section style={{ textAlign: 'center', marginBottom: '24px' }}>
+              <Button
+                href={verifyUrl}
+                style={{
+                  backgroundColor: '#dc2626',
+                  color: '#ffffff',
+                  padding: '12px 24px',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  fontWeight: 'medium',
+                  textDecoration: 'none'
+                }}
+              >
+                Подтвердить удаление аккаунта
+              </Button>
             </Section>
-          </Container>
-        </Body>
-      </Tailwind>
+
+            <Text style={{
+              fontSize: '14px',
+              color: '#4b5563',
+              margin: '0 0 16px 0',
+              lineHeight: '1.25'
+            }}>
+              Если кнопка не работает, скопируйте и вставьте эту ссылку в
+              адресную строку браузера:
+              <br />
+              <span style={{ wordBreak: 'break-all', color: '#2563eb' }}>{verifyUrl}</span>
+            </Text>
+
+            <Text style={{
+              fontSize: '14px',
+              color: '#4b5563',
+              margin: '0 0 24px 0',
+              lineHeight: '1.25'
+            }}>
+              Ссылка для подтверждения будет активна в течение 24 часов. Если
+              Вы не запрашивали удаление аккаунта, пожалуйста, проигнорируйте
+              это письмо или свяжитесь со службой поддержки для обеспечения
+              безопасности Вашего аккаунта.
+            </Text>
+
+            <Hr style={{ borderColor: '#e5e7eb', margin: '16px 0' }} />
+
+            <Text style={{
+              fontSize: '12px',
+              color: '#6b7280',
+              margin: 0,
+              lineHeight: '1'
+            }}>
+              С уважением,
+              <br />
+              Команда &quot;Северяночки&quot;
+            </Text>
+          </Section>
+
+          <Section style={{
+            marginTop: '24px',
+            paddingTop: '16px',
+            borderTop: '1px solid #e5e7eb'
+          }}>
+            <Text style={{
+              fontSize: '12px',
+              color: '#9ca3af',
+              margin: '0 0 0 0',
+              textAlign: 'center',
+              lineHeight: '1'
+            }}>
+              Северяночка
+              <br />
+              Россия, Архангельск, ул. Ленина, д.1
+              <br />
+              ИНН 0291234567890
+            </Text>
+
+            <Text style={{
+              fontSize: '12px',
+              color: '#9ca3af',
+              margin: '8px 0 0 0',
+              textAlign: 'center',
+              lineHeight: '1'
+            }}>
+              © {new Date().getFullYear()} Северяночка. Все права защищены.
+            </Text>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 };

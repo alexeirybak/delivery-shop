@@ -8,7 +8,6 @@ import {
   Text,
   Button,
   Hr,
-  Tailwind,
   Row,
   Column,
 } from "@react-email/components";
@@ -28,117 +27,227 @@ const PriceAlertEmail = (props: PriceAlertEmailProps) => {
 
   return (
     <Html lang="ru" dir="ltr">
-      <Tailwind>
-        <Head />
-        <Body className="bg-[#f5f5f5] font-sans py-8 px-4">
-          <Container className="bg-white rounded-none p-0 max-w-[600px] mx-auto">
-            <Section className="bg-[#ff6633] py-6 px-8 text-center">
-              <Text className="mt-0 mb-2 text-2xl font-bold text-white">
-                🎉 Ура! Цена снизилась
+      <Head />
+      <Body style={{
+        backgroundColor: '#f5f5f5',
+        fontFamily: 'Arial, sans-serif',
+        padding: '32px 16px',
+        margin: 0
+      }}>
+        <Container style={{
+          backgroundColor: '#ffffff',
+          maxWidth: '600px',
+          margin: '0 auto',
+          padding: 0
+        }}>
+          <Section style={{
+            backgroundColor: '#ff6633',
+            padding: '24px 32px',
+            textAlign: 'center'
+          }}>
+            <Text style={{
+              margin: '0 0 8px 0',
+              fontSize: '24px',
+              fontWeight: 'bold',
+              color: '#ffffff'
+            }}>
+              🎉 Ура! Цена снизилась
+            </Text>
+            <Text style={{
+              margin: 0,
+              fontSize: '16px',
+              color: '#ffffff'
+            }}>
+              Товар, на который Вы подписаны, стал дешевле!
+            </Text>
+          </Section>
+
+          <Section style={{
+            padding: '32px 32px'
+          }}>
+            <Section style={{
+              border: '1px solid #e0e0e0',
+              borderRadius: '8px',
+              padding: '24px',
+              marginBottom: '32px',
+              backgroundColor: '#fafafa'
+            }}>
+              <Text style={{
+                marginBottom: '24px',
+                fontSize: '20px',
+                fontWeight: '600',
+                textAlign: 'center',
+                color: '#1a1a1a'
+              }}>
+                {productTitle}
               </Text>
-              <Text className="mt-0 mb-0 text-base text-white">
-                Товар, на который Вы подписаны, стал дешевле!
-              </Text>
+
+              <Section>
+                <Row style={{ marginBottom: '12px' }}>
+                  <Column style={{ width: '50%' }}>
+                    <Text style={{
+                      margin: 0,
+                      fontSize: '16px',
+                      color: '#1a1a1a'
+                    }}>
+                      Старая цена:
+                    </Text>
+                  </Column>
+                  <Column style={{ width: '50%', textAlign: 'right' }}>
+                    <Text style={{
+                      margin: 0,
+                      fontSize: '16px',
+                      textDecoration: 'line-through',
+                      color: '#1a1a1a'
+                    }}>
+                      {oldPrice.toLocaleString("ru-RU")} ₽
+                    </Text>
+                  </Column>
+                </Row>
+
+                <Row style={{ marginBottom: '12px' }}>
+                  <Column style={{ width: '50%' }}>
+                    <Text style={{
+                      margin: 0,
+                      fontSize: '16px',
+                      color: '#1a1a1a'
+                    }}>
+                      Новая цена:
+                    </Text>
+                  </Column>
+                  <Column style={{ width: '50%', textAlign: 'right' }}>
+                    <Text style={{
+                      color: '#ff6633',
+                      fontSize: '20px',
+                      fontWeight: 'bold',
+                      margin: 0
+                    }}>
+                      {newPrice.toLocaleString("ru-RU")} ₽
+                    </Text>
+                  </Column>
+                </Row>
+
+                <Row>
+                  <Column style={{ width: '50%' }}>
+                    <Text style={{
+                      margin: 0,
+                      fontSize: '16px',
+                      color: '#1a1a1a'
+                    }}>
+                      Ваша экономия:
+                    </Text>
+                  </Column>
+                  <Column style={{ width: '50%', textAlign: 'right' }}>
+                    <Text style={{
+                      margin: 0,
+                      fontSize: '18px',
+                      fontWeight: 'bold',
+                      color: '#ff6633'
+                    }}>
+                      {savings.toLocaleString("ru-RU")} ₽
+                    </Text>
+                  </Column>
+                </Row>
+              </Section>
+            </Section>
+            
+            <Text style={{
+              marginBottom: '24px',
+              fontSize: '16px',
+              lineHeight: '24px',
+              textAlign: 'center',
+              color: '#1a1a1a'
+            }}>
+              Не упустите возможность купить товар по выгодной цене!
+            </Text>
+
+            <Section style={{
+              marginBottom: '32px',
+              textAlign: 'center'
+            }}>
+              <Button
+                href={productUrl}
+                style={{
+                  backgroundColor: '#ff6633',
+                  color: '#ffffff',
+                  padding: '16px 48px',
+                  borderRadius: '4px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  textDecoration: 'none'
+                }}
+              >
+                Перейти к товару
+              </Button>
             </Section>
 
-            <Section className="px-8 py-8">
-              <Section className="border border-[#e0e0e0] rounded-lg p-6 mb-8 bg-[#fafafa]">
-                <Text className="mb-6 text-xl font-semibold text-center text-main-text">
-                  {productTitle}
-                </Text>
+            <Hr style={{ borderColor: '#e0e0e0', margin: '32px 0' }} />
 
-                <Section className="space-y-3">
-                  <Row>
-                    <Column className="w-1/2">
-                      <Text className="mb-0 text-base text-main-text">
-                        Старая цена:
-                      </Text>
-                    </Column>
-                    <Column className="w-1/2 text-right">
-                      <Text className="mb-0 text-base line-through text-main-text">
-                        {oldPrice.toLocaleString("ru-RU")} ₽
-                      </Text>
-                    </Column>
-                  </Row>
-
-                  <Row>
-                    <Column className="w-1/2">
-                      <Text className="mb-0 text-base text-main-text">
-                        Новая цена:
-                      </Text>
-                    </Column>
-                    <Column className="w-1/2 text-right">
-                      <Text className="text-[#ff6633] text-xl font-bold mb-0">
-                        {newPrice.toLocaleString("ru-RU")} ₽
-                      </Text>
-                    </Column>
-                  </Row>
-
-                  <Row>
-                    <Column className="w-1/2">
-                      <Text className="mb-0 text-base text-main-text">
-                        Ваша экономия:
-                      </Text>
-                    </Column>
-                    <Column className="w-1/2 text-right">
-                      <Text className="mb-0 text-lg font-bold text-primary">
-                        {savings.toLocaleString("ru-RU")} ₽
-                      </Text>
-                    </Column>
-                  </Row>
-                </Section>
-              </Section>
-              <Text className="mb-6 text-base leading-6 text-center text-main-text">
-                Не упустите возможность купить товар по выгодной цене!
-              </Text>
-
-              <Section className="mb-8 text-center">
-                <Button
-                  href={productUrl}
-                  className="bg-[#ff6633] text-white px-12 py-4 rounded text-base font-semibold no-underline"
-                >
-                  Перейти к товару
-                </Button>
-              </Section>
-
-              <Hr className="border-[#e0e0e0] my-8" />
-
-              <Section className="text-center">
-                <Text className="text-[#666666] text-sm mb-4 leading-5">
-                  Это письмо отправлено автоматически, потому что Вы подписались
-                  <br />
-                  на уведомления о снижении цены для этого товара.
-                </Text>
-
-                <Text className="text-[#666666] text-sm mb-6">
-                  <a href={unsubscribeUrl} className="text-[#ff6633] underline">
-                    Отписаться от уведомлений
-                  </a>
-                </Text>
-
-                <Text className="text-[#666666] text-sm mb-0 leading-4">
-                  С уважением,
-                  <br />
-                  Команда &quot;Северяночки&quot;
-                </Text>
-              </Section>
-            </Section>
-
-            <Section className="bg-[#f8f8f8] py-6 px-8 border-t border-[#e0e0e0]">
-              <Text className="text-[#999999] text-xs text-center leading-4 mb-2">
-                Северяночка
+            <Section style={{ textAlign: 'center' }}>
+              <Text style={{
+                color: '#666666',
+                fontSize: '14px',
+                marginBottom: '16px',
+                lineHeight: '20px'
+              }}>
+                Это письмо отправлено автоматически, потому что Вы подписались
                 <br />
-                Россия, Архангельск, ул. Ленина, д.1
-                <br />
-                ИНН 0291234567890
+                на уведомления о снижении цены для этого товара.
               </Text>
-              <Text className="text-[#999999] text-xs text-center leading-4 mt-0">
-                © {new Date().getFullYear()} Северяночка. Все права защищены.
+
+              <Text style={{
+                color: '#666666',
+                fontSize: '14px',
+                marginBottom: '24px'
+              }}>
+                <a href={unsubscribeUrl} style={{ color: '#ff6633', textDecoration: 'underline' }}>
+                  Отписаться от уведомлений
+                </a>
+              </Text>
+
+              <Text style={{
+                color: '#666666',
+                fontSize: '14px',
+                margin: 0,
+                lineHeight: '16px'
+              }}>
+                С уважением,
+                <br />
+                Команда &quot;Северяночки&quot;
               </Text>
             </Section>
-          </Container>
-        </Body>
-      </Tailwind>
+          </Section>
+
+          <Section style={{
+            backgroundColor: '#f8f8f8',
+            padding: '24px 32px',
+            borderTop: '1px solid #e0e0e0'
+          }}>
+            <Text style={{
+              color: '#999999',
+              fontSize: '12px',
+              textAlign: 'center',
+              lineHeight: '16px',
+              marginBottom: '8px'
+            }}>
+              Северяночка
+              <br />
+              Россия, Архангельск, ул. Ленина, д.1
+              <br />
+              ИНН 0291234567890
+            </Text>
+            <Text style={{
+              color: '#999999',
+              fontSize: '12px',
+              textAlign: 'center',
+              lineHeight: '16px',
+              margin: 0
+            }}>
+              © {new Date().getFullYear()} Северяночка. Все права защищены.
+            </Text>
+          </Section>
+        </Container>
+      </Body>
     </Html>
   );
 };
