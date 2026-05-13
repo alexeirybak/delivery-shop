@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDB } from "../../../../../../utils/api-routes";
 import { GridFSBucket, ObjectId } from "mongodb";
+import { getDB } from "@/lib/api-routes";
 
 export async function GET(
   request: NextRequest, 

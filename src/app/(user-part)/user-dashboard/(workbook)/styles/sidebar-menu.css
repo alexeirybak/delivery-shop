@@ -1,0 +1,250 @@
+.sidebar-menu-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 24rem;
+  height: 100%;
+  z-index: 200;
+  transition:
+    transform 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s ease-out;
+}
+
+.sidebar-menu-container.closed {
+  transform: translateX(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-menu-container.open {
+  transform: translateX(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.sidebar-menu-glow-left {
+  position: absolute;
+  left: -0.5rem;
+  top: 0;
+  width: 0.5rem;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(109, 241, 255, 0.1),
+    transparent
+  );
+  filter: blur(4px);
+}
+
+.sidebar-menu-glow-top {
+  position: absolute;
+  left: -1rem;
+  top: 1rem;
+  width: 0.25rem;
+  height: calc(100% - 2rem);
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(138, 111, 255, 0.05),
+    transparent
+  );
+  filter: blur(4px);
+}
+
+.sidebar-menu-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform: translateX(100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-menu-container.open .sidebar-menu-content {
+  transform: translateX(0);
+}
+
+.sidebar-menu-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--color-panel) 0%,
+    var(--color-panel-soft) 100%
+  );
+  backdrop-filter: blur(24px);
+  border: 3px dotted var(--color-cyan);
+}
+
+.sidebar-menu-gradient {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at top right,
+    rgba(109, 241, 255, 0.05),
+    transparent 70%
+  );
+}
+
+.sidebar-menu-inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 0.5rem;
+  z-index: 10;
+}
+
+.sidebar-menu-header {
+  flex-shrink: 0;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.sidebar-menu-footer {
+  flex-shrink: 0;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-line);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.5rem 0.25rem;
+  background: transparent;
+  border: none;
+  border-radius: 0.75rem;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateX(4px);
+}
+
+.menu-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.15),
+    rgba(59, 130, 246, 0.1)
+  );
+  color: #06b6d4;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.menu-item-icon {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.menu-item-text {
+  flex: 1;
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: left;
+}
+
+.menu-item-group:nth-child(1) {
+  --tw-gradient-from: #3b82f6;
+  --tw-gradient-to: #1d4ed8;
+}
+
+.menu-item-group:nth-child(2) {
+  --tw-gradient-from: #6366f1;
+  --tw-gradient-to: #4338ca;
+}
+
+.menu-item-group:nth-child(3) {
+  --tw-gradient-from: #10b981;
+  --tw-gradient-to: #047857;
+}
+
+.menu-item-group:nth-child(4) {
+  --tw-gradient-from: #8b5cf6;
+  --tw-gradient-to: #7c3aed;
+}
+
+.menu-item-group:nth-child(1).menu-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.2),
+    rgba(29, 78, 216, 0.1)
+  );
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.menu-item-group:nth-child(2).menu-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(99, 102, 241, 0.2),
+    rgba(67, 56, 202, 0.1)
+  );
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.menu-item-group:nth-child(3).menu-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.2),
+    rgba(4, 120, 87, 0.1)
+  );
+  border-color: rgba(16, 185, 129, 0.4);
+}
+
+.menu-item-group:nth-child(4).menu-item.active {
+  background: linear-gradient(
+    135deg,
+    rgba(139, 92, 246, 0.2),
+    rgba(124, 58, 237, 0.1)
+  );
+  border-color: rgba(139, 92, 246, 0.4);
+}
+
+@media (max-width: 640px) {
+  .sidebar-menu-container {
+    width: 100%;
+  }
+
+  .sidebar-menu-inner {
+    padding: 1rem;
+  }
+
+  .menu-item {
+    padding: 0.875rem 1rem;
+  }
+
+  .menu-item-text {
+    font-size: 1.125rem;
+  }
+}

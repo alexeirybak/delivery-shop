@@ -1,0 +1,79 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 52px;
+  padding: 0 22px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  overflow: hidden;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease;
+}
+
+.magnetic-button {
+  --magnetic-x: 0px;
+  --magnetic-y: 0px;
+  transform: translate3d(var(--magnetic-x), var(--magnetic-y), 0);
+}
+
+.button-shine {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    transparent 8%,
+    rgba(255, 255, 255, 0.24) 26%,
+    transparent 44%
+  );
+  transform: translateX(-120%);
+  transition: transform 560ms ease;
+}
+
+.button-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.button-arrow {
+  transition: transform 180ms ease;
+}
+
+.button-primary {
+  background: linear-gradient(
+    135deg,
+    var(--cyan),
+    var(--blue) 52%,
+    var(--violet)
+  );
+  box-shadow: 0 16px 34px rgba(82, 144, 255, 0.22);
+}
+
+.button-secondary {
+  border-color: rgba(125, 244, 214, 0.24);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.button:hover {
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.24);
+}
+
+.button:hover .button-shine {
+  transform: translateX(140%);
+}
+
+.button:hover .button-arrow {
+  transform: translateX(4px);
+}

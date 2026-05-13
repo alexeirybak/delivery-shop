@@ -1,0 +1,55 @@
+.transcription-open-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 320px;
+  margin: 20px auto;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 50%, #a855f7 100%);
+  border: none;
+  border-radius: 60px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.transcription-open-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.4);
+}
+
+.transcription-open-btn:active {
+  transform: translateY(0);
+}
+
+.transcription-open-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 968px) {
+  .transcription-open-btn {
+    max-width: 280px;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .transcription-open-btn {
+    max-width: 260px;
+    padding: 10px 16px;
+    font-size: 13px;
+    margin: 16px auto 0;
+  }
+
+  .transcription-open-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}

@@ -1,0 +1,70 @@
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  backdrop-filter: blur(4px);
+  z-index: 40;
+  transition: opacity 0.7s ease-out;
+  will-change: opacity;
+}
+
+.menu-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.menu-overlay.closed {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-overlay-blur-1 {
+  position: absolute;
+  top: 25%;
+  left: 25%;
+  width: 16rem;
+  height: 16rem;
+  background: rgba(109, 241, 255, 0.1);
+  border-radius: 9999px;
+  filter: blur(48px);
+  animation: pulse 3s infinite;
+}
+
+.menu-overlay-blur-2 {
+  position: absolute;
+  bottom: 25%;
+  right: 25%;
+  width: 24rem;
+  height: 24rem;
+  background: rgba(138, 111, 255, 0.1);
+  border-radius: 9999px;
+  filter: blur(48px);
+  animation: pulse 3s infinite 0.5s;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+}
+
+@media (max-width: 640px) {
+  .menu-overlay-blur-1 {
+    width: 8rem;
+    height: 8rem;
+    top: 20%;
+    left: 10%;
+  }
+
+  .menu-overlay-blur-2 {
+    width: 12rem;
+    height: 12rem;
+    bottom: 20%;
+    right: 10%;
+  }
+}

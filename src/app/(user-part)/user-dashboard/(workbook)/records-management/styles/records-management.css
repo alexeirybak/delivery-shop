@@ -1,0 +1,24 @@
+.records-controls {
+  background: var(--color-panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.records-info {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 640px) {
+  .records-controls {
+    padding: 0.75rem;
+  }
+
+  .records-info {
+    font-size: 0.75rem;
+  }
+}

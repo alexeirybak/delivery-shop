@@ -1,51 +1,9 @@
 import { NextResponse } from "next/server";
-import type { NextRequest } from "next/server";
-import {
-  handleCatalogProductRedirect,
-  handleOldProductRedirect,
-} from "../utils/proxy-redirects";
 
-export async function proxy(request: NextRequest) {
-  const protectedPaths = ["/profile", "/administrator", "/cart", "/favorite"];
-
-  const pathname = request.nextUrl?.pathname;
-  const isProtectedPath =
-    pathname && protectedPaths.some((path) => pathname.startsWith(path));
-
-  if (isProtectedPath) {
-    try {
-      const sessionCookie =
-        request.cookies.get("better-auth.session_token") ||
-        request.cookies.get("session");
-
-      if (!sessionCookie) {
-        return NextResponse.redirect(new URL("/", request.url));
-      }
-    } catch {
-      return NextResponse.redirect(new URL("/", request.url));
-    }
-  }
-
-  const redirectHandlers = [
-    handleCatalogProductRedirect,
-    handleOldProductRedirect,
-  ];
-
-  for (const handler of redirectHandlers) {
-    const redirectResponse = await handler(request);
-    if (redirectResponse) {
-      return redirectResponse;
-    }
-  }
-
+export async function proxy() {
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: [
-    "/profile/:path*",
-    "/administrator/:path*",
-    "/catalog/:path*",
-    "/product/:path*",
-  ],
+  matcher: [],
 };

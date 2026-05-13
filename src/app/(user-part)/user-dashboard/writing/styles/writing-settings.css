@@ -1,0 +1,357 @@
+.notice {
+  flex-direction: column;
+}
+
+.writing-chapter-item {
+  margin-bottom: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-panel-strong);
+  cursor: grab;
+  transition: all 0.3s;
+}
+
+.writing-chapter-item:active {
+  cursor: grabbing;
+}
+
+.writing-chapter-item.drag-over {
+  border-color: var(--settings-accent-color);
+  background: var(--glow-color);
+}
+
+.writing-chapter-header {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-panel-soft);
+}
+
+.writing-drag-handle {
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  color: var(--color-muted);
+}
+
+.writing-drag-handle:active {
+  cursor: grabbing;
+}
+
+.writing-expand-chapter-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.writing-expand-chapter-btn:hover {
+  color: var(--settings-accent-color);
+}
+
+.writing-chapter-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.writing-remove-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.writing-chapter-header:hover .writing-remove-item-btn,
+.writing-section-item:hover .writing-remove-item-btn {
+  opacity: 1;
+}
+
+.writing-remove-item-btn:hover {
+  color: #ff6b6b;
+}
+
+.writing-sections-list {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.writing-section-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--color-panel-strong);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--color-muted);
+  cursor: grab;
+  transition: all 0.3s;
+}
+
+.writing-section-item:active {
+  cursor: grabbing;
+}
+
+.writing-section-item:hover {
+  background: var(--button-bg);
+}
+
+.writing-section-item.drag-over {
+  border-color: var(--settings-accent-color);
+  background: var(--glow-color);
+}
+
+.writing-section-title {
+  flex: 1;
+}
+
+.writing-add-section,
+.writing-add-chapter {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.writing-add-section input,
+.writing-add-chapter input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.writing-add-section input:focus,
+.writing-add-chapter input:focus {
+  outline: none;
+  border-color: var(--settings-accent-color);
+}
+
+.writing-add-section-btn,
+.writing-add-chapter-btn {
+  padding: 8px 16px;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--new-chat-btn-color);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s;
+}
+
+.writing-send-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--color-blue);
+  border: 1px solid var(--button-border);
+  border-radius: 8px;
+  color: var(--new-chat-btn-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.writing-send-btn:hover {
+  background: var(--color-violet);
+}
+
+.writing-add-section-btn:hover,
+.writing-add-chapter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.writing-empty-structure-hint {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--color-muted);
+  font-size: 13px;
+  background: var(--color-panel-strong);
+  border-radius: 10px;
+}
+
+.writing-settings-sidebar-footer {
+  margin-top: 8px;
+}
+
+.writing-progress-bar {
+  position: fixed;
+  top: 90px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 12px 16px 48px 12px;
+  background: var(--color-bg-0);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  width: min(1200px, calc(100% - 64px));
+}
+
+.writing-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.writing-progress-section {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.writing-progress-track {
+  height: 4px;
+  background: var(--color-line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.writing-progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+.writing-chapter-edit-input,
+.writing-section-edit-input {
+  flex: 1;
+  padding: 4px 8px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--settings-accent-color);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.writing-edit-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.writing-chapter-header:hover .writing-edit-item-btn,
+.writing-section-item:hover .writing-edit-item-btn {
+  opacity: 1;
+}
+
+.writing-edit-item-btn:hover {
+  color: var(--settings-accent-color);
+}
+
+.writing-edit-confirm-btn {
+  background: none;
+  border: none;
+  color: var(--color-green);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.writing-edit-cancel-btn {
+  background: none;
+  border: none;
+  color: var(--color-red);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 968px) {
+  .writing-add-section,
+  .writing-add-chapter {
+    flex-wrap: wrap;
+  }
+
+  .writing-add-section-btn,
+  .writing-add-chapter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .writing-progress-bar {
+    width: min(1200px, calc(100% - 34px));
+  }
+}
+
+@media (max-width: 640px) {
+  .writing-progress-bar {
+    width: min(1200px, calc(100% - 24px));
+    padding-top: 30px;
+    padding-bottom: 40px;
+  }
+}
+
+@media (max-width: 380px) {
+  .writing-chapter-header {
+    padding: 8px 10px;
+  }
+
+  .writing-chapter-title {
+    font-size: 12px;
+  }
+
+  .writing-section-item {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .writing-add-section input,
+  .writing-add-chapter input {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .writing-add-section-btn,
+  .writing-add-chapter-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .writing-empty-structure-hint {
+    padding: 20px 16px;
+    font-size: 12px;
+  }
+}

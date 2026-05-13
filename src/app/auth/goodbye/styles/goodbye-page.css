@@ -1,0 +1,152 @@
+.goodbye-container {
+  background: var(--color-bg-0);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.goodbye-container::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    rgba(109, 241, 255, 0.03) 0%,
+    transparent 70%
+  );
+}
+
+.goodbye-card {
+  max-width: 42rem;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-panel);
+  backdrop-filter: blur(12px);
+  border-radius: 1rem;
+  border: 1px solid var(--color-line);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-md);
+}
+
+.goodbye-icon-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  background-color: rgba(109, 241, 255, 0.12);
+  border-radius: 9999px;
+  margin: 0 auto 1.5rem auto;
+  border: 1px solid rgba(109, 241, 255, 0.24);
+}
+
+.goodbye-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: var(--color-cyan);
+}
+
+.goodbye-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin: 0 0 1rem 0;
+  font-family: var(--font-display);
+}
+
+.goodbye-description {
+  color: var(--color-muted);
+  font-size: 0.9375rem;
+  margin: 0 auto 2rem auto;
+  line-height: 1.5;
+  max-width: 28rem;
+}
+
+.goodbye-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--color-blue), var(--color-violet));
+  color: var(--color-text-feature);
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+  height: 3rem;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  min-width: 12rem;
+  border: none;
+  font-family: inherit;
+  position: relative;
+  overflow: hidden;
+}
+
+.goodbye-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.2),
+    rgba(255, 255, 255, 0)
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.goodbye-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(82, 144, 255, 0.24);
+}
+
+.goodbye-btn:hover::before {
+  opacity: 1;
+}
+
+.goodbye-btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 4px 12px rgba(82, 144, 255, 0.16);
+}
+
+.goodbye-btn-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .goodbye-container {
+    padding: 1.5rem 1rem;
+  }
+
+  .goodbye-card {
+    padding: 1.5rem 1rem;
+  }
+
+  .goodbye-title {
+    font-size: 1.5rem;
+  }
+
+  .goodbye-description {
+    font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .goodbye-btn {
+    width: 100%;
+    min-width: auto;
+  }
+}

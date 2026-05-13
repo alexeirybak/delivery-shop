@@ -1,0 +1,337 @@
+.platform-grid {
+  display: grid;
+  grid-template-columns: minmax(320px, 0.96fr) minmax(0, 1.04fr);
+  gap: 20px;
+  padding: 24px;
+  background: var(--panel-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  backdrop-filter: blur(18px);
+  margin-top: 26px;
+  position: relative;
+  overflow: hidden;
+}
+
+.platform-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--highlight-color, rgba(255, 255, 255, 0.08)) 20%,
+    transparent 42%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.75s ease-in-out,
+    opacity 0.3s ease;
+  z-index: 1;
+}
+
+.platform-grid:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+.platform-grid > * {
+  position: relative;
+  z-index: 2;
+}
+
+.stack-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 28px;
+  background: var(--stack-panel-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  backdrop-filter: blur(18px);
+}
+
+.stack-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--highlight-color, rgba(255, 255, 255, 0.08)) 20%,
+    transparent 42%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.75s ease-in-out,
+    opacity 0.3s ease;
+  z-index: 1;
+}
+
+.stack-panel:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+.stack-panel > * {
+  position: relative;
+  z-index: 2;
+}
+
+.stack-panel-head .eyebrow {
+  color: var(--platform-accent-color);
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.stack-panel-head h2 {
+  margin: 18px 0 0;
+  font-size: clamp(1.9rem, 3.2vw, 3.2rem);
+  line-height: 1.04;
+  font-family: var(--font-display);
+  letter-spacing: -0.04em;
+  background: var(--gradient-text);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.card-stack {
+  position: relative;
+  min-height: 360px;
+  margin-top: 34px;
+  padding-bottom: 10px;
+}
+
+.stack-card {
+  position: absolute;
+  inset-inline: 0;
+  min-height: 212px;
+  padding: 24px;
+  border-radius: 26px;
+  border: 1px solid var(--color-line);
+  background: var(--stack-bg);
+  box-shadow: var(--shadow-sm);
+  transition:
+    top 700ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 700ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 700ms ease;
+  overflow: hidden;
+}
+
+.stack-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--highlight-color, rgba(255, 255, 255, 0.08)) 20%,
+    transparent 42%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.75s ease-in-out,
+    opacity 0.3s ease;
+  z-index: 1;
+}
+
+.stack-card:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+.stack-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.stack-card h3 {
+  margin: 18px 0 12px;
+  font-size: 1.42rem;
+  line-height: 1.22;
+  font-family: var(--font-display);
+  background: var(--gradient-card-title);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.stack-card p {
+  color: var(--color-muted);
+  line-height: 1.72;
+}
+
+.stack-index {
+  margin: 0;
+  color: var(--platform-accent-color);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.feature-section {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.feature-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  background: var(--feature-bg);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(18px);
+  transition:
+    transform 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.feature-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--highlight-color, rgba(255, 255, 255, 0.08)) 20%,
+    transparent 42%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.75s ease-in-out,
+    opacity 0.3s ease;
+  z-index: 1;
+}
+
+.feature-card:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+.feature-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.feature-card:last-child {
+  grid-column: 1 / -1;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-line-strong);
+  box-shadow: var(--shadow-lg);
+}
+
+.feature-card h2 {
+  margin: 18px 0 14px;
+  font-size: 1.34rem;
+  line-height: 1.24;
+  font-family: var(--font-display);
+}
+
+.feature-card p {
+  color: var(--color-muted);
+  line-height: 1.72;
+}
+
+.feature-index {
+  color: var(--feature-index-color);
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.feature-card:last-child .feature-index {
+  color: var(--feature-last-index-color);
+}
+
+@media (max-width: 1120px) {
+  .platform-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stack-panel-head h2 {
+    max-width: none;
+  }
+}
+
+@media (max-width: 820px) {
+  .platform-grid {
+    border-radius: 24px;
+    padding: 18px;
+  }
+
+  .stack-panel {
+    border-radius: 24px;
+  }
+
+  .feature-section {
+    grid-template-columns: 1fr;
+  }
+
+  .card-stack {
+    min-height: 420px;
+  }
+
+  .stack-card {
+    min-height: 236px;
+  }
+}
+
+@media (max-width: 560px) {
+  .stack-card {
+    padding: 20px;
+  }
+}
+
+@keyframes fruitWobble {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-2px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(2px) rotate(-1deg);
+  }
+}
+
+@media (max-width: 380px) {
+  .platform-grid, .feature-card, .stack-panel {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+
+[data-theme="light"] .feature-card:hover {
+  animation: fruitWobble 0.3s ease;
+}
+
+[data-theme="light"] .stack-card:hover {
+  animation: fruitWobble 0.3s ease;
+}

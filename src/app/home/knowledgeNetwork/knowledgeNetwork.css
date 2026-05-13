@@ -1,0 +1,49 @@
+.bg-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.network-link {
+  stroke: url(#network-line);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-dasharray: 4 10;
+  animation: linkFlow 8s linear infinite;
+}
+
+.network-orbit,
+.network-pulse {
+  fill: none;
+  stroke-width: 1;
+}
+
+.network-orbit {
+  stroke: rgba(109, 241, 255, 0.16);
+  animation: orbitWave 8s ease-in-out infinite;
+}
+
+.network-pulse {
+  stroke: rgba(109, 241, 255, 0.34);
+  animation: pulseWave 4.8s ease-out infinite;
+}
+
+.network-node {
+  transform-origin: center;
+  animation: nodeFloat 6.4s ease-in-out infinite;
+}
+
+.network-node-halo {
+  fill: rgba(109, 241, 255, 0.12);
+}
+
+.network-node-sm .network-node-halo {
+  fill: rgba(109, 241, 255, 0.06);
+}
+
+.network-node-lg .network-node-halo {
+  fill: rgba(255, 136, 222, 0.14);
+}
+
+
+
+

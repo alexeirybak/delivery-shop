@@ -1,89 +1,79 @@
 @import "tailwindcss";
-@import "../styles/_variables.scss";
-@import "../styles/_keyframe-animations.scss";
+@import "./styles/main.css";
+@import "./styles/theme-dark.css";
+@import "./styles/theme-light.css";
 
-@theme inline {
-  --font-sans: var(--font-rubik);
-  --color-primary: #70c05b;
-  --color-main-text: #414141;
-  --shadow-default: 2px 4px 8px 0px rgba(0, 0, 0, 0.1);
-  --shadow-button-default: 4px 8px 16px 0px rgba(112, 192, 91, 0.2);
-  --shadow-button-secondary: 4px 8px 16px 0px rgba(0, 0, 0, 0.1);
-  --shadow-button-active: inset 0px 2px 0px 0px rgba(0, 0, 0, 0.2);
-  --shadow-article: 4px 8px 16px 0px rgba(255, 102, 51, 0.2);
-  --shadow-card-shop: 0px 8px 16px 0px rgba(202, 147, 96, 0.5);
-  --shadow-category-block: 1px 2px 4px 0px rgba(112, 192, 91, 0.2);
-  --shadow-catalog-menu: 0px 8px 16px 0px rgba(0, 0, 0, 0.15);
-  --shadow-vacation: 1px 2px 2px 0px rgba(0, 0, 0, 0.1);
+:root {
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  
+  --font-display: "Arial Narrow", Bahnschrift, "Segoe UI Variable", "Segoe UI", sans-serif;
+  --font-body: Bahnschrift, "Segoe UI Variable", "Segoe UI", sans-serif;
+  --font-mono: Consolas, "Courier New", monospace;
+  
+  --pointer-x: 0;
+  --pointer-y: 0;
+  --scroll-progress: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-  background-color: #fbf8ec;
-  color: var(--foreground);
-  font-family: var(--font-rubik), sans-serif;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  font-family: var(--font-body);
+  color: var(--color-text);
+  background: var(--color-bg-0);
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.transition-custom {
-  transition: all 0.3s ease;
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: 0.06;
+  mix-blend-mode: screen;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.8) 0.6px, transparent 0.8px);
+  background-size: 5px 5px;
+  mask-image: linear-gradient(180deg, transparent, black 12%, black 88%, transparent);
+  transition: opacity 0.3s ease;
 }
 
-.no-ymaps-copyright [class*="copyrights-pane"] {
-  visibility: hidden;
+[data-theme="light"] body::before {
+  opacity: 0.04;
+  background-image: radial-gradient(rgba(249, 115, 22, 0.25) 0.8px, transparent 0.8px);
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
+img,
+svg {
+  display: block;
+  max-width: 100%;
 }
 
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-  50% {
-    width: 100%;
-  }
-  100% {
-    width: 0%;
-  }
+::selection {
+  background: rgba(109, 241, 255, 0.24);
 }
 
-.animate-spin {
-  animation: spin 1s linear infinite;
+[data-theme="light"] ::selection {
+  background: rgba(249, 115, 22, 0.2);
 }
 
-.animate-progress {
-  animation: progress 2s ease-in-out infinite;
+.font-display {
+  font-family: var(--font-display);
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.animate-fadeIn {
-  animation: fadeIn 0.2s ease-out forwards;
+.font-body {
+  font-family: var(--font-body);
 }
 
-@keyframes progress {
-  0% {
-    width: 0%;
-  }
-  100% {
-    width: 100%;
-  }
-}
-
-img:not(.tiptap-image) {
-  height: auto;
+.font-mono {
+  font-family: var(--font-mono);
 }

@@ -1,0 +1,61 @@
+.record-table-container {
+  background: var(--color-panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  padding: 0 0.5rem;
+}
+
+.record-table-header {
+  padding: 1rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.record-table-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.record-table-loading {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-text-secondary);
+}
+
+.record-table-empty {
+  padding: 3rem;
+  text-align: center;
+}
+
+.record-table-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.record-table-item {
+  transition: background-color var(--transition-fast);
+  cursor: grab;
+}
+
+.record-table-item:active {
+  cursor: grabbing;
+}
+
+.record-table-item-drag-over {
+  background: rgba(59, 130, 246, 0.1);
+}
+
+.record-table-item-pending {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .record-table-header-content {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

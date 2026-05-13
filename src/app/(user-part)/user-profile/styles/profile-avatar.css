@@ -1,0 +1,182 @@
+/* Profile Avatar Styles */
+
+.profile-avatar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.profile-avatar-wrapper {
+  position: relative;
+}
+
+.profile-avatar-image-wrapper {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
+  box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar-image-wrapper:hover {
+  transform: scale(1.02);
+}
+
+.profile-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-avatar-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
+}
+
+.profile-avatar-placeholder svg {
+  width: 3rem;
+  height: 3rem;
+  color: var(--color-bg-0);
+}
+
+/* Лоадер */
+.profile-avatar-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  z-index: 10;
+}
+
+.profile-avatar-spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: var(--color-cyan);
+  border-radius: 50%;
+  animation: profile-spin 1s linear infinite;
+}
+
+/* Кнопки действий */
+.profile-avatar-upload-btn,
+.profile-avatar-camera-btn {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid var(--color-line);
+  background: var(--color-panel-strong);
+  backdrop-filter: blur(8px);
+  color: var(--color-cyan);
+  z-index: 5;
+}
+
+.profile-avatar-upload-btn {
+  bottom: 0;
+  right: 0;
+}
+
+.profile-avatar-camera-btn {
+  bottom: 0;
+  left: 0;
+}
+
+.profile-avatar-upload-btn:hover,
+.profile-avatar-camera-btn:hover:not(:disabled) {
+  transform: scale(1.1);
+  background: var(--color-cyan);
+  color: var(--color-bg-0);
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 12px rgba(109, 241, 255, 0.4);
+}
+
+.profile-avatar-camera-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.profile-avatar-upload-btn svg,
+.profile-avatar-camera-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: transform 0.3s ease;
+}
+
+.profile-avatar-upload-btn:hover svg,
+.profile-avatar-camera-btn:hover:not(:disabled) svg {
+  transform: scale(1.05);
+}
+
+/* Информация */
+.profile-avatar-info {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.profile-avatar-info-title {
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.profile-avatar-info-status {
+  font-size: 0.75rem;
+  color: var(--color-muted-soft);
+}
+
+/* Анимации */
+@keyframes profile-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 640px) {
+  .profile-avatar-image-wrapper {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .profile-avatar-placeholder svg {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+
+  .profile-avatar-upload-btn,
+  .profile-avatar-camera-btn {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .profile-avatar-upload-btn svg,
+  .profile-avatar-camera-btn svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .profile-avatar-info-title {
+    font-size: 0.75rem;
+  }
+
+  .profile-avatar-info-status {
+    font-size: 0.7rem;
+  }
+}

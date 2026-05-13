@@ -1,0 +1,252 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  transform: none;
+}
+
+.modal-container {
+  background: var(--color-panel-strong);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-line);
+  border-radius: 24px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.modal-header-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(220, 38, 38, 0.15);
+  border-radius: 12px;
+}
+
+.modal-icon {
+  width: 20px;
+  height: 20px;
+  color: #ff6b6b;
+  display: flex;
+  flex-shrink: 0;
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0;
+  flex: 1;
+  font-family: var(--font-display);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-muted-soft);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.3s;
+}
+
+.modal-close:hover {
+  background: var(--color-panel-soft);
+  color: var(--color-text);
+}
+
+/* Убираем .modal-body и добавляем отступы для прямых элементов */
+.modal-warning-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+  padding: 0 24px;
+  margin-top: 24px;
+}
+
+.modal-consequences {
+  background: rgba(255, 150, 0, 0.08);
+  border-left: 3px solid #ffaa33;
+  padding: 14px 16px;
+  margin: 20px 24px 0 24px;
+  border-radius: 12px;
+}
+
+.consequences-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #ffaa66;
+  margin: 0 0 8px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.consequences-list {
+  margin: 0;
+  padding-left: 20px;
+  font-size: 13px;
+  color: var(--color-muted);
+  line-height: 1.5;
+}
+
+.consequences-list li {
+  margin-bottom: 6px;
+}
+
+.consequences-list li:last-child {
+  margin-bottom: 0;
+}
+
+.consequences-highlight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: #ff8888;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 170, 51, 0.3);
+}
+
+.consequences-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.modal-error {
+  margin: 16px 24px 0 24px;
+  padding: 12px;
+  background: rgba(220, 38, 38, 0.12);
+  border-radius: 12px;
+  color: #ff8888;
+  font-size: 13px;
+  border-left: 3px solid #dc2626;
+}
+
+.modal-footer {
+  display: flex;
+  gap: 12px;
+  padding: 20px 24px 24px;
+  margin-top: 24px;
+  border-top: 1px solid var(--color-line);
+}
+
+.modal-btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: none;
+  font-family: var(--font-body);
+}
+
+.modal-btn-cancel {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  color: var(--color-muted);
+}
+
+.modal-btn-cancel:hover {
+  background: var(--color-panel-strong);
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+}
+
+.modal-btn-confirm {
+  background: rgba(220, 38, 38, 0.15);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #ff8888;
+}
+
+.modal-btn-confirm:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: var(--color-text-feature);
+}
+
+.modal-btn:active {
+  transform: translateY(1px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-overlay {
+  animation: fadeIn 0.3s ease;
+}
+
+.modal-container {
+  animation: slideIn 0.3s ease;
+}
+
+@media (max-width: 640px) {
+  .modal-header {
+    padding: 16px 20px;
+  }
+
+  .modal-warning-text {
+    padding: 0 20px;
+    margin-top: 20px;
+  }
+
+  .modal-consequences {
+    margin: 16px 20px 0 20px;
+  }
+
+  .modal-error {
+    margin: 16px 20px 0 20px;
+  }
+
+  .modal-footer {
+    padding: 16px 20px 20px;
+    margin-top: 20px;
+    flex-direction: column;
+  }
+
+  .modal-btn {
+    width: 100%;
+  }
+}

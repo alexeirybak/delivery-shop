@@ -1,0 +1,36 @@
+.dashboard-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: 32px;
+  color: var(--color-muted);
+}
+
+.dashboard-empty-state svg {
+  color: var(--color-line);
+  margin-bottom: 1rem;
+}
+
+.dashboard-empty-state h3 {
+  font-size: 1.25rem;
+  color: var(--color-text);
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-empty-action {
+  margin-top: 1rem;
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
+  border: none;
+  border-radius: 40px;
+  color: var(--color-bg-0);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-empty-action:hover {
+  transform: translateY(-2px);
+}

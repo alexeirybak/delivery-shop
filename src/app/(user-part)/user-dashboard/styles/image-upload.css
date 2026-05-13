@@ -1,0 +1,25 @@
+.image-upload-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+}
+
+.image-upload-btn:hover:not(:disabled) {
+  background: var(--color-panel-soft);
+  color: var(--color-text);
+}
+
+.image-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

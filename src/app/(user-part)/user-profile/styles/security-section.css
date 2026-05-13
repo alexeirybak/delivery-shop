@@ -1,0 +1,97 @@
+/* SecuritySection.css */
+
+.security-section {
+  border-top: 1px solid var(--color-line);
+  padding-top: 2rem;
+  margin-top: 1rem;
+}
+
+.security-section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+  font-family: var(--font-display);
+}
+
+.security-error {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(220, 38, 38, 0.12);
+  border-left: 3px solid #dc2626;
+  border-radius: 0.5rem;
+  color: #ff8888;
+  font-size: 0.875rem;
+}
+
+.security-buttons-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+}
+
+.security-btn {
+  height: 2.75rem;
+  padding: 0 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-family: var(--font-body);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-panel-soft);
+  color: var(--color-muted);
+  backdrop-filter: blur(8px);
+}
+
+.security-btn:active {
+  transform: translateY(1px);
+}
+
+.security-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.security-btn-outline {
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  color: var(--color-muted);
+}
+
+.security-btn-outline:hover {
+  background: var(--color-panel-strong);
+  border-color: var(--color-line-strong);
+  color: var(--color-text);
+}
+
+.security-btn-danger {
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.3);
+  color: #ff8888;
+}
+
+.security-btn-danger:hover {
+  background: #dc2626;
+  border-color: #dc2626;
+  color: var(--color-text-feature);
+}
+
+@media (max-width: 640px) {
+  .security-buttons-grid {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .security-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}

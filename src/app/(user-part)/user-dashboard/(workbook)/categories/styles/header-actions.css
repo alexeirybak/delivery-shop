@@ -1,0 +1,91 @@
+.header-actions-categories {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  background-color: none;
+}
+
+.header-actions-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.header-actions-create-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: var(--color-cyan);
+  border: 1px solid var(--color-cyan);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.header-actions-create-btn:hover {
+  background: #06b6d426;;
+  transform: translateY(-1px);
+}
+
+.header-actions-create-btn:active {
+  transform: translateY(0);
+}
+
+.header-actions-create-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.header-actions-create-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 968px) {
+  .header-actions {
+    margin-bottom: 0.875rem;
+  }
+
+  .header-actions-create-btn {
+    padding: 0.375rem 0.875rem;
+    font-size: 0.875rem;
+  }
+
+  .header-actions-create-btn svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-actions {
+    margin-bottom: 0.75rem;
+  }
+
+  .header-actions-create-btn {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .header-actions-create-btn svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .header-actions {
+    margin-bottom: 0.625rem;
+  }
+
+  .header-actions-create-btn {
+    padding: 0.25rem 0.625rem;
+    font-size: 0.755rem;
+  }
+
+  .header-actions-create-btn svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}

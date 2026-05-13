@@ -6,7 +6,7 @@ import "@/components/tiptap-ui-primitive/badge/badge-group.scss"
 import "@/components/tiptap-ui-primitive/badge/badge.scss"
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "ghost" | "white" | "gray" | "green" | "default"
+  variant?: "ghost" | "white" | "gray" | "green" | "yellow" | "default"
   size?: "default" | "small"
   appearance?: "default" | "subdued" | "emphasized"
   trimText?: boolean

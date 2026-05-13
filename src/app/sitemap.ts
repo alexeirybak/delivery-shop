@@ -1,112 +1,44 @@
 import { MetadataRoute } from "next";
-import { baseUrl } from "../../utils/baseUrl";
-import { getSitemapData } from "../../utils/getSitemapData";
-import { createSlug } from "../../utils/createSlug";
 
-export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const currentDate = new Date().toISOString().split("T")[0];
+export default function sitemap(): MetadataRoute.Sitemap {
+  const baseUrl = "https://neurodidactica.ru";
 
-  const staticPages: MetadataRoute.Sitemap = [
+  return [
     {
-      url: `${baseUrl}/`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
+      url: baseUrl,
+      lastModified: new Date(),
+      changeFrequency: "daily",
       priority: 1,
     },
     {
-      url: `${baseUrl}/catalog`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      url: `${baseUrl}/user-dashboard`,
+      lastModified: new Date(),
+      changeFrequency: "daily",
+      priority: 0.9,
     },
     {
-      url: `${baseUrl}/actions`,
-      lastModified: currentDate,
+      url: `${baseUrl}/pricing`,
+      lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 0.5,
+      priority: 0.8,
     },
     {
-      url: `${baseUrl}/new`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      url: `${baseUrl}/about`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.7,
     },
     {
-      url: `${baseUrl}/articles`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/about-us`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
+      url: `${baseUrl}/policy`,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${baseUrl}/contacts`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
+      lastModified: new Date(),
+      changeFrequency: "monthly",
+      priority: 0.6,
     },
-    {
-      url: `${baseUrl}/vacancies`,
-      lastModified: currentDate,
-      changeFrequency: "weekly",
-      priority: 0.5,
-    },
-  ];
-
-  const data = await getSitemapData();
-
-  const articleCategoryPages: MetadataRoute.Sitemap =
-    data.articleCategories.map((category) => ({
-      url: `${baseUrl}/blog/${category.slug}`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    }));
-
-  const articlePages: MetadataRoute.Sitemap = data.articles.map((article) => ({
-    url: `${baseUrl}/blog/${article.categorySlug}/${article.slug}`,
-    lastModified: currentDate,
-    changeFrequency: "weekly" as const,
-    priority: 0.5,
-  }));
-
-  const categoryPages: MetadataRoute.Sitemap = data.categories.map(
-    (category) => ({
-      url: `${baseUrl}/catalog/${category.slug}`,
-      lastModified: currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    }),
-  );
-
-  const productPages: MetadataRoute.Sitemap = data.products.map((product) => {
-    const productSlug = createSlug(product.title, product.id);
-
-    return {
-      url: `${baseUrl}/catalog/${product.categorySlug}/${productSlug}`,
-      lastModified: product.updatedAt
-        ? new Date(product.updatedAt).toISOString().split("T")[0]
-        : currentDate,
-      changeFrequency: "weekly" as const,
-      priority: 0.5,
-    };
-  });
-
-  return [
-    ...staticPages,
-    ...categoryPages,
-    ...productPages,
-    ...articleCategoryPages,
-    ...articlePages,
   ];
 }

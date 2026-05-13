@@ -1,0 +1,46 @@
+.workbook-menu-button {
+  position: fixed;
+  top: 6rem;
+  right: 2.75rem;
+  padding: 0.75rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: 9999px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 40;
+}
+
+.workbook-menu-button:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.workbook-menu-button:active {
+  transform: scale(0.98);
+}
+
+.workbook-menu-button svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+@media (max-width: 968px) {
+  .workbook-menu-button svg {
+    width: 1rem;
+    height: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .workbook-menu-button {
+    right: 0.75rem;
+    padding: 0.5rem;
+  }
+}

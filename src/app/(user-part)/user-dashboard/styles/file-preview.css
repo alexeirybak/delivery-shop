@@ -1,0 +1,58 @@
+.files-preview {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  padding: 8px;
+  background: var(--color-panel-soft);
+  border-radius: var(--radius-md);
+}
+
+.file-preview-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px 6px 8px;
+  background: var(--color-panel);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+  font-size: 12px;
+  flex-shrink: 0;
+  max-width: 100px;
+  min-width: 80px;
+}
+
+.file-icon {
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-text);
+  min-width: 0;
+}
+
+.remove-file-btn {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  color: var(--color-muted);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.remove-file-btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: #ff4444;
+}

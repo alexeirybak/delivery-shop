@@ -1,0 +1,19 @@
+.results-stats {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+}
+
+.results-stats-number {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.results-stats-query {
+  margin-left: 1rem;
+}
+
+.results-stats-query-text {
+  font-weight: 500;
+  color: var(--color-cyan);
+}

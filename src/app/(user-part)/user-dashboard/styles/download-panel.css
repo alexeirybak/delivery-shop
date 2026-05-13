@@ -1,0 +1,262 @@
+.download-toggle {
+  position: absolute;
+  bottom: 180px;
+  left: 0;
+  z-index: 101;
+  height: 48px;
+  padding: 0.5rem;
+  background: var(--download-toggle-bg);
+  border: none;
+  border-radius: 0 24px 24px 0;
+  color: var(--color-text-feature);
+  cursor: pointer;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  box-shadow: var(--download-toggle-shadow);
+}
+
+.download-toggle span {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+}
+
+.download-toggle:hover {
+  background: var(--download-toggle-hover-bg);
+}
+
+.download-panel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: none;
+  flex-direction: row;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 16px;
+  padding-right: 20px;
+  padding-bottom: 50px;
+  padding-left: 20px;
+  background: var(--download-panel-bg);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid var(--color-line);
+  box-shadow: 0 -4px 20px var(--shadow-color);
+}
+
+.download-panel.open {
+  display: flex;
+  animation: slideUp 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.download-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.download-grid {
+  background: var(--color-panel-soft);
+  border-radius: 16px;
+  padding: 12px 16px;
+  border: 1px solid var(--color-line);
+  flex-shrink: 0;
+  transition: all 0.3s ease;
+}
+
+.download-grid:hover {
+  background: var(--color-panel);
+  transform: translateY(-2px);
+  border-color: var(--color-cyan);
+}
+
+.grid-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.grid-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted-soft);
+  margin: 0;
+  padding: 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.grid-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 85px;
+  width: auto;
+  padding: 8px 14px;
+  background: var(--button-bg);
+  border: 1px solid var(--button-border);
+  border-radius: 10px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.download-btn:hover:not(:disabled) {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+  border-color: var(--color-cyan);
+  box-shadow: 0 4px 12px var(--color-cyan);
+}
+
+.download-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.download-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.download-btn .spin {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+.download-btn img,
+.download-btn svg {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 968px) {
+  .download-panel {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .download-grid {
+    padding: 10px 12px;
+  }
+
+  .grid-buttons {
+    gap: 6px;
+  }
+
+  .download-btn {
+    min-width: 75px;
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .download-btn img,
+  .download-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .download-panel {
+    padding: 10px 12px;
+    gap: 10px;
+  }
+
+  .download-toggle {
+    bottom: 230px;
+  }
+
+  .download-toggle span {
+    display: none;
+  }
+
+  .download-btn {
+    min-width: 44px;
+    width: 44px;
+    padding: 8px;
+  }
+
+  .download-btn img,
+  .download-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .download-btn span {
+    display: none;
+  }
+
+  .grid-title {
+    font-size: 10px;
+    text-align: center;
+  }
+
+  .grid-buttons {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .download-panel {
+    padding: 8px 10px;
+    gap: 8px;
+  }
+
+  .download-grid {
+    padding: 8px 10px;
+  }
+
+  .download-btn {
+    min-width: 40px;
+    width: 40px;
+    padding: 6px;
+  }
+
+  .download-toggle {
+    bottom: 315px;
+  }
+
+  .download-btn img,
+  .download-btn svg {
+    width: 22px;
+    height: 22px;
+  }
+}

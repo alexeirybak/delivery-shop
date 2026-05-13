@@ -1,20 +1,21 @@
+import { UserDataOrNull } from "@/app/auth/types";
 import { authClient } from "@/lib/auth-client";
-import { UserDataOrNull } from "@/types/userData";
 import { create } from "zustand";
 
 type AuthState = {
   isAuth: boolean;
-  user: UserDataOrNull;
+  user: UserDataOrNull | undefined;
   isLoading: boolean;
   login: () => void;
   logout: () => Promise<void>;
   checkAuth: () => Promise<boolean>;
   fetchUserData: () => Promise<void>;
+  updateUser: (data: Partial<NonNullable<UserDataOrNull>>) => void;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
   isAuth: false,
-  user: null,
+  user: undefined,
   isLoading: false,
 
   login: () => {
@@ -23,9 +24,17 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   },
 
   checkAuth: async () => {
+    // Если уже есть user, сразу возвращаем true
+    if (get().user) {
+      return true;
+    }
+
+    set({ isLoading: true });
+
     try {
-      set({ isLoading: true });
-      const response = await fetch("/api/auth/check-session");
+      const response = await fetch("/api/auth/check-session", {
+        cache: "no-store",
+      });
 
       if (!response.ok) {
         set({ isAuth: false, user: null, isLoading: false });
@@ -37,12 +46,13 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       if (data.isAuth) {
         set({ isAuth: true });
         await get().fetchUserData();
+        return true;
       } else {
         set({ isAuth: false, user: null, isLoading: false });
+        return false;
       }
-
-      return data.isAuth;
-    } catch {
+    } catch (error) {
+      console.error("Check auth error:", error);
       set({ isAuth: false, user: null, isLoading: false });
       return false;
     }
@@ -50,8 +60,9 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
   fetchUserData: async () => {
     try {
-      set({ isLoading: true });
-      const response = await fetch("/api/auth/user");
+      const response = await fetch("/api/auth/user", {
+        cache: "no-store",
+      });
 
       if (response.status === 401 || response.status === 403) {
         throw new Error("Unauthorized");
@@ -62,28 +73,30 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       }
 
       const userData = await response.json();
-
-      set({ user: userData, isLoading: false });
+      set({ user: userData, isAuth: true, isLoading: false });
     } catch (error) {
       console.error("Ошибка загрузки данных пользователя:", error);
-      set({ user: null, isLoading: false });
-
-      if (error === "Unauthorized") {
-        set({ isAuth: false });
-      }
+      set({ user: null, isAuth: false, isLoading: false });
     }
+  },
+
+  updateUser: (data) => {
+    set((state) => ({
+      user: state.user ? { ...state.user, ...data } : null,
+    }));
   },
 
   logout: async () => {
     try {
       await authClient.signOut();
-
       await fetch("/api/auth/logout", {
         method: "POST",
         credentials: "include",
       });
+    } catch (error) {
+      console.error("Logout error:", error);
     } finally {
-      set({ isAuth: false, user: null });
+      set({ isAuth: false, user: null, isLoading: false });
     }
   },
 }));

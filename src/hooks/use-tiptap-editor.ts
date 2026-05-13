@@ -2,39 +2,61 @@
 
 import type { Editor } from "@tiptap/react"
 import { useCurrentEditor, useEditorState } from "@tiptap/react"
-import { useMemo } from "react"
+import { useEffect, useState } from "react"
 
-/**
- * Hook that provides access to a Tiptap editor instance.
- *
- * Accepts an optional editor instance directly, or falls back to retrieving
- * the editor from the Tiptap context if available. This allows components
- * to work both when given an editor directly and when used within a Tiptap
- * editor context.
- *
- * @param providedEditor - Optional editor instance to use instead of the context editor
- * @returns The provided editor or the editor from context, whichever is available
- */
+function getActivePageEditor(editor: Editor): Editor | null {
+  const storage = editor.storage as unknown as Record<string, unknown>
+  const pages = storage.pages as { activeEditor?: Editor | null } | undefined
+  if (!pages || !("activeEditor" in pages)) return null
+  return pages.activeEditor ?? null
+}
+
 export function useTiptapEditor(providedEditor?: Editor | null): {
   editor: Editor | null
   editorState?: Editor["state"]
   canCommand?: Editor["can"]
 } {
   const { editor: coreEditor } = useCurrentEditor()
-  const mainEditor = useMemo(
-    () => providedEditor || coreEditor,
-    [providedEditor, coreEditor]
-  )
+  const mainEditor = providedEditor ?? coreEditor
+
+  const [storageEditor, setStorageEditor] = useState<Editor | null>(null)
+
+  useEffect(() => {
+    if (!mainEditor) {
+      setStorageEditor(null)
+      return
+    }
+
+    const updateHandler = () =>
+      setStorageEditor(getActivePageEditor(mainEditor))
+
+    updateHandler()
+
+    mainEditor.on("update", updateHandler)
+    mainEditor.on("selectionUpdate", updateHandler)
+
+    return () => {
+      mainEditor.off("update", updateHandler)
+      mainEditor.off("selectionUpdate", updateHandler)
+    }
+  }, [mainEditor])
+
+  useEffect(() => {
+    if (!storageEditor) return
+
+    const handleDestroy = () => setStorageEditor(null)
+
+    storageEditor.on("destroy", handleDestroy)
+    return () => {
+      storageEditor.off("destroy", handleDestroy)
+    }
+  }, [storageEditor])
 
   const editorState = useEditorState({
-    editor: mainEditor,
+    editor: storageEditor ?? mainEditor,
     selector(context) {
       if (!context.editor) {
-        return {
-          editor: null,
-          editorState: undefined,
-          canCommand: undefined,
-        }
+        return { editor: null, editorState: undefined, canCommand: undefined }
       }
 
       return {
@@ -45,5 +67,5 @@ export function useTiptapEditor(providedEditor?: Editor | null): {
     },
   })
 
-  return editorState || { editor: null }
+  return editorState ?? { editor: null }
 }

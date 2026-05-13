@@ -1,15 +1,15 @@
-import VerifyEmail from "@/app/(auth)/(reg)/_components/VerifyEmail";
-import PasswordResetEmail from "@/app/(auth)/(update-pass)/_components/PasswordResetEmail";
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { admin, phoneNumber } from "better-auth/plugins";
+import { admin } from "better-auth/plugins";
 import { MongoClient } from "mongodb";
 import nodemailer from "nodemailer";
 import { render } from "@react-email/render";
-import { CONFIG } from "../../config/config";
-import EmailChangeVerification from "@/app/(user-profile)/_components/EmailChangeVerification";
-import DeleteVerify from "@/app/(auth)/(reg)/_components/DeleteVerify";
-import { deleteUserAvatarFromGridFS } from "../../utils/deleteUserAvatar";
+import VerifyEmail from "@/app/auth/register/_components/VerifyEmail";
+import PasswordResetEmail from "@/app/auth/_components/PasswordResetEmail";
+import DeleteVerify from "@/app/auth/register/_components/DeleteVerify";
+import { deleteUserAvatarFromGridFS } from "@/app/auth/utils/deleteUserAvatar";
+import EmailChangeVerification from "@/app/(user-part)/user-profile/_components/EmailChangeVerification";
+import ExistingUserSignUp from "@/app/auth/register/_components/ExistingUserSignUp";
 
 const client = new MongoClient(process.env.DB_CONNECTION_STRING!);
 const db = client.db(process.env.DBNAME);
@@ -45,26 +45,43 @@ const smtpEmail = {
 
 export const auth = betterAuth({
   database: mongodbAdapter(db),
+  baseURL: process.env.BETTER_AUTH_URL,
+
   session: {
     expiresIn: 60 * 60 * 24 * 30,
     updateAge: 60 * 60 * 24,
   },
+
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: true,
-    resetPasswordTokenExpiresIn: 86400,
-    sendResetPassword: async ({ user, url }) => {
-           await smtpEmail.send({
+    onExistingUserSignUp: async ({ user }: { user: { email: string; name: string } }) => {
+      await smtpEmail.send({
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
-        subject: "Сброс пароля для Северяночки",
+        subject: "Попытка регистрации в ваш аккаунт",
+        react: ExistingUserSignUp({
+          username: user.name,
+          email: user.email,
+          loginUrl: `${process.env.BETTER_AUTH_URL}/auth/login`,
+        }),
+      });
+    },
+    resetPasswordTokenExpiresIn: 86400,
+
+    sendResetPassword: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
+      await smtpEmail.send({
+        from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
+        to: user.email,
+        subject: "Сброс пароля для NeuroDidactica",
         react: PasswordResetEmail({ username: user.name, resetUrl: url }),
       });
     },
   },
+
   emailVerification: {
-    sendVerificationEmail: async ({ user, url }) => {
-            await smtpEmail.send({
+    sendVerificationEmail: async ({ user, url }: { user: { email: string; name: string }; url: string }) => {
+      await smtpEmail.send({
         from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
         to: user.email,
         subject: "Подтвердите email",
@@ -74,54 +91,22 @@ export const auth = betterAuth({
     expiresIn: 86400,
     autoSignInAfterVerification: false,
   },
-  plugins: [
-    phoneNumber({
-      sendOTP: async ({ phoneNumber, code }) => {
-                try {
-          const cleanPhone = phoneNumber.replace(/\D/g, "");
 
-          const url =
-            `https://sms.ru/sms/send` +
-            `?api_id=${process.env.SMS_API_ID}` +
-            `&to=${cleanPhone}` +
-            `&msg=Ваш код подтверждения от "Северяночки": ${code}` +
-            `&json=1`;
+  socialProviders: {
+    google: {
+      clientId: process.env.GOOGLE_CLIENT_ID as string,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      prompt: "select_account",
+      accessType: "offline",
+    },
+    vk: {
+      clientId: process.env.VK_CLIENT_ID!,
+      clientSecret: process.env.VK_CLIENT_SECRET!,
+    },
+  },
 
-          const response = await fetch(url);
-          const result = await response.json();
+  plugins: [admin()],
 
-          if (result.status !== "OK") {
-            if (result.sms) {
-              for (const phone in result.sms) {
-                if (result.sms[phone].status !== "OK") {
-                  throw new Error(
-                    `Ошибка для номера ${phone}: ${result.sms[phone].status_text || "Неизвестная ошибка"}`,
-                  );
-                }
-              }
-            }
-            throw new Error(result.status_text || "Ошибка отправки SMS");
-          }
-        } catch (error) {
-          console.error("Ошибка отправки SMS:", error);
-          throw error;
-        }
-      },
-      signUpOnVerification: {
-        getTempEmail: (phoneNumber) => {
-          return `${phoneNumber}${CONFIG.TEMPORARY_EMAIL_DOMAIN}`;
-        },
-        getTempName: (phoneNumber) => {
-          return phoneNumber;
-        },
-      },
-      allowedAttempts: 3,
-      otpLength: 4,
-      expiresIn: 300,
-      requireVerification: true,
-    }),
-    admin(),
-  ],
   user: {
     changeEmail: {
       enabled: true,
@@ -134,10 +119,10 @@ export const auth = betterAuth({
         newEmail: string;
         url: string;
       }) => {
-              await smtpEmail.send({
+        await smtpEmail.send({
           from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
-          subject: "Подтверждение смены email в Северяночке",
+          subject: "Подтверждение смены email в NeuroDidactica",
           react: EmailChangeVerification({
             username: user.name,
             currentEmail: user.email,
@@ -156,26 +141,49 @@ export const auth = betterAuth({
         user: { email: string; name: string };
         url: string;
       }) => {
-               await smtpEmail.send({
+        await smtpEmail.send({
           from: `${process.env.SMTP_FROM_NAME} <${process.env.SMTP_FROM_EMAIL}>`,
           to: user.email,
           subject: "Удаление аккаунта",
           react: DeleteVerify({ username: user.name, verifyUrl: url }),
         });
       },
-      afterDelete: async (user) => {
+      afterDelete: async (user: { id: string }) => {
         await deleteUserAvatarFromGridFS(user.id);
       },
     },
     additionalFields: {
-      phoneNumber: { type: "string", input: true, required: true },
-      surname: { type: "string", input: true, required: true },
-      birthdayDate: { type: "date", input: true, required: true },
-      region: { type: "string", input: true, required: true },
-      location: { type: "string", input: true, required: true },
-      gender: { type: "string", input: true, required: true },
-      card: { type: "string", input: true, required: false },
-      hasCard: { type: "boolean", input: true, required: false },
+      status: {
+        type: "string",
+        input: true,
+        required: false,
+      },
+      country: {
+        type: "string",
+        input: true,
+        required: false,
+      },
+      organization: {
+        type: "string",
+        input: true,
+        required: false,
+      },
+      specialization: {
+        type: "string",
+        input: true,
+        required: false,
+      },
+      interests: {
+        type: "string",
+        input: true,
+        required: false,
+      },
+      termsAccepted: {
+        type: "boolean",
+        required: true,
+        defaultValue: true,
+      },
+      hasPassword: { type: "boolean", required: false, defaultValue: false },
       role: {
         type: "string",
         input: false,

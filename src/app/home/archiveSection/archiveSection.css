@@ -1,0 +1,192 @@
+.archive-section {
+  width: 100%;
+  margin-top: 26px;
+}
+
+.section-heading {
+  margin-bottom: 2rem;
+}
+
+.section-heading .eyebrow {
+  margin: 0 0 1rem 0;
+  color: var(--archive-accent-color);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
+  line-height: 1.04;
+  color: var(--color-text);
+}
+
+.archive-stack {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.125rem;
+  margin-top: 2rem;
+}
+
+.archive-card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 1.625rem;
+  border-radius: 28px;
+  border: 1px solid var(--color-line);
+  background: var(--panel-bg);
+  backdrop-filter: blur(18px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.archive-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    var(--highlight-color, rgba(255, 255, 255, 0.08)) 20%,
+    transparent 42%
+  );
+  transform: translateX(-120%);
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    transform 0.75s ease-in-out,
+    opacity 0.3s ease;
+  z-index: 1;
+}
+
+.archive-card:hover::before {
+  transform: translateX(120%);
+  opacity: 1;
+}
+
+.archive-card > * {
+  position: relative;
+  z-index: 2;
+}
+
+.archive-card:hover {
+  border-color: var(--color-line-strong);
+}
+
+.archive-label {
+  margin: 0 0 0.5rem 0;
+  color: var(--archive-accent-color);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.archive-copy h3 {
+  margin: 0 0 0.75rem 0;
+  font-family: var(--font-display);
+  font-size: 1.56rem;
+  line-height: 1.14;
+  color: var(--color-text-feature);
+}
+
+.archive-copy p:last-child {
+  color: var(--color-text-description);
+  line-height: 1.72;
+  margin: 0 0 1.5rem 0;
+}
+
+.archive-visual {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.visual-container {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1 / 1;
+  border-radius: 26px;
+  border: 1px solid var(--color-line);
+  background: var(--visual-container-bg);
+  overflow: hidden;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.chart-image {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.artifact-label {
+  color: var(--archive-accent-color);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin: 0;
+}
+
+/* Удалены все неиспользуемые классы: 
+.orbit-ring, .orbit-ring-reverse, .orbit-ring-dashed, .core-pulse, 
+.orbit-dot, .star-dot, .visual-grid, .grid-cell, .pulse-bars, .pulse-bar, 
+.center-content, .pink, .cyan */
+
+@media (max-width: 1120px) {
+  .archive-stack {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 820px) {
+  .archive-stack {
+    grid-template-columns: 1fr;
+    gap: 1.125rem;
+    margin-top: 1.5rem;
+  }
+
+  .archive-card {
+    padding: 1.125rem;
+    border-radius: 24px;
+  }
+
+  .visual-container {
+    border-radius: 20px;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .section-heading h2 {
+    font-size: clamp(1.6rem, 5vw, 2rem);
+  }
+
+  .archive-stack {
+    margin-top: 1.25rem;
+  }
+
+  .archive-card {
+    padding: 1rem;
+  }
+
+  .visual-container {
+    border-radius: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .archive-card::before,
+  .archive-card * {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,110 @@
+.prompt-section {
+  margin-bottom: 1.5rem;
+}
+
+.prompt-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.prompt-textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.prompt-textarea:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 3px rgba(109, 241, 255, 0.2);
+}
+
+.prompt-textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.prompt-examples {
+  display: none;
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+}
+
+@media (min-width: 768px) {
+  .prompt-examples {
+    display: block;
+  }
+}
+
+.prompt-examples-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.prompt-examples-note {
+  font-size: 0.7rem;
+  color: var(--color-orange);
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(251, 146, 60, 0.1);
+  border-radius: 4px;
+}
+
+.prompt-examples-list {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.prompt-examples-list li {
+  list-style: none;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.prompt-examples-list li::before {
+  content: "•";
+  margin-right: 0.5rem;
+  color: var(--color-cyan, #6df1ff);
+  display: inline-block;
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+@media (max-width: 640px) {
+  .prompt-section {
+    margin-bottom: 1rem;
+  }
+
+  .prompt-label {
+    font-size: 0.8125rem;
+  }
+
+  .prompt-textarea {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-md);
+  }
+}

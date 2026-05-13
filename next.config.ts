@@ -1,21 +1,21 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  async rewrites() {
-    return [
+  images: {
+    remotePatterns: [
       {
-        source: "/images/products/:path*",
-        destination: "/api/uploads/products/:path*",
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
       },
       {
-        source: "/uploads/:path*",
-        destination: "/api/uploads/:path*",
+        protocol: "https",
+        hostname: "sun1-23.userapi.com",
       },
       {
-        source: "/blogCategories/:path*",
-        destination: "/api/uploads/blog-categories/:path*",
+        protocol: "https",
+        hostname: "sun9-*.userapi.com",
       },
-    ];
+    ],
   },
 };
 

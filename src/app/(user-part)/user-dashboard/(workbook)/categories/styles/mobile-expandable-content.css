@@ -1,0 +1,75 @@
+.mobile-expandable-content {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.mobile-expandable-description {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.mobile-expandable-description-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.mobile-expandable-description-text {
+  color: var(--color-text-secondary);
+  word-break: break-word;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.mobile-expandable-actions {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.mobile-expandable-edit-btn,
+.mobile-expandable-delete-btn {
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: white;
+  border: none;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  transition: all 0.3s;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.mobile-expandable-edit-icon,
+.mobile-expandable-delete-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.mobile-expandable-edit-btn {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.mobile-expandable-delete-btn {
+  background: linear-gradient(135deg, #fa2d3e, #d11d26);
+}
+
+.mobile-expandable-edit-btn:hover,
+.mobile-expandable-delete-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.mobile-expandable-edit-btn:active,
+.mobile-expandable-delete-btn:active {
+  transform: translateY(0);
+}

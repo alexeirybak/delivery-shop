@@ -1,0 +1,21 @@
+.sortable-item {
+  width: 100%;
+}
+
+@media (max-width: 968px) {
+  .sortable-item {
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .sortable-item {
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .sortable-item {
+    font-size: 0.75rem;
+  }
+}

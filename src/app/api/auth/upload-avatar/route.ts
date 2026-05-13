@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDB } from "../../../../../utils/api-routes";
 import { GridFSBucket, ObjectId } from "mongodb";
+import { getDB } from "@/lib/api-routes";
 
 export async function POST(request: NextRequest) {
   const db = await getDB();
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     if (!file || !userId) {
       return NextResponse.json(
         { error: "Файл и userId обязательны" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -60,7 +60,7 @@ export async function POST(request: NextRequest) {
     console.error("Ошибка загрузки аватара:", error);
     return NextResponse.json(
       { error: "Ошибка загрузки аватара" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

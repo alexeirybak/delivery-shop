@@ -1,0 +1,4 @@
+export const CONFIG_CATEGORIES = {
+  ITEMS_PER_PAGE: 10,
+  MAX_VISIBLE_BUTTONS: 5,
+};

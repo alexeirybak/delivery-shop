@@ -1,0 +1,120 @@
+.settings-panel {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.settings-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.25rem;
+}
+
+.settings-buttons {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.settings-buttons.style {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.settings-btn {
+  padding: 0.75rem;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-line);
+  background: var(--color-panel);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  color: var(--color-muted);
+}
+
+.settings-btn:hover:not(:disabled) {
+  background: var(--color-panel-soft);
+  border-color: var(--color-cyan);
+  transform: translateY(-2px);
+}
+
+.settings-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.settings-btn.active.aspect {
+  background: rgba(109, 241, 255, 0.1);
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.settings-btn.active.style {
+  background: rgba(251, 146, 60, 0.1);
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+
+.settings-btn-label {
+  font-size: 0.75rem;
+}
+
+@media (min-width: 968px) {
+  .settings-panel {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .settings-btn {
+    min-height: 5rem;
+  }
+
+  .settings-buttons.style {
+    grid-template-columns: repeat(5, 73px);
+  }
+}
+
+@media (max-width: 640px) {
+  .settings-panel {
+    gap: 1rem;
+  }
+
+  .settings-btn {
+    padding: 0.5rem;
+  }
+
+  .settings-btn-label {
+    font-size: 0.6875rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .settings-buttons {
+    gap: 0.35rem;
+  }
+
+  .settings-buttons.style {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .settings-btn {
+    padding: 0.4rem;
+  }
+
+  .settings-btn-label {
+    font-size: 0.625rem;
+  }
+}

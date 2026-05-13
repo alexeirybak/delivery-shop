@@ -1,0 +1,44 @@
+.workbook-header {
+  margin-bottom: 2rem;
+}
+
+.workbook-header h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.workbook-header p {
+  color: var(--color-muted);
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (min-width: 968px) {
+  .workbook-header h1 {
+    font-size: 1.875rem;
+  }
+  
+  .workbook-header p {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .workbook-header {
+    margin-bottom: 1.5rem;
+  }
+  
+  .workbook-header h1 {
+    font-size: 1.25rem;
+  }
+  
+  .workbook-header p {
+    font-size: 0.8125rem;
+  }
+}

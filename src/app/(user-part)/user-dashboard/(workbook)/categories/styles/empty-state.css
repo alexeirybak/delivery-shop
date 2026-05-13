@@ -1,0 +1,26 @@
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+@media (max-width: 968px) {
+  .empty-state {
+    padding: 1.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .empty-state {
+    padding: 1.25rem;
+    font-size: 0.75rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .empty-state {
+    padding: 1rem;
+  }
+}

@@ -1,0 +1,98 @@
+.save-button-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.save-button {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+  cursor: pointer;
+  position: relative;
+}
+
+.save-button svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.save-button:not(.active):not(:disabled):hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-cyan);
+  transform: translateY(-1px);
+}
+
+.save-button.active {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.15),
+    rgba(99, 102, 241, 0.15)
+  );
+  color: var(--color-cyan);
+}
+
+.save-button.active:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.25),
+    rgba(99, 102, 241, 0.25)
+  );
+  transform: translateY(-1px);
+}
+
+.save-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.save-button:disabled:hover {
+  transform: none;
+  background: transparent;
+}
+
+.save-spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-muted);
+  border-top-color: var(--color-cyan);
+  border-radius: 50%;
+  animation: save-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes save-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.save-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  width: 8px;
+  height: 8px;
+  background-color: var(--color-cyan);
+  border-radius: 50%;
+  animation: save-pulse 2s ease-in-out infinite;
+}
+
+@keyframes save-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.2);
+  }
+}

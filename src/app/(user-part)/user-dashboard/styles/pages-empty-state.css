@@ -1,0 +1,26 @@
+.chat-empty {
+  padding: 1rem 3rem 2rem;
+  color: var(--color-muted);
+}
+
+.empty-icon {
+  color: var(--color-cyan);
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.mode-hint {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--color-muted);
+}
+
+.mode-title {
+  margin-bottom: 20px;
+}
+
+.mode-description {
+  text-align: left;
+}
+
+

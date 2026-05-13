@@ -1,0 +1,61 @@
+.textbook-progress-bar {
+  position: fixed;
+  bottom: 240px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  margin: 0;
+  padding: 12px 16px;
+  background: var(--color-bg-0);
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+  width: min(1200px, calc(100% - 64px));
+  margin: 0 auto;
+}
+
+.textbook-progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.textbook-progress-section {
+  font-size: 12px;
+  color: var(--color-muted);
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.textbook-progress-track {
+  height: 4px;
+  background: var(--color-line);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.textbook-progress-fill {
+  height: 100%;
+  background: var(--gradient-primary);
+  transition: width 0.3s ease;
+  border-radius: 2px;
+}
+
+@media (max-width: 968px) {
+  .textbook-progress-bar {
+    width: min(1200px, calc(100% - 34px));
+  }
+}
+
+@media (max-width: 640px) {
+  .textbook-progress-bar {
+    width: min(1200px, calc(100% - 24px));
+    padding-top: 100px;
+  }
+}

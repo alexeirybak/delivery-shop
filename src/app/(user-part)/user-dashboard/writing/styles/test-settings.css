@@ -1,0 +1,351 @@
+.test-settings-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.test-settings-radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: normal;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.test-settings-radio-group input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: var(--settings-accent-color);
+}
+
+.test-chapter-item {
+  margin-bottom: 16px;
+  border: 1px solid var(--color-line);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--color-panel-strong);
+  cursor: grab;
+  transition: all 0.3s;
+}
+
+.test-chapter-item:active {
+  cursor: grabbing;
+}
+
+.test-chapter-item.drag-over {
+  border-color: var(--settings-accent-color);
+  background: var(--glow-color);
+}
+
+.test-chapter-header {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-panel-soft);
+}
+
+.test-drag-handle {
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  color: var(--color-muted);
+}
+
+.test-drag-handle:active {
+  cursor: grabbing;
+}
+
+.test-expand-chapter-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.test-expand-chapter-btn:hover {
+  color: var(--settings-accent-color);
+}
+
+.test-chapter-title {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.test-remove-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.test-chapter-header:hover .test-remove-item-btn,
+.test-section-item:hover .test-remove-item-btn {
+  opacity: 1;
+}
+
+.test-remove-item-btn:hover {
+  color: #ff6b6b;
+}
+
+.test-sections-list {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.test-section-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  background: var(--color-panel-strong);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 13px;
+  color: var(--color-muted);
+  cursor: grab;
+  transition: all 0.3s;
+}
+
+.test-section-item:active {
+  cursor: grabbing;
+}
+
+.test-section-item:hover {
+  background: var(--button-bg);
+}
+
+.test-section-item.drag-over {
+  border-color: var(--settings-accent-color);
+  background: var(--glow-color);
+}
+
+.test-section-title {
+  flex: 1;
+}
+
+.test-add-section,
+.test-add-chapter {
+  display: flex;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.test-add-section {
+  flex-direction: column;
+}
+
+.test-add-section textarea {
+  width: 100%;
+  padding: 12px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+.test-add-section textarea:focus {
+  outline: none;
+  border-color: var(--settings-accent-color);
+  box-shadow: var(--plan-editor-focus-shadow);
+}
+
+.test-add-chapter input {
+  flex: 1;
+  padding: 8px 12px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.test-add-chapter input:focus {
+  outline: none;
+  border-color: var(--settings-accent-color);
+}
+
+.test-add-section-btn,
+.test-add-chapter-btn {
+  padding: 8px 16px;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 8px;
+  color: var(--new-chat-btn-color);
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.3s;
+}
+
+.test-add-section-btn:hover,
+.test-add-chapter-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.test-empty-structure-hint {
+  text-align: center;
+  padding: 32px 20px;
+  color: var(--color-muted);
+  font-size: 13px;
+  background: var(--color-panel-strong);
+  border-radius: 10px;
+}
+
+.test-settings-sidebar-footer {
+  margin-top: 8px;
+}
+
+.test-send-btn {
+  width: 100%;
+  padding: 10px;
+  background: var(--gradient-primary);
+  border: 1px solid var(--button-border);
+  border-radius: 8px;
+  color: var(--new-chat-btn-color);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: all 0.3s;
+}
+
+.test-send-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.test-chapter-edit-input {
+  flex: 1;
+  padding: 4px 8px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--settings-accent-color);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-size: 14px;
+}
+
+.test-section-edit-textarea {
+  flex: 1;
+  padding: 6px 8px;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--settings-accent-color);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+}
+
+.test-edit-item-btn {
+  background: none;
+  border: none;
+  color: var(--color-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.test-chapter-header:hover .test-edit-item-btn,
+.test-section-item:hover .test-edit-item-btn {
+  opacity: 1;
+}
+
+.test-edit-item-btn:hover {
+  color: var(--settings-accent-color);
+}
+
+.test-edit-confirm-btn {
+  background: none;
+  border: none;
+  color: var(--color-green);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.test-edit-cancel-btn {
+  background: none;
+  border: none;
+  color: var(--color-red);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 640px) {
+  .test-add-section,
+  .test-add-chapter {
+    flex-direction: column;
+  }
+
+  .test-add-section-btn,
+  .test-add-chapter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .test-chapter-header {
+    padding: 8px 10px;
+  }
+
+  .test-chapter-title {
+    font-size: 12px;
+  }
+
+  .test-section-item {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .test-add-chapter input {
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .test-add-section-btn,
+  .test-add-chapter-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .test-empty-structure-hint {
+    padding: 20px 16px;
+    font-size: 12px;
+  }
+}
