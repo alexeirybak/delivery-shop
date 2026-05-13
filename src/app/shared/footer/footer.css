@@ -1,0 +1,125 @@
+.footer-section {
+  margin-top: 4rem;
+  padding: 2rem 1.5rem 1.5rem;
+  background: var(--panel-bg);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 3rem;
+}
+
+.footer-top {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding-bottom: 1.375rem;
+  border-bottom: 1px solid rgba(160, 220, 255, 0.12);
+}
+
+.footer-brand {
+  max-width: 80ch;
+}
+
+.footer-logo {
+  margin-bottom: 1rem;
+}
+
+.footer-brand p {
+  color: var(--color-text);
+  line-height: 1.72;
+  font-size: 1.2rem;
+}
+
+.footer-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.125rem;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.footer-column span {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-cyan);
+}
+
+.footer-column a {
+  color: var(--color-muted);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+  width: fit-content;
+}
+
+.footer-column a:hover {
+  color: var(--color-cyan);
+}
+
+.footer-copyright {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.copyright-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+@media (max-width: 968px) {
+  .footer-section {
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+  }
+
+  .footer-columns {
+    gap: 1rem;
+  }
+
+  .footer-column span {
+    font-size: 0.7rem;
+  }
+
+  .footer-column a {
+    font-size: 0.8rem;
+  }
+
+  .footer-copyright {
+    flex-direction: column;
+    text-align: center;
+    gap: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer-section {
+    margin-top: 1rem;
+  }
+
+  .footer-brand {
+    max-width: 100%;
+  }
+}

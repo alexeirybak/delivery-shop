@@ -1,0 +1,147 @@
+.image-footer {
+  border-top: 1px solid var(--color-line);
+  padding: 1rem 1.5rem;
+  background: var(--color-panel-soft);
+}
+
+.image-footer-content {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .image-footer-content {
+    flex-direction: row;
+  }
+}
+
+.image-footer-status {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+}
+
+.image-footer-status-success {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-green);
+}
+
+.image-footer-status-error {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--color-red);
+}
+
+.image-footer-status-loading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.image-footer-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+@media (min-width: 768px) {
+  .image-footer-buttons {
+    flex-direction: row;
+  }
+}
+
+.image-footer-cancel-btn {
+  flex: 1;
+  padding: 0.625rem 1.5rem;
+  background: transparent;
+  border: 1px solid var(--color-line);
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.image-footer-cancel-btn:hover:not(:disabled) {
+  background: var(--color-panel-strong);
+  border-color: var(--color-cyan);
+  transform: translateY(-1px);
+}
+
+.image-footer-cancel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-footer-action-btn {
+  padding: 0.625rem 1.5rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.image-footer-action-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.image-footer-action-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.image-footer-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-footer-action-btn svg {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}
+
+.image-footer-spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .image-footer {
+    padding: 0.75rem 1rem;
+  }
+
+  .image-footer-status {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+    text-align: center;
+  }
+
+  .image-footer-cancel-btn,
+  .image-footer-action-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+}

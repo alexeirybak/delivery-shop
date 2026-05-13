@@ -1,0 +1,326 @@
+.table-menu-container {
+  display: flex;
+  align-items: center;
+  gap: 0.125rem;
+  padding: 0.125rem;
+  background: var(--color-panel-soft);
+  border-radius: var(--radius-md);
+}
+
+.table-group-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  padding: 0 0.25rem;
+  white-space: nowrap;
+}
+
+.table-menu-divider {
+  width: 1px;
+  height: 1rem;
+  background-color: var(--color-line);
+  margin: 0 0.125rem;
+}
+
+.table-menu-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  color: var(--color-muted);
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.table-menu-button svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.table-menu-button:hover svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.table-menu-button:hover:not(.disabled) {
+  background-color: var(--color-panel);
+  color: var(--color-cyan);
+}
+
+.table-menu-button.active {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.table-menu-button.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.table-menu-button.delete {
+  color: var(--color-red);
+}
+
+.table-menu-button.delete:hover:not(.disabled) {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: red;
+}
+
+.table-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  padding: 1rem;
+}
+
+.table-modal-content {
+  background-color: var(--color-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--color-line);
+  width: 100%;
+  max-width: 24rem;
+  overflow: hidden;
+}
+
+.table-modal-header {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.table-modal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.table-modal-body {
+  padding: 1rem 1.5rem;
+}
+
+.table-form-group:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.table-form-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.table-range-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.table-range-input {
+  flex: 1;
+  height: 0.25rem;
+  -webkit-appearance: none;
+  appearance: none;
+  background-color: var(--color-line);
+  border-radius: 9999px;
+  cursor: pointer;
+}
+
+.table-range-input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 1rem;
+  height: 1rem;
+  background: var(--gradient-primary);
+  border-radius: 50%;
+  border: 2px solid var(--color-panel);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.table-range-value {
+  font-size: 0.75rem;
+  font-weight: 600;
+  min-width: 2rem;
+  color: var(--color-text);
+}
+
+.table-checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.table-checkbox {
+  width: 0.875rem;
+  height: 0.875rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line);
+  background-color: var(--color-panel);
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.table-checkbox-label {
+  font-size: 0.75rem;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.table-preview-container {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--color-panel-soft);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-line);
+}
+
+.table-preview-title {
+  font-size: 0.7rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+.table-preview-grid {
+  display: inline-block;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.table-preview-row {
+  display: flex;
+}
+
+.table-preview-cell {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text);
+  background-color: var(--color-panel);
+}
+
+.table-preview-cell.header {
+  background-color: var(--color-panel-strong);
+  font-weight: 600;
+}
+
+.table-preview-hint {
+  font-size: 0.65rem;
+  color: var(--color-muted);
+  margin-top: 0.25rem;
+}
+
+.table-modal-footer {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.table-modal-button {
+  padding: 0.375rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.table-modal-button.cancel {
+  background-color: var(--color-panel-soft);
+  color: var(--color-text);
+  border: 1px solid var(--color-line);
+}
+
+.table-modal-button.cancel:hover {
+  background-color: var(--color-panel-strong);
+}
+
+.table-modal-button.insert {
+  background: var(--gradient-primary);
+  color: white;
+}
+
+.table-modal-button.insert:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.table-menu-button[title] {
+  position: relative;
+}
+
+.table-menu-button[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--color-panel-strong);
+  color: var(--color-text);
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  white-space: nowrap;
+  z-index: 100;
+  margin-bottom: 0.25rem;
+  pointer-events: none;
+  border: 1px solid var(--color-line);
+}
+
+@media (max-width: 968px) {
+  .table-group-label {
+    display: none;
+  }
+
+  .table-modal-content {
+    max-width: calc(100% - 2rem);
+  }
+}
+
+@media (max-width: 640px) {
+  .table-menu-button[title]:hover::after {
+    display: none;
+  }
+}
+
+.ProseMirror .selectedCell {
+  background-color: rgba(109, 241, 255, 0.2) !important;
+  outline: 2px solid var(--color-cyan) !important;
+  outline-offset: -1px;
+  position: relative;
+  z-index: 1;
+}
+
+.ProseMirror .selectedCell::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(109, 241, 255, 0.1);
+  pointer-events: none;
+}
+
+.ProseMirror th.selectedCell {
+  background-color: rgba(109, 241, 255, 0.25) !important;
+  outline: 2px solid var(--color-cyan) !important;
+}

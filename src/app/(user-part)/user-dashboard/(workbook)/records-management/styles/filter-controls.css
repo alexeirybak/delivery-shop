@@ -1,0 +1,79 @@
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.filter-button-active {
+  background: var(--color-panel-soft);
+  border-color: var(--color-cyan);
+}
+
+.filter-button-inactive {
+  border-color: var(--color-line);
+}
+
+.filter-button-inactive:hover {
+  background: var(--color-panel-soft);
+}
+
+.filter-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.filter-button-text {
+  display: none;
+}
+
+.filter-reset {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.filter-reset:hover {
+  background: var(--color-panel-soft);
+}
+
+.filter-reset-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.filter-reset-text {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .filter-button-text,
+  .filter-reset-text {
+    display: inline;
+  }
+}

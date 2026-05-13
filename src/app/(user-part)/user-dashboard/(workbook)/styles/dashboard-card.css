@@ -1,0 +1,117 @@
+.workbook-dashboard-card {
+  background: var(--color-panel);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--color-line);
+  padding: 1.5rem;
+}
+
+.workbook-dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-cyan);
+}
+
+.workbook-dashboard-card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.workbook-dashboard-card-icon {
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  width: fit-content;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  background: linear-gradient(
+    135deg,
+    var(--color-panel-strong),
+    var(--color-panel)
+  );
+  border: 1px solid var(--color-line);
+}
+
+.workbook-dashboard-card:hover .workbook-dashboard-card-icon {
+  transform: scale(1.05);
+  border-color: var(--color-cyan);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.workbook-dashboard-card-icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-cyan);
+}
+
+.workbook-dashboard-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 0.5rem;
+}
+
+.workbook-dashboard-card-description {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  line-height: 1.5;
+}
+
+.workbook-dashboard-card-button {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: auto;
+}
+
+.workbook-dashboard-card-button:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.workbook-dashboard-card-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .workbook-dashboard-card {
+    padding: 1rem;
+  }
+
+  .workbook-dashboard-card-icon {
+    padding: 0.5rem;
+  }
+
+  .workbook-dashboard-card-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .workbook-dashboard-card-title {
+    font-size: 1rem;
+  }
+
+  .workbook-dashboard-card-description {
+    font-size: 0.75rem;
+  }
+
+  .workbook-dashboard-card-button {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
+}

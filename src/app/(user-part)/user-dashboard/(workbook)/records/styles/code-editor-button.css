@@ -1,0 +1,51 @@
+.code-editor-button {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+}
+
+.code-editor-button svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.3s ease;
+}
+
+.code-editor-button:hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-cyan);
+  transform: translateY(-1px);
+}
+
+.code-editor-button:active {
+  transform: translateY(0);
+}
+
+.code-editor-button.active {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.15),
+    rgba(99, 102, 241, 0.15)
+  );
+  color: var(--color-cyan);
+}
+
+.code-editor-button.active:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.25),
+    rgba(99, 102, 241, 0.25)
+  );
+}
+
+@media (max-width: 968px) {
+  .code-editor-button {
+    display: none;
+  }
+}

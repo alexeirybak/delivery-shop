@@ -1,0 +1,147 @@
+.record-form {
+  margin-bottom: 2rem;
+  background: var(--color-panel);
+  backdrop-filter: blur(20px);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.record-form:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.record-form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.5rem 0;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.record-form-category-section {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel-soft);
+  margin-bottom: 1.5rem;
+}
+
+.record-form-category-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.record-form-content-editor {
+  margin: 1.5rem 0;
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.record-form-content-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  margin: 0 0 1rem 0;
+  color: var(--color-text);
+}
+
+@media (max-width: 968px) {
+  .record-form {
+    padding: 1rem;
+  }
+
+  .record-form-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .record-form-category-section {
+    padding: 0.875rem;
+  }
+
+  .record-form-category-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .record-form-content-editor {
+    padding: 0.75rem;
+    margin: 1rem 0;
+  }
+
+  .record-form-content-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .record-form {
+    padding: 0.875rem;
+    margin-bottom: 1rem;
+  }
+
+  .record-form-title {
+    font-size: 1rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .record-form-category-section {
+    padding: 0.75rem;
+  }
+
+  .record-form-category-title {
+    font-size: 0.875rem;
+    margin-bottom: 0.625rem;
+  }
+
+  .record-form-content-editor {
+    padding: 0.625rem;
+    margin: 0.875rem 0;
+  }
+
+  .record-form-content-title {
+    font-size: 0.875rem;
+    margin-bottom: 0.625rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .record-form {
+    padding: 0.75rem;
+    margin-bottom: 0.875rem;
+  }
+
+  .record-form-title {
+    font-size: 0.875rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .record-form-category-section {
+    padding: 0.625rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .record-form-category-title {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .record-form-content-editor {
+    padding: 0.5rem;
+    margin: 0.75rem 0;
+  }
+
+  .record-form-content-title {
+    font-size: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+}

@@ -1,0 +1,38 @@
+.icon-arrow-anim {
+  opacity: 0;
+  transform: translateX(-0.5rem);
+  transition:
+    opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .icon-arrow-anim {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.icon-arrow-anim svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .icon-arrow-anim svg {
+  color: #4b5563;
+}
+
+@keyframes slideInArrow {
+  from {
+    opacity: 0;
+    transform: translateX(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.icon-arrow-anim {
+  animation: slideInArrow 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}

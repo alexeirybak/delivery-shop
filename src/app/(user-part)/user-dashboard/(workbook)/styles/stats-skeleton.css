@@ -1,0 +1,126 @@
+.stats-skeleton {
+  background: var(--color-panel-soft);
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  padding: 1.5rem;
+}
+
+.stats-skeleton-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 1.5rem;
+}
+
+.stats-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.stats-skeleton-card {
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel-strong);
+}
+
+@keyframes statsPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.stats-skeleton-animate {
+  animation: statsPulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.stats-skeleton-line-large {
+  height: 2rem;
+  background: var(--color-panel);
+  border-radius: var(--radius-md);
+  margin-bottom: 0.5rem;
+}
+
+.stats-skeleton-line-small {
+  height: 1rem;
+  background: var(--color-panel);
+  border-radius: var(--radius-md);
+}
+
+@media (min-width: 969px) {
+  .stats-skeleton-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 968px) {
+  .stats-skeleton {
+    padding: 1rem;
+  }
+
+  .stats-skeleton-title {
+    font-size: 1.125rem;
+    margin-bottom: 1rem;
+  }
+
+  .stats-skeleton-card {
+    padding: 0.75rem;
+  }
+
+  .stats-skeleton-line-large {
+    height: 1.5rem;
+  }
+
+  .stats-skeleton-line-small {
+    height: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .stats-skeleton-grid {
+    gap: 0.75rem;
+  }
+
+  .stats-skeleton-card {
+    padding: 0.625rem;
+  }
+
+  .stats-skeleton-line-large {
+    height: 1.25rem;
+    margin-bottom: 0.375rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .stats-skeleton {
+    padding: 0.75rem;
+    border-radius: 10px;
+  }
+
+  .stats-skeleton-title {
+    font-size: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .stats-skeleton-grid {
+    gap: 0.5rem;
+  }
+
+  .stats-skeleton-card {
+    padding: 0.5rem;
+  }
+
+  .stats-skeleton-line-large {
+    height: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .stats-skeleton-line-small {
+    height: 0.75rem;
+  }
+}

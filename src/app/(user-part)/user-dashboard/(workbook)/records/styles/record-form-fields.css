@@ -1,0 +1,117 @@
+.record-form-fields {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.record-form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.record-form-field-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.record-form-field-label {
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.record-form-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.record-form-input:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 2px rgba(109, 241, 255, 0.2);
+}
+
+.record-form-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.record-form-input::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.record-form-textarea {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background: var(--color-panel-strong);
+  border: 1px solid var(--color-line);
+  border-radius: 8px;
+  color: var(--color-text);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.5;
+}
+
+.record-form-textarea:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 2px rgba(109, 241, 255, 0.2);
+}
+
+.record-form-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.record-form-textarea::placeholder {
+  color: var(--color-muted);
+  opacity: 0.6;
+}
+
+.record-form-field-full {
+  grid-column: span 2;
+}
+
+@media (max-width: 968px) {
+  .record-form-fields {
+    gap: 1rem;
+  }
+
+  .record-form-input,
+  .record-form-textarea {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .record-form-fields {
+    gap: 0.875rem;
+  }
+
+  .record-form-input,
+  .record-form-textarea {
+    padding: 0.5rem 0.625rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .record-form-fields {
+    gap: 0.75rem;
+  }
+
+  .record-form-input,
+  .record-form-textarea {
+    padding: 0.375rem 0.5rem;
+  }
+}

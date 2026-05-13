@@ -1,0 +1,236 @@
+.settings-section {
+  margin-bottom: 20px;
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--color-panel-soft);
+}
+
+.settings-section-header {
+  padding: 14px 16px;
+  background: var(--color-panel-strong);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.settings-section-header:hover {
+  color: var(--settings-hover-color);
+}
+
+.settings-section-header h4 {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-muted-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.settings-section-content {
+  padding: 0.75rem 0.5rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.settings-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  transition: color 0.3s ease;
+}
+
+.settings-checkbox:hover {
+  color: var(--settings-hover-color);
+}
+
+.settings-checkbox input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--settings-accent-color);
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.settings-checkbox input[type="checkbox"]:checked {
+  background-color: var(--settings-accent-color);
+  border-color: var(--settings-accent-color);
+}
+
+.settings-checkbox input[type="checkbox"]:checked::after {
+  content: "✓";
+  position: absolute;
+  color: var(--checkbox-check-color);
+  font-size: 12px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.settings-slider {
+  margin: 0.75rem 0;
+}
+
+.settings-slider label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+  margin-bottom: 0.5rem;
+}
+
+.settings-slider strong {
+  color: var(--settings-accent-color);
+  font-size: 0.9rem;
+}
+
+.settings-slider input {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-line);
+  outline: none;
+}
+
+.settings-slider input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--settings-accent-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.settings-sidebar-footer {
+  padding: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.settings-reset-btn {
+  width: 100%;
+  padding: 0.625rem;
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--btn-primary-color);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.settings-reset-btn svg {
+  margin-right: 0;
+}
+
+.model-buttons-horizontal {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.model-btn-horizontal {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  padding: 12px;
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.model-btn-horizontal:hover {
+  background: var(--color-panel);
+  transform: translateY(-2px);
+}
+
+.model-btn-horizontal.active {
+  border-color: var(--settings-accent-color);
+  background: var(--model-active-bg);
+  box-shadow: var(--model-active-shadow);
+}
+
+.model-info {
+  display: flex;
+  gap: 4px;
+}
+
+.model-badge {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: var(--model-badge-bg);
+  color: var(--settings-accent-color);
+  display: inline-block;
+  width: fit-content;
+}
+
+.model-badge.premium {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+}
+
+.model-desc {
+  font-size: 12px;
+  color: var(--color-muted);
+}
+
+.model-note {
+  background: var(--model-note-bg);
+}
+
+.inline-icon {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.checkbox-icon {
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .model-buttons-horizontal {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .model-btn-horizontal {
+    padding: 10px;
+  }
+
+  .settings-sidebar-footer {
+    padding-bottom: 70px;
+  }
+}

@@ -1,0 +1,42 @@
+.api-info-alert {
+  margin-bottom: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radius-md);
+  border: 1px solid;
+  transition: all 0.3s ease;
+}
+
+.api-info-alert.error {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: var(--color-red);
+}
+
+.api-info-alert.success {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: var(--color-green);
+}
+
+.api-info-alert.info {
+  background: rgba(109, 241, 255, 0.1);
+  border-color: rgba(109, 241, 255, 0.3);
+  color: var(--color-cyan);
+}
+
+.api-info-alert-content {
+  font-size: 0.875rem;
+  white-space: pre-line;
+  line-height: 1.4;
+}
+
+@media (max-width: 640px) {
+  .api-info-alert {
+    padding: 0.375rem 0.625rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .api-info-alert-content {
+    font-size: 0.75rem;
+  }
+}

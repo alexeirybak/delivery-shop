@@ -1,0 +1,135 @@
+.menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
+
+.menu-header-left {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.menu-header-icon-wrapper {
+  position: relative;
+}
+
+.menu-header-icon-glow {
+  position: absolute;
+  inset: -0.25rem;
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-violet));
+  border-radius: 9999px;
+  filter: blur(12px);
+  opacity: 0.5;
+  animation: pulse 2s infinite;
+}
+
+.menu-header-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-header-icon svg {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--color-cyan);
+}
+
+.menu-header-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(
+    135deg,
+    var(--color-text),
+    var(--color-cyan),
+    var(--color-violet)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin: 0;
+}
+
+.menu-header-close {
+  padding: 0.75rem;
+  border-radius: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-panel-soft),
+    var(--color-panel)
+  );
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--color-line);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-header-close:hover {
+  background: linear-gradient(
+    135deg,
+    var(--color-panel-strong),
+    var(--color-panel-soft)
+  );
+  box-shadow: var(--shadow-md);
+  transform: scale(1.05);
+}
+
+.menu-header-close:active {
+  transform: scale(0.98);
+}
+
+.menu-header-close svg {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: var(--color-muted);
+  transition: transform 0.3s ease;
+}
+
+.menu-header-close:hover svg {
+  transform: rotate(90deg);
+  color: var(--color-cyan);
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+@media (max-width: 640px) {
+  .menu-header {
+    margin-bottom: 1.5rem;
+  }
+
+  .menu-header-left {
+    gap: 0.75rem;
+  }
+
+  .menu-header-icon svg {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+
+  .menu-header-title {
+    font-size: 1.125rem;
+  }
+
+  .menu-header-close {
+    padding: 0.5rem;
+  }
+
+  .menu-header-close svg {
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}

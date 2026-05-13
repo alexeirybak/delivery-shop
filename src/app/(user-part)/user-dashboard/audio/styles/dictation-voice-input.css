@@ -1,0 +1,73 @@
+.dictation-voice-input {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 24px;
+  gap: 8px;
+}
+
+.dictation-record-btn {
+  background: var(--gradient-primary);
+  border: none;
+  border-radius: 40px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  color: var(--new-chat-btn-color);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.dictation-record-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+.dictation-record-btn.recording {
+  background: #ef4444;
+  color: white;
+  animation: pulse 1.5s infinite;
+}
+
+.dictation-record-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.dictation-lang-badge {
+  font-size: 12px;
+  background: var(--settings-accent-color);
+  padding: 4px 10px;
+  border-radius: 30px;
+  color: var(--new-chat-btn-color);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+@media (max-width: 968px) {
+  .dictation-record-btn span {
+    display: none;
+  }
+
+  .dictation-record-btn {
+    padding: 10px;
+  }
+}

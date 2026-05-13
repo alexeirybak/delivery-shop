@@ -22,8 +22,7 @@ import { Badge } from "@/components/tiptap-ui-primitive/badge"
 import { useTiptapEditor } from "@/hooks/use-tiptap-editor"
 
 export interface HeadingButtonProps
-  extends Omit<ButtonProps, "type">,
-    UseHeadingConfig {
+  extends Omit<ButtonProps, "type">, UseHeadingConfig {
   /**
    * Optional text to display alongside the icon.
    */
@@ -97,7 +96,7 @@ export const HeadingButton = forwardRef<HTMLButtonElement, HeadingButtonProps>(
     return (
       <Button
         type="button"
-        data-style="ghost"
+        variant="ghost"
         data-active-state={isActive ? "on" : "off"}
         role="button"
         tabIndex={-1}

@@ -13,15 +13,17 @@ import {
 import { cn, parseShortcutKeys } from "@/lib/tiptap-utils"
 
 import "@/components/tiptap-ui-primitive/button/button-colors.scss"
-import "@/components/tiptap-ui-primitive/button/button-group.scss"
 import "@/components/tiptap-ui-primitive/button/button.scss"
 
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string
+export type ButtonVariant = "ghost" | "primary"
+export type ButtonSize = "small" | "default" | "large"
+
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   showTooltip?: boolean
   tooltip?: React.ReactNode
   shortcutKeys?: string
+  variant?: ButtonVariant
+  size?: ButtonSize
 }
 
 export const ShortcutDisplay: React.FC<{ shortcuts: string[] }> = ({
@@ -49,7 +51,8 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       tooltip,
       showTooltip = true,
       shortcutKeys,
-      "aria-label": ariaLabel,
+      variant,
+      size,
       ...props
     },
     ref
@@ -62,9 +65,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     if (!tooltip || !showTooltip) {
       return (
         <button
+          data-slot="tiptap-button"
           className={cn("tiptap-button", className)}
           ref={ref}
-          aria-label={ariaLabel}
+          data-style={variant}
+          data-size={size}
           {...props}
         >
           {children}
@@ -75,9 +80,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <Tooltip delay={200}>
         <TooltipTrigger
+          data-slot="tiptap-button"
           className={cn("tiptap-button", className)}
           ref={ref}
-          aria-label={ariaLabel}
+          data-style={variant}
+          data-size={size}
           {...props}
         >
           {children}
@@ -92,25 +99,5 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 )
 
 Button.displayName = "Button"
-
-export const ButtonGroup = forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<"div"> & {
-    orientation?: "horizontal" | "vertical"
-  }
->(({ className, children, orientation = "vertical", ...props }, ref) => {
-  return (
-    <div
-      ref={ref}
-      className={cn("tiptap-button-group", className)}
-      data-orientation={orientation}
-      role="group"
-      {...props}
-    >
-      {children}
-    </div>
-  )
-})
-ButtonGroup.displayName = "ButtonGroup"
 
 export default Button

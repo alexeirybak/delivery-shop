@@ -1,0 +1,303 @@
+.bg-color-menu {
+  position: relative;
+  display: inline-block;
+}
+
+.bg-color-trigger {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--color-line);
+  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-color-trigger:hover:not(.open) {
+  background-color: var(--color-panel-soft);
+}
+
+.bg-color-trigger.open {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.15),
+    rgba(99, 102, 241, 0.15)
+  );
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.bg-color-trigger.active {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.15),
+    rgba(99, 102, 241, 0.15)
+  );
+  border-color: var(--color-cyan);
+  color: var(--color-cyan);
+}
+
+.bg-color-trigger.active:hover {
+  background: linear-gradient(
+    135deg,
+    rgba(109, 241, 255, 0.25),
+    rgba(99, 102, 241, 0.25)
+  );
+}
+
+.bg-color-trigger-content {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bg-color-trigger svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.bg-color-indicator {
+  width: 0.75rem;
+  height: 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background-color: #fff;
+}
+
+.bg-color-indicator.transparent {
+  background-image:
+    linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+}
+
+.bg-color-dropdown {
+  position: absolute;
+  z-index: 50;
+  margin-top: 0.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-panel);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  max-width: calc(100vw - 20px);
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+.bg-color-section {
+  margin-bottom: 0.5rem;
+}
+
+.bg-color-title {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+}
+
+.bg-color-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.bg-color-option {
+  width: 1.25rem;
+  height: 1.25rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-line);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.bg-color-option:hover {
+  transform: scale(1.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.bg-color-option.transparent {
+  background-color: var(--color-panel);
+  background-image:
+    linear-gradient(45deg, #ccc 25%, transparent 25%),
+    linear-gradient(-45deg, #ccc 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #ccc 75%),
+    linear-gradient(-45deg, transparent 75%, #ccc 75%);
+  background-size: 8px 8px;
+  border: 2px solid var(--color-line);
+}
+
+.bg-color-check {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: 0.625rem;
+  height: 0.625rem;
+  stroke-width: 2;
+}
+
+.bg-color-check.light {
+  color: var(--color-text);
+}
+
+.bg-color-check.dark {
+  color: var(--color-red);
+}
+
+.bg-color-custom-section {
+  margin-bottom: 0.5rem;
+}
+
+.bg-color-custom-label {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+  margin-bottom: 0.25rem;
+}
+
+.bg-color-custom-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.bg-color-custom-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bg-color-picker {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  background: var(--color-panel);
+}
+
+.bg-color-hex-input {
+  flex: 1;
+  padding: 0.125rem 0.375rem;
+  font-size: 0.75rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+  background: var(--color-panel);
+  color: var(--color-text);
+}
+
+.bg-color-hex-input:focus {
+  outline: none;
+  border-color: var(--color-cyan);
+  box-shadow: 0 0 0 2px rgba(109, 241, 255, 0.2);
+}
+
+.bg-color-apply-btn {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bg-color-apply-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--btn-primary-shadow);
+}
+
+.bg-color-current {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.25rem;
+  margin-bottom: 0.5rem;
+  background: var(--color-panel-soft);
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+}
+
+.bg-color-current-label {
+  color: var(--color-muted);
+}
+
+.bg-color-current-value {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.bg-color-current-swatch {
+  width: 1rem;
+  height: 1rem;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-sm);
+}
+
+.bg-color-current-text {
+  font-family: monospace;
+  color: var(--color-text);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.bg-color-reset {
+  width: 100%;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-red);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.bg-color-reset:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: var(--color-red);
+  transform: translateY(-1px);
+}
+
+@media (max-width: 968px) {
+  .bg-color-trigger {
+    padding: 0.375rem;
+  }
+
+  .bg-color-trigger svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .bg-color-indicator {
+    width: 0.625rem;
+    height: 0.625rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .bg-color-dropdown {
+    max-width: 280px;
+  }
+
+  .bg-color-grid {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  .bg-color-option {
+    width: 1rem;
+    height: 1rem;
+  }
+}

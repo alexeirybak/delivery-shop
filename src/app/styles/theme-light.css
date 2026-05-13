@@ -1,0 +1,313 @@
+[data-theme="light"] {
+  color-scheme: light;
+
+  /* ========== БАЗОВЫЕ ЦВЕТА ========== */
+  --color-bg-0: #fef9e8;
+  --color-bg-1: #fffdf8;
+  --color-bg-2: #fff3e0;
+
+  --color-text: #3b2a1f;
+  --color-text-price: #f97316;
+  --color-text-feature: #c2410c;
+  --color-text-description: #ea580c;
+  --color-muted: #d97706;
+  --color-muted-soft: #fbbf24;
+
+  /* ========== АКЦЕНТНЫЕ ЦВЕТА ========== */
+  --color-cyan: #2dd4bf;
+  --color-blue: #60a5fa;
+  --color-violet: #c084fc;
+  --color-teal: #d97706;
+  --color-pink: #f9a8d4;
+  --color-orange: #fb923c;
+  --color-yellow: #facc15;
+  --color-lime: #a3e635;
+
+  /* ========== ПАНЕЛИ И ПОВЕРХНОСТИ ========== */
+  --color-panel: rgba(255, 245, 225, 0.92);
+  --color-panel-strong: rgba(255, 240, 210, 0.98);
+  --color-panel-soft: rgba(249, 115, 22, 0.06);
+
+  /* ========== ЛИНИИ И ГРАНИЦЫ ========== */
+  --color-line: rgba(249, 115, 22, 0.25);
+  --color-line-strong: rgba(245, 158, 11, 0.5);
+
+  /* ========== ТЕНИ ========== */
+  --shadow-lg:
+    0 20px 35px -12px rgba(249, 115, 22, 0.25),
+    0 0 0 2px rgba(250, 204, 21, 0.15);
+  --shadow-md: 0 8px 20px -6px rgba(249, 115, 22, 0.2);
+  --shadow-sm: 0 4px 12px rgba(249, 115, 22, 0.1);
+
+  /* ========== ГРАДИЕНТЫ ФОНОВ ========== */
+  --block-bg: linear-gradient(115deg, #fff9f0 0%, #fff5e6 50%, #fffbf5 100%);
+  --panel-bg: linear-gradient(
+    115deg,
+    rgba(255, 250, 240, 0.95),
+    rgba(255, 245, 230, 0.9)
+  );
+  --stack-bg: linear-gradient(
+    135deg,
+    rgba(255, 245, 225, 0.95),
+    rgba(255, 240, 210, 0.9)
+  );
+  --stack-panel-bg: linear-gradient(
+    135deg,
+    rgba(255, 248, 235, 0.96),
+    rgba(255, 242, 220, 0.92)
+  );
+  --feature-bg: linear-gradient(
+    115deg,
+    rgba(255, 250, 240, 0.93),
+    rgba(255, 245, 230, 0.88)
+  );
+
+  /* ========== БЛОКИ ========== */
+  --block-border: rgba(249, 115, 22, 0.3);
+  --block-shadow: 0 8px 20px rgba(249, 115, 22, 0.12);
+  --block-scrolled-bg: rgba(255, 245, 225, 0.98);
+  --block-scrolled-border: rgba(245, 158, 11, 0.4);
+  --block-scrolled-shadow: 0 15px 35px rgba(249, 115, 22, 0.12);
+
+  /* ========== МОБИЛЬНОЕ МЕНЮ ========== */
+  --mobile-menu-bg: #fff8ed;
+  --mobile-overlay-bg: rgba(255, 240, 200, 0.92);
+  --mobile-link-bg: rgba(251, 191, 36, 0.1);
+  --mobile-link-hover: rgba(251, 191, 36, 0.2);
+  --mobile-divider: rgba(251, 191, 36, 0.25);
+
+  /* ========== КНОПКИ ========== */
+  --button-bg: rgba(251, 191, 36, 0.15);
+  --button-hover: rgba(251, 191, 36, 0.3);
+  --button-border: rgba(249, 115, 22, 0.4);
+
+  /* ========== ГРАДИЕНТЫ ТЕКСТА ========== */
+  --gradient-text: linear-gradient(135deg, #3b2a1f 0%, #d97706 100%);
+  --gradient-card-title: linear-gradient(135deg, #3b2a1f 0%, #f97316 100%);
+
+  /* ========== ОБЩИЕ ПЕРЕМЕННЫЕ ========== */
+  --highlight-color: rgba(255, 200, 100, 0.2);
+  --shadow-color: rgba(0, 0, 0, 0.08);
+  --shadow-color-dark: rgba(249, 115, 22, 0.3);
+
+  /* ========== ПЕРЕИСПОЛЬЗУЕМЫЕ ГРАДИЕНТЫ ========== */
+  --gradient-orange-yellow: linear-gradient(135deg, #f97316, #facc15);
+  --gradient-orange-yellow-soft: linear-gradient(
+    135deg,
+    rgba(249, 115, 22, 0.15),
+    rgba(250, 204, 21, 0.1)
+  );
+  --gradient-orange-yellow-medium: linear-gradient(
+    135deg,
+    rgba(249, 115, 22, 0.25),
+    rgba(250, 204, 21, 0.2)
+  );
+  --gradient-orange-yellow-light: linear-gradient(
+    135deg,
+    rgba(249, 115, 22, 0.08),
+    rgba(250, 204, 21, 0.08)
+  );
+
+  --gradient-warm-surface: linear-gradient(
+    135deg,
+    rgba(255, 248, 235, 0.9),
+    rgba(255, 242, 220, 0.85)
+  );
+  --gradient-warm-surface-light: linear-gradient(
+    135deg,
+    rgba(255, 250, 240, 0.9),
+    rgba(255, 245, 230, 0.85)
+  );
+  --gradient-warm-surface-soft: linear-gradient(
+    135deg,
+    rgba(255, 250, 240, 0.85),
+    rgba(255, 245, 230, 0.8)
+  );
+  --gradient-warm-card: linear-gradient(
+    135deg,
+    rgba(255, 250, 240, 0.9),
+    rgba(255, 245, 230, 0.85)
+  );
+
+  /* ========== КОМПОНЕНТНЫЕ ПЕРЕМЕННЫЕ (используют переиспользуемые) ========== */
+  --actions-group-bg: rgba(255, 248, 235, 0.9);
+  --download-panel-bg: rgba(255, 248, 235, 0.95);
+  --chat-sidebar-bg: rgba(255, 248, 235, 0.95);
+  --settings-panel-bg: rgba(255, 248, 235, 0.98);
+
+  --gradient-primary: var(--gradient-orange-yellow);
+  --btn-primary-color: #3b2a1f;
+  --btn-primary-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+
+  --new-chat-btn-bg: var(--gradient-orange-yellow);
+  --new-chat-btn-color: #fff;
+  --new-chat-btn-hover-shadow: 0 2px 8px rgba(249, 115, 22, 0.4);
+  --chat-item-hover-bg: var(--gradient-orange-yellow-soft);
+  --chat-item-active-bg: var(--gradient-orange-yellow-medium);
+  --chat-item-active-text-shadow: 0 0 8px rgba(249, 115, 22, 0.5);
+
+  --user-message-bg: rgba(249, 115, 22, 0.12);
+  --assistant-message-bg: var(--gradient-orange-yellow-light);
+  --assistant-message-border: rgba(249, 115, 22, 0.2);
+
+  --download-toggle-bg: var(--gradient-orange-yellow);
+  --download-toggle-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+  --download-toggle-hover-bg: linear-gradient(135deg, #facc15, #f97316);
+
+  --article-prompt-border: var(--color-orange);
+  --article-prompt-bg: rgba(249, 115, 22, 0.08);
+  --article-prompt-shadow: 0 0 15px rgba(249, 115, 22, 0.15);
+  --article-prompt-color: var(--color-orange);
+  --plan-editor-focus-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+
+  --settings-hover-color: var(--color-orange);
+  --settings-accent-color: var(--color-orange);
+  --checkbox-check-color: #3b2a1f;
+  --gradient-violet: var(--gradient-orange-yellow);
+  --model-active-bg: rgba(249, 115, 22, 0.08);
+  --model-active-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+  --model-badge-bg: rgba(249, 115, 22, 0.15);
+  --model-note-bg: rgba(249, 115, 22, 0.05);
+
+  --glow-color: rgba(249, 115, 22, 0.15);
+  --benefits-title-gradient: linear-gradient(
+    135deg,
+    var(--color-muted),
+    #ad6103
+  );
+  --benefit-icon-bg: rgba(249, 115, 22, 0.1);
+  --benefit-icon-border: rgba(249, 115, 22, 0.2);
+  --placeholder-color: rgba(59, 42, 31, 0.3);
+  --status-option-selected-bg: rgba(249, 115, 22, 0.1);
+  --optional-badge-bg: rgba(249, 115, 22, 0.1);
+  --optional-badge-border: rgba(249, 115, 22, 0.3);
+  --social-button-hover-border: rgba(249, 115, 22, 0.3);
+
+  --archive-accent-color: #f97316;
+  --visual-container-bg:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(249, 115, 22, 0.08),
+      transparent 22%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(255, 250, 240, 0.92),
+      rgba(255, 245, 230, 0.88)
+    );
+  --orbit-ring-reverse-bg: rgba(192, 132, 252, 0.15);
+  --core-pulse-bg: #f97316;
+  --orbit-dot-bg: #f97316;
+  --grid-cell-bg: linear-gradient(
+    to bottom,
+    rgba(249, 115, 22, 0.15),
+    rgba(250, 204, 21, 0.1)
+  );
+
+  --demo-accent-color: #f97316;
+  --telemetry-card-bg: var(--gradient-warm-card);
+  --telemetry-badge-bg: var(--gradient-warm-surface);
+  --telemetry-output-bg: linear-gradient(135deg, #fff9f0, #fff5e6);
+  --telemetry-output-color: #3b2a1f;
+  --telemetry-row-bg: rgba(255, 248, 235, 0.8);
+  --telemetry-row-hover-bg: rgba(255, 242, 220, 0.95);
+  --scheduler-cell-bg: var(--gradient-warm-surface-soft);
+  --scheduler-enabled-bg: linear-gradient(
+    180deg,
+    rgba(45, 212, 191, 0.1),
+    rgba(255, 245, 230, 0.8)
+  );
+  --scheduler-active-bg: linear-gradient(
+    180deg,
+    rgba(249, 115, 22, 0.12),
+    rgba(255, 245, 230, 0.85)
+  );
+  --demo-card-bg: var(--gradient-warm-card);
+  --demo-dot-bg: radial-gradient(circle, white 0, #f97316 40%, #facc15 100%);
+  --demo-dot-shadow: 0 0 16px rgba(249, 115, 22, 0.5);
+  --demo-video-bg: linear-gradient(135deg, #fff9f0, #fff5e6);
+  --ambient-overlay-bg: linear-gradient(
+    180deg,
+    rgba(255, 245, 230, 0.2),
+    rgba(255, 240, 220, 0.4)
+  );
+
+  --cta-accent-color: #f97316;
+  --cta-heading-color: #3b2a1f;
+  --cta-description-color: #d97706;
+
+  --hero-accent-color: #f97316;
+  --hero-heading-gradient: linear-gradient(135deg, #3b2a1f 0%, #d97706 100%);
+  --hero-copy-bg: linear-gradient(
+    135deg,
+    rgba(255, 250, 240, 0.8),
+    rgba(255, 245, 230, 0.7)
+  );
+  --hero-meta-bg: var(--gradient-warm-surface);
+  --hero-chip-bg: var(--gradient-warm-surface);
+  --hero-video-overlay: linear-gradient(
+    180deg,
+    rgba(255, 245, 230, 0.2),
+    rgba(255, 240, 220, 0.4)
+  );
+  --panel-overlay-bg: linear-gradient(
+    180deg,
+    rgba(255, 245, 230, 0.15),
+    transparent 30%
+  );
+  --welcome-header-bg: linear-gradient(90deg, #fff3e0, #fff8ed);
+  --progress-fill-bg: var(--gradient-orange-yellow);
+  --speed-active-bg: var(--gradient-orange-yellow);
+  --speed-active-color: #3b2a1f;
+
+  --arch-accent-color: #f97316;
+  --arch-heading-gradient: linear-gradient(135deg, #3b2a1f 0%, #d97706 100%);
+  --arch-image-filter: drop-shadow(0 4px 12px rgba(249, 115, 22, 0.15));
+  --arch-image-border: 1px solid rgba(249, 115, 22, 0.2);
+  --arch-image-hover-filter: drop-shadow(0 8px 24px rgba(249, 115, 22, 0.25));
+  --arch-image-hover-border: rgba(249, 115, 22, 0.4);
+
+  --platform-accent-color: #f97316;
+  --feature-index-color: #f97316;
+  --feature-last-index-color: #ec489a;
+
+  --pricing-accent-color: #f97316;
+  --pricing-heading-color: #3b2a1f;
+  --pricing-popular-shadow: 0 24px 80px rgba(249, 115, 22, 0.22);
+  --pricing-badge-bg: var(--gradient-orange-yellow);
+  --pricing-badge-color: #3b2a1f;
+  --pricing-badge-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+  --pricing-bullet-color: #f97316;
+  --pricing-bullet-shadow: 0 0 10px rgba(249, 115, 22, 0.58);
+
+  --footer-text-color: #d97706;
+  --footer-title-color: #3b2a1f;
+  --footer-link-color: #8b7355;
+  --footer-link-hover-color: #f97316;
+  --footer-copyright-color: #b89a7a;
+  --footer-border-color: rgba(249, 115, 22, 0.2);
+  --accent-glow: #f97316;
+
+  --header-bg: rgba(245, 235, 220, 0.95);
+  --header-glow: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(249, 115, 22, 0.4) 15%,
+    rgba(249, 115, 22, 0.7) 25%,
+    rgba(249, 115, 22, 0.3) 35%,
+    transparent 50%
+  );
+  --nav-underline-gradient: linear-gradient(90deg, #f97316, #facc15, #fbbf24);
+  --nav-glow: radial-gradient(
+    ellipse at center,
+    rgba(249, 115, 22, 0.4) 0%,
+    transparent 70%
+  );
+  --theme-toggle-bg: rgba(249, 115, 22, 0.1);
+  --theme-toggle-border: rgba(249, 115, 22, 0.2);
+  --theme-toggle-hover-bg: rgba(249, 115, 22, 0.2);
+  --mobile-menu-button-bg: rgba(249, 115, 22, 0.1);
+  --mobile-menu-button-border: rgba(249, 115, 22, 0.2);
+  --mobile-menu-button-hover-bg: rgba(249, 115, 22, 0.2);
+  --mobile-link-color: #3b2a1f;
+}

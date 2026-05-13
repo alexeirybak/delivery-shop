@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getDB } from "../../../../../../../utils/api-routes";
 import { ObjectId } from "mongodb";
+import { getDB } from "@/lib/api-routes";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
+  { params }: { params: Promise<{ userId: string }> },
 ) {
   try {
     const { userId } = await params;

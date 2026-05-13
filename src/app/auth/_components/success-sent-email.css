@@ -1,0 +1,139 @@
+.success-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+  min-height: 100vh;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.success-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(109, 241, 255, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-cyan);
+  border: 1px solid rgba(109, 241, 255, 0.2);
+}
+
+.success-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  line-height: 1.2;
+}
+
+.success-text {
+  color: var(--color-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center;
+  max-width: 400px; /* ограничиваем ширину для лучшей читаемости */
+  margin: 0 auto; /* центрируем */
+}
+
+.success-text strong {
+  color: var(--color-cyan);
+  font-weight: 600;
+}
+
+.success-email {
+  color: var(--color-cyan);
+  font-weight: 600;
+  background: rgba(109, 241, 255, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.success-tips {
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-line);
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.success-tips-title {
+  color: var(--color-text);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.success-tips-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+
+.success-tips-list li {
+  color: var(--color-muted);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  padding-left: 1.5rem;
+  position: relative;
+  margin-bottom: 0.75rem;
+}
+
+.success-tips-list li::before {
+  content: "•";
+  color: var(--color-cyan);
+  font-weight: bold;
+  position: absolute;
+  left: 0.5rem;
+}
+
+@media (max-width: 968px) {
+  .success-container {
+    padding: 2rem 1.5rem;
+  }
+
+  .success-text {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .success-container {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .success-title {
+    font-size: 1.8rem;
+  }
+
+  .success-tips {
+    padding: 1.25rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .success-container {
+    padding: 1.25rem 1rem;
+  }
+  .success-title {
+    font-size: 1.5rem;
+  }
+
+  .success-tips-list li {
+    font-size: 0.9rem;
+  }
+}

@@ -1,0 +1,289 @@
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  /* ========== БАЗОВЫЕ ЦВЕТА ========== */
+  --color-bg-0: #050711;
+  --color-bg-1: #0a1020;
+  --color-bg-2: #101830;
+
+  --color-panel: rgba(10, 14, 29, 0.72);
+  --color-panel-strong: rgba(13, 18, 38, 0.9);
+  --color-panel-soft: rgba(255, 255, 255, 0.04);
+
+  --color-line: rgba(130, 190, 255, 0.2);
+  --color-line-strong: rgba(160, 220, 255, 0.34);
+
+  --color-text: #bbb;
+  --color-text-price: #e2ebffb8;
+  --color-text-feature: #fff;
+  --color-text-description: rgba(226, 235, 255, 0.72);
+  --color-muted: rgba(226, 235, 255, 0.72);
+  --color-muted-soft: rgba(226, 235, 255, 0.54);
+
+  /* ========== АКЦЕНТНЫЕ ЦВЕТА ========== */
+  --color-cyan: #00d1ff;
+  --color-blue: #5290ff;
+  --color-violet: #8a6fff;
+  --color-teal: #7df4d6;
+  --color-pink: #ff88de;
+  --color-orange: #fb923c;
+  --color-yellow: #facc15;
+  --color-lime: #a3e635;
+
+  /* ========== ТЕНИ ========== */
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.42);
+  --shadow-md: 0 14px 42px rgba(0, 0, 0, 0.28);
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.1);
+
+  /* ========== ГРАДИЕНТЫ ФОНОВ ========== */
+  --block-bg:
+    linear-gradient(#ffffff08, #0000 18%), linear-gradient(#10162bdb, #080c19b8);
+  --panel-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.03), transparent 18%),
+    linear-gradient(180deg, rgba(16, 22, 43, 0.86), rgba(8, 12, 25, 0.72));
+  --stack-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 20%),
+    linear-gradient(180deg, rgba(18, 24, 48, 0.9), rgba(9, 12, 26, 0.8));
+  --stack-panel-bg: var(--panel-bg);
+  --feature-bg: var(--panel-bg);
+
+  /* ========== БЛОКИ ========== */
+  --block-border: rgba(255, 255, 255, 0.08);
+  --block-shadow: 0 12px 30px rgba(0, 0, 0, 0.14);
+  --block-scrolled-bg: rgba(9, 13, 28, 0.9);
+  --block-scrolled-border: rgba(160, 220, 255, 0.16);
+  --block-scrolled-shadow: 0 18px 48px rgba(0, 0, 0, 0.3);
+
+  /* ========== МОБИЛЬНОЕ МЕНЮ ========== */
+  --mobile-menu-bg: #0a0e1a;
+  --mobile-overlay-bg: rgba(0, 0, 0, 0.8);
+  --mobile-link-bg: rgba(255, 255, 255, 0.05);
+  --mobile-link-hover: rgba(255, 255, 255, 0.1);
+  --mobile-divider: rgba(255, 255, 255, 0.1);
+
+  /* ========== КНОПКИ ========== */
+  --button-bg: rgba(255, 255, 255, 0.1);
+  --button-hover: rgba(255, 255, 255, 0.2);
+  --button-border: rgba(255, 255, 255, 0.08);
+
+  /* ========== ГРАДИЕНТЫ ТЕКСТА ========== */
+  --gradient-text: linear-gradient(
+    135deg,
+    #eff5ff 0%,
+    rgba(226, 235, 255, 0.72) 100%
+  );
+  --gradient-card-title: linear-gradient(135deg, #eff5ff 0%, #6df1ff 100%);
+
+  /* ========== ОБЩИЕ ПЕРЕМЕННЫЕ ========== */
+  --highlight-color: rgba(255, 255, 255, 0.08);
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --shadow-color-dark: rgba(0, 0, 0, 0.3);
+
+  /* ========== ПЕРЕИСПОЛЬЗУЕМЫЕ ГРАДИЕНТЫ ========== */
+  --gradient-cyan-blue: linear-gradient(
+    135deg,
+    var(--color-cyan),
+    var(--color-blue)
+  );
+  --gradient-cyan-blue-soft: linear-gradient(
+    135deg,
+    var(--color-cyan) 0.15,
+    var(--color-blue) 0.1
+  );
+  --gradient-cyan-blue-medium: linear-gradient(
+    135deg,
+    var(--color-cyan) 0.25,
+    var(--color-blue) 0.2
+  );
+
+  --gradient-message-assistant: linear-gradient(
+    135deg,
+    rgba(6, 182, 212, 0.1),
+    rgba(59, 130, 246, 0.1)
+  );
+
+  /* ========== КОМПОНЕНТНЫЕ ПЕРЕМЕННЫЕ (используют переиспользуемые) ========== */
+  --actions-group-bg: rgba(10, 14, 29, 0.72);
+  --download-panel-bg: rgba(10, 14, 29, 0.85);
+  --chat-sidebar-bg: rgba(10, 14, 26, 0.85);
+  --settings-panel-bg: rgba(15, 25, 35, 0.98);
+
+  --gradient-primary: var(--gradient-cyan-blue);
+  --btn-primary-color: var(--color-text-feature);
+  --btn-primary-shadow: 0 4px 12px rgba(109, 241, 255, 0.3);
+
+  --new-chat-btn-bg: var(--gradient-cyan-blue);
+  --new-chat-btn-color: var(--color-text-feature);
+  --new-chat-btn-hover-shadow: 0 2px 8px var(--color-cyan);
+  --chat-item-hover-bg: var(--gradient-cyan-blue-soft);
+  --chat-item-active-bg: var(--gradient-cyan-blue-medium);
+  --chat-item-active-text-shadow: 0 0 8px var(--color-cyan);
+
+  --user-message-bg: rgba(6, 182, 212, 0.15);
+  --assistant-message-bg: var(--gradient-message-assistant);
+  --assistant-message-border: rgba(6, 182, 212, 0.2);
+
+  --download-toggle-bg: var(--gradient-cyan-blue);
+  --download-toggle-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  --download-toggle-hover-bg: linear-gradient(
+    135deg,
+    var(--color-blue),
+    var(--color-violet)
+  );
+
+  --article-prompt-border: var(--color-cyan);
+  --article-prompt-bg: rgba(6, 182, 212, 0.1);
+  --article-prompt-shadow: 0 0 15px rgba(6, 182, 212, 0.2);
+  --article-prompt-color: var(--color-cyan);
+  --plan-editor-focus-shadow: 0 0 0 2px rgba(109, 241, 255, 0.2);
+
+  --settings-hover-color: var(--color-cyan);
+  --settings-accent-color: var(--color-cyan);
+  --checkbox-check-color: white;
+  --gradient-violet: linear-gradient(135deg, var(--color-violet), #a855f7);
+  --model-active-bg: rgba(109, 241, 255, 0.08);
+  --model-active-shadow: 0 0 0 2px rgba(109, 241, 255, 0.2);
+  --model-badge-bg: rgba(109, 241, 255, 0.15);
+  --model-note-bg: rgba(109, 241, 255, 0.05);
+
+  --glow-color: rgba(109, 241, 255, 0.15);
+  --benefits-title-gradient: linear-gradient(135deg, #fff, #a0dcff);
+  --benefit-icon-bg: rgba(109, 241, 255, 0.1);
+  --benefit-icon-border: rgba(109, 241, 255, 0.2);
+  --placeholder-color: rgba(226, 235, 255, 0.3);
+  --status-option-selected-bg: rgba(109, 241, 255, 0.1);
+  --optional-badge-bg: rgba(138, 111, 255, 0.1);
+  --optional-badge-border: rgba(138, 111, 255, 0.3);
+  --social-button-hover-border: rgba(109, 241, 255, 0.3);
+
+  --archive-accent-color: var(--color-teal);
+  --visual-container-bg:
+    radial-gradient(circle at 30% 30%, var(--color-cyan) 0.08, transparent 22%),
+    linear-gradient(180deg, rgba(20, 28, 52, 0.92), rgba(9, 12, 24, 0.88));
+  --orbit-ring-reverse-bg: var(--color-violet);
+  --core-pulse-bg: var(--color-cyan);
+  --orbit-dot-bg: var(--color-cyan);
+  --grid-cell-bg: linear-gradient(
+    to bottom,
+    var(--color-cyan) 0.2,
+    var(--color-violet) 0.1
+  );
+
+  --demo-accent-color: var(--color-teal);
+  --telemetry-card-bg: var(--color-panel-soft);
+  --telemetry-badge-bg: var(--color-panel-soft);
+  --telemetry-output-bg: var(--color-panel-soft);
+  --telemetry-output-color: var(--color-text);
+  --telemetry-row-bg: var(--color-panel-soft);
+  --telemetry-row-hover-bg: var(--color-panel);
+  --scheduler-cell-bg: var(--color-panel-soft);
+  --scheduler-enabled-bg: linear-gradient(
+    180deg,
+    var(--color-teal) 0.05,
+    var(--color-panel-soft)
+  );
+  --scheduler-active-bg: linear-gradient(
+    180deg,
+    var(--color-cyan) 0.09,
+    var(--color-panel-soft)
+  );
+  --demo-card-bg: var(--color-panel-soft);
+  --demo-dot-bg: radial-gradient(
+    circle,
+    white 0,
+    var(--color-cyan) 40%,
+    var(--color-violet) 100%
+  );
+  --demo-dot-shadow: 0 0 16px var(--color-cyan);
+  --demo-video-bg: var(--color-panel-soft);
+  --ambient-overlay-bg: linear-gradient(
+    180deg,
+    rgba(5, 7, 17, 0.3),
+    rgba(5, 7, 17, 0.6)
+  );
+
+  --cta-accent-color: var(--color-teal);
+  --cta-heading-color: var(--color-text);
+  --cta-description-color: var(--color-muted);
+
+  --hero-accent-color: var(--color-teal);
+  --hero-heading-gradient: var(--gradient-text);
+  --hero-copy-bg: var(--color-panel-soft);
+  --hero-meta-bg: var(--color-panel-soft);
+  --hero-chip-bg: var(--color-panel-soft);
+  --hero-video-overlay:
+    linear-gradient(180deg, rgba(7, 10, 20, 0.02), rgba(7, 10, 20, 0.32)),
+    radial-gradient(circle at 50% 42%, var(--color-cyan) 0.06, transparent 36%);
+  --panel-overlay-bg:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 30%),
+    radial-gradient(circle at 50% 36%, var(--color-cyan) 0.08, transparent 32%);
+  --welcome-header-bg: linear-gradient(
+    90deg,
+    var(--color-panel-strong),
+    var(--color-panel)
+  );
+  --progress-fill-bg: var(--color-cyan);
+  --speed-active-bg: var(--gradient-cyan-blue);
+  --speed-active-color: white;
+
+  --arch-accent-color: var(--color-teal);
+  --arch-heading-gradient: var(--gradient-text);
+  --arch-image-filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.2));
+  --arch-image-border: none;
+  --arch-image-hover-filter: drop-shadow(0 8px 24px rgba(0, 0, 0, 0.3));
+  --arch-image-hover-border: none;
+
+  --platform-accent-color: var(--color-teal);
+  --feature-index-color: var(--color-orange);
+  --feature-last-index-color: var(--color-pink);
+
+  --pricing-accent-color: var(--color-teal);
+  --pricing-heading-color: var(--color-text);
+  --pricing-popular-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+  --pricing-badge-bg: linear-gradient(
+    to right,
+    var(--color-cyan),
+    var(--color-blue)
+  );
+  --pricing-badge-color: #07101d;
+  --pricing-badge-shadow: 0 4px 12px var(--color-cyan);
+  --pricing-bullet-color: var(--color-teal);
+  --pricing-bullet-shadow: 0 0 10px var(--color-teal);
+
+  --footer-text-color: var(--color-muted);
+  --footer-title-color: var(--color-text);
+  --footer-link-color: var(--color-muted);
+  --footer-link-hover-color: var(--color-text);
+  --footer-copyright-color: var(--color-muted-soft);
+  --footer-border-color: var(--color-line);
+  --accent-glow: var(--color-cyan);
+
+  --header-bg: rgba(10, 14, 26, 0.85);
+  --header-glow: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(109, 241, 255, 0.4) 15%,
+    rgba(109, 241, 255, 0.7) 25%,
+    rgba(109, 241, 255, 0.3) 35%,
+    transparent 50%
+  );
+  --nav-underline-gradient: linear-gradient(
+    90deg,
+    var(--color-cyan),
+    var(--color-blue),
+    var(--color-violet)
+  );
+  --nav-glow: radial-gradient(
+    ellipse at center,
+    rgba(109, 241, 255, 0.4) 0%,
+    transparent 70%
+  );
+  --theme-toggle-bg: rgba(255, 255, 255, 0.1);
+  --theme-toggle-border: rgba(255, 255, 255, 0.08);
+  --theme-toggle-hover-bg: rgba(255, 255, 255, 0.2);
+  --mobile-menu-button-bg: rgba(255, 255, 255, 0.1);
+  --mobile-menu-button-border: rgba(255, 255, 255, 0.08);
+  --mobile-menu-button-hover-bg: rgba(255, 255, 255, 0.2);
+  --mobile-link-color: var(--color-text);
+}

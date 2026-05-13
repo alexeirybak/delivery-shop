@@ -1,0 +1,246 @@
+.content {
+  position: relative;
+  z-index: 10;
+  width: min(1200px, calc(100% - 60px));
+  margin: 0 auto;
+}
+
+.content > * {
+  position: relative;
+}
+
+@media (max-width: 968px) {
+  .content {
+    width: min(1200px, calc(100% - 28px));
+  }
+}
+
+@media (max-width: 640px) {
+  .content {
+    width: min(1200px, calc(100% - 20px));
+  }
+}
+
+.reveal {
+  opacity: 1;
+  transform: none;
+}
+
+[data-scroll] {
+  opacity: 0;
+  transform: translateY(34px);
+  transition:
+    opacity 720ms ease,
+    transform 720ms ease;
+}
+[data-scroll].is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-1 {
+  transition-delay: 0.04s;
+}
+.reveal-2 {
+  transition-delay: 0.08s;
+}
+.reveal-3 {
+  transition-delay: 0.12s;
+}
+.reveal-4 {
+  transition-delay: 0.16s;
+}
+.reveal-5 {
+  transition-delay: 0.3s;
+}
+.reveal-6 {
+  transition-delay: 0.24s;
+}
+.reveal-7 {
+  transition-delay: 0.28s;
+}
+.reveal-8 {
+  transition-delay: 0.32s;
+}
+.reveal-9 {
+  transition-delay: 0.36s;
+}
+.reveal-10 {
+  transition-delay: 0.4s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  [data-scroll] {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.eyebrow {
+  margin: 0;
+  color: var(--color-teal);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-family: "Arial Narrow", Bahnschrift, sans-serif;
+  letter-spacing: -0.04em;
+}
+
+.section-heading h2 {
+  margin-top: 18px;
+  font-size: clamp(2rem, 3.4vw, 3.6rem);
+  line-height: 1.04;
+  max-width: 30ch;
+}
+
+.node {
+  position: absolute;
+}
+
+.section-heading {
+  padding: 0 6px;
+}
+
+.button:focus-visible,
+.nav a:focus-visible {
+  outline: 2px solid rgba(109, 241, 255, 0.72);
+  outline-offset: 2px;
+}
+
+@keyframes linkFlow {
+  0% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -52;
+  }
+}
+
+@keyframes orbitWave {
+  0%,
+  100% {
+    opacity: 0.18;
+    transform: scale(0.96);
+  }
+  50% {
+    opacity: 0.42;
+    transform: scale(1.04);
+  }
+}
+
+@keyframes pulseWave {
+  0% {
+    opacity: 0.56;
+    transform: scale(0.72);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@keyframes nodeFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes orbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes orbitRotateReverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes orbitPulse {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.36;
+  }
+  50% {
+    transform: scale(1.04);
+    opacity: 0.7;
+  }
+}
+
+@keyframes corePulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.84;
+  }
+}
+
+@keyframes particleDrift {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(18px);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 1120px) {
+  .section-heading h2 {
+    max-width: none;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--color-blue), var(--color-cyan));
+  box-shadow: 0 0 8px var(--color-cyan);
+}

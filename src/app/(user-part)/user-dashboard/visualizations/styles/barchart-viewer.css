@@ -1,0 +1,257 @@
+.barchart-container {
+  width: 100%;
+  min-height: 500px;
+  max-height: 80vh;
+  position: relative;
+  background: var(--color-panel);
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  display: flex;
+  flex-direction: column;
+  margin: 1rem 0;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.barchart-container:fullscreen {
+  height: 100vh;
+  max-height: 100vh;
+  border-radius: 0;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 0;
+}
+
+.barchart-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background: var(--color-panel-strong);
+  border-bottom: 1px solid var(--color-line);
+  flex-shrink: 0;
+}
+
+.barchart-toolbar-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+}
+
+.barchart-toolbar-btn:hover {
+  background: var(--button-bg);
+}
+
+.barchart-toolbar-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.barchart-toolbar-divider {
+  width: 1px;
+  background: var(--color-line);
+  margin: 0 4px;
+}
+
+.barchart-data-panel {
+  display: flex;
+  padding: 12px 16px;
+  gap: 20px;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-panel-soft);
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.barchart-labels,
+.barchart-datasets {
+  flex: 1;
+  min-width: 200px;
+}
+
+.barchart-labels h4,
+.barchart-datasets h4 {
+  margin: 0 0 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-muted);
+}
+
+.barchart-labels-list,
+.barchart-datasets-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.barchart-label-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--color-panel-strong);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.barchart-label-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.barchart-label-edit,
+.barchart-label-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.barchart-label-delete:hover {
+  color: #ef4444;
+}
+
+.barchart-dataset-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 8px;
+  background: var(--color-panel-strong);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.barchart-dataset-color {
+  width: 12px;
+  height: 12px;
+  border-radius: 3px;
+}
+
+.barchart-dataset-label {
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.barchart-dataset-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.barchart-dataset-edit,
+.barchart-dataset-delete {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.barchart-dataset-delete:hover {
+  color: #ef4444;
+}
+
+.barchart-chart-wrapper {
+  flex: 1;
+  min-height: 350px;
+  min-width: 500px;
+  padding: 16px;
+  position: relative;
+}
+
+.barchart-chart-wrapper canvas {
+  min-width: 500px;
+  width: 100% !important;
+  height: auto !important;
+}
+
+.barchart-info-panel {
+  padding: 8px 16px;
+  font-size: 12px;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-line);
+  background: var(--color-panel-soft);
+  flex-shrink: 0;
+}
+
+.edit-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  background: var(--color-panel);
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+}
+
+.edit-modal-title {
+  margin-bottom: 12px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.edit-modal-input {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--color-line);
+  background: var(--color-panel-strong);
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.edit-modal-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.edit-modal-btn {
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.edit-modal-btn.cancel {
+  border: 1px solid var(--color-line);
+  background: transparent;
+  color: var(--color-text);
+}
+
+.edit-modal-btn.save {
+  border: none;
+  background: var(--gradient-primary);
+  color: white;
+}
+
+@media (max-width: 640px) {
+  .barchart-toolbar-btn span {
+    display: none;
+  }
+
+  .barchart-data-panel {
+    flex-direction: column;
+  }
+}

@@ -1,0 +1,506 @@
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  min-height: 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  overflow: hidden;
+  position: relative;
+}
+
+.chat-messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.chat-messages::-webkit-scrollbar-track {
+  background: var(--color-panel-soft);
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 3px;
+}
+
+.chat-messages::-webkit-scrollbar-thumb:hover {
+  background: var(--color-cyan);
+}
+
+.chat-message {
+  display: flex;
+  gap: 0.75rem;
+  animation: fadeIn 0.3s ease;
+}
+
+.message-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background: var(--color-panel-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.message-avatar svg {
+  color: var(--color-cyan);
+}
+
+.message-wrapper {
+  flex: 1;
+  max-width: calc(100% - 3rem);
+}
+
+.message-content {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  line-height: 1.6;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.message-content strong {
+  font-weight: 700;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.message-content em {
+  font-style: italic;
+  color: var(--color-teal);
+}
+
+.message-content.streaming {
+  border-right: 2px solid var(--color-cyan);
+}
+
+.chat-message.user .message-content {
+  background: var(--user-message-bg);
+  border-left: 3px solid var(--color-cyan);
+  color: var(--color-text);
+}
+
+.chat-message.assistant .message-content {
+  background: var(--assistant-message-bg);
+  color: var(--color-text);
+  border: 1px solid var(--assistant-message-border);
+}
+
+.user-message-text {
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+.katex {
+  font-size: 1.1em;
+}
+
+.katex-display {
+  margin: 0.75rem 0;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-p .katex {
+  font-size: 1em;
+}
+
+/* Блочные формулы */
+.katex-display > .katex {
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+/* Текст внутри формул */
+.katex .mathnormal {
+  font-style: normal;
+}
+
+.katex .text {
+  font-family: inherit;
+}
+
+/* Индексы и степени */
+.katex .msubsup {
+  font-size: 0.85em;
+}
+
+/* Дроби */
+.katex .frac-line {
+  border-bottom-width: 1px;
+}
+
+/* Корни */
+.katex .sqrt-sign {
+  border-top: 1px solid;
+}
+
+.cursor-blink {
+  display: inline-block;
+  animation: blink 1s step-end infinite;
+  color: var(--color-cyan);
+}
+
+.message-footer {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+  padding: 0 0.25rem;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  align-items: center;
+}
+
+.message-time {
+  font-size: 1rem;
+  color: var(--color-text-feature);
+  padding: 0.5rem;
+}
+
+.message-time:hover {
+  color: var(--color-cyan);
+}
+
+.copy-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-feature);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+}
+
+.copy-btn:hover {
+  background: var(--color-panel-soft);
+  color: var(--color-cyan);
+}
+
+.retry-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text-feature);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+}
+
+.retry-btn:hover {
+  background: var(--color-panel-soft);
+  color: var(--color-cyan);
+}
+
+.retry-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.message-content.error-message {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 3px solid #ef4444;
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+.message-content.error-message .formatted-text {
+  color: #ef4444;
+}
+
+/* НОВЫЕ СТИЛИ ДЛЯ MARKDOWN ТЕГОВ ОТ REACTMARKDOWN */
+.message-content h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.75rem 0 0.5rem;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-line-strong);
+  padding-bottom: 0.25rem;
+}
+
+.message-content h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.625rem 0 0.5rem;
+  color: var(--color-text);
+}
+
+.message-content h3 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.375rem;
+  color: var(--color-text);
+}
+
+.message-content h4 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.375rem;
+  color: var(--color-text);
+  opacity: 0.9;
+}
+
+.message-content p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.message-content ul,
+.message-content ol {
+  margin: 0.5rem 0;
+  padding-left: 1.5rem;
+}
+
+.message-content li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+}
+
+.message-content li > ul,
+.message-content li > ol {
+  margin: 0;
+}
+
+.message-content code {
+  background: var(--color-bg-1);
+  padding: 0.125rem 0.25rem;
+  border-radius: 4px;
+  font-family: monospace;
+  font-size: 0.875em;
+  color: var(--color-cyan);
+}
+
+.message-content pre {
+  background: var(--color-bg-1);
+  padding: 0.75rem;
+  border-radius: 8px;
+  overflow-x: auto;
+  margin: 0.5rem 0;
+}
+
+.message-content pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.message-content blockquote {
+  border-left: 3px solid var(--color-cyan);
+  margin: 0.5rem 0;
+  padding: 0.25rem 0 0.25rem 1rem;
+  color: var(--color-text-feature);
+  font-style: italic;
+}
+
+.message-content hr {
+  margin: 1rem 0;
+  border: none;
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.message-content a {
+  color: var(--color-cyan);
+  text-decoration: underline;
+}
+
+.message-content a:hover {
+  opacity: 0.8;
+}
+
+.message-content table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+.message-content th,
+.message-content td {
+  border: 1px solid var(--color-line-strong);
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.message-content th {
+  background: var(--color-panel-soft);
+  font-weight: 600;
+}
+
+.message-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+}
+
+.message-content > :first-child {
+  margin-top: 0;
+}
+
+.message-content > :last-child {
+  margin-bottom: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@media (max-width: 968px) {
+  .chat-messages {
+    padding: 1.25rem;
+    gap: 1rem;
+  }
+
+  .markdown-h1 {
+    font-size: 1.375rem;
+  }
+
+  .markdown-h2 {
+    font-size: 1.125rem;
+  }
+
+  .markdown-h3 {
+    font-size: 1rem;
+  }
+  
+  .message-content h1 {
+    font-size: 1.375rem;
+  }
+  
+  .message-content h2 {
+    font-size: 1.125rem;
+  }
+  
+  .message-content h3 {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .chat-messages {
+    padding: 1rem;
+    gap: 0.875rem;
+  }
+
+  .message-avatar {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+
+  .message-wrapper {
+    max-width: calc(100% - 2.25rem);
+  }
+
+  .message-content {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .markdown-h1 {
+    font-size: 1.25rem;
+  }
+
+  .markdown-h2 {
+    font-size: 1rem;
+  }
+
+  .markdown-h3 {
+    font-size: 0.9375rem;
+  }
+  
+  .message-content h1 {
+    font-size: 1.25rem;
+  }
+  
+  .message-content h2 {
+    font-size: 1rem;
+  }
+  
+  .message-content h3 {
+    font-size: 0.9375rem;
+  }
+
+  .katex {
+    font-size: 0.95em;
+  }
+}
+
+@media (max-width: 380px) {
+  .chat-messages {
+    padding: 0.75rem;
+    gap: 0.75rem;
+  }
+
+  .message-avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .message-wrapper {
+    max-width: calc(100% - 2rem);
+  }
+
+  .message-content {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
+
+  .markdown-h1 {
+    font-size: 1.125rem;
+  }
+
+  .markdown-h2 {
+    font-size: 0.9375rem;
+  }
+
+  .markdown-h3 {
+    font-size: 0.875rem;
+  }
+  
+  .message-content h1 {
+    font-size: 1.125rem;
+  }
+  
+  .message-content h2 {
+    font-size: 0.9375rem;
+  }
+  
+  .message-content h3 {
+    font-size: 0.875rem;
+  }
+
+  .katex {
+    font-size: 0.85em;
+  }
+
+  .katex-display {
+    margin: 0.5rem 0;
+  }
+}

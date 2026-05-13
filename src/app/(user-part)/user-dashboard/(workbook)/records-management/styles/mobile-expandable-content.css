@@ -1,0 +1,133 @@
+.mobile-expandable-content {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-line);
+}
+
+.mobile-expandable-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.mobile-expandable-star-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  background: transparent;
+}
+
+.mobile-expandable-star-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  transition: all var(--transition-fast);
+}
+
+.mobile-expandable-star-btn-featured:hover {
+  transform: scale(1.05);
+}
+
+.mobile-expandable-star-btn-featured svg {
+  fill: #f59e0b;
+  color: #f59e0b;
+}
+
+.mobile-expandable-star-btn-normal:hover {
+  transform: scale(1.05);
+}
+
+.mobile-expandable-star-btn-normal svg {
+  fill: none;
+  color: #f59e0b;
+}
+
+.mobile-expandable-star-btn-normal:hover svg {
+  fill: #f59e0b;
+}
+
+.mobile-expandable-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.mobile-expandable-info-card {
+  padding: 1rem;
+}
+
+.mobile-expandable-info-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.mobile-expandable-info-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: var(--color-text-secondary);
+}
+
+.mobile-expandable-info-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+.mobile-expandable-info-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.mobile-expandable-edit-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.mobile-expandable-edit-btn,
+.mobile-expandable-delete-btn {
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: white;
+  border: none;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  transition: all 0.3s;
+  display: flex;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.mobile-expandable-edit-btn svg,
+.mobile-expandable-delete-btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.mobile-expandable-edit-btn {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.mobile-expandable-delete-btn {
+  background: linear-gradient(135deg, #fa2d3e, #d11d26);
+}
+
+.mobile-expandable-edit-btn:hover,
+.mobile-expandable-delete-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}

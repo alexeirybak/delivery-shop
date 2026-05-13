@@ -1,0 +1,167 @@
+import {
+  Search,
+  Ruler,
+  Settings,
+  Target,
+  Download,
+  BookOpen,
+  PenTool,
+  FileCheck,
+  Palette,
+  GraduationCap,
+  Mic,
+  FileText,
+  Theater,
+  Library,
+  Activity,
+  Clock,
+  Monitor,
+} from "lucide-react";
+
+export const pipelineSteps = [
+  {
+    name: "Анализ темы",
+    icon: Search,
+    color: "#60a5fa",
+    description:
+      "Нейросеть анализирует тему и определяет ключевые концепции...",
+    status: "выполнено",
+  },
+  {
+    name: "Структурирование",
+    icon: Ruler,
+    color: "#34d399",
+    description:
+      "Построение логической структуры и иерархии учебного материала...",
+    status: "выполнено",
+  },
+  {
+    name: "Выбор уровня сложности",
+    icon: Activity,
+    color: "#ec489a",
+    description: "Адаптация контента под уровень подготовки пользователя...",
+    status: "в процессе",
+  },
+  {
+    name: "Установка длительности занятия",
+    icon: Clock,
+    color: "#10b981",
+    description:
+      "Настройка временных рамок и распределение материала по времени...",
+    status: "ожидание",
+  },
+  {
+    name: "Подбор оборудования и ПО",
+    icon: Monitor,
+    color: "#8b5cf6",
+    description:
+      "Рекомендации по необходимым техническим средствам и программному обеспечению...",
+    status: "ожидание",
+  },
+  {
+    name: "Адаптация под аудиторию",
+    icon: Target,
+    color: "#fbbf24",
+    description:
+      "Настройка сложности и стиля изложения под целевую аудиторию...",
+    status: "в процессе",
+  },
+  {
+    name: "Генерация контента",
+    icon: Settings,
+    color: "#f472b6",
+    description:
+      "Создание основного образовательного контента в выбранном формате...",
+    status: "выполнено",
+  },
+  {
+    name: "Экспорт и выгрузка",
+    icon: Download,
+    color: "#6ee7b7",
+    description: "Форматирование и подготовка материала к скачиванию...",
+    status: "ожидание",
+  },
+];
+
+export const generationFormats = [
+  {
+    name: "Лекции",
+    icon: BookOpen,
+    color: "#60a5fa",
+    category: "Образование",
+    active: true,
+    description: "Академический формат",
+  },
+  {
+    name: "Практика",
+    icon: PenTool,
+    color: "#34d399",
+    category: "Образование",
+    active: true,
+    description: "Задания и кейсы",
+  },
+  {
+    name: "Тесты",
+    icon: FileCheck,
+    color: "#f472b6",
+    category: "Оценка",
+    active: true,
+    description: "Проверка знаний",
+  },
+  {
+    name: "Визуализация",
+    icon: Palette,
+    color: "#a78bfa",
+    category: "Графика",
+    active: true,
+    description: "Схемы и диаграммы",
+  },
+  {
+    name: "Зачеты",
+    icon: GraduationCap,
+    color: "#fbbf24",
+    category: "Оценка",
+    active: true,
+    description: "Итоговая аттестация",
+  },
+  {
+    name: "Экзамены",
+    icon: GraduationCap,
+    color: "#fb923c",
+    category: "Оценка",
+    active: true,
+    description: "Финальная проверка",
+  },
+  {
+    name: "Озвучивание",
+    icon: Mic,
+    color: "#6ee7b7",
+    category: "Аудио",
+    active: true,
+    description: "Text-to-Speech",
+  },
+  {
+    name: "Статьи",
+    icon: FileText,
+    color: "#c084fc",
+    category: "Наука",
+    active: true,
+    description: "Научные публикации",
+  },
+  {
+    name: "Ролевые игры",
+    icon: Theater,
+    color: "#ec489a",
+    category: "Интерактив",
+    active: true,
+    description: "Симуляции",
+  },
+  {
+    name: "Глоссарий",
+    icon: Library,
+    color: "#10b981",
+    category: "Справочник",
+    active: true,
+    description: "Термины",
+  },
+];

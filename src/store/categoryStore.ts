@@ -1,10 +1,10 @@
 import {
-  Category,
   CategoryFormData,
   FilterType,
   SortField,
-} from "@/app/(admin)/administrator/(cms)/cms/categories/types";
-import { CONFIG_BLOG } from "@/app/(admin)/administrator/(cms)/cms/CONFIG_BLOG";
+} from "@/app/(user-part)/user-dashboard/(workbook)/categories/types";
+import { Category } from "@/app/(user-part)/user-dashboard/(workbook)/records/types/categories/categories.types";
+import { CONFIG_CATEGORIES } from "@/app/(user-part)/user-dashboard/(workbook)/records/utils/CONFIG_CATEGORIES";
 
 import { SortDirection } from "mongodb";
 import { create } from "zustand";
@@ -81,14 +81,11 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   showForm: false,
   originalImageUrl: "",
   currentPage: 1,
-  itemsPerPage: CONFIG_BLOG.ITEMS_PER_PAGE,
+  itemsPerPage: CONFIG_CATEGORIES.ITEMS_PER_PAGE,
   formData: {
     name: "",
-    slug: "",
     description: "",
-    keywords: "",
     image: "",
-    imageAlt: "",
   },
   sortField: "numericId" as SortField,
   sortDirection: "asc" as SortDirection,
@@ -111,7 +108,9 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
   setShowForm: (showForm) => set({ showForm }),
   setOriginalImageUrl: (originalImageUrl) => set({ originalImageUrl }),
   setCurrentPage: (currentPage) => set({ currentPage }),
-  setFormData: (formData) => set({ formData }),
+  setFormData: (formData) => {
+    set({ formData });
+  },
   setItemsPerPage: (itemsPerPage) => set({ itemsPerPage }),
   updateFormField: (field, value) =>
     set((state) => ({
@@ -124,11 +123,8 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
     set({
       formData: {
         name: "",
-        slug: "",
         description: "",
-        keywords: "",
         image: "",
-        imageAlt: "",
       },
     }),
   setSortField: (sortField) => set({ sortField }),
@@ -172,15 +168,13 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
         queryParams.append("limit", state.itemsPerPage.toString());
       }
 
-      const response = await fetch(
-        `/administrator/cms/api/categories?${queryParams}`,
-      );
+      const response = await fetch(`/api/workbook/categories?${queryParams}`);
       const data = await response.json();
 
       if (data.success) {
         set({
           categories: data.data.categories,
-          totalAllItems: data.data.totalInDB,
+          totalAllItems: data.data.pagination.totalAllItems, // Исправлено: totalInDB -> pagination.totalAllItems
           totalItems: data.data.pagination.total,
           totalPages: data.data.pagination.totalPages,
           currentPage: params?.page ?? state.currentPage,
@@ -189,7 +183,7 @@ export const useCategoryStore = create<CategoryStore>((set, get) => ({
         });
       }
     } catch (error) {
-      console.error("Ошибка загрузки категорий:", error);
+      console.error("Ошибка загрузки терадей:", error);
     } finally {
       set({ loading: false });
     }

@@ -1,0 +1,122 @@
+.chat-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--color-panel);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.chat-header-left {
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+}
+
+.header-icon {
+  color: var(--color-cyan);
+  flex-shrink: 0;
+}
+
+.chat-header-left h1 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 20px;
+}
+
+.chat-header-left p {
+  font-size: 1rem;
+  color: var(--color-muted);
+  margin: 0;
+}
+
+.chat-header-actions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-cyan);
+  padding: 0 0.5rem;
+  border-radius: var(--radius-md);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-btn:hover {
+  background: var(--color-panel-soft);
+}
+
+.clear-btn {
+  padding: 0.5rem;
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-btn:hover {
+  background: var(--color-panel-strong);
+  border-color: var(--color-pink);
+}
+
+.clear-btn svg {
+  color: var(--color-muted);
+}
+
+.retry-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  color: var(--color-text-feature);
+  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+}
+
+.retry-btn:hover {
+  background: var(--color-panel-soft);
+  color: var(--color-cyan);
+  transform: rotate(180deg);
+}
+
+@media (max-width: 640px) {
+  .chat-header {
+    padding: 0.875rem 1rem;
+  }
+  .chat-header-left {
+    gap: 0.75rem;
+  }
+
+  .chat-header-left h1 {
+    font-size: 1rem;
+  }
+  .chat-header-left p {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .chat-header {
+    padding: 0.75rem;
+  }
+  .chat-header-left h1 {
+    font-size: 0.875rem;
+  }
+}

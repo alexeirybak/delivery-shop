@@ -1,0 +1,68 @@
+.image-attributes-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  color: var(--color-muted);
+}
+
+.image-attributes-btn svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.3s ease;
+}
+
+.image-attributes-btn.active {
+  color: var(--color-cyan);
+}
+
+.image-attributes-btn.active:hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-cyan);
+  transform: translateY(-1px);
+}
+
+.image-attributes-btn:not(.disabled):hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-text);
+  transform: translateY(-1px);
+}
+
+.image-attributes-btn.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  color: var(--color-muted);
+}
+
+.image-attributes-btn.disabled:hover {
+  background: transparent;
+  transform: none;
+}
+
+@media (max-width: 968px) {
+  .image-attributes-btn {
+    padding: 0.375rem;
+  }
+
+  .image-attributes-btn svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .image-attributes-btn {
+    padding: 0.25rem;
+  }
+
+  .image-attributes-btn svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}

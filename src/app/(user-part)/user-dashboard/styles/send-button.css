@@ -1,0 +1,80 @@
+.send-btn,
+.stop-btn {
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+}
+
+.send-btn {
+  background: linear-gradient(135deg, var(--color-cyan), var(--color-blue));
+}
+
+.send-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(109, 241, 255, 0.3);
+}
+
+.send-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.send-btn svg {
+  color: #fff;
+  width: 14px;
+  height: 14px;
+}
+
+.stop-btn {
+  background: var(--color-panel-soft);
+  border: 1px solid var(--color-pink);
+}
+
+.stop-btn:hover {
+  background: var(--color-panel-strong);
+  border-color: var(--color-pink);
+}
+
+.stop-btn svg {
+  color: var(--color-pink);
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 640px) {
+  .chat-container {
+    height: calc(100vh - 1rem);
+  }
+  .send-btn,
+  .stop-btn {
+    width: 40px;
+    height: 40px;
+  }
+  .send-btn svg,
+  .stop-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .send-btn,
+  .stop-btn {
+    width: 36px;
+    height: 36px;
+  }
+  .send-btn svg,
+  .stop-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}

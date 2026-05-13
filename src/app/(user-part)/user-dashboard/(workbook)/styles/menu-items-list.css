@@ -1,0 +1,126 @@
+.menu-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  flex: 1;
+}
+
+.menu-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 1rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  transform: scale(1);
+  background: linear-gradient(
+    135deg,
+    var(--color-panel),
+    var(--color-panel-soft)
+  );
+  border: 1px solid var(--color-line);
+  animation: slideIn 0.4s ease forwards;
+  animation-fill-mode: both;
+}
+
+.menu-item:hover {
+  transform: scale(1.02);
+  border-color: var(--color-cyan);
+  box-shadow: var(--shadow-md);
+}
+
+.menu-item:active {
+  transform: scale(0.99);
+}
+
+.menu-item-icon-wrapper {
+  position: relative;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: var(--color-panel);
+  backdrop-filter: blur(4px);
+  transition: all 0.3s ease;
+  border: 1px solid var(--color-line);
+}
+
+.menu-item:hover .menu-item-icon-wrapper {
+  background: var(--color-panel-strong);
+  border-color: var(--color-cyan);
+}
+
+.menu-item-icon {
+  position: relative;
+  color: var(--color-muted);
+  transition: transform 0.3s ease;
+}
+
+.menu-item:hover .menu-item-icon {
+  transform: scale(1.1);
+  color: var(--color-cyan);
+}
+
+.menu-item-content {
+  flex: 1;
+}
+
+.menu-item-title {
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--color-text);
+  transition: color 0.3s ease;
+  margin: 0 0 0.25rem 0;
+}
+
+.menu-item:hover .menu-item-title {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.menu-item-description {
+  font-size: 0.875rem;
+  color: var(--color-muted);
+  transition: color 0.3s ease;
+  margin: 0;
+}
+
+.menu-item:hover .menu-item-description {
+  color: var(--color-text);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 640px) {
+  .menu-item {
+    padding: 0.375rem 0.5rem;
+  }
+
+  .menu-item-icon-wrapper {
+    padding: 0.75rem;
+  }
+
+  .menu-item-icon svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .menu-item-title {
+    font-size: 1rem;
+  }
+
+  .menu-item-description {
+    font-size: 0.75rem;
+  }
+}

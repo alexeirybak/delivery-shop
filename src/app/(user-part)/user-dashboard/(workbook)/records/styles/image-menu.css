@@ -1,0 +1,105 @@
+.image-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.image-menu-group {
+  position: relative;
+}
+
+.image-menu-upload-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+}
+
+.image-menu-upload-btn svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.3s ease;
+}
+
+.image-menu-upload-btn:not(:disabled):hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-text);
+  transform: translateY(-1px);
+  color: var(--color-cyan);
+}
+
+.image-menu-upload-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.image-menu-url-btn {
+  padding: 0.5rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-muted);
+}
+
+.image-menu-url-btn svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all 0.3s ease;
+}
+
+.image-menu-url-btn:not(:disabled):hover {
+  background-color: var(--color-panel-soft);
+  color: var(--color-text);
+  transform: translateY(-1px);
+  color: var(--color-cyan);
+}
+
+.image-menu-url-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 968px) {
+  .image-menu-upload-btn,
+  .image-menu-url-btn {
+    padding: 0.375rem;
+  }
+
+  .image-menu-upload-btn svg,
+  .image-menu-url-btn svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .image-menu {
+    gap: 0.25rem;
+  }
+
+  .image-menu-label {
+    display: none;
+  }
+
+  .image-menu-upload-btn,
+  .image-menu-url-btn {
+    padding: 0.25rem;
+  }
+
+  .image-menu-upload-btn svg,
+  .image-menu-url-btn svg {
+    width: 0.75rem;
+    height: 0.75rem;
+  }
+}

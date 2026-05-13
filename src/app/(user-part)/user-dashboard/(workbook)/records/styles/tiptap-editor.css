@@ -1,0 +1,368 @@
+.tiptap-editor-container {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  background: var(--color-panel);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.tiptap-editor-loading {
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-md);
+  padding: 0.75rem;
+}
+
+.tiptap-editor-loading-content {
+  min-height: 200px;
+  background: var(--color-panel-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.tiptap-editor-loading-spinner {
+  width: 2rem;
+  height: 2rem;
+  color: var(--color-muted);
+  animation: spin 1s linear infinite;
+  margin-bottom: 0.75rem;
+}
+
+.tiptap-editor-loading-text {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.tiptap-editor-content {
+  background: var(--color-panel);
+  position: relative;
+}
+
+.tiptap-drag-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(109, 241, 255, 0.1);
+  backdrop-filter: blur(4px);
+  border: 2px dashed var(--color-cyan);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50;
+  pointer-events: none;
+  animation: fadeIn 0.3s ease;
+}
+
+.tiptap-drag-overlay-content {
+  text-align: center;
+  padding: 2rem;
+  background: var(--color-panel);
+  backdrop-filter: blur(8px);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  animation: slideUp 0.3s ease;
+}
+
+.tiptap-drag-icon {
+  width: 4rem;
+  height: 4rem;
+  color: var(--color-cyan);
+  margin: 0 auto 1rem;
+  animation: bounce 1s infinite;
+}
+
+.tiptap-drag-title {
+  color: var(--color-cyan);
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 0.25rem;
+}
+
+.tiptap-drag-subtitle {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
+
+.tiptap-editor-footer {
+  border-top: 1px solid var(--color-line);
+  background: var(--color-panel-soft);
+  padding: 0.5rem 1rem;
+}
+
+.ProseMirror {
+  min-height: 400px;
+  padding: 1.5rem;
+  outline: none;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror p {
+  line-height: 1.6;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: var(--color-muted);
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.ProseMirror h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.ProseMirror h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+.ProseMirror h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+}
+
+.ProseMirror h5 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.ProseMirror h6 {
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--color-text);
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin-bottom: 0.5rem;
+  line-height: 1.5;
+}
+
+.ProseMirror li p {
+  display: inline;
+  margin-bottom: 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 3px solid var(--color-cyan);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.ProseMirror a {
+  color: var(--color-cyan);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.ProseMirror a:hover {
+  color: var(--color-blue);
+  text-decoration: underline;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.5rem 0;
+}
+
+.ProseMirror img[style*="float: left"] {
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror img[style*="float: right"] {
+  margin-left: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 1rem 0;
+  width: 100%;
+  background: var(--color-panel);
+}
+
+.ProseMirror th,
+.ProseMirror td {
+  border: 1px solid var(--color-line);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  color: var(--color-text);
+}
+
+.ProseMirror th {
+  background: var(--color-panel-soft);
+  font-weight: 600;
+}
+
+.ProseMirror tr:hover {
+  background: var(--color-panel-soft);
+}
+
+.ProseMirror code {
+  background: var(--color-panel-soft);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-family: monospace;
+  font-size: 0.875em;
+  color: var(--color-cyan);
+}
+
+.ProseMirror pre {
+  background: var(--color-panel-strong);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+.ProseMirror pre code {
+  background: none;
+  padding: 0;
+  color: var(--color-text);
+}
+
+.ProseMirror mark {
+  background: rgba(109, 241, 255, 0.2);
+  padding: 0.1rem 0.2rem;
+  border-radius: var(--radius-sm);
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 1px solid var(--color-line);
+  margin: 1.5rem 0;
+}
+
+@media (min-width: 968px) {
+  .ProseMirror {
+    min-height: 450px;
+  }
+}
+
+@media (max-width: 640px) {
+  .ProseMirror {
+    padding: 0.75rem;
+    min-height: 300px;
+  }
+
+  .ProseMirror h1 {
+    font-size: 1.5rem;
+  }
+
+  .ProseMirror h2 {
+    font-size: 1.25rem;
+  }
+
+  .ProseMirror h3 {
+    font-size: 1.125rem;
+  }
+
+  .ProseMirror p {
+    font-size: 0.8125rem;
+  }
+
+  .ProseMirror th,
+  .ProseMirror td {
+    padding: 0.375rem 0.5rem;
+    font-size: 0.75rem;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

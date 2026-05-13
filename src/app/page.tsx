@@ -1,34 +1,36 @@
-import Actions from "./(products)/Actions";
-import Articles from "./(articles)/Articles";
-import Maps from "@/components/maps/Maps";
-import NewProducts from "./(products)/NewProducts";
-import Purchases from "./(user)/Purchases";
-import Slider from "@/components/Slider/Slider";
-import SpecialOffers from "@/components/SpecialOffers";
-import { Suspense } from "react";
-import { Loader } from "@/components/Loader";
+import { Hero } from "./home/hero/Hero";
+import { Stats } from "./home/stats/Stats";
+import { PlatformGrid } from "./home/platformGrid/PlatformGrid";
+import { DemoSection } from "./home/demoSection/DemoSection";
+import { ArchiveSection } from "./home/archiveSection/ArchiveSection";
+import { KnowledgeNetwork } from "./home/knowledgeNetwork/KnowledgeNetwork";
+import FinalCta from "./home/finalCta/FinalCta";
+import { NeuralCore } from "./home/neuralCore/NeuralCore";
+import TrustSignals from "./home/trustSignals/TrustSignals";
+import { ScrollObserver } from "./home/scrollObserver/ScrollObserver";
+import "./globals.css";
+import Footer from "./shared/footer/Footer";
 
-export default function Home() {
+const HomePage = () => {
   return (
-    <main className="w-full mx-auto">
-      <Suspense fallback={<Loader text="слайдера" />}>
-        <Slider />
-      </Suspense>
-
-      <div className="px-[max(12px,calc((100%-1208px)/2))] flex flex-col gap-y-20">
-        {[
-          { component: <Actions />, text: "акций" },
-          { component: <NewProducts />, text: "новинок" },
-          { component: <Purchases />, text: "Ваших покупок" },
-          { component: <SpecialOffers />, text: "специальных предложений" },
-          { component: <Maps />, text: "карт" },
-          { component: <Articles />, text: "статей" },
-        ].map((item, index) => (
-          <Suspense key={index} fallback={<Loader text={item.text} />}>
-            {item.component}
-          </Suspense>
-        ))}
+    <div className="relative min-h-screen overflow-clip isolate">
+      <div className="background">
+        <KnowledgeNetwork />
       </div>
-    </main>
+      <main className="content">
+        <ScrollObserver />
+        <TrustSignals />
+        <Hero />
+        <Stats />
+        <PlatformGrid />
+        <DemoSection />
+        <NeuralCore />
+        <ArchiveSection />
+        <FinalCta />
+        <Footer />
+      </main>
+    </div>
   );
-}
+};
+
+export default HomePage;

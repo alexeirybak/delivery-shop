@@ -1,0 +1,193 @@
+.desktop-record-row {
+  padding: 1rem;
+  transition: all var(--transition-fast);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.desktop-record-row:hover {
+  background: var(--color-panel-soft);
+  box-shadow: var(--shadow-sm);
+}
+
+.desktop-record-row-dragging {
+  opacity: 0.6;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.1),
+    rgba(16, 185, 129, 0.1)
+  );
+  border: 2px solid var(--color-success);
+  transform: scale(0.995);
+  box-shadow: var(--shadow-lg);
+}
+
+.desktop-record-row-content {
+  grid-template-columns: 32px 40px 200px 100px 60px 80px 100px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  display: grid;
+}
+
+.desktop-record-row-cell {
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 0;
+  display: flex;
+}
+
+.desktop-record-row-cell-center {
+  display: flex;
+  justify-content: center;
+}
+
+.desktop-record-row-id {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.desktop-record-row-name {
+  font-size: 0.75rem;
+  color: var(--color-text);
+  word-break: break-word;
+}
+
+.desktop-record-row-category {
+  font-size: 0.75rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  border-radius: var(--radius-md);
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.desktop-record-row-date {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  word-break: break-word;
+}
+
+.desktop-record-row-actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.desktop-record-row-edit,
+.desktop-record-row-delete {
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  color: white;
+  border: none;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  transition: all 0.3s;
+  display: flex;
+  width: 2rem;
+  height: 2rem;
+}
+
+.desktop-record-row-edit svg,
+.desktop-record-row-delete svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.desktop-record-row-edit {
+  background: linear-gradient(135deg, #059669, #047857);
+}
+
+.desktop-record-row-delete {
+  background: linear-gradient(135deg, #fa2d3e, #d11d26);
+}
+
+.desktop-record-row-edit:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.desktop-record-row-delete:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.desktop-record-row-star {
+  padding: 0.25rem;
+  border-radius: var(--radius-md);
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast);
+  background: transparent;
+}
+
+.desktop-record-row-star svg {
+  width: 1rem;
+  height: 1rem;
+  transition: all var(--transition-fast);
+}
+
+.desktop-record-row-star-featured:hover {
+  transform: scale(1.05);
+}
+
+.desktop-record-row-star-featured svg {
+  fill: #f59e0b;
+  color: #f59e0b;
+}
+
+.desktop-record-row-star-normal:hover {
+  transform: scale(1.05);
+}
+
+.desktop-record-row-star-normal svg {
+  fill: none;
+  color: #f59e0b;
+}
+
+.desktop-record-row-star-normal:hover svg {
+  fill: #f59e0b;
+}
+
+@media (max-width: 768px) {
+  .desktop-record-row {
+    display: none;
+  }
+}
+
+@media (max-width: 380px) {
+  .desktop-record-row {
+    padding: 0.625rem;
+  }
+
+  .desktop-record-row-edit,
+  .desktop-record-row-delete,
+  .desktop-record-row-star {
+    width: 1.5rem;
+    height: 1.5rem;
+    padding: 0.25rem;
+  }
+
+  .desktop-record-row-edit svg,
+  .desktop-record-row-delete svg,
+  .desktop-record-row-star svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+}
